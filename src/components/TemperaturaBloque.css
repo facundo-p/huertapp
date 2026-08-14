@@ -1,0 +1,108 @@
+.temp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-4) 0;
+  border-bottom: 1.5px dashed var(--linea-suave);
+}
+
+.temp__cabeza {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.temp__cabeza .dato__titulo {
+  flex: 1;
+}
+
+.temp__fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+/* --- escala de temperatura --- */
+.escala__riel {
+  position: relative;
+  height: 12px;
+  border-radius: var(--radio-chip);
+  background: var(--papel-hundido);
+  overflow: hidden;
+}
+
+.escala__tolerado {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--salvia-suave);
+}
+
+.escala__ideal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--ideal);
+  border-radius: var(--radio-chip);
+}
+
+/* marca del 0 °C: la referencia mental de la helada */
+.escala__cero {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--tinta-suave);
+  opacity: 0.55;
+}
+
+.escala__numeros {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--tinta-suave);
+}
+
+.escala__numeros strong {
+  color: var(--verde-prof);
+  font-family: var(--font-display);
+}
+
+/* --- respuesta a la helada --- */
+.temp__helada {
+  align-self: flex-start;
+  padding: 5px 12px;
+  border-radius: var(--radio-chip);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
+
+.temp__helada.es-muere {
+  background: var(--peligro-fondo);
+  color: #7d3a20;
+  border: 1.5px solid var(--peligro);
+}
+.temp__helada.es-sensible {
+  background: var(--posible-fondo);
+  color: #8a5a12;
+  border: 1.5px dashed var(--posible);
+}
+.temp__helada.es-tolera {
+  background: var(--ideal-fondo);
+  color: var(--verde-prof);
+  border: 1.5px solid var(--ideal);
+}
+.temp__helada.es-mejora {
+  background: var(--ideal-fondo);
+  color: var(--verde-prof);
+  border: 2px double var(--ideal);
+}
+
+.temp__nota {
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta-media);
+  font-style: italic;
+}

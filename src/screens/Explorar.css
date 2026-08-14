@@ -1,0 +1,157 @@
+.explorar__controles {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: 0 var(--esp-4) var(--esp-3);
+  background: linear-gradient(var(--papel) 88%, transparent);
+}
+
+/* --- buscador --- */
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  height: var(--tap-min);
+  padding: 0 var(--esp-4);
+  border-radius: var(--radio-chip);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  color: var(--tinta-suave);
+  box-shadow: var(--sombra-1);
+}
+
+.buscador__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font: inherit;
+  color: var(--tinta);
+}
+
+.buscador__input::placeholder {
+  color: var(--tinta-suave);
+}
+
+/* la X nativa de Chrome viene azul: la reemplazamos por una de la paleta */
+.buscador__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background: var(--tinta-suave);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5' fill='black' stroke='none'/%3E%3Cpath d='M9 9 L15 15 M15 9 L9 15' stroke='white'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+/* --- chips de filtro --- */
+.filtros-barra {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.filtros-barra__limpiar {
+  margin-left: auto;
+  padding: 0 var(--esp-2);
+  min-height: 36px;
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--terracota);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.filtros {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-3);
+  border-radius: var(--radio-m);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  box-shadow: var(--sombra-1);
+  animation: aparecer 0.25s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.fila-chips-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+}
+
+.fila-chips__etiqueta {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.fila-chips {
+  display: flex;
+  gap: var(--esp-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.fila-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chip {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: var(--radio-m);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  color: var(--chip-color, var(--tinta-media));
+  transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.chip:active {
+  transform: scale(0.92);
+}
+
+.chip.es-activo {
+  background: color-mix(in srgb, var(--chip-color, var(--salvia)) 16%, var(--papel-alto));
+  border-color: var(--chip-color, var(--salvia));
+  border-width: 2.5px;
+}
+
+.chip--texto {
+  width: auto;
+  padding: 0 var(--esp-4);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+  --chip-color: var(--verde-hoja);
+}
+
+.chip--texto.es-activo {
+  color: var(--verde-prof);
+}
+
+.explorar__cuenta {
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+/* --- grilla de resultados --- */
+.explorar__grilla {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}

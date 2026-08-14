@@ -1,0 +1,62 @@
+.especie-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4) var(--esp-4);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.especie-card:active {
+  transform: scale(0.985);
+  box-shadow: var(--sombra-2);
+}
+
+.especie-card__cabeza {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-2);
+  /* deja lugar al ojal de la etiqueta */
+  padding-left: 18px;
+}
+
+.especie-card__nombre {
+  flex: 1;
+  font-size: var(--texto-l);
+  font-weight: 700;
+  min-width: 0;
+}
+
+.especie-card__ahora {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  padding: 3px 9px;
+  border-radius: var(--radio-chip);
+  background: var(--ideal-fondo);
+  color: var(--verde-prof);
+  border: 1.5px solid var(--ideal);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.especie-card__ahora.es-cierra {
+  background: var(--posible-fondo);
+  color: #8a5a12;
+  border-color: var(--posible);
+}
+
+.especie-card__ahora.es-posible {
+  background: var(--posible-fondo);
+  color: #8a5a12;
+  border: 1.5px dashed var(--posible);
+}
+
+.especie-card__iconos {
+  display: flex;
+  gap: var(--esp-3);
+  padding-left: 18px;
+}

@@ -2,6 +2,7 @@ import { HashRouter, Navigate, Outlet, Route, Routes } from 'react-router'
 import { TabBar } from './components/TabBar'
 import { Hoy } from './screens/Hoy'
 import { Explorar } from './screens/Explorar'
+import { FichaEspecie } from './screens/FichaEspecie'
 import { Calendario } from './screens/Calendario'
 import { MiHuerta } from './screens/MiHuerta'
 import { Glosario } from './screens/Glosario'
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/calendario" element={<Calendario />} />
           <Route path="/huerta" element={<MiHuerta />} />
         </Route>
+        <Route path="/explorar/:slug" element={<FichaEspecie />} />
         <Route path="/glosario" element={<Glosario />} />
         <Route path="/ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/hoy" replace />} />
