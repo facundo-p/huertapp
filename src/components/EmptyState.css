@@ -1,0 +1,34 @@
+.estado-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--esp-3);
+  padding: var(--esp-7) var(--esp-5);
+  color: var(--tinta-media);
+}
+
+/* marco circular punteado, como un cantero recién marcado */
+.estado-vacio__marco {
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  border: 2px dashed var(--salvia);
+  border-radius: 50%;
+  color: var(--salvia);
+  background: var(--papel-alto);
+  box-shadow: var(--sombra-1);
+}
+
+.estado-vacio__titulo {
+  font-size: var(--texto-l);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.estado-vacio__texto {
+  max-width: 30ch;
+  font-size: var(--texto-s);
+  line-height: 1.55;
+}

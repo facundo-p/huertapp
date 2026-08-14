@@ -25,7 +25,8 @@ describe('huerta_gba_enriquecido.json', () => {
     expect(Object.keys(overlay).sort()).toEqual([...slugs].sort())
   })
 
-  describe.each(db.especies.map((e: any) => [e.slug, e]))('%s', (_slug, e: any) => {
+  for (const e of db.especies as any[]) {
+    describe(e.slug, () => {
     const cal = e.calendario
 
     it('calendario: meses válidos, ordenados y sin solapamiento ideal/posible', () => {
@@ -86,5 +87,6 @@ describe('huerta_gba_enriquecido.json', () => {
       expect(cal.confianza).toBeGreaterThanOrEqual(1)
       expect(cal.confianza).toBeLessThanOrEqual(10)
     })
-  })
+    })
+  }
 })

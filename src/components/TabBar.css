@@ -1,0 +1,54 @@
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  height: calc(var(--tab-alto) + env(safe-area-inset-bottom));
+  padding: 6px max(var(--esp-2), env(safe-area-inset-left)) env(safe-area-inset-bottom);
+  background: var(--papel-alto);
+  border-top: 1.5px solid var(--linea);
+  box-shadow: var(--sombra-tab);
+}
+
+.tabbar__tab {
+  flex: 1;
+  min-width: var(--tap-min);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--tinta-suave);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tabbar__pastilla {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 30px;
+  border-radius: var(--radio-chip);
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tabbar__etiqueta {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.tabbar__tab.active {
+  color: var(--verde-prof);
+}
+
+.tabbar__tab.active .tabbar__pastilla {
+  background: var(--salvia-suave);
+  color: var(--verde-prof);
+  transform: translateY(-1px);
+}

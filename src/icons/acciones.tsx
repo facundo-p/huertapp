@@ -1,0 +1,149 @@
+import { Svg, type IconProps } from './base'
+
+// Íconos de estado y acción del ciclo de cultivo + utilitarios.
+
+/** Sembrar: semillas cayendo al surco */
+export function IconoSembrar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M4 19.5 C 8 16.8, 16 16.8, 20 19.5" />
+      <path d="M9 6.2 a 1.15 1.5 -20 1 0 0.01 0 Z" />
+      <path d="M14.2 9.2 a 1.15 1.5 20 1 0 0.01 0 Z" />
+      <path d="M10.6 12.6 a 1.15 1.5 -12 1 0 0.01 0 Z" />
+    </Svg>
+  )
+}
+
+/** Almácigo: macetita con brote */
+export function IconoAlmacigo(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M7.2 12.5 H 16.8 L 16 17.6 C 15.8 18.7, 14.9 19.5, 13.8 19.5 H 10.2 C 9.1 19.5, 8.2 18.7, 8 17.6 Z" />
+      <path d="M6.2 12.5 H 17.8" />
+      <path d="M12 12.5 V 8.7" />
+      <path d="M12 9.7 C 10.2 9.7, 9 8.5, 8.8 6.6 C 10.7 6.6, 11.8 7.7, 12 9.7 Z" />
+      <path d="M12 9.7 C 13.8 9.7, 15 8.5, 15.2 6.6 C 13.3 6.6, 12.2 7.7, 12 9.7 Z" />
+    </Svg>
+  )
+}
+
+/** Trasplantar: plantín bajando a tierra */
+export function IconoTrasplantar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 8.6 V 4.9" />
+      <path d="M12 5.9 C 10.4 5.9, 9.3 4.9, 9.1 3.2 C 10.8 3.2, 11.8 4.2, 12 5.9 Z" />
+      <path d="M12 5.9 C 13.6 5.9, 14.7 4.9, 14.9 3.2 C 13.2 3.2, 12.2 4.2, 12 5.9 Z" />
+      <path d="M12 11.5 V 17.5" />
+      <path d="M9.6 15.2 L 12 17.7 L 14.4 15.2" />
+      <path d="M4.5 20.8 C 7.5 19, 16.5 19, 19.5 20.8" />
+    </Svg>
+  )
+}
+
+/** Cosechar: canasto de mimbre */
+export function IconoCosechar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M5 10.5 H 19 L 17.9 16.6 C 17.6 18.2, 16.5 19.2, 15 19.2 H 9 C 7.5 19.2, 6.4 18.2, 6.1 16.6 Z" />
+      <path d="M9.4 10.5 L 9.9 19" />
+      <path d="M12 10.5 V 19.2" />
+      <path d="M14.6 10.5 L 14.1 19" />
+      <path d="M8.6 10.2 C 8.6 6.9, 15.4 6.9, 15.4 10.2" />
+    </Svg>
+  )
+}
+
+/** Regar: regadera con gotas */
+export function IconoRegar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="8" y="10.5" width="9.5" height="8" rx="2.2" />
+      <path d="M11 10.5 C 11 8.4, 14.5 8.4, 14.5 10.5" />
+      <path d="M8 13.2 L 4.4 9.9" />
+      <path d="M4.9 7.4 L 4.6 7" />
+      <path d="M3.1 8.9 L 2.7 8.6" />
+      <path d="M6.4 6.5 L 6.2 6" />
+    </Svg>
+  )
+}
+
+/** Plaga: bichito */
+export function IconoPlaga(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="13.4" r="5" />
+      <path d="M12 8.4 V 18.4" />
+      <circle cx="9.7" cy="12" r="0.55" fill="currentColor" stroke="none" />
+      <circle cx="14.3" cy="14.6" r="0.55" fill="currentColor" stroke="none" />
+      <path d="M10.3 8.7 C 9.5 7.3, 8.4 6.5, 7 6.3" />
+      <path d="M13.7 8.7 C 14.5 7.3, 15.6 6.5, 17 6.3" />
+      <path d="M7.2 12 H 5" />
+      <path d="M7.5 15.4 L 5.6 16.6" />
+      <path d="M16.8 12 H 19" />
+      <path d="M16.5 15.4 L 18.4 16.6" />
+    </Svg>
+  )
+}
+
+/** Nota: lápiz */
+export function IconoNota(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M5 19.3 L 5.9 15.7 L 15.7 5.9 C 16.7 4.9, 18.3 4.9, 19.3 5.9 C 20.3 6.9, 20.3 8.5, 19.3 9.5 L 9.5 19.3 L 5 19.3 Z" />
+      <path d="M14.3 7.3 L 17.9 10.9" />
+    </Svg>
+  )
+}
+
+/** Foto: cámara */
+export function IconoFoto(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="4" y="7.8" width="16" height="11.4" rx="2.6" />
+      <circle cx="12" cy="13.4" r="3.1" />
+      <path d="M9.3 7.8 L 10.3 5.4 H 13.7 L 14.7 7.8" />
+    </Svg>
+  )
+}
+
+/** Alerta */
+export function IconoAlerta(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M10.5 4.8 C 11.2 3.6, 12.8 3.6, 13.5 4.8 L 20.6 17.3 C 21.3 18.5, 20.4 20, 19.1 20 H 4.9 C 3.6 20, 2.7 18.5, 3.4 17.3 Z" />
+      <path d="M12 9.5 V 13.7" />
+      <circle cx="12" cy="16.6" r="0.6" fill="currentColor" stroke="none" />
+    </Svg>
+  )
+}
+
+/** Fuente: libro abierto */
+export function IconoFuente(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 6.6 C 10 4.9, 7 4.6, 4 5.1 V 17.6 C 7 17.1, 10 17.4, 12 19.1 C 14 17.4, 17 17.1, 20 17.6 V 5.1 C 17 4.6, 14 4.9, 12 6.6 Z" />
+      <path d="M12 6.6 V 19.1" />
+    </Svg>
+  )
+}
+
+/** Confianza: escudo con tilde */
+export function IconoConfianza(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 3.5 L 18.5 5.9 V 11 C 18.5 15.4, 16 18.9, 12 20.5 C 8 18.9, 5.5 15.4, 5.5 11 V 5.9 Z" />
+      <path d="M9.1 11.9 L 11.3 14.1 L 15.1 9.9" />
+    </Svg>
+  )
+}
+
+/** Reloj: ventana que se cierra */
+export function IconoReloj(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="12" cy="12" r="7.6" />
+      <path d="M12 7.8 V 12 L 15.2 13.8" />
+    </Svg>
+  )
+}

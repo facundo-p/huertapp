@@ -1,0 +1,21 @@
+.boton-primario {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-height: var(--tap-min);
+  padding: 10px var(--esp-5);
+  border-radius: var(--radio-chip);
+  background: var(--verde-hoja);
+  color: var(--papel-alto);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--texto-m);
+  text-decoration: none;
+  box-shadow: var(--sombra-1);
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.boton-primario:active {
+  transform: scale(0.97);
+  background: var(--verde-prof);
+}

@@ -1,0 +1,160 @@
+.glosario__intro {
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+  max-width: 38ch;
+}
+
+.glosario__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.glosario__lista {
+  list-style: none;
+  margin: 0;
+  padding: var(--esp-3) var(--esp-4);
+  display: flex;
+  flex-direction: column;
+}
+
+.glosario__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+  padding: var(--esp-2) 0;
+  min-height: var(--tap-min);
+}
+
+.glosario__fila + .glosario__fila {
+  border-top: 1.5px dashed var(--linea-suave);
+}
+
+.glosario__tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radio-m);
+  background: color-mix(in srgb, currentColor 13%, var(--papel-alto));
+  border: 1.5px solid color-mix(in srgb, currentColor 28%, var(--linea-suave));
+}
+
+.glosario__nombre {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--texto-m);
+}
+
+.glosario__desc {
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+  line-height: 1.45;
+}
+
+/* --- demo de celdas del calendario --- */
+.glosario__calendario {
+  padding: var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.glosario__celda-demo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+}
+
+.celda {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  margin-inline: 8px;
+}
+
+.celda--ideal {
+  background: var(--ideal);
+  border: 2px solid var(--ideal);
+}
+
+.celda--posible {
+  background: var(--posible-fondo);
+  border: 2.5px solid var(--posible);
+}
+
+.celda--trasplante {
+  width: 0;
+  height: 0;
+  border-radius: 0;
+  background: none;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 26px solid var(--terracota);
+  filter: drop-shadow(0 1px 1px rgba(74, 60, 28, 0.15));
+}
+
+.glosario__nota-a11y {
+  border-top: 1.5px dashed var(--linea-suave);
+  padding-top: var(--esp-3);
+  font-style: italic;
+}
+
+/* --- escala de confianza --- */
+.glosario__confianza {
+  padding: var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.glosario__lista-conf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.glosario__fila-conf {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-4);
+}
+
+.badge-conf {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: var(--radio-chip);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--texto-s);
+}
+
+.badge-conf--alta {
+  background: var(--conf-alta-fondo);
+  color: var(--conf-alta);
+  border: 1.5px solid var(--conf-alta);
+}
+.badge-conf--media {
+  background: var(--conf-media-fondo);
+  color: var(--conf-media);
+  border: 1.5px solid var(--conf-media);
+}
+.badge-conf--baja {
+  background: var(--conf-baja-fondo);
+  color: var(--conf-baja);
+  border: 1.5px dashed var(--conf-baja);
+}
+.badge-conf--sin {
+  background: var(--conf-sin-fondo);
+  color: var(--conf-sin);
+  border: 1.5px dotted var(--conf-sin);
+}
