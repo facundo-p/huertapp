@@ -38,7 +38,7 @@ const salida = {
     ...fuente.meta,
     enriquecido: {
       descripcion:
-        'calendario (siembra/trasplante ideal-posible por mes, método por mes), dias_a_trasplante, dias_a_cosecha, dias_germinacion y asociaciones resueltas a slugs. Derivado de los textos de la fuente; correcciones en data/enriquecimiento.json.',
+        'calendario (siembra/trasplante ideal-posible por mes, método por mes), temperaturas (germinación de suelo y crecimiento de aire, con fuentes propias), dias_a_trasplante, dias_a_cosecha, dias_germinacion y asociaciones resueltas a slugs. Derivado de los textos de la fuente; correcciones en data/enriquecimiento.json.',
       convenciones:
         'Meses 1-12. Estaciones hemisferio sur: verano dic-feb, otoño mar-may, invierno jun-ago, primavera sep-nov. Heladas GBA ~jun-sep, última ~sep. Rango {min,max} en días; null = sin dato confiable.',
     },

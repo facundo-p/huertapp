@@ -15,7 +15,7 @@
     },
     "estructura_dato": "Cada campo es un objeto con: valor (texto; si dos fuentes confiables difieren, incluye ambos valores), fuentes (lista de {titulo, url, organizacion}) y confianza (entero 1-10). suelo y luz agregan campos de categoría; cosecha agrega indicadores_listo; transplante agrega signos_listo.",
     "enriquecido": {
-      "descripcion": "calendario (siembra/trasplante ideal-posible por mes, método por mes), dias_a_trasplante, dias_a_cosecha, dias_germinacion y asociaciones resueltas a slugs. Derivado de los textos de la fuente; correcciones en data/enriquecimiento.json.",
+      "descripcion": "calendario (siembra/trasplante ideal-posible por mes, método por mes), temperaturas (germinación de suelo y crecimiento de aire, con fuentes propias), dias_a_trasplante, dias_a_cosecha, dias_germinacion y asociaciones resueltas a slugs. Derivado de los textos de la fuente; correcciones en data/enriquecimiento.json.",
       "convenciones": "Meses 1-12. Estaciones hemisferio sur: verano dic-feb, otoño mar-may, invierno jun-ago, primavera sep-nov. Heladas GBA ~jun-sep, última ~sep. Rango {min,max} en días; null = sin dato confiable."
     }
   },
@@ -348,6 +348,40 @@
             "nota": "baja confianza"
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 13,
+          "ideal_max": 18,
+          "tolera_min": -6,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Si la sembrás en pleno verano la semilla se duerme por el calor del suelo: hacé almácigo a la sombra y trasplantá cuando afloje, que además con calor y poca luz no te acogolla.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Lechuga - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Lechuga.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo de la lechuga",
+            "url": "https://www.infoagro.com/hortalizas/lechuga.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -593,6 +627,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 2,
+          "ideal_min": 10,
+          "ideal_max": 20,
+          "max": 26
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 18,
+          "tolera_min": -5,
+          "tolera_max": 24
+        },
+        "helada": "tolera",
+        "nota": "Sembrala de otoño y olvidate del verano: en cuanto los días se alargan y sube el termómetro se va a flor, las hojas se achican y el tallo se estira.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Espinaca - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Espinaca.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo de la espinaca",
+            "url": "https://www.infoagro.com/hortalizas/espinaca.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -859,6 +927,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 18,
+          "ideal_max": 22,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 22,
+          "tolera_min": -5,
+          "tolera_max": 35
+        },
+        "helada": "tolera",
+        "nota": "Es la más rústica de las de hoja y te la bancás casi todo el año, pero si viene un golpe de frío justo después de una racha calurosa se te sube a flor.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Acelga - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Acelga.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo de la acelga",
+            "url": "https://www.infoagro.com/hortalizas/acelga.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -1047,7 +1149,7 @@
           "10": "directa",
           "11": "directa"
         },
-        "derivacion": "De fecha_siembra: conviene otoño, invierno y primavera, evitar pleno verano → mar-nov ideal, feb (fin de verano) posible, dic-ene excluidos. Siembra directa siempre, sin trasplante.",
+        "derivacion": "De fecha_siembra: conviene otoño, invierno y primavera, evitar pleno verano → mar-nov ideal, feb (fin de verano) posible, dic-ene excluidos. Siembra directa siempre, sin trasplante. CORRECCIÓN: el 25-27 °C que la ficha daba como óptimo de crecimiento es en realidad de GERMINACIÓN; la hoja tierna se da con 10-20 °C (UNLu).",
         "confianza": 7
       },
       "dias_a_trasplante": null,
@@ -1104,6 +1206,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 25,
+          "ideal_max": 27,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 10,
+          "ideal_max": 20,
+          "tolera_min": -3,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Nace rápido con el suelo tibio pero la hoja tierna te la da el fresco: con calor sale amarga y se va a flor enseguida.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Rúcula - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/R%C3%BAcula.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Cómo sembrar rúcula en invierno en Argentina",
+            "url": "https://www.fecoagro.com.ar/como-sembrar-rucula-en-invierno-argentina/",
+            "organizacion": "Fecoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -1414,6 +1550,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 10,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 10,
+          "ideal_max": 20,
+          "tolera_min": -10,
+          "tolera_max": 30
+        },
+        "helada": "mejora",
+        "nota": "Cuanto más frío pase, mejor: después de las primeras heladas la hoja se pone dulce y pierde el amargor, así que no lo saques apurado.",
+        "fuentes": [
+          {
+            "titulo": "Manual técnico de cultivo del kale o col rizada",
+            "url": "https://www.portalfruticola.com/noticias/2017/10/10/manual-tecnico-de-cultivo-del-kale-o-col-rizada/",
+            "organizacion": "PortalFrutícola"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -1648,6 +1813,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "tolera_min": -6,
+          "tolera_max": 27
+        },
+        "helada": "tolera",
+        "nota": "Nace bien con el suelo tibio pero recién arma cabeza compacta con el fresco: sembralo a fin de verano para que cierre en otoño-invierno.",
+        "fuentes": [
+          {
+            "titulo": "Guía Técnica Cultivo de Repollo",
+            "url": "https://www.centa.gob.sv/download/guia-tecnica-cultivo-de-repollo/",
+            "organizacion": "CENTA (El Salvador)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -1886,6 +2080,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 20,
+          "ideal_max": 28,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "tolera_min": -8,
+          "tolera_max": null
+        },
+        "helada": "mejora",
+        "nota": "Sembralo con el suelo todavía tibio de fin de verano: la semilla necesita calor para nacer, pero la cabeza recién cierra y se pone bien colorada cuando entra el frío.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la endibia o Achicoria de Bruselas (Cichorium intybus)",
+            "url": "https://www.infoagro.com/hortalizas/endibia.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Cultivo de la achicoria roja, un cultivo de mucho interés (Horticultura 1989)",
+            "url": "https://www.mapa.gob.es/ministerio/pags/biblioteca/revistas/pdf_Hort/Hort_1989_44_5_8.pdf",
+            "organizacion": "Ministerio de Agricultura, Pesca y Alimentación (España)"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -2126,6 +2349,30 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 8,
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 10,
+          "ideal_max": 20,
+          "tolera_min": -10,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Quiere fresco y agua permanente todo el tiempo; apenas aprieta el calor la hoja se endurece, se pone picante y la planta se va a flor, por eso rinde mucho más en invierno.",
+        "fuentes": [
+          {
+            "titulo": "Caracterización agronómica del berro (Nasturtium officinale R. Br.)",
+            "url": "http://riaa.uaem.mx/xmlui/bitstream/handle/20.500.12055/2002/MEMMXG00T.pdf",
+            "organizacion": "Universidad Autónoma del Estado de Morelos (UAEM)"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -2358,6 +2605,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 18,
+          "tolera_min": -2,
+          "tolera_max": 28
+        },
+        "helada": "sensible",
+        "nota": "Es lento y desparejo para nacer, y si el plantín chico se come varias semanas de frío se te va derecho a flor; con calor, en cambio, se ahíla y los tallos salen finitos y fibrosos.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Apio - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Apio.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo del apio",
+            "url": "https://www.infoagro.com/hortalizas/apio.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -2613,6 +2889,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 16,
+          "ideal_max": 18,
+          "tolera_min": -2,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "De chico aguanta bien las heladitas, pero apuntá a que la pella se arme en pleno fresco: con calor se te abre en flores amarillas antes de que la puedas cortar.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Brócoli - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Brocoli.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo del brócoli (DAG-HORT-010)",
+            "url": "https://dagus.unison.mx/Zamora/BROCOLI-DAG-HORT-010.pdf",
+            "organizacion": "Universidad de Sonora (UNISON)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -2860,6 +3170,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 21,
+          "tolera_min": -2,
+          "tolera_max": 26
+        },
+        "helada": "sensible",
+        "nota": "Es la más delicada de las coles: no le banca ni el calor fuerte ni el frío duro, así que calculá la siembra para que la pella caiga justo en pleno otoño.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la coliflor",
+            "url": "https://www.infoagro.com/hortalizas/coliflor.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -3098,6 +3437,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 6,
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 14,
+          "ideal_max": 18,
+          "tolera_min": -10,
+          "tolera_max": 30
+        },
+        "helada": "mejora",
+        "nota": "Es la col que más frío aguanta y conviene cosecharla después de las primeras heladas: el frío le convierte el almidón en azúcar y los repollitos dejan de amargar.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la col de Bruselas (DAG-HORT-012)",
+            "url": "https://dagus.unison.mx/Zamora/COL%20DE%20BRUSELAS-DAG-HORT-012.pdf",
+            "organizacion": "Universidad de Sonora (UNISON)"
+          },
+          {
+            "titulo": "Cultivo de la col de Bruselas",
+            "url": "https://hcoetsia.wordpress.com/2017/02/14/cultivo-de-la-col-de-bruselas/",
+            "organizacion": "Horticultura y Cultivos Ornamentales - ETSIA"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -3357,6 +3725,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 16,
+          "ideal_max": 29,
+          "max": 40
+        },
+        "crecimiento": {
+          "ideal_min": 16,
+          "ideal_max": 20,
+          "tolera_min": -4,
+          "tolera_max": null
+        },
+        "helada": "mejora",
+        "nota": "Dejalo para otoño-invierno: con calor se pone fibroso y picante, y en cambio el frío fuerte le sube el azúcar y lo deja más dulce.",
+        "fuentes": [
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination (ANR-1061)",
+            "url": "https://www.aces.edu/wp-content/uploads/2023/03/ANR-1061_SoilTemperatureConditionsforVegetableSeedGermination_030623bL-G.pdf",
+            "organizacion": "Alabama Cooperative Extension System (Auburn University)"
+          },
+          {
+            "titulo": "El nabo forrajero (Brassica rapa)",
+            "url": "https://www.tecnicoagricola.es/el-nabo-forrajero-brassica-rapa/",
+            "organizacion": "Técnico Agrícola"
+          },
+          {
+            "titulo": "Cultívalo tú mismo: Nabos",
+            "url": "https://www.canna.es/articles/cultivalo-tu-mismo-nabos",
+            "organizacion": "CANNA España"
+          }
+        ],
+        "confianza": 5
       }
     },
     {
@@ -3683,6 +4085,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 18,
+          "ideal_max": 27,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "tolera_min": 2,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Si adelantás el trasplante con las noches todavía frescas la planta te florece pero no cuaja, y con las olas de calor del verano se le muere el polen igual: apuntá a que florezca en tiempo templado.",
+        "fuentes": [
+          {
+            "titulo": "Tomate (Lycopersicon esculentum Mill) - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -3972,6 +4403,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 13,
+          "ideal_min": 20,
+          "ideal_max": 30,
+          "max": 37
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 28,
+          "tolera_min": 1,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Es más friolento que el tomate: si lo sacás afuera antes de tiempo se queda parado y voltea las flores, y en pleno golpe de calor también las pierde.",
+        "fuentes": [
+          {
+            "titulo": "Pimiento (Capsicum annuum L.) - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo del pimiento",
+            "url": "https://www.infoagro.com/hortalizas/pimiento.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -4261,6 +4721,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 13,
+          "ideal_min": 22,
+          "ideal_max": 30,
+          "max": 37
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 30,
+          "tolera_min": 1,
+          "tolera_max": 38
+        },
+        "helada": "muere",
+        "nota": "Tarda bastante más en asomar que el pimiento dulce, así que hacé el almácigo con calor de abajo y bien temprano, y no lo des por perdido en la primera semana.",
+        "fuentes": [
+          {
+            "titulo": "Pimiento (Capsicum annuum L.) - variedades picantes y requerimientos térmicos",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo del pimiento",
+            "url": "https://www.infoagro.com/hortalizas/pimiento.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -4579,6 +5068,35 @@
             "nota": "confianza baja (regla general de solanáceas)"
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 20,
+          "ideal_max": 30,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 20,
+          "ideal_max": 30,
+          "tolera_min": 1,
+          "tolera_max": 43
+        },
+        "helada": "muere",
+        "nota": "Es la más calurienta de las solanáceas: si la trasplantás con frío se queda quieta y los primeros frutos te salen deformes, así que esperá a que el verano arranque en serio.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la berenjena",
+            "url": "https://www.infoagro.com/hortalizas/berenjena.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -4812,7 +5330,7 @@
           "11": "directa",
           "12": "directa"
         },
-        "derivacion": "De fecha_siembra: directa sep-dic (UNLu) → ideal; INTA extiende a enero → posible. En septiembre admite almácigo en vasitos para adelantar. Sin ventana de trasplante: tolera mal el trasplante y la ficha no da plazos.",
+        "derivacion": "De fecha_siembra: directa sep-dic (UNLu) → ideal; INTA extiende a enero → posible. En septiembre admite almácigo en vasitos para adelantar. Sin ventana de trasplante: tolera mal el trasplante y la ficha no da plazos. CORRECCIÓN: el 18-24 °C que la ficha daba como germinación es en realidad temperatura de AIRE (crecimiento); el suelo pide 21-32 °C para germinar (UNLu).",
         "confianza": 8
       },
       "dias_a_trasplante": null,
@@ -4861,6 +5379,35 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 21,
+          "ideal_max": 32,
+          "max": 37
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 24,
+          "tolera_min": 2,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "La semilla quiere la tierra mucho más caliente de lo que uno cree: si sembrás de asiento con el suelo frío se te pudre antes de nacer, aunque después la planta crezca cómoda en tiempo templado.",
+        "fuentes": [
+          {
+            "titulo": "Zapallo y zapallito - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Zapallo%20y%20zapallito.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -5070,7 +5617,7 @@
           "10": "directa",
           "11": "directa"
         },
-        "derivacion": "De fecha_siembra: directa oct-nov (UNLu e INTA) → ideal; El Brote Urbano arranca en septiembre → posible. Ciclo largo que necesita 4-5 meses sin heladas. Siembra directa de asiento (tolera mal el trasplante).",
+        "derivacion": "De fecha_siembra: directa oct-nov (UNLu e INTA) → ideal; El Brote Urbano arranca en septiembre → posible. Ciclo largo que necesita 4-5 meses sin heladas. Siembra directa de asiento (tolera mal el trasplante). CORRECCIÓN: el 18-24 °C de la ficha es temperatura de AIRE (crecimiento), no de suelo; germinar pide 21-32 °C (UNLu).",
         "confianza": 8
       },
       "dias_a_trasplante": null,
@@ -5135,6 +5682,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 21,
+          "ideal_max": 32,
+          "max": 37
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 24,
+          "tolera_min": 2,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Necesita muchos meses seguidos sin heladas para llenar el fruto, así que sembralo apenas la tierra se templa y no lo dejes para el final de la primavera.",
+        "fuentes": [
+          {
+            "titulo": "Zapallo y zapallito - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Zapallo%20y%20zapallito.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -5417,6 +5993,35 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 22,
+          "ideal_max": 32,
+          "max": 40
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 28,
+          "tolera_min": 2,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Con las noches todavía frescas te tira hojas y pepinos torcidos, así que conviene sembrarlo bien entrada la primavera y no pelearle al calendario.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo del pepino",
+            "url": "https://www.infoagro.com/hortalizas/pepino.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -5640,6 +6245,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 22,
+          "ideal_max": 30,
+          "max": 39
+        },
+        "crecimiento": {
+          "ideal_min": 20,
+          "ideal_max": 30,
+          "tolera_min": 2,
+          "tolera_max": 38
+        },
+        "helada": "muere",
+        "nota": "Tiene la raíz friolenta: si el suelo está frío la planta se queda parada aunque el aire venga lindo, así que no te apures con la siembra y regá con agua que no esté helada.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo del melón",
+            "url": "https://www.infoagro.com/frutas/frutas_tradicionales/melon.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -5848,6 +6482,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 21,
+          "ideal_max": 33,
+          "max": 40
+        },
+        "crecimiento": {
+          "ideal_min": 21,
+          "ideal_max": 30,
+          "tolera_min": 2,
+          "tolera_max": 38
+        },
+        "helada": "muere",
+        "nota": "Pide más calor y más semanas que el melón, así que sembrala apenas pasó todo riesgo de helada para que alcance a madurar antes de que refresque el otoño.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la sandía",
+            "url": "https://www.infoagro.com/frutas/frutas_tradicionales/sandia.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -6080,6 +6743,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 12,
+          "ideal_min": 16,
+          "ideal_max": 24,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 28,
+          "tolera_min": 1,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Sembralo recién con la tierra templada, porque en suelo frío nace despareja y te quedan claros en la línea justo donde después no hay choclo.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo del maíz dulce en la Región de La Araucanía (Informativo 148)",
+            "url": "https://planpredial.inia.cl/media/documentos/INFORMATIVO_148_Cultivo_de_Maiz.pdf",
+            "organizacion": "INIA Chile"
+          },
+          {
+            "titulo": "Maíz - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Maiz.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -6313,6 +7005,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 7,
+          "ideal_min": 10,
+          "ideal_max": 20,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "tolera_min": -10,
+          "tolera_max": 30
+        },
+        "helada": "sensible",
+        "nota": "Acá los valores de germinación son en realidad los de arraigo del plantín: plantalo en otoño con el suelo fresco, porque el frío del invierno es justamente lo que le arma las flores para la primavera, y cuidá esas flores de las heladas tardías.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de la fresa: características botánicas y variedades (Kirschbaum, EEA Famaillá)",
+            "url": "https://repositorio.inta.gob.ar/bitstream/handle/20.500.12123/12068/INTA_CRTucuman-Santiago_EEAFamailla_Kirschbaum_DS_Fresa_Caracteristicas_botanicas_variedades.pdf",
+            "organizacion": "INTA"
+          },
+          {
+            "titulo": "Frutilla (Fragaria x ananassa) - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Frutilla.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -6608,6 +7329,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 15,
+          "ideal_max": 24,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 16,
+          "ideal_max": 26,
+          "tolera_min": 2,
+          "tolera_max": 30
+        },
+        "helada": "muere",
+        "nota": "No la apures en primavera: con el suelo todavía frío la semilla se pudre antes de nacer, y una helada te liquida la planta en cualquier momento del ciclo.",
+        "fuentes": [
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar (Poroto chaucha)",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "Cultivo de poroto - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Poroto.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo de la judía (temperaturas críticas)",
+            "url": "https://www.infoagro.com/hortalizas/judia.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -6868,6 +7623,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 15,
+          "ideal_max": 24,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "tolera_min": -4,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Sembrala en otoño para que llegue a llenar vainas antes del calor: de chiquita banca bien el frío, pero si la helada la agarra en flor te quedás sin cosecha.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de arveja - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Arveja.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "El cultivo del guisante",
+            "url": "https://www.infoagro.com/hortalizas/guisantes.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -7108,6 +7897,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 7,
+          "ideal_min": 22,
+          "ideal_max": 28,
+          "max": 36
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "tolera_min": -5,
+          "tolera_max": 28
+        },
+        "helada": "tolera",
+        "nota": "Se siembra de otoño y aguanta bien el invierno cuando es chica, pero si la helada la pesca en plena floración se le caen las flores y no cuaja las vainas.",
+        "fuentes": [
+          {
+            "titulo": "Ficha técnica del cultivo de Haba (Vicia faba L.)",
+            "url": "https://www.ciren.cl/wp-content/uploads/2017/12/Haba.pdf",
+            "organizacion": "CIREN (Chile)"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar (Habas)",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "El cultivo de la haba",
+            "url": "https://www.infoagro.com/hortalizas/haba.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -7416,6 +8239,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 15,
+          "ideal_max": 26,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "tolera_min": -5,
+          "tolera_max": 28
+        },
+        "helada": "tolera",
+        "nota": "Le cuesta nacer y tarda: mantené la superficie siempre húmeda hasta que emerja, porque si se seca una sola vez perdés la línea entera.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de zanahoria - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Zanahoria.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "El cultivo de la zanahoria",
+            "url": "https://www.infoagro.com/hortalizas/zanahoria.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -7712,6 +8569,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "max": 29
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 22,
+          "tolera_min": null,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Es de clima fresco pero cuidado con sembrarla muy al filo del invierno: si le toca frío de chiquita se va a flor y no te engorda la raíz.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de remolacha - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Remolacha.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination (ANR-1061)",
+            "url": "https://www.aces.edu/wp-content/uploads/2023/03/ANR-1061_SoilTemperatureConditionsforVegetableSeedGermination_030623bL-G.pdf",
+            "organizacion": "Alabama Cooperative Extension System (Auburn University)"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -7999,6 +8890,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 20,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 22,
+          "tolera_min": -2,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Es lo más rápido de la huerta pero odia el calor: sembrado en pleno verano te sale picante y hueco, así que dejalo para las medias estaciones.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de rabanito - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Rabanito.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo del rábano",
+            "url": "https://www.infoagro.com/hortalizas/rabano.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination (ANR-1061)",
+            "url": "https://www.aces.edu/wp-content/uploads/2023/03/ANR-1061_SoilTemperatureConditionsforVegetableSeedGermination_030623bL-G.pdf",
+            "organizacion": "Alabama Cooperative Extension System (Auburn University)"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -8274,6 +9199,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 7,
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 13,
+          "ideal_max": 20,
+          "tolera_min": -2,
+          "tolera_max": 30
+        },
+        "helada": "sensible",
+        "nota": "Ojo que estos valores de germinación son de brotación del tubérculo-semilla, no de semilla: plantá cuando el suelo ya templó y buscá que engorde con noches frescas, porque con noches calurosas hace mucha mata y poca papa.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de papa - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Papa.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo de la patata",
+            "url": "https://www.infoagro.com/hortalizas/patata.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -8506,6 +9465,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 21,
+          "ideal_max": 30,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 21,
+          "ideal_max": 30,
+          "tolera_min": 10,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Los valores de germinación son de brotación de la batata-semilla en el almácigo: es tropical, plantá los plantines recién cuando pasó todo peligro de helada porque con frío queda parada sin crecer.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de batata - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Batata.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "Manual técnico para el cultivo de batata (camote o boniato) en Tucumán",
+            "url": "https://repositorio.inta.gob.ar/xmlui/bitstream/handle/20.500.12123/15951/INTA_CRTucuman-Santiago%20del%20Estero_EEAFamailla_Cusumano_C_Manual_tecnico_cultivo_batata_Tucuman.pdf",
+            "organizacion": "INTA EEA Famaillá"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -8756,6 +9749,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 2,
+          "ideal_min": 18,
+          "ideal_max": 24,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 13,
+          "ideal_max": 24,
+          "tolera_min": null,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Respetá la fecha de siembra de tu variedad: si la planta pasa mucho frío siendo chica se va a flor y no te hace bulbo, porque el bulbo lo arma después con días largos y calor.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de cebolla - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Cebolla.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Manual de cultivos para la huerta orgánica familiar",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination (ANR-1061)",
+            "url": "https://www.aces.edu/wp-content/uploads/2023/03/ANR-1061_SoilTemperatureConditionsforVegetableSeedGermination_030623bL-G.pdf",
+            "organizacion": "Alabama Cooperative Extension System (Auburn University)"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -9007,6 +10034,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 0,
+          "ideal_min": 15,
+          "ideal_max": 18,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 10,
+          "ideal_max": 16,
+          "tolera_min": null,
+          "tolera_max": 40
+        },
+        "helada": "tolera",
+        "nota": "Estos valores de germinación son de brotación del diente, no de semilla: plantalo en otoño para que le entre el frío del invierno, porque sin ese frío te hace un montón de hoja y no arma la cabeza.",
+        "fuentes": [
+          {
+            "titulo": "Producción de ajo. Manual del Proyecto AJO/INTA",
+            "url": "http://www.latranqueraweb.com.ar/web/archivos/menu/INTA_Produccion_de_ajo._.pdf",
+            "organizacion": "INTA EEA La Consulta - Proyecto Ajo/INTA"
+          },
+          {
+            "titulo": "Cultivo de ajo - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Ajo.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "El cultivo del ajo",
+            "url": "https://www.infoagro.com/hortalizas/ajo.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -9247,6 +10308,35 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 7,
+          "ideal_min": 15,
+          "ideal_max": 18,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 13,
+          "ideal_max": 24,
+          "tolera_min": null,
+          "tolera_max": null
+        },
+        "helada": "tolera",
+        "nota": "Es de los más rústicos para el invierno: el almácigo tarda un montón en nacer, pero después podés dejarlo plantado en el cantero e ir cosechando a medida que lo necesitás.",
+        "fuentes": [
+          {
+            "titulo": "Informe técnico para el cultivo del puerro",
+            "url": "https://www.elhuertourbano.net/informe-tecnico-para-el-cultivo-del-puerro/",
+            "organizacion": "El Huerto Urbano"
+          },
+          {
+            "titulo": "El cultivo del puerro",
+            "url": "https://www.infoagro.com/hortalizas/puerro.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -9469,6 +10559,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 2,
+          "ideal_min": 18,
+          "ideal_max": 24,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 13,
+          "ideal_max": 24,
+          "tolera_min": -5,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Arrancá recién cuando aflojen los días de calor del verano, porque con el suelo caliente la semilla tarda un montón en nacer; la planta se banca las heladas aunque la hoja te quede algo rojiza.",
+        "fuentes": [
+          {
+            "titulo": "Criterios a tener en cuenta para la producción de cebolla de verdeo en el norte bonaerense (2019)",
+            "url": "https://repositorio.inta.gob.ar/bitstream/handle/20.500.12123/4761/INTA_CRBsAsNorte_EEASanPedro_Paunero_Criterios_produccion_cebolla_verdeo.pdf",
+            "organizacion": "INTA EEA San Pedro"
+          },
+          {
+            "titulo": "Cultivo de Cebolla - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Cebolla.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "La cebolla de verdeo - Curso de Horticultura y Floricultura",
+            "url": "https://sedici.unlp.edu.ar/bitstream/handle/10915/63097/Documento_completo__.pdf-PDFA.pdf",
+            "organizacion": "FCAyF - Universidad Nacional de La Plata (UNLP)"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -9716,6 +10840,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 20,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 20,
+          "ideal_max": 30,
+          "tolera_min": 10,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "No la apures en septiembre: hasta que el suelo no se calienta se queda clavada, y la primera helada del otoño te la lleva puesta.",
+        "fuentes": [
+          {
+            "titulo": "Producción comercial de semilla de albahaca",
+            "url": "http://www.herbotecnia.com.ar/c-biblio009-25.htm",
+            "organizacion": "Herbotecnia / INTA - Anales SAIPA"
+          },
+          {
+            "titulo": "Growth and Development of Basil Species in Response to Temperature",
+            "url": "https://journals.ashs.org/hortsci/view/journals/hortsci/54/11/article-p1915.xml",
+            "organizacion": "HortScience - American Society for Horticultural Science"
+          },
+          {
+            "titulo": "Ocimum basilicum",
+            "url": "https://plants.ces.ncsu.edu/plants/ocimum-basilicum/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -9941,6 +11099,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 4,
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 21,
+          "tolera_min": -12,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Tené paciencia con el almácigo porque tarda muchísimo en asomar, pero después te banca todo el invierno dándote hoja.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de perejil (Petroselinum crispum)",
+            "url": "http://www.herbotecnia.com.ar/exo-perejil.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination (ANR-1061)",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System - Auburn University"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -10172,6 +11359,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 15,
+          "ideal_max": 20,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 22,
+          "tolera_min": -5,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Sembralo escalonado de otoño a principios de primavera: apenas pega el calor se va a flor y te quedás sin hoja.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de coriandro (Coriandrum sativum)",
+            "url": "http://www.herbotecnia.com.ar/exo-coriandro.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Coriandrum sativum",
+            "url": "https://plants.ces.ncsu.edu/plants/coriandrum-sativum/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -10404,6 +11620,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": 18,
+          "ideal_max": 22,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 28,
+          "tolera_min": -15,
+          "tolera_max": null
+        },
+        "helada": "tolera",
+        "nota": "Multiplicalo por gajo o mata dividida en vez de semilla; el frío no lo despeina, lo que le arruina la cosecha es la humedad del verano.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de orégano (Origanum vulgare)",
+            "url": "http://www.herbotecnia.com.ar/exotica-oregano.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Informe técnico sobre el cultivo del orégano en La Plata y su zona de influencia (Prov. de Buenos Aires)",
+            "url": "http://www.herbotecnia.com.ar/c-biblio010-04.htm",
+            "organizacion": "Facultad de Agronomía UNLP - Anales SAIPA"
+          },
+          {
+            "titulo": "Origanum vulgare",
+            "url": "https://plants.ces.ncsu.edu/plants/origanum-vulgare/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 9
       }
     },
     {
@@ -10636,6 +11886,45 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 15,
+          "ideal_max": 22,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "tolera_min": -15,
+          "tolera_max": null
+        },
+        "helada": "tolera",
+        "nota": "Hacelo por gajo porque de semilla nace despareja, y plantalo alto y bien drenado: el problema acá no es el invierno sino el verano húmedo.",
+        "fuentes": [
+          {
+            "titulo": "How to grow Thyme (germinación 15-20 °C; rusticidad H5)",
+            "url": "https://www.rhs.org.uk/herbs/thyme/grow-your-own",
+            "organizacion": "Royal Horticultural Society (RHS)"
+          },
+          {
+            "titulo": "El cultivo del tomillo (90 % de germinación en 16 días a 20 °C)",
+            "url": "https://www.infoagro.com/documentos/el_cultivo_del_tomillo.asp",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Cultivo de tomillo (Thymus vulgaris)",
+            "url": "http://www.herbotecnia.com.ar/exo-tomillo.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Thymus vulgaris",
+            "url": "https://plants.ces.ncsu.edu/plants/thymus-vulgaris/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -10886,6 +12175,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": 18,
+          "ideal_max": 21,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 6,
+          "ideal_max": 25,
+          "tolera_min": -8,
+          "tolera_max": null
+        },
+        "helada": "tolera",
+        "nota": "El frío de acá no lo toca: lo que lo mata es el suelo encharcado en invierno, así que dale cantero drenado y aire entre plantas.",
+        "fuentes": [
+          {
+            "titulo": "Romero Criollo INTA: tolera temperaturas cercanas a -8 °C",
+            "url": "https://www.argentina.gob.ar/inta/relaciones-estrategicas-del-inta/romero-criollo-inta",
+            "organizacion": "INTA"
+          },
+          {
+            "titulo": "Rosemary: grow your own",
+            "url": "https://www.rhs.org.uk/herbs/rosemary/grow-your-own",
+            "organizacion": "Royal Horticultural Society (RHS)"
+          },
+          {
+            "titulo": "Salvia rosmarinus",
+            "url": "https://plants.ces.ncsu.edu/plants/salvia-rosmarinus/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -11100,6 +12423,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": 18,
+          "ideal_max": 22,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "tolera_min": -15,
+          "tolera_max": 36
+        },
+        "helada": "tolera",
+        "nota": "Dale el rincón más drenado y aireado de la huerta y cortala seguido: el invierno lo pasa de taquito, pero la mata quieta en verano húmedo se llena de hongos.",
+        "fuentes": [
+          {
+            "titulo": "Comportamiento de la Salvia officinalis L. en la provincia de Santa Fe",
+            "url": "http://www.herbotecnia.com.ar/c-biblio013-17.htm",
+            "organizacion": "IPNAYS (CONICET-UNL) - Anales SAIPA"
+          },
+          {
+            "titulo": "Cultivo de salvia (Salvia officinalis)",
+            "url": "http://www.herbotecnia.com.ar/exo-salviaoff.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Salvia officinalis",
+            "url": "https://plants.ces.ncsu.edu/plants/salvia-officinalis/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -11370,6 +12727,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": null,
+          "ideal_max": null,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 20,
+          "ideal_max": 28,
+          "tolera_min": -15,
+          "tolera_max": null
+        },
+        "helada": "tolera",
+        "nota": "Se planta por estolón y no por semilla, y aunque la helada le queme toda la parte de arriba el rizoma rebrota solo en primavera.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de menta piperita",
+            "url": "http://www.herbotecnia.com.ar/exotica-mentapiperita.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Mentha spicata",
+            "url": "https://plants.ces.ncsu.edu/plants/mentha-spicata/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          },
+          {
+            "titulo": "Modeling purple basil, sage, spearmint, and sweet basil responses to daily light integral and mean daily temperature",
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10688745/",
+            "organizacion": "Frontiers in Plant Science (PMC)"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -11574,6 +12965,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": null,
+          "ideal_max": null,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": null,
+          "ideal_max": null,
+          "tolera_min": -15,
+          "tolera_max": null
+        },
+        "helada": "tolera",
+        "nota": "Metela a media sombra pensando en enero: de cualquier helada rebrota sola desde la corona, pero el sol pleno del verano se la come.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de melisa (Melissa officinalis)",
+            "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Melissa officinalis",
+            "url": "https://plants.ces.ncsu.edu/plants/melissa-officinalis/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -11800,6 +13220,40 @@
             "externa": false
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 2,
+          "ideal_min": 18,
+          "ideal_max": 24,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 13,
+          "ideal_max": 24,
+          "tolera_min": -15,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Es de las pocas que te sigue dando en pleno invierno, así que no la levantes: cortala al ras y rebrota sola del bulbo.",
+        "fuentes": [
+          {
+            "titulo": "Allium schoenoprasum",
+            "url": "https://plants.ces.ncsu.edu/plants/allium-schoenoprasum/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          },
+          {
+            "titulo": "Cultivo de cebolla (Allium cepa) — usado como proxy del género para germinación y crecimiento",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Cebolla.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Chives, Allium schoenoprasum",
+            "url": "https://hort.extension.wisc.edu/articles/chives-allium-schoenoprasum/",
+            "organizacion": "University of Wisconsin-Madison Extension"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -11995,6 +13449,35 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": null,
+          "ideal_max": null,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": null,
+          "ideal_max": null,
+          "tolera_min": -7,
+          "tolera_max": null
+        },
+        "helada": "sensible",
+        "nota": "Se hace por gajo y conviene repararlo los primeros inviernos porque la helada le quema los brotes nuevos; de grande ya se defiende solo.",
+        "fuentes": [
+          {
+            "titulo": "Laurus nobilis",
+            "url": "https://plants.ces.ncsu.edu/plants/laurus-nobilis/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          },
+          {
+            "titulo": "Laurel: cultivo, plagas y enfermedades (Laurus nobilis)",
+            "url": "https://articulos.infojardin.com/arbustos/Fichas/Laurel.htm",
+            "organizacion": "Infojardín"
+          }
+        ],
+        "confianza": 5
       }
     },
     {
@@ -12172,7 +13655,7 @@
           "8": "directa",
           "9": "directa"
         },
-        "derivacion": "De fecha_siembra: preferentemente otoño → ideal; también fines de invierno-principios de primavera (ago-sep) → posible. Siembra directa (raíz pivotante). Cosecha de hoja ~40-60 días (referencias generales, conf baja en la fuente).",
+        "derivacion": "De fecha_siembra: preferentemente otoño → ideal; también fines de invierno-principios de primavera (ago-sep) → posible. Siembra directa (raíz pivotante). Cosecha de hoja ~40-60 días (referencias generales, conf baja en la fuente). CONFIRMACIÓN externa: se espiga por fotoperíodo (día largo, crítico 11-14 h), no solo por calor; en GBA se superan las 12 h desde ~21-sep. Un ensayo del INTA San Pedro (Paunero 2023) midió 4 cortes sembrando el 2-mar contra 2 cortes en abril.",
         "confianza": 7
       },
       "dias_a_trasplante": null,
@@ -12206,6 +13689,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": null,
+          "ideal_min": 20,
+          "ideal_max": 22,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 16,
+          "ideal_max": 18,
+          "tolera_min": -4,
+          "tolera_max": 35
+        },
+        "helada": "tolera",
+        "nota": "Se va a flor por días largos y no solo por calor: sembrado en primavera se espiga aunque esté fresco, por eso rinde mucho más la siembra de otoño.",
+        "fuentes": [
+          {
+            "titulo": "Influencia de las fechas de siembra sobre la productividad del cultivo de eneldo en invernadero en San Pedro, Buenos Aires",
+            "url": "https://www.horticulturaar.com.ar/es/articulos/influencia-de-las-fechas-de-siembra-sobre-la-productividad-del-cultivo-de-eneldo-en-invernadero-en-san-pedro-buenos-aires-argentina.html",
+            "organizacion": "INTA EEA San Pedro (Paunero, 2023)"
+          },
+          {
+            "titulo": "Dill (Anethum graveolens) — soil temperature and growth requirements",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/2017/09/dill_053.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Dill | Diseases and Pests, Description, Uses, Propagation",
+            "url": "https://plantvillage.psu.edu/topics/dill/infos",
+            "organizacion": "PlantVillage - Penn State University"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -12431,6 +13948,35 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 15,
+          "ideal_max": 24,
+          "max": 30
+        },
+        "crecimiento": {
+          "ideal_min": 10,
+          "ideal_max": 24,
+          "tolera_min": -5,
+          "tolera_max": 30
+        },
+        "helada": "tolera",
+        "nota": "Sembrala en otoño y vas a tener flor todo el invierno del GBA: la helada no la voltea, lo que la termina es el calorón del verano.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar caléndula en el huerto",
+            "url": "https://www.agromatica.es/calendula/",
+            "organizacion": "Agromática"
+          },
+          {
+            "titulo": "Seed germination of calendula in response to temperature",
+            "url": "https://experts.umn.edu/en/publications/seed-germination-of-calendula-in-response-to-temperature/",
+            "organizacion": "University of Minnesota / Industrial Crops and Products"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -12666,6 +14212,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 20,
+          "ideal_max": 25,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 30,
+          "tolera_min": 0,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Esperá a que el suelo se temple en primavera para sembrarlo: te florece todo el verano si no le falta agua, pero la primera helada del otoño te lo liquida.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar Tagetes erecta desde semilla",
+            "url": "https://entresemillas.com/blog/como-cultivar-tagetes-erecta-desde-semilla/",
+            "organizacion": "EntreSemillas"
+          },
+          {
+            "titulo": "Clavel de moro, Damasquina, Clavel de Indias - Tagetes patula",
+            "url": "https://fichas.infojardin.com/perennes-anuales/tagetes-patula-clavel-del-moro-damasquina-clavel-turco.htm",
+            "organizacion": "Infojardín"
+          },
+          {
+            "titulo": "Copete enano (Tagetes patula)",
+            "url": "https://jardindecampo.mitiendanube.com/productos/copete-enano-tagetes-patula/",
+            "organizacion": "Jardín de Campo (Argentina)"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -12918,6 +14498,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 9,
+          "ideal_min": 15,
+          "ideal_max": 23,
+          "max": 37
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "tolera_min": -5,
+          "tolera_max": 32
+        },
+        "helada": "tolera",
+        "nota": "Banca el invierno del GBA con alguna hoja quemada y se resiembra sola, así que te garpa como fuente de flor para las abejas casi todo el año.",
+        "fuentes": [
+          {
+            "titulo": "Borage cardinal germination temperatures and seed development",
+            "url": "https://www.sciencedirect.com/science/article/abs/pii/S0926669014002635",
+            "organizacion": "Industrial Crops and Products (Elsevier)"
+          },
+          {
+            "titulo": "Borage: How to Grow Borage Plants",
+            "url": "https://www.almanac.com/plant/borage",
+            "organizacion": "The Old Farmer's Almanac"
+          },
+          {
+            "titulo": "Borraja - Borago officinalis",
+            "url": "https://fichas.infojardin.com/hortalizas-verduras/borraja-borago-officinalis.htm",
+            "organizacion": "Infojardín"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -13175,6 +14789,40 @@
           }
         ],
         "malas": []
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 13,
+          "ideal_max": 20,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 21,
+          "tolera_min": -1,
+          "tolera_max": 30
+        },
+        "helada": "muere",
+        "nota": "Aprovechala en otoño y en la primavera fresca: con el calor fuerte deja de florecer y con la primera helada en serio se te va, así que sembrala escalonada.",
+        "fuentes": [
+          {
+            "titulo": "Nasturtium: Sow and Grow Guide",
+            "url": "https://www.botanicalinterests.com/blogs/learn/nasturtium-sow-and-grow-guide",
+            "organizacion": "Botanical Interests"
+          },
+          {
+            "titulo": "Cuándo y cómo sembrar capuchinas en huerto o maceta",
+            "url": "https://entresemillas.com/blog/cuando-y-como-sembrar-capuchinas-en-huerto-o-maceta/",
+            "organizacion": "EntreSemillas"
+          },
+          {
+            "titulo": "Growing Nasturtiums",
+            "url": "https://www.almanac.com/plant/nasturtiums",
+            "organizacion": "The Old Farmer's Almanac"
+          }
+        ],
+        "confianza": 6
       }
     },
     {
@@ -13437,6 +15085,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 16,
+          "ideal_min": 21,
+          "ideal_max": 24,
+          "max": 27
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 30,
+          "tolera_min": 0,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "No lo apures: si sembrás con el suelo todavía frío te falla la germinación, pero una vez arrancado te florece hasta que llega el frío del otoño.",
+        "fuentes": [
+          {
+            "titulo": "Cosmos in the Garden",
+            "url": "https://extension.usu.edu/yardandgarden/research/cosmos-in-the-garden",
+            "organizacion": "Utah State University Extension"
+          },
+          {
+            "titulo": "Cosmos: Key Growing Information",
+            "url": "https://www.johnnyseeds.com/growers-library/flowers/cosmos/cosmos-key-growing-information.html",
+            "organizacion": "Johnny's Selected Seeds"
+          },
+          {
+            "titulo": "Cosmos (Cosmos bipinnatus)",
+            "url": "https://jardindecampo.mitiendanube.com/productos/cosmos-cosmos-bipinnatus/",
+            "organizacion": "Jardín de Campo (Argentina)"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
@@ -13665,6 +15347,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 6,
+          "ideal_min": 15,
+          "ideal_max": 25,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 20,
+          "ideal_max": 25,
+          "tolera_min": -5,
+          "tolera_max": 35
+        },
+        "helada": "sensible",
+        "nota": "Podés adelantar la siembra porque la plantita recién nacida banca una helada suave, pero si el frío o el calor extremo la agarran en floración te arruina el capítulo.",
+        "fuentes": [
+          {
+            "titulo": "El factor temperatura",
+            "url": "https://www.asagir.org.ar/acerca-de-el-factor-temperatura-478",
+            "organizacion": "ASAGIR - Asociación Argentina de Girasol"
+          },
+          {
+            "titulo": "Sunflower Production Guide",
+            "url": "https://www.ndsu.edu/agriculture/extension/publications/sunflower-production-guide",
+            "organizacion": "NDSU Extension"
+          },
+          {
+            "titulo": "El cultivo del girasol",
+            "url": "https://www.infoagro.com/herbaceos/oleaginosas/girasol.htm",
+            "organizacion": "Infoagro"
+          }
+        ],
+        "confianza": 8
       }
     },
     {
@@ -13899,6 +15615,40 @@
             "externa": true
           }
         ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 15,
+          "ideal_min": 18,
+          "ideal_max": 24,
+          "max": null
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 30,
+          "tolera_min": -15,
+          "tolera_max": 35
+        },
+        "helada": "tolera",
+        "nota": "Su problema en el GBA no es el frío ni el calor sino la humedad: pide la mitad de la que hay acá, así que va sí o sí en lomo drenado, con mulch de piedra y aire entre plantas.",
+        "fuentes": [
+          {
+            "titulo": "Un viaje de ocho meses a través de las lavandas de Europa (picos -15/-18 °C invierno y 30-35 °C verano; HR ideal 40-50 %)",
+            "url": "http://www.herbotecnia.com.ar/c-biblio009-16.htm",
+            "organizacion": "Crusizio, Anales SAIPA Vol. IX (1984)"
+          },
+          {
+            "titulo": "Cultivo de lavanda (Lavandula angustifolia) y usos",
+            "url": "http://www.herbotecnia.com.ar/exotica-lavanda.html",
+            "organizacion": "Herbotecnia"
+          },
+          {
+            "titulo": "Lavandula angustifolia",
+            "url": "https://plants.ces.ncsu.edu/plants/lavandula-angustifolia/",
+            "organizacion": "NC State Extension Plants Toolbox"
+          }
+        ],
+        "confianza": 7
       }
     }
   ]

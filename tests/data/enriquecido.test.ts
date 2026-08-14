@@ -87,6 +87,39 @@ describe('huerta_gba_enriquecido.json', () => {
       expect(cal.confianza).toBeGreaterThanOrEqual(1)
       expect(cal.confianza).toBeLessThanOrEqual(10)
     })
+
+    it('temperaturas: rangos coherentes, helada del enum, nota y fuentes', () => {
+      const t = e.temperaturas
+      expect(t).toBeDefined()
+
+      // Valores plausibles para huerta (nadie germina a -20 ni a 70 °C)
+      const numeros = [...Object.values(t.germinacion), ...Object.values(t.crecimiento)].filter(
+        (v): v is number => v !== null,
+      )
+      for (const v of numeros) {
+        expect(Number.isFinite(v)).toBe(true)
+        expect(v).toBeGreaterThanOrEqual(-25)
+        expect(v).toBeLessThanOrEqual(50)
+      }
+
+      // Orden interno: min ≤ ideal_min ≤ ideal_max ≤ max
+      const g = t.germinacion
+      const escalaG = [g.min, g.ideal_min, g.ideal_max, g.max].filter((v: number | null) => v !== null)
+      expect(escalaG).toEqual([...escalaG].sort((a: number, b: number) => a - b))
+
+      const c = t.crecimiento
+      const escalaC = [c.tolera_min, c.ideal_min, c.ideal_max, c.tolera_max].filter(
+        (v: number | null) => v !== null,
+      )
+      expect(escalaC).toEqual([...escalaC].sort((a: number, b: number) => a - b))
+
+      if (t.helada !== null) expect(['muere', 'sensible', 'tolera', 'mejora']).toContain(t.helada)
+      expect(t.nota.length).toBeGreaterThan(10)
+      expect(t.fuentes.length).toBeGreaterThan(0)
+      for (const f of t.fuentes) expect(f.url).toMatch(/^https?:\/\//)
+      expect(t.confianza).toBeGreaterThanOrEqual(1)
+      expect(t.confianza).toBeLessThanOrEqual(10)
+    })
     })
   }
 })

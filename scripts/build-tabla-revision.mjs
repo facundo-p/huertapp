@@ -70,6 +70,35 @@ for (const grupo of GRUPOS) {
   md += `\n</details>\n`
 }
 
+// Temperaturas
+const HELADA_TXT = {
+  muere: '☠️ la mata',
+  sensible: '⚠️ la daña',
+  tolera: '✔️ la aguanta',
+  mejora: '⭐ la mejora',
+}
+const tramo = (a, b) => (a == null && b == null ? '—' : a == null ? `≤${b}` : b == null ? `≥${a}` : a === b ? `${a}` : `${a}–${b}`)
+
+md += `\n## 🌡️ Temperaturas (°C)\n\n`
+md += `> **Germinación** = temperatura del suelo (mínima · ideal · máxima). **Crecimiento** = temperatura del aire (tolera · ideal · tolera).\n> **Helada**: cómo responde al frío del GBA. Conf = confianza del dato.\n\n`
+for (const grupo of GRUPOS) {
+  const especies = db.especies.filter((e) => e.grupo === grupo)
+  md += `\n### ${grupo}\n\n`
+  md += `| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |\n|---|:-:|:-:|:-:|:-:|---|:-:|\n`
+  for (const e of especies) {
+    const t = e.temperaturas
+    if (!t) continue
+    const g = t.germinacion
+    const c = t.crecimiento
+    md += `| **${e.nombre_comun}** | ${tramo(g.min, g.max)} | ${tramo(g.ideal_min, g.ideal_max)} | ${tramo(c.ideal_min, c.ideal_max)} | ${tramo(c.tolera_min, c.tolera_max)} | ${t.helada ? HELADA_TXT[t.helada] : '—'} | ${t.confianza} |\n`
+  }
+  md += `\n<details><summary>Notas de ${grupo.toLowerCase()}</summary>\n\n`
+  for (const e of especies) {
+    if (e.temperaturas?.nota) md += `- **${e.nombre_comun}**: ${e.temperaturas.nota}\n`
+  }
+  md += `\n</details>\n`
+}
+
 // Flags de revisión manual
 const flags = Object.entries(overlay).filter(([, v]) => v.revisar?.length)
 if (flags.length) {

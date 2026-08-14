@@ -46,6 +46,31 @@ export interface AsocRef {
   nota?: string
 }
 
+/** Cómo responde la especie a las heladas del GBA. */
+export type RespuestaHelada = 'muere' | 'sensible' | 'tolera' | 'mejora'
+
+export interface Temperaturas {
+  /** Temperaturas de suelo (°C) para germinar o brotar. */
+  germinacion: {
+    min: number | null
+    ideal_min: number | null
+    ideal_max: number | null
+    max: number | null
+  }
+  /** Temperaturas de aire (°C) para desarrollarse. */
+  crecimiento: {
+    ideal_min: number | null
+    ideal_max: number | null
+    tolera_min: number | null
+    tolera_max: number | null
+  }
+  helada: RespuestaHelada | null
+  /** Una frase con la consecuencia práctica. */
+  nota: string
+  fuentes: Fuente[]
+  confianza: number
+}
+
 export interface Calendario {
   siembra_ideal: Mes[]
   siembra_posible: Mes[]
@@ -81,6 +106,7 @@ export interface EspecieEnriquecida {
   asociaciones_buenas: Dato
   asociaciones_malas: Dato
   calendario: Calendario
+  temperaturas: Temperaturas
   dias_a_trasplante: Rango | null
   dias_a_cosecha: Rango | null
   dias_germinacion: Rango | null

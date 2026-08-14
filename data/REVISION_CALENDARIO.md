@@ -30,7 +30,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 - **Lechuga** (`lechuga`): De fecha_siembra: siembras principales otoño (almácigo mar-abr) y fin de invierno-primavera (ago-nov) → ideal; 'casi todo el año' → resto posible, salvo pleno verano (dic-ene, espigado). Invierno como almácigo protegido (criterio heladas GBA). Trasplante = siembra + 25-35 días.
 - **Espinaca** (`espinaca`): De fecha_siembra: almácigo feb-mar a junio, directa abr-may → núcleo otoñal ideal (mar-jun); feb (calor residual) y la extensión a fin de invierno (jul-ago) → posible. Trasplante = siembra + 4-6 semanas (solo si va en almácigo).
 - **Acelga** (`acelga`): De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo). Señal de trasplante ajustada por el usuario a ~4 hojas verdaderas (confianza baja).
-- **Rúcula** (`rucula`): De fecha_siembra: conviene otoño, invierno y primavera, evitar pleno verano → mar-nov ideal, feb (fin de verano) posible, dic-ene excluidos. Siembra directa siempre, sin trasplante.
+- **Rúcula** (`rucula`): De fecha_siembra: conviene otoño, invierno y primavera, evitar pleno verano → mar-nov ideal, feb (fin de verano) posible, dic-ene excluidos. Siembra directa siempre, sin trasplante. CORRECCIÓN: el 25-27 °C que la ficha daba como óptimo de crecimiento es en realidad de GERMINACIÓN; la hoja tierna se da con 10-20 °C (UNLu).
 - **Kale (col rizada)** (`kale`): De fecha_siembra: siembra principal recomendada feb-mar → ideal; 'casi todo el año' típico de otoño-invierno → abr-oct posible, evitando nov-ene (calor). Trasplante = siembra + ~4-6 semanas. Fechas de INTA EEA Anguil, no del calendario GBA oficial.
 - **Repollo** (`repollo`): De fecha_siembra: calendario oficial INTA/ProHuerta almácigo feb-mar, trasplante mar-abr. La ficha menciona variedades de otras estaciones sin fechas → no se agregan meses posibles (sin inventar precisión).
 - **Radicchio / Achicoria** (`radicchio`): De fecha_siembra: directa feb-may (ciclo otoño-invierno, mejor respaldada) → ideal; otras ediciones agregan oct-ene y jun-jul → posible. El radicchio de cabeza admite almácigo (fin de verano-otoño) pero sin plazo de trasplante en la ficha → sin ventana de trasplante.
@@ -93,8 +93,8 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 - **Pimiento / Morrón** (`pimiento`): De fecha_siembra: almácigo protegido jul-sep (Fecoagro/UNIDA jul-ago, INTA ago-sep) → todo ideal. Trasplante sep-oct pasadas las heladas; nov como cola. Almácigo ~45 días.
 - **Ají picante** (`aji-picante`): De fecha_siembra: almácigo ago-sep (criterio del pimiento) → ideal; la ficha admite siembra 'hasta comienzos del verano' → oct-nov posible. Trasplante oct-nov pasadas las heladas. Días a trasplante inferidos del pimiento (plantín 10 cm, 4-6 hojas). Ficha con confianza intermedia (se asimila al pimiento).
 - **Berenjena** (`berenjena`): De fecha_siembra: almácigo protegido jul-ago (UNLu y El Brote Urbano) → ideal; INTA extiende a septiembre → posible. Trasplante sep-nov pasado el riesgo de heladas, a los 50-60 días del almácigo.
-- **Zapallito de tronco** (`zapallito-de-tronco`): De fecha_siembra: directa sep-dic (UNLu) → ideal; INTA extiende a enero → posible. En septiembre admite almácigo en vasitos para adelantar. Sin ventana de trasplante: tolera mal el trasplante y la ficha no da plazos.
-- **Zapallo / Calabaza** (`zapallo`): De fecha_siembra: directa oct-nov (UNLu e INTA) → ideal; El Brote Urbano arranca en septiembre → posible. Ciclo largo que necesita 4-5 meses sin heladas. Siembra directa de asiento (tolera mal el trasplante).
+- **Zapallito de tronco** (`zapallito-de-tronco`): De fecha_siembra: directa sep-dic (UNLu) → ideal; INTA extiende a enero → posible. En septiembre admite almácigo en vasitos para adelantar. Sin ventana de trasplante: tolera mal el trasplante y la ficha no da plazos. CORRECCIÓN: el 18-24 °C que la ficha daba como germinación es en realidad temperatura de AIRE (crecimiento); el suelo pide 21-32 °C para germinar (UNLu).
+- **Zapallo / Calabaza** (`zapallo`): De fecha_siembra: directa oct-nov (UNLu e INTA) → ideal; El Brote Urbano arranca en septiembre → posible. Ciclo largo que necesita 4-5 meses sin heladas. Siembra directa de asiento (tolera mal el trasplante). CORRECCIÓN: el 18-24 °C de la ficha es temperatura de AIRE (crecimiento), no de suelo; germinar pide 21-32 °C (UNLu).
 - **Pepino** (`pepino`): De fecha_siembra: directa oct (INTA) y sep-oct (El Brote Urbano) → ideal; segunda ventana de febrero (El Brote Urbano) → posible. Siembra directa (tolera mal el trasplante), con suelo templado y sin heladas.
 - **Melón** (`melon`): De fecha_siembra: directa sep-oct con octubre como ideal explícito → ideal [10], sep posible; almácigo protegido en vasito en agosto → posible. Sin ventana de trasplante: si se usa vasito se pasa con cepellón intacto, sin plazo en la ficha.
 - **Sandía** (`sandia`): De fecha_siembra: directa sep-oct junto con el melón → ideal; adelanto con almácigo protegido en agosto → posible. Sin ventana de trasplante (mala tolerancia; solo con cepellón intacto).
@@ -150,7 +150,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 - **Melisa (toronjil)** (`melisa`): De fecha_siembra: almácigo en primavera → ideal; otoño-invierno bajo invernadero → posible (protegido). También división de matas (más segura). Trasplante con plántulas de 10-15 cm pero sin plazo en días → sin ventana. Perenne: sin días a cosecha (1er año un solo corte).
 - **Ciboulette (cebollín)** (`ciboulette`): De fecha_siembra: fines de invierno y primavera (ago-nov) → ideal; otoño (mar-abr) → posible. Fechas adaptadas por la propia fuente (sin meses exactos). También división de matas cada 2-3 años. Trasplante sin plazo → sin ventana.
 - **Laurel** (`laurel`): Por esqueje en primavera → ideal; trasplante del arbolito también en otoño → posible. Semilla muy lenta, no práctica: sin dias_germinacion. Perenne: sin días a cosecha (hojas a demanda una vez establecido). Fuente del hemisferio norte adaptada, menor confianza.
-- **Eneldo** (`eneldo`): De fecha_siembra: preferentemente otoño → ideal; también fines de invierno-principios de primavera (ago-sep) → posible. Siembra directa (raíz pivotante). Cosecha de hoja ~40-60 días (referencias generales, conf baja en la fuente).
+- **Eneldo** (`eneldo`): De fecha_siembra: preferentemente otoño → ideal; también fines de invierno-principios de primavera (ago-sep) → posible. Siembra directa (raíz pivotante). Cosecha de hoja ~40-60 días (referencias generales, conf baja en la fuente). CONFIRMACIÓN externa: se espiga por fotoperíodo (día largo, crítico 11-14 h), no solo por calor; en GBA se superan las 12 h desde ~21-sep. Un ensayo del INTA San Pedro (Paunero 2023) midió 4 cortes sembrando el 2-mar contra 2 cortes en abril.
 - **Lavanda** (`lavanda`): Plantines/gajos en otoño o primavera (infocampo) → mar-abr y sep-oct ideal, may y nov como cola → posible. Plantación definitiva tras las heladas. Semilla rara y lenta: sin dias_germinacion. Perenne: sin días a cosecha (flores dic-feb desde que se establece).
 
 </details>
@@ -177,12 +177,189 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 
 </details>
 
+## 🌡️ Temperaturas (°C)
+
+> **Germinación** = temperatura del suelo (mínima · ideal · máxima). **Crecimiento** = temperatura del aire (tolera · ideal · tolera).
+> **Helada**: cómo responde al frío del GBA. Conf = confianza del dato.
+
+
+### Hortaliza de hoja
+
+| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |
+|---|:-:|:-:|:-:|:-:|---|:-:|
+| **Lechuga** | 4–30 | 15–20 | 13–18 | -6–30 | ✔️ la aguanta | 9 |
+| **Espinaca** | 2–26 | 10–20 | 15–18 | -5–24 | ✔️ la aguanta | 9 |
+| **Acelga** | 5–35 | 18–22 | 15–22 | -5–35 | ✔️ la aguanta | 8 |
+| **Rúcula** | 5–35 | 25–27 | 10–20 | -3–30 | ✔️ la aguanta | 7 |
+| **Kale (col rizada)** | 4–35 | 10–25 | 10–20 | -10–30 | ⭐ la mejora | 8 |
+| **Repollo** | 5–35 | 18–25 | 15–20 | -6–27 | ✔️ la aguanta | 7 |
+| **Radicchio / Achicoria** | ≥5 | 20–28 | 15–20 | ≥-8 | ⭐ la mejora | 6 |
+| **Berro** | ≥8 | 15–20 | 10–20 | -10–30 | ✔️ la aguanta | 6 |
+| **Apio** | 4–30 | 15–20 | 15–18 | -2–28 | ⚠️ la daña | 8 |
+| **Brócoli** | 5–35 | 15–25 | 16–18 | -2–30 | ✔️ la aguanta | 9 |
+| **Coliflor** | 5–35 | 18–25 | 15–21 | -2–26 | ⚠️ la daña | 7 |
+| **Repollitos de Bruselas** | 6–35 | 18–25 | 14–18 | -10–30 | ⭐ la mejora | 7 |
+| **Cebolla de verdeo** | 2–35 | 18–24 | 13–24 | -5–30 | ✔️ la aguanta | 8 |
+
+<details><summary>Notas de hortaliza de hoja</summary>
+
+- **Lechuga**: Si la sembrás en pleno verano la semilla se duerme por el calor del suelo: hacé almácigo a la sombra y trasplantá cuando afloje, que además con calor y poca luz no te acogolla.
+- **Espinaca**: Sembrala de otoño y olvidate del verano: en cuanto los días se alargan y sube el termómetro se va a flor, las hojas se achican y el tallo se estira.
+- **Acelga**: Es la más rústica de las de hoja y te la bancás casi todo el año, pero si viene un golpe de frío justo después de una racha calurosa se te sube a flor.
+- **Rúcula**: Nace rápido con el suelo tibio pero la hoja tierna te la da el fresco: con calor sale amarga y se va a flor enseguida.
+- **Kale (col rizada)**: Cuanto más frío pase, mejor: después de las primeras heladas la hoja se pone dulce y pierde el amargor, así que no lo saques apurado.
+- **Repollo**: Nace bien con el suelo tibio pero recién arma cabeza compacta con el fresco: sembralo a fin de verano para que cierre en otoño-invierno.
+- **Radicchio / Achicoria**: Sembralo con el suelo todavía tibio de fin de verano: la semilla necesita calor para nacer, pero la cabeza recién cierra y se pone bien colorada cuando entra el frío.
+- **Berro**: Quiere fresco y agua permanente todo el tiempo; apenas aprieta el calor la hoja se endurece, se pone picante y la planta se va a flor, por eso rinde mucho más en invierno.
+- **Apio**: Es lento y desparejo para nacer, y si el plantín chico se come varias semanas de frío se te va derecho a flor; con calor, en cambio, se ahíla y los tallos salen finitos y fibrosos.
+- **Brócoli**: De chico aguanta bien las heladitas, pero apuntá a que la pella se arme en pleno fresco: con calor se te abre en flores amarillas antes de que la puedas cortar.
+- **Coliflor**: Es la más delicada de las coles: no le banca ni el calor fuerte ni el frío duro, así que calculá la siembra para que la pella caiga justo en pleno otoño.
+- **Repollitos de Bruselas**: Es la col que más frío aguanta y conviene cosecharla después de las primeras heladas: el frío le convierte el almidón en azúcar y los repollitos dejan de amargar.
+- **Cebolla de verdeo**: Arrancá recién cuando aflojen los días de calor del verano, porque con el suelo caliente la semilla tarda un montón en nacer; la planta se banca las heladas aunque la hoja te quede algo rojiza.
+
+</details>
+
+### Hortaliza de raíz/bulbo
+
+| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |
+|---|:-:|:-:|:-:|:-:|---|:-:|
+| **Nabo** | 4–40 | 16–29 | 16–20 | ≥-4 | ⭐ la mejora | 5 |
+| **Zanahoria** | 5–35 | 15–26 | 15–20 | -5–28 | ✔️ la aguanta | 9 |
+| **Remolacha** | 4–29 | 15–25 | 15–22 | ≤30 | ✔️ la aguanta | 8 |
+| **Rabanito** | 4–35 | 20–25 | 18–22 | -2–30 | ✔️ la aguanta | 8 |
+| **Papa** | 7–30 | 15–20 | 13–20 | -2–30 | ⚠️ la daña | 9 |
+| **Batata** | 15–35 | 21–30 | 21–30 | 10–35 | ☠️ la mata | 9 |
+| **Cebolla** | 2–35 | 18–24 | 13–24 | ≤30 | ✔️ la aguanta | 9 |
+| **Ajo** | ≥0 | 15–18 | 10–16 | ≤40 | ✔️ la aguanta | 8 |
+| **Puerro** | ≥7 | 15–18 | 13–24 | — | ✔️ la aguanta | 6 |
+
+<details><summary>Notas de hortaliza de raíz/bulbo</summary>
+
+- **Nabo**: Dejalo para otoño-invierno: con calor se pone fibroso y picante, y en cambio el frío fuerte le sube el azúcar y lo deja más dulce.
+- **Zanahoria**: Le cuesta nacer y tarda: mantené la superficie siempre húmeda hasta que emerja, porque si se seca una sola vez perdés la línea entera.
+- **Remolacha**: Es de clima fresco pero cuidado con sembrarla muy al filo del invierno: si le toca frío de chiquita se va a flor y no te engorda la raíz.
+- **Rabanito**: Es lo más rápido de la huerta pero odia el calor: sembrado en pleno verano te sale picante y hueco, así que dejalo para las medias estaciones.
+- **Papa**: Ojo que estos valores de germinación son de brotación del tubérculo-semilla, no de semilla: plantá cuando el suelo ya templó y buscá que engorde con noches frescas, porque con noches calurosas hace mucha mata y poca papa.
+- **Batata**: Los valores de germinación son de brotación de la batata-semilla en el almácigo: es tropical, plantá los plantines recién cuando pasó todo peligro de helada porque con frío queda parada sin crecer.
+- **Cebolla**: Respetá la fecha de siembra de tu variedad: si la planta pasa mucho frío siendo chica se va a flor y no te hace bulbo, porque el bulbo lo arma después con días largos y calor.
+- **Ajo**: Estos valores de germinación son de brotación del diente, no de semilla: plantalo en otoño para que le entre el frío del invierno, porque sin ese frío te hace un montón de hoja y no arma la cabeza.
+- **Puerro**: Es de los más rústicos para el invierno: el almácigo tarda un montón en nacer, pero después podés dejarlo plantado en el cantero e ir cosechando a medida que lo necesitás.
+
+</details>
+
+### Hortaliza de fruto
+
+| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |
+|---|:-:|:-:|:-:|:-:|---|:-:|
+| **Tomate** | 10–35 | 18–27 | 18–25 | 2–35 | ☠️ la mata | 9 |
+| **Pimiento / Morrón** | 13–37 | 20–30 | 18–28 | 1–35 | ☠️ la mata | 9 |
+| **Ají picante** | 13–37 | 22–30 | 18–30 | 1–38 | ☠️ la mata | 7 |
+| **Berenjena** | 15–35 | 20–30 | 20–30 | 1–43 | ☠️ la mata | 8 |
+| **Zapallito de tronco** | 15–37 | 21–32 | 18–24 | 2–35 | ☠️ la mata | 9 |
+| **Zapallo / Calabaza** | 15–37 | 21–32 | 18–24 | 2–35 | ☠️ la mata | 9 |
+| **Pepino** | 15–40 | 22–32 | 18–28 | 2–35 | ☠️ la mata | 8 |
+| **Melón** | 15–39 | 22–30 | 20–30 | 2–38 | ☠️ la mata | 8 |
+| **Sandía** | 15–40 | 21–33 | 21–30 | 2–38 | ☠️ la mata | 8 |
+| **Choclo / Maíz dulce** | 12–30 | 16–24 | 18–28 | 1–35 | ☠️ la mata | 8 |
+| **Frutilla** | 7–30 | 10–20 | 15–25 | -10–30 | ⚠️ la daña | 9 |
+
+<details><summary>Notas de hortaliza de fruto</summary>
+
+- **Tomate**: Si adelantás el trasplante con las noches todavía frescas la planta te florece pero no cuaja, y con las olas de calor del verano se le muere el polen igual: apuntá a que florezca en tiempo templado.
+- **Pimiento / Morrón**: Es más friolento que el tomate: si lo sacás afuera antes de tiempo se queda parado y voltea las flores, y en pleno golpe de calor también las pierde.
+- **Ají picante**: Tarda bastante más en asomar que el pimiento dulce, así que hacé el almácigo con calor de abajo y bien temprano, y no lo des por perdido en la primera semana.
+- **Berenjena**: Es la más calurienta de las solanáceas: si la trasplantás con frío se queda quieta y los primeros frutos te salen deformes, así que esperá a que el verano arranque en serio.
+- **Zapallito de tronco**: La semilla quiere la tierra mucho más caliente de lo que uno cree: si sembrás de asiento con el suelo frío se te pudre antes de nacer, aunque después la planta crezca cómoda en tiempo templado.
+- **Zapallo / Calabaza**: Necesita muchos meses seguidos sin heladas para llenar el fruto, así que sembralo apenas la tierra se templa y no lo dejes para el final de la primavera.
+- **Pepino**: Con las noches todavía frescas te tira hojas y pepinos torcidos, así que conviene sembrarlo bien entrada la primavera y no pelearle al calendario.
+- **Melón**: Tiene la raíz friolenta: si el suelo está frío la planta se queda parada aunque el aire venga lindo, así que no te apures con la siembra y regá con agua que no esté helada.
+- **Sandía**: Pide más calor y más semanas que el melón, así que sembrala apenas pasó todo riesgo de helada para que alcance a madurar antes de que refresque el otoño.
+- **Choclo / Maíz dulce**: Sembralo recién con la tierra templada, porque en suelo frío nace despareja y te quedan claros en la línea justo donde después no hay choclo.
+- **Frutilla**: Acá los valores de germinación son en realidad los de arraigo del plantín: plantalo en otoño con el suelo fresco, porque el frío del invierno es justamente lo que le arma las flores para la primavera, y cuidá esas flores de las heladas tardías.
+
+</details>
+
+### Legumbre
+
+| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |
+|---|:-:|:-:|:-:|:-:|---|:-:|
+| **Chaucha (poroto / judía)** | 10–35 | 15–24 | 16–26 | 2–30 | ☠️ la mata | 9 |
+| **Arveja** | 5–30 | 15–24 | 15–20 | -4–30 | ✔️ la aguanta | 9 |
+| **Haba** | 7–36 | 22–28 | 15–20 | -5–28 | ✔️ la aguanta | 7 |
+
+<details><summary>Notas de legumbre</summary>
+
+- **Chaucha (poroto / judía)**: No la apures en primavera: con el suelo todavía frío la semilla se pudre antes de nacer, y una helada te liquida la planta en cualquier momento del ciclo.
+- **Arveja**: Sembrala en otoño para que llegue a llenar vainas antes del calor: de chiquita banca bien el frío, pero si la helada la agarra en flor te quedás sin cosecha.
+- **Haba**: Se siembra de otoño y aguanta bien el invierno cuando es chica, pero si la helada la pesca en plena floración se le caen las flores y no cuaja las vainas.
+
+</details>
+
+### Aromática
+
+| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |
+|---|:-:|:-:|:-:|:-:|---|:-:|
+| **Albahaca** | 15–35 | 20–25 | 20–30 | 10–35 | ☠️ la mata | 8 |
+| **Perejil** | 4–35 | 15–25 | 15–21 | -12–30 | ✔️ la aguanta | 8 |
+| **Cilantro** | 10–30 | 15–20 | 15–22 | -5–30 | ✔️ la aguanta | 8 |
+| **Orégano** | ≤30 | 18–22 | 18–28 | ≥-15 | ✔️ la aguanta | 9 |
+| **Tomillo** | 10–30 | 15–22 | 15–25 | ≥-15 | ✔️ la aguanta | 8 |
+| **Romero** | — | 18–21 | 6–25 | ≥-8 | ✔️ la aguanta | 8 |
+| **Salvia** | — | 18–22 | 15–25 | -15–36 | ✔️ la aguanta | 7 |
+| **Menta** | — | — | 20–28 | ≥-15 | ✔️ la aguanta | 7 |
+| **Melisa (toronjil)** | — | — | — | ≥-15 | ✔️ la aguanta | 6 |
+| **Ciboulette (cebollín)** | 2–35 | 18–24 | 13–24 | -15–30 | ✔️ la aguanta | 6 |
+| **Laurel** | — | — | — | ≥-7 | ⚠️ la daña | 5 |
+| **Eneldo** | — | 20–22 | 16–18 | -4–35 | ✔️ la aguanta | 7 |
+| **Lavanda** | ≥15 | 18–24 | 15–30 | -15–35 | ✔️ la aguanta | 7 |
+
+<details><summary>Notas de aromática</summary>
+
+- **Albahaca**: No la apures en septiembre: hasta que el suelo no se calienta se queda clavada, y la primera helada del otoño te la lleva puesta.
+- **Perejil**: Tené paciencia con el almácigo porque tarda muchísimo en asomar, pero después te banca todo el invierno dándote hoja.
+- **Cilantro**: Sembralo escalonado de otoño a principios de primavera: apenas pega el calor se va a flor y te quedás sin hoja.
+- **Orégano**: Multiplicalo por gajo o mata dividida en vez de semilla; el frío no lo despeina, lo que le arruina la cosecha es la humedad del verano.
+- **Tomillo**: Hacelo por gajo porque de semilla nace despareja, y plantalo alto y bien drenado: el problema acá no es el invierno sino el verano húmedo.
+- **Romero**: El frío de acá no lo toca: lo que lo mata es el suelo encharcado en invierno, así que dale cantero drenado y aire entre plantas.
+- **Salvia**: Dale el rincón más drenado y aireado de la huerta y cortala seguido: el invierno lo pasa de taquito, pero la mata quieta en verano húmedo se llena de hongos.
+- **Menta**: Se planta por estolón y no por semilla, y aunque la helada le queme toda la parte de arriba el rizoma rebrota solo en primavera.
+- **Melisa (toronjil)**: Metela a media sombra pensando en enero: de cualquier helada rebrota sola desde la corona, pero el sol pleno del verano se la come.
+- **Ciboulette (cebollín)**: Es de las pocas que te sigue dando en pleno invierno, así que no la levantes: cortala al ras y rebrota sola del bulbo.
+- **Laurel**: Se hace por gajo y conviene repararlo los primeros inviernos porque la helada le quema los brotes nuevos; de grande ya se defiende solo.
+- **Eneldo**: Se va a flor por días largos y no solo por calor: sembrado en primavera se espiga aunque esté fresco, por eso rinde mucho más la siembra de otoño.
+- **Lavanda**: Su problema en el GBA no es el frío ni el calor sino la humedad: pide la mitad de la que hay acá, así que va sí o sí en lomo drenado, con mulch de piedra y aire entre plantas.
+
+</details>
+
+### Flor polinizadora
+
+| Especie | Germina (suelo) | Ideal germ. | Crece ideal (aire) | Tolera | Helada | Conf |
+|---|:-:|:-:|:-:|:-:|---|:-:|
+| **Caléndula** | 5–30 | 15–24 | 10–24 | -5–30 | ✔️ la aguanta | 7 |
+| **Copete / Tagetes** | ≥15 | 20–25 | 18–30 | 0–35 | ☠️ la mata | 6 |
+| **Borraja** | 9–37 | 15–23 | 15–25 | -5–32 | ✔️ la aguanta | 6 |
+| **Capuchina (taco de reina)** | ≥10 | 13–20 | 15–21 | -1–30 | ☠️ la mata | 6 |
+| **Cosmos** | 16–27 | 21–24 | 15–30 | 0–35 | ☠️ la mata | 7 |
+| **Girasol** | ≥6 | 15–25 | 20–25 | -5–35 | ⚠️ la daña | 8 |
+
+<details><summary>Notas de flor polinizadora</summary>
+
+- **Caléndula**: Sembrala en otoño y vas a tener flor todo el invierno del GBA: la helada no la voltea, lo que la termina es el calorón del verano.
+- **Copete / Tagetes**: Esperá a que el suelo se temple en primavera para sembrarlo: te florece todo el verano si no le falta agua, pero la primera helada del otoño te lo liquida.
+- **Borraja**: Banca el invierno del GBA con alguna hoja quemada y se resiembra sola, así que te garpa como fuente de flor para las abejas casi todo el año.
+- **Capuchina (taco de reina)**: Aprovechala en otoño y en la primavera fresca: con el calor fuerte deja de florecer y con la primera helada en serio se te va, así que sembrala escalonada.
+- **Cosmos**: No lo apures: si sembrás con el suelo todavía frío te falla la germinación, pero una vez arrancado te florece hasta que llega el frío del otoño.
+- **Girasol**: Podés adelantar la siembra porque la plantita recién nacida banca una helada suave, pero si el frío o el calor extremo la agarran en floración te arruina el capítulo.
+
+</details>
+
 ## ⚠️ Puntos que piden tu criterio
 
 - **Lechuga**: Cosecha 50-120 según tipo (hoja/cabeza) — revisado OK 2026-08-14.
 - **Espinaca**: Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14.
 - **Acelga**: Remolacha quitada de buenas y malas; señal de trasplante ~4 hojas verdaderas — decisión del usuario 2026-08-14.
 - **Rúcula**: 'Coles, rábano y nabo' (crucíferas) expandido a los 7 slugs de crucíferas de la base.
+- **Rúcula**: El 25-27 °C era de germinación, no de crecimiento: corregido.
 - **Kale (col rizada)**: 'Legumbres' expandido a chaucha/arveja/haba.
 - **Brócoli**: Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo).
 - **Repollitos de Bruselas**: Toda la ventana de siembra es de baja confianza (conf 4 en la fuente): revisar con criterio propio.
@@ -190,6 +367,8 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 - **Pimiento / Morrón**: Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135.
 - **Berenjena**: Papa quedó solo en malas, confianza baja — decisión del usuario 2026-08-14.
 - **Zapallito de tronco**: CONFLICTO en la fuente: papa y rabanito aparecen como buenas en unas fuentes y malas en otras. Se excluyeron de ambas listas; decidí vos.
+- **Zapallito de tronco**: Aire vs suelo corregido en la derivación tras la investigación de temperaturas.
+- **Zapallo / Calabaza**: Aire vs suelo corregido en la derivación tras la investigación de temperaturas.
 - **Frutilla**: Días a cosecha derivados del calendario del cinturón hortícola (plantación abr-may → cosecha oct-dic), no de un dato directo.
 - **Haba**: CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar.
 - **Zanahoria**: Cosecha ampliada a 50-150 según variedad; eneldo aclarado "solo al semillar" — decisión del usuario 2026-08-14.
