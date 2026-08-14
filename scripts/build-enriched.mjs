@@ -26,8 +26,11 @@ if (errores.length) {
 
 const especies = fuente.especies.map((e) => {
   const slug = slugify(e.nombre_comun)
-  const { revisar, ...derivado } = overlay[slug]
-  return { slug, ...e, ...derivado }
+  const { revisar, transplante_signos, ...derivado } = overlay[slug]
+  const base = transplante_signos
+    ? { ...e, transplante: { ...e.transplante, signos_listo: transplante_signos } }
+    : e
+  return { slug, ...base, ...derivado }
 })
 
 const salida = {

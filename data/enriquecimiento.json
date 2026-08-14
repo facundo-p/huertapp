@@ -74,17 +74,18 @@
       "malas": [
         {
           "slug": "repollo",
-          "externa": false
+          "externa": false,
+          "nota": "baja confianza"
         },
         {
           "slug": "brocoli",
-          "externa": false
+          "externa": false,
+          "nota": "baja confianza"
         }
       ]
     },
     "revisar": [
-      "Cosecha: hoja 50-85 días, cabeza hasta 120 (UNLP); rango unificado 50-120.",
-      "Malas asociaciones (repollo/brócoli) son de baja confianza según la ficha."
+      "Cosecha 50-120 según tipo (hoja/cabeza) — revisado OK 2026-08-14."
     ]
   },
   "espinaca": {
@@ -146,10 +147,6 @@
           "externa": false
         },
         {
-          "slug": "remolacha",
-          "externa": false
-        },
-        {
           "slug": "frutilla",
           "externa": false
         },
@@ -162,16 +159,11 @@
         {
           "slug": "acelga",
           "externa": false
-        },
-        {
-          "slug": "remolacha",
-          "externa": false
         }
       ]
     },
     "revisar": [
-      "Cosecha con discrepancia fuerte entre fuentes (45-60 vs 80-100); rango unificado 45-100.",
-      "Remolacha figura como buena Y mala asociación (mismo género que acelga): revisar."
+      "Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14."
     ]
   },
   "acelga": {
@@ -222,7 +214,7 @@
         "11": "directa|almacigo",
         "12": "directa|almacigo"
       },
-      "derivacion": "De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo).",
+      "derivacion": "De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo). Señal de trasplante ajustada por el usuario a ~4 hojas verdaderas (confianza baja).",
       "confianza": 7
     },
     "dias_a_trasplante": {
@@ -248,10 +240,6 @@
           "externa": false
         },
         {
-          "slug": "remolacha",
-          "externa": false
-        },
-        {
           "slug": "lechuga",
           "externa": false
         }
@@ -260,18 +248,13 @@
         {
           "slug": "espinaca",
           "externa": false
-        },
-        {
-          "slug": "remolacha",
-          "externa": false
         }
       ]
     },
     "revisar": [
-      "Cosecha: INTA 110-130 días, La Nación primer corte ~60; rango unificado 60-130.",
-      "Remolacha figura como buena Y mala asociación: revisar.",
-      "Días a trasplante inferidos (la ficha solo dice 'varias hojas verdaderas')."
-    ]
+      "Remolacha quitada de buenas y malas; señal de trasplante ~4 hojas verdaderas — decisión del usuario 2026-08-14."
+    ],
+    "transplante_signos": "Plantines con ~4 hojas verdaderas (criterio propio, confianza baja)."
   },
   "rucula": {
     "calendario": {
@@ -1551,12 +1534,13 @@
         },
         {
           "slug": "papa",
-          "externa": false
+          "externa": false,
+          "nota": "confianza baja (regla general de solanáceas)"
         }
       ]
     },
     "revisar": [
-      "CONFLICTO en la fuente: papa aparece en buenas (agrohuerto) y en malas (regla de solanáceas). Se dejó en ambas para que decidas; sugerencia: dejarla solo en malas."
+      "Papa quedó solo en malas, confianza baja — decisión del usuario 2026-08-14."
     ]
   },
   "zapallito-de-tronco": {
@@ -1862,28 +1846,8 @@
           "externa": true
         }
       ],
-      "malas": [
-        {
-          "slug": "chaucha",
-          "externa": false
-        },
-        {
-          "slug": "arveja",
-          "externa": false
-        },
-        {
-          "slug": "haba",
-          "externa": false
-        },
-        {
-          "etiqueta": "otras cucurbitáceas (rotación)",
-          "externa": true
-        }
-      ]
-    },
-    "revisar": [
-      "Malas asociaciones derivadas del esquema de ROTACIÓN de INTA (no de asociación directa): revisar si querés que cuenten como incompatibilidad."
-    ]
+      "malas": []
+    }
   },
   "sandia": {
     "calendario": {
@@ -1924,28 +1888,8 @@
           "externa": true
         }
       ],
-      "malas": [
-        {
-          "slug": "chaucha",
-          "externa": false
-        },
-        {
-          "slug": "arveja",
-          "externa": false
-        },
-        {
-          "slug": "haba",
-          "externa": false
-        },
-        {
-          "etiqueta": "otras cucurbitáceas (rotación)",
-          "externa": true
-        }
-      ]
-    },
-    "revisar": [
-      "Malas asociaciones derivadas del esquema de ROTACIÓN de INTA: mismo criterio que melón."
-    ]
+      "malas": []
+    }
   },
   "choclo": {
     "calendario": {
@@ -2352,12 +2296,12 @@
         "11": "directa",
         "12": "directa"
       },
-      "derivacion": "De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz).",
+      "derivacion": "De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz). Cosecha 50-150 días según variedad (cortas 50-90; Chantenay ~110; Criolla ~150).",
       "confianza": 7
     },
     "dias_a_trasplante": null,
     "dias_a_cosecha": {
-      "min": 100,
+      "min": 50,
       "max": 150
     },
     "dias_germinacion": {
@@ -2402,7 +2346,8 @@
       "malas": [
         {
           "slug": "eneldo",
-          "externa": false
+          "externa": false,
+          "nota": "solo si se dejan semillar juntas (se cruzan)"
         },
         {
           "slug": "apio",
@@ -2419,8 +2364,7 @@
       ]
     },
     "revisar": [
-      "Cosecha: variedades cortas 50-90 días; rango principal 100-150 (Chantenay ~110, Criolla ~150).",
-      "CONFLICTO entre fichas: acá el eneldo es mala asociación, pero la ficha del eneldo lo da como bueno contra plagas del repollo/zanahoria (el conflicto real es solo al dejar semillar). Revisar."
+      "Cosecha ampliada a 50-150 según variedad; eneldo aclarado \"solo al semillar\" — decisión del usuario 2026-08-14."
     ]
   },
   "remolacha": {
@@ -3141,7 +3085,7 @@
         "11": "directa",
         "12": "directa"
       },
-      "derivacion": "De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante).",
+      "derivacion": "De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante). El rango es hasta el primer corte; la planta sigue produciendo por cortes varios meses más (experiencia del usuario).",
       "confianza": 7
     },
     "dias_a_trasplante": null,
@@ -3689,7 +3633,8 @@
         },
         {
           "slug": "zanahoria",
-          "externa": false
+          "externa": false,
+          "nota": "mala compañera solo si se dejan semillar ambas (se cruzan)"
         },
         {
           "etiqueta": "brásicas en general",
@@ -3704,7 +3649,7 @@
       ]
     },
     "revisar": [
-      "La zanahoria es buena compañera para control de plagas PERO mala si se dejan semillar ambas (se cruzan). Se dejó solo en buenas; la ficha de zanahoria lo tiene en malas. Decidí el criterio."
+      "Distinción zanahoria buena/mala aclarada con nota \"solo al semillar\" — decisión del usuario 2026-08-14."
     ]
   },
   "calendula": {

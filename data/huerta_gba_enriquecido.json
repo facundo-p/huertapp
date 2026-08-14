@@ -339,11 +339,13 @@
         "malas": [
           {
             "slug": "repollo",
-            "externa": false
+            "externa": false,
+            "nota": "baja confianza"
           },
           {
             "slug": "brocoli",
-            "externa": false
+            "externa": false,
+            "nota": "baja confianza"
           }
         ]
       }
@@ -577,10 +579,6 @@
             "externa": false
           },
           {
-            "slug": "remolacha",
-            "externa": false
-          },
-          {
             "slug": "frutilla",
             "externa": false
           },
@@ -592,10 +590,6 @@
         "malas": [
           {
             "slug": "acelga",
-            "externa": false
-          },
-          {
-            "slug": "remolacha",
             "externa": false
           }
         ]
@@ -707,7 +701,7 @@
       },
       "transplante": {
         "valor": "Puede ir en siembra directa (solo raleo, sin trasplante) o en almácigo; en ese caso las plántulas se separan y trasplantan cuando tienen varias hojas verdaderas.",
-        "signos_listo": "Plantín con 3-4 hojas verdaderas y ~8-10 cm de altura.",
+        "signos_listo": "Plantines con ~4 hojas verdaderas (criterio propio, confianza baja).",
         "fuentes": [
           {
             "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
@@ -829,7 +823,7 @@
           "11": "directa|almacigo",
           "12": "directa|almacigo"
         },
-        "derivacion": "De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo).",
+        "derivacion": "De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo). Señal de trasplante ajustada por el usuario a ~4 hojas verdaderas (confianza baja).",
         "confianza": 7
       },
       "dias_a_trasplante": {
@@ -855,10 +849,6 @@
             "externa": false
           },
           {
-            "slug": "remolacha",
-            "externa": false
-          },
-          {
             "slug": "lechuga",
             "externa": false
           }
@@ -866,10 +856,6 @@
         "malas": [
           {
             "slug": "espinaca",
-            "externa": false
-          },
-          {
-            "slug": "remolacha",
             "externa": false
           }
         ]
@@ -4589,7 +4575,8 @@
           },
           {
             "slug": "papa",
-            "externa": false
+            "externa": false,
+            "nota": "confianza baja (regla general de solanáceas)"
           }
         ]
       }
@@ -5652,24 +5639,7 @@
             "externa": true
           }
         ],
-        "malas": [
-          {
-            "slug": "chaucha",
-            "externa": false
-          },
-          {
-            "slug": "arveja",
-            "externa": false
-          },
-          {
-            "slug": "haba",
-            "externa": false
-          },
-          {
-            "etiqueta": "otras cucurbitáceas (rotación)",
-            "externa": true
-          }
-        ]
+        "malas": []
       }
     },
     {
@@ -5877,24 +5847,7 @@
             "externa": true
           }
         ],
-        "malas": [
-          {
-            "slug": "chaucha",
-            "externa": false
-          },
-          {
-            "slug": "arveja",
-            "externa": false
-          },
-          {
-            "slug": "haba",
-            "externa": false
-          },
-          {
-            "etiqueta": "otras cucurbitáceas (rotación)",
-            "externa": true
-          }
-        ]
+        "malas": []
       }
     },
     {
@@ -7397,12 +7350,12 @@
           "11": "directa",
           "12": "directa"
         },
-        "derivacion": "De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz).",
+        "derivacion": "De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz). Cosecha 50-150 días según variedad (cortas 50-90; Chantenay ~110; Criolla ~150).",
         "confianza": 7
       },
       "dias_a_trasplante": null,
       "dias_a_cosecha": {
-        "min": 100,
+        "min": 50,
         "max": 150
       },
       "dias_germinacion": {
@@ -7447,7 +7400,8 @@
         "malas": [
           {
             "slug": "eneldo",
-            "externa": false
+            "externa": false,
+            "nota": "solo si se dejan semillar juntas (se cruzan)"
           },
           {
             "slug": "apio",
@@ -9963,7 +9917,7 @@
           "11": "directa",
           "12": "directa"
         },
-        "derivacion": "De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante).",
+        "derivacion": "De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante). El rango es hasta el primer corte; la planta sigue produciendo por cortes varios meses más (experiencia del usuario).",
         "confianza": 7
       },
       "dias_a_trasplante": null,
@@ -12238,7 +12192,8 @@
           },
           {
             "slug": "zanahoria",
-            "externa": false
+            "externa": false,
+            "nota": "mala compañera solo si se dejan semillar ambas (se cruzan)"
           },
           {
             "etiqueta": "brásicas en general",

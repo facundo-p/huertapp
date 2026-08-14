@@ -29,7 +29,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 
 - **Lechuga** (`lechuga`): De fecha_siembra: siembras principales otoño (almácigo mar-abr) y fin de invierno-primavera (ago-nov) → ideal; 'casi todo el año' → resto posible, salvo pleno verano (dic-ene, espigado). Invierno como almácigo protegido (criterio heladas GBA). Trasplante = siembra + 25-35 días.
 - **Espinaca** (`espinaca`): De fecha_siembra: almácigo feb-mar a junio, directa abr-may → núcleo otoñal ideal (mar-jun); feb (calor residual) y la extensión a fin de invierno (jul-ago) → posible. Trasplante = siembra + 4-6 semanas (solo si va en almácigo).
-- **Acelga** (`acelga`): De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo).
+- **Acelga** (`acelga`): De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo). Señal de trasplante ajustada por el usuario a ~4 hojas verdaderas (confianza baja).
 - **Rúcula** (`rucula`): De fecha_siembra: conviene otoño, invierno y primavera, evitar pleno verano → mar-nov ideal, feb (fin de verano) posible, dic-ene excluidos. Siembra directa siempre, sin trasplante.
 - **Kale (col rizada)** (`kale`): De fecha_siembra: siembra principal recomendada feb-mar → ideal; 'casi todo el año' típico de otoño-invierno → abr-oct posible, evitando nov-ene (calor). Trasplante = siembra + ~4-6 semanas. Fechas de INTA EEA Anguil, no del calendario GBA oficial.
 - **Repollo** (`repollo`): De fecha_siembra: calendario oficial INTA/ProHuerta almácigo feb-mar, trasplante mar-abr. La ficha menciona variedades de otras estaciones sin fechas → no se agregan meses posibles (sin inventar precisión).
@@ -48,7 +48,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 | Especie | E | F | M | A | M | J | J | A | S | O | N | D | Método | Días T / C / G | Conf |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|---|---|:-:|
 | **Nabo** |   | ● | ● | ● | ● |   |   | ○ | ○ |   |   |   | directa | — / 60-90 / 4-7 | 4 |
-| **Zanahoria** | ○ | ○ | ● | ● | ● | ● | ● | ● | ○ | ○ | ○ | ○ | directa | — / 100-150 / 10-20 | 7 |
+| **Zanahoria** | ○ | ○ | ● | ● | ● | ● | ● | ● | ○ | ○ | ○ | ○ | directa | — / 50-150 / 10-20 | 7 |
 | **Remolacha** |   |   | ● | ● | ● | ○ |   | ○ | ● | ● | ● | ○ | directa | — / 60-130 / 7-14 | 8 |
 | **Rabanito** | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | ● | directa | — / 25-40 / 4-7 | 8 |
 | **Papa** | ○ | ○ |   |   |   |   |   | ● | ● | ○ | ○ |   | plantación | — / 120-150 / 14-28 | 7 |
@@ -60,7 +60,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 <details><summary>Derivaciones de hortaliza de raíz/bulbo</summary>
 
 - **Nabo** (`nabo`): De fecha_siembra: principal fin de verano-otoño (feb-may) → ideal; también fin de invierno-primavera (ago-sep) → posible. Siembra directa (el trasplante daña la raíz). LA FICHA MARCA CONFIANZA REDUCIDA (no figura en calendarios oficiales).
-- **Zanahoria** (`zanahoria`): De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz).
+- **Zanahoria** (`zanahoria`): De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz). Cosecha 50-150 días según variedad (cortas 50-90; Chantenay ~110; Criolla ~150).
 - **Remolacha** (`remolacha`): De fecha_siembra: óptimas primavera y otoño (UNLu/Fecoagro) → sep-nov y mar-may ideal; ventana INTA ago-dic/mar-jun completa el resto como posible, evitando pleno invierno (jul) y pleno verano (ene-feb). Directa; se ralea el glomérulo.
 - **Rabanito** (`rabanito`): De fecha_siembra: INTA feb-jun y sep-dic → ideal; Fecoagro 'todo el año' en siembras escalonadas cada 15 días → resto posible. Directa siempre, ciclo muy corto.
 - **Papa** (`papa`): Se PLANTA el tubérculo-semilla, no se siembra. INTA ago-sep y ene-feb; en Bs.As. el grueso comercial va oct-nov (semitardía) → ago-sep ideal (huerta, evitando heladas en emergencia), oct-nov y ene-feb posible. dias_germinacion = emergencia del tubérculo (2-4 semanas).
@@ -140,7 +140,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 <details><summary>Derivaciones de aromática</summary>
 
 - **Albahaca** (`albahaca`): De fecha_siembra: almácigo protegido ago-sep con trasplante oct-nov (INTA y Brote) → ideal; siembra tardía de primavera (oct-nov, ya sin heladas) y la ventana feb-mar del Brote → posible. Trasplante = siembra + 4-6 semanas.
-- **Perejil** (`perejil`): De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante).
+- **Perejil** (`perejil`): De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante). El rango es hasta el primer corte; la planta sigue produciendo por cortes varios meses más (experiencia del usuario).
 - **Cilantro** (`cilantro`): De fecha_siembra: otoño y primavera, evitando pleno verano (florece con calor) → mar-may y sep-nov ideal, sin meses posibles sourceados. Directa (raíz pivotante); partir el 'grano' doble mejora la germinación.
 - **Orégano** (`oregano`): Multiplicación vegetativa (esqueje/acodo/división): plantación en primavera → ideal; esquejes y división también a inicio de otoño → posible. La semilla (solo tipos europeos) es rara: dias_germinacion 20-23 informativo. Perenne: sin días a cosecha (corte principal en floración, dic-feb).
 - **Tomillo** (`tomillo`): Principalmente esqueje/división/plantín: primavera → ideal; división oct-mar y semilla en almácigo a fines de invierno (ago) → posible. Perenne: sin días a cosecha (cortes escalonados desde que se establece).
@@ -179,32 +179,25 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 
 ## ⚠️ Puntos que piden tu criterio
 
-- **Lechuga**: Cosecha: hoja 50-85 días, cabeza hasta 120 (UNLP); rango unificado 50-120.
-- **Lechuga**: Malas asociaciones (repollo/brócoli) son de baja confianza según la ficha.
-- **Espinaca**: Cosecha con discrepancia fuerte entre fuentes (45-60 vs 80-100); rango unificado 45-100.
-- **Espinaca**: Remolacha figura como buena Y mala asociación (mismo género que acelga): revisar.
-- **Acelga**: Cosecha: INTA 110-130 días, La Nación primer corte ~60; rango unificado 60-130.
-- **Acelga**: Remolacha figura como buena Y mala asociación: revisar.
-- **Acelga**: Días a trasplante inferidos (la ficha solo dice 'varias hojas verdaderas').
+- **Lechuga**: Cosecha 50-120 según tipo (hoja/cabeza) — revisado OK 2026-08-14.
+- **Espinaca**: Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14.
+- **Acelga**: Remolacha quitada de buenas y malas; señal de trasplante ~4 hojas verdaderas — decisión del usuario 2026-08-14.
 - **Rúcula**: 'Coles, rábano y nabo' (crucíferas) expandido a los 7 slugs de crucíferas de la base.
 - **Kale (col rizada)**: 'Legumbres' expandido a chaucha/arveja/haba.
 - **Brócoli**: Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo).
 - **Repollitos de Bruselas**: Toda la ventana de siembra es de baja confianza (conf 4 en la fuente): revisar con criterio propio.
 - **Nabo**: CONFLICTO en la fuente: col/coliflor aparece en buenas asociaciones y las crucíferas (incl. coliflor) en malas. Se dejó coliflor solo en malas; revisar.
 - **Pimiento / Morrón**: Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135.
-- **Berenjena**: CONFLICTO en la fuente: papa aparece en buenas (agrohuerto) y en malas (regla de solanáceas). Se dejó en ambas para que decidas; sugerencia: dejarla solo en malas.
+- **Berenjena**: Papa quedó solo en malas, confianza baja — decisión del usuario 2026-08-14.
 - **Zapallito de tronco**: CONFLICTO en la fuente: papa y rabanito aparecen como buenas en unas fuentes y malas en otras. Se excluyeron de ambas listas; decidí vos.
-- **Melón**: Malas asociaciones derivadas del esquema de ROTACIÓN de INTA (no de asociación directa): revisar si querés que cuenten como incompatibilidad.
-- **Sandía**: Malas asociaciones derivadas del esquema de ROTACIÓN de INTA: mismo criterio que melón.
 - **Frutilla**: Días a cosecha derivados del calendario del cinturón hortícola (plantación abr-may → cosecha oct-dic), no de un dato directo.
 - **Haba**: CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar.
-- **Zanahoria**: Cosecha: variedades cortas 50-90 días; rango principal 100-150 (Chantenay ~110, Criolla ~150).
-- **Zanahoria**: CONFLICTO entre fichas: acá el eneldo es mala asociación, pero la ficha del eneldo lo da como bueno contra plagas del repollo/zanahoria (el conflicto real es solo al dejar semillar). Revisar.
+- **Zanahoria**: Cosecha ampliada a 50-150 según variedad; eneldo aclarado "solo al semillar" — decisión del usuario 2026-08-14.
 - **Remolacha**: Cosecha: Fecoagro inicia ~60 días (primaverales); INTA 100-130. Rango unificado 60-130.
 - **Batata**: Cosecha: 130-150 días desde trasplante (Brote/FIQ) ≈ 190-210 desde almácigo; INTA da 250-270 total. Rango unificado 190-270 desde inicio de almácigo.
 - **Ajo**: Cosecha: INTA 150-180; La Nación 6-7 meses. Rango unificado 150-210. El ajo tierno se cosecha a los 60-90 días.
 - **Perejil**: Cosecha: primer corte 60-70 días (Brote) vs 85-130 (INTA); rango unificado 60-130.
-- **Eneldo**: La zanahoria es buena compañera para control de plagas PERO mala si se dejan semillar ambas (se cruzan). Se dejó solo en buenas; la ficha de zanahoria lo tiene en malas. Decidí el criterio.
+- **Eneldo**: Distinción zanahoria buena/mala aclarada con nota "solo al semillar" — decisión del usuario 2026-08-14.
 - **Borraja**: Sin separación ideal/posible (la fuente no distingue): todo quedó en ideal.
 
 ## Asociaciones "externas" (no resuelven a una especie de la base)
@@ -242,7 +235,6 @@ Se muestran como chips no navegables. Avisame si alguna debería mapearse a espe
 - **otras aliáceas** ← Cebolla (−)
 - **otras crucíferas** ← Kale (col rizada) (−), Repollo (−), Brócoli (−), Coliflor (−), Repollitos de Bruselas (−)
 - **otras cucurbitáceas** ← Zapallo / Calabaza (−)
-- **otras cucurbitáceas (rotación)** ← Melón (−), Sandía (−)
 - **otras solanáceas** ← Tomate (−), Pimiento / Morrón (−), Ají picante (−)
 - **perímetro de la huerta** ← Laurel (+)
 - **polinizadores (melífera)** ← Lavanda (+)
