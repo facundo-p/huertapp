@@ -1,0 +1,4126 @@
+{
+  "lechuga": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        8,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        2,
+        5,
+        6,
+        7
+      ],
+      "trasplante_ideal": [
+        4,
+        5,
+        9,
+        10,
+        11,
+        12
+      ],
+      "trasplante_posible": [
+        3,
+        6,
+        7,
+        8
+      ],
+      "metodo_por_mes": {
+        "2": "directa|almacigo",
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "almacigo_protegido",
+        "7": "almacigo_protegido",
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: siembras principales otoño (almácigo mar-abr) y fin de invierno-primavera (ago-nov) → ideal; 'casi todo el año' → resto posible, salvo pleno verano (dic-ene, espigado). Invierno como almácigo protegido (criterio heladas GBA). Trasplante = siembra + 25-35 días.",
+      "confianza": 7
+    },
+    "dias_a_trasplante": {
+      "min": 25,
+      "max": 35
+    },
+    "dias_a_cosecha": {
+      "min": 50,
+      "max": 120
+    },
+    "dias_germinacion": {
+      "min": 4,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: hoja 50-85 días, cabeza hasta 120 (UNLP); rango unificado 50-120.",
+      "Malas asociaciones (repollo/brócoli) son de baja confianza según la ficha."
+    ]
+  },
+  "espinaca": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "siembra_posible": [
+        2,
+        7,
+        8
+      ],
+      "trasplante_ideal": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "trasplante_posible": [
+        3,
+        8,
+        9
+      ],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "directa|almacigo",
+        "7": "directa|almacigo",
+        "8": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: almácigo feb-mar a junio, directa abr-may → núcleo otoñal ideal (mar-jun); feb (calor residual) y la extensión a fin de invierno (jul-ago) → posible. Trasplante = siembra + 4-6 semanas (solo si va en almácigo).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 28,
+      "max": 42
+    },
+    "dias_a_cosecha": {
+      "min": 45,
+      "max": 100
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "acelga",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha con discrepancia fuerte entre fuentes (45-60 vs 80-100); rango unificado 45-100.",
+      "Remolacha figura como buena Y mala asociación (mismo género que acelga): revisar."
+    ]
+  },
+  "acelga": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        12
+      ],
+      "trasplante_ideal": [
+        4,
+        5,
+        6,
+        10,
+        11,
+        12
+      ],
+      "trasplante_posible": [
+        1,
+        2,
+        3,
+        7,
+        8,
+        9
+      ],
+      "metodo_por_mes": {
+        "1": "directa|almacigo",
+        "2": "directa|almacigo",
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "directa|almacigo",
+        "7": "directa|almacigo",
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo",
+        "12": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: 'todo el año' con mejores resultados en otoño y primavera → otoño (mar-may) y primavera (sep-nov) ideal, resto posible. Trasplante = siembra + ~30-40 días (si va en almácigo; lo habitual es directa con raleo).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": {
+      "min": 30,
+      "max": 40
+    },
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 130
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 15
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: INTA 110-130 días, La Nación primer corte ~60; rango unificado 60-130.",
+      "Remolacha figura como buena Y mala asociación: revisar.",
+      "Días a trasplante inferidos (la ficha solo dice 'varias hojas verdaderas')."
+    ]
+  },
+  "rucula": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        2
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "directa",
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa",
+        "8": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa"
+      },
+      "derivacion": "De fecha_siembra: conviene otoño, invierno y primavera, evitar pleno verano → mar-nov ideal, feb (fin de verano) posible, dic-ene excluidos. Siembra directa siempre, sin trasplante.",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 20,
+      "max": 60
+    },
+    "dias_germinacion": {
+      "min": 4,
+      "max": 8
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "pimiento",
+          "externa": false
+        },
+        {
+          "slug": "berenjena",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "kale",
+          "externa": false
+        },
+        {
+          "slug": "repollitos-de-bruselas",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "nabo",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "'Coles, rábano y nabo' (crucíferas) expandido a los 7 slugs de crucíferas de la base."
+    ]
+  },
+  "kale": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3
+      ],
+      "siembra_posible": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "trasplante_ideal": [
+        3,
+        4
+      ],
+      "trasplante_posible": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "directa|almacigo",
+        "7": "directa|almacigo",
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: siembra principal recomendada feb-mar → ideal; 'casi todo el año' típico de otoño-invierno → abr-oct posible, evitando nov-ene (calor). Trasplante = siembra + ~4-6 semanas. Fechas de INTA EEA Anguil, no del calendario GBA oficial.",
+      "confianza": 6
+    },
+    "dias_a_trasplante": {
+      "min": 28,
+      "max": 42
+    },
+    "dias_a_cosecha": {
+      "min": 30,
+      "max": 70
+    },
+    "dias_germinacion": {
+      "min": 4,
+      "max": 7
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "pepino",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "acelga",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "eneldo",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras crucíferas",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "'Legumbres' expandido a chaucha/arveja/haba."
+    ]
+  },
+  "repollo": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [
+        3,
+        4
+      ],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: calendario oficial INTA/ProHuerta almácigo feb-mar, trasplante mar-abr. La ficha menciona variedades de otras estaciones sin fechas → no se agregan meses posibles (sin inventar precisión).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 28,
+      "max": 42
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 130
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "eneldo",
+          "externa": false
+        },
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "etiqueta": "mostaza (planta trampa)",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras crucíferas",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "radicchio": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "siembra_posible": [
+        1,
+        6,
+        7,
+        10,
+        11,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "2": "directa|almacigo",
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "directa",
+        "7": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: directa feb-may (ciclo otoño-invierno, mejor respaldada) → ideal; otras ediciones agregan oct-ene y jun-jul → posible. El radicchio de cabeza admite almácigo (fin de verano-otoño) pero sin plazo de trasplante en la ficha → sin ventana de trasplante.",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 65,
+      "max": 90
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "calendula",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "berro": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa|almacigo",
+        "2": "directa|almacigo",
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "directa|almacigo",
+        "7": "directa|almacigo",
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo",
+        "12": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: 'casi todo el año', ideal primavera y otoño → sep-nov y mar-may ideal, resto posible. El pase de plantines al agua/suelo encharcado no tiene plazo en la ficha → sin ventana de trasplante. También se propaga por esquejes. Fuentes no locales, confianza media.",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 30,
+      "max": 45
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "perejil",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "apio": {
+    "calendario": {
+      "siembra_ideal": [
+        1,
+        2,
+        3,
+        9,
+        10,
+        11,
+        12
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        12
+      ],
+      "trasplante_posible": [
+        11
+      ],
+      "metodo_por_mes": {
+        "1": "almacigo",
+        "2": "almacigo",
+        "3": "almacigo",
+        "9": "almacigo",
+        "10": "almacigo",
+        "11": "almacigo",
+        "12": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: INTA sep-dic y ene-mar, todo en almácigo → ideal (sin base para separar posible). Trasplante = siembra + ~80 días (ficha, conf 7): siembra sep→trasplante dic, siembra mar→trasplante jun.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 70,
+      "max": 90
+    },
+    "dias_a_cosecha": {
+      "min": 120,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 15,
+      "max": 20
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "brocoli": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4,
+        9,
+        10
+      ],
+      "siembra_posible": [
+        11
+      ],
+      "trasplante_ideal": [
+        3,
+        4,
+        5,
+        10,
+        11
+      ],
+      "trasplante_posible": [
+        1,
+        12
+      ],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "almacigo",
+        "4": "almacigo",
+        "9": "almacigo",
+        "10": "almacigo",
+        "11": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: INTA sep-oct y feb-abr → ideal; El Brote Urbano agrega almácigo en noviembre (trasplante enero) → posible. Trasplante = siembra + ~30-45 días (plantín 4-6 hojas).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 30,
+      "max": 45
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 160
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "eneldo",
+          "externa": false
+        },
+        {
+          "etiqueta": "mostaza (planta trampa)",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras crucíferas",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo)."
+    ]
+  },
+  "coliflor": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4,
+        9,
+        10
+      ],
+      "siembra_posible": [
+        11,
+        12
+      ],
+      "trasplante_ideal": [
+        1,
+        4,
+        5,
+        6,
+        11,
+        12
+      ],
+      "trasplante_posible": [
+        2
+      ],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "almacigo",
+        "4": "almacigo",
+        "9": "almacigo",
+        "10": "almacigo",
+        "11": "almacigo",
+        "12": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: INTA sep-oct y feb-abr → ideal; El Brote Urbano: tempranas almácigo oct-dic (trasplante dic-ene) → nov-dic posible; tardías almácigo mar-abr, trasplante may-jun. Trasplante = siembra + ~30-45 días.",
+      "confianza": 7
+    },
+    "dias_a_trasplante": {
+      "min": 30,
+      "max": 45
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 200
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "eneldo",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras crucíferas",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "repollitos-de-bruselas": {
+    "calendario": {
+      "siembra_ideal": [
+        1,
+        2,
+        12
+      ],
+      "siembra_posible": [
+        3
+      ],
+      "trasplante_ideal": [
+        1,
+        2,
+        3
+      ],
+      "trasplante_posible": [
+        4
+      ],
+      "metodo_por_mes": {
+        "1": "almacigo",
+        "2": "almacigo",
+        "3": "almacigo",
+        "12": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: almácigo dic-feb (fin de primavera a verano) para cosecha otoño-invierno → ideal; marzo como cola de ventana → posible. Trasplante = siembra + ~5 semanas. LA FICHA MISMA MARCA BAJA CONFIANZA (sin calendario argentino específico).",
+      "confianza": 4
+    },
+    "dias_a_trasplante": {
+      "min": 35,
+      "max": 45
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 160
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "eneldo",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras crucíferas",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Toda la ventana de siembra es de baja confianza (conf 4 en la fuente): revisar con criterio propio."
+    ]
+  },
+  "nabo": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "siembra_posible": [
+        8,
+        9
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "directa",
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "8": "directa",
+        "9": "directa"
+      },
+      "derivacion": "De fecha_siembra: principal fin de verano-otoño (feb-may) → ideal; también fin de invierno-primavera (ago-sep) → posible. Siembra directa (el trasplante daña la raíz). LA FICHA MARCA CONFIANZA REDUCIDA (no figura en calendarios oficiales).",
+      "confianza": 4
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 90
+    },
+    "dias_germinacion": {
+      "min": 4,
+      "max": 7
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "CONFLICTO en la fuente: col/coliflor aparece en buenas asociaciones y las crucíferas (incl. coliflor) en malas. Se dejó coliflor solo en malas; revisar."
+    ]
+  },
+  "tomate": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9,
+        10
+      ],
+      "siembra_posible": [
+        1,
+        11,
+        12
+      ],
+      "trasplante_ideal": [
+        9,
+        10,
+        11
+      ],
+      "trasplante_posible": [
+        12
+      ],
+      "metodo_por_mes": {
+        "1": "directa",
+        "8": "almacigo_protegido",
+        "9": "almacigo_protegido",
+        "10": "directa|almacigo",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: almácigo protegido ago-oct (INTA) → ideal; directa a golpes oct-ene → nov-ene posible. Trasplante sep-nov tras la última helada (~sep en GBA), dic como cola. Trasplante a 30-60 días del almácigo según época.",
+      "confianza": 9
+    },
+    "dias_a_trasplante": {
+      "min": 30,
+      "max": 60
+    },
+    "dias_a_cosecha": {
+      "min": 80,
+      "max": 100
+    },
+    "dias_germinacion": {
+      "min": 6,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "albahaca",
+          "externa": false
+        },
+        {
+          "slug": "copete",
+          "externa": false
+        },
+        {
+          "slug": "calendula",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "espinaca",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "zapallito-de-tronco",
+          "externa": false
+        },
+        {
+          "slug": "zapallo",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras solanáceas",
+          "externa": true
+        },
+        {
+          "etiqueta": "brasicáceas",
+          "externa": true
+        },
+        {
+          "etiqueta": "hinojo",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "pimiento": {
+    "calendario": {
+      "siembra_ideal": [
+        7,
+        8,
+        9
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [
+        9,
+        10
+      ],
+      "trasplante_posible": [
+        11
+      ],
+      "metodo_por_mes": {
+        "7": "almacigo_protegido",
+        "8": "almacigo_protegido",
+        "9": "almacigo_protegido"
+      },
+      "derivacion": "De fecha_siembra: almácigo protegido jul-sep (Fecoagro/UNIDA jul-ago, INTA ago-sep) → todo ideal. Trasplante sep-oct pasadas las heladas; nov como cola. Almácigo ~45 días.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 40,
+      "max": 50
+    },
+    "dias_a_cosecha": {
+      "min": 80,
+      "max": 135
+    },
+    "dias_germinacion": {
+      "min": 8,
+      "max": 12
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "berenjena",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "menta",
+          "externa": false
+        },
+        {
+          "slug": "albahaca",
+          "externa": false
+        },
+        {
+          "slug": "calendula",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "etiqueta": "colirábano",
+          "externa": true
+        },
+        {
+          "etiqueta": "otras solanáceas",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135."
+    ]
+  },
+  "aji-picante": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9
+      ],
+      "siembra_posible": [
+        10,
+        11
+      ],
+      "trasplante_ideal": [
+        10,
+        11
+      ],
+      "trasplante_posible": [
+        12
+      ],
+      "metodo_por_mes": {
+        "8": "almacigo_protegido",
+        "9": "almacigo_protegido",
+        "10": "almacigo",
+        "11": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: almácigo ago-sep (criterio del pimiento) → ideal; la ficha admite siembra 'hasta comienzos del verano' → oct-nov posible. Trasplante oct-nov pasadas las heladas. Días a trasplante inferidos del pimiento (plantín 10 cm, 4-6 hojas). Ficha con confianza intermedia (se asimila al pimiento).",
+      "confianza": 5
+    },
+    "dias_a_trasplante": {
+      "min": 45,
+      "max": 60
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 120
+    },
+    "dias_germinacion": {
+      "min": 8,
+      "max": 12
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "albahaca",
+          "externa": false
+        },
+        {
+          "slug": "calendula",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "berenjena",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras solanáceas",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "berenjena": {
+    "calendario": {
+      "siembra_ideal": [
+        7,
+        8
+      ],
+      "siembra_posible": [
+        9
+      ],
+      "trasplante_ideal": [
+        9,
+        10
+      ],
+      "trasplante_posible": [
+        11
+      ],
+      "metodo_por_mes": {
+        "7": "almacigo_protegido",
+        "8": "almacigo_protegido",
+        "9": "almacigo_protegido"
+      },
+      "derivacion": "De fecha_siembra: almácigo protegido jul-ago (UNLu y El Brote Urbano) → ideal; INTA extiende a septiembre → posible. Trasplante sep-nov pasado el riesgo de heladas, a los 50-60 días del almácigo.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 50,
+      "max": 60
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 120
+    },
+    "dias_germinacion": {
+      "min": 8,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "borraja",
+          "externa": false
+        },
+        {
+          "etiqueta": "escarola",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "pepino",
+          "externa": false
+        },
+        {
+          "slug": "zapallito-de-tronco",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "CONFLICTO en la fuente: papa aparece en buenas (agrohuerto) y en malas (regla de solanáceas). Se dejó en ambas para que decidas; sugerencia: dejarla solo en malas."
+    ]
+  },
+  "zapallito-de-tronco": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "siembra_posible": [
+        1
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "9": "directa|almacigo",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: directa sep-dic (UNLu) → ideal; INTA extiende a enero → posible. En septiembre admite almácigo en vasitos para adelantar. Sin ventana de trasplante: tolera mal el trasplante y la ficha no da plazos.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 45,
+      "max": 60
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 8
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "albahaca",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "slug": "menta",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "berenjena",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "CONFLICTO en la fuente: papa y rabanito aparecen como buenas en unas fuentes y malas en otras. Se excluyeron de ambas listas; decidí vos."
+    ]
+  },
+  "zapallo": {
+    "calendario": {
+      "siembra_ideal": [
+        10,
+        11
+      ],
+      "siembra_posible": [
+        9
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "9": "directa",
+        "10": "directa",
+        "11": "directa"
+      },
+      "derivacion": "De fecha_siembra: directa oct-nov (UNLu e INTA) → ideal; El Brote Urbano arranca en septiembre → posible. Ciclo largo que necesita 4-5 meses sin heladas. Siembra directa de asiento (tolera mal el trasplante).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 120,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 8
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "albahaca",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "pepino",
+          "externa": false
+        },
+        {
+          "slug": "zapallito-de-tronco",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras cucurbitáceas",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "pepino": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10
+      ],
+      "siembra_posible": [
+        2
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "directa",
+        "9": "directa",
+        "10": "directa"
+      },
+      "derivacion": "De fecha_siembra: directa oct (INTA) y sep-oct (El Brote Urbano) → ideal; segunda ventana de febrero (El Brote Urbano) → posible. Siembra directa (tolera mal el trasplante), con suelo templado y sin heladas.",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 50,
+      "max": 70
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "albahaca",
+          "externa": false
+        },
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "borraja",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "nabo",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "etiqueta": "espárrago",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "berenjena",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "melon",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "melon": {
+    "calendario": {
+      "siembra_ideal": [
+        10
+      ],
+      "siembra_posible": [
+        8,
+        9
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "8": "almacigo_protegido",
+        "9": "directa",
+        "10": "directa"
+      },
+      "derivacion": "De fecha_siembra: directa sep-oct con octubre como ideal explícito → ideal [10], sep posible; almácigo protegido en vasito en agosto → posible. Sin ventana de trasplante: si se usa vasito se pasa con cepellón intacto, sin plazo en la ficha.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 100,
+      "max": 100
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas de fruto de verano",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras cucurbitáceas (rotación)",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Malas asociaciones derivadas del esquema de ROTACIÓN de INTA (no de asociación directa): revisar si querés que cuenten como incompatibilidad."
+    ]
+  },
+  "sandia": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10
+      ],
+      "siembra_posible": [
+        8
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "8": "almacigo_protegido",
+        "9": "directa",
+        "10": "directa"
+      },
+      "derivacion": "De fecha_siembra: directa sep-oct junto con el melón → ideal; adelanto con almácigo protegido en agosto → posible. Sin ventana de trasplante (mala tolerancia; solo con cepellón intacto).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 100
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas de fruto de verano",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        },
+        {
+          "etiqueta": "otras cucurbitáceas (rotación)",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Malas asociaciones derivadas del esquema de ROTACIÓN de INTA: mismo criterio que melón."
+    ]
+  },
+  "choclo": {
+    "calendario": {
+      "siembra_ideal": [
+        10,
+        11,
+        12
+      ],
+      "siembra_posible": [
+        1,
+        8,
+        9
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "8": "almacigo_protegido",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: calendario INTA directa oct-dic → ideal; Planificador amplía sep-ene y almácigo protegido en agosto → posible. Sembrar en bloque para polinización. Sin ventana de trasplante (se prefiere directa; sin plazos en ficha).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 100,
+      "max": 130
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 12
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "batata",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "zapallo",
+          "externa": false
+        },
+        {
+          "etiqueta": "maní",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "etiqueta": "hortalizas de hoja y de raíz (rotación)",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "frutilla": {
+    "calendario": {
+      "siembra_ideal": [
+        4,
+        5
+      ],
+      "siembra_posible": [
+        3,
+        6
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "plantacion",
+        "4": "plantacion",
+        "5": "plantacion",
+        "6": "plantacion"
+      },
+      "derivacion": "No se siembra: se PLANTAN plantines en otoño. INTA abr-may → ideal; UNLu amplía mar-jun → posible. La plantación es el inicio del ciclo, no hay etapa de trasplante posterior. Cosecha principal oct-dic desde plantación de otoño (~150-240 días).",
+      "confianza": 9
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 150,
+      "max": 240
+    },
+    "dias_germinacion": null,
+    "asociaciones": {
+      "buenas": [
+        {
+          "etiqueta": "hortalizas de hoja",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "berenjena",
+          "externa": false
+        },
+        {
+          "slug": "pimiento",
+          "externa": false
+        },
+        {
+          "etiqueta": "frambuesa",
+          "externa": true
+        },
+        {
+          "etiqueta": "bulbos, raíces y legumbres (rotación)",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Días a cosecha derivados del calendario del cinturón hortícola (plantación abr-may → cosecha oct-dic), no de un dato directo."
+    ]
+  },
+  "chaucha": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10
+      ],
+      "siembra_posible": [
+        1,
+        11,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: ideal sep-oct explícito en la ficha (INTA), con escalonadas posibles hasta nov-ene. Siembra directa siempre (raíz sensible al trasplante), pasado el peligro de heladas.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 80
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "slug": "zapallo",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "pepino",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "slug": "perejil",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "cebolla-de-verdeo",
+          "externa": false
+        },
+        {
+          "etiqueta": "hinojo",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "arveja": {
+    "calendario": {
+      "siembra_ideal": [
+        4,
+        5,
+        6
+      ],
+      "siembra_posible": [
+        7,
+        8
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa",
+        "8": "directa"
+      },
+      "derivacion": "De fecha_siembra: INTA abr-jun → ideal; extensión a jul-ago en zonas templadas-frías (FIQ-UNL jun-ago) → posible. Siembra directa de asiento.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 120,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "nabo",
+          "externa": false
+        },
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "slug": "pepino",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas de hoja",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "cebolla-de-verdeo",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "haba": {
+    "calendario": {
+      "siembra_ideal": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa"
+      },
+      "derivacion": "De fecha_siembra: INTA abr-jul → todo ideal (sin base en la ficha para separar posible). Siembra directa de asiento; la legumbre que mejor pasa el invierno.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 150,
+      "max": 180
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas de hoja",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar."
+    ]
+  },
+  "zanahoria": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        9,
+        10,
+        11,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "2": "directa",
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa",
+        "8": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: 'todo el año' con época ideal otoño-invierno → mar-ago ideal, resto posible (verano viable con riego y sombreo). Siembra directa siempre (el trasplante deforma la raíz).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 100,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 10,
+      "max": 20
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "romero",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "eneldo",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "perejil",
+          "externa": false
+        },
+        {
+          "etiqueta": "hinojo",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: variedades cortas 50-90 días; rango principal 100-150 (Chantenay ~110, Criolla ~150).",
+      "CONFLICTO entre fichas: acá el eneldo es mala asociación, pero la ficha del eneldo lo da como bueno contra plagas del repollo/zanahoria (el conflicto real es solo al dejar semillar). Revisar."
+    ]
+  },
+  "remolacha": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        6,
+        8,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "8": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: óptimas primavera y otoño (UNLu/Fecoagro) → sep-nov y mar-may ideal; ventana INTA ago-dic/mar-jun completa el resto como posible, evitando pleno invierno (jul) y pleno verano (ene-feb). Directa; se ralea el glomérulo.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 130
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "acelga",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "puerro",
+          "externa": false
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: Fecoagro inicia ~60 días (primaverales); INTA 100-130. Rango unificado 60-130."
+    ]
+  },
+  "rabanito": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        9,
+        10,
+        11,
+        12
+      ],
+      "siembra_posible": [
+        1,
+        7,
+        8
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "2": "directa",
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa",
+        "8": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: INTA feb-jun y sep-dic → ideal; Fecoagro 'todo el año' en siembras escalonadas cada 15 días → resto posible. Directa siempre, ciclo muy corto.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 25,
+      "max": 40
+    },
+    "dias_germinacion": {
+      "min": 4,
+      "max": 7
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "capuchina",
+          "externa": false
+        },
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "pepino",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "papa": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        10,
+        11
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "plantacion",
+        "2": "plantacion",
+        "8": "plantacion",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion"
+      },
+      "derivacion": "Se PLANTA el tubérculo-semilla, no se siembra. INTA ago-sep y ene-feb; en Bs.As. el grueso comercial va oct-nov (semitardía) → ago-sep ideal (huerta, evitando heladas en emergencia), oct-nov y ene-feb posible. dias_germinacion = emergencia del tubérculo (2-4 semanas).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 120,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 14,
+      "max": 28
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "choclo",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "rabanito",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "pimiento",
+          "externa": false
+        },
+        {
+          "slug": "berenjena",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "batata": {
+    "calendario": {
+      "siembra_ideal": [
+        7,
+        8
+      ],
+      "siembra_posible": [
+        9
+      ],
+      "trasplante_ideal": [
+        10
+      ],
+      "trasplante_posible": [
+        11
+      ],
+      "metodo_por_mes": {
+        "7": "almacigo_protegido",
+        "8": "almacigo_protegido",
+        "9": "almacigo"
+      },
+      "derivacion": "Propagación vegetativa: almácigo de batatas-semilla en invierno (INTA jul-ago; Brote ago-sep) → jul-ago ideal, sep posible; trasplante de los brotes en oct-nov pasadas las heladas. Los plantines alcanzan tamaño de trasplante (~25-30 cm) en ~60 días. Sin dias_germinacion (brotación, no semilla).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": {
+      "min": 50,
+      "max": 70
+    },
+    "dias_a_cosecha": {
+      "min": 190,
+      "max": 270
+    },
+    "dias_germinacion": null,
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "choclo",
+          "externa": false
+        }
+      ],
+      "malas": []
+    },
+    "revisar": [
+      "Cosecha: 130-150 días desde trasplante (Brote/FIQ) ≈ 190-210 desde almácigo; INTA da 250-270 total. Rango unificado 190-270 desde inicio de almácigo."
+    ]
+  },
+  "cebolla": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [
+        5,
+        6
+      ],
+      "trasplante_posible": [
+        7
+      ],
+      "metodo_por_mes": {
+        "3": "almacigo",
+        "4": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: INTA almácigo mar-abr y directa en abril → todo ideal (sin base para separar). Trasplante = siembra + 50-60 días (may-jun, jul como cola).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 50,
+      "max": 60
+    },
+    "dias_a_cosecha": {
+      "min": 230,
+      "max": 270
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 15
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles/crucíferas",
+          "externa": true
+        },
+        {
+          "etiqueta": "otras aliáceas",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "ajo": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "plantacion",
+        "4": "plantacion"
+      },
+      "derivacion": "Se PLANTA el diente en otoño: INTA mar-abr; La Nación marca desde mediados de abril como ideal → mar-abr ideal. Directa en lugar definitivo, sin trasplante. dias_germinacion = brotación del diente.",
+      "confianza": 8
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 150,
+      "max": 210
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "brocoli",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "slug": "acelga",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        },
+        {
+          "etiqueta": "espárrago",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "Cosecha: INTA 150-180; La Nación 6-7 meses. Rango unificado 150-210. El ajo tierno se cosecha a los 60-90 días."
+    ]
+  },
+  "puerro": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [
+        5,
+        6,
+        7
+      ],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "almacigo",
+        "4": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: INTA almácigo feb-abr y trasplante may-jul → todo ideal (sin base para separar). Trasplante = siembra + ~2 meses (grosor de lápiz).",
+      "confianza": 8
+    },
+    "dias_a_trasplante": {
+      "min": 50,
+      "max": 70
+    },
+    "dias_a_cosecha": {
+      "min": 120,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 10,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "apio",
+          "externa": false
+        },
+        {
+          "slug": "remolacha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "cebolla-de-verdeo": {
+    "calendario": {
+      "siembra_ideal": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "almacigo",
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "6": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: INTA almácigo feb-jun y directa mar-may → unión feb-jun toda ideal (sin base para separar). Sin ventana de trasplante: la ficha no da plazo confiable (conf 4) y también se cultiva directa.",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 150
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 15
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "albahaca": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9
+      ],
+      "siembra_posible": [
+        2,
+        3,
+        10,
+        11
+      ],
+      "trasplante_ideal": [
+        10,
+        11
+      ],
+      "trasplante_posible": [
+        3,
+        4
+      ],
+      "metodo_por_mes": {
+        "2": "directa|almacigo",
+        "3": "directa|almacigo",
+        "8": "almacigo_protegido",
+        "9": "almacigo_protegido",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: almácigo protegido ago-sep con trasplante oct-nov (INTA y Brote) → ideal; siembra tardía de primavera (oct-nov, ya sin heladas) y la ventana feb-mar del Brote → posible. Trasplante = siembra + 4-6 semanas.",
+      "confianza": 7
+    },
+    "dias_a_trasplante": {
+      "min": 28,
+      "max": 42
+    },
+    "dias_a_cosecha": {
+      "min": 90,
+      "max": 100
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "pimiento",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "perejil": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        11
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "directa",
+        "2": "directa",
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa",
+        "8": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: 'casi todo el año', mejores épocas fines de primavera (nov) y otoño (mar-may) → ideal; resto posible. Siembra directa (raíz pivotante que se resiente al trasplante).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 130
+    },
+    "dias_germinacion": {
+      "min": 10,
+      "max": 18
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas de raíz y de hoja",
+          "externa": true
+        }
+      ],
+      "malas": []
+    },
+    "revisar": [
+      "Cosecha: primer corte 60-70 días (Brote) vs 85-130 (INTA); rango unificado 60-130."
+    ]
+  },
+  "cilantro": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa"
+      },
+      "derivacion": "De fecha_siembra: otoño y primavera, evitando pleno verano (florece con calor) → mar-may y sep-nov ideal, sin meses posibles sourceados. Directa (raíz pivotante); partir el 'grano' doble mejora la germinación.",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 40,
+      "max": 60
+    },
+    "dias_germinacion": {
+      "min": 12,
+      "max": 18
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "oregano": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        3,
+        4
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "plantacion",
+        "4": "plantacion",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion"
+      },
+      "derivacion": "Multiplicación vegetativa (esqueje/acodo/división): plantación en primavera → ideal; esquejes y división también a inicio de otoño → posible. La semilla (solo tipos europeos) es rara: dias_germinacion 20-23 informativo. Perenne: sin días a cosecha (corte principal en floración, dic-feb).",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 20,
+      "max": 23
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "pimiento",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles",
+          "externa": true
+        }
+      ],
+      "malas": []
+    }
+  },
+  "tomillo": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        3,
+        8,
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "1": "plantacion",
+        "2": "plantacion",
+        "3": "plantacion",
+        "8": "almacigo",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion",
+        "12": "plantacion"
+      },
+      "derivacion": "Principalmente esqueje/división/plantín: primavera → ideal; división oct-mar y semilla en almácigo a fines de invierno (ago) → posible. Perenne: sin días a cosecha (cortes escalonados desde que se establece).",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 14,
+      "max": 28
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "romero",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "lavanda",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles (repelente de plagas)",
+          "externa": true
+        }
+      ],
+      "malas": []
+    }
+  },
+  "romero": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        2,
+        3,
+        4,
+        8
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "2": "plantacion",
+        "3": "plantacion",
+        "4": "plantacion",
+        "8": "plantacion",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion"
+      },
+      "derivacion": "Por gajo/estaca o plantín: plantar en primavera → ideal; gajos a fines de invierno (ago) y fines de verano-otoño temprano (feb-abr) → posible. Semilla no práctica: sin dias_germinacion. Perenne: sin días a cosecha (hojas desde el segundo año).",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": null,
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "lavanda",
+          "externa": false
+        },
+        {
+          "slug": "melisa",
+          "externa": false
+        },
+        {
+          "etiqueta": "ruda",
+          "externa": true
+        }
+      ],
+      "malas": []
+    }
+  },
+  "salvia": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: primavera (La Rural/UNIDA) → ideal, sin base para posible. Admite directa, almácigo, esqueje y división (muchos prefieren plantín). Trasplante sin plazo confiable (conf 3) → sin ventana. Perenne: sin días a cosecha (no conviene cosechar hasta el 2º año).",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 14,
+      "max": 21
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "romero",
+          "externa": false
+        },
+        {
+          "slug": "lavanda",
+          "externa": false
+        },
+        {
+          "slug": "melisa",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "menta": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        3,
+        4,
+        8
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "plantacion",
+        "4": "plantacion",
+        "8": "plantacion",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion"
+      },
+      "derivacion": "Propagación vegetativa (esqueje/estolón/rizoma): primavera → ideal; esquejes a fin de invierno (ago) y estolones/rizomas a inicio de otoño (mar-abr) → posible. Semilla no recomendable (híbrida): sin dias_germinacion. Perenne: sin días a cosecha.",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": null,
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles (repele la oruga)",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "romero",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "etiqueta": "cantero abierto: es invasiva, confinarla en maceta",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "melisa": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        4,
+        5,
+        6
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "4": "almacigo_protegido",
+        "5": "almacigo_protegido",
+        "6": "almacigo_protegido",
+        "9": "almacigo",
+        "10": "almacigo",
+        "11": "almacigo"
+      },
+      "derivacion": "De fecha_siembra: almácigo en primavera → ideal; otoño-invierno bajo invernadero → posible (protegido). También división de matas (más segura). Trasplante con plántulas de 10-15 cm pero sin plazo en días → sin ventana. Perenne: sin días a cosecha (1er año un solo corte).",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 14,
+      "max": 21
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "romero",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "etiqueta": "borde de la huerta (atrae polinizadores)",
+          "externa": true
+        }
+      ],
+      "malas": []
+    }
+  },
+  "ciboulette": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        3,
+        4
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: fines de invierno y primavera (ago-nov) → ideal; otoño (mar-abr) → posible. Fechas adaptadas por la propia fuente (sin meses exactos). También división de matas cada 2-3 años. Trasplante sin plazo → sin ventana.",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 90
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "etiqueta": "coles",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "arveja",
+          "externa": false
+        },
+        {
+          "slug": "haba",
+          "externa": false
+        }
+      ]
+    }
+  },
+  "laurel": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        3,
+        4
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "plantacion",
+        "4": "plantacion",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion"
+      },
+      "derivacion": "Por esqueje en primavera → ideal; trasplante del arbolito también en otoño → posible. Semilla muy lenta, no práctica: sin dias_germinacion. Perenne: sin días a cosecha (hojas a demanda una vez establecido). Fuente del hemisferio norte adaptada, menor confianza.",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": null,
+    "asociaciones": {
+      "buenas": [
+        {
+          "etiqueta": "perímetro de la huerta",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "etiqueta": "no pegado a hortalizas pequeñas (sombra y raíces)",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "eneldo": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5
+      ],
+      "siembra_posible": [
+        8,
+        9
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "8": "directa",
+        "9": "directa"
+      },
+      "derivacion": "De fecha_siembra: preferentemente otoño → ideal; también fines de invierno-principios de primavera (ago-sep) → posible. Siembra directa (raíz pivotante). Cosecha de hoja ~40-60 días (referencias generales, conf baja en la fuente).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 40,
+      "max": 60
+    },
+    "dias_germinacion": {
+      "min": 10,
+      "max": 21
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "zanahoria",
+          "externa": false
+        },
+        {
+          "etiqueta": "brásicas en general",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "etiqueta": "hinojo",
+          "externa": true
+        }
+      ]
+    },
+    "revisar": [
+      "La zanahoria es buena compañera para control de plagas PERO mala si se dejan semillar ambas (se cruzan). Se dejó solo en buenas; la ficha de zanahoria lo tiene en malas. Decidí el criterio."
+    ]
+  },
+  "calendula": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9,
+        10
+      ],
+      "siembra_posible": [
+        3,
+        4,
+        5
+      ],
+      "trasplante_ideal": [
+        10,
+        11,
+        12
+      ],
+      "trasplante_posible": [
+        5,
+        6,
+        7
+      ],
+      "metodo_por_mes": {
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: fin de invierno-primavera (ago-oct, respaldada por el semillero) → ideal; las ventanas de otoño (mar-may) están INFERIDAS en la propia ficha → posible. Trasplante = siembra + 6-8 semanas. Flores sin días a cosecha en fuentes.",
+      "confianza": 6
+    },
+    "dias_a_trasplante": {
+      "min": 42,
+      "max": 56
+    },
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas en general (atrae fauna benéfica)",
+          "externa": true
+        }
+      ],
+      "malas": []
+    }
+  },
+  "copete": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "siembra_posible": [
+        1,
+        2,
+        8
+      ],
+      "trasplante_ideal": [
+        10,
+        11
+      ],
+      "trasplante_posible": [
+        9,
+        12
+      ],
+      "metodo_por_mes": {
+        "1": "directa",
+        "2": "directa",
+        "8": "almacigo_protegido",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo",
+        "12": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: primavera sep-dic → ideal; almácigo a fin de invierno (ago) y directa hasta fin de verano (ene-feb, fuente uruguaya) → posible. Trasplante = siembra + 1-1,5 meses, pasadas las heladas. Flores: sin días a cosecha (floración continua).",
+      "confianza": 6
+    },
+    "dias_a_trasplante": {
+      "min": 30,
+      "max": 45
+    },
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "papa",
+          "externa": false
+        },
+        {
+          "slug": "albahaca",
+          "externa": false
+        }
+      ],
+      "malas": []
+    }
+  },
+  "borraja": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "directa",
+        "4": "directa",
+        "5": "directa",
+        "6": "directa",
+        "7": "directa",
+        "8": "directa",
+        "9": "directa",
+        "10": "directa",
+        "11": "directa"
+      },
+      "derivacion": "De fecha_siembra: 'de otoño a primavera' sin distinción de meses ideales → TODO en ideal (regla del BRIEF: sin datos para separar, no inventar). Directa preferida (raíz pivotante); se resiembra sola.",
+      "confianza": 5
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 50,
+      "max": 120
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "frutilla",
+          "externa": false
+        },
+        {
+          "etiqueta": "hortalizas en general (polinizadores)",
+          "externa": true
+        }
+      ],
+      "malas": []
+    },
+    "revisar": [
+      "Sin separación ideal/posible (la fuente no distingue): todo quedó en ideal."
+    ]
+  },
+  "capuchina": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        5
+      ],
+      "siembra_posible": [
+        9,
+        10
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "directa|almacigo",
+        "4": "directa|almacigo",
+        "5": "directa|almacigo",
+        "9": "directa",
+        "10": "directa"
+      },
+      "derivacion": "De fecha_siembra: otoño mar-may (dos fuentes argentinas coinciden) → ideal; primavera en zonas de heladas fuertes → posible. Directa habitual; floración jul-oct. Sin días a cosecha (se cosechan hojas y flores al desarrollarse).",
+      "confianza": 7
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": {
+      "min": 7,
+      "max": 14
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "repollo",
+          "externa": false
+        },
+        {
+          "slug": "coliflor",
+          "externa": false
+        },
+        {
+          "etiqueta": "crucíferas y frutales (planta trampa)",
+          "externa": true
+        }
+      ],
+      "malas": []
+    }
+  },
+  "cosmos": {
+    "calendario": {
+      "siembra_ideal": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [],
+      "trasplante_ideal": [
+        9,
+        10,
+        11
+      ],
+      "trasplante_posible": [
+        12
+      ],
+      "metodo_por_mes": {
+        "8": "directa|almacigo",
+        "9": "directa|almacigo",
+        "10": "directa|almacigo",
+        "11": "directa|almacigo"
+      },
+      "derivacion": "De fecha_siembra: fines de invierno-primavera (ago-nov, adaptado del hemisferio norte por la propia fuente) → ideal, sin base para posible. Trasplante = siembra + 3-5 semanas, sin heladas. Cosecha = primeras flores a los 2-3 meses.",
+      "confianza": 5
+    },
+    "dias_a_trasplante": {
+      "min": 21,
+      "max": 35
+    },
+    "dias_a_cosecha": {
+      "min": 60,
+      "max": 90
+    },
+    "dias_germinacion": {
+      "min": 7,
+      "max": 21
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "calendula",
+          "externa": false
+        },
+        {
+          "etiqueta": "zinnia",
+          "externa": true
+        },
+        {
+          "etiqueta": "bordes de la huerta (polinizadores)",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "etiqueta": "cultivos muy abonados (reduce su floración)",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "girasol": {
+    "calendario": {
+      "siembra_ideal": [
+        9,
+        10,
+        11
+      ],
+      "siembra_posible": [
+        12
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "9": "directa",
+        "10": "directa",
+        "11": "directa",
+        "12": "directa"
+      },
+      "derivacion": "De fecha_siembra: primavera sin riesgo de heladas, sep-nov/dic → sep-nov ideal, dic posible. Directa (raíz pivotante, germina muy rápido). Cosecha = floración a los ~40 días + 20-35 de floración; semillas más tarde.",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": {
+      "min": 40,
+      "max": 75
+    },
+    "dias_germinacion": {
+      "min": 5,
+      "max": 10
+    },
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "tomate",
+          "externa": false
+        },
+        {
+          "slug": "zapallo",
+          "externa": false
+        },
+        {
+          "slug": "zapallito-de-tronco",
+          "externa": false
+        },
+        {
+          "slug": "chaucha",
+          "externa": false
+        },
+        {
+          "slug": "lechuga",
+          "externa": false
+        },
+        {
+          "slug": "espinaca",
+          "externa": false
+        },
+        {
+          "slug": "ajo",
+          "externa": false
+        },
+        {
+          "slug": "cebolla",
+          "externa": false
+        }
+      ],
+      "malas": [
+        {
+          "etiqueta": "no sombrear cultivos de pleno sol",
+          "externa": true
+        }
+      ]
+    }
+  },
+  "lavanda": {
+    "calendario": {
+      "siembra_ideal": [
+        3,
+        4,
+        9,
+        10
+      ],
+      "siembra_posible": [
+        5,
+        11
+      ],
+      "trasplante_ideal": [],
+      "trasplante_posible": [],
+      "metodo_por_mes": {
+        "3": "plantacion",
+        "4": "plantacion",
+        "5": "plantacion",
+        "9": "plantacion",
+        "10": "plantacion",
+        "11": "plantacion"
+      },
+      "derivacion": "Plantines/gajos en otoño o primavera (infocampo) → mar-abr y sep-oct ideal, may y nov como cola → posible. Plantación definitiva tras las heladas. Semilla rara y lenta: sin dias_germinacion. Perenne: sin días a cosecha (flores dic-feb desde que se establece).",
+      "confianza": 6
+    },
+    "dias_a_trasplante": null,
+    "dias_a_cosecha": null,
+    "dias_germinacion": null,
+    "asociaciones": {
+      "buenas": [
+        {
+          "slug": "romero",
+          "externa": false
+        },
+        {
+          "slug": "salvia",
+          "externa": false
+        },
+        {
+          "slug": "tomillo",
+          "externa": false
+        },
+        {
+          "etiqueta": "polinizadores (melífera)",
+          "externa": true
+        }
+      ],
+      "malas": [
+        {
+          "etiqueta": "hortalizas de riego frecuente y suelo húmedo",
+          "externa": true
+        }
+      ]
+    }
+  }
+}
