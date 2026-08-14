@@ -13458,26 +13458,31 @@
           "max": null
         },
         "crecimiento": {
-          "ideal_min": null,
-          "ideal_max": null,
-          "tolera_min": -7,
-          "tolera_max": null
+          "ideal_min": 17,
+          "ideal_max": 25,
+          "tolera_min": -5,
+          "tolera_max": 30
         },
         "helada": "sensible",
-        "nota": "Se hace por gajo y conviene repararlo los primeros inviernos porque la helada le quema los brotes nuevos; de grande ya se defiende solo.",
+        "nota": "Con las heladas de acá pierde hoja y se le queman los brotes tiernos, pero no se muere: aunque lo cortes a ras rebrota desde la base.",
         "fuentes": [
+          {
+            "titulo": "Bay tree care and uses (rústico hasta -5 °C)",
+            "url": "https://www.rhs.org.uk/plants/bay-tree/growing-guide",
+            "organizacion": "Royal Horticultural Society (RHS)"
+          },
+          {
+            "titulo": "Laurus nobilis (17-25 °C diurnos; tolera 8-30 °C; defolia a -15 °C y se recupera)",
+            "url": "https://temperate.theferns.info/plant/Laurus+nobilis",
+            "organizacion": "Useful Temperate Plants Database"
+          },
           {
             "titulo": "Laurus nobilis",
             "url": "https://plants.ces.ncsu.edu/plants/laurus-nobilis/",
             "organizacion": "NC State Extension Plants Toolbox"
-          },
-          {
-            "titulo": "Laurel: cultivo, plagas y enfermedades (Laurus nobilis)",
-            "url": "https://articulos.infojardin.com/arbustos/Fichas/Laurel.htm",
-            "organizacion": "Infojardín"
           }
         ],
-        "confianza": 5
+        "confianza": 7
       }
     },
     {

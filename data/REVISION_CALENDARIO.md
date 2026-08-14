@@ -309,7 +309,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 | **Menta** | — | — | 20–28 | ≥-15 | ✔️ la aguanta | 7 |
 | **Melisa (toronjil)** | — | — | — | ≥-15 | ✔️ la aguanta | 6 |
 | **Ciboulette (cebollín)** | 2–35 | 18–24 | 13–24 | -15–30 | ✔️ la aguanta | 6 |
-| **Laurel** | — | — | — | ≥-7 | ⚠️ la daña | 5 |
+| **Laurel** | — | — | 17–25 | -5–30 | ⚠️ la daña | 7 |
 | **Eneldo** | — | 20–22 | 16–18 | -4–35 | ✔️ la aguanta | 7 |
 | **Lavanda** | ≥15 | 18–24 | 15–30 | -15–35 | ✔️ la aguanta | 7 |
 
@@ -325,7 +325,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 - **Menta**: Se planta por estolón y no por semilla, y aunque la helada le queme toda la parte de arriba el rizoma rebrota solo en primavera.
 - **Melisa (toronjil)**: Metela a media sombra pensando en enero: de cualquier helada rebrota sola desde la corona, pero el sol pleno del verano se la come.
 - **Ciboulette (cebollín)**: Es de las pocas que te sigue dando en pleno invierno, así que no la levantes: cortala al ras y rebrota sola del bulbo.
-- **Laurel**: Se hace por gajo y conviene repararlo los primeros inviernos porque la helada le quema los brotes nuevos; de grande ya se defiende solo.
+- **Laurel**: Con las heladas de acá pierde hoja y se le queman los brotes tiernos, pero no se muere: aunque lo cortes a ras rebrota desde la base.
 - **Eneldo**: Se va a flor por días largos y no solo por calor: sembrado en primavera se espiga aunque esté fresco, por eso rinde mucho más la siembra de otoño.
 - **Lavanda**: Su problema en el GBA no es el frío ni el calor sino la humedad: pide la mitad de la que hay acá, así que va sí o sí en lomo drenado, con mulch de piedra y aire entre plantas.
 
@@ -376,6 +376,7 @@ Convenciones usadas: estaciones hemisferio sur (primavera = sep-nov); heladas GB
 - **Batata**: Cosecha: 130-150 días desde trasplante (Brote/FIQ) ≈ 190-210 desde almácigo; INTA da 250-270 total. Rango unificado 190-270 desde inicio de almácigo.
 - **Ajo**: Cosecha: INTA 150-180; La Nación 6-7 meses. Rango unificado 150-210. El ajo tierno se cosecha a los 60-90 días.
 - **Perejil**: Cosecha: primer corte 60-70 días (Brote) vs 85-130 (INTA); rango unificado 60-130.
+- **Laurel**: Semilla recalcitrante: se siembra fresca en otoño, despulpada, y tarda 60-80 días. Sin dato publicado de temperatura de germinación (ni Kew lo tiene). Los esquejes piden 19 °C de sustrato y prenden a fin de verano (75 %), no en primavera (0 %).
 - **Eneldo**: Distinción zanahoria buena/mala aclarada con nota "solo al semillar" — decisión del usuario 2026-08-14.
 - **Borraja**: Sin separación ideal/posible (la fuente no distingue): todo quedó en ideal.
 
