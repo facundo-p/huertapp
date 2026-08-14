@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { EspecieCard } from '../components/EspecieCard'
+import { FilaChips } from '../components/FilaChips'
 import { useEspecies } from '../lib/useEspecies'
 import { normalizar } from '../lib/data/slugs'
 import { estadoSiembra } from '../lib/data/especies'
@@ -146,45 +147,3 @@ export function Explorar() {
   )
 }
 
-interface OpcionChip {
-  valor: string
-  Icono: React.ComponentType<{ size?: number }>
-  etiqueta: string
-  color: string
-}
-
-function FilaChips({
-  etiqueta,
-  opciones,
-  activo,
-  onElegir,
-}: {
-  etiqueta: string
-  opciones: OpcionChip[]
-  activo: string | null
-  onElegir: (v: string | null) => void
-}) {
-  return (
-    <div className="fila-chips-grupo">
-      <span className="fila-chips__etiqueta">{etiqueta}</span>
-      <div className="fila-chips" role="group" aria-label={etiqueta}>
-      {opciones.map(({ valor, Icono, etiqueta: nombre, color }) => {
-        const activado = activo === valor
-        return (
-          <button
-            key={valor}
-            className={`chip ${activado ? 'es-activo' : ''}`}
-            style={{ '--chip-color': color } as React.CSSProperties}
-            onClick={() => onElegir(activado ? null : valor)}
-            aria-pressed={activado}
-            aria-label={nombre}
-            title={nombre}
-          >
-            <Icono size={22} />
-          </button>
-        )
-      })}
-      </div>
-    </div>
-  )
-}

@@ -1,0 +1,322 @@
+/* ============================================================
+   Matriz especie × 12 meses. Todo entra en 390px sin scroll
+   horizontal: columna de nombre fija + 12 columnas iguales.
+   ============================================================ */
+.calendario__controles {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: 0 var(--esp-3) var(--esp-1);
+  background: var(--papel);
+  box-shadow: 0 6px 10px -8px rgba(74, 60, 28, 0.35);
+}
+
+/* --- conmutador de capa --- */
+.segmentado {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border-radius: var(--radio-chip);
+  background: var(--papel-hundido);
+  border: 1.5px solid var(--linea);
+}
+
+.segmentado__opcion {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  min-height: var(--tap-min);
+  border-radius: var(--radio-chip);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.segmentado__opcion.es-activo {
+  background: var(--papel-alto);
+  color: var(--verde-prof);
+  box-shadow: var(--sombra-1);
+}
+
+.segmentado__opcion:nth-child(2).es-activo {
+  color: #8a4029; /* terracota oscurecido para contraste AA sobre papel */
+}
+
+/* --- cuenta + leyenda --- */
+.calendario__pie-controles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-2);
+}
+
+.calendario__cuenta {
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.calendario__leyenda {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--tinta-media);
+}
+
+.calendario__leyenda .cal-marca:not(:first-child) {
+  margin-left: var(--esp-2);
+}
+
+/* --- grilla compartida por la cabecera y las filas --- */
+.cal-fila {
+  display: grid;
+  grid-template-columns: 122px repeat(12, 1fr);
+  align-items: stretch;
+  width: 100%;
+  text-align: left;
+}
+
+.cal-cabecera {
+  min-height: 22px;
+  align-items: center;
+}
+
+.cal-cabecera__hueco {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+  align-self: end;
+  padding-bottom: 1px;
+}
+
+.cal-inicial {
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tinta-suave);
+}
+
+.cal-inicial.es-ahora {
+  background: var(--tinta);
+  color: var(--papel-alto);
+}
+
+/* --- filas --- */
+.calendario__cuerpo {
+  padding: 0 var(--esp-3);
+}
+
+.calendario__seccion {
+  margin-top: var(--esp-4);
+}
+
+.calendario__grupo {
+  min-height: 30px;
+  align-items: center;
+}
+
+.calendario__grupo-nombre {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+  white-space: nowrap;
+}
+
+.calendario__grupo-cuenta {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: var(--radio-chip);
+  background: var(--papel-hundido);
+  font-family: var(--font-cuerpo);
+  font-size: 10px;
+  color: var(--tinta-suave);
+}
+
+.cal-fila--dato {
+  min-height: var(--tap-min);
+  border-top: 1px solid var(--linea-suave);
+  transition: background-color 0.15s ease;
+}
+
+.cal-fila--dato:last-child {
+  border-bottom: 1px solid var(--linea-suave);
+}
+
+.cal-fila--dato:active {
+  background: var(--papel-hundido);
+}
+
+.cal-nombre {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 0;
+  font-size: 11.5px;
+  line-height: 1.15;
+  font-weight: 600;
+  color: var(--tinta);
+  min-width: 0;
+}
+
+.cal-nombre svg {
+  flex: none;
+}
+
+/* --- celdas --- */
+.cal-celda {
+  display: grid;
+  place-items: center;
+}
+
+/* banda vertical del mes actual, continua a lo largo de toda la matriz */
+.cal-celda.es-ahora {
+  background: color-mix(in srgb, var(--sol) 19%, transparent);
+}
+
+.cal-marca {
+  display: block;
+  width: 13px;
+  height: 13px;
+}
+
+.cal-marca.es-siembra.es-ideal {
+  color: var(--ideal);
+}
+.cal-marca.es-siembra.es-posible {
+  color: var(--posible);
+}
+.cal-marca.es-trasplante {
+  color: var(--terracota);
+}
+
+/* ============================================================
+   Hoja de detalle
+   ============================================================ */
+.hoja__nota {
+  margin-top: var(--esp-2);
+  font-size: var(--texto-xs);
+  font-style: italic;
+  color: var(--tinta-suave);
+  text-align: center;
+}
+
+.ventanas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin: 0;
+}
+
+.ventana {
+  display: flex;
+  align-items: baseline;
+  gap: var(--esp-3);
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 4px solid var(--linea);
+  background: var(--papel-alto);
+}
+
+.ventana.es-ideal {
+  border-left-color: var(--ideal);
+  background: var(--ideal-fondo);
+}
+.ventana.es-posible {
+  border-left-color: var(--posible);
+  background: var(--posible-fondo);
+}
+.ventana.es-trasplante {
+  border-left-color: var(--terracota);
+  background: var(--terracota-suave);
+}
+
+.ventana dt {
+  flex: none;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--tinta-media);
+}
+
+.ventana dd {
+  margin: 0;
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  text-align: right;
+  color: var(--tinta);
+}
+
+.hoja__subtitulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-2);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+}
+
+.metodos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+  margin: 0;
+  padding-left: var(--esp-4);
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}
+
+.metodos strong {
+  color: var(--tinta);
+}
+
+.hoja__ciclo {
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}
+
+.hoja__derivacion {
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta-media);
+}
+
+.hoja__accion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: var(--radio-chip);
+  background: var(--verde-hoja);
+  color: var(--papel-alto);
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  text-decoration: none;
+}

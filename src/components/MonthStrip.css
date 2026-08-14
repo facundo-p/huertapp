@@ -66,6 +66,16 @@
   border-bottom: 6px solid var(--terracota-suave);
 }
 
+/* sobre el verde lleno la terracota casi no se ve: el triángulo se aclara
+   para seguir leyéndose (la forma sigue siendo el canal principal) */
+.tira-meses__celda.es-ideal .tira-meses__trasplante {
+  border-bottom-color: var(--terracota-suave);
+}
+.tira-meses__celda.es-ideal .tira-meses__trasplante.es-posible {
+  border-bottom-color: var(--sol-suave);
+  opacity: 0.75;
+}
+
 .tira-meses__inicial {
   font-size: 9px;
   font-weight: 700;

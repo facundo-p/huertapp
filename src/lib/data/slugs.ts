@@ -10,6 +10,15 @@ export function slugify(nombreComun: string): string {
     .replace(/^-+|-+$/g, '')
 }
 
+/**
+ * Nombre corto para espacios angostos (la matriz del calendario):
+ * "Capuchina (taco de reina)" → "Capuchina", "Radicchio / Achicoria" → "Radicchio".
+ * Misma regla de corte que el slug, así el nombre corto y el slug coinciden.
+ */
+export function nombreCorto(nombreComun: string): string {
+  return nombreComun.split(/[/(]/)[0].trim()
+}
+
 /** Normaliza texto para buscar: sin acentos, minúsculas. */
 export function normalizar(texto: string): string {
   return texto

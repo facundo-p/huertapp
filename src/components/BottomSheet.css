@@ -1,0 +1,119 @@
+.hoja {
+  /* el dialog nativo se centra: lo pegamos abajo y a todo el ancho */
+  width: 100%;
+  max-width: var(--max-ancho);
+  max-height: 88dvh;
+  margin: 0 auto;
+  margin-top: auto;
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  overflow: visible;
+  color: var(--tinta);
+}
+
+.hoja::backdrop {
+  background: rgba(43, 38, 22, 0.42);
+  backdrop-filter: blur(2px);
+}
+
+.hoja__panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 88dvh;
+  padding: var(--esp-2) var(--esp-4) calc(var(--esp-5) + env(safe-area-inset-bottom));
+  border-radius: var(--radio-l) var(--radio-l) 0 0;
+  background: var(--papel);
+  border-top: 1.5px solid var(--linea);
+  box-shadow: 0 -6px 30px rgba(74, 60, 28, 0.22);
+}
+
+.hoja__tirador {
+  width: 42px;
+  height: 4px;
+  margin: 0 auto var(--esp-2);
+  border-radius: 999px;
+  background: var(--linea);
+  flex: none;
+}
+
+.hoja__cabeza {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  padding-bottom: var(--esp-3);
+  border-bottom: 1.5px dashed var(--linea);
+  flex: none;
+}
+
+.hoja__textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.hoja__sobre {
+  font-size: var(--texto-xs);
+  font-style: italic;
+  color: var(--tinta-suave);
+}
+
+.hoja__titulo {
+  font-size: var(--texto-l);
+  font-weight: 700;
+}
+
+.hoja__cerrar {
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  margin: -6px -6px 0 0;
+  border-radius: var(--radio-chip);
+  color: var(--tinta-media);
+  background: var(--papel-hundido);
+  flex: none;
+}
+
+.hoja__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  padding-top: var(--esp-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.hoja__pie {
+  flex: none;
+  padding-top: var(--esp-3);
+  margin-top: var(--esp-1);
+  border-top: 1.5px dashed var(--linea);
+}
+
+/* --- entrada --- */
+@keyframes hoja-subir {
+  from {
+    transform: translateY(14%);
+    opacity: 0.4;
+  }
+}
+@keyframes hoja-fondo {
+  from {
+    opacity: 0;
+  }
+}
+
+.hoja[open] {
+  animation: hoja-subir 0.3s cubic-bezier(0.2, 0.75, 0.3, 1);
+}
+.hoja[open]::backdrop {
+  animation: hoja-fondo 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoja[open],
+  .hoja[open]::backdrop {
+    animation: none;
+  }
+}

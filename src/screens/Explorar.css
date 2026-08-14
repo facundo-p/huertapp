@@ -79,68 +79,6 @@
   animation: aparecer 0.25s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
-.fila-chips-grupo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-1);
-}
-
-.fila-chips__etiqueta {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--tinta-suave);
-}
-
-.fila-chips {
-  display: flex;
-  gap: var(--esp-2);
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 2px;
-}
-.fila-chips::-webkit-scrollbar {
-  display: none;
-}
-
-.chip {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: var(--tap-min);
-  height: var(--tap-min);
-  border-radius: var(--radio-m);
-  background: var(--papel-alto);
-  border: 1.5px solid var(--linea);
-  color: var(--chip-color, var(--tinta-media));
-  transition: transform 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
-}
-
-.chip:active {
-  transform: scale(0.92);
-}
-
-.chip.es-activo {
-  background: color-mix(in srgb, var(--chip-color, var(--salvia)) 16%, var(--papel-alto));
-  border-color: var(--chip-color, var(--salvia));
-  border-width: 2.5px;
-}
-
-.chip--texto {
-  width: auto;
-  padding: 0 var(--esp-4);
-  font-family: var(--font-display);
-  font-size: var(--texto-s);
-  font-weight: 700;
-  color: var(--tinta-media);
-  --chip-color: var(--verde-hoja);
-}
-
-.chip--texto.es-activo {
-  color: var(--verde-prof);
-}
-
 .explorar__cuenta {
   font-size: var(--texto-xs);
   font-weight: 700;
