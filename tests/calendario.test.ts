@@ -86,12 +86,18 @@ describe('nombreCorto', () => {
 describe('la matriz del calendario', () => {
   const especies = db.especies as Array<{
     nombre_comun: string
-    calendario: { trasplante_ideal: number[]; trasplante_posible: number[]; derivacion: string }
+    calendario: {
+      fuente_meses: { trasplante_ideal: number[]; trasplante_posible: number[] }
+      derivacion: string
+    }
   }>
 
   it('la capa de trasplante no queda vacía ni muestra a todas', () => {
     const conTrasplante = especies.filter(
-      (e) => e.calendario.trasplante_ideal.length + e.calendario.trasplante_posible.length > 0,
+      (e) =>
+        e.calendario.fuente_meses.trasplante_ideal.length +
+          e.calendario.fuente_meses.trasplante_posible.length >
+        0,
     )
     expect(conTrasplante.length).toBeGreaterThan(10)
     expect(conTrasplante.length).toBeLessThan(especies.length)

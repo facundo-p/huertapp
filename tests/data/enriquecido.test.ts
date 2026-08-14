@@ -29,23 +29,40 @@ describe('huerta_gba_enriquecido.json', () => {
     describe(e.slug, () => {
     const cal = e.calendario
 
-    it('calendario: meses válidos, ordenados y sin solapamiento ideal/posible', () => {
+    it('fuente_meses: meses válidos, ordenados y sin solapamiento ideal/posible', () => {
+      const f = cal.fuente_meses
       for (const campo of ['siembra_ideal', 'siembra_posible', 'trasplante_ideal', 'trasplante_posible']) {
-        const meses = cal[campo]
+        const meses = f[campo]
         expect(Array.isArray(meses)).toBe(true)
         expect(meses.every(esMesValido)).toBe(true)
         expect(sinRepetidos(meses)).toBe(true)
         expect(ordenado(meses)).toBe(true)
       }
-      expect(cal.siembra_ideal.length).toBeGreaterThan(0)
-      const sIdeal = new Set(cal.siembra_ideal)
-      expect(cal.siembra_posible.some((m: number) => sIdeal.has(m))).toBe(false)
-      const tIdeal = new Set(cal.trasplante_ideal)
-      expect(cal.trasplante_posible.some((m: number) => tIdeal.has(m))).toBe(false)
+      expect(f.siembra_ideal.length).toBeGreaterThan(0)
+      const sIdeal = new Set(f.siembra_ideal)
+      expect(f.siembra_posible.some((m: number) => sIdeal.has(m))).toBe(false)
+      const tIdeal = new Set(f.trasplante_ideal)
+      expect(f.trasplante_posible.some((m: number) => tIdeal.has(m))).toBe(false)
+    })
+
+    it('decadas: las tres zonas generadas, con el afinado y su confianza', () => {
+      for (const zona of ['urbano', 'conurbano', 'periurbano']) {
+        const z = cal.decadas[zona]
+        expect(z, `${e.slug} sin zona ${zona}`).toBeDefined()
+        for (const campo of ['siembra_ideal', 'siembra_posible', 'trasplante_ideal', 'trasplante_posible']) {
+          expect(ordenado(z[campo])).toBe(true)
+          expect(sinRepetidos(z[campo])).toBe(true)
+          expect(z[campo].every((d: number) => d >= 1 && d <= 36)).toBe(true)
+        }
+        expect(z.siembra_ideal.length + z.siembra_posible.length).toBeGreaterThan(0)
+      }
+      expect(['afinado', 'sin_afinar', 'fuente_explicita']).toContain(cal.afinado.estado)
+      expect(cal.afinado.confianza).toBeGreaterThanOrEqual(1)
+      expect(cal.afinado.confianza).toBeLessThanOrEqual(10)
     })
 
     it('metodo_por_mes: claves ⊆ meses de siembra, valores del enum, todo mes de siembra cubierto', () => {
-      const mesesSiembra = new Set([...cal.siembra_ideal, ...cal.siembra_posible])
+      const mesesSiembra = new Set([...cal.fuente_meses.siembra_ideal, ...cal.fuente_meses.siembra_posible])
       const claves = Object.keys(cal.metodo_por_mes).map(Number)
       for (const k of claves) expect(mesesSiembra.has(k)).toBe(true)
       for (const m of mesesSiembra) expect(cal.metodo_por_mes[String(m)]).toBeDefined()
@@ -53,7 +70,7 @@ describe('huerta_gba_enriquecido.json', () => {
     })
 
     it('trasplante: meses no vacíos implican dias_a_trasplante', () => {
-      const tieneVentana = cal.trasplante_ideal.length + cal.trasplante_posible.length > 0
+      const tieneVentana = cal.fuente_meses.trasplante_ideal.length + cal.fuente_meses.trasplante_posible.length > 0
       if (tieneVentana) expect(e.dias_a_trasplante).not.toBeNull()
     })
 

@@ -1,34 +1,36 @@
 {
   "lechuga": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        8,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        2,
-        5,
-        6,
-        7
-      ],
-      "trasplante_ideal": [
-        4,
-        5,
-        9,
-        10,
-        11,
-        12
-      ],
-      "trasplante_posible": [
-        3,
-        6,
-        7,
-        8
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          8,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          2,
+          5,
+          6,
+          7
+        ],
+        "trasplante_ideal": [
+          4,
+          5,
+          9,
+          10,
+          11,
+          12
+        ],
+        "trasplante_posible": [
+          3,
+          6,
+          7,
+          8
+        ]
+      },
       "metodo_por_mes": {
         "2": "directa|almacigo",
         "3": "directa|almacigo",
@@ -124,28 +126,30 @@
   },
   "espinaca": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        6
-      ],
-      "siembra_posible": [
-        2,
-        7,
-        8
-      ],
-      "trasplante_ideal": [
-        4,
-        5,
-        6,
-        7
-      ],
-      "trasplante_posible": [
-        3,
-        8,
-        9
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "siembra_posible": [
+          2,
+          7,
+          8
+        ],
+        "trasplante_ideal": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "trasplante_posible": [
+          3,
+          8,
+          9
+        ]
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "directa|almacigo",
@@ -236,38 +240,40 @@
   },
   "acelga": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        6,
-        7,
-        8,
-        12
-      ],
-      "trasplante_ideal": [
-        4,
-        5,
-        6,
-        10,
-        11,
-        12
-      ],
-      "trasplante_posible": [
-        1,
-        2,
-        3,
-        7,
-        8,
-        9
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          6,
+          7,
+          8,
+          12
+        ],
+        "trasplante_ideal": [
+          4,
+          5,
+          6,
+          10,
+          11,
+          12
+        ],
+        "trasplante_posible": [
+          1,
+          2,
+          3,
+          7,
+          8,
+          9
+        ]
+      },
       "metodo_por_mes": {
         "1": "directa|almacigo",
         "2": "directa|almacigo",
@@ -360,22 +366,24 @@
   },
   "rucula": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        2
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          2
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "directa",
         "3": "directa",
@@ -487,32 +495,34 @@
   },
   "kale": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3
-      ],
-      "siembra_posible": [
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ],
-      "trasplante_ideal": [
-        3,
-        4
-      ],
-      "trasplante_posible": [
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3
+        ],
+        "siembra_posible": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "trasplante_ideal": [
+          3,
+          4
+        ],
+        "trasplante_posible": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ]
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "almacigo",
@@ -648,16 +658,18 @@
   },
   "repollo": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [
-        3,
-        4
-      ],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [
+          3,
+          4
+        ],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "almacigo"
@@ -759,22 +771,24 @@
   },
   "radicchio": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "siembra_posible": [
-        1,
-        6,
-        7,
-        10,
-        11,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "siembra_posible": [
+          1,
+          6,
+          7,
+          10,
+          11,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "2": "directa|almacigo",
@@ -856,24 +870,26 @@
   },
   "berro": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        6,
-        7,
-        8,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          6,
+          7,
+          8,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa|almacigo",
         "2": "directa|almacigo",
@@ -940,28 +956,30 @@
   },
   "apio": {
     "calendario": {
-      "siembra_ideal": [
-        1,
-        2,
-        3,
-        9,
-        10,
-        11,
-        12
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        12
-      ],
-      "trasplante_posible": [
-        11
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          1,
+          2,
+          3,
+          9,
+          10,
+          11,
+          12
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          12
+        ],
+        "trasplante_posible": [
+          11
+        ]
+      },
       "metodo_por_mes": {
         "1": "almacigo",
         "2": "almacigo",
@@ -1043,27 +1061,29 @@
   },
   "brocoli": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4,
-        9,
-        10
-      ],
-      "siembra_posible": [
-        11
-      ],
-      "trasplante_ideal": [
-        3,
-        4,
-        5,
-        10,
-        11
-      ],
-      "trasplante_posible": [
-        1,
-        12
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4,
+          9,
+          10
+        ],
+        "siembra_posible": [
+          11
+        ],
+        "trasplante_ideal": [
+          3,
+          4,
+          5,
+          10,
+          11
+        ],
+        "trasplante_posible": [
+          1,
+          12
+        ]
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "almacigo",
@@ -1165,28 +1185,30 @@
   },
   "coliflor": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4,
-        9,
-        10
-      ],
-      "siembra_posible": [
-        11,
-        12
-      ],
-      "trasplante_ideal": [
-        1,
-        4,
-        5,
-        6,
-        11,
-        12
-      ],
-      "trasplante_posible": [
-        2
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4,
+          9,
+          10
+        ],
+        "siembra_posible": [
+          11,
+          12
+        ],
+        "trasplante_ideal": [
+          1,
+          4,
+          5,
+          6,
+          11,
+          12
+        ],
+        "trasplante_posible": [
+          2
+        ]
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "almacigo",
@@ -1277,22 +1299,24 @@
   },
   "repollitos-de-bruselas": {
     "calendario": {
-      "siembra_ideal": [
-        1,
-        2,
-        12
-      ],
-      "siembra_posible": [
-        3
-      ],
-      "trasplante_ideal": [
-        1,
-        2,
-        3
-      ],
-      "trasplante_posible": [
-        4
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          1,
+          2,
+          12
+        ],
+        "siembra_posible": [
+          3
+        ],
+        "trasplante_ideal": [
+          1,
+          2,
+          3
+        ],
+        "trasplante_posible": [
+          4
+        ]
+      },
       "metodo_por_mes": {
         "1": "almacigo",
         "2": "almacigo",
@@ -1383,18 +1407,20 @@
   },
   "nabo": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4,
-        5
-      ],
-      "siembra_posible": [
-        8,
-        9
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "siembra_posible": [
+          8,
+          9
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "directa",
         "3": "directa",
@@ -1513,24 +1539,26 @@
   },
   "tomate": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9,
-        10
-      ],
-      "siembra_posible": [
-        1,
-        11,
-        12
-      ],
-      "trasplante_ideal": [
-        9,
-        10,
-        11
-      ],
-      "trasplante_posible": [
-        12
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9,
+          10
+        ],
+        "siembra_posible": [
+          1,
+          11,
+          12
+        ],
+        "trasplante_ideal": [
+          9,
+          10,
+          11
+        ],
+        "trasplante_posible": [
+          12
+        ]
+      },
       "metodo_por_mes": {
         "1": "directa",
         "8": "almacigo_protegido",
@@ -1672,19 +1700,21 @@
   },
   "pimiento": {
     "calendario": {
-      "siembra_ideal": [
-        7,
-        8,
-        9
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [
-        9,
-        10
-      ],
-      "trasplante_posible": [
-        11
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          7,
+          8,
+          9
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [
+          9,
+          10
+        ],
+        "trasplante_posible": [
+          11
+        ]
+      },
       "metodo_por_mes": {
         "7": "almacigo_protegido",
         "8": "almacigo_protegido",
@@ -1802,21 +1832,23 @@
   },
   "aji-picante": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9
-      ],
-      "siembra_posible": [
-        10,
-        11
-      ],
-      "trasplante_ideal": [
-        10,
-        11
-      ],
-      "trasplante_posible": [
-        12
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9
+        ],
+        "siembra_posible": [
+          10,
+          11
+        ],
+        "trasplante_ideal": [
+          10,
+          11
+        ],
+        "trasplante_posible": [
+          12
+        ]
+      },
       "metodo_por_mes": {
         "8": "almacigo_protegido",
         "9": "almacigo_protegido",
@@ -1924,20 +1956,22 @@
   },
   "berenjena": {
     "calendario": {
-      "siembra_ideal": [
-        7,
-        8
-      ],
-      "siembra_posible": [
-        9
-      ],
-      "trasplante_ideal": [
-        9,
-        10
-      ],
-      "trasplante_posible": [
-        11
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          7,
+          8
+        ],
+        "siembra_posible": [
+          9
+        ],
+        "trasplante_ideal": [
+          9,
+          10
+        ],
+        "trasplante_posible": [
+          11
+        ]
+      },
       "metodo_por_mes": {
         "7": "almacigo_protegido",
         "8": "almacigo_protegido",
@@ -2064,17 +2098,19 @@
   },
   "zapallito-de-tronco": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11,
-        12
-      ],
-      "siembra_posible": [
-        1
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "siembra_posible": [
+          1
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "9": "directa|almacigo",
@@ -2168,15 +2204,17 @@
   },
   "zapallo": {
     "calendario": {
-      "siembra_ideal": [
-        10,
-        11
-      ],
-      "siembra_posible": [
-        9
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          10,
+          11
+        ],
+        "siembra_posible": [
+          9
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "9": "directa",
         "10": "directa",
@@ -2283,15 +2321,17 @@
   },
   "pepino": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10
-      ],
-      "siembra_posible": [
-        2
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10
+        ],
+        "siembra_posible": [
+          2
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "directa",
         "9": "directa",
@@ -2419,15 +2459,17 @@
   },
   "melon": {
     "calendario": {
-      "siembra_ideal": [
-        10
-      ],
-      "siembra_posible": [
-        8,
-        9
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          10
+        ],
+        "siembra_posible": [
+          8,
+          9
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "8": "almacigo_protegido",
         "9": "directa",
@@ -2490,15 +2532,17 @@
   },
   "sandia": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10
-      ],
-      "siembra_posible": [
-        8
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10
+        ],
+        "siembra_posible": [
+          8
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "8": "almacigo_protegido",
         "9": "directa",
@@ -2561,18 +2605,20 @@
   },
   "choclo": {
     "calendario": {
-      "siembra_ideal": [
-        10,
-        11,
-        12
-      ],
-      "siembra_posible": [
-        1,
-        8,
-        9
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          10,
+          11,
+          12
+        ],
+        "siembra_posible": [
+          1,
+          8,
+          9
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "8": "almacigo_protegido",
@@ -2651,16 +2697,18 @@
   },
   "frutilla": {
     "calendario": {
-      "siembra_ideal": [
-        4,
-        5
-      ],
-      "siembra_posible": [
-        3,
-        6
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          4,
+          5
+        ],
+        "siembra_posible": [
+          3,
+          6
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "plantacion",
         "4": "plantacion",
@@ -2745,17 +2793,19 @@
   },
   "chaucha": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10
-      ],
-      "siembra_posible": [
-        1,
-        11,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10
+        ],
+        "siembra_posible": [
+          1,
+          11,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "9": "directa",
@@ -2878,17 +2928,19 @@
   },
   "arveja": {
     "calendario": {
-      "siembra_ideal": [
-        4,
-        5,
-        6
-      ],
-      "siembra_posible": [
-        7,
-        8
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          4,
+          5,
+          6
+        ],
+        "siembra_posible": [
+          7,
+          8
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "4": "directa",
         "5": "directa",
@@ -2991,15 +3043,17 @@
   },
   "haba": {
     "calendario": {
-      "siembra_ideal": [
-        4,
-        5,
-        6,
-        7
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "4": "directa",
         "5": "directa",
@@ -3092,24 +3146,26 @@
   },
   "zanahoria": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        9,
-        10,
-        11,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          9,
+          10,
+          11,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "2": "directa",
@@ -3231,21 +3287,23 @@
   },
   "remolacha": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        6,
-        8,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          6,
+          8,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "directa",
         "4": "directa",
@@ -3359,24 +3417,26 @@
   },
   "rabanito": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4,
-        5,
-        6,
-        9,
-        10,
-        11,
-        12
-      ],
-      "siembra_posible": [
-        1,
-        7,
-        8
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          9,
+          10,
+          11,
+          12
+        ],
+        "siembra_posible": [
+          1,
+          7,
+          8
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "2": "directa",
@@ -3490,18 +3550,20 @@
   },
   "papa": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        10,
-        11
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          10,
+          11
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "plantacion",
         "2": "plantacion",
@@ -3613,19 +3675,21 @@
   },
   "batata": {
     "calendario": {
-      "siembra_ideal": [
-        7,
-        8
-      ],
-      "siembra_posible": [
-        9
-      ],
-      "trasplante_ideal": [
-        10
-      ],
-      "trasplante_posible": [
-        11
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          7,
+          8
+        ],
+        "siembra_posible": [
+          9
+        ],
+        "trasplante_ideal": [
+          10
+        ],
+        "trasplante_posible": [
+          11
+        ]
+      },
       "metodo_por_mes": {
         "7": "almacigo_protegido",
         "8": "almacigo_protegido",
@@ -3692,18 +3756,20 @@
   },
   "cebolla": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [
-        5,
-        6
-      ],
-      "trasplante_posible": [
-        7
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [
+          5,
+          6
+        ],
+        "trasplante_posible": [
+          7
+        ]
+      },
       "metodo_por_mes": {
         "3": "almacigo",
         "4": "directa|almacigo"
@@ -3810,13 +3876,15 @@
   },
   "ajo": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "plantacion",
         "4": "plantacion"
@@ -3927,18 +3995,20 @@
   },
   "puerro": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [
-        5,
-        6,
-        7
-      ],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [
+          5,
+          6,
+          7
+        ],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "almacigo",
@@ -4025,16 +4095,18 @@
   },
   "cebolla-de-verdeo": {
     "calendario": {
-      "siembra_ideal": [
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "almacigo",
         "3": "directa|almacigo",
@@ -4125,24 +4197,27 @@
   },
   "albahaca": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9
-      ],
-      "siembra_posible": [
-        2,
-        3,
-        10,
-        11
-      ],
-      "trasplante_ideal": [
-        10,
-        11
-      ],
-      "trasplante_posible": [
-        3,
-        4
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9
+        ],
+        "siembra_posible": [
+          2,
+          3,
+          10,
+          11
+        ],
+        "trasplante_ideal": [
+          9,
+          10,
+          11
+        ],
+        "trasplante_posible": [
+          3,
+          4
+        ]
+      },
       "metodo_por_mes": {
         "2": "directa|almacigo",
         "3": "directa|almacigo",
@@ -4151,7 +4226,7 @@
         "10": "directa|almacigo",
         "11": "directa|almacigo"
       },
-      "derivacion": "De fecha_siembra: almácigo protegido ago-sep con trasplante oct-nov (INTA y Brote) → ideal; siembra tardía de primavera (oct-nov, ya sin heladas) y la ventana feb-mar del Brote → posible. Trasplante = siembra + 4-6 semanas.",
+      "derivacion": "De fecha_siembra: almácigo protegido ago-sep con trasplante sep-nov (INTA dice oct-nov; El Brote Urbano, \"a mediados de septiembre-octubre\": se toma la unión y el afinado por zona decide si septiembre es viable) → ideal; siembra tardía de primavera (oct-nov, ya sin heladas) y la ventana feb-mar del Brote → posible. Trasplante = siembra + 4-6 semanas.",
       "confianza": 7
     },
     "dias_a_trasplante": {
@@ -4216,24 +4291,26 @@
   },
   "perejil": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        11
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        6,
-        7,
-        8,
-        9,
-        10,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          11
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          6,
+          7,
+          8,
+          9,
+          10,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "directa",
         "2": "directa",
@@ -4308,17 +4385,19 @@
   },
   "cilantro": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "directa",
         "4": "directa",
@@ -4388,17 +4467,19 @@
   },
   "oregano": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        3,
-        4
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          3,
+          4
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "plantacion",
         "4": "plantacion",
@@ -4469,20 +4550,22 @@
   },
   "tomillo": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        3,
-        8,
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          3,
+          8,
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "1": "plantacion",
         "2": "plantacion",
@@ -4565,19 +4648,21 @@
   },
   "romero": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        2,
-        3,
-        4,
-        8
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          2,
+          3,
+          4,
+          8
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "2": "plantacion",
         "3": "plantacion",
@@ -4659,14 +4744,16 @@
   },
   "salvia": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "9": "directa|almacigo",
         "10": "directa|almacigo",
@@ -4743,18 +4830,20 @@
   },
   "menta": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        3,
-        4,
-        8
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          3,
+          4,
+          8
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "plantacion",
         "4": "plantacion",
@@ -4836,18 +4925,20 @@
   },
   "melisa": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        4,
-        5,
-        6
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          4,
+          5,
+          6
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "4": "almacigo_protegido",
         "5": "almacigo_protegido",
@@ -4914,18 +5005,20 @@
   },
   "ciboulette": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        3,
-        4
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          3,
+          4
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "directa|almacigo",
         "4": "directa|almacigo",
@@ -5013,17 +5106,19 @@
   },
   "laurel": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        3,
-        4
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          3,
+          4
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "plantacion",
         "4": "plantacion",
@@ -5091,17 +5186,19 @@
   },
   "eneldo": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5
-      ],
-      "siembra_posible": [
-        8,
-        9
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5
+        ],
+        "siembra_posible": [
+          8,
+          9
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "directa",
         "4": "directa",
@@ -5184,26 +5281,28 @@
   },
   "calendula": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9,
-        10
-      ],
-      "siembra_posible": [
-        3,
-        4,
-        5
-      ],
-      "trasplante_ideal": [
-        10,
-        11,
-        12
-      ],
-      "trasplante_posible": [
-        5,
-        6,
-        7
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9,
+          10
+        ],
+        "siembra_posible": [
+          3,
+          4,
+          5
+        ],
+        "trasplante_ideal": [
+          10,
+          11,
+          12
+        ],
+        "trasplante_posible": [
+          5,
+          6,
+          7
+        ]
+      },
       "metodo_por_mes": {
         "3": "directa|almacigo",
         "4": "directa|almacigo",
@@ -5273,25 +5372,27 @@
   },
   "copete": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11,
-        12
-      ],
-      "siembra_posible": [
-        1,
-        2,
-        8
-      ],
-      "trasplante_ideal": [
-        10,
-        11
-      ],
-      "trasplante_posible": [
-        9,
-        12
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "siembra_posible": [
+          1,
+          2,
+          8
+        ],
+        "trasplante_ideal": [
+          10,
+          11
+        ],
+        "trasplante_posible": [
+          9,
+          12
+        ]
+      },
       "metodo_por_mes": {
         "1": "directa",
         "2": "directa",
@@ -5367,20 +5468,22 @@
   },
   "borraja": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "directa",
         "4": "directa",
@@ -5461,17 +5564,19 @@
   },
   "capuchina": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        5
-      ],
-      "siembra_posible": [
-        9,
-        10
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          5
+        ],
+        "siembra_posible": [
+          9,
+          10
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "directa|almacigo",
         "4": "directa|almacigo",
@@ -5542,21 +5647,23 @@
   },
   "cosmos": {
     "calendario": {
-      "siembra_ideal": [
-        8,
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [],
-      "trasplante_ideal": [
-        9,
-        10,
-        11
-      ],
-      "trasplante_posible": [
-        12
-      ],
+      "fuente_meses": {
+        "siembra_ideal": [
+          8,
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [],
+        "trasplante_ideal": [
+          9,
+          10,
+          11
+        ],
+        "trasplante_posible": [
+          12
+        ]
+      },
       "metodo_por_mes": {
         "8": "directa|almacigo",
         "9": "directa|almacigo",
@@ -5637,16 +5744,18 @@
   },
   "girasol": {
     "calendario": {
-      "siembra_ideal": [
-        9,
-        10,
-        11
-      ],
-      "siembra_posible": [
-        12
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          9,
+          10,
+          11
+        ],
+        "siembra_posible": [
+          12
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "9": "directa",
         "10": "directa",
@@ -5744,18 +5853,20 @@
   },
   "lavanda": {
     "calendario": {
-      "siembra_ideal": [
-        3,
-        4,
-        9,
-        10
-      ],
-      "siembra_posible": [
-        5,
-        11
-      ],
-      "trasplante_ideal": [],
-      "trasplante_posible": [],
+      "fuente_meses": {
+        "siembra_ideal": [
+          3,
+          4,
+          9,
+          10
+        ],
+        "siembra_posible": [
+          5,
+          11
+        ],
+        "trasplante_ideal": [],
+        "trasplante_posible": []
+      },
       "metodo_por_mes": {
         "3": "plantacion",
         "4": "plantacion",
