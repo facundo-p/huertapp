@@ -1,0 +1,17 @@
+# deps / build
+node_modules/
+dist/
+dev-dist/
+
+# tooling
+*.local
+.vite/
+coverage/
+
+# e2e
+e2e/shots/
+test-results/
+playwright-report/
+
+# OS
+.DS_Store
