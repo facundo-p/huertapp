@@ -1,0 +1,131 @@
+.germ {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 4px solid var(--linea);
+  background: var(--papel-hundido);
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.germ--ok {
+  flex-direction: row;
+  align-items: center;
+  background: var(--ideal-fondo);
+  border-left-color: var(--ideal);
+  color: var(--verde-prof);
+}
+
+.germ--en_ventana {
+  background: var(--ideal-fondo);
+  border-left-color: var(--ideal);
+}
+
+.germ--demorada {
+  background: var(--peligro-fondo);
+  border-left-color: var(--peligro);
+}
+
+.germ__cabeza {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+}
+
+.germ__cabeza svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.germ--demorada .germ__cabeza svg {
+  color: var(--peligro);
+}
+.germ--en_ventana .germ__cabeza svg {
+  color: var(--verde-prof);
+}
+
+.germ__titulo {
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.germ--demorada .germ__titulo {
+  color: #7d3a20;
+}
+
+.germ__detalle {
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+.germ__boton {
+  min-height: var(--tap-min);
+  border-radius: var(--radio-chip);
+  background: var(--verde-hoja);
+  color: var(--papel-alto);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
+
+.germ__desplegar {
+  align-self: flex-start;
+  min-height: 38px;
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--peligro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.germ__causas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.germ__causa {
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-s);
+  background: var(--papel-alto);
+  border-left: 3px solid var(--linea);
+}
+
+/* lo que sale de los datos se distingue de lo que es una lista para revisar */
+.germ__causa.es-medido {
+  border-left-color: var(--terracota);
+}
+
+.germ__causa-titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  flex-wrap: wrap;
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.germ__sello {
+  padding: 1px 7px;
+  border-radius: var(--radio-chip);
+  background: var(--terracota-suave);
+  color: #8a4029;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.germ__causa-detalle {
+  font-size: var(--texto-xs);
+  line-height: 1.55;
+  color: var(--tinta-media);
+}

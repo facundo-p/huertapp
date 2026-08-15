@@ -86,6 +86,12 @@ export async function actualizarPlanta(p: Planta) {
   await refrescar()
 }
 
+/** El usuario confirma que asomó. Deja de preguntar y queda como dato del ciclo. */
+export async function marcarGerminada(p: Planta, fecha = hoyISO()) {
+  await db.guardarPlanta({ ...p, germino: fecha })
+  await refrescar()
+}
+
 export async function cambiarEtapa(p: Planta, etapa: Etapa) {
   await db.guardarPlanta({ ...p, etapa, etapaDesde: hoyISO() })
   await refrescar()

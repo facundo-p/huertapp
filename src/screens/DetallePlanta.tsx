@@ -5,7 +5,9 @@ import { EmptyState } from '../components/EmptyState'
 import { BottomSheet } from '../components/BottomSheet'
 import { CycleProgress } from '../components/CycleProgress'
 import { FotoDeDiario } from '../components/FotoDeDiario'
+import { BloqueGerminacion } from '../components/BloqueGerminacion'
 import { useEspecies } from '../lib/useEspecies'
+import { useZona } from '../lib/zona'
 import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa } from '../lib/huerta/store'
 import * as db from '../lib/huerta/db'
 import { prepararFoto, FotoInvalida } from '../lib/huerta/fotos'
@@ -26,6 +28,7 @@ export function DetallePlanta() {
   const { id } = useParams()
   const navegar = useNavigate()
   const { indice } = useEspecies()
+  const zona = useZona()
   const { plantas, ubicaciones, cargado } = useHuerta()
 
   const [entradas, setEntradas] = useState<EntradaDiario[] | null>(null)
@@ -67,6 +70,7 @@ export function DetallePlanta() {
   }
 
   const especie = indice?.porSlug.get(planta.slug)
+  const clima = indice?.db.meta.enriquecido.clima[zona]
   const ubicacion = ubicaciones.find((u) => u.id === planta.ubicacionId)
   const est = especie ? estimar(planta, especie) : null
   const sigue = siguienteEtapa(planta)
@@ -91,6 +95,10 @@ export function DetallePlanta() {
       <div className="pantalla__cuerpo">
         <div className="planta__resumen etiqueta">
           <CycleProgress etapa={planta.etapa} directa={directa} />
+
+          {especie && clima && (
+            <BloqueGerminacion planta={planta} especie={especie} clima={clima} />
+          )}
 
           {sigue && (
             <button className="planta__avanzar" onClick={() => cambiarEtapa(planta, sigue)}>

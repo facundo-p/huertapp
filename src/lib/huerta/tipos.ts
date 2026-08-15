@@ -34,6 +34,8 @@ export interface Planta {
   etapa: Etapa
   /** fecha del último cambio de etapa, para estimar lo que sigue */
   etapaDesde: string
+  /** fecha en que el usuario confirmó que germinó (ISO corta) */
+  germino?: string
   notas?: string
   creada: string
   archivada?: boolean

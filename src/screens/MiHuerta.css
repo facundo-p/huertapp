@@ -126,6 +126,11 @@
   color: var(--tinta-suave);
 }
 
+.planta-card__hito.es-demorada {
+  font-weight: 700;
+  color: var(--peligro);
+}
+
 .planta-card__hito.es-lista {
   font-weight: 700;
   color: var(--verde-prof);

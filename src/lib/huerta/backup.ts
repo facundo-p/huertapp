@@ -14,6 +14,10 @@ import type { Zona } from '../data/types'
 
 export const VERSION_BACKUP = 1
 
+const CLAVE_ULTIMO = 'ultimo-backup'
+
+export const leerUltimoBackup = () => db.leerAjuste<string>(CLAVE_ULTIMO)
+
 export interface Backup {
   app: 'huerta-gba'
   version: number
@@ -79,6 +83,7 @@ export async function exportar(): Promise<'compartido' | 'descargado'> {
   if (navigator.canShare?.({ files: [archivo] })) {
     try {
       await navigator.share({ files: [archivo], title: 'Backup de mi huerta' })
+      await db.guardarAjuste(CLAVE_ULTIMO, new Date().toISOString())
       return 'compartido'
     } catch (e) {
       // el usuario canceló el diálogo: no es un error que valga la pena gritar
@@ -92,6 +97,7 @@ export async function exportar(): Promise<'compartido' | 'descargado'> {
   a.download = nombreArchivo()
   a.click()
   setTimeout(() => URL.revokeObjectURL(url), 10_000)
+  await db.guardarAjuste(CLAVE_ULTIMO, new Date().toISOString())
   return 'descargado'
 }
 

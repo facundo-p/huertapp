@@ -153,8 +153,25 @@ export interface CategoriaInfo {
   desc: string
 }
 
+export interface ClimaDecada {
+  media: number
+  max: number
+  min: number
+  /** probabilidad (0-1) de que la década caiga dentro de la temporada de heladas */
+  helada: number
+}
+
 export interface EspeciesDB {
-  meta: Record<string, unknown>
+  meta: {
+    enriquecido: {
+      zonas: Record<Zona, { etiqueta: string; detalle: string; estacion: string; ultima_helada: string }>
+      zona_default: Zona
+      /** 36 décadas por zona, para diagnosticar sin recalcular el modelo */
+      clima: Record<Zona, ClimaDecada[]>
+      [k: string]: unknown
+    }
+    [k: string]: unknown
+  }
   categorias_suelo: Record<CategoriaSuelo, CategoriaInfo>
   categorias_luz: Record<CategoriaLuz, CategoriaInfo>
   especies: EspecieEnriquecida[]

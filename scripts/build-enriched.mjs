@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { slugify } from './slugs.mjs'
 import { afinarEspecie } from './afinar-calendario.mjs'
-import { CLIMA, ZONA_DEFAULT } from './clima-gba.mjs'
+import { CLIMA, ZONAS, ZONA_DEFAULT, riesgoHelada, tempAire, tempMaxima, tempMinima } from './clima-gba.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const fuente = JSON.parse(readFileSync(join(root, 'data/huerta_gba.json'), 'utf8'))
@@ -68,6 +68,21 @@ const salida = {
         ]),
       ),
       zona_default: ZONA_DEFAULT,
+      // Tabla climática por década y zona, para que la app pueda diagnosticar
+      // en el aparato (por qué tarda una germinación, si hay riesgo de helada
+      // esta semana) sin recalcular el modelo ni pedir nada por red.
+      // 36 décadas x 3 zonas x 4 valores: pesa nada y evita duplicar lógica.
+      clima: Object.fromEntries(
+        ZONAS.map((z) => [
+          z,
+          Array.from({ length: 36 }, (_, i) => ({
+            media: tempAire(i + 1, z),
+            max: tempMaxima(i + 1, z),
+            min: tempMinima(i + 1, z),
+            helada: riesgoHelada(i + 1, z),
+          })),
+        ]),
+      ),
     },
   },
   campos_schema: fuente.campos_schema,

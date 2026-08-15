@@ -38,7 +38,663 @@
           "ultima_helada": "11-oct"
         }
       },
-      "zona_default": "conurbano"
+      "zona_default": "conurbano",
+      "clima": {
+        "urbano": [
+          {
+            "media": 24.5,
+            "max": 29.7,
+            "min": 19.7,
+            "helada": 0
+          },
+          {
+            "media": 24.9,
+            "max": 30.1,
+            "min": 20.2,
+            "helada": 0
+          },
+          {
+            "media": 24.5,
+            "max": 29.7,
+            "min": 19.9,
+            "helada": 0
+          },
+          {
+            "media": 24.2,
+            "max": 29.3,
+            "min": 19.7,
+            "helada": 0
+          },
+          {
+            "media": 23.8,
+            "max": 28.9,
+            "min": 19.4,
+            "helada": 0
+          },
+          {
+            "media": 23.2,
+            "max": 28.2,
+            "min": 18.8,
+            "helada": 0
+          },
+          {
+            "media": 22.6,
+            "max": 27.7,
+            "min": 18.3,
+            "helada": 0
+          },
+          {
+            "media": 22,
+            "max": 27,
+            "min": 17.7,
+            "helada": 0
+          },
+          {
+            "media": 20.7,
+            "max": 25.7,
+            "min": 16.4,
+            "helada": 0.001
+          },
+          {
+            "media": 19.4,
+            "max": 24.4,
+            "min": 15.3,
+            "helada": 0.005
+          },
+          {
+            "media": 18.2,
+            "max": 23.2,
+            "min": 14.1,
+            "helada": 0.018
+          },
+          {
+            "media": 17,
+            "max": 21.8,
+            "min": 13,
+            "helada": 0.058
+          },
+          {
+            "media": 15.9,
+            "max": 20.7,
+            "min": 12.1,
+            "helada": 0.127
+          },
+          {
+            "media": 14.8,
+            "max": 19.4,
+            "min": 11.1,
+            "helada": 0.252
+          },
+          {
+            "media": 13.8,
+            "max": 18.3,
+            "min": 10.1,
+            "helada": 0.443
+          },
+          {
+            "media": 12.9,
+            "max": 17.4,
+            "min": 9.3,
+            "helada": 0.631
+          },
+          {
+            "media": 12,
+            "max": 16.4,
+            "min": 8.4,
+            "helada": 0.791
+          },
+          {
+            "media": 11.6,
+            "max": 16.1,
+            "min": 8.1,
+            "helada": 0.908
+          },
+          {
+            "media": 11.3,
+            "max": 15.8,
+            "min": 7.8,
+            "helada": 0.958
+          },
+          {
+            "media": 11,
+            "max": 15.5,
+            "min": 7.5,
+            "helada": 0.977
+          },
+          {
+            "media": 11.7,
+            "max": 16.4,
+            "min": 8,
+            "helada": 0.963
+          },
+          {
+            "media": 12.4,
+            "max": 17.1,
+            "min": 8.4,
+            "helada": 0.917
+          },
+          {
+            "media": 13,
+            "max": 17.9,
+            "min": 8.9,
+            "helada": 0.831
+          },
+          {
+            "media": 13.7,
+            "max": 18.5,
+            "min": 9.5,
+            "helada": 0.684
+          },
+          {
+            "media": 14.3,
+            "max": 19.1,
+            "min": 10.1,
+            "helada": 0.517
+          },
+          {
+            "media": 14.9,
+            "max": 19.7,
+            "min": 10.6,
+            "helada": 0.348
+          },
+          {
+            "media": 16,
+            "max": 20.8,
+            "min": 11.6,
+            "helada": 0.192
+          },
+          {
+            "media": 16.9,
+            "max": 21.6,
+            "min": 12.5,
+            "helada": 0.104
+          },
+          {
+            "media": 17.9,
+            "max": 22.6,
+            "min": 13.4,
+            "helada": 0.045
+          },
+          {
+            "media": 19,
+            "max": 23.8,
+            "min": 14.4,
+            "helada": 0.015
+          },
+          {
+            "media": 19.9,
+            "max": 24.9,
+            "min": 15.2,
+            "helada": 0.005
+          },
+          {
+            "media": 20.9,
+            "max": 26,
+            "min": 16.1,
+            "helada": 0.001
+          },
+          {
+            "media": 21.9,
+            "max": 27.1,
+            "min": 17,
+            "helada": 0
+          },
+          {
+            "media": 22.7,
+            "max": 28,
+            "min": 17.7,
+            "helada": 0
+          },
+          {
+            "media": 23.6,
+            "max": 29,
+            "min": 18.5,
+            "helada": 0
+          },
+          {
+            "media": 24.1,
+            "max": 29.4,
+            "min": 19.1,
+            "helada": 0
+          }
+        ],
+        "conurbano": [
+          {
+            "media": 23.6,
+            "max": 29.9,
+            "min": 17.4,
+            "helada": 0
+          },
+          {
+            "media": 24.1,
+            "max": 30.3,
+            "min": 17.9,
+            "helada": 0
+          },
+          {
+            "media": 23.7,
+            "max": 29.8,
+            "min": 17.6,
+            "helada": 0
+          },
+          {
+            "media": 23.4,
+            "max": 29.3,
+            "min": 17.4,
+            "helada": 0
+          },
+          {
+            "media": 23,
+            "max": 28.8,
+            "min": 17.1,
+            "helada": 0
+          },
+          {
+            "media": 22.3,
+            "max": 28.1,
+            "min": 16.5,
+            "helada": 0
+          },
+          {
+            "media": 21.7,
+            "max": 27.5,
+            "min": 16,
+            "helada": 0
+          },
+          {
+            "media": 21,
+            "max": 26.8,
+            "min": 15.4,
+            "helada": 0.002
+          },
+          {
+            "media": 19.6,
+            "max": 25.4,
+            "min": 14.1,
+            "helada": 0.017
+          },
+          {
+            "media": 18.4,
+            "max": 24.2,
+            "min": 13,
+            "helada": 0.067
+          },
+          {
+            "media": 17.1,
+            "max": 22.9,
+            "min": 11.8,
+            "helada": 0.191
+          },
+          {
+            "media": 15.8,
+            "max": 21.5,
+            "min": 10.7,
+            "helada": 0.426
+          },
+          {
+            "media": 14.8,
+            "max": 20.3,
+            "min": 9.9,
+            "helada": 0.646
+          },
+          {
+            "media": 13.6,
+            "max": 19,
+            "min": 8.9,
+            "helada": 0.841
+          },
+          {
+            "media": 12.6,
+            "max": 17.9,
+            "min": 7.9,
+            "helada": 0.954
+          },
+          {
+            "media": 11.7,
+            "max": 16.9,
+            "min": 7,
+            "helada": 0.99
+          },
+          {
+            "media": 10.8,
+            "max": 15.9,
+            "min": 6.1,
+            "helada": 0.998
+          },
+          {
+            "media": 10.4,
+            "max": 15.6,
+            "min": 5.8,
+            "helada": 1
+          },
+          {
+            "media": 10.1,
+            "max": 15.3,
+            "min": 5.5,
+            "helada": 1
+          },
+          {
+            "media": 9.8,
+            "max": 15,
+            "min": 5.2,
+            "helada": 1
+          },
+          {
+            "media": 10.5,
+            "max": 15.9,
+            "min": 5.7,
+            "helada": 0.999
+          },
+          {
+            "media": 11.2,
+            "max": 16.7,
+            "min": 6.1,
+            "helada": 0.996
+          },
+          {
+            "media": 11.8,
+            "max": 17.5,
+            "min": 6.6,
+            "helada": 0.987
+          },
+          {
+            "media": 12.5,
+            "max": 18.1,
+            "min": 7.2,
+            "helada": 0.959
+          },
+          {
+            "media": 13.2,
+            "max": 18.7,
+            "min": 7.8,
+            "helada": 0.904
+          },
+          {
+            "media": 13.8,
+            "max": 19.3,
+            "min": 8.3,
+            "helada": 0.808
+          },
+          {
+            "media": 14.9,
+            "max": 20.4,
+            "min": 9.4,
+            "helada": 0.652
+          },
+          {
+            "media": 15.8,
+            "max": 21.2,
+            "min": 10.2,
+            "helada": 0.5
+          },
+          {
+            "media": 16.8,
+            "max": 22.2,
+            "min": 11.2,
+            "helada": 0.332
+          },
+          {
+            "media": 17.9,
+            "max": 23.5,
+            "min": 12.1,
+            "helada": 0.181
+          },
+          {
+            "media": 19,
+            "max": 24.6,
+            "min": 13,
+            "helada": 0.089
+          },
+          {
+            "media": 20,
+            "max": 25.8,
+            "min": 13.8,
+            "helada": 0.037
+          },
+          {
+            "media": 21,
+            "max": 27,
+            "min": 14.7,
+            "helada": 0.012
+          },
+          {
+            "media": 21.8,
+            "max": 27.9,
+            "min": 15.4,
+            "helada": 0.004
+          },
+          {
+            "media": 22.7,
+            "max": 29,
+            "min": 16.2,
+            "helada": 0.001
+          },
+          {
+            "media": 23.2,
+            "max": 29.5,
+            "min": 16.8,
+            "helada": 0
+          }
+        ],
+        "periurbano": [
+          {
+            "media": 22.6,
+            "max": 28.4,
+            "min": 16.9,
+            "helada": 0
+          },
+          {
+            "media": 23.1,
+            "max": 28.9,
+            "min": 17.4,
+            "helada": 0
+          },
+          {
+            "media": 22.8,
+            "max": 28.5,
+            "min": 17.2,
+            "helada": 0
+          },
+          {
+            "media": 22.5,
+            "max": 28.2,
+            "min": 17.1,
+            "helada": 0
+          },
+          {
+            "media": 22.2,
+            "max": 27.8,
+            "min": 16.9,
+            "helada": 0
+          },
+          {
+            "media": 21.5,
+            "max": 27.1,
+            "min": 16.3,
+            "helada": 0
+          },
+          {
+            "media": 20.9,
+            "max": 26.5,
+            "min": 15.8,
+            "helada": 0.001
+          },
+          {
+            "media": 20.2,
+            "max": 25.8,
+            "min": 15.2,
+            "helada": 0.004
+          },
+          {
+            "media": 18.9,
+            "max": 24.5,
+            "min": 14,
+            "helada": 0.02
+          },
+          {
+            "media": 17.6,
+            "max": 23.3,
+            "min": 12.8,
+            "helada": 0.063
+          },
+          {
+            "media": 16.4,
+            "max": 22.1,
+            "min": 11.7,
+            "helada": 0.159
+          },
+          {
+            "media": 15.2,
+            "max": 20.7,
+            "min": 10.6,
+            "helada": 0.337
+          },
+          {
+            "media": 14.1,
+            "max": 19.5,
+            "min": 9.7,
+            "helada": 0.521
+          },
+          {
+            "media": 13,
+            "max": 18.2,
+            "min": 8.7,
+            "helada": 0.719
+          },
+          {
+            "media": 12,
+            "max": 17.1,
+            "min": 7.7,
+            "helada": 0.877
+          },
+          {
+            "media": 11,
+            "max": 16.1,
+            "min": 6.9,
+            "helada": 0.954
+          },
+          {
+            "media": 10.1,
+            "max": 15.1,
+            "min": 6,
+            "helada": 0.986
+          },
+          {
+            "media": 9.8,
+            "max": 14.8,
+            "min": 5.7,
+            "helada": 0.997
+          },
+          {
+            "media": 9.5,
+            "max": 14.5,
+            "min": 5.5,
+            "helada": 0.999
+          },
+          {
+            "media": 9.2,
+            "max": 14.2,
+            "min": 5.2,
+            "helada": 1
+          },
+          {
+            "media": 9.8,
+            "max": 15,
+            "min": 5.6,
+            "helada": 1
+          },
+          {
+            "media": 10.4,
+            "max": 15.7,
+            "min": 5.9,
+            "helada": 1
+          },
+          {
+            "media": 11,
+            "max": 16.4,
+            "min": 6.3,
+            "helada": 0.998
+          },
+          {
+            "media": 11.6,
+            "max": 17,
+            "min": 6.9,
+            "helada": 0.989
+          },
+          {
+            "media": 12.2,
+            "max": 17.6,
+            "min": 7.4,
+            "helada": 0.964
+          },
+          {
+            "media": 12.8,
+            "max": 18.1,
+            "min": 7.9,
+            "helada": 0.903
+          },
+          {
+            "media": 13.9,
+            "max": 19.2,
+            "min": 8.9,
+            "helada": 0.773
+          },
+          {
+            "media": 14.9,
+            "max": 20,
+            "min": 9.8,
+            "helada": 0.618
+          },
+          {
+            "media": 15.9,
+            "max": 21,
+            "min": 10.7,
+            "helada": 0.421
+          },
+          {
+            "media": 16.9,
+            "max": 22.2,
+            "min": 11.7,
+            "helada": 0.227
+          },
+          {
+            "media": 17.9,
+            "max": 23.3,
+            "min": 12.5,
+            "helada": 0.106
+          },
+          {
+            "media": 18.8,
+            "max": 24.4,
+            "min": 13.4,
+            "helada": 0.04
+          },
+          {
+            "media": 19.8,
+            "max": 25.5,
+            "min": 14.3,
+            "helada": 0.011
+          },
+          {
+            "media": 20.7,
+            "max": 26.5,
+            "min": 15,
+            "helada": 0.003
+          },
+          {
+            "media": 21.6,
+            "max": 27.5,
+            "min": 15.8,
+            "helada": 0.001
+          },
+          {
+            "media": 22.1,
+            "max": 28,
+            "min": 16.4,
+            "helada": 0
+          }
+        ]
+      }
     }
   },
   "campos_schema": {

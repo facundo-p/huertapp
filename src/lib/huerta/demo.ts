@@ -1,5 +1,5 @@
 import * as db from './db'
-import { agregarEntrada, agregarPlanta, agregarUbicacion, recargar } from './store'
+import { agregarEntrada, agregarPlanta, agregarUbicacion, marcarGerminada, recargar } from './store'
 import { hoyISO, nuevoId, type Foto } from './tipos'
 import { sumarDias } from './estimar'
 
@@ -69,12 +69,26 @@ export async function sembrarDemo(): Promise<void> {
     metodo: 'almacigo_protegido',
   })
 
-  await agregarPlanta({
+  const rucula = await agregarPlanta({
     slug: 'rucula',
     ubicacionId: bancal.id,
     sembrada: sumarDias(hoy, -31),
     metodo: 'directa',
   })
+
+  // sembrada hace 32 días y germina en 10-20: pasada de plazo, para ver el aviso
+  await agregarPlanta({
+    slug: 'zanahoria',
+    ubicacionId: bancal.id,
+    sembrada: sumarDias(hoy, -32),
+    metodo: 'directa',
+  })
+
+  // las que ya asomaron quedan marcadas; la albahaca (7-14 días, sembrada hace
+  // 9) queda en plena ventana, que es el tercer estado
+  await marcarGerminada(tomate, sumarDias(hoy, -14))
+  await marcarGerminada(lechuga, sumarDias(hoy, -41))
+  await marcarGerminada(rucula, sumarDias(hoy, -25))
 
   const f1 = await fotoDeMentira(95)
   const f2 = await fotoDeMentira(115)

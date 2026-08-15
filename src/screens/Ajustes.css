@@ -210,3 +210,33 @@
   font-weight: 700;
   color: var(--tinta);
 }
+
+.ajustes__recordatorio {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 4px solid var(--linea);
+  background: var(--papel-hundido);
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.ajustes__recordatorio svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.ajustes__recordatorio.es-nunca,
+.ajustes__recordatorio.es-viejo {
+  background: var(--posible-fondo);
+  border-left-color: var(--posible);
+}
+
+.ajustes__recordatorio.es-ok {
+  background: var(--ideal-fondo);
+  border-left-color: var(--ideal);
+  color: var(--verde-prof);
+}

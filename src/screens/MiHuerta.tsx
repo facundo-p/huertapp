@@ -8,7 +8,8 @@ import { useEspecies } from '../lib/useEspecies'
 import { useHuerta } from '../lib/huerta/store'
 import { ETAPA_INFO, type Planta } from '../lib/huerta/tipos'
 import { estimar, textoHito } from '../lib/huerta/estimar'
-import { IconoGrupo, IconoHuerta, IconoReloj } from '../icons'
+import { germinacion } from '../lib/huerta/germinacion'
+import { IconoAlerta, IconoGrupo, IconoHuerta, IconoReloj, IconoSembrar } from '../icons'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import './MiHuerta.css'
 
@@ -94,9 +95,24 @@ export function MiHuerta() {
   )
 }
 
+function claseGerminacion(estado: string) {
+  return estado === 'demorada' ? 'es-demorada' : estado === 'en_ventana' ? 'es-lista' : ''
+}
+
+function textoGerminacion(g: { estado: string; faltan: number; diasDeMas: number }): string {
+  if (g.estado === 'temprano') {
+    return g.faltan === 1 ? 'Debería asomar mañana' : `Debería asomar en ${g.faltan} días`
+  }
+  if (g.estado === 'en_ventana') return 'Ya podría estar asomando'
+  return g.diasDeMas === 1
+    ? 'Hace 1 día que debería haber asomado'
+    : `Hace ${g.diasDeMas} días que debería haber asomado`
+}
+
 function TarjetaPlanta({ planta, especie }: { planta: Planta; especie?: EspecieEnriquecida }) {
   if (!especie) return null
   const est = estimar(planta, especie)
+  const germ = germinacion(planta, especie)
   const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
 
   return (
@@ -121,11 +137,19 @@ function TarjetaPlanta({ planta, especie }: { planta: Planta; especie?: EspecieE
 
       <CycleProgress etapa={planta.etapa} directa={directa} compacto />
 
-      {est.proximo && (
-        <p className={`planta-card__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
-          <IconoReloj size={14} />
-          {est.proximo.titulo}: {textoHito(est.proximo)}
+      {/* mientras se espera la germinación, ése es EL dato: lo demás puede esperar */}
+      {germ && germ.estado !== 'germino' && germ.estado !== 'no_aplica' ? (
+        <p className={`planta-card__hito ${claseGerminacion(germ.estado)}`}>
+          {germ.estado === 'demorada' ? <IconoAlerta size={14} /> : <IconoSembrar size={14} />}
+          {textoGerminacion(germ)}
         </p>
+      ) : (
+        est.proximo && (
+          <p className={`planta-card__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
+            <IconoReloj size={14} />
+            {est.proximo.titulo}: {textoHito(est.proximo)}
+          </p>
+        )
       )}
     </Link>
   )

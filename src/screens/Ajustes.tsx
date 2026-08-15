@@ -10,6 +10,7 @@ import { borrarTodo, sembrarDemo } from '../lib/huerta/demo'
 import {
   exportar,
   importar,
+  leerUltimoBackup,
   leerArchivo,
   resumir,
   BackupInvalido,
@@ -85,6 +86,7 @@ function SeccionZona({ zona }: { zona: Zona }) {
 function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
   const archivo = useRef<HTMLInputElement>(null)
   const [espacio, setEspacio] = useState<{ usado: number; total: number } | null>(null)
+  const [ultimo, setUltimo] = useState<string | null | undefined>(undefined)
   const [persistente, setPersistente] = useState<boolean | null>(null)
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -93,6 +95,7 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
 
   useEffect(() => {
     void espacioUsado().then(setEspacio)
+    void leerUltimoBackup().then((v) => setUltimo(v ?? null))
     if (navigator.storage?.persisted) void navigator.storage.persisted().then(setPersistente)
   }, [])
 
@@ -101,6 +104,7 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
     try {
       const como = await exportar()
       setMensaje(como === 'compartido' ? 'Backup compartido.' : 'Backup descargado.')
+      setUltimo(await leerUltimoBackup().then((v) => v ?? null))
     } catch {
       setError('No se pudo generar el backup.')
     }
@@ -145,6 +149,8 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
         <strong>Por eso el backup no es un extra.</strong> Guardate el archivo cada tanto donde
         quieras: mail, Drive, lo que uses.
       </p>
+
+      {ultimo !== undefined && <AvisoUltimoBackup iso={ultimo} hayDatos={cuantasPlantas > 0} />}
 
       <div className="ajustes__botones">
         <button className="boton-primario" onClick={alExportar}>
@@ -239,6 +245,35 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
         )}
       </BottomSheet>
     </section>
+  )
+}
+
+/** Recordatorio suave: cuánto hace del último backup. Sin culpa ni alarmas. */
+function AvisoUltimoBackup({ iso, hayDatos }: { iso: string | null; hayDatos: boolean }) {
+  if (!hayDatos) return null
+
+  if (!iso) {
+    return (
+      <p className="ajustes__recordatorio es-nunca">
+        <IconoAlerta size={16} />
+        <span>Todavía no bajaste ningún backup. Si perdés estos datos, no hay de dónde sacarlos.</span>
+      </p>
+    )
+  }
+
+  const dias = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
+  const viejo = dias >= 30
+  return (
+    <p className={`ajustes__recordatorio ${viejo ? 'es-viejo' : 'es-ok'}`}>
+      <IconoAlerta size={16} />
+      <span>
+        Último backup:{' '}
+        <strong>
+          {dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : `hace ${dias} días`}
+        </strong>
+        {viejo && '. Ya va siendo hora de bajar uno nuevo.'}
+      </span>
+    </p>
   )
 }
 
