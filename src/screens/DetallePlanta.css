@@ -1,0 +1,207 @@
+.planta__resumen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  padding: var(--esp-4);
+  padding-top: var(--esp-5);
+}
+
+.planta__avanzar {
+  min-height: var(--tap-min);
+  border-radius: var(--radio-chip);
+  background: var(--salvia-suave);
+  border: 1.5px solid var(--salvia);
+  color: var(--verde-prof);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
+
+.planta__datos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-2);
+  margin: 0;
+  padding-top: var(--esp-3);
+  border-top: 1.5px dashed var(--linea-suave);
+}
+
+.planta__dato {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--esp-2);
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+}
+
+.planta__dato dt {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.planta__dato dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.planta__hito {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.planta__hito svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.planta__hito.es-lista {
+  color: var(--verde-prof);
+}
+
+.planta__ficha-link {
+  font-size: var(--texto-s);
+  font-weight: 600;
+}
+
+/* --- diario --- */
+.diario__cabeza {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  margin-top: var(--esp-3);
+}
+
+.diario__agregar {
+  min-height: 38px;
+  padding: 0 var(--esp-4);
+  border-radius: var(--radio-chip);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--verde-prof);
+}
+
+.diario__vacio {
+  font-size: var(--texto-s);
+  font-style: italic;
+  color: var(--tinta-suave);
+}
+
+.diario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.diario__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding: var(--esp-3);
+  border-radius: var(--radio-m);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  box-shadow: var(--sombra-1);
+}
+
+.diario__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.diario__tipo {
+  padding: 2px 9px;
+  border-radius: var(--radio-chip);
+  background: color-mix(in srgb, var(--tipo) 14%, var(--papel-alto));
+  border: 1.5px solid var(--tipo);
+  color: var(--tipo);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.diario__fecha {
+  margin-left: auto;
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+.diario__texto {
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta);
+  white-space: pre-wrap;
+}
+
+.diario__fotos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+.foto-diario {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: var(--radio-s);
+  border: 1.5px solid var(--linea);
+  background: var(--papel-hundido);
+}
+
+.foto-diario.es-cargando {
+  display: block;
+}
+
+.diario__textarea {
+  min-height: 88px;
+  padding: var(--esp-3);
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.diario__foto-boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  min-height: var(--tap-min);
+  border-radius: var(--radio-s);
+  border: 2px dashed var(--linea);
+  background: var(--papel-alto);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+  cursor: pointer;
+}
+
+.planta__borrar {
+  align-self: center;
+  min-height: var(--tap-min);
+  margin-top: var(--esp-4);
+  padding: 0 var(--esp-4);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--peligro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

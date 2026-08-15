@@ -1,0 +1,94 @@
+.ciclo {
+  display: flex;
+  align-items: flex-start;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: paso;
+}
+
+.ciclo__paso {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  position: relative;
+  min-width: 0;
+}
+
+/* la línea que une los pasos, por detrás de los puntos */
+.ciclo__paso::before {
+  content: '';
+  position: absolute;
+  top: 13px;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--linea);
+}
+.ciclo__paso:first-child::before {
+  display: none;
+}
+.ciclo--compacto .ciclo__paso::before {
+  top: 10px;
+}
+
+.ciclo__punto {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--papel-alto);
+  border: 2px solid var(--linea);
+  color: var(--tinta-suave);
+}
+
+.ciclo--compacto .ciclo__punto {
+  width: 21px;
+  height: 21px;
+  border-width: 1.5px;
+}
+
+.ciclo__paso.es-hecha .ciclo__punto {
+  background: var(--salvia-suave);
+  border-color: var(--salvia);
+  color: var(--verde-prof);
+}
+.ciclo__paso.es-hecha::before {
+  background: var(--salvia);
+}
+
+.ciclo__paso.es-actual .ciclo__punto {
+  background: var(--verde-hoja);
+  border-color: var(--verde-hoja);
+  color: var(--papel-alto);
+  box-shadow: 0 0 0 3px var(--ideal-fondo);
+}
+.ciclo__paso.es-actual::before {
+  background: var(--salvia);
+}
+
+/* la etapa que esta planta nunca va a atravesar (sembrada directa) */
+.ciclo__paso.es-omitida .ciclo__punto {
+  border-style: dashed;
+  opacity: 0.55;
+}
+.ciclo__paso.es-omitida .ciclo__etiqueta {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.ciclo__etiqueta {
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--tinta-suave);
+}
+
+.ciclo__paso.es-actual .ciclo__etiqueta {
+  font-weight: 700;
+  color: var(--verde-prof);
+}

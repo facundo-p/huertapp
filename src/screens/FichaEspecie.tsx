@@ -1,10 +1,12 @@
-import { Link, useParams } from 'react-router'
+import { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { DatoSection } from '../components/DatoSection'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
 import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { EmptyState } from '../components/EmptyState'
+import { AltaPlanta } from '../components/AltaPlanta'
 import { useEspecies } from '../lib/useEspecies'
 import { estadoSiembra, metodoDelMes } from '../lib/data/especies'
 import { METODOS } from '../lib/calendario'
@@ -35,7 +37,9 @@ export function FichaEspecie() {
   const { slug } = useParams()
   const { indice, cargando } = useEspecies()
   const zona = useZona()
+  const navegar = useNavigate()
   const decadaHoy = decadaDe(new Date())
+  const [abrirAlta, setAbrirAlta] = useState(false)
 
   if (cargando) {
     return (
@@ -166,7 +170,7 @@ export function FichaEspecie() {
           <p className="dato__valor">{e.asociaciones_malas.valor}</p>
         </section>
 
-        <button className="ficha__agregar" type="button">
+        <button className="ficha__agregar" type="button" onClick={() => setAbrirAlta(true)}>
           🧺 Agregar a mi huerta
         </button>
 
@@ -176,6 +180,13 @@ export function FichaEspecie() {
           <Link to="/glosario">glosario</Link>.
         </p>
       </div>
+
+      <AltaPlanta
+        abierto={abrirAlta}
+        onCerrar={() => setAbrirAlta(false)}
+        slug={e.slug}
+        onListo={(id) => navegar(`/huerta/${id}`)}
+      />
     </div>
   )
 }

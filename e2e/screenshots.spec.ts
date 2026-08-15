@@ -4,7 +4,7 @@ import { mkdirSync } from 'node:fs'
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
 
-const FASE = process.env.FASE ?? 'fase-3-5'
+const FASE = process.env.FASE ?? 'fase-4'
 const DIR = `e2e/shots/${FASE}`
 
 interface Toma {
@@ -13,6 +13,14 @@ interface Toma {
   fullPage?: boolean
   /** interacción previa a la captura */
   antes?: (page: import('@playwright/test').Page) => Promise<void>
+}
+
+/** Cada test corre en un contexto nuevo: IndexedDB arranca vacía siempre. */
+async function conDemo(page: import('@playwright/test').Page) {
+  await page.goto('/#/ajustes')
+  await page.waitForLoadState('networkidle')
+  await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
+  await page.waitForTimeout(800)
 }
 
 const TOMAS: Toma[] = [
@@ -78,6 +86,50 @@ const TOMAS: Toma[] = [
   },
   { nombre: 'hoy-vacio', ruta: '/#/hoy' },
   { nombre: 'huerta-vacia', ruta: '/#/huerta' },
+  { nombre: 'ajustes-backup', ruta: '/#/ajustes' },
+  {
+    nombre: 'huerta-llena',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    nombre: 'planta-detalle',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('link', { name: /Los del cajón/ }).click()
+      await page.waitForTimeout(600)
+    },
+  },
+  {
+    nombre: 'alta-planta',
+    ruta: '/#/explorar/rucula',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /Agregar a mi huerta/ }).click()
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    nombre: 'diario-nueva-entrada',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('link', { name: /Los del cajón/ }).click()
+      await page.waitForTimeout(400)
+      await page.getByRole('button', { name: /Anotar/ }).click()
+      await page.waitForTimeout(400)
+    },
+  },
   { nombre: 'glosario', ruta: '/#/glosario', fullPage: true },
 ]
 

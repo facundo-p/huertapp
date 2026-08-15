@@ -1,0 +1,161 @@
+.alta__campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.alta__label {
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.alta__opcional {
+  font-family: var(--font-cuerpo);
+  font-weight: 400;
+  color: var(--tinta-suave);
+}
+
+.alta__input {
+  min-height: var(--tap-min);
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-s);
+  border: 1.5px solid var(--linea);
+  background: var(--papel-alto);
+  font: inherit;
+  font-size: var(--texto-m);
+  color: var(--tinta);
+}
+
+.alta__input:focus-visible {
+  border-color: var(--verde-hoja);
+}
+
+select.alta__input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c6350' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  padding-right: 36px;
+}
+
+.alta__ayuda {
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+/* --- buscador de especie --- */
+.alta__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 46dvh;
+  overflow-y: auto;
+}
+
+.alta__opcion {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-s);
+  font-size: var(--texto-m);
+  text-align: left;
+  color: var(--tinta);
+}
+
+.alta__opcion:active {
+  background: var(--papel-hundido);
+}
+
+/* --- método --- */
+.alta__metodos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+.alta__metodo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 40px;
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-chip);
+  border: 1.5px solid var(--linea);
+  background: var(--papel-alto);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.alta__metodo.es-activo {
+  border-color: var(--verde-hoja);
+  border-width: 2.5px;
+  background: var(--ideal-fondo);
+  color: var(--verde-prof);
+  padding: 0 calc(var(--esp-3) - 1px);
+}
+
+/* --- avisos --- */
+.alta__aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 4px solid var(--linea);
+  background: var(--papel-hundido);
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.alta__aviso svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.alta__aviso em {
+  font-size: var(--texto-xs);
+}
+
+.alta__aviso.es-mala {
+  background: var(--peligro-fondo);
+  border-left-color: var(--peligro);
+  color: #7d3a20;
+}
+
+.alta__aviso.es-buena {
+  background: var(--ideal-fondo);
+  border-left-color: var(--ideal);
+  color: var(--verde-prof);
+}
+
+.alta__aviso.es-ojo {
+  background: var(--posible-fondo);
+  border-left-color: var(--posible);
+}
+
+.alta__guardar {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  border-radius: var(--radio-chip);
+  background: var(--verde-hoja);
+  color: var(--papel-alto);
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+}
+
+.alta__guardar:disabled {
+  opacity: 0.6;
+}

@@ -5,6 +5,7 @@ import { Explorar } from './screens/Explorar'
 import { FichaEspecie } from './screens/FichaEspecie'
 import { Calendario } from './screens/Calendario'
 import { MiHuerta } from './screens/MiHuerta'
+import { DetallePlanta } from './screens/DetallePlanta'
 import { Glosario } from './screens/Glosario'
 import { Ajustes } from './screens/Ajustes'
 import './screens/screens.css'
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/huerta" element={<MiHuerta />} />
         </Route>
         <Route path="/explorar/:slug" element={<FichaEspecie />} />
+        <Route path="/huerta/:id" element={<DetallePlanta />} />
         <Route path="/glosario" element={<Glosario />} />
         <Route path="/ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/hoy" replace />} />

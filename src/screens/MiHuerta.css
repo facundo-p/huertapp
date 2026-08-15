@@ -1,0 +1,132 @@
+.huerta__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.huerta__ubicacion {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-top: var(--esp-2);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+}
+
+.huerta__cuenta {
+  min-width: 20px;
+  padding: 1px 7px;
+  border-radius: var(--radio-chip);
+  background: var(--papel-hundido);
+  font-family: var(--font-cuerpo);
+  font-size: 10px;
+  color: var(--tinta-suave);
+}
+
+.huerta__grilla {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.huerta__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border-radius: var(--radio-chip);
+  background: var(--verde-hoja);
+  color: var(--papel-alto);
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+}
+
+.huerta__cta--secundario {
+  margin-top: var(--esp-3);
+  background: none;
+  border: 2px dashed var(--linea);
+  color: var(--tinta-media);
+}
+
+/* --- tarjeta de planta --- */
+.planta-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  padding-top: var(--esp-5);
+  text-decoration: none;
+  color: inherit;
+}
+
+.planta-card__cabeza {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+}
+
+.planta-card__icono {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  flex: none;
+}
+
+.planta-card__textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.planta-card__nombre {
+  font-size: var(--texto-m);
+  font-weight: 700;
+}
+
+.planta-card__sub {
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+.planta-card__etapa {
+  flex: none;
+  padding: 3px 9px;
+  border-radius: var(--radio-chip);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: var(--papel-hundido);
+  color: var(--tinta-media);
+}
+
+.planta-card__etapa.es-almacigo {
+  background: var(--posible-fondo);
+  color: #7a5a12;
+}
+.planta-card__etapa.es-cosechando {
+  background: var(--ideal-fondo);
+  color: var(--verde-prof);
+}
+.planta-card__etapa.es-terminada {
+  opacity: 0.75;
+}
+
+.planta-card__hito {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-top: var(--esp-2);
+  border-top: 1.5px dashed var(--linea-suave);
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+.planta-card__hito.es-lista {
+  font-weight: 700;
+  color: var(--verde-prof);
+}
