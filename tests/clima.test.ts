@@ -239,6 +239,45 @@ describe('afinado del calendario', () => {
     }
   })
 
+  it('COHERENCIA: no se degrada por helada una década si la anterior, más riesgosa, quedó ideal', () => {
+    // El riesgo de helada baja de forma monótona en primavera. Exigirle a una
+    // fecha lo que se le perdonó a otra peor deja huecos absurdos en medio de
+    // la ventana: era lo que hacía que el tomate mostrara agosto ideal con
+    // 100 % de riesgo y principios de octubre degradado con 33 %.
+    for (const [slug, e] of especies) {
+      const { decadas } = afinar([slug, e])
+      for (const zona of ZONAS) {
+        const ideal = new Set<number>(decadas[zona].siembra_ideal)
+        for (let d = 1; d <= 36; d++) {
+          if (ideal.has(d)) continue
+          const previa = ((d + 34) % 36) + 1
+          const siguiente = (d % 36) + 1
+          if (!ideal.has(previa) || !ideal.has(siguiente)) continue
+          // hueco de una década en medio de la ventana: solo vale si la
+          // anterior era menos riesgosa que ésta
+          expect(
+            C.riesgoHelada(previa, zona),
+            `${slug}/${zona}: hueco en la década ${d} con la anterior más riesgosa`,
+          ).toBeLessThan(C.riesgoHelada(d, zona))
+        }
+      }
+    }
+  })
+
+  it('el almácigo, protegido o mixto, nunca se degrada por helada', () => {
+    // si existe un camino protegido, la helada no puede degradar ese mes
+    for (const [slug, e] of especies) {
+      const { afinado } = afinar([slug, e])
+      for (const a of afinado.ajustes) {
+        if (!a.regla.startsWith('helada') || a.regla.includes('trasplante')) continue
+        const metodo = e.calendario.metodo_por_mes[String(C.mesDeDecada(a.decada))]
+        expect(['almacigo', 'almacigo_protegido', 'directa|almacigo'], `${slug} década ${a.decada}`).not.toContain(
+          metodo,
+        )
+      }
+    }
+  })
+
   it('cada ajuste registrado trae su regla y una nota legible', () => {
     for (const par of especies) {
       const { afinado } = afinar(par)

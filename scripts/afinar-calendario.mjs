@@ -27,10 +27,17 @@
  * El almácigo protegido existe justamente para esquivar el frío: sería un error
  * grosero borrar las ventanas de almácigo invernal por riesgo de helada.
  *   · `almacigo` / `almacigo_protegido` → exentos de todo
- *   · `directa|almacigo` → exentos de descarte (queda la opción de almácigo),
- *                          pero pueden degradarse
+ *   · `directa|almacigo` → exentos del criterio de HELADA, por el mismo motivo:
+ *                          si hay un camino protegido disponible, la helada no
+ *                          degrada ese mes. Sí se les aplica el criterio de
+ *                          temperatura, que le pega igual a las dos vías.
  *   · `directa` / `plantacion` → se evalúan completos
  *   · trasplante → siempre a la intemperie, siempre se evalúa
+ *
+ * Sin la exención de helada sobre `directa|almacigo` el resultado era
+ * incoherente y saltaba a la vista en el tomate: agosto quedaba ideal con 100 %
+ * de probabilidad de helada (por protegido) y principios de octubre se degradaba
+ * con 33 %. Dos varas distintas para el mismo riesgo.
  */
 
 import {
@@ -143,7 +150,7 @@ function corrida(decada, dias) {
 
 function exencion(metodo) {
   if (metodo === 'almacigo' || metodo === 'almacigo_protegido') return 'total'
-  if (metodo === 'directa|almacigo') return 'sin_descarte'
+  if (metodo === 'directa|almacigo') return 'sin_helada'
   return 'ninguna'
 }
 
@@ -205,10 +212,10 @@ function afinarZona(cal, temps, zona, diasGerminacion, diasACosecha) {
     // que diga la etiqueta. En la frutilla `helada: 'sensible'` habla del daño
     // a la flor y al fruto, no de la planta, que aguanta -10 °C.
     const laMataElFrio = c.tolera_min == null || c.tolera_min > 0
-    if (laMataElFrio && (helada === 'muere' || helada === 'sensible')) {
+    if (ex === 'ninguna' && laMataElFrio && (helada === 'muere' || helada === 'sensible')) {
       const r = riesgoHelada(e, zona)
       const nivel = nivelRiesgo(r)
-      if (helada === 'muere' && nivel === 'alto' && ex === 'ninguna') {
+      if (helada === 'muere' && nivel === 'alto') {
         descartar(d)
         registrar(d, 'helada', `Sembrando a ${nombreDecada(d)} emerge a ${nombreDecada(e)}, cuando todavía hay ${Math.round(r * 100)} % de probabilidad de helada — y la helada la mata.`)
         continue
@@ -256,6 +263,32 @@ function afinarZona(cal, temps, zona, diasGerminacion, diasACosecha) {
       tPosible.add(d)
       registrar(d, 'helada_trasplante_riesgo', `${Math.round(r * 100)} % de probabilidad de helada a ${nombreDecada(d)}.`)
     }
+  }
+
+  // ── Coherencia del riesgo de helada ──────────────────────────────────────
+  // El riesgo de helada baja de forma monótona a lo largo de la primavera. Si
+  // una década quedó degradada por helada pero la anterior —que es MÁS
+  // riesgosa— sigue siendo ideal, la degradación es incoherente: no se le puede
+  // exigir a una fecha lo que se le perdonó a otra peor. Pasa cuando el método
+  // cambia de protegido a directo en el límite del mes, y es exactamente lo que
+  // hacía que el tomate mostrara agosto ideal con 100 % de riesgo y principios
+  // de octubre degradado con 33 %.
+  // La degradación por helada solo vale en el borde de la ventana.
+  for (let vuelta = 0; vuelta < 36; vuelta++) {
+    let cambio = false
+    for (const a of ajustes) {
+      if (a.regla !== 'helada_riesgo' || !posible.has(a.decada)) continue
+      const previa = ((a.decada + 34) % 36) + 1
+      if (!ideal.has(previa)) continue
+      if (riesgoHelada(previa, zona) < riesgoHelada(a.decada, zona)) continue // la anterior era menos riesgosa: el corte es legítimo
+      posible.delete(a.decada)
+      ideal.add(a.decada)
+      cambio = true
+    }
+    if (!cambio) break
+  }
+  for (let i = ajustes.length - 1; i >= 0; i--) {
+    if (ajustes[i].regla === 'helada_riesgo' && ideal.has(ajustes[i].decada)) ajustes.splice(i, 1)
   }
 
   // ── Suavizado: rellenar huecos de una sola década ────────────────────────

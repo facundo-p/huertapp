@@ -90,8 +90,8 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 | **Pepino** | ··· | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ··· | ··· | afinado (4) | 8 |
 | **Pimiento / Morrón** | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ●●● | ··· | ··· | ··· | afinado (5) | 8 |
 | **Sandía** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○○○ | ··· | ○●● | ··· | ··· | afinado (4) | 8 |
-| **Tomate** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ○●● | ○○○ | ○○○ | afinado (6) | 8 |
-| **Zapallito de tronco** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○○○ | ○●● | ●●● | ●●● | afinado (4) | 8 |
+| **Tomate** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ●●● | ○○○ | ○○○ | afinado (5) | 8 |
+| **Zapallito de tronco** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ●●● | ●●● | ●●● | afinado (1) | 6 |
 | **Zapallo / Calabaza** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ●●● | ··· | afinado (4) | 8 |
 
 <details><summary>Trasplante de este grupo</summary>
@@ -230,7 +230,6 @@ Fuente: siembra ideal en los meses 8, 9, 10 · confianza del calendario 9/10
 
 | Década | Regla | Por qué |
 |---|---|---|
-| principios de octubre | `helada_riesgo` | Emerge a mediados de octubre, con 33 % de probabilidad de helada. |
 | principios de septiembre | `helada_trasplante` | Trasplantar a principios de septiembre expone el plantín a un 90 % de probabilidad de helada. |
 | mediados de septiembre | `helada_trasplante` | Trasplantar a mediados de septiembre expone el plantín a un 81 % de probabilidad de helada. |
 | fines de septiembre | `helada_trasplante` | Trasplantar a fines de septiembre expone el plantín a un 65 % de probabilidad de helada. |
@@ -276,10 +275,7 @@ Fuente: siembra ideal en los meses 9, 10, 11, 12 · confianza del calendario 8/1
 
 | Década | Regla | Por qué |
 |---|---|---|
-| principios de septiembre | `helada_riesgo` | Emerge a mediados de septiembre, con 81 % de probabilidad de helada. |
-| mediados de septiembre | `helada_riesgo` | Emerge a fines de septiembre, con 65 % de probabilidad de helada. |
-| fines de septiembre | `helada_riesgo` | Emerge a principios de octubre, con 50 % de probabilidad de helada. |
-| principios de octubre | `helada_riesgo` | Emerge a mediados de octubre, con 33 % de probabilidad de helada. |
+| principios de septiembre | `suelo_frio` | Con 13.2 °C de media, el suelo de principios de septiembre probablemente no llegue a los 15 °C que necesita para germinar. |
 
 ### Zapallo / Calabaza
 
@@ -531,7 +527,7 @@ Entre el Observatorio y La Plata hay 35 días de diferencia en la última helada
 
 | Especie | Núcleo urbano | Conurbano | Periurbano |
 |---|---|---|---|
-| **Zapallito de tronco** | mediados de septiembre → fines de diciembre | mediados de octubre → fines de diciembre | fines de octubre → fines de diciembre |
+| **Zapallito de tronco** | principios de septiembre → fines de diciembre | mediados de septiembre → fines de diciembre | fines de septiembre → fines de diciembre |
 | **Zapallo / Calabaza** | principios de octubre → fines de noviembre | mediados de octubre → fines de noviembre | fines de octubre → fines de noviembre |
 | **Pepino** | mediados de septiembre → fines de octubre | mediados de octubre → fines de octubre | fines de octubre → fines de octubre |
 | **Melón** | principios de octubre → fines de octubre | mediados de octubre → fines de octubre | fines de octubre → fines de octubre |

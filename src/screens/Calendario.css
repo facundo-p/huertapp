@@ -229,6 +229,17 @@
   align-self: flex-end;
   margin-bottom: 9px;
 }
+.cal-barra.es-trasplante.es-nada {
+  height: 3px;
+  margin-bottom: 11px;
+}
+
+/* década sin ventana: filete tenue que marca que el mes existe */
+.cal-barra.es-nada {
+  height: 3px;
+  background: var(--linea);
+  border-radius: 999px;
+}
 
 .cal-barra.es-siembra.es-ideal {
   background: var(--ideal);

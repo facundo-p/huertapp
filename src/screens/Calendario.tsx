@@ -203,7 +203,10 @@ function Celda({
     <span className={`cal-celda ${esMesActual ? 'es-mes-ahora' : ''}`} aria-hidden={vacia}>
       {decadas.map((d, i) => (
         <span key={d} className={`cal-tercio ${d === decadaHoy ? 'es-ahora' : ''}`}>
-          {!vacia && estados?.[i] && <span className={`cal-barra es-${capa} es-${estados[i]}`} />}
+          {/* la década sin ventana también se dibuja, con un filete tenue: sin
+              eso los meses vacíos no dejan rastro y, scrolleando 55 filas, se
+              vuelve imposible ubicar en qué mes cae cada barra */}
+          {!vacia && <span className={`cal-barra es-${capa} ${estados?.[i] ? `es-${estados[i]}` : 'es-nada'}`} />}
         </span>
       ))}
     </span>

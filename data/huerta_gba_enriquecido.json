@@ -6246,6 +6246,7 @@
               25,
               26,
               27,
+              28,
               29,
               30
             ],
@@ -6253,7 +6254,6 @@
               1,
               2,
               3,
-              28,
               31,
               32,
               33,
@@ -6282,14 +6282,14 @@
               25,
               26,
               27,
+              28,
+              29,
               30
             ],
             "siembra_posible": [
               1,
               2,
               3,
-              28,
-              29,
               31,
               32,
               33,
@@ -6316,11 +6316,6 @@
           "motivo": null,
           "nota_fuente": null,
           "ajustes": [
-            {
-              "decada": 28,
-              "regla": "helada_riesgo",
-              "nota": "Emerge a mediados de octubre, con 33 % de probabilidad de helada."
-            },
             {
               "decada": 25,
               "regla": "helada_trasplante",
@@ -8048,6 +8043,29 @@
         "decadas": {
           "urbano": {
             "siembra_ideal": [
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3
+            ],
+            "trasplante_ideal": [],
+            "trasplante_posible": []
+          },
+          "conurbano": {
+            "siembra_ideal": [
               26,
               27,
               28,
@@ -8069,8 +8087,10 @@
             "trasplante_ideal": [],
             "trasplante_posible": []
           },
-          "conurbano": {
+          "periurbano": {
             "siembra_ideal": [
+              27,
+              28,
               29,
               30,
               31,
@@ -8085,32 +8105,7 @@
               2,
               3,
               25,
-              26,
-              27,
-              28
-            ],
-            "trasplante_ideal": [],
-            "trasplante_posible": []
-          },
-          "periurbano": {
-            "siembra_ideal": [
-              30,
-              31,
-              32,
-              33,
-              34,
-              35,
-              36
-            ],
-            "siembra_posible": [
-              1,
-              2,
-              3,
-              25,
-              26,
-              27,
-              28,
-              29
+              26
             ],
             "trasplante_ideal": [],
             "trasplante_posible": []
@@ -8123,26 +8118,11 @@
           "ajustes": [
             {
               "decada": 25,
-              "regla": "helada_riesgo",
-              "nota": "Emerge a mediados de septiembre, con 81 % de probabilidad de helada."
-            },
-            {
-              "decada": 26,
-              "regla": "helada_riesgo",
-              "nota": "Emerge a fines de septiembre, con 65 % de probabilidad de helada."
-            },
-            {
-              "decada": 27,
-              "regla": "helada_riesgo",
-              "nota": "Emerge a principios de octubre, con 50 % de probabilidad de helada."
-            },
-            {
-              "decada": 28,
-              "regla": "helada_riesgo",
-              "nota": "Emerge a mediados de octubre, con 33 % de probabilidad de helada."
+              "regla": "suelo_frio",
+              "nota": "Con 13.2 °C de media, el suelo de principios de septiembre probablemente no llegue a los 15 °C que necesita para germinar."
             }
           ],
-          "confianza": 8,
+          "confianza": 6,
           "zona_referencia": {
             "urbano": "Buenos Aires Observatorio (SMN) · Observatorio 3 °C (FAUBA)",
             "conurbano": "Ezeiza Aero (SMN) · Ezeiza Aero 3 °C (FAUBA)",
