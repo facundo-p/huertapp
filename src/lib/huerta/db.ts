@@ -62,8 +62,17 @@ export async function espacioUsado(): Promise<{ usado: number; total: number } |
 // ── Plantas ──────────────────────────────────────────────────────────────────
 export const listarPlantas = async () => (await abrir()).getAll('plantas')
 export const leerPlanta = async (id: string) => (await abrir()).get('plantas', id)
+
+let persistenciaPedida = false
 export const guardarPlanta = async (p: Planta) => {
   await (await abrir()).put('plantas', p)
+  // El momento de pedir que el navegador no evicte los datos es este: recién
+  // ahora hay algo que perder. Pedirlo al abrir la app, cuando no hay nada
+  // cargado, es un permiso que se pide sin motivo (y en Firefox, un cartel).
+  if (!persistenciaPedida) {
+    persistenciaPedida = true
+    void pedirPersistencia()
+  }
 }
 
 /** Borra la planta con todo lo suyo: entradas de diario y fotos. */

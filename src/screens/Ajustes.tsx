@@ -17,7 +17,17 @@ import {
   type Backup,
   type ResumenBackup,
 } from '../lib/huerta/backup'
-import { IconoAlerta, IconoFuente, IconoNota } from '../icons'
+import { instalar, useComoInstalar } from '../lib/instalar'
+import {
+  activarAvisos,
+  alCambiarPermiso,
+  desactivarAvisos,
+  esIOS,
+  estadoAvisos,
+  probarAviso,
+  type EstadoAvisos,
+} from '../lib/avisos'
+import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir } from '../icons'
 import './Ajustes.css'
 
 export function Ajustes() {
@@ -29,7 +39,9 @@ export function Ajustes() {
       <Header titulo="Ajustes" volver />
       <div className="pantalla__cuerpo">
         <SeccionZona zona={zona} />
+        <SeccionInstalar />
         <SeccionBackup cuantasPlantas={plantas.length} />
+        <SeccionAvisos />
         <SeccionDemo cuantasPlantas={plantas.length} />
       </div>
     </div>
@@ -77,6 +89,82 @@ function SeccionZona({ zona }: { zona: Zona }) {
           GBA. Ante la duda conviene la zona más fría, que atrasa la siembra y arriesga menos.
         </span>
       </p>
+    </section>
+  )
+}
+
+/* ---------- instalar ---------- */
+
+/**
+ * Instalarla en la pantalla de inicio. En Android hay un botón de verdad; en
+ * iPhone no existe la API, así que lo único honesto es explicar los tres pasos
+ * —y explicarlos bien, porque el botón de compartir de Safari no es obvio.
+ */
+function SeccionInstalar() {
+  const como = useComoInstalar()
+  const [instalando, setInstalando] = useState(false)
+
+  if (como === 'ya-esta') {
+    return (
+      <section className="ajustes__seccion">
+        <h2 className="ajustes__titulo subrayado-onda">La app</h2>
+        <p className="ajustes__recordatorio es-ok">
+          <IconoInstalar size={16} />
+          <span>
+            <strong>Ya está instalada.</strong> Anda sin internet y tus datos están más protegidos
+            que en una pestaña común.
+          </span>
+        </p>
+      </section>
+    )
+  }
+
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">Instalar en el celu</h2>
+      <p className="ajustes__bajada">
+        Queda como una app más: abre a pantalla completa, <strong>funciona sin internet</strong> y el
+        navegador le borra los datos menos fácil. No ocupa casi nada y no hay que crear ninguna
+        cuenta.
+      </p>
+
+      {como === 'boton' ? (
+        <div className="ajustes__botones">
+          <button
+            className="boton-primario"
+            onClick={() => {
+              setInstalando(true)
+              void instalar().finally(() => setInstalando(false))
+            }}
+            disabled={instalando}
+          >
+            <IconoInstalar size={18} /> Instalar la app
+          </button>
+        </div>
+      ) : como === 'ios-manual' ? (
+        <ol className="pasos">
+          <li>
+            Tocá el botón <strong>Compartir</strong> abajo en Safari — el cuadradito con la flecha
+            para arriba.
+          </li>
+          <li>
+            Bajá en la lista hasta <strong>"Agregar a inicio"</strong>.
+          </li>
+          <li>
+            Tocá <strong>Agregar</strong>. Listo: te queda el ícono con el plantín.
+          </li>
+        </ol>
+      ) : (
+        <ol className="pasos">
+          <li>
+            Abrí el <strong>menú del navegador</strong> (los tres puntitos).
+          </li>
+          <li>
+            Buscá <strong>"Instalar app"</strong> o <strong>"Agregar a la pantalla de inicio"</strong>.
+          </li>
+          <li>Confirmá y listo.</li>
+        </ol>
+      )}
     </section>
   )
 }
@@ -154,10 +242,10 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
 
       <div className="ajustes__botones">
         <button className="boton-primario" onClick={alExportar}>
-          <IconoFuente size={18} /> Bajar backup
+          <IconoBajar size={18} /> Bajar backup
         </button>
         <button className="boton-secundario" onClick={() => archivo.current?.click()}>
-          <IconoNota size={18} /> Restaurar de un archivo
+          <IconoSubir size={18} /> Restaurar de un archivo
         </button>
         <input
           ref={archivo}
@@ -272,6 +360,147 @@ function AvisoUltimoBackup({ iso, hayDatos }: { iso: string | null; hayDatos: bo
           {dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : `hace ${dias} días`}
         </strong>
         {viejo && '. Ya va siendo hora de bajar uno nuevo.'}
+      </span>
+    </p>
+  )
+}
+
+/* ---------- avisos ---------- */
+
+/**
+ * Notificaciones. La sección más difícil de escribir de la app, porque lo
+ * honesto es admitir que en iPhone no funcionan y que en Android tampoco se
+ * puede elegir la hora. Se dice antes de que la persona toque el botón, no
+ * después de esperar tres días un aviso que no iba a llegar.
+ */
+function SeccionAvisos() {
+  const [estado, setEstado] = useState<EstadoAvisos | null>(null)
+  const [probado, setProbado] = useState(false)
+  const [ocupado, setOcupado] = useState(false)
+
+  useEffect(() => {
+    const releer = () => void estadoAvisos().then(setEstado)
+    releer()
+    // si desbloquean los avisos desde el navegador, esta pantalla se entera
+    return alCambiarPermiso(releer)
+  }, [])
+
+  if (!estado) return null
+
+  const prendidos = estado.activo && estado.permiso === 'granted'
+
+  async function alternar() {
+    setOcupado(true)
+    try {
+      setEstado(prendidos ? await desactivarAvisos() : await activarAvisos())
+    } finally {
+      setOcupado(false)
+    }
+  }
+
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">Avisos</h2>
+      <p className="ajustes__bajada">
+        La app <strong>no depende de esto</strong>: al abrirla, Hoy siempre te muestra lo pendiente.
+        Un aviso es para los días que ni la abrís.
+      </p>
+
+      {!estado.soportado ? (
+        <p className="ajustes__recordatorio es-nunca">
+          <IconoAlerta size={16} />
+          <span>Este navegador no puede mostrar avisos. Todo lo demás anda igual.</span>
+        </p>
+      ) : estado.permiso === 'denied' ? (
+        <p className="ajustes__recordatorio es-nunca">
+          <IconoAlerta size={16} />
+          <span>
+            Los bloqueaste para este sitio. Se vuelven a habilitar desde los ajustes del navegador,
+            en los permisos de esta página.
+          </span>
+        </p>
+      ) : (
+        <>
+          <div className="ajustes__botones">
+            <button
+              className={prendidos ? 'boton-secundario' : 'boton-primario'}
+              onClick={() => void alternar()}
+              disabled={ocupado}
+            >
+              <IconoCampana size={18} />
+              {prendidos ? 'Apagar los avisos' : 'Prender los avisos'}
+            </button>
+            {prendidos && (
+              <button
+                className="boton-secundario"
+                onClick={() => {
+                  setProbado(true)
+                  void probarAviso()
+                }}
+              >
+                Mandarme uno de prueba
+              </button>
+            )}
+          </div>
+          {probado && (
+            <p className="ajustes__ok">
+              Mandado. Si no lo viste, fijate los permisos de notificaciones del sistema.
+            </p>
+          )}
+          <LimitesDeAvisos estado={estado} prendidos={prendidos} />
+        </>
+      )}
+    </section>
+  )
+}
+
+/** La letra chica, que acá es la parte importante. */
+function LimitesDeAvisos({ estado, prendidos }: { estado: EstadoAvisos; prendidos: boolean }) {
+  if (esIOS()) {
+    return (
+      <p className="ajustes__nota">
+        <IconoAlerta size={15} />
+        <span>
+          <strong>En iPhone y iPad no van a llegar con la app cerrada.</strong> iOS no deja que una
+          app instalada se despierte sola, y no hay forma de darle la vuelta sin un servidor. Por eso
+          la app está pensada para funcionar sin avisos.
+        </span>
+      </p>
+    )
+  }
+
+  if (!estado.instalada) {
+    return (
+      <p className="ajustes__nota">
+        <IconoAlerta size={15} />
+        <span>
+          Para que lleguen con la app cerrada hay que <strong>instalarla</strong> (en el menú del
+          navegador, "Instalar app" o "Agregar a la pantalla de inicio"). En una pestaña común el
+          navegador no la despierta.
+        </span>
+      </p>
+    )
+  }
+
+  if (!estado.puedeDespertar) {
+    return (
+      <p className="ajustes__nota">
+        <IconoAlerta size={15} />
+        <span>
+          Este navegador no puede despertar la app en segundo plano, así que los avisos van a llegar
+          solo si la tenés abierta. Hoy eso lo hace Chrome en Android y en escritorio.
+        </span>
+      </p>
+    )
+  }
+
+  return (
+    <p className="ajustes__nota">
+      <IconoAlerta size={15} />
+      <span>
+        {prendidos ? 'Te va a avisar' : 'Te avisaría'} <strong>una vez por día como mucho</strong>, y
+        solo los días en que aparece algo nuevo. La hora la decide el navegador: sin un servidor
+        atrás no se puede pedir una exacta.
       </span>
     </p>
   )

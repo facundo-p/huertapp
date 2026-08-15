@@ -159,3 +159,48 @@ export function IconoReloj(p: IconProps) {
     </Svg>
   )
 }
+
+/** Bajar: flecha que entra a la bandeja (backup que sale de la app) */
+export function IconoBajar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 3.8 V 14.4" />
+      <path d="M8 10.6 L 12 14.7 L 16 10.6" />
+      <path d="M4.4 16.2 V 18.2 C 4.4 19.4, 5.3 20.2, 6.4 20.2 H 17.6 C 18.7 20.2, 19.6 19.4, 19.6 18.2 V 16.2" />
+    </Svg>
+  )
+}
+
+/** Subir: flecha que sale de la bandeja (backup que vuelve a la app) */
+export function IconoSubir(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 14.7 V 4.1" />
+      <path d="M8 8.2 L 12 4.1 L 16 8.2" />
+      <path d="M4.4 16.2 V 18.2 C 4.4 19.4, 5.3 20.2, 6.4 20.2 H 17.6 C 18.7 20.2, 19.6 19.4, 19.6 18.2 V 16.2" />
+    </Svg>
+  )
+}
+
+/** Instalar: el celular con la app entrando */
+export function IconoInstalar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="6.2" y="2.8" width="11.6" height="18.4" rx="2.4" />
+      <path d="M12 7.6 V 14.2" />
+      <path d="M9.4 11.6 L 12 14.4 L 14.6 11.6" />
+      <path d="M10.4 18.4 H 13.6" />
+    </Svg>
+  )
+}
+
+/** Aviso: campanita. Es el signo universal; inventar otro sería presumido. */
+export function IconoCampana(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M6.3 16.6 V 11.1 C 6.3 7.9, 8.8 5.4, 12 5.4 C 15.2 5.4, 17.7 7.9, 17.7 11.1 V 16.6 L 19.2 18.6 H 4.8 Z" />
+      <path d="M10.2 18.6 C 10.2 19.7, 11 20.5, 12 20.5 C 13 20.5, 13.8 19.7, 13.8 18.6" />
+      <path d="M12 5.4 V 3.6" />
+    </Svg>
+  )
+}

@@ -6,6 +6,9 @@ import {
   SUELOS,
   IconoAlerta,
   IconoAlmacigo,
+  IconoBajar,
+  IconoCampana,
+  IconoInstalar,
   IconoConfianza,
   IconoCosechar,
   IconoFoto,
@@ -40,6 +43,9 @@ const ACCIONES: Item[] = [
   { Icono: IconoFuente, nombre: 'Fuente', desc: 'De dónde sale el dato (INTA, UNLP…).' },
   { Icono: IconoConfianza, nombre: 'Confianza', desc: 'Qué tan respaldado está el dato (1 a 10).' },
   { Icono: IconoReloj, nombre: 'Ventana', desc: 'El tiempo ideal para algo se está por cerrar.' },
+  { Icono: IconoCampana, nombre: 'Aviso', desc: 'Notificación que te llega con la app cerrada.' },
+  { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
+  { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
 ]
 
 const CONFIANZAS = [

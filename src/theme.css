@@ -3,6 +3,19 @@
    Dirección: "cuaderno de campo querible" — papel cálido, tinta
    verde-oliva, etiquetas de semillas, terracota y amarillo sol.
    Todos los tokens del sistema viven acá. No hay otro lugar.
+
+   CONTRASTE — la regla que ordena la paleta:
+   todo color que se use como TEXTO llega a 4.5:1 contra el fondo más
+   claro sobre el que aparece (AA), con margen: se calibraron a ~4.6
+   para no vivir en el borde del redondeo. Los que son solo relleno o
+   borde (--sol, --salvia) se rigen por 3:1, que es lo que pide WCAG
+   para objetos gráficos, y por eso el amarillo puede seguir siendo
+   amarillo. `e2e/accesibilidad.spec.ts` mide esto en las 7 pantallas
+   con datos cargados y falla si algo baja.
+
+   Consecuencia de diseño: la jerarquía NO se hace bajando contraste.
+   El texto terciario es tan oscuro como el secundario; lo que lo
+   distingue es el tamaño y el peso.
    ============================================================ */
 
 :root {
@@ -13,7 +26,7 @@
   --crema: #f1e8d2;
   --tinta: #3a4030;          /* texto principal, verde-marrón oscuro */
   --tinta-media: #5c6350;    /* texto secundario */
-  --tinta-suave: #878d78;    /* texto terciario, placeholders */
+  --tinta-suave: #626757;    /* texto terciario, placeholders */
   --linea: #ddd2b6;          /* bordes y divisores */
   --linea-suave: #e9e0c8;
 
@@ -25,9 +38,9 @@
   --oliva: #8a8f4a;
 
   /* ---- Acentos cálidos ---- */
-  --terracota: #bf6849;
+  --terracota: #a1583d;
   --terracota-suave: #f0d5c6;
-  --sol: #e3a52f;            /* "posible", destacados */
+  --sol: #e3a52f;            /* "posible", destacados — solo relleno, nunca texto */
   --sol-suave: #f8e7bb;
   --frambuesa: #a85c68;      /* etiquetas de diario (plaga…) */
 
@@ -36,18 +49,18 @@
   --ideal-fondo: #e2ecd8;
   --posible: var(--sol);
   --posible-fondo: #f8ecc9;
-  --peligro: #b3502e;
+  --peligro: #9e4729;
   --peligro-fondo: #f3d9cd;
   --foco: #4d7440;
 
   /* ---- Confianza (1-10 → baja/media/alta) ---- */
-  --conf-alta: #4d7440;
+  --conf-alta: #4b713e;
   --conf-alta-fondo: #e2ecd8;
-  --conf-media: #c08a2d;
+  --conf-media: #86611f;
   --conf-media-fondo: #f6e8c6;
-  --conf-baja: #b3502e;
+  --conf-baja: #9e4729;
   --conf-baja-fondo: #f3d9cd;
-  --conf-sin: #878d78;
+  --conf-sin: #616657;
   --conf-sin-fondo: #eae3d0;
 
   /* ---- Categorías de suelo ---- */

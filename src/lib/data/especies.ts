@@ -4,6 +4,12 @@ import { decadaDe, decadasDelMes, diasHastaFinDeDecada, siguienteDecada } from '
 
 // El JSON no entra al bundle inicial: dynamic import → chunk propio hasheado,
 // precacheado por el service worker. La app abre con el shell y el dato llega aparte.
+//
+// Probado y descartado: adelantar este chunk con `<link rel="modulepreload">`.
+// Suena a mejora obvia —evita la cascada bundle → parse → import()— pero medido
+// en 4× CPU y 1,6 Mbps sale 133 ms *peor* (1691 vs 1558 ms hasta contenido útil,
+// mediana de 9 corridas, p90 sin solaparse): en un enlace angosto los 574 KB del
+// catálogo le compiten el ancho de banda al bundle que hace falta para dibujar.
 
 export interface IndiceEspecies {
   db: EspeciesDB

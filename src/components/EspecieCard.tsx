@@ -22,7 +22,9 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
   return (
     <Link to={`/explorar/${especie.slug}`} className="especie-card etiqueta">
       <div className="especie-card__cabeza">
-        <h3 className="especie-card__nombre">{especie.nombre_comun}</h3>
+        {/* h2 y no h3: la tarjeta cuelga directo del título de la pantalla, y
+            así quien navega por encabezados recorre la lista de especies */}
+        <h2 className="especie-card__nombre">{especie.nombre_comun}</h2>
         {estado === 'ideal' && (
           <span className={`especie-card__ahora ${quedan != null ? 'es-cierra' : ''}`}>
             {quedan != null ? (

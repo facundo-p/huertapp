@@ -1,11 +1,13 @@
 import { test } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
 
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
 
-const FASE = process.env.FASE ?? 'fase-5'
+const FASE = process.env.FASE ?? 'fase-6'
 const DIR = `e2e/shots/${FASE}`
+const SW = 'dist/sw.js'
 
 interface Toma {
   nombre: string
@@ -156,6 +158,44 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'glosario', ruta: '/#/glosario', fullPage: true },
+  {
+    nombre: 'ajustes-instalar',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await page.locator('.pasos').scrollIntoViewIfNeeded()
+    },
+  },
+  {
+    nombre: 'ajustes-avisos',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      // Chromium bajo Playwright arranca con las notificaciones denegadas, y
+      // así la sección muestra el cartel de "las bloqueaste". Se conceden para
+      // capturar el camino normal, que es el que hay que mirar.
+      await page.context().grantPermissions(['notifications'])
+      await page.reload()
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('heading', { name: 'Avisos' }).scrollIntoViewIfNeeded()
+    },
+  },
+  {
+    nombre: 'aviso-actualizacion',
+    ruta: '/#/hoy',
+    // se publica un deploy nuevo de verdad y se espera a que la app lo ofrezca
+    antes: async (page) => {
+      await page.waitForFunction(async () => !!navigator.serviceWorker.controller, null, {
+        timeout: 20_000,
+      })
+      const original = await readFile(SW, 'utf8')
+      try {
+        await writeFile(SW, original.replace(/const VERSION = '\w+'/, "const VERSION = 'proxima00'"))
+        await page.evaluate(async () => (await navigator.serviceWorker.getRegistration())?.update())
+        await page.getByText('Hay una versión nueva.').waitFor({ timeout: 20_000 })
+      } finally {
+        await writeFile(SW, original)
+      }
+    },
+  },
 ]
 
 test.beforeAll(() => {

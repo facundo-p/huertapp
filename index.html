@@ -3,7 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
     <title>Huerta GBA</title>
+    <meta
+      name="description"
+      content="Qué sembrar y cuándo en el Gran Buenos Aires, con el calendario afinado a tu zona. Funciona sin internet."
+    />
+
+    <!-- el color de la barra de estado: el mismo papel del fondo, para que no
+         quede una banda que corte la pantalla -->
+    <meta name="theme-color" content="#f6efdd" />
+    <meta name="color-scheme" content="light" />
+
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icono.svg" />
+    <!-- iOS no lee el manifest para el ícono ni para el nombre: van aparte -->
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Huerta" />
+
+    <!-- la pantalla arranca en papel, no en blanco: evita el flash antes del CSS -->
+    <style>
+      html {
+        background: #f6efdd;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,35 @@
+{
+  "id": "huerta-gba",
+  "name": "Huerta GBA",
+  "short_name": "Huerta",
+  "description": "Qué sembrar y cuándo en el Gran Buenos Aires, con el calendario afinado a tu zona. Funciona sin internet.",
+  "lang": "es-AR",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#f6efdd",
+  "theme_color": "#f6efdd",
+  "categories": ["lifestyle", "education", "utilities"],
+  "icons": [
+    { "src": "icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mi huerta",
+      "short_name": "Mi huerta",
+      "description": "Tus plantas y su diario",
+      "url": "./#/huerta",
+      "icons": [{ "src": "icono-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Calendario",
+      "short_name": "Calendario",
+      "description": "El año entero de las 55 especies",
+      "url": "./#/calendario",
+      "icons": [{ "src": "icono-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

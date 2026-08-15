@@ -205,11 +205,12 @@
   padding: 0;
 }
 
+/* Cada chip navega a otra especie: es un destino, no una etiqueta. */
 .asoc-chip {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
-  padding: 5px 12px;
+  min-height: var(--tap-min);
+  padding: 5px 14px;
   border-radius: var(--radio-chip);
   font-size: var(--texto-s);
   font-weight: 600;

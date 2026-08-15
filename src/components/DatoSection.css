@@ -91,11 +91,15 @@
   padding: 0;
 }
 
+/* Las fuentes son el corazón de la trazabilidad: se tocan de verdad, y
+   con el dedo sucio. Van a 44px de alto aunque el texto sea chico — el
+   costo es scroll, y el scroll es barato comparado con errarle al link. */
 .fuente {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
+  gap: 6px;
+  min-height: var(--tap-min);
+  padding: 4px 12px;
   border-radius: var(--radio-chip);
   background: var(--papel-hundido);
   border: 1px solid var(--linea);

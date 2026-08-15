@@ -239,7 +239,7 @@
 }
 
 .sugerencia__sumar {
-  min-height: 38px;
+  min-height: var(--tap-min);
   border-top: 1.5px dashed var(--linea);
   font-family: var(--font-display);
   font-size: var(--texto-s);
