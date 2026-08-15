@@ -1,5 +1,5 @@
 import type { Decada, EspecieEnriquecida, Mes, Zona } from '../lib/data/types'
-import { estadosDelMes, type EstadoMes } from '../lib/data/especies'
+import { estadosDelMes, necesitaProteccion, type EstadoMes } from '../lib/data/especies'
 import { INICIALES_MES, NOMBRES_MES, NOMBRES_TERCIO, decadasDelMes, mesDeDecada } from '../lib/fechas'
 import './MonthStrip.css'
 
@@ -12,6 +12,8 @@ interface Props {
   conTrasplante?: boolean
   /** con iniciales de mes debajo (en la ficha sí, en las tarjetas no) */
   conEtiquetas?: boolean
+  /** marca con una cupulita los meses que piden reparo del frío */
+  conProteccion?: boolean
 }
 
 const MESES = Array.from({ length: 12 }, (_, i) => (i + 1) as Mes)
@@ -23,7 +25,14 @@ const MESES = Array.from({ length: 12 }, (_, i) => (i + 1) as Mes)
  * (entera) de trasplante (mitad de abajo), y cada tercio tiene su texto para
  * lector de pantalla.
  */
-export function MonthStrip({ especie, zona, decadaActual, conTrasplante, conEtiquetas }: Props) {
+export function MonthStrip({
+  especie,
+  zona,
+  decadaActual,
+  conTrasplante,
+  conEtiquetas,
+  conProteccion,
+}: Props) {
   return (
     <ul className={`tira-meses ${conEtiquetas ? 'tira-meses--etiquetada' : ''}`}>
       {MESES.map((m) => {
@@ -51,6 +60,11 @@ export function MonthStrip({ especie, zona, decadaActual, conTrasplante, conEtiq
             {conEtiquetas && (
               <span className="tira-meses__inicial" aria-hidden>
                 {INICIALES_MES[m - 1]}
+              </span>
+            )}
+            {conProteccion && necesitaProteccion(especie, m) && (
+              <span className="tira-meses__cupula" title={`${NOMBRES_MES[m - 1]}: almácigo protegido`}>
+                <span className="sr-solo">{NOMBRES_MES[m - 1]}: necesita almácigo protegido</span>
               </span>
             )}
           </li>

@@ -28,6 +28,18 @@ export function IconoAlmacigo(p: IconProps) {
 }
 
 /** Trasplantar: plantín bajando a tierra */
+/** Túnel o cajón: la planta necesita reparo del frío para arrancar. */
+export function IconoProtegido(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M3.5 19h17" />
+      <path d="M4.5 19a7.5 7.5 0 0 1 15 0" />
+      <path d="M12 19v-4.5" />
+      <path d="M12 15.5c-1.6 0-2.6-1-2.6-2.6 1.6 0 2.6 1 2.6 2.6Z" />
+    </Svg>
+  )
+}
+
 export function IconoTrasplantar(p: IconProps) {
   return (
     <Svg {...p}>

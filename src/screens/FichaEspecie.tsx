@@ -6,7 +6,9 @@ import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { EmptyState } from '../components/EmptyState'
 import { useEspecies } from '../lib/useEspecies'
-import { decadaDe, nombreDecada } from '../lib/fechas'
+import { estadoSiembra, metodoDelMes } from '../lib/data/especies'
+import { METODOS } from '../lib/calendario'
+import { decadaDe, mesDeDecada, nombreDecada } from '../lib/fechas'
 import { useZona, ZONAS_INFO } from '../lib/zona'
 import {
   GRUPOS,
@@ -23,9 +25,10 @@ import {
   IconoPlaga,
   IconoSembrar,
   IconoSuelo,
+  IconoProtegido,
   IconoTrasplantar,
 } from '../icons'
-import type { AsocRef } from '../lib/data/types'
+import type { AsocRef, Decada, EspecieEnriquecida, Mes, Zona } from '../lib/data/types'
 import './FichaEspecie.css'
 
 export function FichaEspecie() {
@@ -61,6 +64,7 @@ export function FichaEspecie() {
   const grupo = GRUPOS[e.grupo]
   const suelo = SUELOS[e.suelo.categoria_suelo]
   const luz = LUCES[e.luz.categoria_luz]
+  const mesHoy = mesDeDecada(decadaHoy)
 
   return (
     <div className="pantalla pantalla--detalle">
@@ -87,16 +91,26 @@ export function FichaEspecie() {
               <span>Siembra y trasplante</span>
               <ConfidenceBadge valor={e.calendario.confianza} compacto />
             </div>
-            <MonthStrip especie={e} zona={zona} decadaActual={decadaHoy} conTrasplante conEtiquetas />
+            <MonthStrip
+              especie={e}
+              zona={zona}
+              decadaActual={decadaHoy}
+              conTrasplante
+              conEtiquetas
+              conProteccion
+            />
             <p className="ficha__leyenda">
               <span className="punto es-ideal" /> ideal <span className="punto es-posible" /> posible{' '}
-              <span className="punto es-trasplante" /> trasplante
+              <span className="punto es-trasplante" /> trasplante{' '}
+              <span className="punto es-protegido" /> bajo reparo
             </p>
             <p className="ficha__zona">
               Cada mes va partido en tres. Calendario de {ZONAS_INFO[zona].etiqueta.toLowerCase()};
               hoy es {nombreDecada(decadaHoy)}.
             </p>
           </div>
+
+          <AhoraMismo especie={e} zona={zona} decadaHoy={decadaHoy} mes={mesHoy} />
 
           <div className="ficha__ciclo">
             {e.dias_germinacion && <Dato titulo="Germina" valor={rango(e.dias_germinacion, 'días')} />}
@@ -163,6 +177,60 @@ export function FichaEspecie() {
         </p>
       </div>
     </div>
+  )
+}
+
+/**
+ * La respuesta directa a "¿la puedo sembrar hoy, y necesito invernadero?".
+ * El método vive a resolución mensual, así que esto es lo más preciso que se
+ * puede decir sin inventar.
+ */
+function AhoraMismo({
+  especie: e,
+  zona,
+  decadaHoy,
+  mes,
+}: {
+  especie: EspecieEnriquecida
+  zona: Zona
+  decadaHoy: Decada
+  mes: Mes
+}) {
+  const estado = estadoSiembra(e, decadaHoy, zona)
+  const metodo = metodoDelMes(e, mes)
+  const protegido = metodo === 'almacigo_protegido'
+
+  if (!estado) {
+    return (
+      <p className="ahora es-no">
+        <span className="ahora__icono" aria-hidden>
+          <IconoCalendario size={20} />
+        </span>
+        <span>
+          <strong>No es época de sembrarla.</strong> Mirá la tira de arriba para ver cuándo se abre la
+          ventana.
+        </span>
+      </p>
+    )
+  }
+
+  return (
+    <p className={`ahora ${protegido ? 'es-protegido' : 'es-si'}`}>
+      <span className="ahora__icono" aria-hidden>
+        {protegido ? <IconoProtegido size={20} /> : <IconoSembrar size={20} />}
+      </span>
+      <span>
+        <strong>
+          {estado === 'ideal' ? 'Es buen momento para sembrarla' : 'Se puede sembrar, no es lo óptimo'}
+          {protegido ? ', pero bajo reparo.' : '.'}
+        </strong>{' '}
+        {metodo && <>{METODOS[metodo]}. </>}
+        {protegido && (
+          <>Todavía hace frío para que arranque a la intemperie: va en invernadero, cajón con nailon o
+          botella cortada, hasta que afloje.</>
+        )}
+      </span>
+    </p>
   )
 }
 

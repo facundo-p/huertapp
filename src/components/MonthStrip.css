@@ -95,6 +95,17 @@
   outline-offset: 2px;
 }
 
+/* cupulita: el mes pide reparo del frío. Se dibuja sola, sin fondo, para no
+   competir con las barras: es información de segundo orden. */
+.tira-meses__cupula {
+  display: block;
+  width: 13px;
+  height: 6.5px;
+  border: 1.75px solid var(--terracota);
+  border-bottom: none;
+  border-radius: 999px 999px 0 0;
+}
+
 .tira-meses__inicial {
   font-size: 9px;
   font-weight: 700;

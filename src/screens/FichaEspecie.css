@@ -80,6 +80,18 @@
   background: var(--posible-fondo);
   border: 1.5px solid var(--posible);
 }
+/* la cupulita también entra en la leyenda */
+.punto.es-protegido {
+  width: 11px;
+  height: 5.5px;
+  border-radius: 999px 999px 0 0;
+  border: 1.5px solid var(--terracota);
+  border-bottom: none;
+  background: none;
+  align-self: flex-end;
+  margin-bottom: 2px;
+}
+
 .ficha__zona {
   font-size: 11px;
   line-height: 1.45;
@@ -93,6 +105,49 @@
   background: var(--terracota);
   align-self: flex-end;
   margin-bottom: 1px;
+}
+
+/* --- aviso de ahora mismo --- */
+.ahora {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 4px solid var(--linea);
+  background: var(--papel-hundido);
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.ahora strong {
+  color: var(--tinta);
+}
+
+.ahora__icono {
+  flex: none;
+  margin-top: 1px;
+}
+
+.ahora.es-si {
+  background: var(--ideal-fondo);
+  border-left-color: var(--ideal);
+}
+.ahora.es-si .ahora__icono {
+  color: var(--verde-prof);
+}
+
+.ahora.es-protegido {
+  background: var(--posible-fondo);
+  border-left-color: var(--terracota);
+}
+.ahora.es-protegido .ahora__icono {
+  color: var(--terracota);
+}
+
+.ahora.es-no .ahora__icono {
+  color: var(--tinta-suave);
 }
 
 /* --- ciclo (días) --- */

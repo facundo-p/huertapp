@@ -1,4 +1,4 @@
-import type { Decada, EspecieEnriquecida, EspeciesDB, Grupo, Mes, Zona } from './types'
+import type { Decada, EspecieEnriquecida, EspeciesDB, Grupo, Mes, Metodo, Zona } from './types'
 import { ALIAS, normalizar } from './slugs'
 import { decadaDe, decadasDelMes, diasHastaFinDeDecada, siguienteDecada } from '../fechas'
 
@@ -87,6 +87,16 @@ export function diasHastaCierre(e: EspecieEnriquecida, hoy: Date, zona: Zona): n
   if (estadoSiembra(e, d, zona) !== 'ideal') return null
   if (estadoSiembra(e, siguienteDecada(d), zona) === 'ideal') return null
   return diasHastaFinDeDecada(hoy)
+}
+
+/** El método de siembra de un mes (el dato está a resolución mensual). */
+export function metodoDelMes(e: EspecieEnriquecida, mes: Mes): Metodo | null {
+  return e.calendario.metodo_por_mes[String(mes)] ?? null
+}
+
+/** ¿Sembrar en ese mes pide reparo del frío (invernadero, cajón, botella)? */
+export function necesitaProteccion(e: EspecieEnriquecida, mes: Mes): boolean {
+  return metodoDelMes(e, mes) === 'almacigo_protegido'
 }
 
 /** ¿Admite almácigo en el mes de esa década? (el método está a resolución mensual) */
