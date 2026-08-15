@@ -1,29 +1,33 @@
 import { Link } from 'react-router'
-import type { EspecieEnriquecida, Mes } from '../lib/data/types'
+import type { Decada, EspecieEnriquecida, Zona } from '../lib/data/types'
 import { IconoGrupo, IconoLuz, IconoSuelo, IconoReloj } from '../icons'
 import { MonthStrip } from './MonthStrip'
-import { estadoSiembra, ultimoMesIdeal } from '../lib/data/especies'
+import { diasHastaCierre, estadoSiembra } from '../lib/data/especies'
 import './EspecieCard.css'
 
 interface Props {
   especie: EspecieEnriquecida
-  mesActual: Mes
+  decadaActual: Decada
+  zona: Zona
+  /** hoy, para poder decir cuántos días quedan de ventana */
+  hoy: Date
 }
 
 /** Tarjeta minimalista: nombre + íconos + tira de meses. Toda la densidad va en la ficha. */
-export function EspecieCard({ especie, mesActual }: Props) {
-  const estado = estadoSiembra(especie, mesActual)
-  const seCierra = estado === 'ideal' && ultimoMesIdeal(especie, mesActual)
+export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
+  const estado = estadoSiembra(especie, decadaActual, zona)
+  // con décadas ya no hay que decir "último mes": se sabe cuántos días faltan
+  const quedan = diasHastaCierre(especie, hoy, zona)
 
   return (
     <Link to={`/explorar/${especie.slug}`} className="especie-card etiqueta">
       <div className="especie-card__cabeza">
         <h3 className="especie-card__nombre">{especie.nombre_comun}</h3>
         {estado === 'ideal' && (
-          <span className={`especie-card__ahora ${seCierra ? 'es-cierra' : ''}`}>
-            {seCierra ? (
+          <span className={`especie-card__ahora ${quedan != null ? 'es-cierra' : ''}`}>
+            {quedan != null ? (
               <>
-                <IconoReloj size={13} /> última semana
+                <IconoReloj size={13} /> {quedan === 1 ? 'último día' : `quedan ${quedan} días`}
               </>
             ) : (
               'ahora'
@@ -39,7 +43,7 @@ export function EspecieCard({ especie, mesActual }: Props) {
         <IconoLuz categoria={especie.luz.categoria_luz} size={21} />
       </div>
 
-      <MonthStrip especie={especie} mesActual={mesActual} />
+      <MonthStrip especie={especie} zona={zona} decadaActual={decadaActual} />
     </Link>
   )
 }

@@ -1,0 +1,109 @@
+.ajustes__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding-top: var(--esp-4);
+}
+
+.ajustes__titulo {
+  align-self: flex-start;
+  font-size: var(--texto-l);
+  font-weight: 700;
+}
+
+.ajustes__bajada {
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta-media);
+}
+
+.opciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.opcion {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  min-height: var(--tap-min);
+  padding: var(--esp-3);
+  border-radius: var(--radio-m);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  text-align: left;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.opcion.es-elegida {
+  border-color: var(--verde-hoja);
+  border-width: 2.5px;
+  background: var(--ideal-fondo);
+  padding: calc(var(--esp-3) - 1px);
+}
+
+/* el círculo de radio, dibujado a mano para que combine con el resto */
+.opcion__marca {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 50%;
+  border: 2px solid var(--tinta-suave);
+  background: var(--papel);
+}
+
+.opcion.es-elegida .opcion__marca {
+  border-color: var(--verde-hoja);
+  background: var(--verde-hoja);
+  box-shadow: inset 0 0 0 3.5px var(--papel-alto);
+}
+
+.opcion__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.opcion__nombre {
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.opcion__detalle {
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}
+
+.opcion__helada {
+  margin-top: 2px;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--terracota);
+}
+
+.opcion.es-elegida .opcion__helada {
+  color: #8a4029;
+}
+
+.ajustes__nota {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  font-size: var(--texto-xs);
+  line-height: 1.55;
+  color: var(--tinta-media);
+}
+
+.ajustes__nota svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--tinta-suave);
+}

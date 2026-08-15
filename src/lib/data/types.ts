@@ -71,14 +71,48 @@ export interface Temperaturas {
   confianza: number
 }
 
+/** Tercio de mes, 1-36. La 1 son los días 1-10 de enero; la 36, del 21 al 31 de diciembre. */
+export type Decada = number
+
+/** El gradiente de heladas dentro del AMBA es de más de un mes: la zona importa. */
+export type Zona = 'urbano' | 'conurbano' | 'periurbano'
+
+export const ZONAS: Zona[] = ['urbano', 'conurbano', 'periurbano']
+
+export interface Ventanas<T> {
+  siembra_ideal: T[]
+  siembra_posible: T[]
+  trasplante_ideal: T[]
+  trasplante_posible: T[]
+}
+
+export interface AjusteAfinado {
+  decada: Decada
+  regla: string
+  nota: string
+}
+
+export interface Afinado {
+  /** `afinado` = lo recortó el modelo · `sin_afinar` = quedó a resolución mensual · `fuente_explicita` = lo dijo una fuente */
+  estado: 'afinado' | 'sin_afinar' | 'fuente_explicita'
+  /** por qué no se pudo afinar, si es el caso */
+  motivo: string | null
+  /** la cita textual, cuando la precisión sub-mensual viene de una fuente */
+  nota_fuente: string | null
+  ajustes: AjusteAfinado[]
+  confianza: number
+  zona_referencia: Record<Zona, string>
+}
+
 export interface Calendario {
-  siembra_ideal: Mes[]
-  siembra_posible: Mes[]
-  trasplante_ideal: Mes[]
-  trasplante_posible: Mes[]
+  /** Lo que dicen las fuentes, por mes. Capa citable: el afinado nunca la toca. */
+  fuente_meses: Ventanas<Mes>
   metodo_por_mes: Record<string, Metodo>
   derivacion: string
   confianza: number
+  /** Afinado a tercios de mes, precalculado por zona. */
+  decadas: Record<Zona, Ventanas<Decada>>
+  afinado: Afinado
 }
 
 export interface EspecieEnriquecida {

@@ -1,5 +1,6 @@
-import type { EspecieEnriquecida, EspeciesDB, Grupo, Mes } from './types'
+import type { Decada, EspecieEnriquecida, EspeciesDB, Grupo, Mes, Zona } from './types'
 import { ALIAS, normalizar } from './slugs'
+import { decadaDe, decadasDelMes, diasHastaFinDeDecada, siguienteDecada } from '../fechas'
 
 // El JSON no entra al bundle inicial: dynamic import → chunk propio hasheado,
 // precacheado por el service worker. La app abre con el shell y el dato llega aparte.
@@ -9,8 +10,6 @@ export interface IndiceEspecies {
   todas: EspecieEnriquecida[]
   porSlug: Map<string, EspecieEnriquecida>
   porGrupo: Map<Grupo, EspecieEnriquecida[]>
-  /** mes (1-12) → especies con ese mes en siembra_ideal */
-  idealesPorMes: Map<Mes, EspecieEnriquecida[]>
   /** texto normalizado de búsqueda por slug (nombre común, científico y alias) */
   textoBusqueda: Map<string, string>
 }
@@ -35,12 +34,6 @@ function indexar(db: EspeciesDB): IndiceEspecies {
     porGrupo.set(e.grupo, lista)
   }
 
-  const idealesPorMes = new Map<Mes, EspecieEnriquecida[]>()
-  for (let m = 1 as Mes; m <= 12; m = (m + 1) as Mes) idealesPorMes.set(m, [])
-  for (const e of todas) {
-    for (const m of e.calendario.siembra_ideal) idealesPorMes.get(m)!.push(e)
-  }
-
   const textoBusqueda = new Map(
     todas.map((e) => [
       e.slug,
@@ -48,33 +41,55 @@ function indexar(db: EspeciesDB): IndiceEspecies {
     ]),
   )
 
-  return { db, todas, porSlug, porGrupo, idealesPorMes, textoBusqueda }
+  return { db, todas, porSlug, porGrupo, textoBusqueda }
 }
 
-/** Estado de un mes para una especie: ideal, posible o fuera de ventana. */
+/** Estado de una década para una especie: ideal, posible o fuera de ventana. */
 export type EstadoMes = 'ideal' | 'posible' | null
 
-export function estadoSiembra(e: EspecieEnriquecida, mes: Mes): EstadoMes {
-  if (e.calendario.siembra_ideal.includes(mes)) return 'ideal'
-  if (e.calendario.siembra_posible.includes(mes)) return 'posible'
-  return null
+export type Capa = 'siembra' | 'trasplante'
+
+export function estado(e: EspecieEnriquecida, decada: Decada, zona: Zona, capa: Capa): EstadoMes {
+  const v = e.calendario.decadas[zona]
+  const ideal = capa === 'siembra' ? v.siembra_ideal : v.trasplante_ideal
+  if (ideal.includes(decada)) return 'ideal'
+  const posible = capa === 'siembra' ? v.siembra_posible : v.trasplante_posible
+  return posible.includes(decada) ? 'posible' : null
 }
 
-export function estadoTrasplante(e: EspecieEnriquecida, mes: Mes): EstadoMes {
-  if (e.calendario.trasplante_ideal.includes(mes)) return 'ideal'
-  if (e.calendario.trasplante_posible.includes(mes)) return 'posible'
-  return null
+export const estadoSiembra = (e: EspecieEnriquecida, d: Decada, z: Zona) => estado(e, d, z, 'siembra')
+export const estadoTrasplante = (e: EspecieEnriquecida, d: Decada, z: Zona) => estado(e, d, z, 'trasplante')
+
+/** Los tres tercios de un mes, para dibujar la celda. */
+export function estadosDelMes(
+  e: EspecieEnriquecida,
+  mes: Mes,
+  zona: Zona,
+  capa: Capa,
+): [EstadoMes, EstadoMes, EstadoMes] {
+  const [a, b, c] = decadasDelMes(mes)
+  return [estado(e, a, zona, capa), estado(e, b, zona, capa), estado(e, c, zona, capa)]
 }
 
-/** ¿Es el último mes de la ventana ideal de siembra? (para el aviso "se cierra") */
-export function ultimoMesIdeal(e: EspecieEnriquecida, mes: Mes): boolean {
-  const meses = e.calendario.siembra_ideal
-  if (!meses.includes(mes)) return false
-  const siguiente = ((mes % 12) + 1) as Mes
-  return !meses.includes(siguiente)
+/** ¿Tiene alguna ventana de trasplante en esta zona? */
+export function seTrasplanta(e: EspecieEnriquecida, zona: Zona): boolean {
+  const v = e.calendario.decadas[zona]
+  return v.trasplante_ideal.length + v.trasplante_posible.length > 0
 }
 
-/** ¿Admite almácigo en ese mes? (según el método derivado) */
+/**
+ * Si la ventana ideal se cierra al terminar la década actual, cuántos días
+ * quedan. Devuelve null si no está en ventana ideal o si todavía sigue.
+ * Es lo que permite decir "quedan 6 días" en vez de "último mes".
+ */
+export function diasHastaCierre(e: EspecieEnriquecida, hoy: Date, zona: Zona): number | null {
+  const d = decadaDe(hoy)
+  if (estadoSiembra(e, d, zona) !== 'ideal') return null
+  if (estadoSiembra(e, siguienteDecada(d), zona) === 'ideal') return null
+  return diasHastaFinDeDecada(hoy)
+}
+
+/** ¿Admite almácigo en el mes de esa década? (el método está a resolución mensual) */
 export function admiteAlmacigo(e: EspecieEnriquecida, mes: Mes): boolean {
   const metodo = e.calendario.metodo_por_mes[String(mes)]
   return metodo === 'almacigo' || metodo === 'almacigo_protegido' || metodo === 'directa|almacigo'

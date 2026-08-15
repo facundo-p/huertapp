@@ -4,7 +4,7 @@ import { mkdirSync } from 'node:fs'
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
 
-const FASE = process.env.FASE ?? 'fase-3'
+const FASE = process.env.FASE ?? 'fase-3-5'
 const DIR = `e2e/shots/${FASE}`
 
 interface Toma {
@@ -66,6 +66,16 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'calendario-completo', ruta: '/#/calendario', fullPage: true },
+  { nombre: 'ajustes-zona', ruta: '/#/ajustes' },
+  {
+    nombre: 'calendario-zona-periurbano',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await page.getByRole('radio', { name: /Periurbano/ }).click()
+      await page.goto('/#/calendario')
+      await page.waitForLoadState('networkidle')
+    },
+  },
   { nombre: 'hoy-vacio', ruta: '/#/hoy' },
   { nombre: 'huerta-vacia', ruta: '/#/huerta' },
   { nombre: 'glosario', ruta: '/#/glosario', fullPage: true },

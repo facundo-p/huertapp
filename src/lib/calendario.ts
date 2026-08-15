@@ -1,26 +1,27 @@
 // Lógica pura del calendario: comprimir meses sueltos en tramos legibles
 // ("de agosto a octubre") y etiquetar los métodos de siembra.
-import type { Mes, Metodo } from './data/types'
-import { NOMBRES_MES } from './fechas'
-
-const anterior = (m: Mes) => (((m + 10) % 12) + 1) as Mes
-const siguiente = (m: Mes) => ((m % 12) + 1) as Mes
+import type { Decada, Mes, Metodo } from './data/types'
+import { NOMBRES_MES, NOMBRES_TERCIO, mesDeDecada, nombreDecada, tercioDeDecada } from './fechas'
 
 /**
- * Agrupa meses consecutivos en tramos [desde, hasta], cruzando el fin de año:
- * [11,12,1] → [[11,1]]. El año entero se devuelve como un solo tramo [1,12].
+ * Agrupa unidades consecutivas en tramos [desde, hasta], cruzando el fin de
+ * año: [11,12,1] → [[11,1]]. El año entero se devuelve como un solo tramo.
+ * Sirve igual para meses (módulo 12) que para décadas (módulo 36).
  */
-export function tramos(meses: readonly Mes[]): Array<[Mes, Mes]> {
-  const set = new Set(meses)
+export function tramos<T extends number>(unidades: readonly T[], modulo = 12): Array<[T, T]> {
+  const set = new Set<number>(unidades)
   if (set.size === 0) return []
-  if (set.size === 12) return [[1, 12]]
+  if (set.size === modulo) return [[1 as T, modulo as T]]
 
-  const salida: Array<[Mes, Mes]> = []
-  for (const m of [...set].sort((a, b) => a - b)) {
-    if (set.has(anterior(m))) continue // no es el arranque de su tramo
-    let fin = m
+  const anterior = (u: number) => ((u + modulo - 2) % modulo) + 1
+  const siguiente = (u: number) => (u % modulo) + 1
+
+  const salida: Array<[T, T]> = []
+  for (const u of [...set].sort((a, b) => a - b)) {
+    if (set.has(anterior(u))) continue // no es el arranque de su tramo
+    let fin = u
     while (set.has(siguiente(fin))) fin = siguiente(fin)
-    salida.push([m, fin])
+    salida.push([u as T, fin as T])
   }
   return salida
 }
@@ -38,6 +39,35 @@ export function textoMeses(meses: readonly Mes[]): string {
   if (ts.length === 1 && ts[0][0] === 1 && ts[0][1] === 12) return 'todo el año'
   return unir(
     ts.map(([a, b]) => (a === b ? NOMBRES_MES[a - 1] : `de ${NOMBRES_MES[a - 1]} a ${NOMBRES_MES[b - 1]}`)),
+  )
+}
+
+/**
+ * Lo mismo con décadas: "de fines de agosto a mediados de octubre".
+ * Si el tramo arranca en el primer tercio y termina en el último, no hace
+ * falta la precisión: son meses enteros y se dice "de agosto a octubre".
+ */
+export function textoDecadas(decadas: readonly Decada[]): string {
+  const ts = tramos(decadas, 36)
+  if (ts.length === 0) return ''
+  if (ts.length === 1 && ts[0][0] === 1 && ts[0][1] === 36) return 'todo el año'
+
+  return unir(
+    ts.map(([a, b]) => {
+      const mesesEnteros = tercioDeDecada(a) === 1 && tercioDeDecada(b) === 3
+      if (mesesEnteros) {
+        const ma = NOMBRES_MES[mesDeDecada(a) - 1]
+        const mb = NOMBRES_MES[mesDeDecada(b) - 1]
+        return ma === mb ? `todo ${ma}` : `de ${ma} a ${mb}`
+      }
+      // dentro del mismo mes no hace falta repetirlo: "de mediados a fines de octubre"
+      if (mesDeDecada(a) === mesDeDecada(b)) {
+        const mes = NOMBRES_MES[mesDeDecada(a) - 1]
+        if (a === b) return `${NOMBRES_TERCIO[tercioDeDecada(a) - 1]} de ${mes}`
+        return `de ${NOMBRES_TERCIO[tercioDeDecada(a) - 1]} a ${NOMBRES_TERCIO[tercioDeDecada(b) - 1]} de ${mes}`
+      }
+      return a === b ? nombreDecada(a) : `de ${nombreDecada(a)} a ${nombreDecada(b)}`
+    }),
   )
 }
 

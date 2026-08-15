@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { metodosPorMes, textoMeses, tramos, unir } from '../src/lib/calendario'
+import { metodosPorMes, textoDecadas, textoMeses, tramos, unir } from '../src/lib/calendario'
+import {
+  decadaDeMesDia,
+  decadasDelMes,
+  diasHastaFinDeDecada,
+  mesDeDecada,
+  nombreDecada,
+  tercioDeDecada,
+  ultimoDiaDeDecada,
+} from '../src/lib/fechas'
 import { nombreCorto } from '../src/lib/data/slugs'
 import type { Mes } from '../src/lib/data/types'
 import db from '../data/huerta_gba_enriquecido.json'
@@ -46,6 +55,74 @@ describe('textoMeses', () => {
 
   it('el año entero no se enumera', () => {
     expect(textoMeses([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])).toBe('todo el año')
+  })
+})
+
+describe('décadas', () => {
+  it('parte cada mes en tres', () => {
+    expect(decadaDeMesDia(1, 1)).toBe(1)
+    expect(decadaDeMesDia(1, 10)).toBe(1)
+    expect(decadaDeMesDia(1, 11)).toBe(2)
+    expect(decadaDeMesDia(1, 20)).toBe(2)
+    expect(decadaDeMesDia(1, 21)).toBe(3)
+    expect(decadaDeMesDia(1, 31)).toBe(3)
+    expect(decadaDeMesDia(9, 15)).toBe(26)
+    expect(decadaDeMesDia(12, 31)).toBe(36)
+  })
+
+  it('mes y tercio se recuperan, y ida y vuelta cierra', () => {
+    for (let d = 1; d <= 36; d++) {
+      const mes = mesDeDecada(d)
+      expect(decadasDelMes(mes)).toContain(d)
+      expect((mes - 1) * 3 + tercioDeDecada(d)).toBe(d)
+    }
+  })
+
+  it('el último día de la década respeta el largo del mes', () => {
+    expect(ultimoDiaDeDecada(1)).toBe(10)
+    expect(ultimoDiaDeDecada(2)).toBe(20)
+    expect(ultimoDiaDeDecada(3)).toBe(31) // enero
+    expect(ultimoDiaDeDecada(6)).toBe(28) // febrero
+    expect(ultimoDiaDeDecada(12)).toBe(30) // abril
+  })
+
+  it('cuenta los días que faltan para cerrar la década', () => {
+    expect(diasHastaFinDeDecada(new Date(2026, 0, 1))).toBe(10)
+    expect(diasHastaFinDeDecada(new Date(2026, 0, 10))).toBe(1)
+    expect(diasHastaFinDeDecada(new Date(2026, 0, 25))).toBe(7)
+    expect(diasHastaFinDeDecada(new Date(2026, 1, 25))).toBe(4) // febrero
+  })
+
+  it('las nombra en castellano', () => {
+    expect(nombreDecada(1)).toBe('principios de enero')
+    expect(nombreDecada(26)).toBe('mediados de septiembre')
+    expect(nombreDecada(36)).toBe('fines de diciembre')
+  })
+})
+
+describe('textoDecadas', () => {
+  it('meses enteros se dicen como meses, sin la precisión de más', () => {
+    expect(textoDecadas([22, 23, 24])).toBe('todo agosto')
+    expect(textoDecadas([22, 23, 24, 25, 26, 27])).toBe('de agosto a septiembre')
+  })
+
+  it('dentro de un mismo mes no lo repite', () => {
+    expect(textoDecadas([29, 30])).toBe('de mediados a fines de octubre')
+    expect(textoDecadas([26])).toBe('mediados de septiembre')
+  })
+
+  it('entre meses distintos nombra los dos extremos', () => {
+    expect(textoDecadas([24, 25, 26])).toBe('de fines de agosto a mediados de septiembre')
+  })
+
+  it('cruza el fin de año y junta tramos sueltos', () => {
+    expect(textoDecadas([35, 36, 1])).toBe('de mediados de diciembre a principios de enero')
+    expect(textoDecadas([1, 2, 3, 26])).toBe('todo enero y mediados de septiembre')
+  })
+
+  it('el año entero y el vacío', () => {
+    expect(textoDecadas(Array.from({ length: 36 }, (_, i) => i + 1))).toBe('todo el año')
+    expect(textoDecadas([])).toBe('')
   })
 })
 

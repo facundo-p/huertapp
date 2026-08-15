@@ -73,7 +73,7 @@
   color: var(--tinta-media);
 }
 
-.calendario__leyenda .cal-marca:not(:first-child) {
+.calendario__leyenda .cal-muestra:not(:first-child) {
   margin-left: var(--esp-2);
 }
 
@@ -182,31 +182,80 @@
   flex: none;
 }
 
-/* --- celdas --- */
+/* --- celdas: cada mes partido en sus tres décadas ---
+   Las tres décadas de un mes se TOCAN (forman una barra continua) y son los
+   meses los que se separan. Así se sigue viendo dónde empieza y termina cada
+   mes, y una barra corta a la derecha se lee de una: "solo la última década". */
 .cal-celda {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 0 2.5px;
+  /* sin esto, `1fr` toma como mínimo el ancho del contenido (la inicial del
+     mes más el padding) y las 12 columnas desbordan los 390px */
+  min-width: 0;
 }
 
-/* banda vertical del mes actual, continua a lo largo de toda la matriz */
-.cal-celda.es-ahora {
-  background: color-mix(in srgb, var(--sol) 19%, transparent);
+/* banda del mes actual, continua a lo largo de toda la matriz */
+.cal-celda.es-mes-ahora {
+  background: color-mix(in srgb, var(--sol) 13%, transparent);
 }
 
-.cal-marca {
-  display: block;
-  width: 13px;
-  height: 13px;
+.cal-tercio {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
 }
 
-.cal-marca.es-siembra.es-ideal {
-  color: var(--ideal);
+/* la década en curso: la franja fina que baja por toda la matriz */
+.cal-tercio.es-ahora {
+  background: color-mix(in srgb, var(--sol) 34%, transparent);
 }
-.cal-marca.es-siembra.es-posible {
-  color: var(--posible);
+
+.cal-barra {
+  width: 100%;
+  border-radius: 1px;
 }
-.cal-marca.es-trasplante {
-  color: var(--terracota);
+
+/* siembra: barra entera. trasplante: media barra abajo.
+   La altura distingue la capa, así el color nunca es el único canal. */
+.cal-barra.es-siembra {
+  height: 12px;
+}
+.cal-barra.es-trasplante {
+  height: 7px;
+  align-self: flex-end;
+  margin-bottom: 9px;
+}
+
+.cal-barra.es-siembra.es-ideal {
+  background: var(--ideal);
+}
+/* "se puede": relleno pálido con filetes arriba y abajo, sin bordes laterales,
+   para que las décadas contiguas se fundan en una sola cinta */
+.cal-barra.es-siembra.es-posible {
+  background: var(--posible-fondo);
+  box-shadow: inset 0 1.5px 0 var(--posible), inset 0 -1.5px 0 var(--posible);
+}
+.cal-barra.es-trasplante.es-ideal {
+  background: var(--terracota);
+}
+.cal-barra.es-trasplante.es-posible {
+  background: var(--terracota-suave);
+  box-shadow: inset 0 1.5px 0 var(--terracota), inset 0 -1.5px 0 var(--terracota);
+}
+
+/* muestra de la leyenda: un tercio suelto */
+.cal-muestra {
+  display: inline-flex;
+  align-items: center;
+  width: 14px;
+  height: 12px;
+}
+.cal-muestra .cal-barra.es-trasplante {
+  margin-bottom: 0;
 }
 
 /* ============================================================
@@ -267,6 +316,45 @@
   font-weight: 700;
   text-align: right;
   color: var(--tinta);
+}
+
+/* --- bloque de afinado en la hoja --- */
+.hoja__subtitulo--sep {
+  margin-top: var(--esp-4);
+  padding-top: var(--esp-3);
+  border-top: 1.5px dashed var(--linea);
+}
+
+.afinado__sin,
+.afinado__fuente {
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  border-left: 4px solid var(--tinta-suave);
+}
+
+.afinado__fuente {
+  background: var(--ideal-fondo);
+  border-left-color: var(--ideal);
+}
+
+.afinado__ajustes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin: var(--esp-2) 0 0;
+  padding-left: var(--esp-4);
+}
+
+.afinado__ajustes strong {
+  color: var(--tinta);
+}
+
+.afinado__pie {
+  margin-top: var(--esp-3);
+  font-size: var(--texto-xs);
+  line-height: 1.5;
+  color: var(--tinta-suave);
 }
 
 .hoja__subtitulo {

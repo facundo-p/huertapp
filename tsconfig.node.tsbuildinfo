@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./tests/calendario.test.ts","./tests/data/enriquecido.test.ts"],"version":"5.9.3"}
+{"root":["./vite.config.ts","./tests/calendario.test.ts","./tests/clima.test.ts","./tests/data/enriquecido.test.ts"],"version":"5.9.3"}

@@ -80,13 +80,19 @@
   background: var(--posible-fondo);
   border: 1.5px solid var(--posible);
 }
+.ficha__zona {
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--tinta-suave);
+}
+
 .punto.es-trasplante {
-  width: 0;
-  height: 0;
-  border-radius: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 9px solid var(--terracota);
+  width: 8px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--terracota);
+  align-self: flex-end;
+  margin-bottom: 1px;
 }
 
 /* --- ciclo (días) --- */

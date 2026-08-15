@@ -126,11 +126,53 @@ export function Glosario() {
               <span className="celda celda--trasplante" aria-hidden />
               <div>
                 <p className="glosario__nombre">Trasplante</p>
-                <p className="glosario__desc">El triángulo marca cuándo pasar el plantín al bancal.</p>
+                <p className="glosario__desc">
+                  La cinta baja terracota marca cuándo pasar el plantín al bancal.
+                </p>
               </div>
             </div>
             <p className="glosario__desc glosario__nota-a11y">
-              El color nunca viene solo: la forma (relleno, anillo, triángulo) siempre acompaña.
+              El color nunca viene solo: la forma (relleno, filete, altura de la barra) siempre acompaña.
+            </p>
+          </div>
+        </Seccion>
+
+        <Seccion titulo="Por qué cada mes va partido en tres" retraso={0.22}>
+          <div className="etiqueta glosario__calendario">
+            <p className="glosario__desc">
+              No es lo mismo sembrar a principios de septiembre que a fines: el suelo está varios grados
+              más frío y el riesgo de helada es mucho mayor. Por eso cada mes se muestra en tres
+              <strong> décadas</strong> —principios, mediados y fines—, que es la unidad de los boletines
+              agrometeorológicos del INTA.
+            </p>
+
+            <p className="glosario__nombre">De dónde sale esa precisión</p>
+            <p className="glosario__desc">
+              Las fuentes agronómicas hablan por mes, no por semana: pedirles más sería inventar. Los
+              tercios salen de cruzar lo que dicen con dos series públicas: las normales climatológicas
+              del <strong>SMN 1991-2020</strong> y la estadística de heladas de la <strong>FAUBA</strong>{' '}
+              (umbral agrometeorológico de 3 °C, series de 50 a 63 años).
+            </p>
+
+            <p className="glosario__nombre">La regla que impide inventar</p>
+            <p className="glosario__desc">
+              El modelo <strong>solo puede recortar</strong> lo que dijeron las fuentes: nunca agrega una
+              década fuera de los meses que ya habían habilitado. En el peor caso poda de más; jamás
+              propone una ventana que nadie dijo.
+            </p>
+
+            <p className="glosario__nombre">Cuándo preferimos no afinar</p>
+            <p className="glosario__desc">
+              Ocho especies quedan a resolución mensual a propósito: las perennes leñosas (romero,
+              lavanda, tomillo, salvia, orégano, laurel), donde en el GBA el límite no es el frío sino la
+              humedad del verano, y las que gobierna el fotoperíodo más que la temperatura (eneldo, ajo,
+              cebolla). Cada ficha lo dice. Un "sin afinar" honesto es mejor que una precisión falsa.
+            </p>
+
+            <p className="glosario__desc glosario__nota-a11y">
+              Precisión honesta: <strong>±10 días</strong>. Y como la última helada cambia más de un mes
+              entre el centro porteño y el periurbano, el calendario se corre según la zona que elijas en
+              Ajustes.
             </p>
           </div>
         </Seccion>

@@ -6,9 +6,10 @@ import { FilaChips } from '../components/FilaChips'
 import { useEspecies } from '../lib/useEspecies'
 import { normalizar } from '../lib/data/slugs'
 import { estadoSiembra } from '../lib/data/especies'
-import { mesDe, NOMBRES_MES } from '../lib/fechas'
+import { useZona, ZONAS_INFO } from '../lib/zona'
+import { decadaDe, nombreDecada } from '../lib/fechas'
 import { GRUPOS, LUCES, SUELOS, IconoExplorar } from '../icons'
-import type { CategoriaLuz, CategoriaSuelo, Grupo, Mes } from '../lib/data/types'
+import type { CategoriaLuz, CategoriaSuelo, Grupo } from '../lib/data/types'
 import './Explorar.css'
 
 type FiltroGrupo = Grupo | null
@@ -17,7 +18,9 @@ type FiltroLuz = CategoriaLuz | null
 
 export function Explorar() {
   const { indice, cargando } = useEspecies()
-  const mesHoy = mesDe(new Date())
+  const zona = useZona()
+  const hoy = new Date()
+  const decadaHoy = decadaDe(hoy)
 
   const [busqueda, setBusqueda] = useState('')
   const [soloAhora, setSoloAhora] = useState(false)
@@ -41,19 +44,19 @@ export function Explorar() {
     const texto = normalizar(busqueda.trim())
     return indice.todas.filter((e) => {
       if (texto && !indice.textoBusqueda.get(e.slug)!.includes(texto)) return false
-      if (soloAhora && !estadoSiembra(e, mesHoy)) return false
+      if (soloAhora && !estadoSiembra(e, decadaHoy, zona)) return false
       if (grupo && e.grupo !== grupo) return false
       if (suelo && e.suelo.categoria_suelo !== suelo) return false
       if (luz && e.luz.categoria_luz !== luz) return false
       return true
     })
-  }, [indice, busqueda, soloAhora, grupo, suelo, luz, mesHoy])
+  }, [indice, busqueda, soloAhora, grupo, suelo, luz, decadaHoy, zona])
 
   const hayFiltros = soloAhora || grupo || luz || suelo || busqueda.trim()
 
   return (
     <div className="pantalla">
-      <Header titulo="Explorar" sobretitulo={`${NOMBRES_MES[mesHoy - 1]} en la huerta`} />
+      <Header titulo="Explorar" sobretitulo={`${nombreDecada(decadaHoy)} · ${ZONAS_INFO[zona].etiqueta}`} />
 
       <div className="explorar__controles">
         <div className="buscador">
@@ -138,7 +141,7 @@ export function Explorar() {
               className="aparecer"
               style={{ '--retraso': `${Math.min(i, 8) * 0.03}s` } as React.CSSProperties}
             >
-              <EspecieCard especie={e} mesActual={mesHoy as Mes} />
+              <EspecieCard especie={e} decadaActual={decadaHoy} zona={zona} hoy={hoy} />
             </div>
           ))}
         </div>

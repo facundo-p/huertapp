@@ -6,7 +6,8 @@ import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { EmptyState } from '../components/EmptyState'
 import { useEspecies } from '../lib/useEspecies'
-import { mesDe } from '../lib/fechas'
+import { decadaDe, nombreDecada } from '../lib/fechas'
+import { useZona, ZONAS_INFO } from '../lib/zona'
 import {
   GRUPOS,
   LUCES,
@@ -24,13 +25,14 @@ import {
   IconoSuelo,
   IconoTrasplantar,
 } from '../icons'
-import type { AsocRef, Mes } from '../lib/data/types'
+import type { AsocRef } from '../lib/data/types'
 import './FichaEspecie.css'
 
 export function FichaEspecie() {
   const { slug } = useParams()
   const { indice, cargando } = useEspecies()
-  const mesHoy = mesDe(new Date()) as Mes
+  const zona = useZona()
+  const decadaHoy = decadaDe(new Date())
 
   if (cargando) {
     return (
@@ -85,10 +87,14 @@ export function FichaEspecie() {
               <span>Siembra y trasplante</span>
               <ConfidenceBadge valor={e.calendario.confianza} compacto />
             </div>
-            <MonthStrip especie={e} mesActual={mesHoy} conTrasplante conEtiquetas />
+            <MonthStrip especie={e} zona={zona} decadaActual={decadaHoy} conTrasplante conEtiquetas />
             <p className="ficha__leyenda">
               <span className="punto es-ideal" /> ideal <span className="punto es-posible" /> posible{' '}
               <span className="punto es-trasplante" /> trasplante
+            </p>
+            <p className="ficha__zona">
+              Cada mes va partido en tres. Calendario de {ZONAS_INFO[zona].etiqueta.toLowerCase()};
+              hoy es {nombreDecada(decadaHoy)}.
             </p>
           </div>
 

@@ -7,22 +7,22 @@ import { FilaChips } from '../components/FilaChips'
 import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { useEspecies } from '../lib/useEspecies'
-import { estadoSiembra, estadoTrasplante, type EstadoMes } from '../lib/data/especies'
+import { useZona, ZONAS_INFO } from '../lib/zona'
+import { estadosDelMes, seTrasplanta, type Capa, type EstadoMes } from '../lib/data/especies'
 import { nombreCorto } from '../lib/data/slugs'
-import { METODOS, metodosPorMes, textoMeses } from '../lib/calendario'
-import { INICIALES_MES, NOMBRES_MES, mesDe } from '../lib/fechas'
+import { METODOS, metodosPorMes, textoDecadas, textoMeses } from '../lib/calendario'
+import { INICIALES_MES, decadaDe, decadasDelMes, mesDeDecada, nombreDecada } from '../lib/fechas'
 import { GRUPOS, IconoCalendario, IconoGrupo, IconoSembrar, IconoTrasplantar } from '../icons'
-import type { EspecieEnriquecida, Grupo, Mes } from '../lib/data/types'
+import type { Decada, EspecieEnriquecida, Grupo, Mes, Zona } from '../lib/data/types'
 import './Calendario.css'
-
-type Capa = 'siembra' | 'trasplante'
 
 const MESES = Array.from({ length: 12 }, (_, i) => (i + 1) as Mes)
 const ORDEN_GRUPOS = Object.keys(GRUPOS) as Grupo[]
 
 export function Calendario() {
   const { indice, cargando } = useEspecies()
-  const mesHoy = mesDe(new Date())
+  const zona = useZona()
+  const decadaHoy = decadaDe(new Date())
 
   const [capa, setCapa] = useState<Capa>('siembra')
   const [grupo, setGrupo] = useState<Grupo | null>(null)
@@ -34,17 +34,17 @@ export function Calendario() {
       .map((g) => ({
         grupo: g,
         especies: (indice.porGrupo.get(g) ?? [])
-          .filter((e) => capa === 'siembra' || seTrasplanta(e))
+          .filter((e) => capa === 'siembra' || seTrasplanta(e, zona))
           .sort((a, b) => a.nombre_comun.localeCompare(b.nombre_comun, 'es')),
       }))
       .filter((s) => s.especies.length > 0)
-  }, [indice, capa, grupo])
+  }, [indice, capa, grupo, zona])
 
   const total = secciones.reduce((n, s) => n + s.especies.length, 0)
 
   return (
     <div className="pantalla">
-      <Header titulo="Calendario" sobretitulo="El año entero, de un vistazo" />
+      <Header titulo="Calendario" sobretitulo={`${nombreDecada(decadaHoy)} · ${ZONAS_INFO[zona].etiqueta}`} />
 
       <div className="calendario__controles">
         <div className="segmentado" role="group" aria-label="Qué mostrar en la matriz">
@@ -73,19 +73,19 @@ export function Calendario() {
               ? 'Cargando…'
               : capa === 'siembra'
                 ? `${total} especies`
-                : `${total} especies se trasplantan`}
+                : `${total} se trasplantan`}
           </p>
           <p className="calendario__leyenda">
-            <Marca capa={capa} estado="ideal" /> ideal
-            <Marca capa={capa} estado="posible" /> se puede
+            <Muestra capa={capa} estado="ideal" /> ideal
+            <Muestra capa={capa} estado="posible" /> se puede
           </p>
         </div>
 
         <div className="cal-fila cal-cabecera" aria-hidden>
-          <span className="cal-cabecera__hueco">{NOMBRES_MES[mesHoy - 1]}</span>
+          <span className="cal-cabecera__hueco">cada mes en 3</span>
           {MESES.map((m) => (
             <span key={m} className="cal-celda">
-              <span className={`cal-inicial ${m === mesHoy ? 'es-ahora' : ''}`}>
+              <span className={`cal-inicial ${m === mesDeDecada(decadaHoy) ? 'es-ahora' : ''}`}>
                 {INICIALES_MES[m - 1]}
               </span>
             </span>
@@ -113,7 +113,7 @@ export function Calendario() {
                 <span className="calendario__grupo-cuenta">{especies.length}</span>
               </span>
               {MESES.map((m) => (
-                <span key={m} className={`cal-celda ${m === mesHoy ? 'es-ahora' : ''}`} aria-hidden />
+                <Celda key={m} mes={m} decadaHoy={decadaHoy} vacia />
               ))}
             </h2>
             {especies.map((e) => (
@@ -121,7 +121,8 @@ export function Calendario() {
                 key={e.slug}
                 especie={e}
                 capa={capa}
-                mesHoy={mesHoy}
+                zona={zona}
+                decadaHoy={decadaHoy}
                 onAbrir={() => setElegida(e)}
               />
             ))}
@@ -129,7 +130,12 @@ export function Calendario() {
         ))}
       </div>
 
-      <DetalleMes especie={elegida} onCerrar={() => setElegida(null)} mesHoy={mesHoy} />
+      <DetalleMes
+        especie={elegida}
+        zona={zona}
+        decadaHoy={decadaHoy}
+        onCerrar={() => setElegida(null)}
+      />
     </div>
   )
 }
@@ -139,45 +145,84 @@ export function Calendario() {
 function FilaEspecie({
   especie,
   capa,
-  mesHoy,
+  zona,
+  decadaHoy,
   onAbrir,
 }: {
   especie: EspecieEnriquecida
   capa: Capa
-  mesHoy: Mes
+  zona: Zona
+  decadaHoy: Decada
   onAbrir: () => void
 }) {
-  const estadoDe = capa === 'siembra' ? estadoSiembra : estadoTrasplante
   return (
-    <button className="cal-fila cal-fila--dato" onClick={onAbrir} aria-label={etiquetaFila(especie, capa)}>
+    <button
+      className="cal-fila cal-fila--dato"
+      onClick={onAbrir}
+      aria-label={etiquetaFila(especie, capa, zona)}
+    >
       <span className="cal-nombre">
         <IconoGrupo grupo={especie.grupo} size={15} decorativo />
         {nombreCorto(especie.nombre_comun)}
       </span>
-      {MESES.map((m) => {
-        const estado = estadoDe(especie, m)
-        return (
-          <span key={m} className={`cal-celda ${m === mesHoy ? 'es-ahora' : ''}`}>
-            {estado && <Marca capa={capa} estado={estado} />}
-          </span>
-        )
-      })}
+      {MESES.map((m) => (
+        <Celda
+          key={m}
+          mes={m}
+          decadaHoy={decadaHoy}
+          capa={capa}
+          estados={estadosDelMes(especie, m, zona, capa)}
+        />
+      ))}
     </button>
+  )
+}
+
+/**
+ * Celda de un mes, partida en sus tres décadas. La precisión sub-mensual entra
+ * en el relleno, no en más columnas: la matriz sigue siendo de 12 y entra en
+ * 390px. Además una misma celda puede decir "ideal hasta el 20, se puede
+ * después", que a resolución mensual era imposible de expresar.
+ */
+function Celda({
+  mes,
+  decadaHoy,
+  capa,
+  estados,
+  vacia,
+}: {
+  mes: Mes
+  decadaHoy: Decada
+  capa?: Capa
+  estados?: [EstadoMes, EstadoMes, EstadoMes]
+  vacia?: boolean
+}) {
+  const decadas = decadasDelMes(mes)
+  const esMesActual = mesDeDecada(decadaHoy) === mes
+  return (
+    <span className={`cal-celda ${esMesActual ? 'es-mes-ahora' : ''}`} aria-hidden={vacia}>
+      {decadas.map((d, i) => (
+        <span key={d} className={`cal-tercio ${d === decadaHoy ? 'es-ahora' : ''}`}>
+          {!vacia && estados?.[i] && <span className={`cal-barra es-${capa} es-${estados[i]}`} />}
+        </span>
+      ))}
+    </span>
   )
 }
 
 /* ---------- hoja de detalle ---------- */
 
 function DetalleMes({
-  especie,
+  especie: e,
+  zona,
+  decadaHoy,
   onCerrar,
-  mesHoy,
 }: {
   especie: EspecieEnriquecida | null
+  zona: Zona
+  decadaHoy: Decada
   onCerrar: () => void
-  mesHoy: Mes
 }) {
-  const e = especie
   return (
     <BottomSheet
       abierto={!!e}
@@ -195,22 +240,28 @@ function DetalleMes({
       {e && (
         <>
           <div>
-            <MonthStrip especie={e} mesActual={mesHoy} conTrasplante conEtiquetas />
-            <p className="hoja__nota">El marco de tinta es {NOMBRES_MES[mesHoy - 1]}.</p>
+            <MonthStrip especie={e} zona={zona} decadaActual={decadaHoy} conTrasplante conEtiquetas />
+            <p className="hoja__nota">
+              Cada mes va partido en tres. El marco de tinta es {nombreDecada(decadaHoy)}.
+            </p>
           </div>
 
           <dl className="ventanas">
-            <Ventana titulo="Siembra ideal" clase="es-ideal" meses={e.calendario.siembra_ideal} />
-            <Ventana titulo="También se puede" clase="es-posible" meses={e.calendario.siembra_posible} />
+            <Ventana titulo="Siembra ideal" clase="es-ideal" decadas={e.calendario.decadas[zona].siembra_ideal} />
+            <Ventana
+              titulo="También se puede"
+              clase="es-posible"
+              decadas={e.calendario.decadas[zona].siembra_posible}
+            />
             <Ventana
               titulo="Trasplante ideal"
               clase="es-trasplante"
-              meses={e.calendario.trasplante_ideal}
+              decadas={e.calendario.decadas[zona].trasplante_ideal}
             />
             <Ventana
               titulo="Trasplante posible"
               clase="es-trasplante"
-              meses={e.calendario.trasplante_posible}
+              decadas={e.calendario.decadas[zona].trasplante_posible}
             />
           </dl>
 
@@ -229,25 +280,75 @@ function DetalleMes({
 
           <p className="hoja__ciclo">{textoCiclo(e)}</p>
 
-          <div className="hoja__derivacion">
-            <h3 className="hoja__subtitulo">
-              De dónde sale este calendario
-              <ConfidenceBadge valor={e.calendario.confianza} compacto />
-            </h3>
-            <p>{e.calendario.derivacion}</p>
-          </div>
+          <BloqueAfinado especie={e} zona={zona} />
         </>
       )}
     </BottomSheet>
   )
 }
 
-function Ventana({ titulo, clase, meses }: { titulo: string; clase: string; meses: Mes[] }) {
-  if (meses.length === 0) return null
+/** La trazabilidad del afinado: qué dijo la fuente y qué le hizo el modelo. */
+function BloqueAfinado({ especie: e, zona }: { especie: EspecieEnriquecida; zona: Zona }) {
+  const a = e.calendario.afinado
+  return (
+    <div className="hoja__derivacion">
+      <h3 className="hoja__subtitulo">
+        De dónde sale este calendario
+        <ConfidenceBadge valor={e.calendario.confianza} compacto />
+      </h3>
+      <p>{e.calendario.derivacion}</p>
+
+      <h3 className="hoja__subtitulo hoja__subtitulo--sep">
+        Precisión por décadas
+        <ConfidenceBadge valor={a.confianza} compacto />
+      </h3>
+
+      {a.estado === 'sin_afinar' && (
+        <p className="afinado__sin">
+          <strong>Sin afinar:</strong> {a.motivo} Queda a resolución mensual, que es lo honesto.
+        </p>
+      )}
+
+      {a.nota_fuente && (
+        <p className="afinado__fuente">
+          <strong>Lo dice la fuente:</strong> {a.nota_fuente}
+        </p>
+      )}
+
+      {a.estado === 'afinado' && (
+        <p>
+          {a.ajustes.length === 0
+            ? 'El modelo climático no le recortó nada: los meses de la fuente entran enteros.'
+            : `Sobre los meses de la fuente, el modelo climático del ${ZONAS_INFO[zona].etiqueta.toLowerCase()} recortó ${a.ajustes.length === 1 ? 'una década' : `${a.ajustes.length} décadas`}:`}
+        </p>
+      )}
+
+      {a.ajustes.length > 0 && (
+        <ul className="afinado__ajustes">
+          {a.ajustes.map((x, i) => (
+            <li key={i}>
+              <strong>{nombreDecada(x.decada)}</strong> — {x.nota}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <p className="afinado__pie">
+        Precisión honesta: ±10 días. Las fuentes hablan por mes; los tercios salen de cruzar sus
+        datos con las temperaturas del SMN y la estadística de heladas de la FAUBA para{' '}
+        {ZONAS_INFO[zona].etiqueta.toLowerCase()}. Se explica entero en el{' '}
+        <Link to="/glosario">glosario</Link>.
+      </p>
+    </div>
+  )
+}
+
+function Ventana({ titulo, clase, decadas }: { titulo: string; clase: string; decadas: Decada[] }) {
+  if (decadas.length === 0) return null
   return (
     <div className={`ventana ${clase}`}>
       <dt>{titulo}</dt>
-      <dd>{textoMeses(meses)}</dd>
+      <dd>{textoDecadas(decadas)}</dd>
     </div>
   )
 }
@@ -273,49 +374,30 @@ function Segmento({
   )
 }
 
-/**
- * La marca de la celda. La forma cambia con la capa (cuadrado = siembra,
- * triángulo = trasplante) y el relleno con la certeza (lleno = ideal,
- * contorno = posible): el color nunca es el único canal.
- */
-function Marca({ capa, estado }: { capa: Capa; estado: Exclude<EstadoMes, null> }) {
-  const ideal = estado === 'ideal'
-  const comun = {
-    fill: ideal ? 'currentColor' : capa === 'siembra' ? 'var(--posible-fondo)' : 'var(--terracota-suave)',
-    stroke: 'currentColor',
-    strokeWidth: ideal ? 0 : 1.8,
-  }
+/** Muestra de la leyenda, con la misma gramática que las celdas. */
+function Muestra({ capa, estado }: { capa: Capa; estado: 'ideal' | 'posible' }) {
   return (
-    <svg viewBox="0 0 12 12" className={`cal-marca es-${capa} es-${estado}`} aria-hidden>
-      {capa === 'siembra' ? (
-        <rect x="1.2" y="1.2" width="9.6" height="9.6" rx="3" {...comun} />
-      ) : (
-        <path d="M6 1.5 L11 10.5 L1 10.5 Z" strokeLinejoin="round" {...comun} />
-      )}
-    </svg>
+    <span className="cal-muestra">
+      <span className={`cal-barra es-${capa} es-${estado}`} />
+    </span>
   )
 }
 
 /* ---------- helpers de texto ---------- */
 
-function seTrasplanta(e: EspecieEnriquecida): boolean {
-  return e.calendario.trasplante_ideal.length + e.calendario.trasplante_posible.length > 0
-}
-
-/** "de agosto a octubre" queda igual; "agosto" pasa a "en agosto". */
 function conPreposicion(texto: string): string {
-  if (!texto || texto === 'todo el año' || texto.startsWith('de ')) return texto
+  if (!texto || texto === 'todo el año' || texto.startsWith('de ') || texto.startsWith('todo ')) return texto
   return `en ${texto}`
 }
 
-function etiquetaFila(e: EspecieEnriquecida, capa: Capa): string {
-  const c = e.calendario
-  const ideal = capa === 'siembra' ? c.siembra_ideal : c.trasplante_ideal
-  const posible = capa === 'siembra' ? c.siembra_posible : c.trasplante_posible
+function etiquetaFila(e: EspecieEnriquecida, capa: Capa, zona: Zona): string {
+  const v = e.calendario.decadas[zona]
+  const ideal = capa === 'siembra' ? v.siembra_ideal : v.trasplante_ideal
+  const posible = capa === 'siembra' ? v.siembra_posible : v.trasplante_posible
   const que = capa === 'siembra' ? 'Siembra' : 'Trasplante'
   const partes: string[] = []
-  if (ideal.length) partes.push(`${que} ideal ${conPreposicion(textoMeses(ideal))}`)
-  if (posible.length) partes.push(`se puede ${conPreposicion(textoMeses(posible))}`)
+  if (ideal.length) partes.push(`${que} ideal ${conPreposicion(textoDecadas(ideal))}`)
+  if (posible.length) partes.push(`se puede ${conPreposicion(textoDecadas(posible))}`)
   if (partes.length === 0) partes.push(`sin ${que.toLowerCase()} en el calendario`)
   return `${e.nombre_comun}: ${partes.join('; ')}. Ver el detalle.`
 }
