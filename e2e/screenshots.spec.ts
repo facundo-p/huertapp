@@ -4,7 +4,7 @@ import { mkdirSync } from 'node:fs'
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
 
-const FASE = process.env.FASE ?? 'fase-4-5'
+const FASE = process.env.FASE ?? 'fase-5'
 const DIR = `e2e/shots/${FASE}`
 
 interface Toma {
@@ -85,6 +85,17 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'hoy-vacio', ruta: '/#/hoy' },
+  {
+    nombre: 'hoy-con-tareas',
+    ruta: '/#/hoy',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/hoy')
+      await page.waitForLoadState('networkidle')
+      await page.waitForTimeout(500)
+    },
+  },
   { nombre: 'huerta-vacia', ruta: '/#/huerta' },
   { nombre: 'ajustes-backup', ruta: '/#/ajustes' },
   {

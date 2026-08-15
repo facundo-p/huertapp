@@ -1,21 +1,252 @@
-.boton-primario {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--esp-2);
-  min-height: var(--tap-min);
-  padding: 10px var(--esp-5);
-  border-radius: var(--radio-chip);
-  background: var(--verde-hoja);
-  color: var(--papel-alto);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--texto-m);
-  text-decoration: none;
-  box-shadow: var(--sombra-1);
-  transition: transform 0.15s ease, background-color 0.2s ease;
+.hoy__seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
 }
 
-.boton-primario:active {
-  transform: scale(0.97);
-  background: var(--verde-prof);
+.hoy__bajada {
+  font-size: var(--texto-s);
+  color: var(--tinta-suave);
+}
+
+.hoy__al-dia {
+  padding: var(--esp-4);
+  border-radius: var(--radio-m);
+  background: var(--ideal-fondo);
+  border: 1.5px dashed var(--ideal);
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--verde-prof);
+  text-align: center;
+}
+
+/* --- tareas --- */
+.tareas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tarea {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radio-m);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  border-left: 4px solid var(--salvia);
+  box-shadow: var(--sombra-1);
+  overflow: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tarea.es-helada {
+  border-left-color: var(--peligro);
+  background: var(--peligro-fondo);
+}
+.tarea.es-cosechar {
+  border-left-color: var(--verde-hoja);
+}
+.tarea.es-revisar_germinacion {
+  border-left-color: var(--sol);
+}
+.tarea.es-trasplantar {
+  border-left-color: var(--terracota);
+}
+
+/* al completar: la hojita brota y la tarjeta se va */
+.tarea.es-festejando {
+  opacity: 0;
+  transform: translateX(14px) scale(0.98);
+}
+
+.tarea__cuerpo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  text-decoration: none;
+  color: inherit;
+}
+
+.tarea__icono {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  color: var(--tinta-media);
+  flex: none;
+  font-size: 19px;
+}
+
+.tarea.es-helada .tarea__icono {
+  background: var(--terracota-suave);
+  color: var(--peligro);
+}
+
+.tarea__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.tarea__titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  flex-wrap: wrap;
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.tarea__atrasada {
+  padding: 1px 8px;
+  border-radius: var(--radio-chip);
+  background: var(--peligro-fondo);
+  color: #7d3a20;
+  font-family: var(--font-cuerpo);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.tarea__detalle {
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.tarea__fuente {
+  margin-top: 2px;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--tinta-suave);
+}
+
+.tarea__acciones {
+  display: flex;
+  border-top: 1.5px dashed var(--linea);
+}
+
+.tarea__accion {
+  flex: 1;
+  min-height: var(--tap-min);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+}
+
+.tarea__accion + .tarea__accion {
+  border-left: 1.5px dashed var(--linea);
+}
+
+.tarea__accion.es-listo {
+  color: var(--verde-prof);
+}
+
+.tarea__accion:active {
+  background: var(--papel-hundido);
+}
+
+/* --- carrusel de sugerencias --- */
+.carrusel {
+  display: flex;
+  gap: var(--esp-3);
+  list-style: none;
+  /* sangra solo por la derecha: la primera tarjeta alinea con el texto y la
+     última se asoma fuera de pantalla, que es lo que invita a arrastrar */
+  margin-right: calc(var(--esp-4) * -1);
+  padding: var(--esp-1) var(--esp-4) var(--esp-3) 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.carrusel::-webkit-scrollbar {
+  display: none;
+}
+
+.carrusel > li {
+  flex: none;
+  width: 154px;
+  scroll-snap-align: start;
+}
+
+.sugerencia {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.sugerencia__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+  flex: 1;
+  padding: var(--esp-4) var(--esp-3) var(--esp-3);
+  padding-top: var(--esp-5);
+  text-decoration: none;
+  color: inherit;
+}
+
+.sugerencia__icono {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+}
+
+.sugerencia__nombre {
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--tinta);
+}
+
+.sugerencia__ventana {
+  font-size: 11px;
+  color: var(--tinta-suave);
+}
+
+.sugerencia__ventana.es-cierra {
+  font-weight: 700;
+  color: var(--terracota);
+}
+
+.sugerencia__metodo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--terracota);
+}
+
+.sugerencia__sumar {
+  min-height: 38px;
+  border-top: 1.5px dashed var(--linea);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--verde-prof);
+}
+
+.sugerencia__sumar:active {
+  background: var(--ideal-fondo);
 }

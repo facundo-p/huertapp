@@ -57,11 +57,11 @@ export function IconoTrasplantar(p: IconProps) {
 export function IconoCosechar(p: IconProps) {
   return (
     <Svg {...p}>
-      <path d="M5 10.5 H 19 L 17.9 16.6 C 17.6 18.2, 16.5 19.2, 15 19.2 H 9 C 7.5 19.2, 6.4 18.2, 6.1 16.6 Z" />
-      <path d="M9.4 10.5 L 9.9 19" />
-      <path d="M12 10.5 V 19.2" />
-      <path d="M14.6 10.5 L 14.1 19" />
-      <path d="M8.6 10.2 C 8.6 6.9, 15.4 6.9, 15.4 10.2" />
+      <path d="M4.8 11.6 H 19.2 L 17.8 17.6 C 17.5 19 16.5 19.7 15.1 19.7 H 8.9 C 7.5 19.7 6.5 19 6.2 17.6 Z" />
+      <path d="M6.3 15 H 17.7" />
+      <circle cx="9.7" cy="8.6" r="2.2" />
+      <circle cx="14.4" cy="9.4" r="1.8" />
+      <path d="M9.7 6.4 C 9.7 5 10.9 4.3 12 4.3" />
     </Svg>
   )
 }
