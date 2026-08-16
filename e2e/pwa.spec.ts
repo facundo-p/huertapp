@@ -22,8 +22,7 @@ import { readFile, writeFile } from 'node:fs/promises'
  * 2. **Que `index.html` esté en la caché**, no que haya "muchas" entradas. Es
  *    exactamente el archivo del que depende que una navegación offline funcione.
  */
-async function esperarOffline(page: Page) {
-  await page.goto('/')
+async function listo(page: Page) {
   await page.waitForFunction(
     async () => {
       const reg = await navigator.serviceWorker.getRegistration()
@@ -42,6 +41,24 @@ async function esperarOffline(page: Page) {
     null,
     { timeout: 20_000 },
   )
+}
+
+async function esperarOffline(page: Page) {
+  await page.goto('/')
+  await listo(page)
+
+  // Segunda entrada, todavía con red. Modela lo que hace cualquiera: entrar una
+  // vez, y volver a abrir la app más tarde.
+  //
+  // No es un adorno. En la primera visita el worker adopta una página que ya
+  // estaba cargada (`clients.claim()`), y recargar ESA página en el instante
+  // siguiente es un momento que ningún usuario vive y que el navegador maneja
+  // de forma inestable: en CI la navegación se iba a la red y el test moría con
+  // un ERR_INTERNET_DISCONNECTED que no tenía nada que ver con el precache.
+  // Después de esta recarga la página nace controlada, que es la situación real
+  // de alguien que vuelve a abrir la app.
+  await page.reload()
+  await listo(page)
 }
 
 test('sin internet la app abre entera: pantallas, catálogo y calendario', async ({
