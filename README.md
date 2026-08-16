@@ -1,5 +1,7 @@
 # Huerta GBA
 
+### 👉 [facundo-p.github.io/huertapp](https://facundo-p.github.io/huertapp/)
+
 Una app para planificar y mantener una huerta casera en el **Gran Buenos Aires**.
 Se instala en el celular, **funciona sin internet** y no tiene cuentas, servidor
 ni nube: todo lo que cargás vive en tu aparato.
@@ -18,8 +20,9 @@ Responde tres preguntas, que son las que uno se hace con tierra en las manos:
 ## Instalarla en el celular
 
 No está en Play Store ni en App Store: es una PWA, se instala desde el navegador.
-Andá a la dirección donde esté publicada y seguí los pasos según el teléfono.
-(Los mismos pasos están dentro de la app, en **Ajustes → Instalar en el celu**.)
+Entrá a **[facundo-p.github.io/huertapp](https://facundo-p.github.io/huertapp/)**
+y seguí los pasos según el teléfono. (Los mismos pasos están dentro de la app, en
+**Ajustes → Instalar en el celu**.)
 
 ### Android (Chrome, Edge, Samsung Internet)
 
@@ -161,6 +164,32 @@ npm run preview      # sirve dist/ en :4173 — necesario para los e2e
 Números del build: **1200 KB** precacheados (el catálogo de 55 especies es la
 mayor parte), 1,6 s hasta contenido útil en la primera visita simulando un
 teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
+
+### Cómo se publica
+
+Cada push a `main` dispara `.github/workflows/publicar.yml`, que en una máquina
+limpia corre `npm ci`, **los 537 tests unitarios + el chequeo de que el JSON
+generado esté al día**, **los 12 e2e** (offline y actualización incluidos), y
+recién ahí buildea y publica en GitHub Pages.
+
+Los e2e antes del deploy no son ceremonia: un service worker roto le deja una
+pantalla en blanco a quien ya tiene la app instalada, **y esa persona no lo
+puede arreglar desde su lado**. Dos minutos de Playwright son el seguro.
+
+`dist/` nunca se commitea. El repo guarda código fuente y GitHub arma el resto.
+Para republicar sin cambios, "Run workflow" en la pestaña Actions.
+
+Notas del hosting:
+
+- La URL es `…github.io/**huertapp**/` porque en una Page de proyecto la ruta
+  *es* el nombre del repo. Cambiar el nombre cambia la URL, y eso rompe las
+  instalaciones existentes: para el navegador, otro origen es **otra app**, con
+  otro service worker y otra base de datos. Los datos se mudan con el backup.
+- GitHub Pages cachea 10 minutos en su CDN, así que un deploy puede tardar
+  ese rato en verse.
+- Un dominio propio posicionaría mejor que un subdirectorio de `github.io` y se
+  configura en Pages con dos clicks — pero conviene decidirlo **antes** de que
+  la URL circule, por lo mismo del punto anterior.
 
 ### Accesibilidad
 
