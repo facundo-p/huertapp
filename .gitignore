@@ -15,3 +15,6 @@ playwright-report/
 
 # OS
 .DS_Store
+
+# caché incremental de tsc
+*.tsbuildinfo

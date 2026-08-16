@@ -1,1 +1,0 @@
-{"root":["./vite.config.ts","./scripts/plugins-build.d.mts","./tests/agenda.test.ts","./tests/calendario.test.ts","./tests/clima.test.ts","./tests/huerta.test.ts","./tests/tareas.test.ts","./tests/data/enriquecido.test.ts"],"version":"5.9.3"}
