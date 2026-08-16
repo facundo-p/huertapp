@@ -22,42 +22,42 @@ import { readFile, writeFile } from 'node:fs/promises'
  * 2. **Que `index.html` esté en la caché**, no que haya "muchas" entradas. Es
  *    exactamente el archivo del que depende que una navegación offline funcione.
  */
+/**
+ * Espera a que el service worker esté realmente en condiciones de responder sin
+ * red: activado, controlando la página, y con `index.html` en la caché —que es
+ * el archivo del que depende que una navegación offline funcione.
+ *
+ * **Va con `expect.poll` y NO con `page.waitForFunction`, a propósito.**
+ * `waitForFunction` no espera predicados `async`: le llega una Promise
+ * pendiente, la Promise es truthy, y da la condición por cumplida al instante.
+ * Un predicado que devuelve `false` explícitamente igual la hace pasar. Con
+ * `page.evaluate` adentro de `expect.poll` sí se espera el resultado.
+ */
 async function listo(page: Page) {
-  await page.waitForFunction(
-    async () => {
-      const reg = await navigator.serviceWorker.getRegistration()
-      if (reg?.active?.state !== 'activated') return false
-      if (!navigator.serviceWorker.controller) return false
+  await expect
+    .poll(
+      () =>
+        page.evaluate(async () => {
+          const reg = await navigator.serviceWorker.getRegistration()
+          if (reg?.active?.state !== 'activated') return false
+          if (!navigator.serviceWorker.controller) return false
 
-      const claves = await caches.keys()
-      if (!claves.length) return false
-      const c = await caches.open(claves[0])
-      const index = await c.match(new URL('index.html', location.href).href, {
-        ignoreVary: true,
-        ignoreSearch: true,
-      })
-      return !!index && (await c.keys()).length >= 10
-    },
-    null,
-    { timeout: 20_000 },
-  )
+          const claves = await caches.keys()
+          if (!claves.length) return false
+          const c = await caches.open(claves[0])
+          const index = await c.match(new URL('index.html', location.href).href, {
+            ignoreVary: true,
+            ignoreSearch: true,
+          })
+          return !!index && (await c.keys()).length >= 10
+        }),
+      { timeout: 30_000, message: 'el service worker nunca quedó listo para servir offline' },
+    )
+    .toBe(true)
 }
 
 async function esperarOffline(page: Page) {
   await page.goto('/')
-  await listo(page)
-
-  // Segunda entrada, todavía con red. Modela lo que hace cualquiera: entrar una
-  // vez, y volver a abrir la app más tarde.
-  //
-  // No es un adorno. En la primera visita el worker adopta una página que ya
-  // estaba cargada (`clients.claim()`), y recargar ESA página en el instante
-  // siguiente es un momento que ningún usuario vive y que el navegador maneja
-  // de forma inestable: en CI la navegación se iba a la red y el test moría con
-  // un ERR_INTERNET_DISCONNECTED que no tenía nada que ver con el precache.
-  // Después de esta recarga la página nace controlada, que es la situación real
-  // de alguien que vuelve a abrir la app.
-  await page.reload()
   await listo(page)
 }
 
@@ -151,14 +151,24 @@ test('una versión nueva se ofrece, no se impone', async ({ page }) => {
     // nueva se crea en `install`, bastante antes de que `activate` borre la
     // vieja, así que esperar su aparición mide el momento equivocado.
     await page.getByRole('button', { name: 'Actualizar' }).click()
-    await page.waitForFunction(
-      async () => {
-        const claves = await caches.keys()
-        return claves.length === 1 && claves[0] === 'huerta-proxima00'
-      },
-      null,
-      { timeout: 15_000 },
-    )
+    await expect
+      .poll(
+        async () => {
+          // La app se recarga sola al aceptar —es lo que tiene que pasar— y eso
+          // destruye el contexto de ejecución en medio del evaluate. No es un
+          // fallo: se vuelve a preguntar.
+          try {
+            return await page.evaluate(() => caches.keys())
+          } catch {
+            return null
+          }
+        },
+        {
+          timeout: 15_000,
+          message: 'la caché vieja tiene que borrarse al activar la versión nueva',
+        },
+      )
+      .toEqual(['huerta-proxima00'])
     await expect(page.getByText('Hay una versión nueva.')).toBeHidden()
   } finally {
     await writeFile(swjs, original)

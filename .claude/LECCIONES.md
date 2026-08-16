@@ -184,3 +184,26 @@ archivo del que depende que una navegación offline funcione.
 
 **La lección general:** cuando un test falla solo en CI, la diferencia suele ser
 tiempo, no entorno. Buscá qué condición estabas dando por cumplida.
+
+### `page.waitForFunction` no espera predicados `async`
+
+**Síntoma:** el test de offline fallaba en CI y no en local, de forma
+intermitente y cambiando de test. Dos diagnósticos distintos parecieron
+explicarlo y ninguno era el bueno.
+
+**Causa:** el predicado era una función `async`. `waitForFunction` recibe la
+**Promise pendiente**, que es truthy, y da la condición por cumplida al
+instante. Verificado a mano: un predicado que hace `await sleep(1200)` y después
+`return false` **hace pasar la espera igual**. O sea, el chequeo de "el service
+worker está listo" no chequeaba nada, y el test seguía de largo con el precache
+a medio escribir.
+
+**Qué hacer:** con lógica asíncrona, `expect.poll(() => page.evaluate(async
+…))`, que sí espera el resultado. `waitForFunction` solo con predicados
+síncronos.
+
+**La lección general, y es la más cara de todas:** una espera que nunca falla no
+está esperando. Cuando un test falle de forma intermitente, **verificá primero
+que su condición de espera sea real** —hacela devolver `false` a propósito y
+mirá si el test se queja— antes de teorizar sobre el navegador. Dos teorías
+elegantes se fueron a la basura por no hacer eso primero.

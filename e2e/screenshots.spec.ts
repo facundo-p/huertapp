@@ -183,7 +183,9 @@ const TOMAS: Toma[] = [
     ruta: '/#/hoy',
     // se publica un deploy nuevo de verdad y se espera a que la app lo ofrezca
     antes: async (page) => {
-      await page.waitForFunction(async () => !!navigator.serviceWorker.controller, null, {
+      // predicado síncrono: waitForFunction no espera funciones async, le llega
+      // una Promise pendiente (truthy) y da la condición por cumplida al toque
+      await page.waitForFunction(() => !!navigator.serviceWorker.controller, null, {
         timeout: 20_000,
       })
       const original = await readFile(SW, 'utf8')
