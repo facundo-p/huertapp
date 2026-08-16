@@ -20,7 +20,13 @@ export default defineConfig({
   webServer: {
     command: 'npm run preview',
     url: 'http://localhost:4173',
-    reuseExistingServer: true,
+    // Servidor nuevo por corrida, no reusar. `npm run e2e` buildea antes de
+    // testear, y un preview que quedó vivo de una corrida anterior sigue
+    // sirviendo el dist viejo: los assets hasheados que pide el index nuevo no
+    // existen para él, el precache falla, y el síntoma que ves es un
+    // ERR_INTERNET_DISCONNECTED en el test de offline que no tiene nada que ver
+    // con offline. Levantar uno limpio cuesta 300 ms.
+    reuseExistingServer: false,
     timeout: 30_000,
   },
 })

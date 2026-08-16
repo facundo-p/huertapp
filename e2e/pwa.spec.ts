@@ -165,11 +165,16 @@ test('el precache cubre todo lo que el build emitió', async ({ page }) => {
     const c = await caches.open(claves[0])
     const urls = (await c.keys()).map((r) => new URL(r.url).pathname)
 
-    // lo que el index pide de verdad, contra lo que quedó guardado
+    // Lo que el index pide de verdad, contra lo que quedó guardado. Solo del
+    // mismo origen: hay <link> que no son recursos que se descarguen —el
+    // canonical apunta a la URL de producción— y nunca van a estar en caché.
     const pedidos = [
       ...[...document.querySelectorAll<HTMLScriptElement>('script[src]')].map((s) => s.src),
       ...[...document.querySelectorAll<HTMLLinkElement>('link[href]')].map((l) => l.href),
-    ].map((u) => new URL(u).pathname)
+    ]
+      .map((u) => new URL(u))
+      .filter((u) => u.origin === location.origin)
+      .map((u) => u.pathname)
 
     return { enCache: urls.length, faltantes: pedidos.filter((p) => !urls.includes(p)) }
   })

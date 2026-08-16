@@ -16,6 +16,14 @@ import { fileURLToPath } from 'node:url'
  * updates fantasma ni —peor— gente clavada en una versión vieja porque el
  * archivo del worker quedó igual.
  */
+/**
+ * Lo que NO va al precache: archivos que leen buscadores y redes sociales, y
+ * que la persona que usa la app no va a abrir nunca. La og:image sola pesa
+ * 200 KB — un sexto del paquete offline— gastados en algo que solo mira el
+ * robot de WhatsApp.
+ */
+const FUERA_DEL_PRECACHE = ['sw.js', 'og-image.png', 'sitemap.xml']
+
 export function serviceWorker() {
   const plantilla = fileURLToPath(new URL('./sw.js', import.meta.url))
 
@@ -26,7 +34,7 @@ export function serviceWorker() {
       const dist = 'dist'
       const archivos = (await listar(dist))
         .map((f) => relative(dist, f).split('\\').join('/'))
-        .filter((f) => f !== 'sw.js')
+        .filter((f) => !FUERA_DEL_PRECACHE.includes(f))
         .sort()
 
       const hash = createHash('sha256')

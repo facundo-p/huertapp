@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hoy tiene una sola URL, y no es un descuido: la app usa HashRouter, así que
+  todo lo que va después del # no llega al servidor y para un buscador
+  /#/explorar/tomate es la misma página que /. Las 55 fichas no son
+  direccionables todavía.
+
+  Cuando se generen páginas por especie (issue "SEO real"), se listan acá.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://facundo-p.github.io/huertapp/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

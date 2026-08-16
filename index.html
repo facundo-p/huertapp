@@ -4,11 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <title>Huerta GBA</title>
+    <!-- El título apunta a lo que la gente busca ("qué sembrar", "Buenos
+         Aires"), no al nombre del producto. No afecta el nombre de la app
+         instalada: eso lo manda `name` del manifest. -->
+    <title>Huerta GBA — qué sembrar y cuándo en el Gran Buenos Aires</title>
     <meta
       name="description"
-      content="Qué sembrar y cuándo en el Gran Buenos Aires, con el calendario afinado a tu zona. Funciona sin internet."
+      content="Calendario de siembra de 55 hortalizas para el Gran Buenos Aires, afinado a períodos de 10 días y a tu zona. Con las fuentes de cada dato. Gratis, sin cuenta y funciona sin internet."
     />
+    <link rel="canonical" href="https://facundo-p.github.io/huertapp/" />
+
+    <!-- Cómo se ve el link al pegarlo en WhatsApp, Twitter o Instagram. Para
+         esta app pesa más que el buscador: se comparte de persona a persona.
+         Ojo: og:image tiene que ser URL absoluta — si cambia el dominio, hay
+         que cambiarla acá y en el canonical de arriba. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Huerta GBA" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:url" content="https://facundo-p.github.io/huertapp/" />
+    <meta property="og:title" content="Huerta GBA — qué sembrar y cuándo en el Gran Buenos Aires" />
+    <meta
+      property="og:description"
+      content="El calendario de 55 hortalizas afinado a períodos de 10 días y a tu zona del AMBA, con las fuentes de cada dato. Se instala en el celu y anda sin internet."
+    />
+    <meta property="og:image" content="https://facundo-p.github.io/huertapp/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Huerta GBA: qué sembrar y cuándo en el Gran Buenos Aires. 55 especies, con las fuentes de cada dato, funciona sin internet."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- el color de la barra de estado: el mismo papel del fondo, para que no
          quede una banda que corte la pantalla -->
@@ -23,6 +49,32 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Huerta" />
 
+    <!-- Datos estructurados. Todo verificable: nada de ratings ni reseñas
+         inventadas, que además Google penaliza. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Huerta GBA",
+        "url": "https://facundo-p.github.io/huertapp/",
+        "description": "Calendario de siembra de 55 hortalizas para el Gran Buenos Aires, afinado a períodos de 10 días y a tu zona, con las fuentes de cada dato.",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Android, iOS, Windows, macOS, Linux",
+        "browserRequirements": "Navegador con soporte de service workers",
+        "inLanguage": "es-AR",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ARS" },
+        "author": { "@type": "Person", "name": "facundo-p", "url": "https://github.com/facundo-p" },
+        "featureList": [
+          "Calendario de siembra y trasplante de 55 especies",
+          "Ventanas afinadas a períodos de 10 días",
+          "Tres zonas del AMBA según el riesgo de helada",
+          "Seguimiento de tus plantas con diario y fotos",
+          "Funciona sin conexión y se instala en el celular"
+        ]
+      }
+    </script>
+
     <!-- la pantalla arranca en papel, no en blanco: evita el flash antes del CSS -->
     <style>
       html {
@@ -32,6 +84,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>Huerta GBA</h1>
+      <p>
+        Calendario de siembra para el Gran Buenos Aires: 55 hortalizas con sus ventanas de siembra y
+        trasplante afinadas a períodos de 10 días y a tu zona del AMBA, con las fuentes y el índice
+        de confianza de cada dato.
+      </p>
+      <p>La app necesita JavaScript. Activalo y volvé a cargar la página.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

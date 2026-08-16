@@ -1,0 +1,90 @@
+# Publica la app en GitHub Pages: https://facundo-p.github.io/huertapp/
+#
+# En cada push a main, GitHub levanta una máquina limpia, corre los tests,
+# buildea y publica el resultado. El repo guarda solo código fuente: dist/
+# sigue en .gitignore y nunca se commitea.
+name: Publicar
+
+on:
+  push:
+    branches: [main]
+  # permite dispararlo a mano desde la pestaña Actions, sin tener que
+  # inventar un commit para republicar
+  workflow_dispatch:
+
+# Permisos mínimos. `id-token` es para que el deploy se autentique por OIDC:
+# GitHub le da un token efímero al job en vez de guardar un secreto en el repo.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un deploy a la vez. Si se pushean dos commits seguidos, el segundo espera en
+# vez de pisarse con el primero; `cancel-in-progress: false` para no dejar
+# Pages a medio publicar.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `ci` y no `install`: instala exactamente lo del package-lock, sin
+      # actualizar nada por su cuenta. Un build reproducible.
+      - name: Instalar dependencias
+        run: npm ci
+
+      # 537 tests + el chequeo de que data/huerta_gba_enriquecido.json esté al
+      # día. Si alguien tocó el overlay y no regeneró, no se publica.
+      - name: Tests y datos al día
+        run: npm test
+
+      - name: Navegador para los e2e
+        run: npx playwright install --with-deps chromium
+
+      # Los 12 e2e, incluidos offline y actualización. Esto es lo que protege a
+      # quien ya tiene la app instalada: un service worker roto le deja una
+      # pantalla en blanco que NO puede arreglar desde su lado.
+      - name: End-to-end
+        run: npm run e2e
+
+      # Build limpio. El test de actualización reescribe dist/sw.js para
+      # simular un deploy y lo restaura al terminar; rebuildear acá quita
+      # cualquier duda sobre qué se está publicando.
+      - name: Build final
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      # Si algo falla, quedan las capturas y trazas de Playwright para mirar
+      - name: Guardar el informe si falló
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
