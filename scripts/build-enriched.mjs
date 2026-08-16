@@ -91,5 +91,24 @@ const salida = {
   especies,
 }
 
-writeFileSync(join(root, 'data/huerta_gba_enriquecido.json'), JSON.stringify(salida, null, 2))
-console.log(`OK: ${especies.length} especies → data/huerta_gba_enriquecido.json`)
+const destino = join(root, 'data/huerta_gba_enriquecido.json')
+const texto = JSON.stringify(salida, null, 2)
+
+// `--check` no escribe: compara. Lo corre `npm test` antes de los tests para
+// atajar el error silencioso más caro de este repo: tocar el overlay a mano,
+// olvidarse de regenerar, y quedarse mirando una app y unos tests que siguen
+// leyendo el JSON viejo sin que nada avise.
+if (process.argv.includes('--check')) {
+  const actual = readFileSync(destino, 'utf8')
+  if (actual !== texto) {
+    console.error(
+      'data/huerta_gba_enriquecido.json quedó desactualizado respecto de sus fuentes.\n' +
+        'Regeneralo con:  npm run data:build',
+    )
+    process.exit(1)
+  }
+  console.log('OK: el JSON generado está al día')
+} else {
+  writeFileSync(destino, texto)
+  console.log(`OK: ${especies.length} especies → data/huerta_gba_enriquecido.json`)
+}
