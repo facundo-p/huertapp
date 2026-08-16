@@ -36,19 +36,29 @@ export function usePWA(): EstadoPWA {
   )
 }
 
+/**
+ * Marca que la recarga es a pedido. `controllerchange` se dispara también en la
+ * primera visita, cuando el worker recién instalado toma el control con
+ * `clients.claim()`; ahí no hay ninguna versión nueva que aplicar y recargar
+ * sería un parpadeo gratis para todo el que entra por primera vez.
+ */
+let pedimosActualizar = false
+
 /** Le da paso a la versión que está esperando. La recarga viene después sola. */
 export function aplicarUpdate() {
+  pedimosActualizar = true
   registro?.waiting?.postMessage('actualizar-ya')
 }
 
 export function registrarSW() {
   if (!('serviceWorker' in navigator)) return
 
-  // Una sola recarga: sin esto, si el usuario toca "Actualizar" dos veces o el
-  // navegador dispara controllerchange de más, la app entra en bucle de reload.
+  // Se recarga solo si la recarga fue pedida (ver `pedimosActualizar`), y una
+  // sola vez: sin el candado, tocar "Actualizar" dos veces o un
+  // controllerchange de más meten a la app en un bucle de reload.
   let recargando = false
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (recargando) return
+    if (!pedimosActualizar || recargando) return
     recargando = true
     location.reload()
   })

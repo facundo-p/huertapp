@@ -8,24 +8,36 @@ import { readFile, writeFile } from 'node:fs/promises'
  * que se prueba de verdad: cargar, cortar la red, y usar la app entera.
  */
 
-/** Espera a que el service worker termine de precachear y tome el control. */
+/**
+ * Espera a que el service worker esté realmente en condiciones de responder sin
+ * red. Las dos condiciones son más finas de lo que parecen:
+ *
+ * 1. **`active.state === 'activated'`**, no alcanza con que haya `controller`.
+ *    `clients.claim()` llena `controller` mientras el worker todavía está en
+ *    `activating`, y durante ese estado el navegador **no le despacha eventos
+ *    `fetch`**: una navegación en esa ventana se va derecho a la red. En una
+ *    máquina rápida no se nota; en CI falla, y el síntoma es un
+ *    ERR_INTERNET_DISCONNECTED que parece un problema del precache y no lo es.
+ *
+ * 2. **Que `index.html` esté en la caché**, no que haya "muchas" entradas. Es
+ *    exactamente el archivo del que depende que una navegación offline funcione.
+ */
 async function esperarOffline(page: Page) {
   await page.goto('/')
   await page.waitForFunction(
     async () => {
       const reg = await navigator.serviceWorker.getRegistration()
-      return !!reg?.active && !!navigator.serviceWorker.controller
-    },
-    null,
-    { timeout: 20_000 },
-  )
-  // el precache corre en install; damos tiempo a que la caché quede escrita
-  await page.waitForFunction(
-    async () => {
+      if (reg?.active?.state !== 'activated') return false
+      if (!navigator.serviceWorker.controller) return false
+
       const claves = await caches.keys()
       if (!claves.length) return false
       const c = await caches.open(claves[0])
-      return (await c.keys()).length >= 10
+      const index = await c.match(new URL('index.html', location.href).href, {
+        ignoreVary: true,
+        ignoreSearch: true,
+      })
+      return !!index && (await c.keys()).length >= 10
     },
     null,
     { timeout: 20_000 },
@@ -117,15 +129,19 @@ test('una versión nueva se ofrece, no se impone', async ({ page }) => {
     // y avisa que los datos no se tocan, que es la duda de cualquiera
     await expect(page.getByText(/Tus plantas y tu diario quedan como están/)).toBeVisible()
 
-    // al aceptar, la app recarga sola y la caché nueva reemplaza a la vieja
+    // Al aceptar, la app recarga sola y la caché nueva reemplaza a la vieja.
+    // Se espera a que quede UNA sola caché, no a que aparezca la nueva: la
+    // nueva se crea en `install`, bastante antes de que `activate` borre la
+    // vieja, así que esperar su aparición mide el momento equivocado.
     await page.getByRole('button', { name: 'Actualizar' }).click()
     await page.waitForFunction(
-      async () => (await caches.keys()).includes('huerta-proxima00'),
+      async () => {
+        const claves = await caches.keys()
+        return claves.length === 1 && claves[0] === 'huerta-proxima00'
+      },
       null,
       { timeout: 15_000 },
     )
-    const claves = await page.evaluate(() => caches.keys())
-    expect(claves, 'la caché vieja tiene que borrarse al activar').toEqual(['huerta-proxima00'])
     await expect(page.getByText('Hay una versión nueva.')).toBeHidden()
   } finally {
     await writeFile(swjs, original)

@@ -164,3 +164,23 @@ dibujar. Está anotado en `src/lib/data/especies.ts` para que no se
 Un `pkill -f vite` para limpiar el dev server propio se llevó puesto el de otro
 proyecto abierto en la misma máquina. El daño cae fuera del repo, donde no se
 ve. Hay un hook que lo bloquea; usá puerto propio y matá por PID.
+
+### `controller` no significa que el service worker vaya a responder
+
+**Síntoma:** `page.reload: net::ERR_INTERNET_DISCONNECTED` en el test de
+offline, solo en CI y nunca en la Mac. La página del snapshot aparecía cargada
+entera, así que "el precache está roto" no explicaba nada.
+
+**Causa:** el test esperaba `navigator.serviceWorker.controller`. Pero
+`clients.claim()` llena `controller` mientras el worker todavía está en estado
+**`activating`** —el `waitUntil` del handler de activate no terminó— y en ese
+estado **el navegador no le despacha eventos `fetch`**. La navegación se va
+derecho a la red. En una máquina rápida la ventana dura milisegundos; en un
+runner de CI se abre lo suficiente.
+
+**Qué hacer:** esperar `registration.active.state === 'activated'`. Y de paso
+verificar que **`index.html` esté en la caché** en vez de contar entradas: es el
+archivo del que depende que una navegación offline funcione.
+
+**La lección general:** cuando un test falla solo en CI, la diferencia suele ser
+tiempo, no entorno. Buscá qué condición estabas dando por cumplida.
