@@ -1,13 +1,21 @@
 import { useState } from 'react'
 import { marcarGerminada } from '../lib/huerta/store'
-import { causasDeDemora, germinacion } from '../lib/huerta/germinacion'
+import { causasDeDemora, germinacion, type Causa } from '../lib/huerta/germinacion'
 import { desdeISO, type Planta } from '../lib/huerta/tipos'
-import { IconoAlerta, IconoSembrar } from '../icons'
-import type { ClimaDecada, EspecieEnriquecida } from '../lib/data/types'
+import { IconoAlerta, IconoFuente, IconoSembrar } from '../icons'
+import type { ClimaDecada, EspecieEnriquecida, Fuente } from '../lib/data/types'
 import './BloqueGerminacion.css'
 
 const fechaCorta = (iso: string) =>
   new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short' }).format(desdeISO(iso))
+
+/** Los textos de las pistas marcan lo importante con `**`. */
+const negritas = (t: string) =>
+  t.split(/\*\*(.+?)\*\*/g).map((x, i) => (i % 2 ? <strong key={i}>{x}</strong> : x))
+
+const fuentesDeLaFicha = (causas: Causa[]): Fuente[] => [
+  ...new Map(causas.flatMap((c) => c.fuentes ?? []).map((f) => [f.url, f])).values(),
+]
 
 /**
  * "¿Ya tendría que haber asomado?", que es la pregunta que uno se hace mirando
@@ -84,10 +92,35 @@ export function BloqueGerminacion({
                   <p className="germ__causa-titulo">
                     {c.titulo}
                     {c.clase === 'medido' && <span className="germ__sello">según tus datos</span>}
+                    {c.clase === 'especie' && (
+                      <span className="germ__sello es-ficha">
+                        según la ficha de {especie.nombre_comun.toLowerCase()}
+                      </span>
+                    )}
                   </p>
-                  <p className="germ__causa-detalle">{c.detalle}</p>
+                  <p className="germ__causa-detalle">{negritas(c.detalle)}</p>
                 </li>
               ))}
+
+              {/* Las fuentes van una vez y no por causa: varias pistas salen
+                  del mismo párrafo investigado, y repetidas eran seis chapitas
+                  de 44 px diciendo lo mismo. */}
+              {fuentesDeLaFicha(causas).length > 0 && (
+                <li className="germ__fuentes">
+                  <p className="germ__causa-detalle">De dónde sale lo de esta especie:</p>
+                  <ul className="dato__fuentes">
+                    {fuentesDeLaFicha(causas).map((f) => (
+                      <li key={f.url}>
+                        <a href={f.url} target="_blank" rel="noreferrer noopener" className="fuente">
+                          <IconoFuente size={14} />
+                          <span>{f.organizacion}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              )}
+
               <li className="germ__causa es-chequear">
                 <p className="germ__causa-detalle">
                   Si pasaron varios días más y no aparece nada, es razonable dar esas semillas por
