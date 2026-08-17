@@ -172,6 +172,16 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'glosario', ruta: '/#/glosario', fullPage: true },
+  // el glosario entero es larguísimo; estas dos son las que hay que mirar
+  { nombre: 'glosario-labores', ruta: '/#/glosario#labor-raleo' },
+  {
+    nombre: 'glosario-tierra',
+    ruta: '/#/glosario',
+    antes: async (page) => {
+      await page.locator('.glosario__tierra').scrollIntoViewIfNeeded()
+      await page.waitForTimeout(300)
+    },
+  },
   {
     nombre: 'ajustes-instalar',
     ruta: '/#/ajustes',

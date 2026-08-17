@@ -26,6 +26,12 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **El glosario ahora también explica las palabras**, no solo los íconos. Las
+  catorce labores (raleo, aporque, blanqueo, mulch…) con **qué son y cómo se
+  hacen**, veinte términos de las fichas —espigado, cuaje, pella, pan de
+  tierra, chupón—, y una sección de **cómo se arma la tierra** con la mezcla
+  base, su fuente, y hacia dónde correrla según lo que pida cada planta. Desde
+  "Mientras crece" se salta directo a la palabra que no entendiste.
 - **"¿Por qué no germina?" ahora contesta distinto según la planta.** Antes
   decía lo mismo para las 55: fijate la humedad, la profundidad y la edad de
   la semilla. Ahora el berro avisa que **no germina si lo tapaste** —necesita
