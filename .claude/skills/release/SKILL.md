@@ -118,7 +118,8 @@ curl -s https://facundo-p.github.io/huertapp/ | grep -o '<title>[^<]*'
 
 Y sobre todo: **abrir la app y mirar que la versión al pie de Ajustes sea la
 nueva**. Es el único chequeo que prueba que lo que se publicó es lo que se
-quería publicar.
+quería publicar. Al pie va solo `Huerta GBA X.Y.Z`: el hash del commit se sacó
+a propósito, no es que falte.
 
 Avisale a la persona que quien ya tenga la app instalada va a ver el cartel de
 "Hay una versión nueva" la próxima vez que la abra — no se actualiza sola, y eso

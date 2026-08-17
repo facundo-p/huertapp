@@ -18,7 +18,7 @@ import {
   type ResumenBackup,
 } from '../lib/huerta/backup'
 import { instalar, useComoInstalar } from '../lib/instalar'
-import { COMMIT, VERSION } from '../lib/version'
+import { VERSION } from '../lib/version'
 import {
   activarAvisos,
   alCambiarPermiso,
@@ -59,7 +59,6 @@ function PieVersion() {
   return (
     <p className="ajustes__version">
       Huerta GBA <strong>{VERSION}</strong>
-      <span className="ajustes__commit"> · {COMMIT}</span>
     </p>
   )
 }
