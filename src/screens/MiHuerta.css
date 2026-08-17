@@ -4,14 +4,31 @@
   gap: var(--esp-2);
 }
 
+/* El h2 queda como encabezado y el botón adentro se lleva toda la fila: así la
+   pantalla se sigue navegando por encabezados y el target táctil es la línea
+   entera, no una flechita. */
 .huerta__ubicacion {
+  margin-top: var(--esp-2);
+}
+
+.huerta__plegar {
   display: flex;
   align-items: center;
   gap: var(--esp-2);
-  margin-top: var(--esp-2);
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: 0 var(--esp-1);
+  font-family: inherit;
   font-size: var(--texto-s);
   font-weight: 700;
   color: var(--tinta-media);
+  text-align: left;
+}
+
+.huerta__lugar {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .huerta__cuenta {
@@ -21,13 +38,51 @@
   background: var(--papel-hundido);
   font-family: var(--font-cuerpo);
   font-size: 10px;
+  font-weight: 400;
   color: var(--tinta-suave);
+  text-align: center;
+  flex: none;
+}
+
+/* El galón apunta a lo que se va a abrir y gira cuando ya está abierto: el
+   ícono dice el estado, no solo la acción. */
+.galon {
+  flex: none;
+  transition: transform 0.18s ease;
+}
+
+.galon.es-abierto {
+  transform: rotate(180deg);
+}
+
+/* Aviso de que algo pide atención. El número va como texto: un puntito de
+   color no distingue una tarea de cinco, y el color no puede ser el único
+   canal. */
+.huerta__alertas {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  padding: 2px 8px 2px 6px;
+  border-radius: var(--radio-chip);
+  background: var(--peligro-fondo);
+  font-family: var(--font-cuerpo);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--peligro);
 }
 
 .huerta__grilla {
   display: flex;
   flex-direction: column;
   gap: var(--esp-3);
+}
+
+/* `hidden` solo esconde si nadie le puso display encima. Acá se lo puso el
+   flex de arriba, así que hay que decirlo. */
+.huerta__grilla[hidden],
+.planta-card__detalle[hidden] {
+  display: none;
 }
 
 .huerta__cta {
@@ -54,30 +109,52 @@
 .planta-card {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3);
-  padding: var(--esp-4);
-  padding-top: var(--esp-5);
-  text-decoration: none;
+  padding: var(--esp-2) var(--esp-3) var(--esp-2) 26px;
   color: inherit;
+}
+
+/* El ojal de la etiqueta se corre al lado izquierdo, a la altura de la fila
+   plegada. Arriba obligaba a 24 px de aire que en una fila son la mitad de la
+   altura; y a la altura de la fila —y no al 50 % de la tarjeta— para que no se
+   vaya moviendo cuando la tarjeta se abre. */
+.planta-card::before {
+  top: 30px;
+  left: 9px;
 }
 
 .planta-card__cabeza {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+/* El nombre sigue llevando a la ficha: plegar no puede costar un toque más
+   para llegar al diario, que es a lo que se entra. */
+.planta-card__ir {
+  display: flex;
+  align-items: center;
   gap: var(--esp-3);
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap-min);
+  text-decoration: none;
+  color: inherit;
 }
 
 .planta-card__icono {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radio-s);
   background: var(--papel-hundido);
   flex: none;
 }
 
 .planta-card__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   flex: 1;
   min-width: 0;
 }
@@ -85,11 +162,24 @@
 .planta-card__nombre {
   font-size: var(--texto-m);
   font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .planta-card__sub {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  min-width: 0;
   font-size: var(--texto-xs);
   color: var(--tinta-suave);
+}
+
+.planta-card__cuando {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .planta-card__etapa {
@@ -114,6 +204,23 @@
 }
 .planta-card__etapa.es-terminada {
   opacity: 0.75;
+}
+
+.planta-card__plegar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: var(--radio-s);
+  color: var(--tinta-media);
+}
+
+.planta-card__detalle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  padding: var(--esp-3) 0 var(--esp-2);
 }
 
 .planta-card__hito {

@@ -111,6 +111,20 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // los dos estados nuevos en la misma toma: una tarjeta abierta y un lugar
+    // cerrado que igual muestra que algo pide atención
+    nombre: 'huerta-plegada',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: /Ver el detalle de Albahaca/ }).click()
+      await page.getByRole('button', { name: /^Bancal del fondo/ }).click()
+      await page.waitForTimeout(400)
+    },
+  },
+  {
     nombre: 'planta-detalle',
     ruta: '/#/huerta',
     fullPage: true,

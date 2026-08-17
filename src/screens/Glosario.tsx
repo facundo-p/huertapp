@@ -12,6 +12,7 @@ import {
   IconoConfianza,
   IconoCosechar,
   IconoCuidado,
+  IconoDesplegar,
   IconoFoto,
   IconoFuente,
   IconoNota,
@@ -46,6 +47,7 @@ const ACCIONES: Item[] = [
   { Icono: IconoReloj, nombre: 'Ventana', desc: 'El tiempo ideal para algo se está por cerrar.' },
   { Icono: IconoCuidado, nombre: 'Cuidados', desc: 'Lo que hay que hacer mientras la planta crece.' },
   { Icono: IconoCampana, nombre: 'Aviso', desc: 'Notificación que te llega con la app cerrada.' },
+  { Icono: IconoDesplegar, nombre: 'Desplegar', desc: 'Abre lo que está plegado. Girado, ya está abierto.' },
   { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
   { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
 ]

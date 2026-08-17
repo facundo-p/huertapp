@@ -214,6 +214,19 @@ export function IconoInstalar(p: IconProps) {
   )
 }
 
+/**
+ * Desplegar: el galón hacia abajo. Apunta a lo que se va a abrir y gira 180°
+ * cuando ya está abierto, así el ícono también dice el estado y no solo la
+ * acción.
+ */
+export function IconoDesplegar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M7 10 L 12 15 L 17 10" />
+    </Svg>
+  )
+}
+
 /** Aviso: campanita. Es el signo universal; inventar otro sería presumido. */
 export function IconoCampana(p: IconProps) {
   return (
