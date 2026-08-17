@@ -287,3 +287,18 @@
   font-weight: 700;
   color: var(--verde-prof);
 }
+
+/* Versión, al pie y sin protagonismo. Se lee cuando se la busca. */
+.ajustes__version {
+  margin-top: var(--esp-4);
+  padding-top: var(--esp-4);
+  border-top: 1.5px dashed var(--linea);
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+  text-align: center;
+}
+
+.ajustes__commit {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  opacity: 0.85;
+}
