@@ -24,6 +24,16 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **"Mientras crece" en cada ficha**: qué hay que ir haciendo entre la siembra
+  y la cosecha, práctica por práctica y con el momento en que toca. Raleo,
+  aporque, tutorado, poda, mulch, blanqueo, riego, abonado, desmalezado,
+  rotación, polinización, reparo, contención y división de mata: **123
+  cuidados en las 55 especies**. La información estaba, pero en un párrafo
+  corrido que servía para leer una vez y no para el sábado a la mañana con la
+  tijera en la mano.
+
 ### Cambiado
 
 - Al pie de Ajustes ahora va **solo el número de versión**. El código raro que

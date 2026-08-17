@@ -11,6 +11,26 @@ const overlay = JSON.parse(readFileSync(join(root, 'data/enriquecimiento.json'),
 
 const METODOS = ['directa', 'almacigo', 'directa|almacigo', 'almacigo_protegido', 'plantacion']
 
+// La misma lista que valida el build y que tipa la app. Se repite acá a
+// propósito: si alguien suma un tipo, el test lo obliga a pasar por los tres
+// lugares —build, tipos y glosario— en vez de colarse por uno solo.
+const TIPOS_CUIDADO = [
+  'raleo',
+  'aporque',
+  'tutorado',
+  'poda',
+  'mulch',
+  'blanqueo',
+  'riego',
+  'abonado',
+  'desmalezar',
+  'rotacion',
+  'polinizacion',
+  'proteger',
+  'contener',
+  'dividir',
+]
+
 type Rango = { min: number; max: number } | null
 
 const esMesValido = (m: unknown) => Number.isInteger(m) && (m as number) >= 1 && (m as number) <= 12
@@ -137,6 +157,42 @@ describe('huerta_gba_enriquecido.json', () => {
       expect(t.confianza).toBeGreaterThanOrEqual(1)
       expect(t.confianza).toBeLessThanOrEqual(10)
     })
+
+    /**
+     * Toda especie tiene algo que decir sobre qué hacer mientras crece: si una
+     * quedara vacía, su ficha mostraría el hueco justo donde alguien viene a
+     * buscar qué hacer con la planta que ya tiene plantada.
+     */
+    it('cuidados: al menos uno, del vocabulario cerrado y con fuentes heredadas', () => {
+      expect(Array.isArray(e.cuidados)).toBe(true)
+      expect(e.cuidados.length).toBeGreaterThan(0)
+
+      for (const c of e.cuidados) {
+        expect(TIPOS_CUIDADO, `${e.slug}: tipo "${c.tipo}"`).toContain(c.tipo)
+        expect(c.cuando.length).toBeGreaterThan(2)
+        expect(c.que_hacer.length).toBeGreaterThan(5)
+        if (c.por_que !== null) expect(c.por_que.length).toBeGreaterThan(5)
+
+        // La regla que importa: el cuidado no inventa respaldo, lo hereda del
+        // campo de la fuente del que sale.
+        const campo = e[c.de]
+        expect(campo, `${e.slug}: \`de: "${c.de}"\` no existe`).toBeDefined()
+        expect(c.fuentes).toEqual(campo.fuentes)
+        expect(c.confianza).toBe(campo.confianza)
+        expect(c.fuentes.length).toBeGreaterThan(0)
+        for (const f of c.fuentes) expect(f.url).toMatch(/^https?:\/\//)
+      }
+
+      // dos cuidados del mismo tipo en una especie serían dos tarjetas con el
+      // mismo título: o se juntan, o una está de más
+      const tipos = e.cuidados.map((c: any) => c.tipo)
+      expect(new Set(tipos).size, `${e.slug}: tipos repetidos`).toBe(tipos.length)
+    })
     })
   }
+
+  it('el vocabulario de cuidados está todo en uso: nada declarado de adorno', () => {
+    const usados = new Set(db.especies.flatMap((e: any) => e.cuidados.map((c: any) => c.tipo)))
+    expect([...TIPOS_CUIDADO].sort()).toEqual([...usados].sort())
+  })
 })
