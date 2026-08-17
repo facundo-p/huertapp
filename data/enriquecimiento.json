@@ -138,6 +138,18 @@
         "por_que": "El suelo encharcado le pudre el cuello y la raíz.",
         "de": "riesgos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Apenas tapada, menos de 1,5 cm. Enterrada de más no llega arriba.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "latencia",
+        "texto": "Si la semilla es muy fresca puede estar todavía dormida: la lechuga tiene latencia hasta unos dos meses después de cosechada.",
+        "de": "germinacion"
+      }
     ]
   },
   "espinaca": {
@@ -259,6 +271,13 @@
         "cuando": "Todo el ciclo",
         "que_hacer": "Riegos frecuentes y regulares.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Va a 1 o 2 cm. Más honda tarda o no llega.",
+        "de": "germinacion"
       }
     ]
   },
@@ -400,6 +419,13 @@
         "que_hacer": "Mantené el riego regular.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "varias",
+        "texto": "Cada \"semilla\" de acelga es un glomérulo con varias semillas adentro: de cada una salen varias plantitas juntas. Si te salió un mechón apretado no falló nada — hay que ralear.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "rucula": {
@@ -537,6 +563,13 @@
         "que_hacer": "Media sombra y buen riego.",
         "por_que": "El exceso de calor y sol la amarga y la manda a flor antes de tiempo.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Menos de 1 cm. Es de las más fáciles: si no salió, casi seguro está muy enterrada o le faltó agua.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -716,6 +749,13 @@
         "que_hacer": "No la repitas en el mismo lugar dos años seguidos, ni detrás de otra crucífera (repollo, brócoli, coliflor, nabo).",
         "por_que": "Las enfermedades del suelo de las coles se acumulan.",
         "de": "riesgos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Unas tres veces el tamaño de la semilla, que es poquito.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -1054,6 +1094,18 @@
         "por_que": "Con calor florece y amarga.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "luz",
+        "texto": "La semilla de berro **necesita luz para germinar**: va esparcida sobre la superficie y apretada apenas, sin taparla. Si la cubriste con tierra, no va a salir por más que esperes.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "humedad",
+        "texto": "No alcanza con húmedo: el berro quiere el sustrato empapado todo el tiempo, o directamente la maceta en una bandeja con agua.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "apio": {
@@ -1180,6 +1232,18 @@
         "cuando": "Mientras crece",
         "que_hacer": "Carpidas y aporques ligeros.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "luz",
+        "texto": "La semilla es finísima y **pide algo de luz**: se cubre apenas, casi nada. Enterrada no arranca.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "paciencia",
+        "texto": "Es lenta de verdad: 15 a 20 días. A los diez no hay nada para ver y está todo bien.",
+        "de": "germinacion"
       }
     ]
   },
@@ -1577,6 +1641,13 @@
         "que_hacer": "Regular, sin saturar.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Entre medio centímetro y uno: es semilla chica y no se entierra.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "nabo": {
@@ -1724,6 +1795,13 @@
         "que_hacer": "Suelo húmedo, sin encharcar.",
         "por_que": "Así la raíz engorda pareja; encharcada, se pudre.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 2 cm. Enterrada de más no llega arriba.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -2067,6 +2145,13 @@
         "que_hacer": "No repitas solanáceas en el mismo suelo.",
         "de": "riesgos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "Germina lento: 8 a 12 días con temperatura buena. Y por debajo de 13 °C puede directamente no germinar, así que la fecha importa más que la paciencia.",
+        "de": "germinacion"
+      }
     ]
   },
   "aji-picante": {
@@ -2204,6 +2289,18 @@
         "cuando": "Al planificar el cantero del año que viene",
         "que_hacer": "No repitas solanáceas en el mismo cantero.",
         "de": "riesgos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A medio centímetro, 2 o 3 semillas por celda. Es semilla chica: enterrada de más no sale.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "paciencia",
+        "texto": "Lenta e **irregular**: no salen todas juntas, y las que faltan pueden aparecer una semana después. Es lo normal en los ajíes.",
+        "de": "germinacion"
       }
     ]
   },
@@ -2368,6 +2465,13 @@
         "por_que": "El estrés hídrico le arruina el cuaje.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "Arranca lenta y necesita calor. Por eso se hace en almácigo protegido a fin de invierno y no directa en el cantero.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "zapallito-de-tronco": {
@@ -2494,6 +2598,13 @@
         "cuando": "Si ves frutos chicos que amarillean y se caen",
         "que_hacer": "Es falta de polinización: sumá flores cerca para atraer abejas, o pasá el polen de una flor macho a una hembra con un pincel.",
         "de": "riesgos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A unos 2 cm, 2 o 3 semillas por golpe. Con menos tapada se seca; con más, tarda.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -2631,6 +2742,18 @@
         "cuando": "Si las flores se caen sin cuajar",
         "que_hacer": "Es falta de polinización: sumá flores cerca para atraer abejas, o pasá el polen a mano.",
         "de": "riesgos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 2 o 3 cm, varias semillas por golpe. Es semilla grande y va bien tapada.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "pretratamiento",
+        "texto": "Remojar la semilla la noche anterior mejora la germinación.",
+        "de": "germinacion"
       }
     ]
   },
@@ -2881,6 +3004,13 @@
         "por_que": "Apoyados en tierra húmeda se pudren.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 2,5 o 3 cm, 2 o 3 semillas por hoyo, y después se ralea a la mejor plantita.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "sandia": {
@@ -2975,6 +3105,13 @@
         "cuando": "En floración",
         "que_hacer": "Asegurate de que haya flores masculinas y femeninas abiertas al mismo tiempo, y polinizadores dando vueltas.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 2,5 o 3 cm, y después se ralea a la mejor plantita de cada golpe.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -3217,6 +3354,13 @@
         "por_que": "Comparten enfermedades del suelo.",
         "de": "riesgos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "La frutilla de huerta **no se siembra**: se planta de plantín o de estolón. De semilla germina lenta, despareja, y encima no sale igual a la planta madre.",
+        "de": "germinacion"
+      }
     ]
   },
   "chaucha": {
@@ -3380,6 +3524,13 @@
         "por_que": "Como legumbre, el nitrógeno se lo fabrica ella.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 3 o 4 cm, 3 o 4 semillas por golpe. Es grande: enterrada poco se seca antes de arrancar.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "arveja": {
@@ -3510,6 +3661,13 @@
         "por_que": "Lo fija ella sola, y de más le hace hacer follaje en vez de vainas.",
         "de": "riesgos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "No más de 5 cm. Más honda, en suelo frío o pesado, se pudre antes de salir.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "haba": {
@@ -3628,6 +3786,13 @@
         "que_hacer": "Aporcala o ponele tutor.",
         "por_que": "Es alta y se vuelca.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 4 o 5 cm: es semilla grande y va bien enterrada.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -3793,6 +3958,28 @@
         "por_que": "Le salen raíces bifurcadas y deformes.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "Lenta e irregular: 10 a 20 días. **Es la que más gente da por perdida antes de tiempo.**",
+        "de": "germinacion"
+      },
+      {
+        "tipo": "humedad",
+        "texto": "Necesita humedad constante **en la superficie** durante todo ese tiempo. Si el suelo se secó un solo día en el medio, se perdió — y es la causa más común de que no salga.",
+        "de": "germinacion"
+      },
+      {
+        "tipo": "profundidad",
+        "texto": "Se cubre con medio centímetro de tierra fina, no más.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "pretratamiento",
+        "texto": "Mezclar la semilla con arena seca (una parte de semilla por tres de arena) la reparte pareja y evita el mechón.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "remolacha": {
@@ -3946,6 +4133,13 @@
         "por_que": "El fresco le deforma la raíz.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "varias",
+        "texto": "Lo que sembraste es un glomérulo con varias semillas adentro: de cada uno salen varias plantitas y después hay que ralear.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "rabanito": {
@@ -4094,6 +4288,13 @@
         "por_que": "Sin agua se ponen picantes.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "A 1 o 1,5 cm. Es de las más fáciles y rápidas: si no salió, mirá el agua primero.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "papa": {
@@ -4234,6 +4435,13 @@
         "que_hacer": "No repitas solanáceas en el mismo cantero.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "La papa **no germina**: brota de las yemas del tubérculo, y eso depende de en qué estado fisiológico venía. La emergencia puede tardar de 2 a 4 semanas.",
+        "de": "germinacion"
+      }
     ]
   },
   "batata": {
@@ -4330,6 +4538,13 @@
         "que_hacer": "Sacale los yuyos.",
         "por_que": "En esa etapa las malezas son su principal amenaza.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "No se siembra: se hace un almácigo con batatas del año anterior, que son las que emiten los brotes. Esos brotes son los plantines.",
+        "de": "germinacion"
       }
     ]
   },
@@ -4473,6 +4688,13 @@
         "que_hacer": "Aportale compost.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "De 7 a 15 días para emerger, y después 40 a 50 días más hasta que el plantín tiene grosor de lápiz. Es un cultivo largo desde el principio.",
+        "de": "germinacion"
+      }
     ]
   },
   "ajo": {
@@ -4607,6 +4829,13 @@
         "que_hacer": "Cubrí el suelo con paja.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "El ajo **no germina de semilla**: brota del diente, en una o dos semanas. Y va con la parte plana —de donde salen las raíces— para abajo: al revés, el brote tiene que dar la vuelta y tarda o no sale.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "puerro": {
@@ -4715,6 +4944,13 @@
         "que_hacer": "Aportale tierra sobre la planta.",
         "por_que": "Lo que queda tapado sale blanco y tierno, que es la parte que se come.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "De 10 a 14 días para emerger, y después unos dos meses en el semillero. Es de las más lentas de la huerta.",
+        "de": "germinacion"
       }
     ]
   },
@@ -4827,6 +5063,13 @@
         "por_que": "Alarga la parte blanca y la deja más tierna.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "De 7 a 15 días para emerger, igual que la cebolla. No es rápida.",
+        "de": "germinacion"
+      }
     ]
   },
   "albahaca": {
@@ -4929,6 +5172,13 @@
         "que_hacer": "Pellizcale las puntas y sacale las flores.",
         "por_que": "Rebrota y sigue dando hoja; si la dejás florecer, se termina.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Grano fino: siembra superficial, apenas cubierta.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -5033,6 +5283,23 @@
         "por_que": "Rebrota varias veces.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "Hasta 18 días, y despareja. **Es la que más gente da por perdida antes de tiempo**, junto con la zanahoria.",
+        "de": "germinacion"
+      },
+      {
+        "tipo": "pretratamiento",
+        "texto": "Remojar la semilla antes de sembrar acelera bastante la germinación.",
+        "de": "germinacion"
+      },
+      {
+        "tipo": "profundidad",
+        "texto": "No más de 1 cm. Y con esa profundidad, el riego tiene que ser suave para no destaparla.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "cilantro": {
@@ -5129,6 +5396,18 @@
         "cuando": "Todo el ciclo",
         "que_hacer": "Suelo húmedo, sin encharcar.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "pretratamiento",
+        "texto": "Lo que parece una semilla son en realidad **dos pegadas**: partirlas al medio antes de sembrar mejora el brotado.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "paciencia",
+        "texto": "Alrededor de 15 días, y no salen todas juntas. Es normal.",
+        "de": "germinacion"
       }
     ]
   },
@@ -5227,6 +5506,23 @@
         "cuando": "Cuando la mata se aclara, con los años",
         "que_hacer": "Desenterrala, partila en gajos con raíz y volvé a plantar.",
         "de": "riesgos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "luz",
+        "texto": "La semilla **necesita luz para germinar**: almácigo superficial, sin taparla.",
+        "de": "germinacion"
+      },
+      {
+        "tipo": "paciencia",
+        "texto": "De 20 a 23 días por semilla, que es muchísimo para una aromática.",
+        "de": "germinacion"
+      },
+      {
+        "tipo": "vegetativo",
+        "texto": "Casi nadie lo hace de semilla: por división de mata o esqueje sale más rápido y todas las plantas salen iguales.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -5349,6 +5645,13 @@
         "por_que": "Con los años se hace leñoso.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "De semilla es lenta e irregular —2 a 4 semanas— y la semilla es diminuta. Por esqueje o división de mata es mucho más seguro.",
+        "de": "germinacion"
+      }
     ]
   },
   "romero": {
@@ -5460,6 +5763,13 @@
         "que_hacer": "Podalo para darle forma.",
         "por_que": "Sin poda se hace leñoso y baja la calidad de la hoja.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "De semilla germina lento y disparejo. Por gajo es rápido, sale igual a la planta madre y es lo que se recomienda para huerta.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -5681,6 +5991,13 @@
         "por_que": "Estimula brotes nuevos y tiernos.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "La menta **no se siembra**: hibrida fácil y no sale igual a la planta madre. Se hace por esqueje —un tallo en un vaso con agua saca raíces en pocos días—, por estolón o por división.",
+        "de": "germinacion"
+      }
     ]
   },
   "melisa": {
@@ -5782,6 +6099,18 @@
         "que_hacer": "Partí la mata en vez de sembrar.",
         "por_que": "De semilla germina lenta.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "poder",
+        "texto": "El poder germinativo es bajo **de fábrica**: 30 a 40 %. De diez semillas salen tres o cuatro, y eso es lo normal. No es la semilla vieja ni sos vos.",
+        "de": "forma_siembra"
+      },
+      {
+        "tipo": "paciencia",
+        "texto": "Lenta y despareja: 2 a 3 semanas, y ni siquiera todas a la vez.",
+        "de": "germinacion"
       }
     ]
   },
@@ -5906,6 +6235,13 @@
         "que_hacer": "Humedad constante, sin encharcar.",
         "de": "trucos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Entre 1 y 3 cm, en almácigo o directa en línea.",
+        "de": "forma_siembra"
+      }
     ]
   },
   "laurel": {
@@ -6007,6 +6343,13 @@
         "cuando": "Cuando se va de tamaño",
         "que_hacer": "Podalo.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "vegetativo",
+        "texto": "De semilla tarda **semanas o meses** y es muy irregular. Por eso el laurel se hace por esqueje de una planta adulta.",
+        "de": "germinacion"
       }
     ]
   },
@@ -6118,6 +6461,13 @@
         "por_que": "Las plantas altas se vuelcan.",
         "de": "riesgos"
       }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "paciencia",
+        "texto": "De 10 a 21 días. A la semana todavía no hay nada que ver.",
+        "de": "germinacion"
+      }
     ]
   },
   "calendula": {
@@ -6217,6 +6567,13 @@
         "que_hacer": "Andá sacando las flores marchitas.",
         "por_que": "Vuelve a florecer.",
         "de": "trucos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Se cubre con dos o tres veces su tamaño. Germina fácil: si no salió, casi seguro está muy enterrada.",
+        "de": "forma_siembra"
       }
     ]
   },
@@ -6426,6 +6783,13 @@
         "que_hacer": "Si no la querés por toda la huerta, cortale las flores antes de que semille.",
         "por_que": "Se resiembra mucho y puede volverse invasiva.",
         "de": "riesgos"
+      }
+    ],
+    "germinacion_pistas": [
+      {
+        "tipo": "profundidad",
+        "texto": "Se cubre con dos o tres veces su tamaño. Germina muy fácil: revisá primero que no esté enterrada de más.",
+        "de": "forma_siembra"
       }
     ]
   },

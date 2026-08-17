@@ -99,9 +99,15 @@
   border-left: 3px solid var(--linea);
 }
 
-/* lo que sale de los datos se distingue de lo que es una lista para revisar */
+/* Tres niveles, y el filete de la izquierda es lo que los separa: lo que sale
+   de tus datos, lo que dice la ficha de esta especie, y lo que vale para
+   cualquier semilla. */
 .germ__causa.es-medido {
   border-left-color: var(--terracota);
+}
+
+.germ__causa.es-especie {
+  border-left-color: var(--verde-hoja);
 }
 
 .germ__causa-titulo {
@@ -124,8 +130,22 @@
   text-transform: uppercase;
 }
 
+.germ__sello.es-ficha {
+  background: var(--ideal-fondo);
+  color: var(--verde-prof);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
 .germ__causa-detalle {
   font-size: var(--texto-xs);
   line-height: 1.55;
   color: var(--tinta-media);
+}
+
+.germ__fuentes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+  padding: 0 var(--esp-3);
 }

@@ -106,6 +106,29 @@ la ficha. Cada especie tiene que tener al menos uno; hay un test que lo exige.
   ("sin raleo salen chicas") cuando la fuente solo dijo "ralear para dar
   espacio". Eso es inventar. Va `null` y listo.
 
+## Las pistas de germinación (`germinacion_pistas`)
+
+Por qué esta semilla puede no estar saliendo, cuando la respuesta **depende de
+la especie**. Alimentan el "¿Por qué puede estar tardando?" de una planta.
+
+```json
+{ "tipo": "luz",
+  "texto": "La semilla de berro **necesita luz para germinar**: va sobre la superficie…",
+  "de": "forma_siembra" }
+```
+
+Mismo mecanismo de respaldo que los cuidados (`de` → fuentes heredadas), y nueve
+tipos: `profundidad`, `luz`, `humedad`, `pretratamiento`, `paciencia`, `varias`,
+`poder`, `latencia`, `vegetativo`.
+
+- **Son opcionales**, a diferencia de los cuidados: una especie sin nada
+  particular que decir se queda con los tres chequeos genéricos.
+- `profundidad` y `humedad` **reemplazan** al chequeo genérico correspondiente
+  en vez de sumarse — ver `REEMPLAZA` en `src/lib/huerta/germinacion.ts`.
+- El texto admite `**negritas**`.
+- Antes de decidir que una especie no tiene pista, releé su `forma_siembra` y su
+  `germinacion` en la base: casi siempre el dato está, enterrado en el párrafo.
+
 ## Después de tocar el calendario: mirá el afinado
 
 Los meses que escribís son la capa citable. El modelo los recorta a décadas, y
