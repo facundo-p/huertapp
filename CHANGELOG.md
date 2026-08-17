@@ -26,6 +26,13 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **El glosario ahora también explica las palabras**, no solo los íconos. Las
+  catorce labores (raleo, aporque, blanqueo, mulch…) con **qué son y cómo se
+  hacen**, veinte términos de las fichas —espigado, cuaje, pella, pan de
+  tierra, chupón—, y una sección de **cómo se arma la tierra** con la mezcla
+  base, su fuente, y hacia dónde correrla según lo que pida cada planta. Desde
+  "Mientras crece" se salta directo a la palabra que no entendiste.
+
 - **"Mientras crece" en cada ficha**: qué hay que ir haciendo entre la siembra
   y la cosecha, práctica por práctica y con el momento en que toca. Raleo,
   aporque, tutorado, poda, mulch, blanqueo, riego, abonado, desmalezado,
