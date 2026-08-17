@@ -47,6 +47,30 @@ incoherente, no un dato. Hay una pasada de monotonía que lo verifica: si una
 década quedó degradada por helada pero la anterior —que es *más* riesgosa—
 sigue ideal, la degradación es incoherente y se revierte.
 
+### Un diagnóstico igual para las 55 especies no es un diagnóstico
+
+**Síntoma:** la persona pregunta por qué no le germina la semilla y la app le
+contesta lo mismo para el berro, la zanahoria y la melisa: *fijate la humedad,
+la profundidad y la edad de la semilla*.
+
+**Causa:** las causas "para chequear" estaban escritas como constantes en el
+código, no como datos de la especie. Solo la parte medida —la temperatura—
+variaba. Y las diferencias reales son enormes: el berro **no germina si lo
+tapaste** porque necesita luz, la zanahoria tarda 20 días y casi todas las que
+se dan por perdidas estaban en camino, la melisa germina al 30 % **de fábrica**,
+y la menta directamente no se siembra.
+
+**Qué hacer:** cuando un texto de la app sirve igual para las 55 especies,
+desconfiá: o es de verdad general, o le falta el dato de la especie. Buscá
+primero en la prosa que ya está investigada —`forma_siembra`, `germinacion`,
+`trucos`— antes de dar por hecho que el dato no existe. En este caso estaba,
+solo que enterrado en un párrafo.
+
+Y cuando la pista concreta aparece, **reemplaza a la genérica en vez de
+sumarse**: decir "medio centímetro de tierra fina" y abajo "dos o tres veces el
+grosor de la semilla" es decir dos veces lo mismo con distinta precisión, y la
+que sobra es la vaga.
+
 ### No existe temperatura de suelo publicada para el AMBA
 
 Verificado: la palabra "suelo" no aparece en las 847 páginas de las normales

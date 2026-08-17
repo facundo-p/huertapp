@@ -32,6 +32,13 @@ Qué significa cada parte en este proyecto:
   tierra, chupón—, y una sección de **cómo se arma la tierra** con la mezcla
   base, su fuente, y hacia dónde correrla según lo que pida cada planta. Desde
   "Mientras crece" se salta directo a la palabra que no entendiste.
+- **"¿Por qué no germina?" ahora contesta distinto según la planta.** Antes
+  decía lo mismo para las 55: fijate la humedad, la profundidad y la edad de
+  la semilla. Ahora el berro avisa que **no germina si lo tapaste** —necesita
+  luz—, la zanahoria que tarda hasta 20 días y que es la que más gente da por
+  perdida antes de tiempo, la melisa que germina al 30 % **de fábrica**, y la
+  menta que directamente no se siembra. **56 pistas propias en 42 especies**,
+  cada una con sus fuentes.
 
 - **"Mientras crece" en cada ficha**: qué hay que ir haciendo entre la siembra
   y la cosecha, práctica por práctica y con el momento en que toca. Raleo,

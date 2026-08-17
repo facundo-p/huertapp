@@ -157,6 +157,31 @@ export interface Cuidado {
   confianza: number
 }
 
+/**
+ * Por qué una semilla puede no estar germinando, cuando la respuesta **depende
+ * de la especie**: que el berro necesita luz, que la zanahoria tarda veinte
+ * días, que la melisa germina al 30 % de fábrica.
+ */
+export type TipoPista =
+  | 'profundidad'
+  | 'luz'
+  | 'humedad'
+  | 'pretratamiento'
+  | 'paciencia'
+  | 'varias'
+  | 'poder'
+  | 'latencia'
+  | 'vegetativo'
+
+/** Igual que `Cuidado`: hereda las fuentes del campo del que sale. */
+export interface PistaGerminacion {
+  tipo: TipoPista
+  texto: string
+  de: string
+  fuentes: Fuente[]
+  confianza: number
+}
+
 export interface EspecieEnriquecida {
   slug: string
   nombre_comun: string
@@ -184,6 +209,7 @@ export interface EspecieEnriquecida {
   calendario: Calendario
   temperaturas: Temperaturas
   cuidados: Cuidado[]
+  germinacion_pistas: PistaGerminacion[]
   dias_a_trasplante: Rango | null
   dias_a_cosecha: Rango | null
   dias_germinacion: Rango | null
