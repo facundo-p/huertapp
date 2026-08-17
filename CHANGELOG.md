@@ -22,7 +22,7 @@ Qué significa cada parte en este proyecto:
 > `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
 > versión nueva con su fecha.
 
-## [1.0.0] — sin publicar
+## [1.0.0] — 2026-08-17
 
 La primera versión completa. La app hace las tres cosas para las que se pensó:
 decir qué sembrar esta semana, seguir lo que ya plantaste, y explicar de dónde
