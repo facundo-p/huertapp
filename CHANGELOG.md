@@ -24,7 +24,14 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
-Nada todavía.
+### Agregado
+
+- **Mi huerta se pliega.** Cada lugar y cada planta se abren y se cierran con un
+  toque, así una huerta de diez macetas entra en una pantalla en vez de ser un
+  scroll largo. Se acuerda de cómo lo dejaste.
+- Si una planta tiene algo para atender, **el aviso se ve igual con la tarjeta
+  cerrada** —y con el lugar cerrado también—, con la cuenta de cuántas cosas
+  son. Plegar ordena; no esconde.
 
 ---
 
