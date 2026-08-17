@@ -16,11 +16,11 @@
  *   sumar una especie o cambiar una ventana de siembra no es un detalle
  *   técnico, es de lo que se trata la app.
  * - **PARCHE**: arreglos, textos, accesibilidad, performance.
+ *
+ * Al pie de Ajustes se muestra **solo esto**. Durante un tiempo también iba el
+ * hash del commit, pensando en reproducir reportes; en la práctica no le decía
+ * nada a nadie y ensuciaba la única línea de la pantalla que tenía que poder
+ * leerse de un vistazo. Si hace falta saber qué bytes tiene alguien, el
+ * service worker ya se identifica con el hash de lo que precachea.
  */
 export const VERSION = __VERSION_APP__
-
-/** El commit con el que se compiló, para poder reproducir un reporte. */
-export const COMMIT = __COMMIT_APP__
-
-/** Cómo se muestra: "1.0.0 (a1b2c3d)". */
-export const VERSION_LARGA = `${VERSION} (${COMMIT})`

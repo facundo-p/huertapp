@@ -33,6 +33,12 @@ Qué significa cada parte en este proyecto:
   cerrada** —y con el lugar cerrado también—, con la cuenta de cuántas cosas
   son. Plegar ordena; no esconde.
 
+### Cambiado
+
+- Al pie de Ajustes ahora va **solo el número de versión**. El código raro que
+  lo acompañaba era el commit del build; no le decía nada a nadie y le sacaba
+  claridad a la única línea que tiene que poder leerse de un vistazo.
+
 ---
 
 ## [1.0.0] — 2026-08-17
