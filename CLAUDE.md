@@ -49,6 +49,32 @@ Después de tocar cualquier fuente: `npm run data:build`. Si te olvidás,
 Lo mismo con `data/REVISION_CALENDARIO.md` (`npm run data:tabla`) y con `dist/`
 (`npm run build`).
 
+## Ramas, versión y changelog
+
+**Todo se commitea en `staging`. A `main` no se commitea ni se pushea nunca.**
+
+`main` es lo que está publicado: cada push dispara el deploy a GitHub Pages y le
+cambia la app a quien ya la tiene instalada. Hay un hook que bloquea `git
+commit` y `git push` si estás parado en main.
+
+A main se llega solo por un **release**, y el release lo pide la persona — nunca
+se hace por iniciativa propia. Cuando lo pida, seguí la skill `/release`: PR de
+staging a main, bump de versión, entrada de changelog, etiqueta.
+
+**La versión** vive en `package.json`, la inyecta Vite en el build y se ve al pie
+de Ajustes junto con el commit. Es SemVer de **tres** partes; el cuarto segmento
+que usan otros ecosistemas codificaría el build, y acá eso ya existe con más
+información (el service worker se identifica con el hash de lo que precachea).
+
+Una particularidad del proyecto: **los datos suben la MENOR, no la PARCHE**.
+Sumar una especie o corregir una ventana de siembra no es un detalle técnico —
+es de lo que se trata la app.
+
+**El changelog** (`CHANGELOG.md`) se escribe para quien usa la app. Mientras se
+trabaja, los cambios se anotan bajo `## [Sin publicar]`; el release convierte esa
+sección en la versión con su fecha. Si un cambio no se nota desde afuera, no va:
+para eso está el historial de git.
+
 ## Verde antes de decir "listo"
 
 ```bash
@@ -95,6 +121,7 @@ saltearse:
 | Agregar, sacar o corregir una especie | `/especie` |
 | Pantalla o feature nueva de UI | `/pantalla` |
 | Tocar el modelo climático o el afinado | `/modelo-clima` |
+| Publicar una versión (solo cuando lo pidan) | `/release` |
 
 Y `.claude/LECCIONES.md` tiene las trampas que ya nos costaron una tarde, con
 síntoma y causa. Vale leerlo antes de pelear con el service worker, con el

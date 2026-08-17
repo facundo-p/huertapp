@@ -1,12 +1,15 @@
-# Publica la app en GitHub Pages: https://facundo-p.github.io/huertapp/
+# Prueba y publica la app: https://facundo-p.github.io/huertapp/
 #
-# En cada push a main, GitHub levanta una máquina limpia, corre los tests,
-# buildea y publica el resultado. El repo guarda solo código fuente: dist/
-# sigue en .gitignore y nunca se commitea.
+# GitHub levanta una máquina limpia, corre los tests y buildea. **Publica solo
+# desde main**: en `staging` y en los PR corre igual, pero para avisar temprano
+# si algo se rompió, no para desplegar. El repo guarda solo código fuente:
+# dist/ sigue en .gitignore y nunca se commitea.
 name: Publicar
 
 on:
   push:
+    branches: [main, staging]
+  pull_request:
     branches: [main]
   # permite dispararlo a mano desde la pestaña Actions, sin tener que
   # inventar un commit para republicar
@@ -62,9 +65,13 @@ jobs:
       - name: Build final
         run: npm run build
 
+      # De acá para abajo, solo cuando se publica de verdad. En staging y en los
+      # PR el job termina en el build: sirve como aviso temprano, no despliega.
       - uses: actions/configure-pages@v5
+        if: github.ref == 'refs/heads/main'
 
       - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
         with:
           path: dist
 
@@ -81,6 +88,7 @@ jobs:
 
   publicar:
     needs: construir
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

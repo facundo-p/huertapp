@@ -18,6 +18,7 @@ import {
   type ResumenBackup,
 } from '../lib/huerta/backup'
 import { instalar, useComoInstalar } from '../lib/instalar'
+import { COMMIT, VERSION } from '../lib/version'
 import {
   activarAvisos,
   alCambiarPermiso,
@@ -43,8 +44,23 @@ export function Ajustes() {
         <SeccionBackup cuantasPlantas={plantas.length} />
         <SeccionAvisos />
         <SeccionDemo cuantasPlantas={plantas.length} />
+        <PieVersion />
       </div>
     </div>
+  )
+}
+
+/**
+ * Qué versión tenés. Va discreto al pie, pero va: cuando alguien escribe porque
+ * algo no le anda, lo primero que hace falta saber es qué está corriendo —y una
+ * PWA puede quedarse semanas en una versión vieja sin que se note.
+ */
+function PieVersion() {
+  return (
+    <p className="ajustes__version">
+      Huerta GBA <strong>{VERSION}</strong>
+      <span className="ajustes__commit"> · {COMMIT}</span>
+    </p>
   )
 }
 
