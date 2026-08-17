@@ -115,6 +115,48 @@ export interface Calendario {
   afinado: Afinado
 }
 
+/**
+ * Las prácticas de manejo que la app sabe nombrar. Vocabulario cerrado: cada
+ * tipo tiene su explicación en el glosario, así que uno nuevo acá sin su
+ * entrada allá dejaría una etiqueta que no se puede consultar. El build valida
+ * esta misma lista (`scripts/build-enriched.mjs`).
+ */
+export type TipoCuidado =
+  | 'raleo'
+  | 'aporque'
+  | 'tutorado'
+  | 'poda'
+  | 'mulch'
+  | 'blanqueo'
+  | 'riego'
+  | 'abonado'
+  | 'desmalezar'
+  | 'rotacion'
+  | 'polinizacion'
+  | 'proteger'
+  | 'contener'
+  | 'dividir'
+
+/**
+ * Algo para hacer entre la siembra y la cosecha.
+ *
+ * No trae fuentes propias: **hereda** las del campo de la fuente del que sale
+ * (`de`). Es la regla de no inventar hecha mecánica — un cuidado que no se
+ * apoye en algo que ya dijo una fuente investigada rompe el build.
+ */
+export interface Cuidado {
+  tipo: TipoCuidado
+  /** en qué momento del ciclo toca */
+  cuando: string
+  que_hacer: string
+  /** la consecuencia, solo cuando la fuente la dice */
+  por_que: string | null
+  /** el campo de la especie del que sale */
+  de: string
+  fuentes: Fuente[]
+  confianza: number
+}
+
 export interface EspecieEnriquecida {
   slug: string
   nombre_comun: string
@@ -141,6 +183,7 @@ export interface EspecieEnriquecida {
   asociaciones_malas: Dato
   calendario: Calendario
   temperaturas: Temperaturas
+  cuidados: Cuidado[]
   dias_a_trasplante: Rango | null
   dias_a_cosecha: Rango | null
   dias_germinacion: Rango | null

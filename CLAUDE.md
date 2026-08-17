@@ -36,7 +36,8 @@ antes de que la persona lo intente, no después.
 data/huerta_gba.json          base investigada, capa citable — se toca poco
         +
 data/enriquecimiento.json     interpretación a mano: calendario en meses,
-        │                     días, temperaturas, asociaciones ← ACÁ SE EDITA
+        │                     días, temperaturas, asociaciones,
+        │                     cuidados ← ACÁ SE EDITA
         ▼
 scripts/build-enriched.mjs    + clima-gba.mjs + afinar-calendario.mjs
         ▼

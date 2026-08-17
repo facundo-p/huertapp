@@ -122,7 +122,23 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "proteger",
+        "cuando": "En los meses de calor",
+        "que_hacer": "Dale media sombra y no la dejes secar.",
+        "por_que": "Con calor y días largos se va a flor y las hojas amargan.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Regá parejo, sin encharcar.",
+        "por_que": "El suelo encharcado le pudre el cuello y la raíz.",
+        "de": "riesgos"
+      }
+    ]
   },
   "espinaca": {
     "calendario": {
@@ -236,7 +252,15 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Riegos frecuentes y regulares.",
+        "de": "trucos"
+      }
+    ]
   },
   "acelga": {
     "calendario": {
@@ -362,7 +386,21 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Cuando las plantitas empiezan a estorbarse",
+        "que_hacer": "Sacá las que sobran y dejale espacio a cada una.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Mantené el riego regular.",
+        "de": "trucos"
+      }
+    ]
   },
   "rucula": {
     "calendario": {
@@ -491,7 +529,16 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "proteger",
+        "cuando": "En verano",
+        "que_hacer": "Media sombra y buen riego.",
+        "por_que": "El exceso de calor y sol la amarga y la manda a flor antes de tiempo.",
+        "de": "trucos"
+      }
+    ]
   },
   "kale": {
     "calendario": {
@@ -654,7 +701,23 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Buena humedad, sin encharcar.",
+        "por_que": "El suelo encharcado le pudre las raíces.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "rotacion",
+        "cuando": "Al planificar el cantero del año que viene",
+        "que_hacer": "No la repitas en el mismo lugar dos años seguidos, ni detrás de otra crucífera (repollo, brócoli, coliflor, nabo).",
+        "por_que": "Las enfermedades del suelo de las coles se acumulan.",
+        "de": "riesgos"
+      }
+    ]
   },
   "repollo": {
     "calendario": {
@@ -767,7 +830,22 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Sobre todo mientras arma la cabeza",
+        "que_hacer": "Regá regular y parejo.",
+        "por_que": "El riego irregular hace que la cabeza se raje.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Mientras crece",
+        "que_hacer": "Arrimale tierra a la base y mantené el cantero sin yuyos.",
+        "de": "trucos"
+      }
+    ]
   },
   "radicchio": {
     "calendario": {
@@ -866,7 +944,16 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "blanqueo",
+        "cuando": "Antes de cosechar",
+        "que_hacer": "Tapala o atala para que acogolle sin luz.",
+        "por_que": "Sin luz baja el amargor y la cabeza sale mejor.",
+        "de": "trucos"
+      }
+    ]
   },
   "berro": {
     "calendario": {
@@ -952,7 +1039,22 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Siempre, sin excepción",
+        "que_hacer": "Que el sustrato o el agua nunca se sequen. Agua limpia, sin cloro.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "proteger",
+        "cuando": "En verano",
+        "que_hacer": "Dale sombra.",
+        "por_que": "Con calor florece y amarga.",
+        "de": "trucos"
+      }
+    ]
   },
   "apio": {
     "calendario": {
@@ -1057,7 +1159,29 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "blanqueo",
+        "cuando": "15 a 20 días antes de cosechar, con la planta en unos 30 cm",
+        "que_hacer": "Fajá los pencas dejando las hojas al aire.",
+        "por_que": "Salen tiernas y menos amargas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Abundante y parejo, sin mojar el follaje.",
+        "por_que": "Con calor y sed se ahíla, se pone fibroso o se va a flor.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Mientras crece",
+        "que_hacer": "Carpidas y aporques ligeros.",
+        "de": "trucos"
+      }
+    ]
   },
   "brocoli": {
     "calendario": {
@@ -1181,7 +1305,21 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Humedad pareja.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Cuando ya está armando la cabeza",
+        "que_hacer": "Nada de nitrógeno tardío.",
+        "de": "riesgos"
+      }
+    ]
   },
   "coliflor": {
     "calendario": {
@@ -1295,7 +1433,22 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "blanqueo",
+        "cuando": "Unos 3 días antes de cosechar",
+        "que_hacer": "Atá o quebrá las hojas sobre la pella.",
+        "por_que": "Así el sol no se la pone amarilla.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Cuando llega a unos 25 cm",
+        "que_hacer": "Arrimale tierra a la base.",
+        "de": "trucos"
+      }
+    ]
   },
   "repollitos-de-bruselas": {
     "calendario": {
@@ -1403,7 +1556,28 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "aporque",
+        "cuando": "Cada 15 días, mientras crece",
+        "que_hacer": "Amontonale tierra alrededor del tallo.",
+        "por_que": "Es una planta alta: sin sostén se tumba.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "tutorado",
+        "cuando": "Si el lugar es ventoso",
+        "que_hacer": "Ponele un tutor.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Regular, sin saturar.",
+        "de": "trucos"
+      }
+    ]
   },
   "nabo": {
     "calendario": {
@@ -1535,7 +1709,23 @@
         }
       ],
       "confianza": 5
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Temprano",
+        "que_hacer": "Dejá unos 15 cm entre planta y planta.",
+        "por_que": "Sin raleo salen nabos chicos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Suelo húmedo, sin encharcar.",
+        "por_que": "Así la raíz engorda pareja; encharcada, se pudre.",
+        "de": "trucos"
+      }
+    ]
   },
   "tomate": {
     "calendario": {
@@ -1696,7 +1886,35 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "tutorado",
+        "cuando": "Desde el trasplante",
+        "que_hacer": "Ponele caña, hilo o espaldera y andá atándolo mientras sube.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Todas las semanas, en las variedades indeterminadas",
+        "que_hacer": "Sacale los brotes que salen entre el tallo y cada hoja (los \"chupones\"), cuando todavía son chiquitos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo, y en especial con fruta cuajada",
+        "que_hacer": "Regá regular y parejo.",
+        "por_que": "El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "rotacion",
+        "cuando": "Al planificar el cantero del año que viene",
+        "que_hacer": "No repitas tomate ni otra solanácea (papa, pimiento, berenjena) en el mismo lugar años seguidos.",
+        "por_que": "Se acumulan enfermedades del suelo.",
+        "de": "riesgos"
+      }
+    ]
   },
   "pimiento": {
     "calendario": {
@@ -1828,7 +2046,28 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "tutorado",
+        "cuando": "Cuando se carga de frutos",
+        "que_hacer": "Ponele un tutor.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Regular, sin encharcar.",
+        "por_que": "El riego irregular le da podredumbre en la punta del fruto.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "rotacion",
+        "cuando": "Al planificar el cantero del año que viene",
+        "que_hacer": "No repitas solanáceas en el mismo suelo.",
+        "de": "riesgos"
+      }
+    ]
   },
   "aji-picante": {
     "calendario": {
@@ -1952,7 +2191,21 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo, sobre todo en floración",
+        "que_hacer": "Regular, sin encharcar.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "rotacion",
+        "cuando": "Al planificar el cantero del año que viene",
+        "que_hacer": "No repitas solanáceas en el mismo cantero.",
+        "de": "riesgos"
+      }
+    ]
   },
   "berenjena": {
     "calendario": {
@@ -2094,7 +2347,28 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "tutorado",
+        "cuando": "Desde que empieza a cargar",
+        "que_hacer": "Ponele tutor.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Mientras crece",
+        "que_hacer": "Despuntá las ramas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Frecuente y regular; nada de que pase sed.",
+        "por_que": "El estrés hídrico le arruina el cuaje.",
+        "de": "trucos"
+      }
+    ]
   },
   "zapallito-de-tronco": {
     "calendario": {
@@ -2200,7 +2474,28 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "aporque",
+        "cuando": "Cuando la planta llega a 15-20 cm",
+        "que_hacer": "Arrimale tierra para afirmarla.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Cada riego",
+        "que_hacer": "Regá al pie sin mojar el cuello de la planta.",
+        "por_que": "La humedad en el cuello le trae hongos y podredumbre.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "polinizacion",
+        "cuando": "Si ves frutos chicos que amarillean y se caen",
+        "que_hacer": "Es falta de polinización: sumá flores cerca para atraer abejas, o pasá el polen de una flor macho a una hembra con un pincel.",
+        "de": "riesgos"
+      }
+    ]
   },
   "zapallo": {
     "calendario": {
@@ -2317,6 +2612,26 @@
     },
     "revisar": [
       "Aire vs suelo corregido en la derivación tras la investigación de temperaturas."
+    ],
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "Cuando las guías se van de largo",
+        "que_hacer": "Despuntalas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Mientras crece",
+        "que_hacer": "Arrimale tierra a la base.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "polinizacion",
+        "cuando": "Si las flores se caen sin cuajar",
+        "que_hacer": "Es falta de polinización: sumá flores cerca para atraer abejas, o pasá el polen a mano.",
+        "de": "riesgos"
+      }
     ]
   },
   "pepino": {
@@ -2455,7 +2770,23 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "tutorado",
+        "cuando": "Desde chico",
+        "que_hacer": "Conducilo en espaldera o tutor.",
+        "por_que": "Colgando salen frutos más rectos y sanos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Regular y abundante.",
+        "por_que": "Si pasa sed, los frutos amargan.",
+        "de": "trucos"
+      }
+    ]
   },
   "melon": {
     "calendario": {
@@ -2528,7 +2859,29 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
+        "que_hacer": "Espaciá los riegos cuando ya hay fruta.",
+        "por_que": "Concentra los azúcares. De paso, el exceso de agua pudre raíces y frutos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Cuando las guías se desbordan",
+        "que_hacer": "Conducilas o despuntalas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "mulch",
+        "cuando": "Cuando los frutos ya tienen tamaño",
+        "que_hacer": "Poneles debajo una cama seca de paja o una tabla.",
+        "por_que": "Apoyados en tierra húmeda se pudren.",
+        "de": "trucos"
+      }
+    ]
   },
   "sandia": {
     "calendario": {
@@ -2601,7 +2954,29 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
+        "que_hacer": "Dejá que la superficie se seque entre riegos.",
+        "por_que": "El exceso de agua pudre y da frutos insípidos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "mulch",
+        "cuando": "Cuando los frutos ya tienen tamaño",
+        "que_hacer": "Poneles debajo paja o una tabla.",
+        "por_que": "Apoyados en tierra húmeda se pudren.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "polinizacion",
+        "cuando": "En floración",
+        "que_hacer": "Asegurate de que haya flores masculinas y femeninas abiertas al mismo tiempo, y polinizadores dando vueltas.",
+        "de": "trucos"
+      }
+    ]
   },
   "choclo": {
     "calendario": {
@@ -2693,7 +3068,30 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "polinizacion",
+        "cuando": "Al sembrar, y define toda la cosecha",
+        "que_hacer": "Sembralo en bloque cuadrado de varias filas, nunca en una fila sola.",
+        "por_que": "Lo poliniza el viento: en fila única las espigas salen con granos salteados.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Mientras crece",
+        "que_hacer": "Arrimale tierra a la base.",
+        "por_que": "Le da sostén; si no, el viento lo vuelca.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Abonalo bien.",
+        "por_que": "Es de los que más nitrógeno piden.",
+        "de": "trucos"
+      }
+    ]
   },
   "frutilla": {
     "calendario": {
@@ -2789,7 +3187,37 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "mulch",
+        "cuando": "Apenas plantás",
+        "que_hacer": "Cubrí el suelo con plástico negro (o paja) y regá por debajo.",
+        "por_que": "Mantiene la humedad, frena los yuyos y evita que la fruta toque la tierra.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "En plantas recién plantadas",
+        "que_hacer": "Cortale las primeras flores.",
+        "por_que": "Que primero haga planta; después da fruta de verdad.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "raleo",
+        "cuando": "Cuando empieza a tirar guías",
+        "que_hacer": "Sacale los estolones.",
+        "por_que": "Todo lo que se va en guías no se va en fruta.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "rotacion",
+        "cuando": "Al elegir dónde plantarla",
+        "que_hacer": "No la pongas donde hubo frutilla, frambuesa, papa, tomate, berenjena o pimiento.",
+        "por_que": "Comparten enfermedades del suelo.",
+        "de": "riesgos"
+      }
+    ]
   },
   "chaucha": {
     "calendario": {
@@ -2924,7 +3352,35 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "tutorado",
+        "cuando": "Desde que empieza a enredar, en las de enrame",
+        "que_hacer": "Ponele tutores de 2 a 2,5 m.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "mulch",
+        "cuando": "Una vez emergida",
+        "que_hacer": "Cubrí el suelo con acolchado orgánico.",
+        "por_que": "Conserva la humedad y frena los yuyos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Sobre todo en floración y cuaje",
+        "que_hacer": "Regá bien, sin encharcar.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "No le tires abono nitrogenado.",
+        "por_que": "Como legumbre, el nitrógeno se lo fabrica ella.",
+        "de": "trucos"
+      }
+    ]
   },
   "arveja": {
     "calendario": {
@@ -3039,7 +3495,22 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "tutorado",
+        "cuando": "Desde chica, en las variedades trepadoras",
+        "que_hacer": "Ponele ramas, un enrejado o un tutor.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Nada de nitrógeno.",
+        "por_que": "Lo fija ella sola, y de más le hace hacer follaje en vez de vainas.",
+        "de": "riesgos"
+      }
+    ]
   },
   "haba": {
     "calendario": {
@@ -3142,7 +3613,23 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "Cuando aparecen las primeras vainas",
+        "que_hacer": "Cortale la punta tierna de la planta.",
+        "por_que": "Ahí es donde se le prende el pulgón negro, y de paso adelanta el llenado.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Si el lugar es ventoso",
+        "que_hacer": "Aporcala o ponele tutor.",
+        "por_que": "Es alta y se vuelca.",
+        "de": "trucos"
+      }
+    ]
   },
   "zanahoria": {
     "calendario": {
@@ -3283,7 +3770,30 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Apenas se estorban, y no más tarde",
+        "que_hacer": "Sacá las de más y dejá espacio entre planta y planta.",
+        "por_que": "Sin raleo a tiempo salen chicas y torcidas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Desde la siembra hasta que emergen",
+        "que_hacer": "Que el suelo no se seque nunca.",
+        "por_que": "Tarda mucho en germinar: si se seca un día, se perdió.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Al preparar el cantero",
+        "que_hacer": "Nada de estiércol fresco.",
+        "por_que": "Le salen raíces bifurcadas y deformes.",
+        "de": "trucos"
+      }
+    ]
   },
   "remolacha": {
     "calendario": {
@@ -3413,7 +3923,30 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Temprano",
+        "que_hacer": "Sacá las de más.",
+        "por_que": "Es lo que hace que las raíces salgan parejas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Regá regular.",
+        "por_que": "Con sed la raíz sale fibrosa.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Al preparar el cantero",
+        "que_hacer": "Materia orgánica bien descompuesta; nunca estiércol fresco.",
+        "por_que": "El fresco le deforma la raíz.",
+        "de": "trucos"
+      }
+    ]
   },
   "rabanito": {
     "calendario": {
@@ -3546,7 +4079,22 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Apenas nacen",
+        "que_hacer": "Ralealos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo, sobre todo en verano",
+        "que_hacer": "Riegos frecuentes para mantener el suelo fresco.",
+        "por_que": "Sin agua se ponen picantes.",
+        "de": "trucos"
+      }
+    ]
   },
   "papa": {
     "calendario": {
@@ -3671,7 +4219,22 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "aporque",
+        "cuando": "A medida que la mata crece",
+        "que_hacer": "Andá amontonando tierra sobre la base.",
+        "por_que": "Aumenta la producción y evita que los tubérculos se pongan verdes al sol, que es cuando acumulan solanina.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "rotacion",
+        "cuando": "Al planificar el cantero del año que viene",
+        "que_hacer": "No repitas solanáceas en el mismo cantero.",
+        "de": "trucos"
+      }
+    ]
   },
   "batata": {
     "calendario": {
@@ -3752,7 +4315,23 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "aporque",
+        "cuando": "Al plantar",
+        "que_hacer": "Plantala en camellón o lomo alto.",
+        "por_que": "Engorda mejor las raíces y drena.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "desmalezar",
+        "cuando": "Los primeros 40 días",
+        "que_hacer": "Sacale los yuyos.",
+        "por_que": "En esa etapa las malezas son su principal amenaza.",
+        "de": "trucos"
+      }
+    ]
   },
   "cebolla": {
     "calendario": {
@@ -3872,7 +4451,29 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Unos 30 días antes de cosechar",
+        "que_hacer": "Cortá el riego.",
+        "por_que": "Es lo que hace que el bulbo cierre.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "desmalezar",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Mantené el cantero limpio.",
+        "por_que": "Tiene poco follaje y cualquier yuyo le gana.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "abonado",
+        "cuando": "Cuando empieza a formar el bulbo",
+        "que_hacer": "Aportale compost.",
+        "de": "trucos"
+      }
+    ]
   },
   "ajo": {
     "calendario": {
@@ -3991,7 +4592,22 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "Cuando saca el tallito floral",
+        "que_hacer": "Cortale el escapo.",
+        "por_que": "Engorda los dientes.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "mulch",
+        "cuando": "En invierno",
+        "que_hacer": "Cubrí el suelo con paja.",
+        "de": "trucos"
+      }
+    ]
   },
   "puerro": {
     "calendario": {
@@ -4091,7 +4707,16 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "blanqueo",
+        "cuando": "Un mes antes de cosechar",
+        "que_hacer": "Aportale tierra sobre la planta.",
+        "por_que": "Lo que queda tapado sale blanco y tierno, que es la parte que se come.",
+        "de": "trucos"
+      }
+    ]
   },
   "cebolla-de-verdeo": {
     "calendario": {
@@ -4193,7 +4818,16 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "blanqueo",
+        "cuando": "Mientras crece",
+        "que_hacer": "Aporcale la base.",
+        "por_que": "Alarga la parte blanca y la deja más tierna.",
+        "de": "trucos"
+      }
+    ]
   },
   "albahaca": {
     "calendario": {
@@ -4287,7 +4921,16 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "Cada vez que asome un racimo de flores",
+        "que_hacer": "Pellizcale las puntas y sacale las flores.",
+        "por_que": "Rebrota y sigue dando hoja; si la dejás florecer, se termina.",
+        "de": "trucos"
+      }
+    ]
   },
   "perejil": {
     "calendario": {
@@ -4381,7 +5024,16 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "En cada corte",
+        "que_hacer": "Cortá a unos 5 cm del suelo y dejale el cogollo del medio.",
+        "por_que": "Rebrota varias veces.",
+        "de": "trucos"
+      }
+    ]
   },
   "cilantro": {
     "calendario": {
@@ -4463,7 +5115,22 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "proteger",
+        "cuando": "En primavera y verano",
+        "que_hacer": "Ponelo donde tenga sol de la mañana y sombra al mediodía.",
+        "por_que": "Arriba de unos 21 °C se va a flor enseguida.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Suelo húmedo, sin encharcar.",
+        "de": "trucos"
+      }
+    ]
   },
   "oregano": {
     "calendario": {
@@ -4546,7 +5213,22 @@
         }
       ],
       "confianza": 9
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el año",
+        "que_hacer": "Regá poco: lo que no tolera es el encharcamiento.",
+        "por_que": "En suelo húmedo se pudre y pierde aroma.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "dividir",
+        "cuando": "Cuando la mata se aclara, con los años",
+        "que_hacer": "Desenterrala, partila en gajos con raíz y volvé a plantar.",
+        "de": "riesgos"
+      }
+    ]
   },
   "tomillo": {
     "calendario": {
@@ -4644,7 +5326,30 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Cuando la capa de arriba está seca, y recién ahí",
+        "que_hacer": "Regá poco. Si el suelo retiene, mezclale arena.",
+        "por_que": "Se banca la sequía; lo que lo mata es el exceso de riego.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Cuando aparecen las flores",
+        "que_hacer": "Recortalas.",
+        "por_que": "Para que siga tirando hoja.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "dividir",
+        "cuando": "Cada dos años",
+        "que_hacer": "Partí la mata y replantá.",
+        "por_que": "Con los años se hace leñoso.",
+        "de": "trucos"
+      }
+    ]
   },
   "romero": {
     "calendario": {
@@ -4740,7 +5445,23 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el año",
+        "que_hacer": "Regá poco. Ante la duda, dejalo seco.",
+        "por_que": "Aguanta la sequía; lo que lo pudre es el agua de más.",
+        "de": "riesgos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Todos los años",
+        "que_hacer": "Podalo para darle forma.",
+        "por_que": "Sin poda se hace leñoso y baja la calidad de la hoja.",
+        "de": "trucos"
+      }
+    ]
   },
   "salvia": {
     "calendario": {
@@ -4826,7 +5547,23 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Según la estación, de 1 a 3 veces por semana",
+        "que_hacer": "Regá con moderación.",
+        "por_que": "Soporta la sequía; el agua de más le pudre la raíz.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Todos los años",
+        "que_hacer": "Podala para mantenerla compacta.",
+        "por_que": "Con los años se pone leñosa.",
+        "de": "trucos"
+      }
+    ]
   },
   "menta": {
     "calendario": {
@@ -4921,7 +5658,30 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "contener",
+        "cuando": "Desde el día uno",
+        "que_hacer": "Plantala en maceta, o enterrale una barrera alrededor.",
+        "por_que": "Se reproduce por rizomas y te invade la huerta entera.",
+        "de": "riesgos"
+      },
+      {
+        "tipo": "proteger",
+        "cuando": "En verano",
+        "que_hacer": "Ponela en media sombra.",
+        "por_que": "El sol fuerte le quema las hojas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Antes de que florezca",
+        "que_hacer": "Cortala.",
+        "por_que": "Estimula brotes nuevos y tiernos.",
+        "de": "trucos"
+      }
+    ]
   },
   "melisa": {
     "calendario": {
@@ -5001,7 +5761,29 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Suelo fresco, sin encharcar.",
+        "por_que": "No se banca ni el suelo seco ni el agua acumulada.",
+        "de": "riesgos"
+      },
+      {
+        "tipo": "proteger",
+        "cuando": "En invierno",
+        "que_hacer": "Resguardala del frío fuerte.",
+        "de": "riesgos"
+      },
+      {
+        "tipo": "dividir",
+        "cuando": "Para multiplicarla",
+        "que_hacer": "Partí la mata en vez de sembrar.",
+        "por_que": "De semilla germina lenta.",
+        "de": "trucos"
+      }
+    ]
   },
   "ciboulette": {
     "calendario": {
@@ -5102,7 +5884,29 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "Cuando saca la bola lila",
+        "que_hacer": "Cortale los escapos florales.",
+        "por_que": "Con la flor las hojas se endurecen.",
+        "de": "riesgos"
+      },
+      {
+        "tipo": "dividir",
+        "cuando": "Para multiplicarla",
+        "que_hacer": "Partí la mata.",
+        "por_que": "Arranca más rápido y más vigorosa que de semilla.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Humedad constante, sin encharcar.",
+        "de": "trucos"
+      }
+    ]
   },
   "laurel": {
     "calendario": {
@@ -5182,6 +5986,28 @@
     },
     "revisar": [
       "Semilla recalcitrante: se siembra fresca en otoño, despulpada, y tarda 60-80 días. Sin dato publicado de temperatura de germinación (ni Kew lo tiene). Los esquejes piden 19 °C de sustrato y prenden a fin de verano (75 %), no en primavera (0 %)."
+    ],
+    "cuidados": [
+      {
+        "tipo": "proteger",
+        "cuando": "En invierno",
+        "que_hacer": "Tenelo en maceta grande para poder moverlo, y ubicalo a resguardo del viento frío.",
+        "por_que": "No tolera heladas fuertes ni vientos intensos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "riego",
+        "cuando": "Todo el año, espaciando en otoño e invierno",
+        "que_hacer": "Riego moderado.",
+        "por_que": "El exceso le pudre la raíz y le amarillea las hojas.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Cuando se va de tamaño",
+        "que_hacer": "Podalo.",
+        "de": "trucos"
+      }
     ]
   },
   "eneldo": {
@@ -5277,7 +6103,22 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "desmalezar",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "Mantenelo limpio de yuyos.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "aporque",
+        "cuando": "Si el lugar es ventoso",
+        "que_hacer": "Aporcalo o ponele tutor.",
+        "por_que": "Las plantas altas se vuelcan.",
+        "de": "riesgos"
+      }
+    ]
   },
   "calendula": {
     "calendario": {
@@ -5368,7 +6209,16 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "poda",
+        "cuando": "Todo el verano, y una poda a fin de temporada",
+        "que_hacer": "Andá sacando las flores marchitas.",
+        "por_que": "Vuelve a florecer.",
+        "de": "trucos"
+      }
+    ]
   },
   "copete": {
     "calendario": {
@@ -5464,7 +6314,15 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Cuando pasa de 25 °C",
+        "que_hacer": "Regá seguido, humedad constante.",
+        "de": "trucos"
+      }
+    ]
   },
   "borraja": {
     "calendario": {
@@ -5560,7 +6418,16 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "contener",
+        "cuando": "Al final de la temporada",
+        "que_hacer": "Si no la querés por toda la huerta, cortale las flores antes de que semille.",
+        "por_que": "Se resiembra mucho y puede volverse invasiva.",
+        "de": "riesgos"
+      }
+    ]
   },
   "capuchina": {
     "calendario": {
@@ -5643,7 +6510,16 @@
         }
       ],
       "confianza": 6
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "abonado",
+        "cuando": "Nunca, y eso es lo raro",
+        "que_hacer": "No la abones. Suelo pobre.",
+        "por_que": "Con nitrógeno hace hojas y no flores.",
+        "de": "trucos"
+      }
+    ]
   },
   "cosmos": {
     "calendario": {
@@ -5740,7 +6616,30 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "abonado",
+        "cuando": "Todo el ciclo",
+        "que_hacer": "No lo abones de más.",
+        "por_que": "El exceso de nitrógeno le da follaje y poca flor.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Cada tanto, en plena temporada",
+        "que_hacer": "Despuntalo.",
+        "por_que": "Ramifica y florece más tiempo.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "tutorado",
+        "cuando": "En las variedades altas",
+        "que_hacer": "Ponele tutor.",
+        "por_que": "Se tumban con viento.",
+        "de": "trucos"
+      }
+    ]
   },
   "girasol": {
     "calendario": {
@@ -5849,7 +6748,23 @@
         }
       ],
       "confianza": 8
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "mulch",
+        "cuando": "Una vez que arrancó",
+        "que_hacer": "Cubrí el suelo con paja y regá regular.",
+        "por_que": "Salen más grandes.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "tutorado",
+        "cuando": "En las variedades altas",
+        "que_hacer": "Ponele tutor.",
+        "por_que": "Con viento y suelo superficial se vuelcan.",
+        "de": "trucos"
+      }
+    ]
   },
   "lavanda": {
     "calendario": {
@@ -5940,6 +6855,22 @@
         }
       ],
       "confianza": 7
-    }
+    },
+    "cuidados": [
+      {
+        "tipo": "riego",
+        "cuando": "Todo el año",
+        "que_hacer": "Riego escaso, ocasional.",
+        "por_que": "Prefiere pasar sed; el suelo húmedo le enferma la raíz.",
+        "de": "trucos"
+      },
+      {
+        "tipo": "poda",
+        "cuando": "Una vez al año, después de la floración",
+        "que_hacer": "Poda ligera.",
+        "por_que": "La mantiene compacta y con brotes fuertes.",
+        "de": "trucos"
+      }
+    ]
   }
 }

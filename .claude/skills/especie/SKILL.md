@@ -11,7 +11,7 @@ de editar la capa equivocada.
 | Capa | Archivo | Qué vive ahí |
 |---|---|---|
 | Base citable | `data/huerta_gba.json` | Lo que dijeron las fuentes: textos, `fuentes[]` con URL, `confianza`. Se toca poco. |
-| Interpretación | `data/enriquecimiento.json` | **Acá se edita.** Calendario en meses, días, temperaturas, asociaciones. |
+| Interpretación | `data/enriquecimiento.json` | **Acá se edita.** Calendario en meses, días, temperaturas, asociaciones, cuidados. |
 | Generado | `data/huerta_gba_enriquecido.json` | Nunca a mano. Hay un hook que lo bloquea. |
 
 El build **exige que las dos primeras tengan exactamente los mismos slugs**: si
@@ -46,6 +46,7 @@ confianza que corresponda — no disfrazado de fuente.
    - `temperaturas` — `germinacion` y `crecimiento` con sus rangos,
      `helada` del enum, `nota`, `fuentes`.
    - `asociaciones.buenas` / `.malas` — ver abajo.
+   - `cuidados` — ver abajo.
 3. Regenerá y verificá: `npm run data:build && npm test`.
 4. Si tocaste el calendario, **mirá el afinado** (ver más abajo).
 
@@ -74,6 +75,36 @@ confianza que corresponda — no disfrazado de fuente.
    resuelve.
 3. Revisá `src/lib/data/slugs.ts` por si tenía alias.
 4. Actualizá el conteo (ver arriba) y regenerá.
+
+## Los cuidados (`cuidados`)
+
+Lo que se hace **entre la siembra y la cosecha**: la sección "Mientras crece" de
+la ficha. Cada especie tiene que tener al menos uno; hay un test que lo exige.
+
+```json
+{ "tipo": "raleo",
+  "cuando": "Apenas se estorban, y no más tarde",
+  "que_hacer": "Sacá las de más y dejá espacio entre planta y planta.",
+  "por_que": "Sin raleo a tiempo salen chicas y torcidas.",
+  "de": "trucos" }
+```
+
+- **`tipo`** sale de un vocabulario cerrado de 14: `raleo`, `aporque`,
+  `tutorado`, `poda`, `mulch`, `blanqueo`, `riego`, `abonado`, `desmalezar`,
+  `rotacion`, `polinizacion`, `proteger`, `contener`, `dividir`. Uno nuevo se
+  agrega en **tres** lugares —`scripts/build-enriched.mjs`, `TipoCuidado` en
+  `src/lib/data/types.ts` y el glosario— y hay un test que se asegura de que
+  ninguno quede sin usar.
+- **No se repite el tipo dentro de una especie**: serían dos tarjetas con el
+  mismo título. Si hay dos cosas que decir sobre el riego, van en una.
+- **`de` es la regla de no inventar hecha mecánica.** Dice de qué campo de
+  `huerta_gba.json` sale el consejo, y el build le cuelga *sus* `fuentes` y su
+  `confianza`. Si el campo no existe **o no tiene ni una URL**, el build falla.
+  Pasó con `repollo.riesgos`, que habla de rotar crucíferas sin citar a nadie: el
+  consejo se sacó en vez de publicarlo sin respaldo.
+- **`por_que` solo si la fuente dice la consecuencia.** Es tentador completarlo
+  ("sin raleo salen chicas") cuando la fuente solo dijo "ralear para dar
+  espacio". Eso es inventar. Va `null` y listo.
 
 ## Después de tocar el calendario: mirá el afinado
 
