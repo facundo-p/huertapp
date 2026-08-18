@@ -24,21 +24,17 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
-### Agregado
+Nada todavía.
 
-- **El glosario ahora también explica las palabras**, no solo los íconos. Las
-  catorce labores (raleo, aporque, blanqueo, mulch…) con **qué son y cómo se
-  hacen**, veinte términos de las fichas —espigado, cuaje, pella, pan de
-  tierra, chupón—, y una sección de **cómo se arma la tierra** con la mezcla
-  base, su fuente, y hacia dónde correrla según lo que pida cada planta. Desde
-  "Mientras crece" se salta directo a la palabra que no entendiste.
-- **"¿Por qué no germina?" ahora contesta distinto según la planta.** Antes
-  decía lo mismo para las 55: fijate la humedad, la profundidad y la edad de
-  la semilla. Ahora el berro avisa que **no germina si lo tapaste** —necesita
-  luz—, la zanahoria que tarda hasta 20 días y que es la que más gente da por
-  perdida antes de tiempo, la melisa que germina al 30 % **de fábrica**, y la
-  menta que directamente no se siembra. **56 pistas propias en 42 especies**,
-  cada una con sus fuentes.
+---
+
+## [1.1.0] — 2026-08-17
+
+La 1.0 decía **qué** sembrar y **cuándo**. Esta versión se mete con lo que pasa
+en el medio: qué hacer mientras la planta crece, y por qué esa semilla puede no
+estar saliendo.
+
+### Agregado
 
 - **"Mientras crece" en cada ficha**: qué hay que ir haciendo entre la siembra
   y la cosecha, práctica por práctica y con el momento en que toca. Raleo,
@@ -47,6 +43,19 @@ Qué significa cada parte en este proyecto:
   cuidados en las 55 especies**. La información estaba, pero en un párrafo
   corrido que servía para leer una vez y no para el sábado a la mañana con la
   tijera en la mano.
+- **"¿Por qué no germina?" ahora contesta distinto según la planta.** Antes
+  decía lo mismo para las 55: fijate la humedad, la profundidad y la edad de
+  la semilla. Ahora el berro avisa que **no germina si lo tapaste** —necesita
+  luz—, la zanahoria que tarda hasta 20 días y que es la que más gente da por
+  perdida antes de tiempo, la melisa que germina al 30 % **de fábrica**, y la
+  menta que directamente no se siembra. **56 pistas propias en 42 especies**,
+  cada una con sus fuentes.
+- **El glosario ahora también explica las palabras**, no solo los íconos. Las
+  catorce labores (raleo, aporque, blanqueo, mulch…) con **qué son y cómo se
+  hacen**, veinte términos de las fichas —espigado, cuaje, pella, pan de
+  tierra, chupón—, y una sección de **cómo se arma la tierra** con la mezcla
+  base, su fuente, y hacia dónde correrla según lo que pida cada planta. Desde
+  "Mientras crece" se salta directo a la palabra que no entendiste.
 - **Mi huerta se pliega.** Cada lugar y cada planta se abren y se cierran con un
   toque, así una huerta de diez macetas entra en una pantalla en vez de ser un
   scroll largo. Se acuerda de cómo lo dejaste.
@@ -59,6 +68,15 @@ Qué significa cada parte en este proyecto:
 - Al pie de Ajustes ahora va **solo el número de versión**. El código raro que
   lo acompañaba era el commit del build; no le decía nada a nadie y le sacaba
   claridad a la única línea que tiene que poder leerse de un vistazo.
+
+### Notas
+
+- Todo lo que se sumó sale de las mismas fuentes que ya estaban investigadas y
+  conserva su índice de confianza. Cuando una recomendación no tenía respaldo
+  —el consejo de rotar crucíferas en el repollo, sin cita— **se sacó** en vez
+  de publicarla.
+- Tu huerta no se toca: no hay migración ni cambia nada de lo que tengas
+  cargado.
 
 ---
 
