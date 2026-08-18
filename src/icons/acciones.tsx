@@ -119,6 +119,26 @@ export function IconoFoto(p: IconProps) {
   )
 }
 
+/**
+ * Cuidados: manos ahuecadas sosteniendo un brote.
+ *
+ * La primera versión era el plantín atado a su tutor, y a 20 px se leía como
+ * una silla. Y una herramienta —tijera, regadera— habría sesgado hacia una
+ * sola de las catorce prácticas. Las manos no: dicen cuidar, sin decir cómo.
+ */
+export function IconoCuidado(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M4.2 13.5 C 4.2 18.6, 7.7 21.6, 12 21.6 C 16.3 21.6, 19.8 18.6, 19.8 13.5" />
+      <path d="M4.2 13.5 C 4.2 11.8, 5.6 11.2, 6.4 12.4" />
+      <path d="M19.8 13.5 C 19.8 11.8, 18.4 11.2, 17.6 12.4" />
+      <path d="M12 17.5 V 10.5" />
+      <path d="M12 11.5 C 10.2 11.5, 9 10.3, 8.8 8.4 C 10.7 8.4, 11.8 9.5, 12 11.5 Z" />
+      <path d="M12 11.5 C 13.8 11.5, 15 10.3, 15.2 8.4 C 13.3 8.4, 12.2 9.5, 12 11.5 Z" />
+    </Svg>
+  )
+}
+
 /** Alerta */
 export function IconoAlerta(p: IconProps) {
   return (
@@ -190,6 +210,19 @@ export function IconoInstalar(p: IconProps) {
       <path d="M12 7.6 V 14.2" />
       <path d="M9.4 11.6 L 12 14.4 L 14.6 11.6" />
       <path d="M10.4 18.4 H 13.6" />
+    </Svg>
+  )
+}
+
+/**
+ * Desplegar: el galón hacia abajo. Apunta a lo que se va a abrir y gira 180°
+ * cuando ya está abierto, así el ícono también dice el estado y no solo la
+ * acción.
+ */
+export function IconoDesplegar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M7 10 L 12 15 L 17 10" />
     </Svg>
   )
 }

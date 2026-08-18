@@ -1307,7 +1307,77 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "proteger",
+          "cuando": "En los meses de calor",
+          "que_hacer": "Dale media sombra y no la dejes secar.",
+          "por_que": "Con calor y días largos se va a flor y las hojas amargan.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de lechuga (Lactuca sativa)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/mod/resource/view.php?id=96157",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales, UNLP"
+            },
+            {
+              "titulo": "Huerta urbana: qué necesitás para hacer una en tu balcón",
+              "url": "https://www.lanacion.com.ar/sociedad/huerta-urbana-que-necesitas-hacer-tu-balcon-nid2389761/",
+              "organizacion": "La Nación (divulgativa)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Regá parejo, sin encharcar.",
+          "por_que": "El suelo encharcado le pudre el cuello y la raíz.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de lechuga (Lactuca sativa)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/mod/resource/view.php?id=96157",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales, UNLP"
+            }
+          ],
+          "confianza": 8
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Apenas tapada, menos de 1,5 cm. Enterrada de más no llega arriba.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de lechuga (Lactuca sativa)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/mod/resource/view.php?id=96157",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales, UNLP"
+            },
+            {
+              "titulo": "Calendario de siembra INTA-ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA ProHuerta / Ministerio de Agricultura de la Nación"
+            }
+          ],
+          "confianza": 9
+        },
+        {
+          "tipo": "latencia",
+          "texto": "Si la semilla es muy fresca puede estar todavía dormida: la lechuga tiene latencia hasta unos dos meses después de cosechada.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de lechuga (Lactuca sativa)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/mod/resource/view.php?id=96157",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales, UNLP"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "espinaca",
@@ -1784,7 +1854,39 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Riegos frecuentes y regulares.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+              "organizacion": "La Nación - Revista Jardín (divulgativa)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Va a 1 o 2 cm. Más honda tarda o no llega.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+              "organizacion": "La Nación - Revista Jardín (divulgativa)"
+            }
+          ],
+          "confianza": 4
+        }
+      ]
     },
     {
       "slug": "acelga",
@@ -2367,7 +2469,59 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Cuando las plantitas empiezan a estorbarse",
+          "que_hacer": "Sacá las que sobran y dejale espacio a cada una.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+              "organizacion": "La Nación - Revista Jardín (divulgativa)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Mantené el riego regular.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+              "organizacion": "La Nación - Revista Jardín (divulgativa)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "varias",
+          "texto": "Cada \"semilla\" de acelga es un glomérulo con varias semillas adentro: de cada una salen varias plantitas juntas. Si te salió un mechón apretado no falló nada — hay que ralear.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Calendario de siembra INTA-ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA ProHuerta / Ministerio de Agricultura de la Nación"
+            },
+            {
+              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+              "organizacion": "La Nación - Revista Jardín (divulgativa)"
+            }
+          ],
+          "confianza": 9
+        }
+      ]
     },
     {
       "slug": "rucula",
@@ -2776,7 +2930,39 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "proteger",
+          "cuando": "En verano",
+          "que_hacer": "Media sombra y buen riego.",
+          "por_que": "El exceso de calor y sol la amarga y la manda a flor antes de tiempo.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de rúcula",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/R%C3%BAcula.pdf",
+              "organizacion": "Cátedra de Horticultura, Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Menos de 1 cm. Es de las más fáciles: si no salió, casi seguro está muy enterrada o le faltó agua.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de rúcula",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/R%C3%BAcula.pdf",
+              "organizacion": "Cátedra de Horticultura, Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "kale",
@@ -3323,7 +3509,59 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Buena humedad, sin encharcar.",
+          "por_que": "El suelo encharcado le pudre las raíces.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar kale en la huerta familiar",
+              "url": "https://www.perfil.com/noticias/agro/como-cultivar-kale-en-la-huerta-familiar.phtml",
+              "organizacion": "Perfil (INTA EEA Anguil)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No la repitas en el mismo lugar dos años seguidos, ni detrás de otra crucífera (repollo, brócoli, coliflor, nabo).",
+          "por_que": "Las enfermedades del suelo de las coles se acumulan.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar kale en la huerta familiar",
+              "url": "https://www.perfil.com/noticias/agro/como-cultivar-kale-en-la-huerta-familiar.phtml",
+              "organizacion": "Perfil (INTA EEA Anguil)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Unas tres veces el tamaño de la semilla, que es poquito.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar kale en la huerta familiar",
+              "url": "https://www.perfil.com/noticias/agro/como-cultivar-kale-en-la-huerta-familiar.phtml",
+              "organizacion": "Perfil (INTA EEA Anguil)"
+            },
+            {
+              "titulo": "Una fuente de hierro en casa: cómo cultivar kale",
+              "url": "https://www.infocampo.com.ar/una-fuente-de-hierro-en-casa-como-cultivar-kale-en-la-huerta-familiar/",
+              "organizacion": "Infocampo (cita INTA)"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "repollo",
@@ -3662,7 +3900,40 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Sobre todo mientras arma la cabeza",
+          "que_hacer": "Regá regular y parejo.",
+          "por_que": "El riego irregular hace que la cabeza se raje.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Mientras crece",
+          "que_hacer": "Arrimale tierra a la base y mantené el cantero sin yuyos.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 5
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "radicchio",
@@ -4080,7 +4351,25 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "Antes de cosechar",
+          "que_hacer": "Tapala o atala para que acogolle sin luz.",
+          "por_que": "Sin luz baja el amargor y la cabeza sale mejor.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar Achicoria roja (radicchio) de manera orgánica",
+              "url": "https://www.ecojardinmagico.com/como-cultivar-achicoria-roja-radicchio-de-manera-organica/",
+              "organizacion": "Eco Jardín Mágico (divulgación)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "berro",
@@ -4492,7 +4781,87 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Siempre, sin excepción",
+          "que_hacer": "Que el sustrato o el agua nunca se sequen. Agua limpia, sin cloro.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Berro — Guía de Cultivo y Cuidados",
+              "url": "https://plotmygarden.com/es/plants/watercress-herb",
+              "organizacion": "PlotMyGarden (divulgación)"
+            },
+            {
+              "titulo": "Cómo sembrar berros",
+              "url": "https://www.mundohuerto.com/cultivos/berro/como-sembrar",
+              "organizacion": "Mundo Huerto (divulgación)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "proteger",
+          "cuando": "En verano",
+          "que_hacer": "Dale sombra.",
+          "por_que": "Con calor florece y amarga.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Berro — Guía de Cultivo y Cuidados",
+              "url": "https://plotmygarden.com/es/plants/watercress-herb",
+              "organizacion": "PlotMyGarden (divulgación)"
+            },
+            {
+              "titulo": "Cómo sembrar berros",
+              "url": "https://www.mundohuerto.com/cultivos/berro/como-sembrar",
+              "organizacion": "Mundo Huerto (divulgación)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "luz",
+          "texto": "La semilla de berro **necesita luz para germinar**: va esparcida sobre la superficie y apretada apenas, sin taparla. Si la cubriste con tierra, no va a salir por más que esperes.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Berro, Berros - Nasturtium officinale (fichas)",
+              "url": "https://fichas.infojardin.com/hortalizas-verduras/berros-nasturtium-officinale.htm",
+              "organizacion": "Infojardín (divulgación)"
+            },
+            {
+              "titulo": "Berro — Guía de Cultivo y Cuidados",
+              "url": "https://plotmygarden.com/es/plants/watercress-herb",
+              "organizacion": "PlotMyGarden (divulgación)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "humedad",
+          "texto": "No alcanza con húmedo: el berro quiere el sustrato empapado todo el tiempo, o directamente la maceta en una bandeja con agua.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Berro, Berros - Nasturtium officinale (fichas)",
+              "url": "https://fichas.infojardin.com/hortalizas-verduras/berros-nasturtium-officinale.htm",
+              "organizacion": "Infojardín (divulgación)"
+            },
+            {
+              "titulo": "Berro — Guía de Cultivo y Cuidados",
+              "url": "https://plotmygarden.com/es/plants/watercress-herb",
+              "organizacion": "PlotMyGarden (divulgación)"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "apio",
@@ -4931,7 +5300,87 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "15 a 20 días antes de cosechar, con la planta en unos 30 cm",
+          "que_hacer": "Fajá los pencas dejando las hojas al aire.",
+          "por_que": "Salen tiernas y menos amargas.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Apio?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-apio/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Abundante y parejo, sin mojar el follaje.",
+          "por_que": "Con calor y sed se ahíla, se pone fibroso o se va a flor.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Apio?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-apio/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Mientras crece",
+          "que_hacer": "Carpidas y aporques ligeros.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Apio?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-apio/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "luz",
+          "texto": "La semilla es finísima y **pide algo de luz**: se cubre apenas, casi nada. Enterrada no arranca.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Planificador de huerta (ProHuerta)",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            },
+            {
+              "titulo": "¿Cómo cultivar Apio?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-apio/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 8
+        },
+        {
+          "tipo": "paciencia",
+          "texto": "Es lenta de verdad: 15 a 20 días. A los diez no hay nada para ver y está todo bien.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Apio?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-apio/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "brocoli",
@@ -5383,7 +5832,45 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Humedad pareja.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Brócoli?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-brocoli/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Cuando ya está armando la cabeza",
+          "que_hacer": "Nada de nitrógeno tardío.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Brócoli?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-brocoli/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "coliflor",
@@ -5831,7 +6318,50 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "Unos 3 días antes de cosechar",
+          "que_hacer": "Atá o quebrá las hojas sobre la pella.",
+          "por_que": "Así el sol no se la pone amarilla.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Coliflor?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Cuando llega a unos 25 cm",
+          "que_hacer": "Arrimale tierra a la base.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Coliflor?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "repollitos-de-bruselas",
@@ -6216,7 +6746,74 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "aporque",
+          "cuando": "Cada 15 días, mientras crece",
+          "que_hacer": "Amontonale tierra alrededor del tallo.",
+          "por_que": "Es una planta alta: sin sostén se tumba.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Repollitos de Bruselas: cultivo, riego y cuidados",
+              "url": "https://www.flordeplanta.com.ar/huerta/repollitos-de-bruselas-cultivo-riego-y-cuidados/",
+              "organizacion": "Flor de Planta"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "tutorado",
+          "cuando": "Si el lugar es ventoso",
+          "que_hacer": "Ponele un tutor.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Repollitos de Bruselas: cultivo, riego y cuidados",
+              "url": "https://www.flordeplanta.com.ar/huerta/repollitos-de-bruselas-cultivo-riego-y-cuidados/",
+              "organizacion": "Flor de Planta"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Regular, sin saturar.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Repollitos de Bruselas: cultivo, riego y cuidados",
+              "url": "https://www.flordeplanta.com.ar/huerta/repollitos-de-bruselas-cultivo-riego-y-cuidados/",
+              "organizacion": "Flor de Planta"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Entre medio centímetro y uno: es semilla chica y no se entierra.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Repollitos de Bruselas: cultivo, riego y cuidados",
+              "url": "https://www.flordeplanta.com.ar/huerta/repollitos-de-bruselas-cultivo-riego-y-cuidados/",
+              "organizacion": "Flor de Planta"
+            },
+            {
+              "titulo": "Cómo cultivar coles de bruselas o repollitos",
+              "url": "https://www.mundohuerto.com/cultivos/col-bruselas",
+              "organizacion": "Mundo Huerto (España, hemisferio norte)"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "nabo",
@@ -6624,7 +7221,54 @@
           }
         ],
         "confianza": 5
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Temprano",
+          "que_hacer": "Dejá unos 15 cm entre planta y planta.",
+          "por_que": "Sin raleo salen nabos chicos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Nabo (Brassica rapa): Cultivo, riego y cosecha",
+              "url": "https://www.flordeplanta.com.ar/huerta/nabo-brassica-rapa-cultivo-riego-y-cosecha/",
+              "organizacion": "Flor de Planta"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Suelo húmedo, sin encharcar.",
+          "por_que": "Así la raíz engorda pareja; encharcada, se pudre.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Nabo (Brassica rapa): Cultivo, riego y cosecha",
+              "url": "https://www.flordeplanta.com.ar/huerta/nabo-brassica-rapa-cultivo-riego-y-cosecha/",
+              "organizacion": "Flor de Planta"
+            }
+          ],
+          "confianza": 5
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 2 cm. Enterrada de más no llega arriba.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Nabo (Brassica rapa): Cultivo, riego y cosecha",
+              "url": "https://www.flordeplanta.com.ar/huerta/nabo-brassica-rapa-cultivo-riego-y-cosecha/",
+              "organizacion": "Flor de Planta"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "tomate",
@@ -7132,7 +7776,85 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Desde el trasplante",
+          "que_hacer": "Ponele caña, hilo o espaldera y andá atándolo mientras sube.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Todas las semanas, en las variedades indeterminadas",
+          "que_hacer": "Sacale los brotes que salen entre el tallo y cada hoja (los \"chupones\"), cuando todavía son chiquitos.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo, y en especial con fruta cuajada",
+          "que_hacer": "Regá regular y parejo.",
+          "por_que": "El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No repitas tomate ni otra solanácea (papa, pimiento, berenjena) en el mismo lugar años seguidos.",
+          "por_que": "Se acumulan enfermedades del suelo.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Ficha de cultivo Tomate",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "pimiento",
@@ -7563,7 +8285,79 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Cuando se carga de frutos",
+          "que_hacer": "Ponele un tutor.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Regular, sin encharcar.",
+          "por_que": "El riego irregular le da podredumbre en la punta del fruto.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No repitas solanáceas en el mismo suelo.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "Germina lento: 8 a 12 días con temperatura buena. Y por debajo de 13 °C puede directamente no germinar, así que la fecha importa más que la paciencia.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "aji-picante",
@@ -7999,7 +8793,82 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo, sobre todo en floración",
+          "que_hacer": "Regular, sin encharcar.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar ají/chile en casa (Alta Huerta)",
+              "url": "https://altahuerta.com/aji-chile/",
+              "organizacion": "Alta Huerta"
+            },
+            {
+              "titulo": "¿Cuándo germinar chiles picantes en Argentina?",
+              "url": "https://www.locosxelpicante.com/cuando-germinar/",
+              "organizacion": "Locos x el Picante"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No repitas solanáceas en el mismo cantero.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar ají/chile en casa (Alta Huerta)",
+              "url": "https://altahuerta.com/aji-chile/",
+              "organizacion": "Alta Huerta"
+            },
+            {
+              "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 5
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A medio centímetro, 2 o 3 semillas por celda. Es semilla chica: enterrada de más no sale.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar ají/chile en casa (Alta Huerta)",
+              "url": "https://altahuerta.com/aji-chile/",
+              "organizacion": "Alta Huerta"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "paciencia",
+          "texto": "Lenta e **irregular**: no salen todas juntas, y las que faltan pueden aparecer una semana después. Es lo normal en los ajíes.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            },
+            {
+              "titulo": "¿Cuándo germinar chiles picantes en Argentina?",
+              "url": "https://www.locosxelpicante.com/cuando-germinar/",
+              "organizacion": "Locos x el Picante"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "berenjena",
@@ -8459,7 +9328,94 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Desde que empieza a cargar",
+          "que_hacer": "Ponele tutor.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "¿Cómo cultivar Berenjena?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-berenjena/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Mientras crece",
+          "que_hacer": "Despuntá las ramas.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "¿Cómo cultivar Berenjena?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-berenjena/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Frecuente y regular; nada de que pase sed.",
+          "por_que": "El estrés hídrico le arruina el cuaje.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "¿Cómo cultivar Berenjena?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-berenjena/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "Arranca lenta y necesita calor. Por eso se hace en almácigo protegido a fin de invierno y no directa en el cantero.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "Calendario de siembra - INTA/ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA - ProHuerta"
+            },
+            {
+              "titulo": "¿Cómo cultivar Berenjena?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-berenjena/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 9
+        }
+      ]
     },
     {
       "slug": "zapallito-de-tronco",
@@ -8861,7 +9817,89 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "aporque",
+          "cuando": "Cuando la planta llega a 15-20 cm",
+          "que_hacer": "Arrimale tierra para afirmarla.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Zapallito Redondo y Zuccini?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallito-redondo-zuccini/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Cada riego",
+          "que_hacer": "Regá al pie sin mojar el cuello de la planta.",
+          "por_que": "La humedad en el cuello le trae hongos y podredumbre.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Zapallito Redondo y Zuccini?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallito-redondo-zuccini/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "polinizacion",
+          "cuando": "Si ves frutos chicos que amarillean y se caen",
+          "que_hacer": "Es falta de polinización: sumá flores cerca para atraer abejas, o pasá el polen de una flor macho a una hembra con un pincel.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Zapallito Redondo y Zuccini?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallito-redondo-zuccini/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A unos 2 cm, 2 o 3 semillas por golpe. Con menos tapada se seca; con más, tarda.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "Calendario de siembra - INTA/ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA - ProHuerta"
+            },
+            {
+              "titulo": "¿Cómo cultivar Zapallito Redondo y Zuccini?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallito-redondo-zuccini/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "zapallo",
@@ -9246,7 +10284,97 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "Cuando las guías se van de largo",
+          "que_hacer": "Despuntalas.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "¿Cómo cultivar Zapallo?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallo/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Mientras crece",
+          "que_hacer": "Arrimale tierra a la base.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "¿Cómo cultivar Zapallo?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallo/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "polinizacion",
+          "cuando": "Si las flores se caen sin cuajar",
+          "que_hacer": "Es falta de polinización: sumá flores cerca para atraer abejas, o pasá el polen a mano.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Zapallo?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallo/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 2 o 3 cm, varias semillas por golpe. Es semilla grande y va bien tapada.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Manual para la realización de una huerta-jardín (2021)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+              "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+            },
+            {
+              "titulo": "¿Cómo cultivar Zapallo?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallo/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 8
+        },
+        {
+          "tipo": "pretratamiento",
+          "texto": "Remojar la semilla la noche anterior mejora la germinación.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Zapallo?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-zapallo/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "pepino",
@@ -9639,7 +10767,40 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Desde chico",
+          "que_hacer": "Conducilo en espaldera o tutor.",
+          "por_que": "Colgando salen frutos más rectos y sanos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Pepino?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-pepino/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Regular y abundante.",
+          "por_que": "Si pasa sed, los frutos amargan.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Pepino?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-pepino/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 5
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "melon",
@@ -9973,7 +11134,79 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
+          "que_hacer": "Espaciá los riegos cuando ya hay fruta.",
+          "por_que": "Concentra los azúcares. De paso, el exceso de agua pudre raíces y frutos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Cuando las guías se desbordan",
+          "que_hacer": "Conducilas o despuntalas.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "mulch",
+          "cuando": "Cuando los frutos ya tienen tamaño",
+          "que_hacer": "Poneles debajo una cama seca de paja o una tabla.",
+          "por_que": "Apoyados en tierra húmeda se pudren.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 2,5 o 3 cm, 2 o 3 semillas por hoyo, y después se ralea a la mejor plantita.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            },
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA / Min. Desarrollo Social"
+            },
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "sandia",
@@ -10292,7 +11525,74 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
+          "que_hacer": "Dejá que la superficie se seque entre riegos.",
+          "por_que": "El exceso de agua pudre y da frutos insípidos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "mulch",
+          "cuando": "Cuando los frutos ya tienen tamaño",
+          "que_hacer": "Poneles debajo paja o una tabla.",
+          "por_que": "Apoyados en tierra húmeda se pudren.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "polinizacion",
+          "cuando": "En floración",
+          "que_hacer": "Asegurate de que haya flores masculinas y femeninas abiertas al mismo tiempo, y polinizadores dando vueltas.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 2,5 o 3 cm, y después se ralea a la mejor plantita de cada golpe.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            },
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "choclo",
@@ -10662,7 +11962,55 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "polinizacion",
+          "cuando": "Al sembrar, y define toda la cosecha",
+          "que_hacer": "Sembralo en bloque cuadrado de varias filas, nunca en una fila sola.",
+          "por_que": "Lo poliniza el viento: en fila única las espigas salen con granos salteados.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Mientras crece",
+          "que_hacer": "Arrimale tierra a la base.",
+          "por_que": "Le da sostén; si no, el viento lo vuelca.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Abonalo bien.",
+          "por_que": "Es de los que más nitrógeno piden.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "frutilla",
@@ -11000,7 +12348,84 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "mulch",
+          "cuando": "Apenas plantás",
+          "que_hacer": "Cubrí el suelo con plástico negro (o paja) y regá por debajo.",
+          "por_que": "Mantiene la humedad, frena los yuyos y evita que la fruta toque la tierra.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Frutilla (ficha de cultivo)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Frutilla.pdf",
+              "organizacion": "Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 8
+        },
+        {
+          "tipo": "poda",
+          "cuando": "En plantas recién plantadas",
+          "que_hacer": "Cortale las primeras flores.",
+          "por_que": "Que primero haga planta; después da fruta de verdad.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Frutilla (ficha de cultivo)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Frutilla.pdf",
+              "organizacion": "Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 8
+        },
+        {
+          "tipo": "raleo",
+          "cuando": "Cuando empieza a tirar guías",
+          "que_hacer": "Sacale los estolones.",
+          "por_que": "Todo lo que se va en guías no se va en fruta.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Frutilla (ficha de cultivo)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Frutilla.pdf",
+              "organizacion": "Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 8
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al elegir dónde plantarla",
+          "que_hacer": "No la pongas donde hubo frutilla, frambuesa, papa, tomate, berenjena o pimiento.",
+          "por_que": "Comparten enfermedades del suelo.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Frutilla (ficha de cultivo)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Frutilla.pdf",
+              "organizacion": "Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 8
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "La frutilla de huerta **no se siembra**: se planta de plantín o de estolón. De semilla germina lenta, despareja, y encima no sale igual a la planta madre.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Frutilla (ficha de cultivo)",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Frutilla.pdf",
+              "organizacion": "Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "chaucha",
@@ -11429,7 +12854,89 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Desde que empieza a enredar, en las de enrame",
+          "que_hacer": "Ponele tutores de 2 a 2,5 m.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Chauchas – Cómo plantar chauchas",
+              "url": "https://www.huertadecero.com/cultivo-de-chauchas-como-plantar-chauchas/",
+              "organizacion": "Huerta de Cero"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "mulch",
+          "cuando": "Una vez emergida",
+          "que_hacer": "Cubrí el suelo con acolchado orgánico.",
+          "por_que": "Conserva la humedad y frena los yuyos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Chauchas – Cómo plantar chauchas",
+              "url": "https://www.huertadecero.com/cultivo-de-chauchas-como-plantar-chauchas/",
+              "organizacion": "Huerta de Cero"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Sobre todo en floración y cuaje",
+          "que_hacer": "Regá bien, sin encharcar.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Chauchas – Cómo plantar chauchas",
+              "url": "https://www.huertadecero.com/cultivo-de-chauchas-como-plantar-chauchas/",
+              "organizacion": "Huerta de Cero"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "No le tires abono nitrogenado.",
+          "por_que": "Como legumbre, el nitrógeno se lo fabrica ella.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Chauchas – Cómo plantar chauchas",
+              "url": "https://www.huertadecero.com/cultivo-de-chauchas-como-plantar-chauchas/",
+              "organizacion": "Huerta de Cero"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 3 o 4 cm, 3 o 4 semillas por golpe. Es grande: enterrada poco se seca antes de arrancar.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            },
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+              "organizacion": "Mi Huerta"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "arveja",
@@ -11834,7 +13341,59 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Desde chica, en las variedades trepadoras",
+          "que_hacer": "Ponele ramas, un enrejado o un tutor.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Nada de nitrógeno.",
+          "por_que": "Lo fija ella sola, y de más le hace hacer follaje en vez de vainas.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "No más de 5 cm. Más honda, en suelo frío o pesado, se pudre antes de salir.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            },
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+              "organizacion": "Mi Huerta"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "haba",
@@ -12181,7 +13740,59 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "Cuando aparecen las primeras vainas",
+          "que_hacer": "Cortale la punta tierna de la planta.",
+          "por_que": "Ahí es donde se le prende el pulgón negro, y de paso adelanta el llenado.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Si el lugar es ventoso",
+          "que_hacer": "Aporcala o ponele tutor.",
+          "por_que": "Es alta y se vuelca.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 4 o 5 cm: es semilla grande y va bien enterrada.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+              "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+              "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+            },
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+              "organizacion": "Mi Huerta"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "zanahoria",
@@ -12706,7 +14317,143 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Apenas se estorban, y no más tarde",
+          "que_hacer": "Sacá las de más y dejá espacio entre planta y planta.",
+          "por_que": "Sin raleo a tiempo salen chicas y torcidas.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+              "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+              "organizacion": "Portal Frutícola"
+            },
+            {
+              "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "Universidad Nacional del Litoral (FIQ)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Desde la siembra hasta que emergen",
+          "que_hacer": "Que el suelo no se seque nunca.",
+          "por_que": "Tarda mucho en germinar: si se seca un día, se perdió.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+              "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+              "organizacion": "Portal Frutícola"
+            },
+            {
+              "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "Universidad Nacional del Litoral (FIQ)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Al preparar el cantero",
+          "que_hacer": "Nada de estiércol fresco.",
+          "por_que": "Le salen raíces bifurcadas y deformes.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+              "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+              "organizacion": "Portal Frutícola"
+            },
+            {
+              "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "Universidad Nacional del Litoral (FIQ)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "Lenta e irregular: 10 a 20 días. **Es la que más gente da por perdida antes de tiempo.**",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo de las zanahoria todo el año",
+              "url": "https://infoagro.com.ar/como-cultivar-zanahorias/",
+              "organizacion": "Infoagro Argentina"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "humedad",
+          "texto": "Necesita humedad constante **en la superficie** durante todo ese tiempo. Si el suelo se secó un solo día en el medio, se perdió — y es la causa más común de que no salga.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo de las zanahoria todo el año",
+              "url": "https://infoagro.com.ar/como-cultivar-zanahorias/",
+              "organizacion": "Infoagro Argentina"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "profundidad",
+          "texto": "Se cubre con medio centímetro de tierra fina, no más.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+              "organizacion": "Mi Huerta"
+            },
+            {
+              "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "Universidad Nacional del Litoral (FIQ)"
+            },
+            {
+              "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+              "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+              "organizacion": "Portal Frutícola"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "pretratamiento",
+          "texto": "Mezclar la semilla con arena seca (una parte de semilla por tres de arena) la reparte pareja y evita el mechón.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+              "organizacion": "Mi Huerta"
+            },
+            {
+              "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "Universidad Nacional del Litoral (FIQ)"
+            },
+            {
+              "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+              "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+              "organizacion": "Portal Frutícola"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "remolacha",
@@ -13178,7 +14925,94 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Temprano",
+          "que_hacer": "Sacá las de más.",
+          "por_que": "Es lo que hace que las raíces salgan parejas.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de remolacha",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Remolacha.pdf",
+              "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+            },
+            {
+              "titulo": "Impulsando el cultivo de remolachas con éxito",
+              "url": "https://www.fecoagro.com.ar/impulsando-el-cultivo-de-remolachas-con-exito/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Regá regular.",
+          "por_que": "Con sed la raíz sale fibrosa.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de remolacha",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Remolacha.pdf",
+              "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+            },
+            {
+              "titulo": "Impulsando el cultivo de remolachas con éxito",
+              "url": "https://www.fecoagro.com.ar/impulsando-el-cultivo-de-remolachas-con-exito/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Al preparar el cantero",
+          "que_hacer": "Materia orgánica bien descompuesta; nunca estiércol fresco.",
+          "por_que": "El fresco le deforma la raíz.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de remolacha",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Remolacha.pdf",
+              "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+            },
+            {
+              "titulo": "Impulsando el cultivo de remolachas con éxito",
+              "url": "https://www.fecoagro.com.ar/impulsando-el-cultivo-de-remolachas-con-exito/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "varias",
+          "texto": "Lo que sembraste es un glomérulo con varias semillas adentro: de cada uno salen varias plantitas y después hay que ralear.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Planificador de huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            },
+            {
+              "titulo": "Cultivo de remolacha",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Remolacha.pdf",
+              "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+            },
+            {
+              "titulo": "Impulsando el cultivo de remolachas con éxito",
+              "url": "https://www.fecoagro.com.ar/impulsando-el-cultivo-de-remolachas-con-exito/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "rabanito",
@@ -13683,7 +15517,59 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Apenas nacen",
+          "que_hacer": "Ralealos.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar Rabanito en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/como-cultivar-rabanito-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo, sobre todo en verano",
+          "que_hacer": "Riegos frecuentes para mantener el suelo fresco.",
+          "por_que": "Sin agua se ponen picantes.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar Rabanito en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/como-cultivar-rabanito-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "A 1 o 1,5 cm. Es de las más fáciles y rápidas: si no salió, mirá el agua primero.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Planificador de huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            },
+            {
+              "titulo": "Cómo cultivar Rabanito en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/como-cultivar-rabanito-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 9
+        }
+      ]
     },
     {
       "slug": "papa",
@@ -14068,7 +15954,54 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "aporque",
+          "cuando": "A medida que la mata crece",
+          "que_hacer": "Andá amontonando tierra sobre la base.",
+          "por_que": "Aumenta la producción y evita que los tubérculos se pongan verdes al sol, que es cuando acumulan solanina.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Guía didáctica: cultivo y manejo de la papa (2022)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/pluginfile.php/101164/mod_folder/content/0/Gu%C3%ADa%20papa%202022.pdf",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales - UNLP"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No repitas solanáceas en el mismo cantero.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Guía didáctica: cultivo y manejo de la papa (2022)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/pluginfile.php/101164/mod_folder/content/0/Gu%C3%ADa%20papa%202022.pdf",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales - UNLP"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "La papa **no germina**: brota de las yemas del tubérculo, y eso depende de en qué estado fisiológico venía. La emergencia puede tardar de 2 a 4 semanas.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Guía didáctica: cultivo y manejo de la papa (2022)",
+              "url": "https://aulavirtual.agro.unlp.edu.ar/pluginfile.php/101164/mod_folder/content/0/Gu%C3%ADa%20papa%202022.pdf",
+              "organizacion": "Facultad de Ciencias Agrarias y Forestales - UNLP"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "batata",
@@ -14433,7 +16366,54 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "aporque",
+          "cuando": "Al plantar",
+          "que_hacer": "Plantala en camellón o lomo alto.",
+          "por_que": "Engorda mejor las raíces y drena.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Batata?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-batata/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "desmalezar",
+          "cuando": "Los primeros 40 días",
+          "que_hacer": "Sacale los yuyos.",
+          "por_que": "En esa etapa las malezas son su principal amenaza.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Batata?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-batata/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "No se siembra: se hace un almácigo con batatas del año anterior, que son las que emiten los brotes. Esos brotes son los plantines.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Batata?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-batata/",
+              "organizacion": "El Brote Urbano"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "cebolla",
@@ -14805,7 +16785,69 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Unos 30 días antes de cosechar",
+          "que_hacer": "Cortá el riego.",
+          "por_que": "Es lo que hace que el bulbo cierre.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo, cuidados y siembra de la cebolla",
+              "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
+              "organizacion": "Fecoagro (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "desmalezar",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Mantené el cantero limpio.",
+          "por_que": "Tiene poco follaje y cualquier yuyo le gana.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo, cuidados y siembra de la cebolla",
+              "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
+              "organizacion": "Fecoagro (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "abonado",
+          "cuando": "Cuando empieza a formar el bulbo",
+          "que_hacer": "Aportale compost.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo, cuidados y siembra de la cebolla",
+              "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
+              "organizacion": "Fecoagro (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "De 7 a 15 días para emerger, y después 40 a 50 días más hasta que el plantín tiene grosor de lápiz. Es un cultivo largo desde el principio.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Cultivo, cuidados y siembra de la cebolla",
+              "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
+              "organizacion": "Fecoagro (Argentina)"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "ajo",
@@ -15148,7 +17190,54 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "Cuando saca el tallito floral",
+          "que_hacer": "Cortale el escapo.",
+          "por_que": "Engorda los dientes.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Ajos en la huerta: por qué el otoño es el mejor momento para plantarlos",
+              "url": "https://www.lanacion.com.ar/revista-jardin/aprovecha-el-otono-para-plantar-ajos-en-tu-huerta-nid01042023/",
+              "organizacion": "La Nación - Revista Jardín (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "mulch",
+          "cuando": "En invierno",
+          "que_hacer": "Cubrí el suelo con paja.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Ajos en la huerta: por qué el otoño es el mejor momento para plantarlos",
+              "url": "https://www.lanacion.com.ar/revista-jardin/aprovecha-el-otono-para-plantar-ajos-en-tu-huerta-nid01042023/",
+              "organizacion": "La Nación - Revista Jardín (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "El ajo **no germina de semilla**: brota del diente, en una o dos semanas. Y va con la parte plana —de donde salen las raíces— para abajo: al revés, el brote tiene que dar la vuelta y tarda o no sale.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Ajos en la huerta: por qué el otoño es el mejor momento para plantarlos",
+              "url": "https://www.lanacion.com.ar/revista-jardin/aprovecha-el-otono-para-plantar-ajos-en-tu-huerta-nid01042023/",
+              "organizacion": "La Nación - Revista Jardín (Argentina)"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "puerro",
@@ -15511,7 +17600,39 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "Un mes antes de cosechar",
+          "que_hacer": "Aportale tierra sobre la planta.",
+          "por_que": "Lo que queda tapado sale blanco y tierno, que es la parte que se come.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del puerro",
+              "url": "https://www.infoagro.com/hortalizas/puerro.htm",
+              "organizacion": "Infoagro (España, hemisferio norte)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "De 10 a 14 días para emerger, y después unos dos meses en el semillero. Es de las más lentas de la huerta.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del puerro",
+              "url": "https://www.infoagro.com/hortalizas/puerro.htm",
+              "organizacion": "Infoagro (España, hemisferio norte)"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "cebolla-de-verdeo",
@@ -15849,7 +17970,39 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "Mientras crece",
+          "que_hacer": "Aporcale la base.",
+          "por_que": "Alarga la parte blanca y la deja más tierna.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Calendario de siembra (ProHuerta)",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA - ProHuerta"
+            }
+          ],
+          "confianza": 3
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "De 7 a 15 días para emerger, igual que la cebolla. No es rápida.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Cultivo, cuidados y siembra de la cebolla",
+              "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
+              "organizacion": "Fecoagro (Argentina)"
+            }
+          ],
+          "confianza": 4
+        }
+      ]
     },
     {
       "slug": "albahaca",
@@ -16293,7 +18446,49 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "Cada vez que asome un racimo de flores",
+          "que_hacer": "Pellizcale las puntas y sacale las flores.",
+          "por_que": "Rebrota y sigue dando hoja; si la dejás florecer, se termina.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Albahaca? - El Brote Urbano",
+              "url": "https://www.elbroteurbano.com/como-cultivar-albahaca/",
+              "organizacion": "El Brote Urbano (Argentina)"
+            },
+            {
+              "titulo": "Cómo cultivar orégano, tomillo y albahaca (contenido INTA)",
+              "url": "https://supercampo.perfil.com/2019/11/como-cultivar-oregano-tomillo-y-albahaca/",
+              "organizacion": "Supercampo / INTA"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Grano fino: siembra superficial, apenas cubierta.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Albahaca? - El Brote Urbano",
+              "url": "https://www.elbroteurbano.com/como-cultivar-albahaca/",
+              "organizacion": "El Brote Urbano (Argentina)"
+            },
+            {
+              "titulo": "Calendario de siembra - INTA/ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA / Ministerio de Desarrollo Social de la Nación"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "perejil",
@@ -16721,7 +18916,70 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "En cada corte",
+          "que_hacer": "Cortá a unos 5 cm del suelo y dejale el cogollo del medio.",
+          "por_que": "Rebrota varias veces.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Perejil? - El Brote Urbano",
+              "url": "https://www.elbroteurbano.com/como-cultivar-perejil/",
+              "organizacion": "El Brote Urbano (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "Hasta 18 días, y despareja. **Es la que más gente da por perdida antes de tiempo**, junto con la zanahoria.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Perejil? - El Brote Urbano",
+              "url": "https://www.elbroteurbano.com/como-cultivar-perejil/",
+              "organizacion": "El Brote Urbano (Argentina)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "pretratamiento",
+          "texto": "Remojar la semilla antes de sembrar acelera bastante la germinación.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Perejil? - El Brote Urbano",
+              "url": "https://www.elbroteurbano.com/como-cultivar-perejil/",
+              "organizacion": "El Brote Urbano (Argentina)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "profundidad",
+          "texto": "No más de 1 cm. Y con esa profundidad, el riego tiene que ser suave para no destaparla.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Perejil? - El Brote Urbano",
+              "url": "https://www.elbroteurbano.com/como-cultivar-perejil/",
+              "organizacion": "El Brote Urbano (Argentina)"
+            },
+            {
+              "titulo": "Calendario de siembra - INTA/ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA / Ministerio de Desarrollo Social de la Nación"
+            }
+          ],
+          "confianza": 8
+        }
+      ]
     },
     {
       "slug": "cilantro",
@@ -17090,7 +19348,77 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "proteger",
+          "cuando": "En primavera y verano",
+          "que_hacer": "Ponelo donde tenga sol de la mañana y sombra al mediodía.",
+          "por_que": "Arriba de unos 21 °C se va a flor enseguida.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar cilantro? - Sitopia",
+              "url": "https://sitopia.com.ar/como-cultivar-cilantro/",
+              "organizacion": "Sitopia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Suelo húmedo, sin encharcar.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar cilantro? - Sitopia",
+              "url": "https://sitopia.com.ar/como-cultivar-cilantro/",
+              "organizacion": "Sitopia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "pretratamiento",
+          "texto": "Lo que parece una semilla son en realidad **dos pegadas**: partirlas al medio antes de sembrar mejora el brotado.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar cilantro? - Sitopia",
+              "url": "https://sitopia.com.ar/como-cultivar-cilantro/",
+              "organizacion": "Sitopia (Argentina)"
+            },
+            {
+              "titulo": "El cultivo del cilantro - Infoagro",
+              "url": "https://www.infoagro.com/aromaticas/cilantro.htm",
+              "organizacion": "Infoagro (España)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "paciencia",
+          "texto": "Alrededor de 15 días, y no salen todas juntas. Es normal.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del cilantro - Infoagro",
+              "url": "https://www.infoagro.com/aromaticas/cilantro.htm",
+              "organizacion": "Infoagro (España)"
+            },
+            {
+              "titulo": "¿Cómo cultivar cilantro? - Sitopia",
+              "url": "https://sitopia.com.ar/como-cultivar-cilantro/",
+              "organizacion": "Sitopia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "oregano",
@@ -17441,7 +19769,90 @@
           }
         ],
         "confianza": 9
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el año",
+          "que_hacer": "Regá poco: lo que no tolera es el encharcamiento.",
+          "por_que": "En suelo húmedo se pudre y pierde aroma.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar orégano, tomillo y albahaca (contenido INTA)",
+              "url": "https://supercampo.perfil.com/2019/11/como-cultivar-oregano-tomillo-y-albahaca/",
+              "organizacion": "Supercampo / INTA"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "dividir",
+          "cuando": "Cuando la mata se aclara, con los años",
+          "que_hacer": "Desenterrala, partila en gajos con raíz y volvé a plantar.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar orégano, tomillo y albahaca (contenido INTA)",
+              "url": "https://supercampo.perfil.com/2019/11/como-cultivar-oregano-tomillo-y-albahaca/",
+              "organizacion": "Supercampo / INTA"
+            },
+            {
+              "titulo": "El cultivo del orégano - Infoagro",
+              "url": "https://www.infoagro.com/aromaticas/oregano.htm",
+              "organizacion": "Infoagro (España)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "luz",
+          "texto": "La semilla **necesita luz para germinar**: almácigo superficial, sin taparla.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del orégano - Infoagro",
+              "url": "https://www.infoagro.com/aromaticas/oregano.htm",
+              "organizacion": "Infoagro (España)"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "paciencia",
+          "texto": "De 20 a 23 días por semilla, que es muchísimo para una aromática.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del orégano - Infoagro",
+              "url": "https://www.infoagro.com/aromaticas/oregano.htm",
+              "organizacion": "Infoagro (España)"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "vegetativo",
+          "texto": "Casi nadie lo hace de semilla: por división de mata o esqueje sale más rápido y todas las plantas salen iguales.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar orégano, tomillo y albahaca (contenido INTA)",
+              "url": "https://supercampo.perfil.com/2019/11/como-cultivar-oregano-tomillo-y-albahaca/",
+              "organizacion": "Supercampo / INTA"
+            },
+            {
+              "titulo": "El cultivo del orégano - Infoagro",
+              "url": "https://www.infoagro.com/aromaticas/oregano.htm",
+              "organizacion": "Infoagro (España)"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "tomillo",
@@ -17824,7 +20235,84 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Cuando la capa de arriba está seca, y recién ahí",
+          "que_hacer": "Regá poco. Si el suelo retiene, mezclale arena.",
+          "por_que": "Se banca la sequía; lo que lo mata es el exceso de riego.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar orégano y tomillo (contenido INTA)",
+              "url": "https://www.infocampo.com.ar/huerta-en-casa-como-cultivar-oregano-y-tomillo/",
+              "organizacion": "Infocampo (basado en INTA)"
+            },
+            {
+              "titulo": "Las aromáticas en la huerta orgánica y su rol en el manejo de insectos",
+              "url": "https://ciaorganico.net/documypublic/366_Aromaticas_y_su_rol_en_la_huerta.pdf",
+              "organizacion": "CIA Orgánico (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Cuando aparecen las flores",
+          "que_hacer": "Recortalas.",
+          "por_que": "Para que siga tirando hoja.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar orégano y tomillo (contenido INTA)",
+              "url": "https://www.infocampo.com.ar/huerta-en-casa-como-cultivar-oregano-y-tomillo/",
+              "organizacion": "Infocampo (basado en INTA)"
+            },
+            {
+              "titulo": "Las aromáticas en la huerta orgánica y su rol en el manejo de insectos",
+              "url": "https://ciaorganico.net/documypublic/366_Aromaticas_y_su_rol_en_la_huerta.pdf",
+              "organizacion": "CIA Orgánico (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "dividir",
+          "cuando": "Cada dos años",
+          "que_hacer": "Partí la mata y replantá.",
+          "por_que": "Con los años se hace leñoso.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar orégano y tomillo (contenido INTA)",
+              "url": "https://www.infocampo.com.ar/huerta-en-casa-como-cultivar-oregano-y-tomillo/",
+              "organizacion": "Infocampo (basado en INTA)"
+            },
+            {
+              "titulo": "Las aromáticas en la huerta orgánica y su rol en el manejo de insectos",
+              "url": "https://ciaorganico.net/documypublic/366_Aromaticas_y_su_rol_en_la_huerta.pdf",
+              "organizacion": "CIA Orgánico (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "De semilla es lenta e irregular —2 a 4 semanas— y la semilla es diminuta. Por esqueje o división de mata es mucho más seguro.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del tomillo: cómo plantar y cuidados",
+              "url": "https://www.botanical-online.com/cultivo/tomillo-como-plantar-cuidados",
+              "organizacion": "Botanical-online (España, divulgativa)"
+            }
+          ],
+          "confianza": 3
+        }
+      ]
     },
     {
       "slug": "romero",
@@ -18211,7 +20699,69 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el año",
+          "que_hacer": "Regá poco. Ante la duda, dejalo seco.",
+          "por_que": "Aguanta la sequía; lo que lo pudre es el agua de más.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Romero: propiedades, cómo cultivarlo y aprovecharlo en la huerta",
+              "url": "https://www.infocampo.com.ar/romero-propiedades-como-cultivarlo-y-aprovecharlo-en-la-huerta/",
+              "organizacion": "Infocampo"
+            },
+            {
+              "titulo": "Aromas de la huerta: Romero",
+              "url": "https://municipalidadvgb.gob.ar/aromas-de-la-huerta-romero/",
+              "organizacion": "Municipalidad de Villa Gesell"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Todos los años",
+          "que_hacer": "Podalo para darle forma.",
+          "por_que": "Sin poda se hace leñoso y baja la calidad de la hoja.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Romero: propiedades, cómo cultivarlo y aprovecharlo en la huerta",
+              "url": "https://www.infocampo.com.ar/romero-propiedades-como-cultivarlo-y-aprovecharlo-en-la-huerta/",
+              "organizacion": "Infocampo"
+            },
+            {
+              "titulo": "Las aromáticas en la huerta orgánica y su rol en el manejo de insectos",
+              "url": "https://ciaorganico.net/documypublic/366_Aromaticas_y_su_rol_en_la_huerta.pdf",
+              "organizacion": "CIA Orgánico (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "De semilla germina lento y disparejo. Por gajo es rápido, sale igual a la planta madre y es lo que se recomienda para huerta.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Aromas de la huerta: Romero",
+              "url": "https://municipalidadvgb.gob.ar/aromas-de-la-huerta-romero/",
+              "organizacion": "Municipalidad de Villa Gesell"
+            },
+            {
+              "titulo": "Romero: propiedades, cómo cultivarlo y aprovecharlo en la huerta",
+              "url": "https://www.infocampo.com.ar/romero-propiedades-como-cultivarlo-y-aprovecharlo-en-la-huerta/",
+              "organizacion": "Infocampo"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "salvia",
@@ -18523,7 +21073,40 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Según la estación, de 1 a 3 veces por semana",
+          "que_hacer": "Regá con moderación.",
+          "por_que": "Soporta la sequía; el agua de más le pudre la raíz.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Salvia officinalis en el huerto",
+              "url": "https://www.agromatica.es/cultivo-de-salvia-en-el-huerto/",
+              "organizacion": "Agromática (España, divulgativa)"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Todos los años",
+          "que_hacer": "Podala para mantenerla compacta.",
+          "por_que": "Con los años se pone leñosa.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Salvia officinalis en el huerto",
+              "url": "https://www.agromatica.es/cultivo-de-salvia-en-el-huerto/",
+              "organizacion": "Agromática (España, divulgativa)"
+            }
+          ],
+          "confianza": 5
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "menta",
@@ -18921,7 +21504,89 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "contener",
+          "cuando": "Desde el día uno",
+          "que_hacer": "Plantala en maceta, o enterrale una barrera alrededor.",
+          "por_que": "Se reproduce por rizomas y te invade la huerta entera.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "El sembrado y cuidado de la menta en la huerta en casa",
+              "url": "https://infoagro.com.ar/el-sembrado-y-cuidado-de-la-menta-en-la-huerta-en-casa/",
+              "organizacion": "Infoagro Argentina"
+            },
+            {
+              "titulo": "El cultivo de la menta piperita",
+              "url": "https://www.botanical-online.com/cultivo/menta-como-plantar-cuidados",
+              "organizacion": "Botanical-online (España, divulgativa)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "proteger",
+          "cuando": "En verano",
+          "que_hacer": "Ponela en media sombra.",
+          "por_que": "El sol fuerte le quema las hojas.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El cultivo de la menta piperita",
+              "url": "https://www.botanical-online.com/cultivo/menta-como-plantar-cuidados",
+              "organizacion": "Botanical-online (España, divulgativa)"
+            },
+            {
+              "titulo": "El sembrado y cuidado de la menta en la huerta en casa",
+              "url": "https://infoagro.com.ar/el-sembrado-y-cuidado-de-la-menta-en-la-huerta-en-casa/",
+              "organizacion": "Infoagro Argentina"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Antes de que florezca",
+          "que_hacer": "Cortala.",
+          "por_que": "Estimula brotes nuevos y tiernos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El cultivo de la menta piperita",
+              "url": "https://www.botanical-online.com/cultivo/menta-como-plantar-cuidados",
+              "organizacion": "Botanical-online (España, divulgativa)"
+            },
+            {
+              "titulo": "El sembrado y cuidado de la menta en la huerta en casa",
+              "url": "https://infoagro.com.ar/el-sembrado-y-cuidado-de-la-menta-en-la-huerta-en-casa/",
+              "organizacion": "Infoagro Argentina"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "La menta **no se siembra**: hibrida fácil y no sale igual a la planta madre. Se hace por esqueje —un tallo en un vaso con agua saca raíces en pocos días—, por estolón o por división.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El sembrado y cuidado de la menta en la huerta en casa",
+              "url": "https://infoagro.com.ar/el-sembrado-y-cuidado-de-la-menta-en-la-huerta-en-casa/",
+              "organizacion": "Infoagro Argentina"
+            },
+            {
+              "titulo": "El cultivo de la menta piperita",
+              "url": "https://www.botanical-online.com/cultivo/menta-como-plantar-cuidados",
+              "organizacion": "Botanical-online (España, divulgativa)"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "melisa",
@@ -19248,7 +21913,87 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Suelo fresco, sin encharcar.",
+          "por_que": "No se banca ni el suelo seco ni el agua acumulada.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Melisa (Melissa officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "proteger",
+          "cuando": "En invierno",
+          "que_hacer": "Resguardala del frío fuerte.",
+          "por_que": null,
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Melisa (Melissa officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "dividir",
+          "cuando": "Para multiplicarla",
+          "que_hacer": "Partí la mata en vez de sembrar.",
+          "por_que": "De semilla germina lenta.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Melisa (Melissa officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            },
+            {
+              "titulo": "Mi casa, mi huerta - Técnicas de agricultura urbana",
+              "url": "https://www.magyp.gob.ar/sitio/areas/nuestra-huerta/pdf/mi-casa-mi-huerta.pdf",
+              "organizacion": "Ministerio de Agricultura, Ganadería y Pesca de la Nación (MAGyP)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "poder",
+          "texto": "El poder germinativo es bajo **de fábrica**: 30 a 40 %. De diez semillas salen tres o cuatro, y eso es lo normal. No es la semilla vieja ni sos vos.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Melisa (Melissa officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 8
+        },
+        {
+          "tipo": "paciencia",
+          "texto": "Lenta y despareja: 2 a 3 semanas, y ni siquiera todas a la vez.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Melisa (Melissa officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 5
+        }
+      ]
     },
     {
       "slug": "ciboulette",
@@ -19602,7 +22347,79 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "Cuando saca la bola lila",
+          "que_hacer": "Cortale los escapos florales.",
+          "por_que": "Con la flor las hojas se endurecen.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
+              "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
+              "organizacion": "Flor de Planta (Argentina)"
+            }
+          ],
+          "confianza": 5
+        },
+        {
+          "tipo": "dividir",
+          "cuando": "Para multiplicarla",
+          "que_hacer": "Partí la mata.",
+          "por_que": "Arranca más rápido y más vigorosa que de semilla.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
+              "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
+              "organizacion": "Flor de Planta (Argentina)"
+            },
+            {
+              "titulo": "Mi casa, mi huerta - Técnicas de agricultura urbana",
+              "url": "https://www.magyp.gob.ar/sitio/areas/nuestra-huerta/pdf/mi-casa-mi-huerta.pdf",
+              "organizacion": "Ministerio de Agricultura, Ganadería y Pesca de la Nación (MAGyP)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Humedad constante, sin encharcar.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
+              "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
+              "organizacion": "Flor de Planta (Argentina)"
+            },
+            {
+              "titulo": "Mi casa, mi huerta - Técnicas de agricultura urbana",
+              "url": "https://www.magyp.gob.ar/sitio/areas/nuestra-huerta/pdf/mi-casa-mi-huerta.pdf",
+              "organizacion": "Ministerio de Agricultura, Ganadería y Pesca de la Nación (MAGyP)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Entre 1 y 3 cm, en almácigo o directa en línea.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
+              "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
+              "organizacion": "Flor de Planta (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ]
     },
     {
       "slug": "laurel",
@@ -19916,7 +22733,69 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "proteger",
+          "cuando": "En invierno",
+          "que_hacer": "Tenelo en maceta grande para poder moverlo, y ubicalo a resguardo del viento frío.",
+          "por_que": "No tolera heladas fuertes ni vientos intensos.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del laurel",
+              "url": "https://www.botanical-online.com/cultivo/laurus-nobilis-como-plantar-cultivo",
+              "organizacion": "Botanical-online (España)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el año, espaciando en otoño e invierno",
+          "que_hacer": "Riego moderado.",
+          "por_que": "El exceso le pudre la raíz y le amarillea las hojas.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del laurel",
+              "url": "https://www.botanical-online.com/cultivo/laurus-nobilis-como-plantar-cultivo",
+              "organizacion": "Botanical-online (España)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Cuando se va de tamaño",
+          "que_hacer": "Podalo.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del laurel",
+              "url": "https://www.botanical-online.com/cultivo/laurus-nobilis-como-plantar-cultivo",
+              "organizacion": "Botanical-online (España)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "vegetativo",
+          "texto": "De semilla tarda **semanas o meses** y es muy irregular. Por eso el laurel se hace por esqueje de una planta adulta.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "El cultivo del laurel",
+              "url": "https://www.botanical-online.com/cultivo/laurus-nobilis-como-plantar-cultivo",
+              "organizacion": "Botanical-online (España)"
+            }
+          ],
+          "confianza": 4
+        }
+      ]
     },
     {
       "slug": "eneldo",
@@ -20246,7 +23125,54 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "desmalezar",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "Mantenelo limpio de yuyos.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Eneldo (Anethum graveolens) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-eneldo.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Si el lugar es ventoso",
+          "que_hacer": "Aporcalo o ponele tutor.",
+          "por_que": "Las plantas altas se vuelcan.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Eneldo (Anethum graveolens) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-eneldo.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "paciencia",
+          "texto": "De 10 a 21 días. A la semana todavía no hay nada que ver.",
+          "de": "germinacion",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Eneldo (Anethum graveolens) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-eneldo.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 3
+        }
+      ]
     },
     {
       "slug": "calendula",
@@ -20654,7 +23580,44 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "poda",
+          "cuando": "Todo el verano, y una poda a fin de temporada",
+          "que_hacer": "Andá sacando las flores marchitas.",
+          "por_que": "Vuelve a florecer.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Caléndula (Calendula officinalis) - Ficha de cultivo",
+              "url": "https://jardindecampo.mitiendanube.com/productos/calendula-calendula-officinalis/",
+              "organizacion": "Jardín de Campo (semillero, Argentina)"
+            },
+            {
+              "titulo": "Cómo combinar flores y aromáticas en la huerta para repeler insectos y controlar plagas",
+              "url": "https://www.infocampo.com.ar/como-combinar-flores-y-aromaticas-en-la-huerta-para-repeler-insectos-y-controlar-plagas/",
+              "organizacion": "Infocampo (reproduce contenido de INTA - Agustín Colson)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Se cubre con dos o tres veces su tamaño. Germina fácil: si no salió, casi seguro está muy enterrada.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Caléndula (Calendula officinalis) - Ficha de cultivo",
+              "url": "https://jardindecampo.mitiendanube.com/productos/calendula-calendula-officinalis/",
+              "organizacion": "Jardín de Campo (semillero, Argentina)"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "copete",
@@ -21074,7 +24037,35 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Cuando pasa de 25 °C",
+          "que_hacer": "Regá seguido, humedad constante.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Copete, tagete",
+              "url": "https://www.entrejardines.uy/copete-tagete/",
+              "organizacion": "Entrejardines (Uruguay)"
+            },
+            {
+              "titulo": "Flores que protegen el huerto",
+              "url": "https://mundoagropecuario.com/flores-que-protegen-el-huerto/",
+              "organizacion": "Mundo Agropecuario"
+            },
+            {
+              "titulo": "Cómo combinar flores y aromáticas en la huerta para repeler insectos y controlar plagas",
+              "url": "https://www.infocampo.com.ar/como-combinar-flores-y-aromaticas-en-la-huerta-para-repeler-insectos-y-controlar-plagas/",
+              "organizacion": "Infocampo (contenido INTA)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "borraja",
@@ -21506,7 +24497,49 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "contener",
+          "cuando": "Al final de la temporada",
+          "que_hacer": "Si no la querés por toda la huerta, cortale las flores antes de que semille.",
+          "por_que": "Se resiembra mucho y puede volverse invasiva.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Borraja (Borago officinalis) - Ficha de cultivo",
+              "url": "https://jardindecampo.mitiendanube.com/productos/borraja-borago-officinalis/",
+              "organizacion": "Jardín de Campo (semillero, Argentina)"
+            },
+            {
+              "titulo": "Borraja - Borago officinalis - Fichas de plantas",
+              "url": "https://fichas.infojardin.com/hortalizas-verduras/borraja-borago-officinalis.htm",
+              "organizacion": "Infojardín (España)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [
+        {
+          "tipo": "profundidad",
+          "texto": "Se cubre con dos o tres veces su tamaño. Germina muy fácil: revisá primero que no esté enterrada de más.",
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Borraja (Borago officinalis) - Ficha de cultivo",
+              "url": "https://jardindecampo.mitiendanube.com/productos/borraja-borago-officinalis/",
+              "organizacion": "Jardín de Campo (semillero, Argentina)"
+            },
+            {
+              "titulo": "Borraja - Borago officinalis - Fichas de plantas",
+              "url": "https://fichas.infojardin.com/hortalizas-verduras/borraja-borago-officinalis.htm",
+              "organizacion": "Infojardín (España)"
+            }
+          ],
+          "confianza": 7
+        }
+      ]
     },
     {
       "slug": "capuchina",
@@ -21898,7 +24931,30 @@
           }
         ],
         "confianza": 6
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "abonado",
+          "cuando": "Nunca, y eso es lo raro",
+          "que_hacer": "No la abones. Suelo pobre.",
+          "por_que": "Con nitrógeno hace hojas y no flores.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "En la huerta: taco de reina, la flor comestible que reemplaza a las alcaparras",
+              "url": "https://www.lanacion.com.ar/revista-jardin/en-la-huerta-taco-de-reina-la-planta-de-flor-comestible-que-reemplaza-las-alcaparras-sabe-a-berro-y-nid06042021/",
+              "organizacion": "La Nación - Revista Jardín (Argentina)"
+            },
+            {
+              "titulo": "Flores que protegen el huerto",
+              "url": "https://mundoagropecuario.com/flores-que-protegen-el-huerto/",
+              "organizacion": "Mundo Agropecuario"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "cosmos",
@@ -22338,7 +25394,70 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "abonado",
+          "cuando": "Todo el ciclo",
+          "que_hacer": "No lo abones de más.",
+          "por_que": "El exceso de nitrógeno le da follaje y poca flor.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Flor del Cosmos, el seto perfecto para la huerta",
+              "url": "https://www.lahuertinadetoni.es/flor-del-cosmos-el-seto-perfecto-para-la-huerta/",
+              "organizacion": "La Huertina de Toni (España)"
+            },
+            {
+              "titulo": "¿Cómo cultivar flor cosmos?",
+              "url": "https://sitopia.com.ar/como-cultivar-flor-cosmos/",
+              "organizacion": "Sitopia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Cada tanto, en plena temporada",
+          "que_hacer": "Despuntalo.",
+          "por_que": "Ramifica y florece más tiempo.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Flor del Cosmos, el seto perfecto para la huerta",
+              "url": "https://www.lahuertinadetoni.es/flor-del-cosmos-el-seto-perfecto-para-la-huerta/",
+              "organizacion": "La Huertina de Toni (España)"
+            },
+            {
+              "titulo": "¿Cómo cultivar flor cosmos?",
+              "url": "https://sitopia.com.ar/como-cultivar-flor-cosmos/",
+              "organizacion": "Sitopia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "tutorado",
+          "cuando": "En las variedades altas",
+          "que_hacer": "Ponele tutor.",
+          "por_que": "Se tumban con viento.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Flor del Cosmos, el seto perfecto para la huerta",
+              "url": "https://www.lahuertinadetoni.es/flor-del-cosmos-el-seto-perfecto-para-la-huerta/",
+              "organizacion": "La Huertina de Toni (España)"
+            },
+            {
+              "titulo": "¿Cómo cultivar flor cosmos?",
+              "url": "https://sitopia.com.ar/como-cultivar-flor-cosmos/",
+              "organizacion": "Sitopia (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "girasol",
@@ -22682,7 +25801,40 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "mulch",
+          "cuando": "Una vez que arrancó",
+          "que_hacer": "Cubrí el suelo con paja y regá regular.",
+          "por_que": "Salen más grandes.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar tus propios girasoles en el jardín",
+              "url": "https://www.lanacion.com.ar/revista-jardin/como-cultivar-tus-propios-girasoles-en-el-jardin-nid18122021/",
+              "organizacion": "La Nación / Revista Jardín (Argentina)"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "tutorado",
+          "cuando": "En las variedades altas",
+          "que_hacer": "Ponele tutor.",
+          "por_que": "Con viento y suelo superficial se vuelcan.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar tus propios girasoles en el jardín",
+              "url": "https://www.lanacion.com.ar/revista-jardin/como-cultivar-tus-propios-girasoles-en-el-jardin-nid18122021/",
+              "organizacion": "La Nación / Revista Jardín (Argentina)"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": []
     },
     {
       "slug": "lavanda",
@@ -23044,7 +26196,50 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el año",
+          "que_hacer": "Riego escaso, ocasional.",
+          "por_que": "Prefiere pasar sed; el suelo húmedo le enferma la raíz.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Lavanda: propiedades, cultivo y usos en Argentina",
+              "url": "https://www.infocampo.com.ar/lavanda-propiedades-cultivo-y-usos-en-argentina/",
+              "organizacion": "Infocampo (Argentina)"
+            },
+            {
+              "titulo": "Cultivo de Lavanda (Lavandula officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exotica-lavanda.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Una vez al año, después de la floración",
+          "que_hacer": "Poda ligera.",
+          "por_que": "La mantiene compacta y con brotes fuertes.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "Lavanda: propiedades, cultivo y usos en Argentina",
+              "url": "https://www.infocampo.com.ar/lavanda-propiedades-cultivo-y-usos-en-argentina/",
+              "organizacion": "Infocampo (Argentina)"
+            },
+            {
+              "titulo": "Cultivo de Lavanda (Lavandula officinalis) y usos",
+              "url": "http://www.herbotecnia.com.ar/exotica-lavanda.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 7
+        }
+      ],
+      "germinacion_pistas": []
     }
   ]
 }

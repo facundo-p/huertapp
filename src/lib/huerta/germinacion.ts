@@ -1,4 +1,4 @@
-import type { ClimaDecada, EspecieEnriquecida } from '../data/types'
+import type { ClimaDecada, EspecieEnriquecida, Fuente, TipoPista } from '../data/types'
 import { decadaDeMesDia } from '../fechas'
 import { diasEntre, hoyISO, type Planta } from './tipos'
 import { sumarDias } from './estimar'
@@ -68,14 +68,52 @@ export function germinacion(
 export interface Causa {
   titulo: string
   detalle: string
-  /** `medido` = sale de los datos · `chequear` = cosa para ir a mirar */
-  clase: 'medido' | 'chequear'
+  /**
+   * `medido` = sale de tus datos · `especie` = lo dice la ficha de esta
+   * especie, con fuentes · `chequear` = vale para cualquier semilla
+   */
+  clase: 'medido' | 'especie' | 'chequear'
+  fuentes?: Fuente[]
+}
+
+/** Cómo se titula cada pista de la ficha cuando aparece en el diagnóstico. */
+const TITULO_PISTA: Record<TipoPista, string> = {
+  profundidad: 'A qué profundidad va',
+  luz: 'Necesita luz para germinar',
+  humedad: 'Humedad, y sin fallar un día',
+  pretratamiento: 'Hay un paso antes de sembrarla',
+  paciencia: 'Esta especie tarda',
+  varias: 'De cada semilla salen varias plantitas',
+  poder: 'Germina poco, y es normal',
+  latencia: 'Puede que la semilla esté dormida',
+  vegetativo: 'Esta no se hace de semilla',
 }
 
 /**
- * Por qué puede estar tardando. Lo primero que se mira es la temperatura,
- * porque es lo único que podemos afirmar con números; el resto se ofrece como
- * lista para revisar, sin diagnosticar de prepo.
+ * Las pistas de la ficha que **reemplazan** a un chequeo genérico, en vez de
+ * sumarse. Si la ficha dice que la zanahoria va a medio centímetro, mostrarle
+ * además la regla de "dos o tres veces el grosor de la semilla" es ruido: la
+ * concreta gana.
+ */
+const REEMPLAZA: Partial<Record<TipoPista, string>> = {
+  profundidad: 'Profundidad',
+  humedad: 'Humedad pareja',
+}
+
+/**
+ * Por qué puede estar tardando, de lo más específico a lo más general.
+ *
+ * Primero lo que se puede afirmar con números —la temperatura que hubo contra
+ * la que esta especie necesita—; después **lo que la ficha dice de esta
+ * especie en particular**, con sus fuentes; y recién al final la lista de
+ * cosas que valen para cualquier semilla.
+ *
+ * Ese orden es el arreglo de un problema real: durante un tiempo las causas
+ * eran las mismas tres para las 55 especies, y eso es falso. El berro no
+ * germina si lo tapaste, la zanahoria tarda veinte días y no está muerta, la
+ * melisa germina al 30 % aunque hagas todo bien, y la menta directamente no se
+ * siembra. Decirle a las cuatro "fijate la humedad, la profundidad y la edad
+ * de la semilla" es no decir nada.
  */
 export function causasDeDemora(
   p: Planta,
@@ -121,7 +159,21 @@ export function causasDeDemora(
     })
   }
 
-  causas.push(
+  // ── lo que dice la ficha de ESTA especie ────────────────────────────────
+  for (const pista of e.germinacion_pistas) {
+    causas.push({
+      clase: 'especie',
+      titulo: TITULO_PISTA[pista.tipo],
+      detalle: pista.texto,
+      fuentes: pista.fuentes,
+    })
+  }
+
+  // ── lo que vale para cualquier semilla ──────────────────────────────────
+  const cubiertos = new Set(
+    e.germinacion_pistas.map((x) => REEMPLAZA[x.tipo]).filter((t): t is string => !!t),
+  )
+  const genericas: Causa[] = [
     {
       clase: 'chequear',
       titulo: 'Humedad pareja',
@@ -140,7 +192,8 @@ export function causasDeDemora(
       detalle:
         'Las guardadas hace más de dos o tres años germinan poco y desparejo. Si eran viejas, probá de nuevo con otras antes de culpar al clima.',
     },
-  )
+  ]
+  causas.push(...genericas.filter((c) => !cubiertos.has(c.titulo)))
 
   return causas
 }

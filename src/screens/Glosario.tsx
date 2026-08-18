@@ -1,5 +1,9 @@
-import type { ComponentType, ReactNode } from 'react'
+import { useEffect, type ComponentType, type ReactNode } from 'react'
+import { useLocation } from 'react-router'
 import { Header } from '../components/Header'
+import { AJUSTE_SUELO, LABORES, PALABRAS, SUSTRATO, type Termino } from '../lib/glosario'
+import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
+import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import {
   GRUPOS,
   LUCES,
@@ -11,6 +15,8 @@ import {
   IconoInstalar,
   IconoConfianza,
   IconoCosechar,
+  IconoCuidado,
+  IconoDesplegar,
   IconoFoto,
   IconoFuente,
   IconoNota,
@@ -43,7 +49,9 @@ const ACCIONES: Item[] = [
   { Icono: IconoFuente, nombre: 'Fuente', desc: 'De dónde sale el dato (INTA, UNLP…).' },
   { Icono: IconoConfianza, nombre: 'Confianza', desc: 'Qué tan respaldado está el dato (1 a 10).' },
   { Icono: IconoReloj, nombre: 'Ventana', desc: 'El tiempo ideal para algo se está por cerrar.' },
+  { Icono: IconoCuidado, nombre: 'Cuidados', desc: 'Lo que hay que hacer mientras la planta crece.' },
   { Icono: IconoCampana, nombre: 'Aviso', desc: 'Notificación que te llega con la app cerrada.' },
+  { Icono: IconoDesplegar, nombre: 'Desplegar', desc: 'Abre lo que está plegado. Girado, ya está abierto.' },
   { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
   { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
 ]
@@ -64,6 +72,30 @@ function Seccion({ titulo, retraso, children }: { titulo: string; retraso: numbe
   )
 }
 
+/**
+ * Los textos del glosario marcan lo importante con `**`, que es como se leen
+ * bien en el archivo de datos. Acá eso se vuelve `<strong>`. No es un parser
+ * de markdown ni pretende serlo: es una negrita, y no hace falta más.
+ */
+function conNegritas(texto: string): ReactNode[] {
+  return texto.split(/\*\*(.+?)\*\*/g).map((t, i) => (i % 2 ? <strong key={i}>{t}</strong> : t))
+}
+
+function FilaTermino({ termino, id }: { termino: Termino; id?: string }) {
+  return (
+    <li className="termino" id={id}>
+      <h3 className="termino__nombre">{termino.termino}</h3>
+      <p className="termino__que">{conNegritas(termino.que_es)}</p>
+      {termino.como && (
+        <p className="termino__como">
+          <span className="termino__como-etiqueta">Cómo se hace: </span>
+          {conNegritas(termino.como)}
+        </p>
+      )}
+    </li>
+  )
+}
+
 function Fila({ Icono, nombre, desc, color }: Item) {
   return (
     <li className="glosario__fila">
@@ -79,14 +111,101 @@ function Fila({ Icono, nombre, desc, color }: Item) {
 }
 
 export function Glosario() {
+  const { hash } = useLocation()
+
+  /**
+   * Con HashRouter la URL ya tiene un `#`, así que el navegador no salta solo
+   * al ancla: para él `#/glosario#labores` es una ruta entera. Hay que
+   * llevarlo a mano.
+   */
+  useEffect(() => {
+    if (!hash) return
+    document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' })
+  }, [hash])
+
   return (
     <div className="pantalla pantalla--detalle">
-      <Header titulo="Glosario" sobretitulo="Íconos, colores y escala" volver />
+      <Header titulo="Glosario" sobretitulo="Íconos, palabras y escala" volver />
       <div className="pantalla__cuerpo">
         <p className="glosario__intro">
-          Toda la app habla con estos íconos. Acá está el diccionario completo, para cuando un dibujito no
-          alcance.
+          La app habla con íconos y con palabras de huerta. Acá está el diccionario completo de las
+          dos cosas, para cuando un dibujito no alcance o cuando una ficha te mande a ralear y no
+          sepas qué es ralear.
         </p>
+
+        <Seccion titulo="Las labores de la huerta" retraso={0.03}>
+          <p className="glosario__desc" id="labores">
+            Las catorce cosas que la app te puede pedir en la sección <strong>"Mientras crece"</strong>{' '}
+            de una ficha. Qué son y, sobre todo, cómo se hacen.
+          </p>
+          <ul className="glosario__terminos etiqueta">
+            {ORDEN_CUIDADOS.map((t) => (
+              <FilaTermino key={t} termino={LABORES[t]} id={`labor-${t}`} />
+            ))}
+          </ul>
+        </Seccion>
+
+        <Seccion titulo="Palabras que vas a leer en las fichas" retraso={0.05}>
+          <ul className="glosario__terminos etiqueta">
+            {PALABRAS.map((t) => (
+              <FilaTermino key={t.termino} termino={t} />
+            ))}
+          </ul>
+        </Seccion>
+
+        <Seccion titulo="Cómo se arma la tierra" retraso={0.07}>
+          <div className="etiqueta glosario__tierra">
+            <p className="glosario__desc">
+              La mezcla base, para maceta o cantero:
+            </p>
+            <p className="glosario__receta">{SUSTRATO.base}</p>
+            <p className="glosario__desc glosario__quien">
+              <ConfidenceBadge valor={SUSTRATO.confianza} compacto /> {SUSTRATO.quien}
+            </p>
+            <ul className="dato__fuentes">
+              <li>
+                <a
+                  href={SUSTRATO.fuente.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="fuente"
+                >
+                  <IconoFuente size={14} />
+                  <span>{SUSTRATO.fuente.organizacion}</span>
+                </a>
+              </li>
+            </ul>
+
+            <p className="glosario__nombre">Por qué las recetas no coinciden</p>
+            <p className="glosario__desc">{SUSTRATO.advertencia}</p>
+            <ul className="glosario__funciones">
+              {SUSTRATO.funciones.map((f) => (
+                <li key={f.nombre}>
+                  <p className="glosario__nombre">{f.nombre}</p>
+                  <p className="glosario__desc">
+                    {f.para_que} — {f.ejemplos}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <p className="glosario__nombre">Cómo correrla según lo que pida la planta</p>
+            {Object.entries(AJUSTE_SUELO).map(([c, texto]) => (
+              <div key={c} className="glosario__ajuste">
+                <span className="glosario__tile glosario__tile--chico" style={{ color: SUELOS[c as keyof typeof SUELOS].color }} aria-hidden>
+                  {(() => {
+                    const { Icono } = SUELOS[c as keyof typeof SUELOS]
+                    return <Icono size={20} />
+                  })()}
+                </span>
+                <div>
+                  <p className="glosario__nombre">{nombreSuelo(c)}</p>
+                  <p className="glosario__desc">{conNegritas(texto)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Seccion>
 
         <Seccion titulo="Grupos de especies" retraso={0.05}>
           <ul className="glosario__lista etiqueta">

@@ -9,13 +9,15 @@ interface Props {
   titulo: string
   Icono: ComponentType<IconProps>
   dato: Dato
+  /** aclaración corta bajo el título, antes del texto de la fuente */
+  bajada?: string
   /** "qué pasa si no se cumple" o señales; se muestra como aviso aparte */
   advertencia?: { titulo: string; texto: string }
   senales?: { titulo: string; texto: string }
 }
 
 /** Un campo de la ficha: valor + confianza + advertencias + fuentes como links. */
-export function DatoSection({ titulo, Icono, dato, advertencia, senales }: Props) {
+export function DatoSection({ titulo, Icono, dato, bajada, advertencia, senales }: Props) {
   return (
     <section className="dato">
       <header className="dato__cabeza">
@@ -25,6 +27,8 @@ export function DatoSection({ titulo, Icono, dato, advertencia, senales }: Props
         <h2 className="dato__titulo">{titulo}</h2>
         <ConfidenceBadge valor={dato.confianza} />
       </header>
+
+      {bajada && <p className="dato__bajada">{bajada}</p>}
 
       <p className="dato__valor">{dato.valor}</p>
 

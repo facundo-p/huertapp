@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { DatoSection } from '../components/DatoSection'
+import { Cuidados } from '../components/Cuidados'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
 import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
@@ -155,7 +156,15 @@ export function FichaEspecie() {
           advertencia={{ titulo: 'Si no se cumple', texto: e.luz.que_pasa_si_no }}
         />
         <DatoSection titulo="Ciclo de vida" Icono={IconoFlor} dato={e.longevidad} />
-        <DatoSection titulo="Trucos" Icono={IconoAlmacigo} dato={e.trucos} />
+
+        <Cuidados cuidados={e.cuidados} />
+
+        <DatoSection
+          titulo="Todos los trucos"
+          Icono={IconoAlmacigo}
+          dato={e.trucos}
+          bajada="El texto completo del que salen los cuidados de acá arriba, con lo que no entra en una lista."
+        />
         <DatoSection titulo="Riesgos" Icono={IconoAlerta} dato={e.riesgos} />
         <DatoSection titulo="Plagas" Icono={IconoPlaga} dato={e.plagas} />
 

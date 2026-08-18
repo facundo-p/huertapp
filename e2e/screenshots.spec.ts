@@ -111,6 +111,20 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // los dos estados nuevos en la misma toma: una tarjeta abierta y un lugar
+    // cerrado que igual muestra que algo pide atención
+    nombre: 'huerta-plegada',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: /Ver el detalle de Albahaca/ }).click()
+      await page.getByRole('button', { name: /^Bancal del fondo/ }).click()
+      await page.waitForTimeout(400)
+    },
+  },
+  {
     nombre: 'planta-detalle',
     ruta: '/#/huerta',
     fullPage: true,
@@ -158,6 +172,16 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'glosario', ruta: '/#/glosario', fullPage: true },
+  // el glosario entero es larguísimo; estas dos son las que hay que mirar
+  { nombre: 'glosario-labores', ruta: '/#/glosario#labor-raleo' },
+  {
+    nombre: 'glosario-tierra',
+    ruta: '/#/glosario',
+    antes: async (page) => {
+      await page.locator('.glosario__tierra').scrollIntoViewIfNeeded()
+      await page.waitForTimeout(300)
+    },
+  },
   {
     nombre: 'ajustes-instalar',
     ruta: '/#/ajustes',

@@ -4,13 +4,20 @@
 # desde main**: en `staging` y en los PR corre igual, pero para avisar temprano
 # si algo se rompió, no para desplegar. El repo guarda solo código fuente:
 # dist/ sigue en .gitignore y nunca se commitea.
+#
+# La única corrida que no se repite es la del PR de release (staging → main):
+# es el mismo commit que ya corrió al pushear a staging, y su resultado aparece
+# igual en el PR porque los checks se asocian al commit.
 name: Publicar
 
 on:
   push:
     branches: [main, staging]
+  # También los PR contra `staging`: cada cambio entra por su propio PR para
+  # poder rastrear después dónde se introdujo algo, y un PR sin checks no
+  # sirve de nada.
   pull_request:
-    branches: [main]
+    branches: [main, staging]
   # permite dispararlo a mano desde la pestaña Actions, sin tener que
   # inventar un commit para republicar
   workflow_dispatch:
@@ -25,13 +32,25 @@ permissions:
 # Un deploy a la vez. Si se pushean dos commits seguidos, el segundo espera en
 # vez de pisarse con el primero; `cancel-in-progress: false` para no dejar
 # Pages a medio publicar.
+#
+# El grupo lleva la rama: si no, un PR abierto contra staging haría esperar al
+# deploy de main sin tener nada que ver con él.
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   construir:
     runs-on: ubuntu-latest
+    # Un job colgado se lleva 6 horas de runner antes de que GitHub lo mate, y
+    # ya pasó: `playwright install --with-deps` se quedó esperando al apt del
+    # runner. Con esto, colgarse cuesta 20 minutos y avisa.
+    timeout-minutes: 20
+    # El PR de release (staging → main) es el mismo commit que ya corrió al
+    # pushear a staging, y los checks se asocian al commit: el resultado del
+    # push aparece igual en el PR. Correrlo dos veces era duplicar el trabajo
+    # —y darle dos oportunidades de colgarse al mismo commit.
+    if: github.event_name != 'pull_request' || github.head_ref != 'staging'
     steps:
       - uses: actions/checkout@v4
 
@@ -45,13 +64,25 @@ jobs:
       - name: Instalar dependencias
         run: npm ci
 
-      # 537 tests + el chequeo de que data/huerta_gba_enriquecido.json esté al
-      # día. Si alguien tocó el overlay y no regeneró, no se publica.
+      # Los unitarios + el chequeo de que data/huerta_gba_enriquecido.json esté
+      # al día. Si alguien tocó el overlay y no regeneró, no se publica.
       - name: Tests y datos al día
         run: npm test
 
+      # `--with-deps` corre apt como root, y es ahí donde se cuelga: pasó dos
+      # veces, una de ellas seis horas hasta que GitHub mató el job. Se deja
+      # igual —sin las libs del sistema el navegador no arranca— pero acotado:
+      # cada intento tiene cuatro minutos y hay un reintento. Un apt trabado
+      # pasa a costar minutos, y la mayoría de las veces el reintento sale.
       - name: Navegador para los e2e
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 10
+        run: |
+          for intento in 1 2; do
+            timeout 240 npx playwright install --with-deps chromium && exit 0
+            echo "::warning::el navegador no se instaló en el intento $intento; reintento"
+            sudo dpkg --configure -a || true
+          done
+          exit 1
 
       # Los 12 e2e, incluidos offline y actualización. Esto es lo que protege a
       # quien ya tiene la app instalada: un service worker roto le deja una

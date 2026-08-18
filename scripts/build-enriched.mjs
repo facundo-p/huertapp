@@ -15,6 +15,100 @@ const overlay = JSON.parse(readFileSync(join(root, 'data/enriquecimiento.json'),
 const errores = []
 const slugsFuente = new Map(fuente.especies.map((e) => [slugify(e.nombre_comun), e]))
 
+/**
+ * Las prácticas de manejo que la app sabe nombrar. Es vocabulario cerrado a
+ * propósito: cada tipo tiene su explicación en el glosario, así que uno nuevo
+ * acá sin su entrada allá dejaría una etiqueta que no se puede consultar.
+ */
+const TIPOS_CUIDADO = [
+  'raleo',
+  'aporque',
+  'tutorado',
+  'poda',
+  'mulch',
+  'blanqueo',
+  'riego',
+  'abonado',
+  'desmalezar',
+  'rotacion',
+  'polinizacion',
+  'proteger',
+  'contener',
+  'dividir',
+]
+
+/**
+ * Por qué esta semilla puede no estar germinando, cuando la respuesta depende
+ * de la especie: que el berro necesita luz, que la zanahoria tarda veinte
+ * días, que la melisa germina al 30 % de fábrica.
+ */
+const TIPOS_PISTA = [
+  'profundidad',
+  'luz',
+  'humedad',
+  'pretratamiento',
+  'paciencia',
+  'varias',
+  'poder',
+  'latencia',
+  'vegetativo',
+]
+
+/**
+ * Ni un cuidado ni una pista traen fuentes propias: **heredan** las del campo
+ * de la fuente del que salen (`de`). Es la regla 1 del proyecto hecha mecánica
+ * — si no se puede apoyar en algo que ya dijo una fuente investigada, el build
+ * no compila, y no hay forma de colar una recomendación inventada.
+ */
+function conRespaldo(donde, item, base, obligatorios) {
+  const campo = base[item.de]
+  if (!campo?.fuentes || typeof campo.confianza !== 'number') {
+    errores.push(`${donde}: \`de: "${item.de}"\` no es un campo con fuentes de la especie`)
+    return null
+  }
+  // No alcanza con que el campo exista: hay campos de la fuente que quedaron
+  // sin URL (repollo/riesgos, por ejemplo). Apoyar un consejo ahí sería
+  // inventar con un paso intermedio.
+  if (!campo.fuentes.length) {
+    errores.push(`${donde}: \`${item.de}\` de esta especie no tiene ni una fuente con URL`)
+  }
+  for (const c of obligatorios) {
+    if (!item[c]) errores.push(`${donde}: le falta \`${c}\``)
+  }
+  return { fuentes: campo.fuentes, confianza: campo.confianza }
+}
+
+function resolverCuidados(slug, cuidados, base) {
+  return (cuidados ?? []).map((c, i) => {
+    const donde = `${slug} · cuidado ${i + 1} (${c.tipo})`
+    if (!TIPOS_CUIDADO.includes(c.tipo)) {
+      errores.push(`${donde}: tipo desconocido. Los válidos: ${TIPOS_CUIDADO.join(', ')}`)
+    }
+    const respaldo = conRespaldo(donde, c, base, ['cuando', 'que_hacer'])
+    if (!respaldo) return c
+    return {
+      tipo: c.tipo,
+      cuando: c.cuando,
+      que_hacer: c.que_hacer,
+      por_que: c.por_que ?? null,
+      de: c.de,
+      ...respaldo,
+    }
+  })
+}
+
+function resolverPistas(slug, pistas, base) {
+  return (pistas ?? []).map((p, i) => {
+    const donde = `${slug} · pista ${i + 1} (${p.tipo})`
+    if (!TIPOS_PISTA.includes(p.tipo)) {
+      errores.push(`${donde}: tipo desconocido. Los válidos: ${TIPOS_PISTA.join(', ')}`)
+    }
+    const respaldo = conRespaldo(donde, p, base, ['texto'])
+    if (!respaldo) return p
+    return { tipo: p.tipo, texto: p.texto, de: p.de, ...respaldo }
+  })
+}
+
 for (const slug of Object.keys(overlay)) {
   if (!slugsFuente.has(slug)) errores.push(`Slug del overlay sin especie en la fuente: ${slug}`)
 }
@@ -28,7 +122,7 @@ if (errores.length) {
 
 const especies = fuente.especies.map((e) => {
   const slug = slugify(e.nombre_comun)
-  const { revisar, transplante_signos, ...derivado } = overlay[slug]
+  const { revisar, transplante_signos, cuidados, germinacion_pistas, ...derivado } = overlay[slug]
   const base = transplante_signos
     ? { ...e, transplante: { ...e.transplante, signos_listo: transplante_signos } }
     : e
@@ -48,8 +142,17 @@ const especies = fuente.especies.map((e) => {
     ...base,
     ...derivado,
     calendario: { ...derivado.calendario, decadas, afinado },
+    cuidados: resolverCuidados(slug, cuidados, base),
+    germinacion_pistas: resolverPistas(slug, germinacion_pistas, base),
   }
 })
+
+// segunda pasada: los cuidados se validan recién acá, cuando ya se resolvió
+// contra qué campo de la fuente se apoya cada uno
+if (errores.length) {
+  console.error(errores.join('\n'))
+  process.exit(1)
+}
 
 const salida = {
   meta: {

@@ -1,0 +1,67 @@
+.cuidados__bajada {
+  font-size: var(--texto-s);
+  line-height: 1.6;
+  color: var(--tinta-media);
+}
+
+.cuidados__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cada práctica como una ficha aparte y no como un ítem de lista: el filete
+   de la izquierda es lo que hace que se lean de a una, que es como se usan. */
+.cuidado {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 3px solid var(--salvia);
+  background: var(--crema);
+}
+
+.cuidado__cabeza {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.cuidado__tipo {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--verde-prof);
+}
+
+.cuidado__cuando {
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+.cuidado__hacer {
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta);
+}
+
+.cuidado__porque {
+  font-size: var(--texto-xs);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.cuidado__porque-etiqueta {
+  font-weight: 700;
+}
+
+.cuidado .dato__fuentes {
+  margin-top: 2px;
+}

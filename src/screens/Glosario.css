@@ -53,6 +53,105 @@
   line-height: 1.45;
 }
 
+/* --- términos --- */
+.glosario__terminos {
+  list-style: none;
+  margin: 0;
+  padding: var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.termino + .termino {
+  border-top: 1.5px dashed var(--linea-suave);
+  padding-top: var(--esp-4);
+}
+
+/* El scroll llega desde una ficha con un ancla, así que el término que se
+   busca tiene que quedar debajo del header pegajoso y no tapado por él. */
+.termino {
+  scroll-margin-top: 72px;
+}
+
+.termino__nombre {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--texto-m);
+  margin-bottom: var(--esp-1);
+}
+
+.termino__que {
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta-media);
+}
+
+.termino__como {
+  margin-top: var(--esp-2);
+  padding: var(--esp-2) var(--esp-3);
+  border-left: 3px solid var(--salvia);
+  border-radius: var(--radio-s);
+  background: var(--crema);
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta);
+}
+
+.termino__como-etiqueta {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--verde-prof);
+}
+
+/* --- cómo se arma la tierra --- */
+.glosario__tierra {
+  padding: var(--esp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  scroll-margin-top: 72px;
+}
+
+.glosario__receta {
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 3px solid var(--verde-hoja);
+  background: var(--ideal-fondo);
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--verde-prof);
+}
+
+.glosario__quien {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.glosario__funciones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.glosario__ajuste {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-3);
+}
+
+.glosario__tile--chico {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radio-s);
+}
+
 /* --- demo de celdas del calendario --- */
 .glosario__calendario {
   padding: var(--esp-4);

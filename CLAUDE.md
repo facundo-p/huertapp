@@ -36,7 +36,8 @@ antes de que la persona lo intente, no después.
 data/huerta_gba.json          base investigada, capa citable — se toca poco
         +
 data/enriquecimiento.json     interpretación a mano: calendario en meses,
-        │                     días, temperaturas, asociaciones ← ACÁ SE EDITA
+        │                     días, temperaturas, asociaciones,
+        │                     cuidados ← ACÁ SE EDITA
         ▼
 scripts/build-enriched.mjs    + clima-gba.mjs + afinar-calendario.mjs
         ▼
@@ -61,8 +62,8 @@ A main se llega solo por un **release**, y el release lo pide la persona — nun
 se hace por iniciativa propia. Cuando lo pida, seguí la skill `/release`: PR de
 staging a main, bump de versión, entrada de changelog, etiqueta.
 
-**La versión** vive en `package.json`, la inyecta Vite en el build y se ve al pie
-de Ajustes junto con el commit. Es SemVer de **tres** partes; el cuarto segmento
+**La versión** vive en `package.json`, la inyecta Vite en el build y se ve sola
+al pie de Ajustes. Es SemVer de **tres** partes; el cuarto segmento
 que usan otros ecosistemas codificaría el build, y acá eso ya existe con más
 información (el service worker se identifica con el hash de lo que precachea).
 
