@@ -69,20 +69,32 @@ jobs:
       - name: Tests y datos al día
         run: npm test
 
-      # `--with-deps` corre apt como root, y es ahí donde se cuelga: pasó dos
-      # veces, una de ellas seis horas hasta que GitHub mató el job. Se deja
-      # igual —sin las libs del sistema el navegador no arranca— pero acotado:
-      # cada intento tiene cuatro minutos y hay un reintento. Un apt trabado
-      # pasa a costar minutos, y la mayoría de las veces el reintento sale.
+      # `--with-deps` corre apt como root, y ahí estaba el problema. El log lo
+      # dijo con todas las letras:
+      #
+      #   E: Could not get lock /var/lib/dpkg/lock-frontend.
+      #      It is held by process 2892 (apt-get)
+      #
+      # El runner arranca su propio apt-get y no suelta el lock de dpkg por
+      # varios minutos. Reintentar a ciegas no servía —las dos veces chocaba
+      # contra el mismo lock—, así que primero se espera a que lo suelte.
+      #
+      # Si igual sigue ocupado, se instala solo el navegador sin las libs del
+      # sistema: la imagen del runner ya trae Chrome, así que en general
+      # alcanza. Y si faltara una lib, el paso de e2e lo dice claro en vez de
+      # dejar el job colgado.
       - name: Navegador para los e2e
         timeout-minutes: 10
         run: |
-          for intento in 1 2; do
-            timeout 240 npx playwright install --with-deps chromium && exit 0
-            echo "::warning::el navegador no se instaló en el intento $intento; reintento"
-            sudo dpkg --configure -a || true
+          for i in $(seq 1 30); do
+            sudo flock -n /var/lib/dpkg/lock-frontend -c true 2>/dev/null && break
+            echo "el apt del runner todavía tiene el lock (intento $i)…"
+            sleep 10
           done
-          exit 1
+          npx playwright install --with-deps chromium || {
+            echo "::warning::apt siguió ocupado; instalo el navegador sin las libs del sistema"
+            npx playwright install chromium
+          }
 
       # Los 12 e2e, incluidos offline y actualización. Esto es lo que protege a
       # quien ya tiene la app instalada: un service worker roto le deja una
