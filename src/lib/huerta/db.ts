@@ -16,22 +16,60 @@ interface Esquema extends DBSchema {
   ajustes: { key: string; value: unknown }
 }
 
+const STORES = ['plantas', 'diario', 'fotos', 'ubicaciones', 'ajustes'] as const
+
+/** Idempotente a propósito: también corre para reparar una base incompleta. */
+function crearStores(d: IDBPDatabase<Esquema>) {
+  if (!d.objectStoreNames.contains('plantas')) {
+    d.createObjectStore('plantas', { keyPath: 'id' }).createIndex('slug', 'slug')
+  }
+  if (!d.objectStoreNames.contains('diario')) {
+    d.createObjectStore('diario', { keyPath: 'id' }).createIndex('plantaId', 'plantaId')
+  }
+  if (!d.objectStoreNames.contains('fotos')) d.createObjectStore('fotos', { keyPath: 'id' })
+  if (!d.objectStoreNames.contains('ubicaciones')) d.createObjectStore('ubicaciones', { keyPath: 'id' })
+  if (!d.objectStoreNames.contains('ajustes')) d.createObjectStore('ajustes')
+}
+
 let db: Promise<IDBPDatabase<Esquema>> | null = null
 
+/**
+ * Abre la base y **se asegura de que tenga sus object stores**.
+ *
+ * Parece redundante y no lo es. `indexedDB.open(nombre)` sin versión crea la
+ * base en versión 1 y sin ningún store; a partir de ahí, `openDB(nombre, 1,
+ * {upgrade})` ve que la versión 1 ya existe, no dispara el upgrade nunca, y la
+ * app queda con una base que no puede leer ni escribir. Le pasó a una persona
+ * en la 1.1.0: el service worker abría así la base desde `periodicsync`, su
+ * huerta apareció vacía y no pudo volver a guardar nada — ni restaurando el
+ * backup, porque el estado roto sobrevive a todo salvo borrar la base a mano.
+ *
+ * El service worker ya no la crea (ver `scripts/sw.js`), pero esto queda igual:
+ * es lo único que puede rescatar a quien ya la tenga rota, y el día que otra
+ * cosa abra la base sin versión no volvemos a perder los datos de nadie.
+ */
+async function abrirVerificando(): Promise<IDBPDatabase<Esquema>> {
+  let d: IDBPDatabase<Esquema>
+  try {
+    d = await openDB<Esquema>(NOMBRE, VERSION, { upgrade: crearStores })
+  } catch (e) {
+    // La base ya está en una versión mayor: alguna vez hubo que repararla.
+    if ((e as DOMException)?.name !== 'VersionError') throw e
+    d = await openDB<Esquema>(NOMBRE)
+  }
+
+  if (STORES.every((s) => d.objectStoreNames.contains(s))) return d
+
+  // Base a medio crear. Subir la versión es la única forma de que el navegador
+  // vuelva a dar una transacción de upgrade; se sube desde la que realmente
+  // tiene, que puede no ser 1.
+  const siguiente = d.version + 1
+  d.close()
+  return openDB<Esquema>(NOMBRE, siguiente, { upgrade: crearStores })
+}
+
 export function abrir(): Promise<IDBPDatabase<Esquema>> {
-  db ??= openDB<Esquema>(NOMBRE, VERSION, {
-    upgrade(d) {
-      const plantas = d.createObjectStore('plantas', { keyPath: 'id' })
-      plantas.createIndex('slug', 'slug')
-
-      const diario = d.createObjectStore('diario', { keyPath: 'id' })
-      diario.createIndex('plantaId', 'plantaId')
-
-      d.createObjectStore('fotos', { keyPath: 'id' })
-      d.createObjectStore('ubicaciones', { keyPath: 'id' })
-      d.createObjectStore('ajustes')
-    },
-  })
+  db ??= abrirVerificando()
   return db
 }
 
