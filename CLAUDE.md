@@ -52,7 +52,7 @@ Lo mismo con `data/REVISION_CALENDARIO.md` (`npm run data:tabla`) y con `dist/`
 
 ## Ramas, versión y changelog
 
-**Todo se commitea en `staging`. A `main` no se commitea ni se pushea nunca.**
+**`staging` es el tronco. A `main` no se commitea ni se pushea nunca.**
 
 `main` es lo que está publicado: cada push dispara el deploy a GitHub Pages y le
 cambia la app a quien ya la tiene instalada. Hay un hook que bloquea `git
@@ -61,6 +61,23 @@ commit` y `git push` si estás parado en main.
 A main se llega solo por un **release**, y el release lo pide la persona — nunca
 se hace por iniciativa propia. Cuando lo pida, seguí la skill `/release`: PR de
 staging a main, bump de versión, entrada de changelog, etiqueta.
+
+### El trabajo entra por rama y PR, nunca commiteando sobre staging
+
+Cada cambio sale de su **issue**, va en su **rama** y entra por un **PR contra
+`staging`**. Los prefijos que ya usa el repo: `feat/`, `fix/`, `data/`, `docs/`.
+
+**El PR tiene que cerrar su issue con una palabra clave** —`Closes #N`,
+`Fixes #N`— y no sólo mencionarla. No es cosmético: la palabra clave es lo único
+que llena el campo **Linked pull requests** del tablero, y ese campo es lo que
+hace que la issue y su PR se muevan juntos entre columnas. Un `Refs #N` aparece
+en la conversación y **no** los vincula.
+
+Si el PR deja algo sin terminar de esa issue, ese resto va en una issue aparte y
+la original se cierra igual. Una issue que queda abierta esperando algo que el PR
+no hizo se referencia con `Refs`, no con `Closes`.
+
+El tablero tiene dos vistas para consultar esto: **Issues** y **PRs**.
 
 **La versión** vive en `package.json`, la inyecta Vite en el build y se ve sola
 al pie de Ajustes. Es SemVer de **tres** partes; el cuarto segmento
