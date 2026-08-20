@@ -1046,3 +1046,211 @@ No se tocaron. Van anotadas para que no se pierdan.
   sin recorte por helada y nadie avisa.
 - `src/screens/Explorar.tsx` tiene el "55 especies" hardcodeado y **ningún test lo
   cubre**.
+
+---
+
+# Parte 5 — Las 9 variedades y el tamaño de maceta, investigados aparte
+
+Esta parte se agregó después del informe original, para responder dos cosas: qué se
+sabe con fuentes de cada una de las nueve variedades, y si es cierto que un cherry
+necesita menos tierra que un tomate grande.
+
+## 5.1 · El tamaño de maceta: la observación es correcta, y el número no del todo
+
+**La observación del usuario:** *"por experiencia sé que los cherry necesitan menos
+tierra que los tomates grandes; lo de los 4-10 L para los cherry es correcto"*.
+
+### Lo que dicen las fuentes citables
+
+**Colorado State University Extension, CMG GardenNotes #724 "Vegetable Gardening in
+Containers"** (Whiting, O'Meara y Wilson; rev. 2014, revisado 2023) trae la tabla
+más útil que se encontró, y le da la razón al principio:
+
+> **Tomatoes** — Minimum container size: **12" deep · 2-5 gallons/plant depending on
+> variety (plant size)**
+>
+> - "Varieties vary in mature plant size from determinate (bush) types to large,
+>   indeterminate vines over 6 feet tall."
+> - "**Patio types (small vines) are great for container gardening** and may be grown
+>   as hanging baskets or trellised."
+> - "**Standard garden types require a larger container (like a whiskey barrel)** and
+>   trellising."
+> - "Crowding cuts yields and increases disease potential."
+> - "Blossom end rot (black sunken area on bottom of fruit) is a symptom of
+>   inconsistent watering or a soil that does not have enough water storage."
+> - \* "**Larger container sizes will make crop easier to care for**, providing a
+>   bigger supply of water and nutrients."
+>
+> — [cmg.extension.colostate.edu/Gardennotes/724.pdf](https://cmg.extension.colostate.edu/Gardennotes/724.pdf)
+
+Traducido a litros: **2 galones = 7,6 L · 5 galones = 19 L**, y 12" = **30 cm de
+profundidad mínima**.
+
+**University of Florida IFAS Gardening Solutions**, en su página específica de cherry:
+
+> "Most cherry tomatoes are indeterminate and have a large, sprawling growth habit
+> that requires pruning and support." · "Cherry tomatoes have the same growing
+> requirements as larger tomatoes." · "A five-gallon bucket with holes drilled in the
+> bottom is an easy and affordable option."
+>
+> — [gardeningsolutions.ifas.ufl.edu](https://gardeningsolutions.ifas.ufl.edu/plants/edibles/vegetables/cherry-tomatoes/)
+
+**Clemson HGIC** coincide en el rango y agrega la advertencia sobre el hábito:
+
+> "A 14-inch to 20-inch container is suitable for most compact cultivars." · Las
+> indeterminadas "will continue growing taller until frost, making them difficult to
+> grow in containers."
+>
+> — [hgic.clemson.edu/tomatoes-in-containers](https://hgic.clemson.edu/tomatoes-in-containers/)
+
+### El mecanismo que respalda la experiencia
+
+Esta es la pieza que faltaba, y la trae **University of California Cooperative
+Extension, publicación 31-040C "Managing Blossom-End Rot in Tomatoes and Peppers"**
+(Cindy Fake, marzo 2010):
+
+> "Susceptibility to blossom-end rot varies among tomato varieties. Fast growing
+> cultivars with extensive foliage and determinate cultivars, which set all their
+> fruit in a short period, are frequently affected. Pear or Roma tomato cultivars seem
+> to be among the most susceptible, followed by some beefsteak and salad types.
+> **Cherry tomatoes are rarely affected.**"
+>
+> "In terms of management, blossom-end rot is primarily a water issue. **It is most
+> severe following drought stress or wide fluctuations in soil moisture.**"
+>
+> — [ucanr.edu (PDF)](https://ucanr.edu/sites/default/files/2017-11/132889.pdf)
+
+Puestas una al lado de la otra, las dos citas explican la experiencia: **el modo de
+falla principal de una maceta chica es el vaivén de humedad**, y su síntoma más
+caro en tomate es la podredumbre apical — que en cherry **casi no aparece**. Un
+cherry en poca tierra falla mucho menos grave que un perita o un beefsteak en la
+misma maceta. La experiencia no es una impresión: tiene una razón agronómica
+publicada.
+
+Ojo con un matiz de esa misma cita: dice *"Pear or Roma tomato cultivars"* entre los
+más susceptibles, y cuatro de las nueve variedades del kit son piriformes. Ahí "pear"
+refiere a los tipos pera/pasta de fruto grande, no a un cherry con forma de pera —
+el orden de la frase es por tamaño de fruto y el cherry queda abajo igual. Vale
+registrar la ambigüedad, no resolverla a favor nuestro.
+
+### Dónde el número 4-10 L no llega
+
+Tres reparos, y ninguno invalida el principio:
+
+1. **El piso de 4 L no lo respalda ninguna fuente encontrada.** El mínimo de CSU es
+   2 galones = **7,6 L**, y además pide **30 cm de profundidad**. Una maceta de 4 L
+   con 30 cm de profundidad tendría 13 cm de diámetro: no existe en la práctica. Una
+   de 10 L sí puede ser de 20 × 32 cm y cumplir las dos cosas. O sea: **la mitad
+   alta del rango del kit (≈8-10 L) es defendible; la mitad baja no.**
+2. **El tamaño de maceta sigue al tamaño de la PLANTA, no del fruto** — CSU lo dice
+   con todas las letras. Y "cherry" no significa planta chica: UF/IFAS empieza su
+   propia página de cherry avisando que la mayoría son indeterminados de hábito
+   grande y desparramado.
+3. **El kit no dijo 4-10 L para los cherry: lo dijo para los microdwarf.** El texto
+   literal es *"En las variedades microdwarf las macetas pueden ser de 4-10 litros"*,
+   y **ninguna de las nueve variedades del kit es microdwarf** (ver 5.2). Sobre sus
+   propios términos, ese número no se transfiere a este kit.
+
+### Cómo entra esto al modelo, entonces
+
+La conclusión operativa para la fase A (#26) es que **`maceta` no puede ser un solo
+número por especie cuando la especie tiene variedades de porte muy distinto**. Para
+el tomate, el dato honesto es un rango con el criterio adentro:
+
+- **≈8-10 L** para variedades compactas / determinadas de porte bajo, con la
+  advertencia de CSU de que más grande siempre es más fácil de cuidar;
+- **19-30 L** para indeterminadas de porte normal, que es el caso de ocho de las
+  nueve del kit;
+- y **profundidad mínima 30 cm** en los dos casos, que es un dato aparte del volumen
+  y que hoy no tenemos en ninguna forma.
+
+La observación del usuario entra como tal —observación propia, no fuente— en
+`derivacion` o `revisar`, con el respaldo de UC ANR sobre por qué el cherry perdona
+la maceta chica. Es el procedimiento que fija la skill `/especie`: *"eso es
+observación del usuario, vale, y va anotado como tal, con la confianza que
+corresponda — no disfrazado de fuente"*.
+
+## 5.2 · Las nueve variedades, una por una
+
+Lo que dice el semillero es "Crecimiento indeterminado" para ocho de las nueve
+(parte 2). Esto es lo que se pudo confirmar, corregir o no encontrar en otras
+fuentes.
+
+| Variedad | Otras fuentes | Veredicto |
+|---|---|---|
+| **Cereza Sueco** | nada con ese nombre fuera del propio semillero | sin dato |
+| **Microberry Multiflora** | **conflicto grande, ver abajo** | conflicto |
+| **Perita Naranja** (Santorange) | Johnny's Selected Seeds: **Santorange es un híbrido F1**, indeterminado, "orange grape tomato for the greenhouse", fruto de **15-20 g**, "thin-skinned and meaty", resistente al rajado, alta resistencia a fusarium 1 y 2, ToMV y verticilosis; se puede conducir a 3 líderes | coincide en hábito · **es F1** |
+| **Maglia Rossa** | Renaissance Farms: *"2 feet tall, **determinate** plants are loaded with tomatoes early in the season"*, 70 días, fruto de 5 cm, rosado, obtentor **Fred Hempel**. Otras fuentes la dan semi-determinada de ~90 cm | **contradice al semillero** |
+| **Dátil Amarillo** | Datterino giallo: heirloom italiano, **indeterminado**, planta de ~2 m, racimos colgantes de 14-16 frutos, 80-100 días, fruto ovalado que madura de verde a amarillo-naranja | coincide |
+| **Gota de Oro** | sólo listados de venta (MercadoLibre) y el propio semillero. Ninguna fuente citable | sin dato |
+| **Perita Blanco** | candidatos posibles (White Ivory Pear, Snow White) pero **la identidad no se pudo confirmar** | sin dato |
+| **Black Zebra** | HOSS: **indeterminado**, 75 días, frutos de **3-4 oz (85-113 g)**, necesita tutorado, 60 cm entre plantas. Specialty Produce: en maceta ~60 cm de alto, en suelo más de 1,8 m; cruce estabilizado entre un tomate negro y Green Zebra | coincide |
+| **Lágrima Roja** | Red Teardrop / Red Pear: **indeterminado** vigoroso y trepador, 70 días, racimos grandes de frutos piriformes de hasta 5 cm | coincide |
+
+### El Microberry: la observación del fruto se confirma, el porte queda en disputa
+
+El usuario observó en la foto del sobre que es **"un racimo de cherries diminutos"**.
+**Eso se confirma en las dos fuentes encontradas**, y es lo que significa
+"multiflora": racimos ramificados con muchísimas flores y frutos minúsculos.
+
+Pero las dos fuentes se contradicen de frente en el tamaño de la planta:
+
+| | HRSeeds | Tomatoeden (#3448) |
+|---|---|---|
+| Hábito | "open pollinated, **indeterminate**, regular leaf" | "si se cultiva en invernadero atado, crece **0,7-1,2 m**, pero conviene cultivarlo como planta ampelosa (colgante)" |
+| Altura | "**very large in size and can get to 11 feet tall** in really good soil but plants tend to get to **8 feet tall**" | 0,7-1,2 m |
+| Fruto | "tiny, yellow, oblong **currant** tomato", 0,10 oz (~3 g), 1,3 cm | "miles de frutos dorados de **1-2 g**" |
+| Maceta | no dice | "**apta para macetas**" |
+| Obtentor | **Tom Wagner** (Washington) | no dice |
+| Días | 56 a 100+ | no dice |
+
+O sea: entre 0,7 m y 3,3 m según a quién le creas — un factor de casi cinco. Lo que
+las dos comparten es lo que el usuario vio: **multiflora, dorado, fruto de 1-3 g, en
+cantidades enormes.**
+
+Y acá está la consecuencia práctica, que va en contra de la intuición: **"fruto
+diminuto" no significa "planta chica".** Los tomates tipo *currant* son de los más
+vigorosos que existen — si la descripción de HRSeeds es la correcta, el Microberry es
+**la variedad del kit que más maceta necesita**, no la que menos. Es exactamente la
+que no hay que poner en 4 litros.
+
+**Este dato hay que resolverlo antes de publicar nada del Microberry.** Y es
+resoluble sin fuentes nuevas: la planta se ve al primer año de cultivo.
+
+## 5.3 · Qué cambia en las conclusiones de las partes 3 y 4
+
+Tres correcciones al informe original:
+
+1. **Las nueve NO son todas indeterminadas.** La **Maglia Rossa** aparece como
+   determinada de 60 cm (o semi-determinada de 90 cm) en fuentes independientes,
+   contra el "Crecimiento indeterminado" del semillero. Por la regla del proyecto
+   —cuando dos fuentes difieren, se incluyen ambos valores con su cita— esto va
+   anotado como discrepancia, no resuelto de un lado. Pero **si se confirma, es la
+   única de las nueve que agruparía distinto**: una determinada de 60 cm no se
+   tutora ni se desbrota como una indeterminada, y ahí sí difiere el cultivo.
+2. **El "agrupan las nueve" de la parte 3.8 queda condicionado a esa discrepancia**,
+   y el Microberry queda condicionado a su conflicto de porte. Siete de las nueve
+   agrupan sin problema.
+3. **La Perita Naranja es un híbrido F1** si es efectivamente Santorange. Eso importa
+   para quien guarde semilla: la descendencia de un F1 no sale igual a la madre. Es
+   un dato de producto, no agronómico, pero vale decirlo en la app si las variedades
+   llegan a la ficha.
+
+Y una nota de tamaño que conviene mirar: **la Black Zebra da frutos de 85-113 g**
+según HOSS, que no es tamaño cherry sino de ensalada o cóctel. Si eso se confirma,
+es la variedad del kit **más** expuesta a podredumbre apical de las nueve, por la
+cita de UC ANR de más arriba.
+
+## 5.4 · Lo que quedó sin fuente
+
+Tres de las nueve no tienen ninguna fuente fuera del propio semillero: **Cereza
+Sueco**, **Gota de Oro** y **Perita Blanco**. Por la regla 1, para esas el único dato
+publicable es el hábito que declara la ficha de producto, con la confianza que le
+corresponde a una fuente comercial única (6-7 para dato de manejo, por la decisión 2
+de #21).
+
+No se completó por analogía con variedades parecidas —"Gota de Oro parece un Yellow
+Pear", "Perita Blanco parece un White Ivory Pear"— porque eso es identificar una
+variedad por la forma del fruto en una foto, y es exactamente lo que la regla 1 no
+permite.
