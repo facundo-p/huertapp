@@ -229,7 +229,8 @@
       ]
     },
     "revisar": [
-      "Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14."
+      "Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14.",
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ],
     "temperaturas": {
       "germinacion": {
@@ -369,9 +370,10 @@
       ]
     },
     "revisar": [
-      "Remolacha quitada de buenas y malas; señal de trasplante ~4 hojas verdaderas — decisión del usuario 2026-08-14."
+      "Remolacha quitada de buenas y malas — decisión del usuario 2026-08-14.",
+      "Señal de trasplante: el 2026-08-14 se fijó \"~4 hojas verdaderas (criterio propio, confianza baja)\" en `transplante_signos`, y ese override pisaba el dato con fuente de la base (\"Plantín con 3-4 hojas verdaderas y ~8-10 cm de altura\", La Nación Revista Jardín, confianza 6). Se quitó el 2026-08-20 (#29): las ~4 hojas quedan dentro del rango de la fuente, que además aporta la altura. Si el criterio propio era distinto a propósito, volver a ponerlo.",
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ],
-    "transplante_signos": "Plantines con ~4 hojas verdaderas (criterio propio, confianza baja).",
     "temperaturas": {
       "germinacion": {
         "min": 5,
@@ -1245,6 +1247,9 @@
         "texto": "Es lenta de verdad: 15 a 20 días. A los diez no hay nada para ver y está todo bien.",
         "de": "germinacion"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 6-8 meses (180-240 d) contra nuestros 120-150. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "brocoli": {
@@ -1334,7 +1339,8 @@
       ]
     },
     "revisar": [
-      "Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo)."
+      "Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo).",
+      "CONTRADICE en riego: el kit pide \"espaciado\" y nuestro cuidado pide humedad pareja todo el ciclo. Gana la fuente que ya está. No se cambió nada (#29)."
     ],
     "temperaturas": {
       "germinacion": {
@@ -1992,6 +1998,9 @@
         "por_que": "Se acumulan enfermedades del suelo.",
         "de": "riesgos"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 4 meses (~120 d) contra nuestros 80-100. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "pimiento": {
@@ -2094,7 +2103,8 @@
       ]
     },
     "revisar": [
-      "Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135."
+      "Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135.",
+      "Cosecha: el kit impreso de La Huerta Orgánica da 5-6 meses (150-180 d) contra nuestros 80-135. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ],
     "temperaturas": {
       "germinacion": {
@@ -3113,6 +3123,10 @@
         "texto": "A 2,5 o 3 cm, y después se ralea a la mejor plantita de cada golpe.",
         "de": "forma_siembra"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 4-5 meses (120-150 d) contra nuestros 90-100. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29).",
+      "CONTRADICE en riego: el kit pide \"frecuente, mantener humedad\" y nuestro cuidado dice \"dejá que la superficie se seque entre riegos\" porque el exceso de agua pudre y da frutos insípidos. Gana la fuente que ya está: tiene el porqué agronómico y el kit da un solo régimen para todo el ciclo. No se cambió nada (#29)."
     ]
   },
   "choclo": {
@@ -3228,6 +3242,9 @@
         "por_que": "Es de los que más nitrógeno piden.",
         "de": "trucos"
       }
+    ],
+    "revisar": [
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ]
   },
   "frutilla": {
@@ -3531,6 +3548,11 @@
         "texto": "A 3 o 4 cm, 3 o 4 semillas por golpe. Es grande: enterrada poco se seca antes de arrancar.",
         "de": "forma_siembra"
       }
+    ],
+    "revisar": [
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32.",
+      "CONTRADICE al kit: Illinois Extension desaconseja de frente remojar poroto — \"Seeds of most varieties tend to crack and germinate poorly if the soil's moisture content is too high. For this reason, never soak bean seeds before planting\" (https://extension.illinois.edu/gardening/snap-beans). Gana la fuente universitaria: el remojo no se carga en esta especie ni siquiera si #32 vuelve citable al kit.",
+      "Cosecha: el kit impreso de La Huerta Orgánica da 3-4 meses (90-120 d) contra nuestros 60-80. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "arveja": {
@@ -3668,6 +3690,9 @@
         "texto": "No más de 5 cm. Más honda, en suelo frío o pesado, se pudre antes de salir.",
         "de": "forma_siembra"
       }
+    ],
+    "revisar": [
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ]
   },
   "haba": {
@@ -3736,7 +3761,8 @@
       ]
     },
     "revisar": [
-      "CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar."
+      "CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar.",
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ],
     "temperaturas": {
       "germinacion": {
@@ -4075,7 +4101,8 @@
       ]
     },
     "revisar": [
-      "Cosecha: Fecoagro inicia ~60 días (primaverales); INTA 100-130. Rango unificado 60-130."
+      "Cosecha: Fecoagro inicia ~60 días (primaverales); INTA 100-130. Rango unificado 60-130.",
+      "Cosecha: el kit impreso de La Huerta Orgánica da 5-6 meses (150-180 d) contra nuestros 60-130. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ],
     "temperaturas": {
       "germinacion": {
@@ -4952,6 +4979,9 @@
         "texto": "De 10 a 14 días para emerger, y después unos dos meses en el semillero. Es de las más lentas de la huerta.",
         "de": "germinacion"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 6-7 meses (180-210 d) contra nuestros 120-150. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "cebolla-de-verdeo": {
@@ -5180,6 +5210,9 @@
         "texto": "Grano fino: siembra superficial, apenas cubierta.",
         "de": "forma_siembra"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 2,5 meses (~75 d) contra nuestros 90-100 — acá el kit es más CORTO, al revés que en las otras siete. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "perejil": {

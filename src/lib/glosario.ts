@@ -142,6 +142,12 @@ export const PALABRAS: Termino[] = [
       'Las que salen después de las dos primeras. Esas dos primeras —los cotiledones— venían dentro de la semilla y son la reserva; las verdaderas ya tienen la forma de la especie. Es la señal que marca el momento del raleo y, más adelante, del trasplante.',
   },
   {
+    termino: 'Ahilarse (etiolarse)',
+    que_es:
+      'Estirarse buscando luz. El tallo sale largo y finito, más pálido, con mucha distancia entre una hoja y la siguiente, y la planta queda endeble. Le pasa al plantín en la bandeja germinadora y le pasa igual a la planta grande puesta a la sombra: por eso en tantas fichas vas a leer "con poca luz se ahíla".',
+    como: 'No se endereza: ese tramo de tallo ya creció así. Lo único que lo evita es la luz, y desde temprano — apenas asoman los brotes ya tienen que estar recibiendo sol directo un rato del día.',
+  },
+  {
     termino: 'Espigado (subida a flor)',
     que_es:
       'Cuando una planta de hoja decide que se terminó el asunto y tira una vara con flores. Las hojas se ponen duras y amargas y no vuelven atrás. Lo dispara el calor y los días largos: es la razón por la que la lechuga, la rúcula, la espinaca y el cilantro se siembran en las épocas frescas.',
@@ -227,6 +233,23 @@ export const SUSTRATO = {
     url: 'https://www.lanacion.com.ar/sociedad/huerta-urbana-que-necesitas-hacer-tu-balcon-nid2389761/',
     organizacion: 'La Nación (con Janine Schonwald, CIPAF-INTA)',
   } satisfies Fuente,
+  /**
+   * La receta de arriba es la del contenedor definitivo, y lleva compost.
+   * Quien la lea y la use para llenar la bandeja germinadora va a hacer justo
+   * lo que las fuentes de germinación desaconsejan, así que la distinción va
+   * dicha y no sobreentendida. No se contradicen: son dos etapas.
+   */
+  semillero: {
+    titulo: 'El de la bandeja germinadora es otro',
+    texto:
+      'Para germinar, la mezcla va más fina, más liviana y **sin compost ni humus**. No es que el compost sea malo: en la bandeja juega en contra. Aporta sales que frenan la germinación, y si todavía no terminó de hacerse suelta ácidos que le pegan a la plántula. La tierra de jardín tampoco va: las mezclas de germinación son sin tierra justamente para escaparle a los hongos del suelo y para que el agua drene.',
+    confianza: 8,
+    fuente: {
+      titulo: 'Potting Media and Plant Propagation',
+      url: 'https://extension.psu.edu/potting-media-and-plant-propagation',
+      organizacion: 'Penn State Extension',
+    } satisfies Fuente,
+  },
   /** Por qué las recetas que circulan no coinciden. */
   advertencia:
     'Vas a encontrar otras proporciones dando vueltas: 1-1-1, 3-2-1, mitad y mitad. No coinciden, y no vale la pena pelearse por eso. En lo que sí coinciden todas es en las tres funciones que tiene que cumplir la mezcla, y con eso alcanza para corregir la tuya mirándola.',

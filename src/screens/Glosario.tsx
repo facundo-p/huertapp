@@ -176,6 +176,25 @@ export function Glosario() {
               </li>
             </ul>
 
+            <p className="glosario__nombre">{SUSTRATO.semillero.titulo}</p>
+            <p className="glosario__desc">{conNegritas(SUSTRATO.semillero.texto)}</p>
+            <p className="glosario__desc glosario__quien">
+              <ConfidenceBadge valor={SUSTRATO.semillero.confianza} compacto />
+            </p>
+            <ul className="dato__fuentes">
+              <li>
+                <a
+                  href={SUSTRATO.semillero.fuente.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="fuente"
+                >
+                  <IconoFuente size={14} />
+                  <span>{SUSTRATO.semillero.fuente.organizacion}</span>
+                </a>
+              </li>
+            </ul>
+
             <p className="glosario__nombre">Por qué las recetas no coinciden</p>
             <p className="glosario__desc">{SUSTRATO.advertencia}</p>
             <ul className="glosario__funciones">

@@ -178,7 +178,10 @@ const TOMAS: Toma[] = [
     nombre: 'glosario-tierra',
     ruta: '/#/glosario',
     antes: async (page) => {
-      await page.locator('.glosario__tierra').scrollIntoViewIfNeeded()
+      // 'start' y no scrollIntoViewIfNeeded: el bloque ya es más alto que la
+      // pantalla, y "si hace falta" lo deja alineado por abajo — la captura
+      // terminaba cortando justo la receta, que es lo que se viene a mirar.
+      await page.locator('.glosario__tierra').evaluate((el) => el.scrollIntoView({ block: 'start' }))
       await page.waitForTimeout(300)
     },
   },
