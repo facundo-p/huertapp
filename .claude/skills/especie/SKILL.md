@@ -11,7 +11,7 @@ de editar la capa equivocada.
 | Capa | Archivo | Qué vive ahí |
 |---|---|---|
 | Base citable | `data/huerta_gba.json` | Lo que dijeron las fuentes: textos, `fuentes[]` con URL, `confianza`. Se toca poco. |
-| Interpretación | `data/enriquecimiento.json` | **Acá se edita.** Calendario en meses, días, temperaturas, asociaciones, cuidados. |
+| Interpretación | `data/enriquecimiento.json` | **Acá se edita.** Calendario en meses, días, temperaturas, asociaciones, cuidados, riego y maceta. |
 | Generado | `data/huerta_gba_enriquecido.json` | Nunca a mano. Hay un hook que lo bloquea. |
 
 El build **exige que las dos primeras tengan exactamente los mismos slugs**: si
@@ -28,6 +28,13 @@ FAUBA, universidades, extensiones agrícolas) o equivalentes verificables.
 Si el pedido es "corregí X porque en mi huerta pasa Y": eso es observación del
 usuario, vale, y va anotado como tal en `derivacion` o en `revisar`, con la
 confianza que corresponda — no disfrazado de fuente.
+
+`revisar` **no llega a la app**: el build lo descarta. Es nota interna, así que
+sirve para dejar constancia de una divergencia entre fuentes sin publicarla.
+
+Y un dato de un semillero o de un folleto **no es dato del catálogo** aunque sea
+cierto: es del sobre de esa persona, y el sobre de otra puede decir otra cosa.
+Ver la issue #35.
 
 ## Corregir datos de una especie existente
 
@@ -47,6 +54,7 @@ confianza que corresponda — no disfrazado de fuente.
      `helada` del enum, `nota`, `fuentes`.
    - `asociaciones.buenas` / `.malas` — ver abajo.
    - `cuidados` — ver abajo.
+   - `riego_regimen`, `maceta_medidas` — ver abajo. **Ojo con el nombre.**
 3. Regenerá y verificá: `npm run data:build && npm test`.
 4. Si tocaste el calendario, **mirá el afinado** (ver más abajo).
 
@@ -57,11 +65,13 @@ confianza que corresponda — no disfrazado de fuente.
 2. **El overlay después**, con el mismo slug. Copiá la estructura de una especie
    parecida del mismo grupo, no una plantilla vacía: se ve enseguida qué campos
    suelen ir juntos.
+   Sin `temperaturas` completas el build revienta con un **TypeError crudo**, no
+   con un mensaje de validación. `riego` y `maceta`, en cambio, pueden faltar.
 3. **Las asociaciones son bidireccionales.** Si la nueva especie declara buena
    compañía con `zanahoria`, agregá la contraparte en `zanahoria`. Nadie lo
    valida automáticamente y quedan avisos que aparecen en una ficha y no en la
    otra.
-4. `npm run data:build && npm test`. El test de estructura corre 8 chequeos por
+4. `npm run data:build && npm test`. El test de estructura corre 9 chequeos por
    especie: se va a quejar de lo que falte.
 5. El conteo de 55 está hardcodeado en `tests/data/enriquecido.test.ts`.
    Actualizalo, y también las menciones en `README.md` y en la UI si las hay
@@ -92,9 +102,10 @@ la ficha. Cada especie tiene que tener al menos uno; hay un test que lo exige.
 - **`tipo`** sale de un vocabulario cerrado de 14: `raleo`, `aporque`,
   `tutorado`, `poda`, `mulch`, `blanqueo`, `riego`, `abonado`, `desmalezar`,
   `rotacion`, `polinizacion`, `proteger`, `contener`, `dividir`. Uno nuevo se
-  agrega en **tres** lugares —`scripts/build-enriched.mjs`, `TipoCuidado` en
-  `src/lib/data/types.ts` y el glosario— y hay un test que se asegura de que
-  ninguno quede sin usar.
+  agrega en **cuatro** archivos —`scripts/build-enriched.mjs`, `TipoCuidado` en
+  `types.ts`, `ORDEN_CUIDADOS` y `ETIQUETA_CUIDADO` en `data/cuidados.ts`, y
+  `LABORES` en `glosario.ts`— y hay un test que se asegura de que ninguno quede
+  sin usar.
 - **No se repite el tipo dentro de una especie**: serían dos tarjetas con el
   mismo título. Si hay dos cosas que decir sobre el riego, van en una.
 - **`de` es la regla de no inventar hecha mecánica.** Dice de qué campo de
@@ -105,6 +116,62 @@ la ficha. Cada especie tiene que tener al menos uno; hay un test que lo exige.
 - **`por_que` solo si la fuente dice la consecuencia.** Es tentador completarlo
   ("sin raleo salen chicas") cuando la fuente solo dijo "ralear para dar
   espacio". Eso es inventar. Va `null` y listo.
+
+## Riego y maceta
+
+Son los dos únicos campos partidos entre las dos capas, y por un motivo: **el
+merge es shallow**. Una clave `riego` en el overlay pisaría el `Dato` de la base
+entero —`valor`, `fuentes` y `confianza`— sin que nada avise. Por eso las claves
+del overlay se llaman distinto.
+
+```jsonc
+// huerta_gba.json          →  el texto citable, con fuentes y confianza
+"riego":  { "valor": "Regá parejo, sin encharcar. …", "fuentes": [...], "confianza": 7 }
+"maceta": { "valor": "Al menos 45 cm de profundidad…", "fuentes": [...], "confianza": 7 }
+
+// enriquecimiento.json     →  lo estructurado
+"riego_regimen": "parejo",
+"maceta_medidas": { "profundidad_min_cm": 45, "litros_min": 19, "plantas_por_contenedor": 1 }
+```
+
+**Los dos campos son opcionales**: `null` en las dos capas es válido y la ficha
+lo muestra como "sin dato". Hoy 33 de 55 tienen riego y 26 tienen maceta.
+
+**`riego_regimen`** sale de un enum ordinal de cuatro —`escaso`, `espaciado`,
+`parejo`, `constante`— y se asigna por **coincidencia literal con la frase de la
+fuente**, no por criterio agronómico. Que sea ordinal es lo que deja dibujarlo
+como barrita.
+
+- **Puede quedar sin régimen y estar bien.** Si la fuente habla de una etapa y no
+  del ciclo, no hay escalón que poner: la cebolla dice "suspender 30 días antes
+  de cosechar" y la zanahoria "humedad constante hasta la emergencia". Va el
+  texto sin barrita.
+- **Si la barrita contradice al texto citado, gana el texto.** Pasó con el apio:
+  la fuente dice "abundante y parejo", tentaba `constante`, y la etiqueta habría
+  discutido con la cita que está tres líneas abajo.
+
+**`maceta_medidas`** son tres números anulables **por separado**, porque las
+fuentes vienen partidas: Texas A&M publica litros y plantas, UC publica
+profundidad. Exigir los tres sería inventar dos de cada tres. Las tres en `null`
+hace fallar el build: si no hay ninguna, sacá el campo.
+
+**El cuidado de riego no se reemplaza.** Son ejes que se apilan: el campo dice
+**cuánta** agua, el cuidado dice **cuándo cambia** y qué pasa si no. Un cuidado
+que sólo repite el campo se poda; **uno con un `cuando` real, nunca** — es lo
+que el chequeo de compatibilidad de riego va a necesitar, y hay un test que lo
+exige.
+
+## Un dato que falta no es lo mismo que uno que no corresponde
+
+La ficha los muestra distinto y no hay que elegirlo a mano: sale de
+`germinacionAplica()` y `trasplanteAplica()` en `src/lib/data/especies.ts`.
+
+- **`s/d`** — la fuente no lo dice. Se escribe qué se buscó.
+- **`no aplica`** — a esa planta no le corresponde. Sin meses de trasplante no
+  hay trasplante; si el método es sólo `plantacion`, no hay semilla que germinar.
+
+Al agregar una especie, el que importa es el segundo: una de plantación pura sin
+`dias_germinacion` **no está incompleta**, y decirle "sin dato" sería mentir.
 
 ## Las pistas de germinación (`germinacion_pistas`)
 
@@ -160,8 +227,11 @@ npm run shots
 ## Verificación final
 
 ```bash
-npx tsc -b && npm test && npm run e2e
+npx tsc -b && npm test && npm run e2e && npm run shots
 ```
+
+Y mirá las capturas de la especie que tocaste. Los tests no ven que un dato
+quedó raro; las capturas sí.
 
 Y en el resumen al usuario, decile **qué fuente respalda cada cambio** y con qué
 confianza. Es el contrato del producto: nada entra sin decir de dónde salió.

@@ -136,7 +136,7 @@ npm run preview      # sirve dist/ en :4173 — necesario para los e2e
 
 | Comando | Qué hace |
 |---|---|
-| `npm test` | 537 tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
+| `npm test` | 618 tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
 | `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en las 7 pantallas. |
 | `npm run shots` | 27 screenshots en 390×844 para revisión visual (`e2e/shots/`). |
 | `npm run data:build` | Regenera `data/huerta_gba_enriquecido.json` desde el JSON base + el enriquecimiento + el modelo climático. |
@@ -168,7 +168,7 @@ teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
 ### Cómo se publica
 
 Cada push a `main` dispara `.github/workflows/publicar.yml`, que en una máquina
-limpia corre `npm ci`, **los 537 tests unitarios + el chequeo de que el JSON
+limpia corre `npm ci`, **los 618 tests unitarios + el chequeo de que el JSON
 generado esté al día**, **los 12 e2e** (offline y actualización incluidos), y
 recién ahí buildea y publica en GitHub Pages.
 

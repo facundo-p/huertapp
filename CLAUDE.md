@@ -97,9 +97,9 @@ para eso está el historial de git.
 
 ```bash
 npx tsc -b        # tipos
-npm test          # 537 unitarios + chequeo de que el JSON generado esté al día
+npm test          # 618 unitarios + chequeo de que el JSON generado esté al día
 npm run e2e       # 12 e2e: backup, offline, actualización, accesibilidad
-npm run shots     # 27 capturas en 390×844 → e2e/shots/fase-N/
+npm run shots     # 31 capturas en 390×844 → e2e/shots/fase-N/
 ```
 
 `e2e` y `shots` hacen `npm run build` solos: corren contra `dist/` servido por
