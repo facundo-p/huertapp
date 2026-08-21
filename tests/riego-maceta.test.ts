@@ -68,10 +68,27 @@ describe('riego y maceta', () => {
     }
   })
 
-  it('el cuidado de riego sigue existiendo: el campo nuevo no lo reemplaza', () => {
-    // si se sacara, espinaca y copete quedan con cero cuidados y falla el test
-    // que exige al menos uno. Y son ejes distintos: cuánta agua vs cuándo cambia.
-    const conCuidadoRiego = ESPECIES.filter((e) => e.cuidados.some((c) => c.tipo === 'riego'))
-    expect(conCuidadoRiego.length).toBeGreaterThan(30)
+  it('el cuidado de riego que sobrevive dice algo que el campo nuevo no dice', () => {
+    // Son ejes distintos que se apilan: el campo dice CUÁNTA agua, el cuidado
+    // dice CUÁNDO cambia y qué pasa si no. Se podó sólo lo que repetía al campo.
+    // De #36: el que trae un `cuando` real no se poda nunca — es lo que el
+    // chequeo de riego automatizado necesita para no juntar una cebolla con
+    // algo que se riega hasta el final.
+    const GENERICO = 'Todo el ciclo'
+    for (const e of ESPECIES) {
+      const c = e.cuidados.find((x) => x.tipo === 'riego')
+      if (!c) continue
+      if (e.slug === 'espinaca') continue // su único cuidado: podarlo la deja en cero
+      expect(c.cuando !== GENERICO || Boolean(c.por_que), e.slug).toBe(true)
+    }
+  })
+
+  it('la cebolla conserva el corte de riego, que es de calendario y no de dosis', () => {
+    // #36: puede coincidir en régimen con su vecina y ser igual incompatible
+    // en la misma manguera. Si esto se poda, ese chequeo se queda sin dato.
+    const cebolla = ESPECIES.find((e) => e.slug === 'cebolla')!
+    const riego = cebolla.cuidados.find((c) => c.tipo === 'riego')
+    expect(riego?.cuando).toMatch(/antes de cosechar/i)
+    expect(cebolla.riego?.regimen).toBeNull()
   })
 })

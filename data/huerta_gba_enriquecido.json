@@ -943,6 +943,39 @@
         "fuentes": [],
         "confianza": 3
       },
+      "riego": {
+        "valor": "Regá parejo, sin encharcar. El suelo encharcado le pudre el cuello y la raíz.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de lechuga (Lactuca sativa)",
+            "url": "https://aulavirtual.agro.unlp.edu.ar/mod/resource/view.php?id=96157",
+            "organizacion": "Facultad de Ciencias Agrarias y Forestales, UNLP"
+          }
+        ],
+        "confianza": 8,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Poca profundidad: con 15 cm alcanza. Unos 4 litros (1 galón) para dos plantas.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 15,
+          "litros_min": 4,
+          "plantas_por_contenedor": 2
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -1377,9 +1410,7 @@
           ],
           "confianza": 6
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "espinaca",
@@ -1551,6 +1582,39 @@
         "valor": "Sin dato confiable de fuente argentina consultada; conviene evitar plantarla junto a la acelga/remolacha (mismo género, comparten plagas y compiten). Tomar con baja confianza.",
         "fuentes": [],
         "confianza": 3
+      },
+      "riego": {
+        "valor": "Riegos frecuentes y regulares.",
+        "fuentes": [
+          {
+            "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+            "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+            "organizacion": "La Nación - Revista Jardín (divulgativa)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Raíz corta: 15 cm de profundidad. Unos 4 litros (1 galón) para dos plantas.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 15,
+          "litros_min": 4,
+          "plantas_por_contenedor": 2
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -1888,9 +1952,7 @@
           ],
           "confianza": 4
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "acelga",
@@ -2072,6 +2134,34 @@
         "valor": "Sin dato confiable de fuente argentina consultada; conviene no ubicarla junto a espinaca/remolacha (mismo género, comparten plagas y enfermedades). Tomar con baja confianza.",
         "fuentes": [],
         "confianza": 3
+      },
+      "riego": {
+        "valor": "Mantené el riego regular.",
+        "fuentes": [
+          {
+            "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+            "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+            "organizacion": "La Nación - Revista Jardín (divulgativa)"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -2489,21 +2579,6 @@
             }
           ],
           "confianza": 7
-        },
-        {
-          "tipo": "riego",
-          "cuando": "Todo el ciclo",
-          "que_hacer": "Mantené el riego regular.",
-          "por_que": null,
-          "de": "trucos",
-          "fuentes": [
-            {
-              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
-              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
-              "organizacion": "La Nación - Revista Jardín (divulgativa)"
-            }
-          ],
-          "confianza": 7
         }
       ],
       "germinacion_pistas": [
@@ -2525,9 +2600,7 @@
           ],
           "confianza": 9
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "rucula",
@@ -3154,6 +3227,34 @@
         ],
         "confianza": 5
       },
+      "riego": {
+        "valor": "Buena humedad, sin encharcar. El suelo encharcado le pudre las raíces.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar kale en la huerta familiar",
+            "url": "https://www.perfil.com/noticias/agro/como-cultivar-kale-en-la-huerta-familiar.phtml",
+            "organizacion": "Perfil (INTA EEA Anguil)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -3569,9 +3670,7 @@
           ],
           "confianza": 7
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "repollo",
@@ -3725,6 +3824,18 @@
         "valor": "Conviene no juntarlo con otras crucíferas (comparten plagas y enfermedades) ni, según bibliografía general, con frutilla y tomate. Datos parciales.",
         "fuentes": [],
         "confianza": 3
+      },
+      "riego": {
+        "valor": "Sobre todo mientras arma la cabeza: regá regular y parejo. El riego irregular hace que la cabeza se raje.",
+        "fuentes": [
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 5,
+        "regimen": "parejo"
       },
       "calendario": {
         "fuente_meses": {
@@ -3944,7 +4055,6 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null,
       "maceta": null
     },
     {
@@ -4566,6 +4676,23 @@
         "fuentes": [],
         "confianza": 2
       },
+      "riego": {
+        "valor": "Que el sustrato o el agua nunca se sequen. Agua limpia, sin cloro.",
+        "fuentes": [
+          {
+            "titulo": "Berro — Guía de Cultivo y Cuidados",
+            "url": "https://plotmygarden.com/es/plants/watercress-herb",
+            "organizacion": "PlotMyGarden (divulgación)"
+          },
+          {
+            "titulo": "Cómo sembrar berros",
+            "url": "https://www.mundohuerto.com/cultivos/berro/como-sembrar",
+            "organizacion": "Mundo Huerto (divulgación)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "constante"
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -4876,7 +5003,6 @@
           "confianza": 6
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -5037,6 +5163,34 @@
         "valor": "sin dato confiable",
         "fuentes": [],
         "confianza": 1
+      },
+      "riego": {
+        "valor": "Abundante y parejo, sin mojar el follaje. Con calor y sed se ahíla, se pone fibroso o se va a flor.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Apio?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-apio/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -5396,9 +5550,7 @@
           ],
           "confianza": 7
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "brocoli",
@@ -5570,6 +5722,44 @@
         "valor": "Evitar cerca de otras crucíferas en misma parcela (comparten plagas/enfermedades) y de tomate/frutilla según literatura de asociaciones; no verificado en fuente argentina específica.",
         "fuentes": [],
         "confianza": 3
+      },
+      "riego": {
+        "valor": "Humedad pareja.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Brócoli?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-brocoli/",
+            "organizacion": "El Brote Urbano"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 5,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad y unos 8 litros (2 galones) por planta.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": 8,
+          "plantas_por_contenedor": 1
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -5853,26 +6043,6 @@
       },
       "cuidados": [
         {
-          "tipo": "riego",
-          "cuando": "Todo el ciclo",
-          "que_hacer": "Humedad pareja.",
-          "por_que": null,
-          "de": "trucos",
-          "fuentes": [
-            {
-              "titulo": "¿Cómo cultivar Brócoli?",
-              "url": "https://www.elbroteurbano.com/como-cultivar-brocoli/",
-              "organizacion": "El Brote Urbano"
-            },
-            {
-              "titulo": "Asociaciones de cultivos en nuestra huerta",
-              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
-              "organizacion": "Fecoagro"
-            }
-          ],
-          "confianza": 5
-        },
-        {
           "tipo": "abonado",
           "cuando": "Cuando ya está armando la cabeza",
           "que_hacer": "Nada de nitrógeno tardío.",
@@ -5888,9 +6058,7 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": [],
-      "riego": null,
-      "maceta": null
+      "germinacion_pistas": []
     },
     {
       "slug": "coliflor",
@@ -6056,6 +6224,22 @@
         "valor": "Evitar concentrar varias crucíferas juntas (comparten plagas/enfermedades); según literatura general, evitar cerca de tomate y frutilla. No verificado en fuente argentina específica.",
         "fuentes": [],
         "confianza": 3
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -6382,8 +6566,7 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "repollitos-de-bruselas",
@@ -6549,6 +6732,18 @@
         "valor": "Evitar agrupar con otras crucíferas (comparten plagas/enfermedades); según literatura general, evitar cerca de tomate y frutilla. No verificado en fuente argentina específica.",
         "fuentes": [],
         "confianza": 3
+      },
+      "riego": {
+        "valor": "Regular, sin saturar.",
+        "fuentes": [
+          {
+            "titulo": "Repollitos de Bruselas: cultivo, riego y cuidados",
+            "url": "https://www.flordeplanta.com.ar/huerta/repollitos-de-bruselas-cultivo-riego-y-cuidados/",
+            "organizacion": "Flor de Planta"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
       },
       "calendario": {
         "fuente_meses": {
@@ -6799,21 +6994,6 @@
             }
           ],
           "confianza": 6
-        },
-        {
-          "tipo": "riego",
-          "cuando": "Todo el ciclo",
-          "que_hacer": "Regular, sin saturar.",
-          "por_que": null,
-          "de": "trucos",
-          "fuentes": [
-            {
-              "titulo": "Repollitos de Bruselas: cultivo, riego y cuidados",
-              "url": "https://www.flordeplanta.com.ar/huerta/repollitos-de-bruselas-cultivo-riego-y-cuidados/",
-              "organizacion": "Flor de Planta"
-            }
-          ],
-          "confianza": 6
         }
       ],
       "germinacion_pistas": [
@@ -6836,7 +7016,6 @@
           "confianza": 6
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -7005,6 +7184,39 @@
           }
         ],
         "confianza": 3
+      },
+      "riego": {
+        "valor": "Suelo húmedo, sin encharcar. Así la raíz engorda pareja; encharcada, se pudre.",
+        "fuentes": [
+          {
+            "titulo": "Nabo (Brassica rapa): Cultivo, riego y cosecha",
+            "url": "https://www.flordeplanta.com.ar/huerta/nabo-brassica-rapa-cultivo-riego-y-cosecha/",
+            "organizacion": "Flor de Planta"
+          }
+        ],
+        "confianza": 5,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Unos 8 litros (2 galones) para dos plantas. Como toda raíz, lo que importa es la profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": 8,
+          "plantas_por_contenedor": 2
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -7292,9 +7504,7 @@
           ],
           "confianza": 5
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "tomate",
@@ -7494,7 +7704,7 @@
         "confianza": 6
       },
       "riego": {
-        "valor": "Riego regular y parejo: que la tierra no pase de charco a polvo. El vaivén es lo que causa la podredumbre apical y el rajado del fruto.",
+        "valor": "Todo el ciclo, y en especial con fruta cuajada: regá regular y parejo. El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
         "fuentes": [
           {
             "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
@@ -7524,7 +7734,7 @@
             "organizacion": "UC Master Gardeners (Santa Clara County)"
           }
         ],
-        "confianza": 7,
+        "confianza": 8,
         "medidas": {
           "profundidad_min_cm": 45,
           "litros_min": 19,
@@ -8112,6 +8322,44 @@
         ],
         "confianza": 5
       },
+      "riego": {
+        "valor": "Regular, sin encharcar. El riego irregular le da podredumbre en la punta del fruto.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "PIMIENTO - Ficha de cultivo (UNLu)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Pimiento.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad y unos 19 litros (5 galones) para una o dos plantas.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -8421,9 +8669,7 @@
           ],
           "confianza": 8
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "aji-picante",
@@ -8621,6 +8867,44 @@
           }
         ],
         "confianza": 4
+      },
+      "riego": {
+        "valor": "Todo el ciclo, sobre todo en floración: regular, sin encharcar.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar ají/chile en casa (Alta Huerta)",
+            "url": "https://altahuerta.com/aji-chile/",
+            "organizacion": "Alta Huerta"
+          },
+          {
+            "titulo": "¿Cuándo germinar chiles picantes en Argentina?",
+            "url": "https://www.locosxelpicante.com/cuando-germinar/",
+            "organizacion": "Locos x el Picante"
+          }
+        ],
+        "confianza": 5,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad y unos 19 litros (5 galones) por planta. El jalapeño está nombrado entre los que andan bien en maceta.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -8934,9 +9218,7 @@
           ],
           "confianza": 5
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "berenjena",
@@ -9148,6 +9430,44 @@
           }
         ],
         "confianza": 4
+      },
+      "riego": {
+        "valor": "Frecuente y regular; nada de que pase sed. El estrés hídrico le arruina el cuaje.",
+        "fuentes": [
+          {
+            "titulo": "Manual para la realización de una huerta-jardín (2021)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+            "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+          },
+          {
+            "titulo": "¿Cómo cultivar Berenjena?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-berenjena/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad y unos 19 litros (5 galones) por planta.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -9483,9 +9803,7 @@
           ],
           "confianza": 9
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "zapallito-de-tronco",
@@ -9698,6 +10016,44 @@
           }
         ],
         "confianza": 4
+      },
+      "riego": {
+        "valor": "Regá al pie sin mojar el cuello de la planta. La humedad en el cuello le trae hongos y podredumbre.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Zapallito Redondo y Zuccini?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-zapallito-redondo-zuccini/",
+            "organizacion": "El Brote Urbano"
+          },
+          {
+            "titulo": "Manual para la realización de una huerta-jardín (2021)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+            "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y unos 19 litros (5 galones) por planta.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -9969,9 +10325,7 @@
           ],
           "confianza": 8
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "zapallo",
@@ -10164,6 +10518,27 @@
           }
         ],
         "confianza": 5
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y unos 19 litros (5 galones) por planta.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -10447,8 +10822,7 @@
           "confianza": 5
         }
       ],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "pepino",
@@ -10625,6 +10999,39 @@
           }
         ],
         "confianza": 6
+      },
+      "riego": {
+        "valor": "Regular y abundante. Si pasa sed, los frutos amargan.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Pepino?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-pepino/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 5,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad. Ojo que las dos fuentes no coinciden en el volumen: Texas A&M lo pone en 4 litros (1 galón) por planta pero en el mismo texto avisa que los de guía \"necesitan bastante más espacio\". Hasta resolverlo va sólo la profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 5,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -10874,9 +11281,7 @@
           "confianza": 5
         }
       ],
-      "germinacion_pistas": [],
-      "riego": null,
-      "maceta": null
+      "germinacion_pistas": []
     },
     {
       "slug": "melon",
@@ -11059,6 +11464,18 @@
           }
         ],
         "confianza": 5
+      },
+      "riego": {
+        "valor": "Al principio casi a diario; en floración y cuaje, cada 3 días: espaciá los riegos cuando ya hay fruta. Concentra los azúcares. De paso, el exceso de agua pudre raíces y frutos.",
+        "fuentes": [
+          {
+            "titulo": "Los secretos para cultivar melón y sandía",
+            "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+            "organizacion": "Infocampo (técnicos INTA)"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "espaciado"
       },
       "calendario": {
         "fuente_meses": {
@@ -11283,7 +11700,6 @@
           "confianza": 8
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -11452,6 +11868,18 @@
           }
         ],
         "confianza": 5
+      },
+      "riego": {
+        "valor": "Al principio casi a diario; en floración y cuaje, cada 3 días: dejá que la superficie se seque entre riegos. El exceso de agua pudre y da frutos insípidos.",
+        "fuentes": [
+          {
+            "titulo": "Los secretos para cultivar melón y sandía",
+            "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+            "organizacion": "Infocampo (técnicos INTA)"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "espaciado"
       },
       "calendario": {
         "fuente_meses": {
@@ -11671,7 +12099,6 @@
           "confianza": 7
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -11845,6 +12272,22 @@
           }
         ],
         "confianza": 5
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -12091,8 +12534,7 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "frutilla",
@@ -12708,6 +13150,39 @@
         ],
         "confianza": 6
       },
+      "riego": {
+        "valor": "Sobre todo en floración y cuaje: regá bien, sin encharcar.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Chauchas – Cómo plantar chauchas",
+            "url": "https://www.huertadecero.com/cultivo-de-chauchas-como-plantar-chauchas/",
+            "organizacion": "Huerta de Cero"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y 8 litros (2 galones) como mínimo, dejando unos 7 cm entre planta y planta.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": 8,
+          "plantas_por_contenedor": null
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -13020,9 +13495,7 @@
           ],
           "confianza": 8
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "arveja",
@@ -13205,6 +13678,22 @@
           }
         ],
         "confianza": 5
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -13480,8 +13969,7 @@
           "confianza": 8
         }
       ],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "haba",
@@ -14091,6 +14579,44 @@
         ],
         "confianza": 3
       },
+      "riego": {
+        "valor": "Desde la siembra hasta que emergen: que el suelo no se seque nunca. Tarda mucho en germinar: si se seca un día, se perdió.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+            "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+            "organizacion": "Portal Frutícola"
+          },
+          {
+            "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "Universidad Nacional del Litoral (FIQ)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": null
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad, y la regla de oro: la maceta va unos 5 cm más honda que el largo de la zanahoria. Unos 4 litros (1 galón) para dos o tres.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": 4,
+          "plantas_por_contenedor": 2
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -14543,9 +15069,7 @@
           ],
           "confianza": 7
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "remolacha",
@@ -14752,6 +15276,39 @@
           }
         ],
         "confianza": 5
+      },
+      "riego": {
+        "valor": "Regá regular. Con sed la raíz sale fibrosa.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de remolacha",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Remolacha.pdf",
+            "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+          },
+          {
+            "titulo": "Impulsando el cultivo de remolachas con éxito",
+            "url": "https://www.fecoagro.com.ar/impulsando-el-cultivo-de-remolachas-con-exito/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad: la raíz necesita lugar para engordar derecha.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -15104,9 +15661,7 @@
           ],
           "confianza": 8
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "rabanito",
@@ -15298,6 +15853,39 @@
           }
         ],
         "confianza": 5
+      },
+      "riego": {
+        "valor": "Todo el ciclo, sobre todo en verano: riegos frecuentes para mantener el suelo fresco. Sin agua se ponen picantes.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar Rabanito en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/como-cultivar-rabanito-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "De las que menos maceta piden: 15 cm de profundidad y 4 litros (1 galón) para tres.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 15,
+          "litros_min": 4,
+          "plantas_por_contenedor": 3
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -15663,9 +16251,7 @@
           ],
           "confianza": 9
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "papa",
@@ -15853,6 +16439,22 @@
           }
         ],
         "confianza": 6
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad: es de las que más hondo piden.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -16098,8 +16700,7 @@
           "confianza": 5
         }
       ],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "batata",
@@ -16682,6 +17283,18 @@
         ],
         "confianza": 5
       },
+      "riego": {
+        "valor": "Unos 30 días antes de cosechar: cortá el riego. Es lo que hace que el bulbo cierre.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo, cuidados y siembra de la cebolla",
+            "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
+            "organizacion": "Fecoagro (Argentina)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": null
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -16948,7 +17561,6 @@
           "confianza": 5
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -17897,6 +18509,27 @@
         ],
         "confianza": 5
       },
+      "maceta": {
+        "valor": "Con 15 cm de profundidad va bien. En 4 litros (1 galón) entran de tres a cinco plantas.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 15,
+          "litros_min": 4,
+          "plantas_por_contenedor": 3
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -18109,8 +18742,7 @@
           "confianza": 4
         }
       ],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "albahaca",
@@ -18766,6 +19398,22 @@
         "fuentes": [],
         "confianza": 2
       },
+      "maceta": {
+        "valor": "Unos 4 litros (1 galón) para tres plantas.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": null,
+          "litros_min": 4,
+          "plantas_por_contenedor": 3
+        }
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -19090,8 +19738,7 @@
           "confianza": 8
         }
       ],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "cilantro",
@@ -19273,6 +19920,18 @@
         "valor": "Sin dato confiable en las fuentes consultadas. La divulgación suele desaconsejarlo cerca del hinojo; no lo confirmé con fuente técnica.",
         "fuentes": [],
         "confianza": 2
+      },
+      "riego": {
+        "valor": "Suelo húmedo, sin encharcar.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar cilantro? - Sitopia",
+            "url": "https://sitopia.com.ar/como-cultivar-cilantro/",
+            "organizacion": "Sitopia (Argentina)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "parejo"
       },
       "calendario": {
         "fuente_meses": {
@@ -19476,21 +20135,6 @@
             }
           ],
           "confianza": 6
-        },
-        {
-          "tipo": "riego",
-          "cuando": "Todo el ciclo",
-          "que_hacer": "Suelo húmedo, sin encharcar.",
-          "por_que": null,
-          "de": "trucos",
-          "fuentes": [
-            {
-              "titulo": "¿Cómo cultivar cilantro? - Sitopia",
-              "url": "https://sitopia.com.ar/como-cultivar-cilantro/",
-              "organizacion": "Sitopia (Argentina)"
-            }
-          ],
-          "confianza": 6
         }
       ],
       "germinacion_pistas": [
@@ -19531,7 +20175,6 @@
           "confianza": 6
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -19719,6 +20362,18 @@
         "valor": "Sin dato confiable en las fuentes consultadas.",
         "fuentes": [],
         "confianza": 1
+      },
+      "riego": {
+        "valor": "Regá poco: lo que no tolera es el encharcamiento. En suelo húmedo se pudre y pierde aroma.",
+        "fuentes": [
+          {
+            "titulo": "Cómo cultivar orégano, tomillo y albahaca (contenido INTA)",
+            "url": "https://supercampo.perfil.com/2019/11/como-cultivar-oregano-tomillo-y-albahaca/",
+            "organizacion": "Supercampo / INTA"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "escaso"
       },
       "calendario": {
         "fuente_meses": {
@@ -19967,7 +20622,6 @@
           "confianza": 6
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -20145,6 +20799,23 @@
         "valor": "sin dato confiable. Por sus requerimientos opuestos (suelo seco y pobre) conviene no plantarlo junto a especies que exigen suelo permanentemente húmedo y muy fértil (por ejemplo menta o albahaca de riego frecuente), aunque no se halló fuente que lo indique explícitamente.",
         "fuentes": [],
         "confianza": 2
+      },
+      "riego": {
+        "valor": "Cuando la capa de arriba está seca, y recién ahí: regá poco. Si el suelo retiene, mezclale arena. Se banca la sequía; lo que lo mata es el exceso de riego.",
+        "fuentes": [
+          {
+            "titulo": "Huerta en casa: cómo cultivar orégano y tomillo (contenido INTA)",
+            "url": "https://www.infocampo.com.ar/huerta-en-casa-como-cultivar-oregano-y-tomillo/",
+            "organizacion": "Infocampo (basado en INTA)"
+          },
+          {
+            "titulo": "Las aromáticas en la huerta orgánica y su rol en el manejo de insectos",
+            "url": "https://ciaorganico.net/documypublic/366_Aromaticas_y_su_rol_en_la_huerta.pdf",
+            "organizacion": "CIA Orgánico (Argentina)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "escaso"
       },
       "calendario": {
         "fuente_meses": {
@@ -20429,7 +21100,6 @@
           "confianza": 3
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -20622,6 +21292,23 @@
         "valor": "sin dato confiable en fuentes consultadas. Por requerir suelo seco y drenado, evitar plantarlo junto a especies de riego frecuente y suelo húmedo (como la menta), aunque no se halló fuente explícita.",
         "fuentes": [],
         "confianza": 2
+      },
+      "riego": {
+        "valor": "Regá poco. Ante la duda, dejalo seco. Aguanta la sequía; lo que lo pudre es el agua de más.",
+        "fuentes": [
+          {
+            "titulo": "Romero: propiedades, cómo cultivarlo y aprovecharlo en la huerta",
+            "url": "https://www.infocampo.com.ar/romero-propiedades-como-cultivarlo-y-aprovecharlo-en-la-huerta/",
+            "organizacion": "Infocampo"
+          },
+          {
+            "titulo": "Aromas de la huerta: Romero",
+            "url": "https://municipalidadvgb.gob.ar/aromas-de-la-huerta-romero/",
+            "organizacion": "Municipalidad de Villa Gesell"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "escaso"
       },
       "calendario": {
         "fuente_meses": {
@@ -20880,7 +21567,6 @@
           "confianza": 7
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -21047,6 +21733,18 @@
         "valor": "sin dato confiable en fuentes consultadas. Por su porte y vigor conviene no apretarla contra hortalizas pequeñas y, por requerir suelo drenado, evitar asociarla con especies de riego muy frecuente (como la menta); no se halló fuente explícita.",
         "fuentes": [],
         "confianza": 2
+      },
+      "riego": {
+        "valor": "Según la estación, de 1 a 3 veces por semana: regá con moderación. Soporta la sequía; el agua de más le pudre la raíz.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Salvia officinalis en el huerto",
+            "url": "https://www.agromatica.es/cultivo-de-salvia-en-el-huerto/",
+            "organizacion": "Agromática (España, divulgativa)"
+          }
+        ],
+        "confianza": 5,
+        "regimen": "escaso"
       },
       "calendario": {
         "fuente_meses": {
@@ -21227,7 +21925,6 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null,
       "maceta": null
     },
     {
@@ -21868,6 +22565,18 @@
         "fuentes": [],
         "confianza": 1
       },
+      "riego": {
+        "valor": "Suelo fresco, sin encharcar. No se banca ni el suelo seco ni el agua acumulada.",
+        "fuentes": [
+          {
+            "titulo": "Cultivo de Melisa (Melissa officinalis) y usos",
+            "url": "http://www.herbotecnia.com.ar/exo-melisa.html",
+            "organizacion": "Herbotecnia (Argentina)"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -22118,7 +22827,6 @@
           "confianza": 5
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -22282,6 +22990,39 @@
           }
         ],
         "confianza": 4
+      },
+      "riego": {
+        "valor": "Humedad constante, sin encharcar.",
+        "fuentes": [
+          {
+            "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
+            "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
+            "organizacion": "Flor de Planta (Argentina)"
+          },
+          {
+            "titulo": "Mi casa, mi huerta - Técnicas de agricultura urbana",
+            "url": "https://www.magyp.gob.ar/sitio/areas/nuestra-huerta/pdf/mi-casa-mi-huerta.pdf",
+            "organizacion": "Ministerio de Agricultura, Ganadería y Pesca de la Nación (MAGyP)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "constante"
+      },
+      "maceta": {
+        "valor": "Raíz corta: con 15 cm de profundidad alcanza. Es de las que mejor andan en maceta chica.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 15,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -22509,26 +23250,6 @@
             }
           ],
           "confianza": 6
-        },
-        {
-          "tipo": "riego",
-          "cuando": "Todo el ciclo",
-          "que_hacer": "Humedad constante, sin encharcar.",
-          "por_que": null,
-          "de": "trucos",
-          "fuentes": [
-            {
-              "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
-              "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
-              "organizacion": "Flor de Planta (Argentina)"
-            },
-            {
-              "titulo": "Mi casa, mi huerta - Técnicas de agricultura urbana",
-              "url": "https://www.magyp.gob.ar/sitio/areas/nuestra-huerta/pdf/mi-casa-mi-huerta.pdf",
-              "organizacion": "Ministerio de Agricultura, Ganadería y Pesca de la Nación (MAGyP)"
-            }
-          ],
-          "confianza": 6
         }
       ],
       "germinacion_pistas": [
@@ -22545,9 +23266,7 @@
           ],
           "confianza": 6
         }
-      ],
-      "riego": null,
-      "maceta": null
+      ]
     },
     {
       "slug": "laurel",
@@ -22703,6 +23422,18 @@
         "valor": "Sin dato confiable de asociaciones desfavorables específicas. Por su porte de árbol conviene no plantarlo pegado a hortalizas pequeñas que quedarían sombreadas y competidas por raíces.",
         "fuentes": [],
         "confianza": 2
+      },
+      "riego": {
+        "valor": "Todo el año, espaciando en otoño e invierno: riego moderado. El exceso le pudre la raíz y le amarillea las hojas.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo del laurel",
+            "url": "https://www.botanical-online.com/cultivo/laurus-nobilis-como-plantar-cultivo",
+            "organizacion": "Botanical-online (España)"
+          }
+        ],
+        "confianza": 6,
+        "regimen": "espaciado"
       },
       "calendario": {
         "fuente_meses": {
@@ -22924,7 +23655,6 @@
           "confianza": 4
         }
       ],
-      "riego": null,
       "maceta": null
     },
     {
@@ -23082,6 +23812,22 @@
         "valor": "Conviene no plantarlo junto a zanahoria si se van a dejar semillar ambas (misma familia, se cruzan y compiten) ni cerca del hinojo, por competencia/cruzamiento entre apiáceas. Nota: la fuente argentina cita al eneldo como favorable con zanahoria para control de plagas; el conflicto se da sobre todo al florecer/semillar, por lo que es una advertencia de reglas generales de asociación.",
         "fuentes": [],
         "confianza": 3
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad, por la raíz pivotante.",
+        "fuentes": [
+          {
+            "titulo": "Seven Easy Culinary Herbs to Grow in Pots",
+            "url": "https://ucanr.edu/blog/garden-notes/article/seven-easy-culinary-herbs-grow-pots",
+            "organizacion": "UC Master Gardeners — Garden Notes"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -23303,8 +24049,7 @@
           "confianza": 3
         }
       ],
-      "riego": null,
-      "maceta": null
+      "riego": null
     },
     {
       "slug": "calendula",
@@ -23929,6 +24674,28 @@
         "fuentes": [],
         "confianza": 2
       },
+      "riego": {
+        "valor": "Cuando pasa de 25 °C: regá seguido, humedad constante.",
+        "fuentes": [
+          {
+            "titulo": "Copete, tagete",
+            "url": "https://www.entrejardines.uy/copete-tagete/",
+            "organizacion": "Entrejardines (Uruguay)"
+          },
+          {
+            "titulo": "Flores que protegen el huerto",
+            "url": "https://mundoagropecuario.com/flores-que-protegen-el-huerto/",
+            "organizacion": "Mundo Agropecuario"
+          },
+          {
+            "titulo": "Cómo combinar flores y aromáticas en la huerta para repeler insectos y controlar plagas",
+            "url": "https://www.infocampo.com.ar/como-combinar-flores-y-aromaticas-en-la-huerta-para-repeler-insectos-y-controlar-plagas/",
+            "organizacion": "Infocampo (contenido INTA)"
+          }
+        ],
+        "confianza": 7,
+        "regimen": null
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -24200,7 +24967,6 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null,
       "maceta": null
     },
     {
@@ -26160,6 +26926,23 @@
         "fuentes": [],
         "confianza": 2
       },
+      "riego": {
+        "valor": "Riego escaso, ocasional. Prefiere pasar sed; el suelo húmedo le enferma la raíz.",
+        "fuentes": [
+          {
+            "titulo": "Lavanda: propiedades, cultivo y usos en Argentina",
+            "url": "https://www.infocampo.com.ar/lavanda-propiedades-cultivo-y-usos-en-argentina/",
+            "organizacion": "Infocampo (Argentina)"
+          },
+          {
+            "titulo": "Cultivo de Lavanda (Lavandula officinalis) y usos",
+            "url": "http://www.herbotecnia.com.ar/exotica-lavanda.html",
+            "organizacion": "Herbotecnia (Argentina)"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "escaso"
+      },
       "calendario": {
         "fuente_meses": {
           "siembra_ideal": [
@@ -26384,7 +27167,6 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null,
       "maceta": null
     }
   ]

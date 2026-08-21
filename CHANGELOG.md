@@ -32,9 +32,15 @@ Qué significa cada parte en este proyecto:
   tiene la huerta en un balcón, **"¿me entra?" es la primera pregunta**, y hasta
   ahora ninguna de las siete pantallas la contestaba.
 
-  Por ahora sólo el tomate tiene los datos cargados. El resto dice **"s/d"**
-  hasta que la investigación llegue, que es lo que la app promete hacer cuando
-  un dato no está.
+  **Riego en 33 especies y maceta en 26**; 41 de las 55 tienen al menos uno de
+  los dos. Las que faltan dicen **"s/d"** en vez de esconder la sección: las
+  aromáticas —romero, tomillo, salvia— no tienen tamaño de maceta publicado en
+  ninguna fuente seria, y decirlo es más útil que inventarlo.
+
+  El riego sale de lo que ya estaba investigado: la mitad de las fichas tenían
+  el dato enterrado en un párrafo largo, y ahora está afuera y se puede comparar
+  de un vistazo. Los litros y la profundidad son investigación nueva, de dos
+  servicios de extensión universitaria.
 
 - **El glosario ahora explica "ahilarse".** La palabra aparece 39 veces en las
   fichas —*"con poca luz se ahíla"*— y no estaba definida en ningún lado. Ahora
