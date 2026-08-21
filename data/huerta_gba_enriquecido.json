@@ -1377,7 +1377,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "espinaca",
@@ -1886,7 +1888,9 @@
           ],
           "confianza": 4
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "acelga",
@@ -2521,7 +2525,9 @@
           ],
           "confianza": 9
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "rucula",
@@ -2962,7 +2968,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "kale",
@@ -3561,7 +3569,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "repollo",
@@ -3933,7 +3943,9 @@
           "confianza": 5
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "radicchio",
@@ -4369,7 +4381,9 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "berro",
@@ -4861,7 +4875,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "apio",
@@ -5380,7 +5396,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "brocoli",
@@ -5870,7 +5888,9 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "coliflor",
@@ -6361,7 +6381,9 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "repollitos-de-bruselas",
@@ -6813,7 +6835,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "nabo",
@@ -7268,7 +7292,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "tomate",
@@ -7466,6 +7492,44 @@
           }
         ],
         "confianza": 6
+      },
+      "riego": {
+        "valor": "Riego regular y parejo: que la tierra no pase de charco a polvo. El vaivén es lo que causa la podredumbre apical y el rajado del fruto.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y unos 19 litros (5 galones) por planta. En maceta, la profundidad importa más que el ancho.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
       },
       "calendario": {
         "fuente_meses": {
@@ -8357,7 +8421,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "aji-picante",
@@ -8868,7 +8934,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "berenjena",
@@ -9415,7 +9483,9 @@
           ],
           "confianza": 9
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "zapallito-de-tronco",
@@ -9899,7 +9969,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "zapallo",
@@ -10374,7 +10446,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "pepino",
@@ -10800,7 +10874,9 @@
           "confianza": 5
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "melon",
@@ -11206,7 +11282,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "sandia",
@@ -11592,7 +11670,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "choclo",
@@ -12010,7 +12090,9 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "frutilla",
@@ -12425,7 +12507,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "chaucha",
@@ -12936,7 +13020,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "arveja",
@@ -13393,7 +13479,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "haba",
@@ -13792,7 +13880,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "zanahoria",
@@ -14453,7 +14543,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "remolacha",
@@ -15012,7 +15104,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "rabanito",
@@ -15569,7 +15663,9 @@
           ],
           "confianza": 9
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "papa",
@@ -16001,7 +16097,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "batata",
@@ -16413,7 +16511,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "cebolla",
@@ -16847,7 +16947,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "ajo",
@@ -17237,7 +17339,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "puerro",
@@ -17632,7 +17736,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "cebolla-de-verdeo",
@@ -18002,7 +18108,9 @@
           ],
           "confianza": 4
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "albahaca",
@@ -18488,7 +18596,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "perejil",
@@ -18979,7 +19089,9 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "cilantro",
@@ -19418,7 +19530,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "oregano",
@@ -19852,7 +19966,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "tomillo",
@@ -20312,7 +20428,9 @@
           ],
           "confianza": 3
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "romero",
@@ -20761,7 +20879,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "salvia",
@@ -21106,7 +21226,9 @@
           "confianza": 5
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "menta",
@@ -21586,7 +21708,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "melisa",
@@ -21993,7 +22117,9 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "ciboulette",
@@ -22419,7 +22545,9 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "laurel",
@@ -22795,7 +22923,9 @@
           ],
           "confianza": 4
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "eneldo",
@@ -23172,7 +23302,9 @@
           ],
           "confianza": 3
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "calendula",
@@ -23617,7 +23749,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "copete",
@@ -24065,7 +24199,9 @@
           "confianza": 7
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "borraja",
@@ -24539,7 +24675,9 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "capuchina",
@@ -24954,7 +25092,9 @@
           "confianza": 7
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "cosmos",
@@ -25457,7 +25597,9 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "girasol",
@@ -25834,7 +25976,9 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     },
     {
       "slug": "lavanda",
@@ -26239,7 +26383,9 @@
           "confianza": 7
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "riego": null,
+      "maceta": null
     }
   ]
 }

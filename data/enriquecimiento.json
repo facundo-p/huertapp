@@ -2001,7 +2001,13 @@
     ],
     "revisar": [
       "Cosecha: el kit impreso de La Huerta Orgánica da 4 meses (~120 d) contra nuestros 80-100. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    }
   },
   "pimiento": {
     "calendario": {

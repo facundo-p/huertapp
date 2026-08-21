@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { DatoSection } from '../components/DatoSection'
 import { Cuidados } from '../components/Cuidados'
+import { EscalaRiego } from '../components/EscalaRiego'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
 import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
@@ -30,13 +31,22 @@ import {
   IconoFlor,
   IconoGrupo,
   IconoLuz,
+  IconoMaceta,
   IconoPlaga,
+  IconoRegar,
   IconoSembrar,
   IconoSuelo,
   IconoProtegido,
   IconoTrasplantar,
 } from '../icons'
-import type { AsocRef, Decada, EspecieEnriquecida, Mes, Zona } from '../lib/data/types'
+import type {
+  AsocRef,
+  Decada,
+  EspecieEnriquecida,
+  MacetaMedidas,
+  Mes,
+  Zona,
+} from '../lib/data/types'
 import './FichaEspecie.css'
 
 export function FichaEspecie() {
@@ -172,6 +182,7 @@ export function FichaEspecie() {
           dato={e.luz}
           advertencia={{ titulo: 'Si no se cumple', texto: e.luz.que_pasa_si_no }}
         />
+        <RiegoYMaceta e={e} />
         <DatoSection titulo="Ciclo de vida" Icono={IconoFlor} dato={e.longevidad} />
 
         <Cuidados cuidados={e.cuidados} />
@@ -279,6 +290,68 @@ function Categoria({ Icono, texto }: { Icono: React.ComponentType; texto: string
       </span>
       <span className="ficha__categoria-texto">{texto}</span>
     </div>
+  )
+}
+
+/**
+ * Las dos preguntas de balcón: cuánta agua y en qué entra. Cuando faltan las
+ * dos van juntas en una sola tarjeta: dos "s/d" seguidos parecen una ficha rota
+ * justo donde la app está siendo honesta.
+ */
+function RiegoYMaceta({ e }: { e: EspecieEnriquecida }) {
+  if (!e.riego && !e.maceta) {
+    return (
+      <DatoSection
+        titulo="Riego y maceta"
+        Icono={IconoRegar}
+        dato={null}
+        vacio="Todavía no encontramos fuentes que digan cuánta agua pide ni en qué maceta entra."
+      />
+    )
+  }
+
+  return (
+    <>
+      <DatoSection
+        titulo="Riego"
+        Icono={IconoRegar}
+        dato={e.riego}
+        vacio="No encontramos una fuente que diga cuánta agua pide esta especie."
+      >
+        {e.riego?.regimen && <EscalaRiego regimen={e.riego.regimen} />}
+      </DatoSection>
+      <DatoSection
+        titulo="Maceta"
+        Icono={IconoMaceta}
+        dato={e.maceta}
+        vacio="No encontramos una fuente que diga en qué maceta entra esta especie."
+      >
+        {e.maceta && <Medidas m={e.maceta.medidas} />}
+      </DatoSection>
+    </>
+  )
+}
+
+/** Las tres medidas pueden faltar por separado: se dibuja la que haya. */
+function Medidas({ m }: { m: MacetaMedidas }) {
+  const filas = [
+    m.profundidad_min_cm && { que: 'Profundidad mínima', cuanto: `${m.profundidad_min_cm} cm` },
+    m.litros_min && { que: 'Volumen', cuanto: `${m.litros_min} litros` },
+    m.plantas_por_contenedor && {
+      que: 'Plantas por maceta',
+      cuanto: String(m.plantas_por_contenedor),
+    },
+  ].filter(Boolean) as { que: string; cuanto: string }[]
+
+  return (
+    <ul className="maceta-medidas">
+      {filas.map((f) => (
+        <li key={f.que}>
+          <span className="maceta-medidas__que">{f.que}</span>
+          <span className="maceta-medidas__cuanto">{f.cuanto}</span>
+        </li>
+      ))}
+    </ul>
   )
 }
 

@@ -2479,6 +2479,38 @@
           }
         ],
         "confianza": 6
+      },
+      "riego": {
+        "valor": "Riego regular y parejo: que la tierra no pase de charco a polvo. El vaivén es lo que causa la podredumbre apical y el rajado del fruto.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y unos 19 litros (5 galones) por planta. En maceta, la profundidad importa más que el ancho.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7
       }
     },
     {
