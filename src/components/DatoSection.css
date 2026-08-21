@@ -114,3 +114,9 @@
   color: var(--tinta-media);
   text-decoration: none;
 }
+
+/* Sin dato: la distingue el badge `s/d` de la cabecera, no un borde propio. */
+.dato__valor--sin {
+  color: var(--tinta-media);
+  font-size: var(--texto-s);
+}

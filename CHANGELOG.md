@@ -36,11 +36,30 @@ Qué significa cada parte en este proyecto:
   para llenar el semillero hacía justo lo que hay que evitar. La aclaración va
   debajo de la receta, con su fuente y su confianza como cualquier otro dato.
 
+- **Cuando falta un dato, ahora la ficha lo dice.** La app promete que un dato
+  que no está se muestra como tal, y no lo estaba cumpliendo: el dato faltante
+  desaparecía en silencio. En el romero, la menta, el laurel y la lavanda eso
+  dejaba **la fila de tiempos completamente en blanco**, sin una palabra que
+  explicara por qué.
+
+  Y distingue las dos cosas, que no son la misma: **"s/d"** cuando no
+  encontramos una fuente que lo diga, y **"no aplica"** cuando a esa planta no
+  le corresponde. Que la zanahoria no tenga días a trasplante no es un hueco
+  de la investigación: es que a la zanahoria no se la trasplanta.
+
 ### Cambiado
 
 - **La acelga vuelve a mostrar cuándo trasplantarla según la fuente**, con la
   altura incluida: *"3-4 hojas verdaderas y ~8-10 cm"*. Antes mostraba un
   criterio propio de confianza baja que tapaba el dato investigado.
+
+### Arreglado
+
+- **La leyenda de confianza del glosario enseñaba un código de formas distinto
+  del que usa la app.** El borde de "confianza media" salía sólido y el de
+  "baja" rayado, cuando en las fichas son rayado y punteado. Era el único lugar
+  donde se explica ese código, y explicaba el equivocado — justo en el canal
+  que existe para no depender del color.
 
 ---
 

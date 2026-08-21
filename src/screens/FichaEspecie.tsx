@@ -9,7 +9,12 @@ import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { EmptyState } from '../components/EmptyState'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { useEspecies } from '../lib/useEspecies'
-import { estadoSiembra, metodoDelMes } from '../lib/data/especies'
+import {
+  estadoSiembra,
+  germinacionAplica,
+  metodoDelMes,
+  trasplanteAplica,
+} from '../lib/data/especies'
 import { METODOS } from '../lib/calendario'
 import { decadaDe, mesDeDecada, nombreDecada } from '../lib/fechas'
 import { useZona, ZONAS_INFO } from '../lib/zona'
@@ -118,15 +123,27 @@ export function FichaEspecie() {
           <AhoraMismo especie={e} zona={zona} decadaHoy={decadaHoy} mes={mesHoy} />
 
           <div className="ficha__ciclo">
-            {e.dias_germinacion && <Dato titulo="Germina" valor={rango(e.dias_germinacion, 'días')} />}
-            {e.dias_a_trasplante && (
-              <Dato titulo="Trasplante" valor={rango(e.dias_a_trasplante, 'días')} />
-            )}
-            {e.dias_a_cosecha && <Dato titulo="Cosecha" valor={rango(e.dias_a_cosecha, 'días')} />}
+            <Dato
+              titulo="Germina"
+              valor={e.dias_germinacion}
+              porQue={
+                germinacionAplica(e)
+                  ? undefined
+                  : 'Se planta un gajo, un bulbo o una corona: no hay semilla que germinar.'
+              }
+            />
+            <Dato
+              titulo="Trasplante"
+              valor={e.dias_a_trasplante}
+              porQue={
+                trasplanteAplica(e) ? undefined : 'Va de siembra directa: no se trasplanta.'
+              }
+            />
+            <Dato titulo="Cosecha" valor={e.dias_a_cosecha} />
           </div>
         </div>
 
-        <TemperaturaBloque t={e.temperaturas} />
+        <TemperaturaBloque t={e.temperaturas} germinaAplica={germinacionAplica(e)} />
 
         <DatoSection titulo="Cuándo sembrar" Icono={IconoSembrar} dato={e.fecha_siembra} />
         <DatoSection titulo="Cómo sembrar" Icono={IconoAlmacigo} dato={e.forma_siembra} />
@@ -265,11 +282,31 @@ function Categoria({ Icono, texto }: { Icono: React.ComponentType; texto: string
   )
 }
 
-function Dato({ titulo, valor }: { titulo: string; valor: string }) {
+/**
+ * Se dibuja siempre: omitirla dejaba la fila entera vacía en romero, menta,
+ * laurel y lavanda. `s/d` = la fuente no lo dice; `no aplica` = no corresponde.
+ */
+function Dato({
+  titulo,
+  valor,
+  porQue,
+}: {
+  titulo: string
+  valor: { min: number; max: number } | null
+  /** por qué no corresponde; sin esto y sin valor, es `s/d` */
+  porQue?: string
+}) {
+  const ausencia = valor ? null : porQue ? 'no-aplica' : 'sin-dato'
+  const texto = valor ? rango(valor, 'días') : porQue ? 'no aplica' : 's/d'
+  const detalle = porQue ?? 'No encontramos una fuente que lo diga para esta especie.'
+
   return (
-    <div className="ficha__ciclo-dato">
+    <div className={`ficha__ciclo-dato${ausencia ? ` es-${ausencia}` : ''}`}>
       <span className="ficha__ciclo-titulo">{titulo}</span>
-      <span className="ficha__ciclo-valor">{valor}</span>
+      <span className="ficha__ciclo-valor" title={ausencia ? detalle : undefined}>
+        {texto}
+        {ausencia && <span className="sr-solo">: {detalle}</span>}
+      </span>
     </div>
   )
 }

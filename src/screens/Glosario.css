@@ -242,15 +242,17 @@
   color: var(--conf-alta);
   border: 1.5px solid var(--conf-alta);
 }
+/* Las mismas formas que `.conf` en las fichas: acá se enseña el código y
+   enseñaba otro. El test de contraste no lo agarra, mide color. */
 .badge-conf--media {
   background: var(--conf-media-fondo);
   color: var(--conf-media);
-  border: 1.5px solid var(--conf-media);
+  border: 1.5px dashed var(--conf-media);
 }
 .badge-conf--baja {
   background: var(--conf-baja-fondo);
   color: var(--conf-baja);
-  border: 1.5px dashed var(--conf-baja);
+  border: 1.5px dotted var(--conf-baja);
 }
 .badge-conf--sin {
   background: var(--conf-sin-fondo);

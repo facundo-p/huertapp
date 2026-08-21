@@ -111,8 +111,24 @@ export function admiteAlmacigo(e: EspecieEnriquecida, mes: Mes): boolean {
   return metodo === 'almacigo' || metodo === 'almacigo_protegido' || metodo === 'directa|almacigo'
 }
 
-export function nivelConfianza(n: number): 'alta' | 'media' | 'baja' {
+/** `null` no es un escalón peor: es estar fuera de la escala. */
+export function nivelConfianza(n: number | null): 'alta' | 'media' | 'baja' | 'sin' {
+  if (n === null) return 'sin'
   if (n >= 8) return 'alta'
   if (n >= 5) return 'media'
   return 'baja'
+}
+
+/** Falta el dato ≠ no corresponde. A la zanahoria no se la trasplanta. */
+export type Ausencia = 'sin_dato' | 'no_aplica'
+
+export function trasplanteAplica(e: EspecieEnriquecida): boolean {
+  const { trasplante_ideal, trasplante_posible } = e.calendario.fuente_meses
+  return trasplante_ideal.length + trasplante_posible.length > 0
+}
+
+/** Gajo, diente o corona: no hay semilla que germinar. */
+export function germinacionAplica(e: EspecieEnriquecida): boolean {
+  const metodos = Object.values(e.calendario.metodo_por_mes)
+  return metodos.length > 0 && !metodos.every((m) => m === 'plantacion')
 }

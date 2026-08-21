@@ -53,6 +53,8 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-tomate', ruta: '/#/explorar/tomate', fullPage: true },
   { nombre: 'ficha-kale', ruta: '/#/explorar/kale', fullPage: true },
   { nombre: 'ficha-lavanda', ruta: '/#/explorar/lavanda', fullPage: true },
+  // la única con los dos vacíos a la vez: cosecha y temperatura en "s/d".
+  { nombre: 'ficha-melisa', ruta: '/#/explorar/melisa', fullPage: true },
   { nombre: 'calendario', ruta: '/#/calendario' },
   {
     nombre: 'calendario-trasplante',
