@@ -110,3 +110,168 @@ test('abortar el upgrade deja la base sin crear', async ({ page }) => {
   expect(r.abrio, 'el open tiene que fallar, no devolver una base vacía').toBe(false)
   expect(r.quedoCreada, 'la base NO tiene que quedar creada').toBe(false)
 })
+
+/**
+ * Restaurar un backup no puede costar lo que ya tenías.
+ *
+ * `importar()` hacía `vaciarTodo()` y recién después escribía, de a un registro
+ * y fuera de transacción. Si el archivo estaba cortado o traía un registro que
+ * IndexedDB rechaza, la huerta quedaba **vacía**: la app te borraba lo que
+ * tenías para no poder darte lo que venía en el archivo. La propia pantalla lo
+ * admitía ("tus datos anteriores pueden haberse perdido"), que es una disculpa,
+ * no un comportamiento.
+ */
+test('un import que falla a la mitad deja intacto lo que ya había', async ({ page }) => {
+  await page.goto('/#/ajustes')
+  await page.waitForLoadState('networkidle')
+
+  await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
+  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+
+  const antes = await page.evaluate(
+    () =>
+      new Promise<number>((res) => {
+        const r = indexedDB.open('huerta-gba')
+        r.onsuccess = () => {
+          const q = r.result.transaction('plantas').objectStore('plantas').getAll()
+          q.onsuccess = () => {
+            r.result.close()
+            res(q.result.length)
+          }
+        }
+      }),
+  )
+  expect(antes, 'la demo tiene que haber quedado escrita').toBeGreaterThan(0)
+
+  // Backup válido de forma —`validar()` solo mira que los campos sean arrays—
+  // pero con una planta sin `id`. El store tiene keyPath 'id': ese `put` tira
+  // DataError a mitad de la importación.
+  const rota = {
+    app: 'huerta-gba',
+    version: 1,
+    exportado: new Date().toISOString(),
+    zona: 'conurbano',
+    ubicaciones: [],
+    diario: [],
+    fotos: [],
+    plantas: [
+      {
+        id: 'una-que-si',
+        slug: 'lechuga',
+        sembrada: '2026-08-01',
+        metodo: 'directa',
+        etapa: 'creciendo',
+        etapaDesde: '2026-08-01',
+        creada: '2026-08-01T10:00:00.000Z',
+      },
+      { slug: 'sin-id-y-el-store-lo-rechaza', sembrada: '2026-08-01' },
+    ],
+  }
+
+  await page.setInputFiles('input[type="file"]', {
+    name: 'huerta-rota.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(rota)),
+  })
+
+  await page.getByRole('button', { name: /Sí, reemplazar mi huerta/ }).click()
+  // por clase y no por texto: acá lo que importa es que la importación falló,
+  // no cómo se redacta el cartel
+  await expect(page.locator('.ajustes__error')).toBeVisible({ timeout: 10_000 })
+
+  const despues = await page.evaluate(
+    () =>
+      new Promise<number>((res) => {
+        const r = indexedDB.open('huerta-gba')
+        r.onsuccess = () => {
+          const q = r.result.transaction('plantas').objectStore('plantas').getAll()
+          q.onsuccess = () => {
+            r.result.close()
+            res(q.result.length)
+          }
+        }
+      }),
+  )
+
+  expect(despues, 'un import fallido no puede borrar lo que ya estaba').toBe(antes)
+})
+
+/**
+ * "No pude leer" y "no tenés nada" no son lo mismo, y la app los mostraba igual.
+ *
+ * `listo = cargado && !cargando` dejaba la pantalla en blanco si la carga
+ * fallaba, y si devolvía vacío salía "Todavía no plantaste nada" — el mismo
+ * cartel que ve alguien que recién empieza. Quien perdió el acceso a su huerta
+ * leía que nunca había plantado nada, y de ahí a "se me borró todo" hay un paso.
+ *
+ * El fallo se simula rompiendo `indexedDB.open`, que es por donde pasa todo.
+ */
+test('cuando no puede leer la base, lo dice en vez de mostrar la huerta vacía', async ({ page }) => {
+  await page.addInitScript(() => {
+    indexedDB.open = () => {
+      throw new DOMException('base ilegible', 'UnknownError')
+    }
+  })
+
+  await page.goto('/#/huerta')
+  await page.waitForLoadState('networkidle')
+
+  await expect(page.getByText(/no pude leer/i)).toBeVisible({ timeout: 10_000 })
+  // el nombre del error es lo que la persona puede copiar y mandar
+  await expect(page.getByText(/UnknownError/)).toBeVisible()
+  // y sobre todo: NO le decimos que nunca plantó nada
+  await expect(page.getByText(/Todavía no plantaste nada/)).toHaveCount(0)
+})
+
+/**
+ * La bitácora: lo único que queda cuando IndexedDB se vacía.
+ *
+ * El borrado que estamos persiguiendo es intermitente y nadie sabe reproducirlo.
+ * Sin un registro que sobreviva al borrado, el diagnóstico es a ciegas — así fue
+ * el de la 1.1.0, preguntándole datos de a uno a la persona.
+ *
+ * Por eso vive en localStorage: si estuviera en la base que se borra, se iría
+ * junto con lo que tiene que explicar.
+ */
+test('la bitácora sobrevive a que se borre IndexedDB y anota la huerta vacía', async ({ page }) => {
+  await page.goto('/#/ajustes')
+  await page.waitForLoadState('networkidle')
+  await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
+  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+
+  const leerBitacora = () =>
+    page.evaluate(() => {
+      const crudo = localStorage.getItem('huerta-bitacora')
+      return crudo ? (JSON.parse(crudo) as Array<Record<string, unknown>>) : []
+    })
+
+  const antes = await leerBitacora()
+  expect(antes.some((a) => a.evento === 'arranque'), 'el arranque tiene que quedar anotado').toBe(
+    true,
+  )
+
+  // se borra la base entera, que es lo que le pasa a la persona
+  await page.goto('/sw.js')
+  await page.evaluate(
+    () =>
+      new Promise<void>((res) => {
+        const r = indexedDB.deleteDatabase('huerta-gba')
+        r.onsuccess = () => res()
+        r.onerror = () => res()
+        r.onblocked = () => res()
+      }),
+  )
+
+  await page.goto('/#/ajustes')
+  await page.waitForLoadState('networkidle')
+  await expect(page.getByText(/^0 plantas$|^Todavía no/)).toBeVisible({ timeout: 10_000 })
+
+  const despues = await leerBitacora()
+  expect(despues.length, 'los apuntes viejos no se pierden con la base').toBeGreaterThan(
+    antes.length,
+  )
+  const arranques = despues.filter((a) => a.evento === 'arranque')
+  expect(arranques.at(-1)!.plantas, 'el arranque nuevo tiene que delatar la huerta vacía').toBe(0)
+  // y tiene que quedar registro de que ANTES había plantas
+  expect(arranques.some((a) => (a.plantas as number) > 0)).toBe(true)
+})

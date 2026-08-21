@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
+import { NoSePudoLeer } from '../components/AvisoDatos'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
@@ -32,7 +33,7 @@ const ICONO_TAREA = {
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, cargado } = useHuerta()
+  const { plantas, cargado, errorCarga } = useHuerta()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
   const iso = hoyISO(hoy)
@@ -69,6 +70,8 @@ export function Hoy() {
       <Header titulo={fechaLarga(hoy)} sobretitulo={saludoEstacional(hoy)} />
 
       <div className="pantalla__cuerpo">
+        {errorCarga && <NoSePudoLeer error={errorCarga} />}
+
         {listo && tareas.length > 0 && (
           <section className="hoy__seccion">
             <h2 className="seccion__titulo subrayado-onda">Para hacer</h2>

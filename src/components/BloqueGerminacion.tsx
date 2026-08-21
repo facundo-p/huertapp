@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { marcarGerminada } from '../lib/huerta/store'
+import { marcarGerminada, sinRomper } from '../lib/huerta/store'
 import { causasDeDemora, germinacion, type Causa } from '../lib/huerta/germinacion'
 import { desdeISO, type Planta } from '../lib/huerta/tipos'
 import { IconoAlerta, IconoFuente, IconoSembrar } from '../icons'
@@ -70,7 +70,7 @@ export function BloqueGerminacion({
       </div>
 
       {g.estado !== 'temprano' && (
-        <button className="germ__boton" onClick={() => void marcarGerminada(planta)}>
+        <button className="germ__boton" onClick={() => sinRomper(marcarGerminada(planta))}>
           🌱 Ya asomó
         </button>
       )}

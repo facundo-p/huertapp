@@ -11,5 +11,7 @@
     "noEmit": true,
     "strict": true
   },
-  "include": ["vite.config.ts", "scripts", "tests"]
+  // vite-env.d.ts: los tests alcanzan código de src/ que usa __VERSION_APP__,
+  // el global que inyecta Vite en el build
+  "include": ["vite.config.ts", "scripts", "tests", "src/vite-env.d.ts"]
 }

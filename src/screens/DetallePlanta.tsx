@@ -8,7 +8,7 @@ import { FotoDeDiario } from '../components/FotoDeDiario'
 import { BloqueGerminacion } from '../components/BloqueGerminacion'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa } from '../lib/huerta/store'
+import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa, sinRomper } from '../lib/huerta/store'
 import * as db from '../lib/huerta/db'
 import { prepararFoto, FotoInvalida } from '../lib/huerta/fotos'
 import {
@@ -81,6 +81,7 @@ export function DetallePlanta() {
     const nombre = planta.apodo || especie?.nombre_comun || 'esta planta'
     if (!confirm(`¿Borrar ${nombre} y todo su diario? No se puede deshacer.`)) return
     await borrarPlanta(planta.id)
+    // solo se navega si de verdad se borró: si falló, el aviso queda a la vista
     navegar('/huerta', { replace: true })
   }
 
@@ -101,7 +102,7 @@ export function DetallePlanta() {
           )}
 
           {sigue && (
-            <button className="planta__avanzar" onClick={() => cambiarEtapa(planta, sigue)}>
+            <button className="planta__avanzar" onClick={() => sinRomper(cambiarEtapa(planta, sigue))}>
               Marcar como {ETAPA_INFO[sigue].etiqueta.toLowerCase()}
             </button>
           )}
@@ -247,7 +248,7 @@ function NuevaEntrada({
       onCerrar={onCerrar}
       titulo="Anotar en el diario"
       pie={
-        <button className="alta__guardar" onClick={guardar} disabled={ocupado}>
+        <button className="alta__guardar" onClick={() => sinRomper(guardar())} disabled={ocupado}>
           {ocupado ? 'Procesando la foto…' : 'Guardar'}
         </button>
       }

@@ -1,5 +1,6 @@
 import { HashRouter, Navigate, Outlet, Route, Routes } from 'react-router'
 import { TabBar } from './components/TabBar'
+import { AvisoEscritura } from './components/AvisoDatos'
 import { AvisoActualizacion } from './components/AvisoActualizacion'
 import { MantenerAgenda } from './components/MantenerAgenda'
 import { Hoy } from './screens/Hoy'
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/hoy" replace />} />
       </Routes>
+      <AvisoEscritura />
       <AvisoActualizacion />
     </HashRouter>
   )

@@ -1,0 +1,81 @@
+/* No pude leer: ocupa el lugar del estado vacío, con el mismo aire */
+.nolei {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--esp-3);
+  padding: var(--esp-7) var(--esp-5);
+  color: var(--tinta-media);
+}
+
+.nolei__titulo {
+  font-size: var(--texto-l);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.nolei__texto {
+  max-width: 34ch;
+  font-size: var(--texto-s);
+  line-height: 1.55;
+}
+
+.nolei__boton {
+  min-height: 44px;
+  padding: 0 var(--esp-5);
+  border-radius: var(--radio-chip);
+  background: var(--verde-prof);
+  color: var(--papel-alto);
+  font-weight: 700;
+  font-size: var(--texto-m);
+}
+
+/* El nombre del error: chico porque es secundario, pero a contraste pleno —
+   la jerarquía se hace con tamaño, nunca bajando el contraste. */
+.nolei__error {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--texto-xs);
+  color: var(--tinta);
+  background: var(--papel-hundido);
+  padding: var(--esp-1) var(--esp-2);
+  border-radius: var(--radio-s);
+}
+
+/* No se pudo guardar: toast sobre la tab bar, como el de actualización — nunca
+   tapa la navegación y se ve en cualquier pantalla. */
+.aviso-guardar {
+  position: fixed;
+  z-index: 31;
+  left: max(var(--esp-3), env(safe-area-inset-left));
+  right: max(var(--esp-3), env(safe-area-inset-right));
+  bottom: calc(var(--tab-alto) + env(safe-area-inset-bottom) + var(--esp-2));
+  max-width: calc(var(--max-ancho) - var(--esp-4));
+  margin: 0 auto;
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  padding: var(--esp-3);
+  border-radius: var(--radio-m);
+  /* la barra gruesa lo distingue sin depender del color */
+  border-left: 4px solid var(--peligro);
+  background: var(--peligro-fondo);
+  color: #7d3a20;
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  box-shadow: 0 6px 20px rgba(40, 52, 32, 0.28);
+}
+
+.aviso-guardar svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.aviso-guardar__error {
+  /* renglón propio: pegado al final de la frase se lee como parte del texto */
+  display: block;
+  margin-top: var(--esp-1);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--texto-xs);
+}

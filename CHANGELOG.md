@@ -63,6 +63,13 @@ Qué significa cada parte en este proyecto:
   le corresponde. Que la zanahoria no tenga días a trasplante no es un hueco
   de la investigación: es que a la zanahoria no se la trasplanta.
 
+- **Un registro de arranques, en Ajustes → "Si algo se rompe".** Hay reportes de
+  huertas que aparecen vacías sin que se sepa reproducirlo. La app ahora anota
+  cada vez que abre tus datos —cuándo, qué versión, cuántas plantas encontró y
+  si el navegador los está protegiendo—, y ese registro **sobrevive aunque se
+  borre la base**. Si te llega a pasar, con copiarlo y mandarlo alcanza para
+  saber qué pasó. No sale de tu aparato.
+
 - **Siete especies más te dicen cuándo ralear.** Cuando una planta va de siembra
   directa no hay trasplante que esperar: la labor que decide el resultado es el
   raleo, y en la espinaca, la rúcula, el radicchio, el melón, la sandía, el
@@ -83,6 +90,27 @@ Qué significa cada parte en este proyecto:
   criterio propio de confianza baja que tapaba el dato investigado.
 
 ### Arreglado
+
+- **Restaurar un backup ya no puede costarte la huerta que tenías.** La
+  restauración borraba todo *antes* de escribir lo del archivo, y de a un
+  registro por vez. Si el archivo estaba cortado o traía algo que el navegador
+  rechazaba, te quedabas **sin lo viejo y sin lo nuevo** — la propia pantalla lo
+  admitía ("tus datos anteriores pueden haberse perdido"). Ahora se reemplaza
+  todo de una sola vez: **o entra entero, o tu huerta queda exactamente como
+  estaba.**
+
+- **Cuando la app no puede leer tus datos, ahora te lo dice.** Antes, si la
+  lectura fallaba, la pantalla quedaba en blanco o —peor— te mostraba *"Todavía
+  no plantaste nada"*, el mismo cartel que ve alguien que recién empieza. A
+  quien no le podemos leer la huerta no se le dice que nunca plantó nada: ahora
+  aclara que **lo tuyo sigue guardado en el aparato**, muestra el nombre del
+  error y te deja **probar de nuevo**. Antes ni siquiera reintentaba: un fallo
+  de un segundo dejaba la app sin datos hasta que la cerrabas.
+
+- **Un guardado que falla ya no se ve igual que un botón que no anda.** Si algo
+  no se puede guardar aparece un aviso con el motivo, y cuando hay algo que
+  hacer, lo dice: si no entra más en el aparato, que bajes un backup y borres
+  fotos viejas.
 
 - **La leyenda de confianza del glosario enseñaba un código de formas distinto
   del que usa la app.** El borde de "confianza media" salía sólido y el de

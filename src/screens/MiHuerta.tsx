@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
+import { NoSePudoLeer } from '../components/AvisoDatos'
 import { CycleProgress } from '../components/CycleProgress'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { useEspecies } from '../lib/useEspecies'
@@ -34,7 +35,7 @@ import './MiHuerta.css'
 export function MiHuerta() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, cargado } = useHuerta()
+  const { plantas, ubicaciones, cargado, errorCarga } = useHuerta()
   const estadoTareas = useEstadoTareas()
   const [abrirAlta, setAbrirAlta] = useState(false)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
@@ -115,6 +116,8 @@ export function MiHuerta() {
       />
 
       <div className="pantalla__cuerpo">
+        {errorCarga && <NoSePudoLeer error={errorCarga} />}
+
         {listo && activas.length === 0 && (
           <EmptyState
             Icono={IconoHuerta}

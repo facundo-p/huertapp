@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { BottomSheet } from './BottomSheet'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, agregarPlanta, agregarUbicacion } from '../lib/huerta/store'
+import { useHuerta, agregarPlanta, agregarUbicacion, sinRomper } from '../lib/huerta/store'
 import { compatibilidad } from '../lib/huerta/compat'
 import { hoyISO } from '../lib/huerta/tipos'
 import { estadoSiembra, metodoDelMes } from '../lib/data/especies'
@@ -93,6 +93,8 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
         sembrada,
         metodo: metodoFinal ?? null,
       })
+      // sin catch a propósito: si el guardado falló, la hoja queda abierta con
+      // lo que escribiste y el aviso de "no se pudo guardar" a la vista
       limpiar()
       onCerrar()
       onListo?.(p.id)
@@ -114,7 +116,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
       sobretitulo={especie ? especie.nombre_cientifico : nombreDecada(decadaHoy)}
       pie={
         especie && (
-          <button className="alta__guardar" onClick={guardar} disabled={guardando}>
+          <button className="alta__guardar" onClick={() => sinRomper(guardar())} disabled={guardando}>
             {guardando ? 'Guardando…' : 'Listo, la planté'}
           </button>
         )
