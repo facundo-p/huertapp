@@ -24,7 +24,23 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
-Nada todavía.
+### Agregado
+
+- **El glosario ahora explica "ahilarse".** La palabra aparece 39 veces en las
+  fichas —*"con poca luz se ahíla"*— y no estaba definida en ningún lado. Ahora
+  dice qué es, que le pasa igual al plantín en la bandeja que a la planta grande
+  a la sombra, y que no se arregla después: o hay luz desde el principio, o no.
+- **"El de la bandeja germinadora es otro".** La receta de tierra del glosario
+  lleva compost, que es lo correcto para la maceta y lo contrario de lo que
+  quiere una semilla germinando. Faltaba decirlo: quien leía la receta y la usaba
+  para llenar el semillero hacía justo lo que hay que evitar. La aclaración va
+  debajo de la receta, con su fuente y su confianza como cualquier otro dato.
+
+### Cambiado
+
+- **La acelga vuelve a mostrar cuándo trasplantarla según la fuente**, con la
+  altura incluida: *"3-4 hojas verdaderas y ~8-10 cm"*. Antes mostraba un
+  criterio propio de confianza baja que tapaba el dato investigado.
 
 ---
 

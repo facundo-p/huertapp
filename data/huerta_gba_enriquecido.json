@@ -1994,7 +1994,7 @@
       },
       "transplante": {
         "valor": "Puede ir en siembra directa (solo raleo, sin trasplante) o en almácigo; en ese caso las plántulas se separan y trasplantan cuando tienen varias hojas verdaderas.",
-        "signos_listo": "Plantines con ~4 hojas verdaderas (criterio propio, confianza baja).",
+        "signos_listo": "Plantín con 3-4 hojas verdaderas y ~8-10 cm de altura.",
         "fuentes": [
           {
             "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
