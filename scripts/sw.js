@@ -89,12 +89,21 @@ const CLAVE_AGENDA = 'avisos-agenda'
 const CLAVE_ULTIMO = 'avisos-ultimo'
 
 function abrirDB() {
-  return new Promise((resolver, rechazar) => {
-    // sin versión: abre la que exista. Si no existe, crea una vacía y las
-    // lecturas de abajo se protegen con `objectStoreNames`.
+  return new Promise((resolver) => {
+    // Sin versión: abre la que exista. Y si NO existe, `open` la crearía —en
+    // versión 1 y sin un solo object store—, que es la peor cosa que puede
+    // hacer este archivo: la app abre con `openDB(nombre, 1, {upgrade})`, ve
+    // que la versión 1 ya existe, no dispara su upgrade nunca, y se queda con
+    // una base que no puede leer ni escribir. Pasó en la 1.1.0 y le costó los
+    // datos a una persona.
+    //
+    // Abortar la transacción de upgrade deja la base sin crear. El avisito de
+    // hoy no vale ni de lejos lo que vale no romperle el almacenamiento a
+    // nadie: si no hay base, no hay agenda, y no pasa nada.
     const pedido = indexedDB.open(DB)
+    pedido.onupgradeneeded = () => pedido.transaction.abort()
     pedido.onsuccess = () => resolver(pedido.result)
-    pedido.onerror = () => rechazar(pedido.error)
+    pedido.onerror = () => resolver(null)
   })
 }
 
@@ -120,7 +129,10 @@ async function revisarAgenda() {
   const permiso = self.Notification?.permission
   if (permiso !== 'granted') return
 
+  // null = la base todavía no existe y no la vamos a crear nosotros
   const db = await abrirDB()
+  if (!db) return
+
   const agenda = (await ajuste(db, CLAVE_AGENDA)) ?? []
   const ultimo = (await ajuste(db, CLAVE_ULTIMO)) ?? ''
   const hoy = hoyISO()

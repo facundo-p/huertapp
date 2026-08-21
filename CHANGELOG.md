@@ -28,6 +28,23 @@ Nada todavía.
 
 ---
 
+## [1.1.1] — 2026-08-18
+
+### Arreglado
+
+- **La huerta podía aparecer vacía y ya no volvía a guardar nada.** En Android,
+  con la app instalada, el aviso en segundo plano abría la base de datos de una
+  forma que —si la base no existía en ese momento— la dejaba creada pero
+  incompleta. A partir de ahí la app no podía leer ni escribir: los datos se
+  veían perdidos, guardar no hacía nada, y **ni siquiera restaurar un backup lo
+  arreglaba**, porque ese estado sobrevivía a todo.
+
+  Se arregló de los dos lados: el aviso ya no crea la base nunca, y la app,
+  cuando encuentra una base incompleta, **la repara sola al abrirse**. Si te
+  pasó, con actualizar alcanza: no hay que borrar nada ni reinstalar.
+
+---
+
 ## [1.1.0] — 2026-08-17
 
 La 1.0 decía **qué** sembrar y **cuándo**. Esta versión se mete con lo que pasa
