@@ -1923,6 +1923,26 @@
       },
       "cuidados": [
         {
+          "tipo": "raleo",
+          "cuando": "Si la sembraste directa, después de que nacen",
+          "que_hacer": "Sacá las de más hasta dejar 5-8 cm entre planta y planta.",
+          "por_que": null,
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Huerta en casa: cómo cultivar acelga y espinaca",
+              "url": "https://www.lanacion.com.ar/revista-jardin/huerta-en-casa-como-cultivar-acelga-y-espinaca-las-preferidas-para-preparar-rellenos-de-tartas-y-nid28052021/",
+              "organizacion": "La Nación - Revista Jardín (divulgativa)"
+            },
+            {
+              "titulo": "Calendario de siembra INTA-ProHuerta",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA ProHuerta / Ministerio de Agricultura de la Nación"
+            }
+          ],
+          "confianza": 8
+        },
+        {
           "tipo": "riego",
           "cuando": "Todo el ciclo",
           "que_hacer": "Riegos frecuentes y regulares.",
@@ -3011,6 +3031,21 @@
         "confianza": 7
       },
       "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Sólo si nació muy tupida",
+          "que_hacer": "Sacá algunas y quedate con las mejores.",
+          "por_que": null,
+          "de": "transplante",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de rúcula",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/R%C3%BAcula.pdf",
+              "organizacion": "Cátedra de Horticultura, Universidad Nacional de Luján"
+            }
+          ],
+          "confianza": 8
+        },
         {
           "tipo": "proteger",
           "cuando": "En verano",
@@ -4475,6 +4510,21 @@
         "confianza": 6
       },
       "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Si la sembraste directa, con plantitas de 5 cm",
+          "que_hacer": "Sacá las de más hasta dejar unos 30 cm entre planta y planta.",
+          "por_que": null,
+          "de": "transplante",
+          "fuentes": [
+            {
+              "titulo": "Cómo cultivar Achicoria roja (radicchio) de manera orgánica",
+              "url": "https://www.ecojardinmagico.com/como-cultivar-achicoria-roja-radicchio-de-manera-organica/",
+              "organizacion": "Eco Jardín Mágico (divulgación)"
+            }
+          ],
+          "confianza": 6
+        },
         {
           "tipo": "blanqueo",
           "cuando": "Antes de cosechar",
@@ -11630,6 +11680,31 @@
       },
       "cuidados": [
         {
+          "tipo": "raleo",
+          "cuando": "Cuando las plantitas del hoyo tienen 2 hojas verdaderas",
+          "que_hacer": "Dejá la mejor de cada hoyo y sacá las demás.",
+          "por_que": null,
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            },
+            {
+              "titulo": "Calendario de siembra",
+              "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+              "organizacion": "INTA / Min. Desarrollo Social"
+            },
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            }
+          ],
+          "confianza": 8
+        },
+        {
           "tipo": "riego",
           "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
           "que_hacer": "Espaciá los riegos cuando ya hay fruta.",
@@ -12033,6 +12108,26 @@
         "confianza": 8
       },
       "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Cuando las plantitas del hoyo tienen 2 hojas verdaderas",
+          "que_hacer": "Dejá la mejor de cada hoyo y sacá las demás.",
+          "por_que": null,
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Los secretos para cultivar melón y sandía",
+              "url": "https://www.infocampo.com.ar/frutas-frescas-para-el-verano-los-secretos-para-cultivar-melon-y-sandia-en-la-huerta-en-casa/",
+              "organizacion": "Infocampo (técnicos INTA)"
+            },
+            {
+              "titulo": "Planificador de Huerta",
+              "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+              "organizacion": "INTA"
+            }
+          ],
+          "confianza": 7
+        },
         {
           "tipo": "riego",
           "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
@@ -24004,6 +24099,21 @@
       },
       "cuidados": [
         {
+          "tipo": "raleo",
+          "cuando": "Si lo sembraste al voleo, con plantitas de 10 cm",
+          "que_hacer": "Sacá las de más y dejale lugar a cada una.",
+          "por_que": null,
+          "de": "transplante",
+          "fuentes": [
+            {
+              "titulo": "Cultivo de Eneldo (Anethum graveolens) y usos",
+              "url": "http://www.herbotecnia.com.ar/exo-eneldo.html",
+              "organizacion": "Herbotecnia (Argentina)"
+            }
+          ],
+          "confianza": 8
+        },
+        {
           "tipo": "desmalezar",
           "cuando": "Todo el ciclo",
           "que_hacer": "Mantenelo limpio de yuyos.",
@@ -25401,6 +25511,26 @@
         "confianza": 6
       },
       "cuidados": [
+        {
+          "tipo": "raleo",
+          "cuando": "Después de que nacen",
+          "que_hacer": "Sacá las de más hasta dejar 45-60 cm entre planta y planta.",
+          "por_que": null,
+          "de": "forma_siembra",
+          "fuentes": [
+            {
+              "titulo": "Borraja (Borago officinalis) - Ficha de cultivo",
+              "url": "https://jardindecampo.mitiendanube.com/productos/borraja-borago-officinalis/",
+              "organizacion": "Jardín de Campo (semillero, Argentina)"
+            },
+            {
+              "titulo": "Borraja - Borago officinalis - Fichas de plantas",
+              "url": "https://fichas.infojardin.com/hortalizas-verduras/borraja-borago-officinalis.htm",
+              "organizacion": "Infojardín (España)"
+            }
+          ],
+          "confianza": 7
+        },
         {
           "tipo": "contener",
           "cuando": "Al final de la temporada",

@@ -63,6 +63,19 @@ Qué significa cada parte en este proyecto:
   le corresponde. Que la zanahoria no tenga días a trasplante no es un hueco
   de la investigación: es que a la zanahoria no se la trasplanta.
 
+- **Siete especies más te dicen cuándo ralear.** Cuando una planta va de siembra
+  directa no hay trasplante que esperar: la labor que decide el resultado es el
+  raleo, y en la espinaca, la rúcula, el radicchio, el melón, la sandía, el
+  eneldo y la borraja la ficha no lo mencionaba en ninguna parte. Ahora está en
+  **"Mientras crece"**, con el número que da cada fuente y no con un "dale
+  espacio" genérico: *5-8 cm entre plantas* en la espinaca, *la mejor de cada
+  hoyo cuando tienen 2 hojas verdaderas* en el melón y la sandía, *45-60 cm* en
+  la borraja. Van **13 de las 55** con raleo, contra 6 que había antes.
+
+  Las que se pueden sembrar de las dos formas lo dicen en el "cuándo" —*"si la
+  sembraste directa…"*—, porque a la que hiciste en almácigo la trasplantás en
+  vez de ralearla.
+
 ### Cambiado
 
 - **La acelga vuelve a mostrar cuándo trasplantarla según la fuente**, con la

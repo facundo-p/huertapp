@@ -275,6 +275,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Si la sembraste directa, después de que nacen",
+        "que_hacer": "Sacá las de más hasta dejar 5-8 cm entre planta y planta.",
+        "de": "forma_siembra"
+      },
+      {
         "tipo": "riego",
         "cuando": "Todo el ciclo",
         "que_hacer": "Riegos frecuentes y regulares.",
@@ -572,6 +578,12 @@
       "confianza": 7
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Sólo si nació muy tupida",
+        "que_hacer": "Sacá algunas y quedate con las mejores.",
+        "de": "transplante"
+      },
       {
         "tipo": "proteger",
         "cuando": "En verano",
@@ -1008,6 +1020,12 @@
       "confianza": 6
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Si la sembraste directa, con plantitas de 5 cm",
+        "que_hacer": "Sacá las de más hasta dejar unos 30 cm entre planta y planta.",
+        "de": "transplante"
+      },
       {
         "tipo": "blanqueo",
         "cuando": "Antes de cosechar",
@@ -3072,6 +3090,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Cuando las plantitas del hoyo tienen 2 hojas verdaderas",
+        "que_hacer": "Dejá la mejor de cada hoyo y sacá las demás.",
+        "de": "forma_siembra"
+      },
+      {
         "tipo": "riego",
         "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
         "que_hacer": "Espaciá los riegos cuando ya hay fruta.",
@@ -3174,6 +3198,12 @@
       "confianza": 8
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Cuando las plantitas del hoyo tienen 2 hojas verdaderas",
+        "que_hacer": "Dejá la mejor de cada hoyo y sacá las demás.",
+        "de": "forma_siembra"
+      },
       {
         "tipo": "riego",
         "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
@@ -6610,6 +6640,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Si lo sembraste al voleo, con plantitas de 10 cm",
+        "que_hacer": "Sacá las de más y dejale lugar a cada una.",
+        "de": "transplante"
+      },
+      {
         "tipo": "desmalezar",
         "cuando": "Todo el ciclo",
         "que_hacer": "Mantenelo limpio de yuyos.",
@@ -6943,6 +6979,12 @@
       "confianza": 6
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Después de que nacen",
+        "que_hacer": "Sacá las de más hasta dejar 45-60 cm entre planta y planta.",
+        "de": "forma_siembra"
+      },
       {
         "tipo": "contener",
         "cuando": "Al final de la temporada",
