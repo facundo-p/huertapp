@@ -237,3 +237,15 @@ export function IconoCampana(p: IconProps) {
     </Svg>
   )
 }
+
+/** Maceta: labio, cuerpo cónico y un brote. Sin el brote se lee como balde. */
+export function IconoMaceta(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 9.6 V 6.6" />
+      <path d="M12 7.4 C 10.1 7.4, 9 5.9, 9.2 4.2 C 11 4.3, 12 5.7, 12 7.4 Z" />
+      <path d="M4.6 9.6 H 19.4 V 11.6 H 4.6 Z" />
+      <path d="M6.2 11.6 L 7.5 19.4 C 7.6 20 8.1 20.4 8.7 20.4 H 15.3 C 15.9 20.4 16.4 20 16.5 19.4 L 17.8 11.6" />
+    </Svg>
+  )
+}

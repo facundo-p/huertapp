@@ -26,6 +26,16 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Riego y maceta, dos datos que la app no tenía.** Cuánta agua pide cada
+  especie, en una barrita de cuatro niveles que va de *escaso* a *constante*, y
+  en qué maceta entra: profundidad mínima, litros y cuántas plantas. Para quien
+  tiene la huerta en un balcón, **"¿me entra?" es la primera pregunta**, y hasta
+  ahora ninguna de las siete pantallas la contestaba.
+
+  Por ahora sólo el tomate tiene los datos cargados. El resto dice **"s/d"**
+  hasta que la investigación llegue, que es lo que la app promete hacer cuando
+  un dato no está.
+
 - **El glosario ahora explica "ahilarse".** La palabra aparece 39 veces en las
   fichas —*"con poca luz se ahíla"*— y no estaba definida en ningún lado. Ahora
   dice qué es, que le pasa igual al plantín en la bandeja que a la planta grande

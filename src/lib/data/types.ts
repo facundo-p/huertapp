@@ -13,6 +13,23 @@ export type CategoriaSuelo =
 
 export type CategoriaLuz = 'PLENO_SOL' | 'SOL_PARCIAL' | 'MEDIA_SOMBRA' | 'TOLERA_SOMBRA'
 
+/**
+ * Cuánta agua, en escala ordinal de menos a más. Que sea ordinal es lo que deja
+ * dibujarla como barrita; un enum sobre dos ejes mezclados no se podría.
+ */
+export const REGIMENES_RIEGO = ['escaso', 'espaciado', 'parejo', 'constante'] as const
+export type RegimenRiego = (typeof REGIMENES_RIEGO)[number]
+
+/**
+ * Cada medida puede faltar sola: TAMU publica litros sin profundidad y UC
+ * publica profundidad sin litros.
+ */
+export interface MacetaMedidas {
+  profundidad_min_cm: number | null
+  litros_min: number | null
+  plantas_por_contenedor: number | null
+}
+
 export type Grupo =
   | 'Hortaliza de hoja'
   | 'Hortaliza de raíz/bulbo'
@@ -199,6 +216,9 @@ export interface EspecieEnriquecida {
   }
   cosecha: Dato & { indicadores_listo: string }
   transplante: Dato & { signos_listo: string }
+  /** `regimen` null con `riego` presente es legítimo: hay prosa que no mapea. */
+  riego: (Dato & { regimen: RegimenRiego | null }) | null
+  maceta: (Dato & { medidas: MacetaMedidas }) | null
   germinacion: Dato
   longevidad: Dato
   trucos: Dato

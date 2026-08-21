@@ -109,6 +109,50 @@ function resolverPistas(slug, pistas, base) {
   })
 }
 
+const REGIMENES_RIEGO = ['escaso', 'espaciado', 'parejo', 'constante']
+
+/** Un campo con fuente pero sin URL sería una cita falsa que pasa cualquier test. */
+function citable(donde, dato) {
+  if (!Array.isArray(dato.fuentes) || !dato.fuentes.length) {
+    errores.push(`${donde}: sin ninguna fuente con URL`)
+  } else if (dato.fuentes.some((f) => !/^https?:\/\//.test(f.url ?? ''))) {
+    errores.push(`${donde}: alguna fuente sin URL válida`)
+  }
+  if (typeof dato.confianza !== 'number' || dato.confianza < 1 || dato.confianza > 10) {
+    errores.push(`${donde}: confianza fuera de 1-10`)
+  }
+}
+
+function resolverRiego(slug, dato, regimen) {
+  if (!dato) {
+    if (regimen) errores.push(`${slug}: riego_regimen sin campo \`riego\` en la base`)
+    return null
+  }
+  citable(`${slug} · riego`, dato)
+  if (regimen && !REGIMENES_RIEGO.includes(regimen)) {
+    errores.push(`${slug}: régimen "${regimen}" no es uno de ${REGIMENES_RIEGO.join(', ')}`)
+  }
+  return { ...dato, regimen: regimen ?? null }
+}
+
+function resolverMaceta(slug, dato, medidas) {
+  if (!dato) {
+    if (medidas) errores.push(`${slug}: maceta_medidas sin campo \`maceta\` en la base`)
+    return null
+  }
+  citable(`${slug} · maceta`, dato)
+  const m = { profundidad_min_cm: null, litros_min: null, plantas_por_contenedor: null, ...medidas }
+  for (const [k, v] of Object.entries(m)) {
+    if (v !== null && !(typeof v === 'number' && v > 0)) {
+      errores.push(`${slug} · maceta: ${k} tiene que ser un número mayor a 0, o null`)
+    }
+  }
+  if (Object.values(m).every((v) => v === null)) {
+    errores.push(`${slug} · maceta: las tres medidas en null. Si no hay ninguna, sacá el campo`)
+  }
+  return { ...dato, medidas: m }
+}
+
 for (const slug of Object.keys(overlay)) {
   if (!slugsFuente.has(slug)) errores.push(`Slug del overlay sin especie en la fuente: ${slug}`)
 }
@@ -122,7 +166,18 @@ if (errores.length) {
 
 const especies = fuente.especies.map((e) => {
   const slug = slugify(e.nombre_comun)
-  const { revisar, transplante_signos, cuidados, germinacion_pistas, ...derivado } = overlay[slug]
+  // riego_regimen y maceta_medidas se llaman distinto que sus campos de la base
+  // a propósito: el merge de abajo es shallow y una clave `riego` en el overlay
+  // pisaría el Dato entero, fuentes incluidas, sin que nada avise.
+  const {
+    revisar,
+    transplante_signos,
+    cuidados,
+    germinacion_pistas,
+    riego_regimen,
+    maceta_medidas,
+    ...derivado
+  } = overlay[slug]
   const base = transplante_signos
     ? { ...e, transplante: { ...e.transplante, signos_listo: transplante_signos } }
     : e
@@ -144,6 +199,8 @@ const especies = fuente.especies.map((e) => {
     calendario: { ...derivado.calendario, decadas, afinado },
     cuidados: resolverCuidados(slug, cuidados, base),
     germinacion_pistas: resolverPistas(slug, germinacion_pistas, base),
+    riego: resolverRiego(slug, e.riego, riego_regimen),
+    maceta: resolverMaceta(slug, e.maceta, maceta_medidas),
   }
 })
 

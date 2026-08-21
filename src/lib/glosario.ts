@@ -142,6 +142,11 @@ export const PALABRAS: Termino[] = [
       'Las que salen después de las dos primeras. Esas dos primeras —los cotiledones— venían dentro de la semilla y son la reserva; las verdaderas ya tienen la forma de la especie. Es la señal que marca el momento del raleo y, más adelante, del trasplante.',
   },
   {
+    termino: 'Régimen de riego',
+    que_es:
+      'Cuánta agua pide una planta, en cuatro escalones de menos a más: **escaso**, **espaciado**, **parejo** y **constante**. La barrita de la ficha se llena hasta el que le toca. Dice cuánta agua; cuándo cambia a lo largo del ciclo lo dice "Mientras crece".',
+  },
+  {
     termino: 'Ahilarse (etiolarse)',
     que_es:
       'Estirarse buscando luz. El tallo sale largo y finito, más pálido, con mucha distancia entre una hoja y la siguiente, y la planta queda endeble. Le pasa al plantín en la bandeja germinadora y le pasa igual a la planta grande puesta a la sombra: por eso en tantas fichas vas a leer "con poca luz se ahíla".',
