@@ -119,7 +119,8 @@ una lista de pasos desarmada en palabras sueltas y un ícono de libro para
   lee nadie, así que dos líneas que se leen valen más que ocho que se saltean.
   Vale igual para `CLAUDE.md` y `.claude/LECCIONES.md`. El comentario que sirve
   registra una decisión o una trampa: *"replaceAll y no replace: si el marcador
-  aparece también en un comentario, replace sustituye ese. Pasó."*
+  aparece también en un comentario, replace sustituye ese. Pasó."* Los largos
+  que ya están se acortan al tocar el archivo, no en una barrida aparte.
 - **Un token de color, un significado.** Todo color de texto vive en
   `src/theme.css` calibrado a ~4,6:1. No hay colores sueltos en los CSS de
   componentes.
