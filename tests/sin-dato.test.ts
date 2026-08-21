@@ -8,10 +8,8 @@ const porSlug = new Map(ESPECIES.map((e) => [e.slug, e]))
 const de = (slug: string) => porSlug.get(slug)!
 
 /**
- * La regla 1 promete que un dato que falta se muestra como tal. La trampa que
- * esto cuida es más fina: **hay dos vacíos distintos**. Que la fuente no lo
- * diga y que a esa planta no le corresponda. Mostrarlos igual es mentir en una
- * de las dos direcciones, y cuál de las dos depende de la especie.
+ * Hay dos vacíos y no uno: la fuente no lo dice, o no corresponde. Mostrarlos
+ * igual miente en una de las dos direcciones.
  */
 describe('sin dato', () => {
   it('el nivel de confianza tiene un cuarto estado que no es un escalón peor', () => {
@@ -26,26 +24,24 @@ describe('sin dato', () => {
       const { trasplante_ideal, trasplante_posible } = e.calendario.fuente_meses
       const hayMeses = trasplante_ideal.length + trasplante_posible.length > 0
       expect(trasplanteAplica(e), e.slug).toBe(hayMeses)
-      // el invariante que hace que "no aplica" sea derivable en vez de a mano:
-      // si no hay meses de trasplante, tampoco hay días a trasplante
+      // el invariante que hace derivable el "no aplica"
       expect(e.dias_a_trasplante === null, `${e.slug}: días vs meses`).toBe(!hayMeses)
     }
   })
 
   it('lo que se planta de gajo o bulbo no germina, y por eso no le falta el dato', () => {
-    // las cinco de plantación pura: no hay semilla, no hay nada que germinar
+    // plantación pura: no hay semilla
     for (const slug of ['frutilla', 'romero', 'menta', 'laurel', 'lavanda']) {
       expect(germinacionAplica(de(slug)), slug).toBe(false)
       expect(de(slug).dias_germinacion, slug).toBeNull()
     }
-    // batata va de almácigo: acá el dato falta de verdad
+    // batata va de almácigo: acá falta de verdad
     expect(germinacionAplica(de('batata'))).toBe(true)
     expect(de('batata').dias_germinacion).toBeNull()
   })
 
   it('ninguna especie queda con las tres casillas del ciclo vacías y sin explicar', () => {
-    // eran cuatro fichas con la fila entera en blanco: romero, menta, laurel y
-    // lavanda. Ahora cada casilla dice "s/d" o "no aplica", nunca nada.
+    // eran cuatro fichas con la fila en blanco: romero, menta, laurel, lavanda
     for (const e of ESPECIES) {
       const explicadas = [
         e.dias_germinacion !== null || !germinacionAplica(e),
@@ -69,8 +65,7 @@ describe('sin dato', () => {
       (e) => e.temperaturas.germinacion.ideal_min === null && e.temperaturas.germinacion.min === null,
     ).map((e) => e.slug)
     expect(sin.sort()).toEqual(['laurel', 'melisa', 'menta'])
-    // menta y laurel se plantan de gajo: la fila no se dibuja.
-    // melisa sí germina, así que ahí la fila queda con "s/d" y es correcto.
+    // menta y laurel van de gajo (no se dibuja); melisa germina, así que va "s/d"
     expect(germinacionAplica(de('melisa'))).toBe(true)
   })
 })

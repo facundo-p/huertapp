@@ -8,12 +8,9 @@ import './DatoSection.css'
 interface Props {
   titulo: string
   Icono: ComponentType<IconProps>
-  /** `null` = no hay dato para esta especie. Requiere `vacio` para mostrarse. */
+  /** `null` = sin dato. Necesita `vacio` para dibujarse. */
   dato: Dato | null
-  /**
-   * Qué decir cuando no hay dato. Sin esto, un `dato` nulo no dibuja nada —
-   * así las secciones que hoy nunca reciben null no cambian de comportamiento.
-   */
+  /** Qué decir si no hay dato. Sin esto, un `dato` nulo no dibuja nada. */
   vacio?: string
   /** aclaración corta bajo el título, antes del texto de la fuente */
   bajada?: string

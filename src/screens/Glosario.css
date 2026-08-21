@@ -242,9 +242,8 @@
   color: var(--conf-alta);
   border: 1.5px solid var(--conf-alta);
 }
-/* Las formas tienen que ser LAS MISMAS que usa `.conf` en las fichas: es la
-   única pantalla donde se enseña el código, y enseñaba uno que la app no usa
-   (media salía sólida y baja rayada). El contraste no lo agarra: mide color. */
+/* Las mismas formas que `.conf` en las fichas: acá se enseña el código y
+   enseñaba otro. El test de contraste no lo agarra, mide color. */
 .badge-conf--media {
   background: var(--conf-media-fondo);
   color: var(--conf-media);

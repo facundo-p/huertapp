@@ -283,12 +283,8 @@ function Categoria({ Icono, texto }: { Icono: React.ComponentType; texto: string
 }
 
 /**
- * Una de las tres casillas del ciclo. Se dibuja **siempre**, aunque no haya
- * número: omitirla en silencio dejaba cuatro fichas —romero, menta, laurel y
- * lavanda— con la fila entera vacía y sin explicar por qué.
- *
- * Y hay dos vacíos distintos que no se pueden mostrar igual: que la fuente no
- * lo diga (`s/d`) y que a esa planta no le corresponda (`no aplica`).
+ * Se dibuja siempre: omitirla dejaba la fila entera vacía en romero, menta,
+ * laurel y lavanda. `s/d` = la fuente no lo dice; `no aplica` = no corresponde.
  */
 function Dato({
   titulo,
@@ -297,7 +293,7 @@ function Dato({
 }: {
   titulo: string
   valor: { min: number; max: number } | null
-  /** por qué no corresponde; si falta y no hay valor, es que no hay dato */
+  /** por qué no corresponde; sin esto y sin valor, es `s/d` */
   porQue?: string
 }) {
   const ausencia = valor ? null : porQue ? 'no-aplica' : 'sin-dato'

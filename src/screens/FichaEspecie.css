@@ -184,9 +184,7 @@
   color: var(--tinta);
 }
 
-/* La casilla sin número se ve distinta pero **no más apagada**: la jerarquía
-   se hace con peso y no bajando el contraste (regla 3). Sigue en --tinta-media,
-   que está calibrado a AA, y lo que cambia es el peso y el fondo. */
+/* Distinta, no más apagada: cambia el peso y el fondo, no el contraste (regla 3). */
 .ficha__ciclo-dato.es-sin-dato,
 .ficha__ciclo-dato.es-no-aplica {
   background: transparent;

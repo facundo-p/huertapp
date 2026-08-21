@@ -2,7 +2,7 @@ import { nivelConfianza } from '../lib/data/especies'
 import './ConfidenceBadge.css'
 
 interface Props {
-  /** `null` = no hay dato. No es confianza baja: es no tener número. */
+  /** `null` = sin dato. No es confianza baja. */
   valor: number | null
   /** compacto: solo el número; extendido: "8/10" */
   compacto?: boolean
@@ -16,12 +16,8 @@ const TEXTO: Record<string, string> = {
 }
 
 /**
- * Badge de confianza del dato: color + forma de borde (nunca solo color).
- *
- * El caso `sin` no puede distinguirse por el borde —`solid`, `dashed` y
- * `dotted` ya están tomados por los tres escalones— así que su canal redundante
- * es **el texto**: dice `s/d` y no un número, que es imposible de confundir con
- * un 3/10 mire quien lo mire.
+ * Color + forma de borde, nunca solo color. El caso `sin` se distingue por el
+ * texto (`s/d`) y no por el borde: los tres bordes ya están usados.
  */
 export function ConfidenceBadge({ valor, compacto }: Props) {
   const nivel = nivelConfianza(valor)

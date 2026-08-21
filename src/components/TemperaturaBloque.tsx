@@ -73,7 +73,7 @@ export function TemperaturaBloque({
   germinaAplica = true,
 }: {
   t: Temperaturas
-  /** false en las que se plantan de gajo o bulbo: no hay semilla que germinar */
+  /** false en las de gajo o bulbo: no hay semilla que germinar */
   germinaAplica?: boolean
 }) {
   const helada = t.helada ? HELADA[t.helada] : null
@@ -87,9 +87,7 @@ export function TemperaturaBloque({
         <ConfidenceBadge valor={t.confianza} />
       </header>
 
-      {/* La fila se dibuja igual sin dato: desaparecer en silencio deja a quien
-          lee creyendo que la app no tiene nada que decir del tema, cuando lo
-          que pasa es que la fuente no lo dijo. Son cosas distintas. */}
+      {/* Se dibuja igual sin dato: desaparecer en silencio parece no tener nada que decir. */}
       {germinaAplica && (
         <div className="temp__fila">
           <p className="dato__subtitulo">Para germinar (tierra)</p>
