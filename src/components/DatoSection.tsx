@@ -8,7 +8,13 @@ import './DatoSection.css'
 interface Props {
   titulo: string
   Icono: ComponentType<IconProps>
-  dato: Dato
+  /** `null` = no hay dato para esta especie. Requiere `vacio` para mostrarse. */
+  dato: Dato | null
+  /**
+   * Qué decir cuando no hay dato. Sin esto, un `dato` nulo no dibuja nada —
+   * así las secciones que hoy nunca reciben null no cambian de comportamiento.
+   */
+  vacio?: string
   /** aclaración corta bajo el título, antes del texto de la fuente */
   bajada?: string
   /** "qué pasa si no se cumple" o señales; se muestra como aviso aparte */
@@ -17,7 +23,23 @@ interface Props {
 }
 
 /** Un campo de la ficha: valor + confianza + advertencias + fuentes como links. */
-export function DatoSection({ titulo, Icono, dato, bajada, advertencia, senales }: Props) {
+export function DatoSection({ titulo, Icono, dato, vacio, bajada, advertencia, senales }: Props) {
+  if (!dato) {
+    if (!vacio) return null
+    return (
+      <section className="dato dato--sin">
+        <header className="dato__cabeza">
+          <span className="dato__icono" aria-hidden>
+            <Icono size={20} />
+          </span>
+          <h2 className="dato__titulo">{titulo}</h2>
+          <ConfidenceBadge valor={null} />
+        </header>
+        <p className="dato__valor dato__valor--sin">{vacio}</p>
+      </section>
+    )
+  }
+
   return (
     <section className="dato">
       <header className="dato__cabeza">

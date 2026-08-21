@@ -184,6 +184,22 @@
   color: var(--tinta);
 }
 
+/* La casilla sin número se ve distinta pero **no más apagada**: la jerarquía
+   se hace con peso y no bajando el contraste (regla 3). Sigue en --tinta-media,
+   que está calibrado a AA, y lo que cambia es el peso y el fondo. */
+.ficha__ciclo-dato.es-sin-dato,
+.ficha__ciclo-dato.es-no-aplica {
+  background: transparent;
+  border: 1.5px dashed var(--linea-suave);
+}
+
+.es-sin-dato .ficha__ciclo-valor,
+.es-no-aplica .ficha__ciclo-valor {
+  font-weight: 600;
+  font-size: var(--texto-xs);
+  color: var(--tinta-media);
+}
+
 /* --- asociaciones --- */
 .ficha__asoc {
   display: flex;

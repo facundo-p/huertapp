@@ -114,3 +114,12 @@
   color: var(--tinta-media);
   text-decoration: none;
 }
+
+/* Sección sin dato: se dibuja igual que cualquier otra y lo que la distingue
+   es el badge `s/d` de la cabecera más este texto. Es la promesa de la regla 1
+   hecha pixel — antes la sección desaparecía y nadie se enteraba de que
+   faltaba algo. (`.dato` ya trae su borde punteado; no hace falta otro.) */
+.dato__valor--sin {
+  color: var(--tinta-media);
+  font-size: var(--texto-s);
+}

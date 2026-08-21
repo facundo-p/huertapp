@@ -106,3 +106,14 @@
   color: var(--tinta-media);
   font-style: italic;
 }
+
+/* Fila sin dato: el badge `s/d` adelante y la explicación al lado. El texto va
+   en --tinta-media, que está calibrado a AA — la jerarquía se hace con tamaño,
+   nunca bajando el contraste. */
+.temp__sin {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font-size: var(--texto-xs);
+  color: var(--tinta-media);
+}

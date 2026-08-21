@@ -242,15 +242,18 @@
   color: var(--conf-alta);
   border: 1.5px solid var(--conf-alta);
 }
+/* Las formas tienen que ser LAS MISMAS que usa `.conf` en las fichas: es la
+   única pantalla donde se enseña el código, y enseñaba uno que la app no usa
+   (media salía sólida y baja rayada). El contraste no lo agarra: mide color. */
 .badge-conf--media {
   background: var(--conf-media-fondo);
   color: var(--conf-media);
-  border: 1.5px solid var(--conf-media);
+  border: 1.5px dashed var(--conf-media);
 }
 .badge-conf--baja {
   background: var(--conf-baja-fondo);
   color: var(--conf-baja);
-  border: 1.5px dashed var(--conf-baja);
+  border: 1.5px dotted var(--conf-baja);
 }
 .badge-conf--sin {
   background: var(--conf-sin-fondo);

@@ -111,8 +111,37 @@ export function admiteAlmacigo(e: EspecieEnriquecida, mes: Mes): boolean {
   return metodo === 'almacigo' || metodo === 'almacigo_protegido' || metodo === 'directa|almacigo'
 }
 
-export function nivelConfianza(n: number): 'alta' | 'media' | 'baja' {
+/**
+ * `null` no es un cuarto escalón de la escala: es estar afuera de ella. Por eso
+ * el badge que le corresponde no dice un número peor, dice `s/d`.
+ */
+export function nivelConfianza(n: number | null): 'alta' | 'media' | 'baja' | 'sin' {
+  if (n === null) return 'sin'
   if (n >= 8) return 'alta'
   if (n >= 5) return 'media'
   return 'baja'
+}
+
+/**
+ * Un dato que falta y un dato que no corresponde **no son lo mismo**, y la
+ * ficha no puede mostrarlos igual. Que la zanahoria no tenga días a trasplante
+ * no es un hueco de la investigación: es que a la zanahoria no se la
+ * trasplanta. Decirle "sin dato" sería mentir en la otra dirección.
+ */
+export type Ausencia = 'sin_dato' | 'no_aplica'
+
+/** Sale de una parte: sin meses de trasplante no hay trasplante. Vale en las 55. */
+export function trasplanteAplica(e: EspecieEnriquecida): boolean {
+  const { trasplante_ideal, trasplante_posible } = e.calendario.fuente_meses
+  return trasplante_ideal.length + trasplante_posible.length > 0
+}
+
+/**
+ * Lo que se planta es un gajo, un diente o una corona: no hay semilla, así que
+ * no hay nada que germinar. Es lo mismo que ya dice el glosario en
+ * "Plantación", pero acá calculado en vez de escrito.
+ */
+export function germinacionAplica(e: EspecieEnriquecida): boolean {
+  const metodos = Object.values(e.calendario.metodo_por_mes)
+  return metodos.length > 0 && !metodos.every((m) => m === 'plantacion')
 }

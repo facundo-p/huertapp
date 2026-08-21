@@ -68,7 +68,14 @@ function Escala({
   )
 }
 
-export function TemperaturaBloque({ t }: { t: Temperaturas }) {
+export function TemperaturaBloque({
+  t,
+  germinaAplica = true,
+}: {
+  t: Temperaturas
+  /** false en las que se plantan de gajo o bulbo: no hay semilla que germinar */
+  germinaAplica?: boolean
+}) {
   const helada = t.helada ? HELADA[t.helada] : null
   const hayGerm = t.germinacion.ideal_min !== null || t.germinacion.min !== null
   const hayCrec = t.crecimiento.ideal_min !== null || t.crecimiento.tolera_min !== null
@@ -80,15 +87,25 @@ export function TemperaturaBloque({ t }: { t: Temperaturas }) {
         <ConfidenceBadge valor={t.confianza} />
       </header>
 
-      {hayGerm && (
+      {/* La fila se dibuja igual sin dato: desaparecer en silencio deja a quien
+          lee creyendo que la app no tiene nada que decir del tema, cuando lo
+          que pasa es que la fuente no lo dijo. Son cosas distintas. */}
+      {germinaAplica && (
         <div className="temp__fila">
           <p className="dato__subtitulo">Para germinar (tierra)</p>
-          <Escala
-            min={t.germinacion.min}
-            idealMin={t.germinacion.ideal_min}
-            idealMax={t.germinacion.ideal_max}
-            max={t.germinacion.max}
-          />
+          {hayGerm ? (
+            <Escala
+              min={t.germinacion.min}
+              idealMin={t.germinacion.ideal_min}
+              idealMax={t.germinacion.ideal_max}
+              max={t.germinacion.max}
+            />
+          ) : (
+            <p className="temp__sin">
+              <ConfidenceBadge valor={null} compacto /> No encontramos una fuente que dé la
+              temperatura de germinación de esta especie.
+            </p>
+          )}
         </div>
       )}
 
