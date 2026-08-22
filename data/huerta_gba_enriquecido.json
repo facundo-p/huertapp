@@ -9064,6 +9064,1248 @@
       "variedad_de": null,
       "variedad": null,
       "variedad_derivacion": null,
+      "variedades": [
+        {
+          "slug": "tomate-determinado",
+          "nombre": "Determinado",
+          "nombre_comun": "Tomate determinado",
+          "cambia": [],
+          "quita": [
+            "tutorado",
+            "poda"
+          ],
+          "derivacion": "El texto de trucos acota la práctica: «tutorar y realizar desbrote/poda en variedades indeterminadas» (FIQ-UNL, Fecoagro). Una determinada no entra en esa frase, así que no lleva esos dos cuidados. El texto se hereda entero y sin tocar: la frase que lo justifica queda a la vista en la ficha."
+        },
+        {
+          "slug": "tomate-indeterminado",
+          "nombre": "Indeterminado",
+          "nombre_comun": "Tomate indeterminado",
+          "cambia": [
+            {
+              "campo": "longevidad",
+              "valor": "Las variedades indeterminadas siguen dando frutos escalonadamente hasta las primeras heladas.",
+              "confianza": 7
+            }
+          ],
+          "quita": [],
+          "derivacion": "Es la variedad a la que las fuentes le atribuyen el tutorado, el desbrote y la producción escalonada hasta las heladas. Conserva todos los cuidados del padre."
+        }
+      ]
+    },
+    {
+      "slug": "tomate-determinado",
+      "nombre_comun": "Tomate determinado",
+      "nombre_cientifico": "Solanum lycopersicum",
+      "grupo": "Hortaliza de fruto",
+      "fecha_siembra": {
+        "valor": "Almácigo protegido: agosto-octubre (INTA/ProHuerta indican almácigo ago-oct y trasplante sep-nov, siempre después de la última helada; en GBA la última helada suele darse hacia septiembre). Siembra directa 'a golpes': octubre a enero. UNIDA coincide: almácigo sep-oct, trasplante oct-dic.",
+        "fuentes": [
+          {
+            "titulo": "INTA - Calendario de siembra (Seguridad Alimentaria)",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Ministerio de Desarrollo Social"
+          },
+          {
+            "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - Universidad Nacional del Litoral"
+          },
+          {
+            "titulo": "Calendarios de Siembra (aptos zona Argentina)",
+            "url": "https://www.unida.org.ar/Virtuales/Huerta/Calendarios%20de%20Siembra.pdf",
+            "organizacion": "UNIDA"
+          }
+        ],
+        "confianza": 9
+      },
+      "forma_siembra": {
+        "valor": "Preferentemente almácigo y luego trasplante (recomendado en INTA/ProHuerta); también admite siembra directa 'a golpes' en primavera-verano. El almácigo permite adelantar el cultivo y proteger de heladas.",
+        "fuentes": [
+          {
+            "titulo": "INTA - Calendario de siembra",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Min. Desarrollo Social"
+          },
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          }
+        ],
+        "confianza": 9
+      },
+      "suelo": {
+        "valor": "Suelos sueltos, profundos, con buen nivel de materia orgánica y bien drenados. pH óptimo 6,5-6,9 (tolera desde 5,5).",
+        "categoria_suelo": "FRANCO_FERTIL",
+        "que_pasa_si_no": "En suelos pesados, encharcados o pobres crece débil, es más susceptible a enfermedades de raíz (Phytophthora, marchitez) y baja el rendimiento; el mal drenaje favorece la podredumbre.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+          }
+        ],
+        "confianza": 8
+      },
+      "luz": {
+        "valor": "Cultivo exigente en luz; requiere pleno sol para florecer y fructificar bien.",
+        "categoria_luz": "PLENO_SOL",
+        "horas_min": "6 h",
+        "horas_ideal": ">=6-8 h",
+        "tolera_sin_sol_directo": false,
+        "que_pasa_si_no": "Con poca luz la planta se ahíla (tallos largos y débiles), atrasa y reduce la floración/cuaje y produce pocos frutos, más blandos y de peor color.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 7
+      },
+      "cosecha": {
+        "valor": "80 a 100 días desde la siembra hasta la cosecha (INTA/ProHuerta). Desde la apertura de la flor a la maduración del fruto transcurren 50-60 días (UNLu).",
+        "indicadores_listo": "Fruto de color rojo (o el color de la variedad) uniforme, firme pero que cede levemente a la presión; se desprende con facilidad del pedúnculo.",
+        "fuentes": [
+          {
+            "titulo": "INTA - Calendario de siembra",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Min. Desarrollo Social"
+          },
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 8
+      },
+      "germinacion": {
+        "valor": "Germina con temperatura óptima de 18-20 °C, aproximadamente en 6-10 días. Por debajo de 8,5-12 °C o por encima de 35-37 °C el crecimiento de la radícula es muy lento.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 7
+      },
+      "transplante": {
+        "valor": "Se trasplanta desde el almácigo: siembras tempranas ~60 días de almácigo, siembras tardías ~30 días. Marco final: surcos a 0,80-1,20 m y 25-50 cm entre plantas (INTA: 30-50 x 70 cm), densidad media ~3 plantas/m2.",
+        "signos_listo": "Plantín con el segundo par de hojas verdaderas expandidas (aprox. 10-15 cm de altura) y pasado el riesgo de heladas.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          },
+          {
+            "titulo": "INTA - Calendario de siembra",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Min. Desarrollo Social"
+          }
+        ],
+        "confianza": 8
+      },
+      "longevidad": {
+        "valor": "Anual en cultivo de huerta (en clima templado con heladas). Produce durante toda la temporada primavera-verano-otoño; las variedades indeterminadas siguen dando frutos escalonadamente hasta las primeras heladas.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 7
+      },
+      "trucos": {
+        "valor": "Trasplantar después de la última helada; tutorar y realizar desbrote/poda en variedades indeterminadas; intercalar albahaca entre las líneas para reducir insectos y flores de copete (tagetes) contra arañuela roja y ácaros. Riego regular y parejo para evitar podredumbre apical y rajado del fruto.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7
+      },
+      "riesgos": {
+        "valor": "Evitar heladas (mata la planta), exceso o falta de agua (podredumbre apical / rajado), y suelos mal drenados. No repetir tomate/solanáceas en el mismo cantero años seguidos por acumulación de enfermedades de suelo. Sensible a hongos en ambientes húmedos sin aireación.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 6
+      },
+      "plagas": {
+        "valor": "Pulgones, mosca blanca, arañuela roja/ácaros, chinches y polilla del tomate (Tuta absoluta); enfermedades fúngicas como tizón (Phytophthora), oídio, botritis; y virosis. La podredumbre apical (blossom-end rot) es un desorden fisiológico por falta de calcio/riego irregular.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 6
+      },
+      "asociaciones_buenas": {
+        "valor": "Albahaca (repele insectos y chinches), flores de copete/tagetes y caléndula (control de plagas), zanahoria, apio, cebolla, ajo, puerro, lechuga y espinaca.",
+        "fuentes": [
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          },
+          {
+            "titulo": "Ejemplos de asociaciones de cultivos",
+            "url": "https://www.ecoagricultor.com/ejemplos-de-asociaciones-de-cultivos-a-la-hora-de-planificar-el-diseno-del-huerto/",
+            "organizacion": "Ecoagricultor"
+          }
+        ],
+        "confianza": 6
+      },
+      "asociaciones_malas": {
+        "valor": "Papa (comparten plagas y tizón), otras solanáceas, brócoli/coliflor y brasicáceas, arveja, remolacha y calabacín/zapallo. El hinojo también se cita como desfavorable para casi toda la huerta.",
+        "fuentes": [
+          {
+            "titulo": "Ejemplos de asociaciones de cultivos",
+            "url": "https://www.ecoagricultor.com/ejemplos-de-asociaciones-de-cultivos-a-la-hora-de-planificar-el-diseno-del-huerto/",
+            "organizacion": "Ecoagricultor"
+          }
+        ],
+        "confianza": 6
+      },
+      "riego": {
+        "valor": "Todo el ciclo, y en especial con fruta cuajada: regá regular y parejo. El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y unos 19 litros (5 galones) por planta. En maceta, la profundidad importa más que el ancho.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
+      },
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [
+            8,
+            9,
+            10
+          ],
+          "siembra_posible": [
+            1,
+            11,
+            12
+          ],
+          "trasplante_ideal": [
+            9,
+            10,
+            11
+          ],
+          "trasplante_posible": [
+            12
+          ]
+        },
+        "metodo_por_mes": {
+          "1": "directa",
+          "8": "almacigo_protegido",
+          "9": "almacigo_protegido",
+          "10": "directa|almacigo",
+          "11": "directa",
+          "12": "directa"
+        },
+        "derivacion": "De fecha_siembra: almácigo protegido ago-oct (INTA) → ideal; directa a golpes oct-ene → nov-ene posible. Trasplante sep-nov tras la última helada (~sep en GBA), dic como cola. Trasplante a 30-60 días del almácigo según época.",
+        "confianza": 9,
+        "decadas": {
+          "urbano": {
+            "siembra_ideal": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33
+            ],
+            "trasplante_posible": [
+              26,
+              34,
+              35,
+              36
+            ]
+          },
+          "conurbano": {
+            "siembra_ideal": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              30,
+              31,
+              32,
+              33
+            ],
+            "trasplante_posible": [
+              29,
+              34,
+              35,
+              36
+            ]
+          },
+          "periurbano": {
+            "siembra_ideal": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              31,
+              32,
+              33
+            ],
+            "trasplante_posible": [
+              29,
+              30,
+              34,
+              35,
+              36
+            ]
+          }
+        },
+        "afinado": {
+          "estado": "afinado",
+          "motivo": null,
+          "nota_fuente": null,
+          "ajustes": [
+            {
+              "decada": 25,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a principios de septiembre expone el plantín a un 90 % de probabilidad de helada."
+            },
+            {
+              "decada": 26,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a mediados de septiembre expone el plantín a un 81 % de probabilidad de helada."
+            },
+            {
+              "decada": 27,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a fines de septiembre expone el plantín a un 65 % de probabilidad de helada."
+            },
+            {
+              "decada": 28,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a principios de octubre expone el plantín a un 50 % de probabilidad de helada."
+            },
+            {
+              "decada": 29,
+              "regla": "helada_trasplante_riesgo",
+              "nota": "33 % de probabilidad de helada a mediados de octubre."
+            }
+          ],
+          "confianza": 8,
+          "zona_referencia": {
+            "urbano": "Buenos Aires Observatorio (SMN) · Observatorio 3 °C (FAUBA)",
+            "conurbano": "Ezeiza Aero (SMN) · Ezeiza Aero 3 °C (FAUBA)",
+            "periurbano": "La Plata Aero (SMN) · La Plata Aero 3 °C (FAUBA)"
+          }
+        }
+      },
+      "dias_a_trasplante": {
+        "min": 30,
+        "max": 60
+      },
+      "dias_a_cosecha": {
+        "min": 80,
+        "max": 100
+      },
+      "dias_germinacion": {
+        "min": 6,
+        "max": 10
+      },
+      "asociaciones": {
+        "buenas": [
+          {
+            "slug": "albahaca",
+            "externa": false
+          },
+          {
+            "slug": "copete",
+            "externa": false
+          },
+          {
+            "slug": "calendula",
+            "externa": false
+          },
+          {
+            "slug": "zanahoria",
+            "externa": false
+          },
+          {
+            "slug": "apio",
+            "externa": false
+          },
+          {
+            "slug": "cebolla",
+            "externa": false
+          },
+          {
+            "slug": "ajo",
+            "externa": false
+          },
+          {
+            "slug": "puerro",
+            "externa": false
+          },
+          {
+            "slug": "lechuga",
+            "externa": false
+          },
+          {
+            "slug": "espinaca",
+            "externa": false
+          }
+        ],
+        "malas": [
+          {
+            "slug": "papa",
+            "externa": false
+          },
+          {
+            "slug": "brocoli",
+            "externa": false
+          },
+          {
+            "slug": "coliflor",
+            "externa": false
+          },
+          {
+            "slug": "arveja",
+            "externa": false
+          },
+          {
+            "slug": "remolacha",
+            "externa": false
+          },
+          {
+            "slug": "zapallito-de-tronco",
+            "externa": false
+          },
+          {
+            "slug": "zapallo",
+            "externa": false
+          },
+          {
+            "etiqueta": "otras solanáceas",
+            "externa": true
+          },
+          {
+            "etiqueta": "brasicáceas",
+            "externa": true
+          },
+          {
+            "etiqueta": "hinojo",
+            "externa": true
+          }
+        ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 18,
+          "ideal_max": 27,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "tolera_min": 2,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Si adelantás el trasplante con las noches todavía frescas la planta te florece pero no cuaja, y con las olas de calor del verano se le muere el polen igual: apuntá a que florezca en tiempo templado.",
+        "fuentes": [
+          {
+            "titulo": "Tomate (Lycopersicon esculentum Mill) - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
+      },
+      "cuidados": [
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo, y en especial con fruta cuajada",
+          "que_hacer": "Regá regular y parejo.",
+          "por_que": "El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No repitas tomate ni otra solanácea (papa, pimiento, berenjena) en el mismo lugar años seguidos.",
+          "por_que": "Se acumulan enfermedades del suelo.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Ficha de cultivo Tomate",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [],
+      "variedad_de": "tomate",
+      "variedad": "Determinado",
+      "variedad_derivacion": "El texto de trucos acota la práctica: «tutorar y realizar desbrote/poda en variedades indeterminadas» (FIQ-UNL, Fecoagro). Una determinada no entra en esa frase, así que no lleva esos dos cuidados. El texto se hereda entero y sin tocar: la frase que lo justifica queda a la vista en la ficha.",
+      "variedades": []
+    },
+    {
+      "slug": "tomate-indeterminado",
+      "nombre_comun": "Tomate indeterminado",
+      "nombre_cientifico": "Solanum lycopersicum",
+      "grupo": "Hortaliza de fruto",
+      "fecha_siembra": {
+        "valor": "Almácigo protegido: agosto-octubre (INTA/ProHuerta indican almácigo ago-oct y trasplante sep-nov, siempre después de la última helada; en GBA la última helada suele darse hacia septiembre). Siembra directa 'a golpes': octubre a enero. UNIDA coincide: almácigo sep-oct, trasplante oct-dic.",
+        "fuentes": [
+          {
+            "titulo": "INTA - Calendario de siembra (Seguridad Alimentaria)",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Ministerio de Desarrollo Social"
+          },
+          {
+            "titulo": "El Suelo - Calendario de siembra, abono y fertilizantes",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - Universidad Nacional del Litoral"
+          },
+          {
+            "titulo": "Calendarios de Siembra (aptos zona Argentina)",
+            "url": "https://www.unida.org.ar/Virtuales/Huerta/Calendarios%20de%20Siembra.pdf",
+            "organizacion": "UNIDA"
+          }
+        ],
+        "confianza": 9
+      },
+      "forma_siembra": {
+        "valor": "Preferentemente almácigo y luego trasplante (recomendado en INTA/ProHuerta); también admite siembra directa 'a golpes' en primavera-verano. El almácigo permite adelantar el cultivo y proteger de heladas.",
+        "fuentes": [
+          {
+            "titulo": "INTA - Calendario de siembra",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Min. Desarrollo Social"
+          },
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          }
+        ],
+        "confianza": 9
+      },
+      "suelo": {
+        "valor": "Suelos sueltos, profundos, con buen nivel de materia orgánica y bien drenados. pH óptimo 6,5-6,9 (tolera desde 5,5).",
+        "categoria_suelo": "FRANCO_FERTIL",
+        "que_pasa_si_no": "En suelos pesados, encharcados o pobres crece débil, es más susceptible a enfermedades de raíz (Phytophthora, marchitez) y baja el rendimiento; el mal drenaje favorece la podredumbre.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - Universidad Nacional de Luján"
+          }
+        ],
+        "confianza": 8
+      },
+      "luz": {
+        "valor": "Cultivo exigente en luz; requiere pleno sol para florecer y fructificar bien.",
+        "categoria_luz": "PLENO_SOL",
+        "horas_min": "6 h",
+        "horas_ideal": ">=6-8 h",
+        "tolera_sin_sol_directo": false,
+        "que_pasa_si_no": "Con poca luz la planta se ahíla (tallos largos y débiles), atrasa y reduce la floración/cuaje y produce pocos frutos, más blandos y de peor color.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 7
+      },
+      "cosecha": {
+        "valor": "80 a 100 días desde la siembra hasta la cosecha (INTA/ProHuerta). Desde la apertura de la flor a la maduración del fruto transcurren 50-60 días (UNLu).",
+        "indicadores_listo": "Fruto de color rojo (o el color de la variedad) uniforme, firme pero que cede levemente a la presión; se desprende con facilidad del pedúnculo.",
+        "fuentes": [
+          {
+            "titulo": "INTA - Calendario de siembra",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Min. Desarrollo Social"
+          },
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 8
+      },
+      "germinacion": {
+        "valor": "Germina con temperatura óptima de 18-20 °C, aproximadamente en 6-10 días. Por debajo de 8,5-12 °C o por encima de 35-37 °C el crecimiento de la radícula es muy lento.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 7
+      },
+      "transplante": {
+        "valor": "Se trasplanta desde el almácigo: siembras tempranas ~60 días de almácigo, siembras tardías ~30 días. Marco final: surcos a 0,80-1,20 m y 25-50 cm entre plantas (INTA: 30-50 x 70 cm), densidad media ~3 plantas/m2.",
+        "signos_listo": "Plantín con el segundo par de hojas verdaderas expandidas (aprox. 10-15 cm de altura) y pasado el riesgo de heladas.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          },
+          {
+            "titulo": "INTA - Calendario de siembra",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA / Min. Desarrollo Social"
+          }
+        ],
+        "confianza": 8
+      },
+      "longevidad": {
+        "valor": "Las variedades indeterminadas siguen dando frutos escalonadamente hasta las primeras heladas.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 7
+      },
+      "trucos": {
+        "valor": "Trasplantar después de la última helada; tutorar y realizar desbrote/poda en variedades indeterminadas; intercalar albahaca entre las líneas para reducir insectos y flores de copete (tagetes) contra arañuela roja y ácaros. Riego regular y parejo para evitar podredumbre apical y rajado del fruto.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7
+      },
+      "riesgos": {
+        "valor": "Evitar heladas (mata la planta), exceso o falta de agua (podredumbre apical / rajado), y suelos mal drenados. No repetir tomate/solanáceas en el mismo cantero años seguidos por acumulación de enfermedades de suelo. Sensible a hongos en ambientes húmedos sin aireación.",
+        "fuentes": [
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 6
+      },
+      "plagas": {
+        "valor": "Pulgones, mosca blanca, arañuela roja/ácaros, chinches y polilla del tomate (Tuta absoluta); enfermedades fúngicas como tizón (Phytophthora), oídio, botritis; y virosis. La podredumbre apical (blossom-end rot) es un desorden fisiológico por falta de calcio/riego irregular.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Ficha de cultivo Tomate",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Cátedra de Horticultura - UNLu"
+          }
+        ],
+        "confianza": 6
+      },
+      "asociaciones_buenas": {
+        "valor": "Albahaca (repele insectos y chinches), flores de copete/tagetes y caléndula (control de plagas), zanahoria, apio, cebolla, ajo, puerro, lechuga y espinaca.",
+        "fuentes": [
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          },
+          {
+            "titulo": "Ejemplos de asociaciones de cultivos",
+            "url": "https://www.ecoagricultor.com/ejemplos-de-asociaciones-de-cultivos-a-la-hora-de-planificar-el-diseno-del-huerto/",
+            "organizacion": "Ecoagricultor"
+          }
+        ],
+        "confianza": 6
+      },
+      "asociaciones_malas": {
+        "valor": "Papa (comparten plagas y tizón), otras solanáceas, brócoli/coliflor y brasicáceas, arveja, remolacha y calabacín/zapallo. El hinojo también se cita como desfavorable para casi toda la huerta.",
+        "fuentes": [
+          {
+            "titulo": "Ejemplos de asociaciones de cultivos",
+            "url": "https://www.ecoagricultor.com/ejemplos-de-asociaciones-de-cultivos-a-la-hora-de-planificar-el-diseno-del-huerto/",
+            "organizacion": "Ecoagricultor"
+          }
+        ],
+        "confianza": 6
+      },
+      "riego": {
+        "valor": "Todo el ciclo, y en especial con fruta cuajada: regá regular y parejo. El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
+        "fuentes": [
+          {
+            "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+            "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+            "organizacion": "FIQ - UNL"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 7,
+        "regimen": "parejo"
+      },
+      "maceta": {
+        "valor": "Al menos 45 cm de profundidad y unos 19 litros (5 galones) por planta. En maceta, la profundidad importa más que el ancho.",
+        "fuentes": [
+          {
+            "titulo": "Vegetable Gardening in Containers (E-545)",
+            "url": "https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/12/2011/03/E-545_vegetable_gardening_containers.pdf",
+            "organizacion": "Texas A&M AgriLife Extension"
+          },
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 8,
+        "medidas": {
+          "profundidad_min_cm": 45,
+          "litros_min": 19,
+          "plantas_por_contenedor": 1
+        }
+      },
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [
+            8,
+            9,
+            10
+          ],
+          "siembra_posible": [
+            1,
+            11,
+            12
+          ],
+          "trasplante_ideal": [
+            9,
+            10,
+            11
+          ],
+          "trasplante_posible": [
+            12
+          ]
+        },
+        "metodo_por_mes": {
+          "1": "directa",
+          "8": "almacigo_protegido",
+          "9": "almacigo_protegido",
+          "10": "directa|almacigo",
+          "11": "directa",
+          "12": "directa"
+        },
+        "derivacion": "De fecha_siembra: almácigo protegido ago-oct (INTA) → ideal; directa a golpes oct-ene → nov-ene posible. Trasplante sep-nov tras la última helada (~sep en GBA), dic como cola. Trasplante a 30-60 días del almácigo según época.",
+        "confianza": 9,
+        "decadas": {
+          "urbano": {
+            "siembra_ideal": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33
+            ],
+            "trasplante_posible": [
+              26,
+              34,
+              35,
+              36
+            ]
+          },
+          "conurbano": {
+            "siembra_ideal": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              30,
+              31,
+              32,
+              33
+            ],
+            "trasplante_posible": [
+              29,
+              34,
+              35,
+              36
+            ]
+          },
+          "periurbano": {
+            "siembra_ideal": [
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              1,
+              2,
+              3,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              31,
+              32,
+              33
+            ],
+            "trasplante_posible": [
+              29,
+              30,
+              34,
+              35,
+              36
+            ]
+          }
+        },
+        "afinado": {
+          "estado": "afinado",
+          "motivo": null,
+          "nota_fuente": null,
+          "ajustes": [
+            {
+              "decada": 25,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a principios de septiembre expone el plantín a un 90 % de probabilidad de helada."
+            },
+            {
+              "decada": 26,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a mediados de septiembre expone el plantín a un 81 % de probabilidad de helada."
+            },
+            {
+              "decada": 27,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a fines de septiembre expone el plantín a un 65 % de probabilidad de helada."
+            },
+            {
+              "decada": 28,
+              "regla": "helada_trasplante",
+              "nota": "Trasplantar a principios de octubre expone el plantín a un 50 % de probabilidad de helada."
+            },
+            {
+              "decada": 29,
+              "regla": "helada_trasplante_riesgo",
+              "nota": "33 % de probabilidad de helada a mediados de octubre."
+            }
+          ],
+          "confianza": 8,
+          "zona_referencia": {
+            "urbano": "Buenos Aires Observatorio (SMN) · Observatorio 3 °C (FAUBA)",
+            "conurbano": "Ezeiza Aero (SMN) · Ezeiza Aero 3 °C (FAUBA)",
+            "periurbano": "La Plata Aero (SMN) · La Plata Aero 3 °C (FAUBA)"
+          }
+        }
+      },
+      "dias_a_trasplante": {
+        "min": 30,
+        "max": 60
+      },
+      "dias_a_cosecha": {
+        "min": 80,
+        "max": 100
+      },
+      "dias_germinacion": {
+        "min": 6,
+        "max": 10
+      },
+      "asociaciones": {
+        "buenas": [
+          {
+            "slug": "albahaca",
+            "externa": false
+          },
+          {
+            "slug": "copete",
+            "externa": false
+          },
+          {
+            "slug": "calendula",
+            "externa": false
+          },
+          {
+            "slug": "zanahoria",
+            "externa": false
+          },
+          {
+            "slug": "apio",
+            "externa": false
+          },
+          {
+            "slug": "cebolla",
+            "externa": false
+          },
+          {
+            "slug": "ajo",
+            "externa": false
+          },
+          {
+            "slug": "puerro",
+            "externa": false
+          },
+          {
+            "slug": "lechuga",
+            "externa": false
+          },
+          {
+            "slug": "espinaca",
+            "externa": false
+          }
+        ],
+        "malas": [
+          {
+            "slug": "papa",
+            "externa": false
+          },
+          {
+            "slug": "brocoli",
+            "externa": false
+          },
+          {
+            "slug": "coliflor",
+            "externa": false
+          },
+          {
+            "slug": "arveja",
+            "externa": false
+          },
+          {
+            "slug": "remolacha",
+            "externa": false
+          },
+          {
+            "slug": "zapallito-de-tronco",
+            "externa": false
+          },
+          {
+            "slug": "zapallo",
+            "externa": false
+          },
+          {
+            "etiqueta": "otras solanáceas",
+            "externa": true
+          },
+          {
+            "etiqueta": "brasicáceas",
+            "externa": true
+          },
+          {
+            "etiqueta": "hinojo",
+            "externa": true
+          }
+        ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 10,
+          "ideal_min": 18,
+          "ideal_max": 27,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "tolera_min": 2,
+          "tolera_max": 35
+        },
+        "helada": "muere",
+        "nota": "Si adelantás el trasplante con las noches todavía frescas la planta te florece pero no cuaja, y con las olas de calor del verano se le muere el polen igual: apuntá a que florezca en tiempo templado.",
+        "fuentes": [
+          {
+            "titulo": "Tomate (Lycopersicon esculentum Mill) - Producción Vegetal III (Horticultura)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+            "organizacion": "Universidad Nacional de Luján (UNLu)"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 9
+      },
+      "cuidados": [
+        {
+          "tipo": "tutorado",
+          "cuando": "Desde el trasplante",
+          "que_hacer": "Ponele caña, hilo o espaldera y andá atándolo mientras sube.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "poda",
+          "cuando": "Todas las semanas, en las variedades indeterminadas",
+          "que_hacer": "Sacale los brotes que salen entre el tallo y cada hoja (los \"chupones\"), cuando todavía son chiquitos.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "riego",
+          "cuando": "Todo el ciclo, y en especial con fruta cuajada",
+          "que_hacer": "Regá regular y parejo.",
+          "por_que": "El vaivén de seco a mojado le da podredumbre en la punta del fruto y lo raja.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "El Suelo - Calendario de siembra (FIQ-UNL)",
+              "url": "https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf",
+              "organizacion": "FIQ - UNL"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 7
+        },
+        {
+          "tipo": "rotacion",
+          "cuando": "Al planificar el cantero del año que viene",
+          "que_hacer": "No repitas tomate ni otra solanácea (papa, pimiento, berenjena) en el mismo lugar años seguidos.",
+          "por_que": "Se acumulan enfermedades del suelo.",
+          "de": "riesgos",
+          "fuentes": [
+            {
+              "titulo": "Ficha de cultivo Tomate",
+              "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+              "organizacion": "Cátedra de Horticultura - UNLu"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [],
+      "variedad_de": "tomate",
+      "variedad": "Indeterminado",
+      "variedad_derivacion": "Es la variedad a la que las fuentes le atribuyen el tutorado, el desbrote y la producción escalonada hasta las heladas. Conserva todos los cuidados del padre.",
       "variedades": []
     },
     {

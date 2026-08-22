@@ -85,6 +85,28 @@ describe('variedades derivadas', () => {
     expect(d.dias_a_cosecha).toEqual({ min: 200, max: 200 })
   })
 
+  it('el tomate determinado no lleva tutorado ni poda; el indeterminado sí', () => {
+    const det = porSlug.get('tomate-determinado')!
+    const ind = porSlug.get('tomate-indeterminado')!
+    const tipos = (e: EspecieEnriquecida) => e.cuidados.map((c) => c.tipo)
+    expect(tipos(det)).not.toContain('tutorado')
+    expect(tipos(det)).not.toContain('poda')
+    expect(tipos(ind)).toContain('tutorado')
+    expect(tipos(ind)).toContain('poda')
+    // riego y rotación no dependen del hábito: los conserva
+    expect(tipos(det)).toContain('riego')
+    expect(tipos(det)).toContain('rotacion')
+  })
+
+  it('la derivada hereda `trucos` textual: no se reescribe la fuente', () => {
+    const det = porSlug.get('tomate-determinado')!
+    const padre = porSlug.get('tomate')!
+    // El texto sigue diciendo "en variedades indeterminadas" y la ficha no
+    // muestra tarjeta de tutorado: el razonamiento queda verificable a ojo.
+    expect(det.trucos).toEqual(padre.trucos)
+    expect(det.trucos.valor).toContain('variedades indeterminadas')
+  })
+
   it('toda derivada explica por qué difiere', () => {
     for (const v of derivadas) {
       expect(v.variedad_derivacion, v.slug).toBeTruthy()

@@ -2795,7 +2795,29 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Determinado",
+          "difiere_en": {}
+        },
+        {
+          "nombre": "Indeterminado",
+          "difiere_en": {
+            "longevidad": {
+              "valor": "Las variedades indeterminadas siguen dando frutos escalonadamente hasta las primeras heladas.",
+              "fuentes": [
+                {
+                  "titulo": "Ficha de cultivo Tomate",
+                  "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+                  "organizacion": "Cátedra de Horticultura - UNLu"
+                }
+              ],
+              "confianza": 7
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Pimiento / Morrón",

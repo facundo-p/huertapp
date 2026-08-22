@@ -94,6 +94,27 @@ describe('motor de tareas', () => {
     expect(motor([planta({ ...base, etapa: 'cosechando' })]).some((t) => t.tipo === 'cosechar')).toBe(false)
   })
 
+  it('el aviso de cosecha no se archiva solo al pasarse de largo', () => {
+    // El melón son 100 días clavados: con la ventana cerrándose en el máximo,
+    // el aviso duraba un día. Ahora queda hasta que la marques cosechando.
+    const tarde = planta({ slug: 'melon', sembrada: sumarDias(HOY, -300), germino: sumarDias(HOY, -290) })
+    expect(motor([tarde]).some((t) => t.tipo === 'cosechar')).toBe(true)
+  })
+
+  /**
+   * El requisito que motivó las variedades: dos coliflores sembradas el mismo
+   * día no se cosechan el mismo día. Antes las dos heredaban el 90-200 del
+   * padre y el aviso salía a los 90 para las dos, incluida la tardía.
+   */
+  it('el aviso de cosecha sale según la variedad, no según la especie', () => {
+    const hace120 = sumarDias(HOY, -120)
+    const temprana = planta({ slug: 'coliflor-temprana', id: 'ct', sembrada: hace120 })
+    const tardia = planta({ slug: 'coliflor-tardia', id: 'cd', sembrada: hace120 })
+
+    expect(motor([temprana]).some((t) => t.tipo === 'cosechar')).toBe(true)
+    expect(motor([tardia]).some((t) => t.tipo === 'cosechar')).toBe(false)
+  })
+
   it('avisa de helada solo si hay plantas expuestas que no la banquen', () => {
     const tomate = planta({ slug: 'tomate', etapa: 'creciendo', germino: HOY })
     const kale = planta({ slug: 'kale', id: 'k', etapa: 'creciendo', germino: HOY })

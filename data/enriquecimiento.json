@@ -2092,7 +2092,18 @@
       "profundidad_min_cm": 45,
       "litros_min": 19,
       "plantas_por_contenedor": 1
+    },
+  "variedades_derivado": {
+    "determinado": {
+      "nombre_comun": "Tomate determinado",
+      "derivacion": "El texto de trucos acota la práctica: «tutorar y realizar desbrote/poda en variedades indeterminadas» (FIQ-UNL, Fecoagro). Una determinada no entra en esa frase, así que no lleva esos dos cuidados. El texto se hereda entero y sin tocar: la frase que lo justifica queda a la vista en la ficha.",
+      "cuidados_quita": ["tutorado", "poda"]
+    },
+    "indeterminado": {
+      "nombre_comun": "Tomate indeterminado",
+      "derivacion": "Es la variedad a la que las fuentes le atribuyen el tutorado, el desbrote y la producción escalonada hasta las heladas. Conserva todos los cuidados del padre."
     }
+  }
   },
   "pimiento": {
     "calendario": {
