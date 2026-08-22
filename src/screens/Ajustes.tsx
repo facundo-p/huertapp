@@ -5,6 +5,7 @@ import { elegirZona, useZona, ZONAS_INFO } from '../lib/zona'
 import { ZONAS, type Zona } from '../lib/data/types'
 import { useHuerta, recargar } from '../lib/huerta/store'
 import { espacioUsado, pedirPersistencia } from '../lib/huerta/db'
+import { comoTexto, leer as leerBitacora, nombreError } from '../lib/huerta/bitacora'
 import { pesoLegible } from '../lib/huerta/fotos'
 import { borrarTodo, sembrarDemo } from '../lib/huerta/demo'
 import {
@@ -44,6 +45,7 @@ export function Ajustes() {
         <SeccionBackup cuantasPlantas={plantas.length} />
         <SeccionAvisos />
         <SeccionDemo cuantasPlantas={plantas.length} />
+        <SeccionBitacora />
         <PieVersion />
       </div>
     </div>
@@ -233,8 +235,10 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
       await recargar()
       setPendiente(null)
       setMensaje('Listo: tu huerta quedó como en el backup.')
-    } catch {
-      setError('Falló la importación. Tus datos anteriores pueden haberse perdido: si tenés otro backup, probá con ese.')
+    } catch (e) {
+      setError(
+        `No se pudo restaurar el backup, así que tu huerta quedó como estaba (${nombreError(e)}). Si el archivo está cortado, probá con otro.`,
+      )
     } finally {
       setImportando(false)
     }
@@ -522,6 +526,71 @@ function LimitesDeAvisos({ estado, prendidos }: { estado: EstadoAvisos; prendido
 }
 
 /* ---------- demo ---------- */
+
+/* ---------- bitácora ---------- */
+
+/**
+ * El registro de arranques.
+ *
+ * Existe por un bug que no se puede reproducir: hay quien abre la app y se
+ * encuentra la huerta vacía, sin patrón conocido. Sin esto el diagnóstico es a
+ * ciegas —así fue el de la 1.1.0, preguntando datos de a uno—, porque la app no
+ * dejaba rastro de nada.
+ *
+ * Vive en localStorage, que es lo único que sobrevive a que IndexedDB se vacíe.
+ */
+function SeccionBitacora() {
+  const [apuntes, setApuntes] = useState(() => leerBitacora())
+  const [abierta, setAbierta] = useState(false)
+  const [copiado, setCopiado] = useState(false)
+
+  const texto = comoTexto(apuntes)
+
+  async function copiar() {
+    try {
+      await navigator.clipboard.writeText(texto)
+      setCopiado(true)
+      setTimeout(() => setCopiado(false), 2500)
+    } catch {
+      // sin permiso de portapapeles queda el texto a la vista para seleccionar
+    }
+  }
+
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">Si algo se rompe</h2>
+      <p className="ajustes__bajada">
+        Cada vez que abrís la app, se anota acá cómo le fue al leer tu huerta.{' '}
+        <strong>Si alguna vez aparece vacía, copiá esto y mandalo</strong>: dice qué pasó y cuándo.
+        No sale de tu aparato.
+      </p>
+
+      <details
+        className="bitacora"
+        onToggle={(e) => {
+          setAbierta(e.currentTarget.open)
+          setApuntes(leerBitacora())
+        }}
+      >
+        <summary className="bitacora__ver">
+          Ver el registro ({apuntes.length === 1 ? '1 apunte' : `${apuntes.length} apuntes`})
+        </summary>
+        {/* el registro se dibuja recién al abrirlo: son decenas de líneas que
+            nadie mira, y adentro de un details cerrado igual pesan */}
+        {abierta && (
+          <>
+            <pre className="bitacora__texto">{texto}</pre>
+            <div className="ajustes__botones">
+              <button className="boton-secundario" onClick={() => void copiar()}>
+                {copiado ? 'Copiado' : 'Copiar el registro'}
+              </button>
+            </div>
+          </>
+        )}
+      </details>
+    </section>
+  )
+}
 
 function SeccionDemo({ cuantasPlantas }: { cuantasPlantas: number }) {
   const [ocupado, setOcupado] = useState(false)

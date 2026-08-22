@@ -1,5 +1,7 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
 import type { EntradaDiario, Foto, Planta, Ubicacion } from './tipos'
+import { anotar, nombreError } from './bitacora'
+import { unaVez } from './reintento'
 
 // IndexedDB, sin servidor y sin cuenta. Nota honesta: iOS puede vaciar el
 // almacenamiento de un sitio que no se usa por semanas. Por eso el backup
@@ -31,8 +33,6 @@ function crearStores(d: IDBPDatabase<Esquema>) {
   if (!d.objectStoreNames.contains('ajustes')) d.createObjectStore('ajustes')
 }
 
-let db: Promise<IDBPDatabase<Esquema>> | null = null
-
 /**
  * Abre la base y **se asegura de que tenga sus object stores**.
  *
@@ -63,14 +63,31 @@ async function abrirVerificando(): Promise<IDBPDatabase<Esquema>> {
   // Base a medio crear. Subir la versión es la única forma de que el navegador
   // vuelva a dar una transacción de upgrade; se sube desde la que realmente
   // tiene, que puede no ser 1.
+  anotar('reparacion', { baseVersion: d.version, faltan: faltantes(d) })
   const siguiente = d.version + 1
   d.close()
   return openDB<Esquema>(NOMBRE, siguiente, { upgrade: crearStores })
 }
 
-export function abrir(): Promise<IDBPDatabase<Esquema>> {
-  db ??= abrirVerificando()
-  return db
+// `unaVez` y no `db ??=`: si abrir falla una vez, el rechazo cacheado dejaba la
+// app sin base para toda la sesión, sin reintentar nunca.
+const abrirUnaVez = unaVez(async () => {
+  try {
+    return await abrirVerificando()
+  } catch (e) {
+    anotar('error-lectura', { error: nombreError(e), detalle: 'abrir' })
+    throw e
+  }
+})
+
+export const abrir = (): Promise<IDBPDatabase<Esquema>> => abrirUnaVez()
+
+const faltantes = (d: IDBPDatabase<Esquema>) => STORES.filter((s) => !d.objectStoreNames.contains(s))
+
+/** Cómo está la base ahora mismo. Es lo que se anota en cada arranque. */
+export async function radiografia(): Promise<{ baseVersion: number; faltan: string[] }> {
+  const d = await abrir()
+  return { baseVersion: d.version, faltan: faltantes(d) }
 }
 
 /**
@@ -84,6 +101,16 @@ export async function pedirPersistencia(): Promise<boolean> {
     return await navigator.storage.persist()
   } catch {
     return false
+  }
+}
+
+/** Si el navegador se comprometió a no evictar. `null` si no sabe decirlo. */
+export async function estaPersistido(): Promise<boolean | null> {
+  if (!navigator.storage?.persisted) return null
+  try {
+    return await navigator.storage.persisted()
+  } catch {
+    return null
   }
 }
 
@@ -165,9 +192,57 @@ export const guardarAjuste = async (clave: string, valor: unknown) => {
   await (await abrir()).put('ajustes', valor, clave)
 }
 
-/** Vacía todo. Lo usa el import (que reemplaza) y el botón de borrar todo. */
+/**
+ * Reemplaza toda la huerta **en una sola transacción**: si algo falla, no se
+ * borró nada.
+ *
+ * Antes el import hacía `vaciarTodo()` y después escribía de a un registro. Un
+ * archivo cortado, o uno solo que IndexedDB rechazara, dejaba la huerta vacía:
+ * te borraba lo que tenías para no poder darte lo que venía en el archivo.
+ *
+ * Dos cosas que no se pueden tocar acá:
+ *
+ * - **Los blobs llegan resueltos.** Un `await` sobre algo que no sea IndexedDB
+ *   dentro de la transacción la deja morir sola (auto-commit), y el rollback
+ *   se pierde. Por eso las fotos se decodifican antes, en `backup.ts`.
+ * - **El abort es explícito.** `put` con un registro sin su keyPath tira
+ *   DataError *sincrónico*: se escapa del bloque y la transacción confirmaría
+ *   el `clear()` que ya estaba encolado.
+ */
+export async function reemplazarTodo(datos: {
+  plantas: Planta[]
+  diario: EntradaDiario[]
+  ubicaciones: Ubicacion[]
+  fotos: Foto[]
+}) {
+  const d = await abrir()
+  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones'], 'readwrite')
+  try {
+    for (const s of ['plantas', 'diario', 'fotos', 'ubicaciones'] as const) {
+      tx.objectStore(s).clear()
+    }
+    for (const u of datos.ubicaciones) tx.objectStore('ubicaciones').put(u)
+    for (const p of datos.plantas) tx.objectStore('plantas').put(p)
+    for (const e of datos.diario) tx.objectStore('diario').put(e)
+    for (const f of datos.fotos) tx.objectStore('fotos').put(f)
+    await tx.done
+    anotar('import', { plantas: datos.plantas.length })
+  } catch (e) {
+    try {
+      tx.abort()
+    } catch {
+      // ya estaba abortada: el error real es el de afuera
+    }
+    await tx.done.catch(() => {})
+    anotar('error-escritura', { error: nombreError(e), detalle: 'import' })
+    throw e
+  }
+}
+
+/** Vacía todo. Lo usa el botón de borrar todo. */
 export async function vaciarTodo() {
   const d = await abrir()
+  anotar('vaciado', { plantas: (await d.getAll('plantas')).length })
   const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones'], 'readwrite')
   await Promise.all([
     tx.objectStore('plantas').clear(),

@@ -298,3 +298,30 @@
   text-align: center;
 }
 
+
+/* Bitácora: registro técnico, plegado. Es para copiar y mandar, no para leer. */
+.bitacora__ver {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--verde-prof);
+  cursor: pointer;
+}
+
+.bitacora__texto {
+  margin: var(--esp-2) 0;
+  padding: var(--esp-3);
+  max-height: 40vh;
+  overflow: auto;
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  color: var(--tinta);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--texto-xs);
+  line-height: 1.6;
+  /* una línea por apunte: se rompe donde el texto lo pide, no a la mitad */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

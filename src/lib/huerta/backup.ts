@@ -150,20 +150,24 @@ export async function leerArchivo(archivo: File): Promise<Backup> {
  * explícita del usuario: la pantalla muestra primero qué trae el archivo.
  */
 export async function importar(b: Backup): Promise<void> {
-  await db.vaciarTodo()
-
-  for (const u of b.ubicaciones) await db.guardarUbicacion(u)
-  for (const p of b.plantas) await db.guardarPlanta(p)
-  for (const e of b.diario) await db.guardarEntrada(e)
-  for (const f of b.fotos) {
-    await db.guardarFoto({
+  // Las fotos se decodifican ANTES de tocar la base: adentro de la transacción
+  // un await que no sea de IndexedDB la deja morir sola y se pierde el rollback.
+  const fotos: Foto[] = await Promise.all(
+    b.fotos.map(async (f) => ({
       id: f.id,
       blob: await desdeDataURL(f.datos),
       tipo: f.tipo,
       ancho: f.ancho,
       alto: f.alto,
       creada: f.creada,
-    })
-  }
+    })),
+  )
+
+  await db.reemplazarTodo({
+    plantas: b.plantas,
+    diario: b.diario,
+    ubicaciones: b.ubicaciones,
+    fotos,
+  })
   if (b.zona) elegirZona(b.zona)
 }
