@@ -345,7 +345,8 @@
   color: var(--tinta-media);
 }
 
-.ficha__derivacion::before {
-  content: 'Por qué difiere: ';
+/* Etiqueta en el DOM y no como ::before: carga significado, así que tiene que
+   poder leerse, buscarse y seleccionarse como cualquier texto. */
+.ficha__derivacion-etiqueta {
   font-weight: 700;
 }

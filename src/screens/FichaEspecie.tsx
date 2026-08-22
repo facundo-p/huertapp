@@ -104,7 +104,10 @@ export function FichaEspecie() {
               . Lo que no figura acá abajo es igual que en la especie, con las mismas fuentes.
             </p>
             {e.variedad_derivacion && (
-              <p className="ficha__derivacion">{e.variedad_derivacion}</p>
+              <p className="ficha__derivacion">
+                <span className="ficha__derivacion-etiqueta">Por qué difiere:</span>{' '}
+                {e.variedad_derivacion}
+              </p>
             )}
           </aside>
         )}

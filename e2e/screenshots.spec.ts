@@ -167,6 +167,16 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // el alta de una especie con variedades: el paso que hace que los avisos
+    // salgan por la que plantaste y no por la especie
+    nombre: 'alta-planta-variedad',
+    ruta: '/#/explorar/coliflor',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /Agregar a mi huerta/ }).click()
+      await page.waitForTimeout(400)
+    },
+  },
+  {
     nombre: 'diario-nueva-entrada',
     ruta: '/#/huerta',
     antes: async (page) => {
