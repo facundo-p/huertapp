@@ -107,6 +107,37 @@ describe('variedades derivadas', () => {
     expect(det.trucos.valor).toContain('variedades indeterminadas')
   })
 
+  it('están las once derivadas, y ninguna más', () => {
+    expect(derivadas.map((e) => e.slug).sort()).toEqual([
+      'arveja-de-enrame',
+      'arveja-enana',
+      'chaucha-de-enrame',
+      'chaucha-enana',
+      'coliflor-tardia',
+      'coliflor-temprana',
+      'tomate-determinado',
+      'tomate-indeterminado',
+      'zanahoria-chantenay-nantesa',
+      'zanahoria-corta',
+      'zanahoria-criolla',
+    ])
+  })
+
+  it('las que difieren por porte no llevan el tutor de la trepadora', () => {
+    for (const slug of ['chaucha-enana', 'arveja-enana']) {
+      expect(porSlug.get(slug)!.cuidados.map((c) => c.tipo), slug).not.toContain('tutorado')
+    }
+    for (const slug of ['chaucha-de-enrame', 'arveja-de-enrame']) {
+      expect(porSlug.get(slug)!.cuidados.map((c) => c.tipo), slug).toContain('tutorado')
+    }
+  })
+
+  it('las tres zanahorias parten el 50-150 del padre', () => {
+    expect(porSlug.get('zanahoria-chantenay-nantesa')!.dias_a_cosecha).toEqual({ min: 110, max: 110 })
+    expect(porSlug.get('zanahoria-criolla')!.dias_a_cosecha).toEqual({ min: 150, max: 150 })
+    expect(porSlug.get('zanahoria-corta')!.dias_a_cosecha).toEqual({ min: 50, max: 90 })
+  })
+
   it('toda derivada explica por qué difiere', () => {
     for (const v of derivadas) {
       expect(v.variedad_derivacion, v.slug).toBeTruthy()

@@ -154,8 +154,15 @@ describe('nombreCorto', () => {
   })
 
   it('ningún nombre corto pasa de 22 caracteres (entra en la columna de la matriz)', () => {
-    for (const e of db.especies as Array<{ nombre_comun: string }>) {
-      expect(nombreCorto(e.nombre_comun).length).toBeLessThanOrEqual(22)
+    // La matriz dibuja una fila por especie del catálogo, y las variedades van
+    // como subfila con su nombre corto ("Chantenay-Nantesa"), no con el
+    // compuesto: el de la especie ya está en la fila de arriba.
+    for (const e of db.especies as Array<{
+      nombre_comun: string
+      variedad: string | null
+    }>) {
+      const enLaColumna = e.variedad ?? nombreCorto(e.nombre_comun)
+      expect(enLaColumna.length, enLaColumna).toBeLessThanOrEqual(22)
     }
   })
 })

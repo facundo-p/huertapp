@@ -192,7 +192,16 @@ function expandirVariedades(padre, citables, derivado) {
         errores.push(`${donde}: quita el cuidado "${t}", que el padre no tiene`)
       }
     }
-    const cuidados = padre.cuidados.filter((c) => !quita.includes(c.tipo))
+
+    // Un cuidado o una pista heredan las fuentes del campo del que salen (`de`).
+    // Si la variedad override ese campo, las de la variedad son otras: heredar
+    // las del padre dejaría un consejo citando una fuente que ya no es la suya.
+    const reanclar = (item) =>
+      difiere[item.de]
+        ? { ...item, fuentes: difiere[item.de].fuentes, confianza: difiere[item.de].confianza }
+        : item
+
+    const cuidados = padre.cuidados.filter((c) => !quita.includes(c.tipo)).map(reanclar)
     if (!cuidados.length) errores.push(`${donde}: se queda sin ningún cuidado`)
 
     const slug = `${padre.slug}-${clave}`
@@ -209,6 +218,7 @@ function expandirVariedades(padre, citables, derivado) {
       variedad_derivacion: over.derivacion ?? null,
       variedades: [],
       cuidados,
+      germinacion_pistas: padre.germinacion_pistas.map(reanclar),
       calendario: over.calendario ? { ...padre.calendario, ...over.calendario } : padre.calendario,
       dias_a_cosecha: over.dias_a_cosecha ?? padre.dias_a_cosecha,
       dias_a_trasplante: over.dias_a_trasplante ?? padre.dias_a_trasplante,
