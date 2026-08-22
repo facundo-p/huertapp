@@ -1568,7 +1568,41 @@
       "profundidad_min_cm": 30,
       "litros_min": null,
       "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "temprana": {
+      "nombre_comun": "Coliflor temprana",
+      "derivacion": "El Brote Urbano separa tempranas de tardías. Los meses salen textuales de esa frase y se quedan dentro de los del padre, conservando su jerarquía: octubre ya era ideal; noviembre y diciembre, posibles. Los 90 días parten el rango 90-200 que el padre ya publica, sin ninguna cuenta nueva.",
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [10],
+          "siembra_posible": [11, 12],
+          "trasplante_ideal": [1, 12],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": { "10": "almacigo", "11": "almacigo", "12": "almacigo" },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tempranas almácigo oct-dic, trasplante dic-ene. Se conserva la jerarquía del padre en cada mes.",
+        "confianza": 7
+      },
+      "dias_a_cosecha": { "min": 90, "max": 90 }
+    },
+    "tardia": {
+      "nombre_comun": "Coliflor tardía",
+      "derivacion": "La otra mitad de la misma frase de El Brote Urbano: almácigo mar-abr, trasplante may-jun, unos 200 días. Los meses y los días quedan dentro de los del padre.",
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [3, 4],
+          "siembra_posible": [],
+          "trasplante_ideal": [5, 6],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": { "3": "almacigo", "4": "almacigo" },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tardías almácigo mar-abr, trasplante may-jun.",
+        "confianza": 7
+      },
+      "dias_a_cosecha": { "min": 200, "max": 200 }
     }
+  }
   },
   "repollitos-de-bruselas": {
     "calendario": {

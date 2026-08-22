@@ -13,7 +13,10 @@ import { decadaDe, decadasDelMes, diasHastaFinDeDecada, siguienteDecada } from '
 
 export interface IndiceEspecies {
   db: EspeciesDB
+  /** todas, variedades derivadas incluidas: es lo que resuelve `porSlug` */
   todas: EspecieEnriquecida[]
+  /** las 55 del catálogo: lo que se lista en Explorar y en el Calendario */
+  padres: EspecieEnriquecida[]
   porSlug: Map<string, EspecieEnriquecida>
   porGrupo: Map<Grupo, EspecieEnriquecida[]>
   /** texto normalizado de búsqueda por slug (nombre común, científico y alias) */
@@ -31,10 +34,13 @@ export function cargarEspecies(): Promise<IndiceEspecies> {
 
 function indexar(db: EspeciesDB): IndiceEspecies {
   const todas = db.especies
+  const padres = todas.filter((e) => !e.variedad_de)
   const porSlug = new Map(todas.map((e) => [e.slug, e]))
 
+  // Por grupo van solo los padres: el Calendario dibuja una fila por especie y
+  // las variedades se despliegan desde ahí.
   const porGrupo = new Map<Grupo, EspecieEnriquecida[]>()
-  for (const e of todas) {
+  for (const e of padres) {
     const lista = porGrupo.get(e.grupo) ?? []
     lista.push(e)
     porGrupo.set(e.grupo, lista)
@@ -47,7 +53,7 @@ function indexar(db: EspeciesDB): IndiceEspecies {
     ]),
   )
 
-  return { db, todas, porSlug, porGrupo, textoBusqueda }
+  return { db, todas, padres, porSlug, porGrupo, textoBusqueda }
 }
 
 /** Estado de una década para una especie: ideal, posible o fuera de ventana. */

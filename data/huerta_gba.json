@@ -2140,7 +2140,63 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Temprana",
+          "difiere_en": {
+            "fecha_siembra": {
+              "valor": "Variedades tempranas: almácigo de octubre a diciembre, trasplante de diciembre a enero, cosecha de marzo a abril.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            },
+            "cosecha": {
+              "valor": "Variedades tempranas: aproximadamente 90 días desde el almácigo/trasplante.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            }
+          }
+        },
+        {
+          "nombre": "Tardía",
+          "difiere_en": {
+            "fecha_siembra": {
+              "valor": "Variedades tardías: almácigo de marzo a abril, trasplante de mayo a junio, cosecha de agosto a septiembre.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            },
+            "cosecha": {
+              "valor": "Variedades tardías: aproximadamente 200 días.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Repollitos de Bruselas",

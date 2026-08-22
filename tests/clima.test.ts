@@ -4,6 +4,7 @@ import * as C from '../scripts/clima-gba.mjs'
 // @ts-expect-error
 import { afinarEspecie, nombreDecada, SIN_AFINAR } from '../scripts/afinar-calendario.mjs'
 import overlay from '../data/enriquecimiento.json'
+import enriquecido from '../data/huerta_gba_enriquecido.json'
 
 const ZONAS = ['urbano', 'conurbano', 'periurbano'] as const
 const DECADAS = Array.from({ length: 36 }, (_, i) => i + 1)
@@ -145,6 +146,31 @@ describe('afinado del calendario', () => {
   it('las 55 especies se afinan sin romper', () => {
     expect(especies).toHaveLength(55)
     for (const par of especies) expect(() => afinar(par)).not.toThrow()
+  })
+
+  /**
+   * El mismo control, pero sobre el JSON que se publica y no sobre el overlay.
+   * Hace falta porque las variedades derivadas **no viven en el overlay**: las
+   * arma el build. Sin esto, la regla de oro dejaría de mirarlas justo cuando
+   * el catálogo empezó a tener entradas que nadie escribió a mano.
+   */
+  it('REGLA DE ORO sobre lo publicado, variedades incluidas', () => {
+    const especiesGeneradas = (enriquecido as any).especies as any[]
+    expect(especiesGeneradas.length).toBeGreaterThan(55)
+    for (const e of especiesGeneradas) {
+      const f = e.calendario.fuente_meses
+      const mesesSiembra = new Set([...f.siembra_ideal, ...f.siembra_posible])
+      const mesesTrasp = new Set([...f.trasplante_ideal, ...f.trasplante_posible])
+      for (const zona of ZONAS) {
+        const d = e.calendario.decadas[zona]
+        for (const x of [...d.siembra_ideal, ...d.siembra_posible]) {
+          expect(mesesSiembra, `${e.slug}/${zona}: década ${x}`).toContain(C.mesDeDecada(x))
+        }
+        for (const x of [...d.trasplante_ideal, ...d.trasplante_posible]) {
+          expect(mesesTrasp, `${e.slug}/${zona}: década ${x}`).toContain(C.mesDeDecada(x))
+        }
+      }
+    }
   })
 
   it('REGLA DE ORO: ninguna década cae fuera de los meses que habilitó la fuente', () => {

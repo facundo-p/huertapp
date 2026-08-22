@@ -1410,7 +1410,11 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "espinaca",
@@ -1972,7 +1976,11 @@
           ],
           "confianza": 4
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "acelga",
@@ -2620,7 +2628,11 @@
           ],
           "confianza": 9
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "rucula",
@@ -3078,7 +3090,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "kale",
@@ -3705,7 +3721,11 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "repollo",
@@ -4090,7 +4110,11 @@
         }
       ],
       "germinacion_pistas": [],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "radicchio",
@@ -4543,7 +4567,11 @@
       ],
       "germinacion_pistas": [],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "berro",
@@ -5053,7 +5081,11 @@
           "confianza": 6
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "apio",
@@ -5600,7 +5632,11 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "brocoli",
@@ -6108,7 +6144,11 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "coliflor",
@@ -6616,7 +6656,841 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": [
+        {
+          "slug": "coliflor-temprana",
+          "nombre": "Temprana",
+          "nombre_comun": "Coliflor temprana",
+          "cambia": [
+            {
+              "campo": "fecha_siembra",
+              "valor": "Variedades tempranas: almácigo de octubre a diciembre, trasplante de diciembre a enero, cosecha de marzo a abril.",
+              "confianza": 7
+            },
+            {
+              "campo": "cosecha",
+              "valor": "Variedades tempranas: aproximadamente 90 días desde el almácigo/trasplante.",
+              "confianza": 7
+            }
+          ],
+          "quita": [],
+          "derivacion": "El Brote Urbano separa tempranas de tardías. Los meses salen textuales de esa frase y se quedan dentro de los del padre, conservando su jerarquía: octubre ya era ideal; noviembre y diciembre, posibles. Los 90 días parten el rango 90-200 que el padre ya publica, sin ninguna cuenta nueva."
+        },
+        {
+          "slug": "coliflor-tardia",
+          "nombre": "Tardía",
+          "nombre_comun": "Coliflor tardía",
+          "cambia": [
+            {
+              "campo": "fecha_siembra",
+              "valor": "Variedades tardías: almácigo de marzo a abril, trasplante de mayo a junio, cosecha de agosto a septiembre.",
+              "confianza": 7
+            },
+            {
+              "campo": "cosecha",
+              "valor": "Variedades tardías: aproximadamente 200 días.",
+              "confianza": 7
+            }
+          ],
+          "quita": [],
+          "derivacion": "La otra mitad de la misma frase de El Brote Urbano: almácigo mar-abr, trasplante may-jun, unos 200 días. Los meses y los días quedan dentro de los del padre."
+        }
+      ]
+    },
+    {
+      "slug": "coliflor-temprana",
+      "nombre_comun": "Coliflor temprana",
+      "nombre_cientifico": "Brassica oleracea var. botrytis",
+      "grupo": "Hortaliza de hoja",
+      "fecha_siembra": {
+        "valor": "Variedades tempranas: almácigo de octubre a diciembre, trasplante de diciembre a enero, cosecha de marzo a abril.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7
+      },
+      "forma_siembra": {
+        "valor": "Almácigo y luego trasplante (no siembra directa).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          },
+          {
+            "titulo": "Planificador de huerta (ProHuerta)",
+            "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+            "organizacion": "INTA"
+          }
+        ],
+        "confianza": 8
+      },
+      "suelo": {
+        "valor": "Suelo fértil, bien abonado con compost, con buena retención de agua; exigente en nutrientes.",
+        "categoria_suelo": "FRANCO_FERTIL",
+        "que_pasa_si_no": "En suelo pobre o desbalanceado forma pellas chicas, sueltas o no forma cabeza; con encharcamiento aparece podredumbre negra.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "luz": {
+        "valor": "Pleno sol para buen desarrollo, aunque la pella se protege del sol directo con las hojas para que quede blanca.",
+        "categoria_luz": "PLENO_SOL",
+        "horas_min": "6",
+        "horas_ideal": "6",
+        "tolera_sin_sol_directo": false,
+        "que_pasa_si_no": "Con poca luz la planta se ahíla y no forma pella; el exceso de sol directo sobre la pella la torna amarillenta.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 5
+      },
+      "cosecha": {
+        "valor": "Variedades tempranas: aproximadamente 90 días desde el almácigo/trasplante.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7
+      },
+      "germinacion": {
+        "valor": "sin dato numérico en fuente citada; en crucíferas generalmente 5-10 días con temperatura templada.",
+        "fuentes": [],
+        "confianza": 3
+      },
+      "transplante": {
+        "valor": "Trasplante a surcos distanciados 70-90 cm; 50 cm entre plantas en variedades tempranas y 70-80 cm en tardías. Aporcar cuando la planta alcanza ~25 cm de altura.",
+        "signos_listo": "Plantín con varias hojas verdaderas y buen enraizamiento (aprox. 4-6 hojas).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "longevidad": {
+        "valor": "Anual (bianual botánica cultivada como anual). Produce una única pella por planta.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "trucos": {
+        "valor": "Blanqueo: atar o quebrar las hojas sobre la pella unos 3 días antes de cosechar para que no se ponga amarilla por el sol. Aporcar a los ~25 cm. Menta/mostaza cercana como repelentes de plagas.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 6
+      },
+      "riesgos": {
+        "valor": "Muy sensible a cambios (calor, sequía, frío intenso, trasplante tardío): forma pellas chicas, sueltas o granulosas ('arroz') o florece. Evitar encharcamientos (podredumbre negra).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "plagas": {
+        "valor": "Pulgones (control biológico por parásitos), orugas (controlables con tierra de diatomeas) y podredumbre negra (oxicloruro de cobre y evitar encharcamientos).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7
+      },
+      "asociaciones_buenas": {
+        "valor": "Menta, tomillo, salvia, eneldo y mostaza cerca de las coles ayudan a repeler/regular plagas.",
+        "fuentes": [
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 6
+      },
+      "asociaciones_malas": {
+        "valor": "Evitar concentrar varias crucíferas juntas (comparten plagas/enfermedades); según literatura general, evitar cerca de tomate y frutilla. No verificado en fuente argentina específica.",
+        "fuentes": [],
+        "confianza": 3
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
+      },
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [
+            10
+          ],
+          "siembra_posible": [
+            11,
+            12
+          ],
+          "trasplante_ideal": [
+            1,
+            12
+          ],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": {
+          "10": "almacigo",
+          "11": "almacigo",
+          "12": "almacigo"
+        },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tempranas almácigo oct-dic, trasplante dic-ene. Se conserva la jerarquía del padre en cada mes.",
+        "confianza": 7,
+        "decadas": {
+          "urbano": {
+            "siembra_ideal": [
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              1,
+              2,
+              3,
+              34,
+              35,
+              36
+            ],
+            "trasplante_posible": []
+          },
+          "conurbano": {
+            "siembra_ideal": [
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              1,
+              2,
+              3,
+              34,
+              35,
+              36
+            ],
+            "trasplante_posible": []
+          },
+          "periurbano": {
+            "siembra_ideal": [
+              28,
+              29,
+              30
+            ],
+            "siembra_posible": [
+              31,
+              32,
+              33,
+              34,
+              35,
+              36
+            ],
+            "trasplante_ideal": [
+              1,
+              2,
+              3,
+              34,
+              35,
+              36
+            ],
+            "trasplante_posible": []
+          }
+        },
+        "afinado": {
+          "estado": "afinado",
+          "motivo": null,
+          "nota_fuente": null,
+          "ajustes": [],
+          "confianza": 7,
+          "zona_referencia": {
+            "urbano": "Buenos Aires Observatorio (SMN) · Observatorio 3 °C (FAUBA)",
+            "conurbano": "Ezeiza Aero (SMN) · Ezeiza Aero 3 °C (FAUBA)",
+            "periurbano": "La Plata Aero (SMN) · La Plata Aero 3 °C (FAUBA)"
+          }
+        }
+      },
+      "dias_a_trasplante": {
+        "min": 30,
+        "max": 45
+      },
+      "dias_a_cosecha": {
+        "min": 90,
+        "max": 90
+      },
+      "dias_germinacion": {
+        "min": 5,
+        "max": 10
+      },
+      "asociaciones": {
+        "buenas": [
+          {
+            "slug": "menta",
+            "externa": false
+          },
+          {
+            "slug": "tomillo",
+            "externa": false
+          },
+          {
+            "slug": "salvia",
+            "externa": false
+          },
+          {
+            "slug": "eneldo",
+            "externa": false
+          }
+        ],
+        "malas": [
+          {
+            "slug": "tomate",
+            "externa": false
+          },
+          {
+            "slug": "frutilla",
+            "externa": false
+          },
+          {
+            "etiqueta": "otras crucíferas",
+            "externa": true
+          }
+        ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 21,
+          "tolera_min": -2,
+          "tolera_max": 26
+        },
+        "helada": "sensible",
+        "nota": "Es la más delicada de las coles: no le banca ni el calor fuerte ni el frío duro, así que calculá la siembra para que la pella caiga justo en pleno otoño.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la coliflor",
+            "url": "https://www.infoagro.com/hortalizas/coliflor.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 7
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "Unos 3 días antes de cosechar",
+          "que_hacer": "Atá o quebrá las hojas sobre la pella.",
+          "por_que": "Así el sol no se la pone amarilla.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Coliflor?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Cuando llega a unos 25 cm",
+          "que_hacer": "Arrimale tierra a la base.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Coliflor?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [],
+      "riego": null,
+      "variedad_de": "coliflor",
+      "variedad": "Temprana",
+      "variedad_derivacion": "El Brote Urbano separa tempranas de tardías. Los meses salen textuales de esa frase y se quedan dentro de los del padre, conservando su jerarquía: octubre ya era ideal; noviembre y diciembre, posibles. Los 90 días parten el rango 90-200 que el padre ya publica, sin ninguna cuenta nueva.",
+      "variedades": []
+    },
+    {
+      "slug": "coliflor-tardia",
+      "nombre_comun": "Coliflor tardía",
+      "nombre_cientifico": "Brassica oleracea var. botrytis",
+      "grupo": "Hortaliza de hoja",
+      "fecha_siembra": {
+        "valor": "Variedades tardías: almácigo de marzo a abril, trasplante de mayo a junio, cosecha de agosto a septiembre.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7
+      },
+      "forma_siembra": {
+        "valor": "Almácigo y luego trasplante (no siembra directa).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          },
+          {
+            "titulo": "Planificador de huerta (ProHuerta)",
+            "url": "https://intainforma.inta.gob.ar/wp-content/uploads/2015/05/PLANIFICADOR_DE_HUERTA.pdf",
+            "organizacion": "INTA"
+          }
+        ],
+        "confianza": 8
+      },
+      "suelo": {
+        "valor": "Suelo fértil, bien abonado con compost, con buena retención de agua; exigente en nutrientes.",
+        "categoria_suelo": "FRANCO_FERTIL",
+        "que_pasa_si_no": "En suelo pobre o desbalanceado forma pellas chicas, sueltas o no forma cabeza; con encharcamiento aparece podredumbre negra.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "luz": {
+        "valor": "Pleno sol para buen desarrollo, aunque la pella se protege del sol directo con las hojas para que quede blanca.",
+        "categoria_luz": "PLENO_SOL",
+        "horas_min": "6",
+        "horas_ideal": "6",
+        "tolera_sin_sol_directo": false,
+        "que_pasa_si_no": "Con poca luz la planta se ahíla y no forma pella; el exceso de sol directo sobre la pella la torna amarillenta.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 5
+      },
+      "cosecha": {
+        "valor": "Variedades tardías: aproximadamente 200 días.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7
+      },
+      "germinacion": {
+        "valor": "sin dato numérico en fuente citada; en crucíferas generalmente 5-10 días con temperatura templada.",
+        "fuentes": [],
+        "confianza": 3
+      },
+      "transplante": {
+        "valor": "Trasplante a surcos distanciados 70-90 cm; 50 cm entre plantas en variedades tempranas y 70-80 cm en tardías. Aporcar cuando la planta alcanza ~25 cm de altura.",
+        "signos_listo": "Plantín con varias hojas verdaderas y buen enraizamiento (aprox. 4-6 hojas).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "longevidad": {
+        "valor": "Anual (bianual botánica cultivada como anual). Produce una única pella por planta.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "trucos": {
+        "valor": "Blanqueo: atar o quebrar las hojas sobre la pella unos 3 días antes de cosechar para que no se ponga amarilla por el sol. Aporcar a los ~25 cm. Menta/mostaza cercana como repelentes de plagas.",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          },
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 6
+      },
+      "riesgos": {
+        "valor": "Muy sensible a cambios (calor, sequía, frío intenso, trasplante tardío): forma pellas chicas, sueltas o granulosas ('arroz') o florece. Evitar encharcamientos (podredumbre negra).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 6
+      },
+      "plagas": {
+        "valor": "Pulgones (control biológico por parásitos), orugas (controlables con tierra de diatomeas) y podredumbre negra (oxicloruro de cobre y evitar encharcamientos).",
+        "fuentes": [
+          {
+            "titulo": "¿Cómo cultivar Coliflor?",
+            "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+            "organizacion": "El Brote Urbano"
+          }
+        ],
+        "confianza": 7
+      },
+      "asociaciones_buenas": {
+        "valor": "Menta, tomillo, salvia, eneldo y mostaza cerca de las coles ayudan a repeler/regular plagas.",
+        "fuentes": [
+          {
+            "titulo": "Asociaciones de cultivos en nuestra huerta",
+            "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+            "organizacion": "Fecoagro"
+          }
+        ],
+        "confianza": 6
+      },
+      "asociaciones_malas": {
+        "valor": "Evitar concentrar varias crucíferas juntas (comparten plagas/enfermedades); según literatura general, evitar cerca de tomate y frutilla. No verificado en fuente argentina específica.",
+        "fuentes": [],
+        "confianza": 3
+      },
+      "maceta": {
+        "valor": "Al menos 30 cm de profundidad.",
+        "fuentes": [
+          {
+            "titulo": "Container Gardening Basics",
+            "url": "https://ucanr.edu/site/uc-master-gardeners-santa-clara-county/container-gardening-basics",
+            "organizacion": "UC Master Gardeners (Santa Clara County)"
+          }
+        ],
+        "confianza": 7,
+        "medidas": {
+          "profundidad_min_cm": 30,
+          "litros_min": null,
+          "plantas_por_contenedor": null
+        }
+      },
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [
+            3,
+            4
+          ],
+          "siembra_posible": [],
+          "trasplante_ideal": [
+            5,
+            6
+          ],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": {
+          "3": "almacigo",
+          "4": "almacigo"
+        },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tardías almácigo mar-abr, trasplante may-jun.",
+        "confianza": 7,
+        "decadas": {
+          "urbano": {
+            "siembra_ideal": [
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "siembra_posible": [],
+            "trasplante_ideal": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              18
+            ],
+            "trasplante_posible": []
+          },
+          "conurbano": {
+            "siembra_ideal": [
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "siembra_posible": [],
+            "trasplante_ideal": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              18
+            ],
+            "trasplante_posible": []
+          },
+          "periurbano": {
+            "siembra_ideal": [
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "siembra_posible": [],
+            "trasplante_ideal": [
+              13,
+              14,
+              15,
+              16,
+              17,
+              18
+            ],
+            "trasplante_posible": []
+          }
+        },
+        "afinado": {
+          "estado": "afinado",
+          "motivo": null,
+          "nota_fuente": null,
+          "ajustes": [],
+          "confianza": 7,
+          "zona_referencia": {
+            "urbano": "Buenos Aires Observatorio (SMN) · Observatorio 3 °C (FAUBA)",
+            "conurbano": "Ezeiza Aero (SMN) · Ezeiza Aero 3 °C (FAUBA)",
+            "periurbano": "La Plata Aero (SMN) · La Plata Aero 3 °C (FAUBA)"
+          }
+        }
+      },
+      "dias_a_trasplante": {
+        "min": 30,
+        "max": 45
+      },
+      "dias_a_cosecha": {
+        "min": 200,
+        "max": 200
+      },
+      "dias_germinacion": {
+        "min": 5,
+        "max": 10
+      },
+      "asociaciones": {
+        "buenas": [
+          {
+            "slug": "menta",
+            "externa": false
+          },
+          {
+            "slug": "tomillo",
+            "externa": false
+          },
+          {
+            "slug": "salvia",
+            "externa": false
+          },
+          {
+            "slug": "eneldo",
+            "externa": false
+          }
+        ],
+        "malas": [
+          {
+            "slug": "tomate",
+            "externa": false
+          },
+          {
+            "slug": "frutilla",
+            "externa": false
+          },
+          {
+            "etiqueta": "otras crucíferas",
+            "externa": true
+          }
+        ]
+      },
+      "temperaturas": {
+        "germinacion": {
+          "min": 5,
+          "ideal_min": 18,
+          "ideal_max": 25,
+          "max": 35
+        },
+        "crecimiento": {
+          "ideal_min": 15,
+          "ideal_max": 21,
+          "tolera_min": -2,
+          "tolera_max": 26
+        },
+        "helada": "sensible",
+        "nota": "Es la más delicada de las coles: no le banca ni el calor fuerte ni el frío duro, así que calculá la siembra para que la pella caiga justo en pleno otoño.",
+        "fuentes": [
+          {
+            "titulo": "El cultivo de la coliflor",
+            "url": "https://www.infoagro.com/hortalizas/coliflor.htm",
+            "organizacion": "Infoagro"
+          },
+          {
+            "titulo": "Soil Temperature Conditions for Vegetable Seed Germination",
+            "url": "https://www.aces.edu/blog/topics/lawn-garden/soil-temperature-conditions-for-vegetable-seed-germination/",
+            "organizacion": "Alabama Cooperative Extension System"
+          }
+        ],
+        "confianza": 7
+      },
+      "cuidados": [
+        {
+          "tipo": "blanqueo",
+          "cuando": "Unos 3 días antes de cosechar",
+          "que_hacer": "Atá o quebrá las hojas sobre la pella.",
+          "por_que": "Así el sol no se la pone amarilla.",
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Coliflor?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        },
+        {
+          "tipo": "aporque",
+          "cuando": "Cuando llega a unos 25 cm",
+          "que_hacer": "Arrimale tierra a la base.",
+          "por_que": null,
+          "de": "trucos",
+          "fuentes": [
+            {
+              "titulo": "¿Cómo cultivar Coliflor?",
+              "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+              "organizacion": "El Brote Urbano"
+            },
+            {
+              "titulo": "Asociaciones de cultivos en nuestra huerta",
+              "url": "https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/",
+              "organizacion": "Fecoagro"
+            }
+          ],
+          "confianza": 6
+        }
+      ],
+      "germinacion_pistas": [],
+      "riego": null,
+      "variedad_de": "coliflor",
+      "variedad": "Tardía",
+      "variedad_derivacion": "La otra mitad de la misma frase de El Brote Urbano: almácigo mar-abr, trasplante may-jun, unos 200 días. Los meses y los días quedan dentro de los del padre.",
+      "variedades": []
     },
     {
       "slug": "repollitos-de-bruselas",
@@ -7066,7 +7940,11 @@
           "confianza": 6
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "nabo",
@@ -7554,7 +8432,11 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "tomate",
@@ -8178,7 +9060,11 @@
           "confianza": 6
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "pimiento",
@@ -8719,7 +9605,11 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "aji-picante",
@@ -9268,7 +10158,11 @@
           ],
           "confianza": 5
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "berenjena",
@@ -9853,7 +10747,11 @@
           ],
           "confianza": 9
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "zapallito-de-tronco",
@@ -10375,7 +11273,11 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "zapallo",
@@ -10872,7 +11774,11 @@
           "confianza": 5
         }
       ],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "pepino",
@@ -11331,7 +12237,11 @@
           "confianza": 5
         }
       ],
-      "germinacion_pistas": []
+      "germinacion_pistas": [],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "melon",
@@ -11775,7 +12685,11 @@
           "confianza": 8
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "sandia",
@@ -12194,7 +13108,11 @@
           "confianza": 7
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "choclo",
@@ -12629,7 +13547,11 @@
         }
       ],
       "germinacion_pistas": [],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "frutilla",
@@ -13046,7 +13968,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "chaucha",
@@ -13590,7 +14516,11 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "arveja",
@@ -14064,7 +14994,11 @@
           "confianza": 8
         }
       ],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "haba",
@@ -14465,7 +15399,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "zanahoria",
@@ -15164,7 +16102,11 @@
           ],
           "confianza": 7
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "remolacha",
@@ -15756,7 +16698,11 @@
           ],
           "confianza": 8
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "rabanito",
@@ -16346,7 +17292,11 @@
           ],
           "confianza": 9
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "papa",
@@ -16795,7 +17745,11 @@
           "confianza": 5
         }
       ],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "batata",
@@ -17209,7 +18163,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "cebolla",
@@ -17656,7 +18614,11 @@
           "confianza": 5
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "ajo",
@@ -18048,7 +19010,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "puerro",
@@ -18445,7 +19411,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "cebolla-de-verdeo",
@@ -18837,7 +19807,11 @@
           "confianza": 4
         }
       ],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "albahaca",
@@ -19325,7 +20299,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "perejil",
@@ -19833,7 +20811,11 @@
           "confianza": 8
         }
       ],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "cilantro",
@@ -20270,7 +21252,11 @@
           "confianza": 6
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "oregano",
@@ -20717,7 +21703,11 @@
           "confianza": 6
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "tomillo",
@@ -21195,7 +22185,11 @@
           "confianza": 3
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "romero",
@@ -21662,7 +22656,11 @@
           "confianza": 7
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "salvia",
@@ -22020,7 +23018,11 @@
         }
       ],
       "germinacion_pistas": [],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "menta",
@@ -22502,7 +23504,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "melisa",
@@ -22922,7 +23928,11 @@
           "confianza": 5
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "ciboulette",
@@ -23361,7 +24371,11 @@
           ],
           "confianza": 6
         }
-      ]
+      ],
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "laurel",
@@ -23750,7 +24764,11 @@
           "confianza": 4
         }
       ],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "eneldo",
@@ -24159,7 +25177,11 @@
           "confianza": 3
         }
       ],
-      "riego": null
+      "riego": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "calendula",
@@ -24606,7 +25628,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "copete",
@@ -25077,7 +26103,11 @@
         }
       ],
       "germinacion_pistas": [],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "borraja",
@@ -25573,7 +26603,11 @@
         }
       ],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "capuchina",
@@ -25990,7 +27024,11 @@
       ],
       "germinacion_pistas": [],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "cosmos",
@@ -26495,7 +27533,11 @@
       ],
       "germinacion_pistas": [],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "girasol",
@@ -26874,7 +27916,11 @@
       ],
       "germinacion_pistas": [],
       "riego": null,
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     },
     {
       "slug": "lavanda",
@@ -27297,7 +28343,11 @@
         }
       ],
       "germinacion_pistas": [],
-      "maceta": null
+      "maceta": null,
+      "variedad_de": null,
+      "variedad": null,
+      "variedad_derivacion": null,
+      "variedades": []
     }
   ]
 }

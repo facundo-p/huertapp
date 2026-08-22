@@ -38,11 +38,14 @@ const sinRepetidos = (xs: number[]) => new Set(xs).size === xs.length
 const ordenado = (xs: number[]) => xs.every((x, i) => i === 0 || xs[i - 1] < x)
 
 describe('huerta_gba_enriquecido.json', () => {
-  it('tiene las 55 especies, con slugs únicos que matchean el overlay', () => {
-    expect(db.especies).toHaveLength(55)
+  it('tiene las 55 especies del catálogo más sus variedades, con slugs únicos', () => {
+    const padres = db.especies.filter((e: any) => !e.variedad_de)
+    expect(padres).toHaveLength(55)
     const slugs = db.especies.map((e: any) => e.slug)
-    expect(new Set(slugs).size).toBe(55)
-    expect(Object.keys(overlay).sort()).toEqual([...slugs].sort())
+    expect(new Set(slugs).size).toBe(slugs.length)
+    // el overlay tiene una entrada por especie del catálogo; las derivadas
+    // viven adentro de la del padre, en `variedades_derivado`
+    expect(Object.keys(overlay).sort()).toEqual(padres.map((e: any) => e.slug).sort())
   })
 
   for (const e of db.especies as any[]) {
