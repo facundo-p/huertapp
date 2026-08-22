@@ -121,8 +121,10 @@ Todas rompen el build, como el resto del pipeline.
 1. **Cada `difiere_en[campo]` es citable.** Fuentes con URL, confianza 1-10.
    Reusa el `citable()` que ya existe.
 
-2. **`difiere_en` vacío es error.** No se puede declarar una variedad aparte
-   "porque sí". El diff es la decisión.
+2. **`difiere_en` vacío **y** `cuidados_quita` vacío es error.** No se puede
+   declarar una variedad aparte "porque sí". El diff es la decisión — y a veces
+   el diff es lo que la variedad **no** lleva: al tomate determinado lo define
+   que no se tutora ni se desbrota, no un dato nuevo.
 
 3. **El calendario de la variedad no agrega meses.**
    `ideal ∪ posible` de la variedad ⊆ `ideal ∪ posible` del padre.
@@ -138,23 +140,30 @@ Todas rompen el build, como el resto del pipeline.
    unidades entre dos fuentes y publicar el resultado como dato pasa sin que
    nadie la vea.
 
-5. **Quitar un cuidado exige overridear el campo del que sale.**
-   `cuidados_quita: ["tutorado"]` solo pasa si `difiere_en` trae el campo que el
-   cuidado declara en su `de` — casi siempre `trucos`. Así, sacar el tutorado
-   del tomate determinado queda apoyado en la cita que dice "en variedades
-   indeterminadas", y no en que a alguien le pareció.
+5. **Quitar un cuidado exige una `derivacion` que cite la frase que lo acota.**
+   La variedad **hereda el texto citable del padre tal cual** — la tentación
+   sería reescribirlo para sacarle la cláusula que no aplica, y reescribir una
+   fuente es peor que el problema que resuelve. Lo que se exige es el
+   razonamiento, aparte y declarado como tal: es el principio de #33, el
+   encadenamiento va en `derivacion` y nunca en un `valor`.
 
-6. **Ninguna derivada queda sin cuidados.** El test que ya exige al menos uno
-   por especie corre también sobre ellas.
+   El resultado se verifica a ojo: un tomate determinado muestra el texto entero
+   —"tutorar y realizar desbrote/poda en variedades indeterminadas"— y **no**
+   tiene tarjeta de tutorado. El lector puede seguir el razonamiento sin
+   confiar en nosotros.
+
+6. **`derivacion` es obligatoria en toda variedad derivada**, y ninguna queda
+   sin cuidados: el test que ya exige al menos uno por especie corre también
+   sobre ellas.
 
 ## Qué se carga: 11 derivadas, 66 entradas
 
 | Padre | Derivadas | Campo que lo justifica | Fuente |
 |---|---|---|---|
 | Coliflor | temprana · tardía | `fuente_meses` (oct-dic vs mar-abr) **y** `dias_a_cosecha` (90 vs 200) | El Brote Urbano |
-| Chaucha | enana · de enrame | `dias_a_cosecha` (60 vs 70-80) y `cuidados` (el tutor) | INTA/ProHuerta |
+| Chaucha | enana · de enrame | `dias_a_cosecha` (60 vs 70-80) y `cuidados` (el tutor) | INTA/ProHuerta · el tutor, Huerta de Cero |
 | Zanahoria | Chantenay-Nantesa · Criolla · corta | `dias_a_cosecha` (110 · 150 · 50-90) | Mi Huerta, Portal Frutícola |
-| Tomate | determinado · indeterminado | `cuidados` (tutorado y poda) | INTA |
+| Tomate | determinado · indeterminado | `cuidados` (tutorado y poda) | FIQ-UNL, Fecoagro · el ciclo, UNLu |
 | Arveja | enana · de enrame | `cuidados` (tutorado) | INTA/ProHuerta |
 
 Las tres particiones de rango son eso, **particiones**: los números ya están
