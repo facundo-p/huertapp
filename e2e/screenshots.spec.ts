@@ -55,6 +55,12 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-lavanda', ruta: '/#/explorar/lavanda', fullPage: true },
   // la única con los dos vacíos a la vez: cosecha y temperatura en "s/d".
   { nombre: 'ficha-melisa', ruta: '/#/explorar/melisa', fullPage: true },
+  // la especie con más variedades, para ver la sección con tres tarjetas
+  { nombre: 'ficha-zanahoria', ruta: '/#/explorar/zanahoria', fullPage: true },
+  // la derivada que más difiere: calendario propio y días propios
+  { nombre: 'ficha-coliflor-temprana', ruta: '/#/explorar/coliflor-temprana', fullPage: true },
+  // la que se define por lo que NO lleva: sin tutorado ni poda
+  { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
   { nombre: 'calendario', ruta: '/#/calendario' },
   {
     nombre: 'calendario-trasplante',

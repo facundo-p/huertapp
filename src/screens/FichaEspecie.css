@@ -320,3 +320,32 @@
   color: var(--tinta);
   font-variant-numeric: tabular-nums;
 }
+
+/* La procedencia se lee antes que el resto: si llegaste por un link, lo
+   primero que necesitás saber es que esto es una variedad. */
+.ficha__procedencia {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-4);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 3px solid var(--salvia);
+  background: var(--crema);
+  font-size: var(--texto-s);
+  line-height: 1.6;
+  color: var(--tinta);
+}
+
+/* Es razonamiento nuestro, no cita: va en cuerpo más chico y con su etiqueta,
+   para que no se lea como si lo hubiera dicho una fuente. */
+.ficha__derivacion {
+  font-size: var(--texto-xs);
+  line-height: 1.6;
+  color: var(--tinta-media);
+}
+
+.ficha__derivacion::before {
+  content: 'Por qué difiere: ';
+  font-weight: 700;
+}
