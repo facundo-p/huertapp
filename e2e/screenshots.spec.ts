@@ -177,6 +177,16 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // la matriz con una especie desplegada en sus variedades
+    nombre: 'calendario-variedades',
+    ruta: '/#/calendario',
+    fullPage: true,
+    antes: async (page) => {
+      await page.getByRole('button', { name: /2 variedades/ }).first().click()
+      await page.waitForTimeout(300)
+    },
+  },
+  {
     nombre: 'diario-nueva-entrada',
     ruta: '/#/huerta',
     antes: async (page) => {
