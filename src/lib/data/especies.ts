@@ -46,10 +46,14 @@ function indexar(db: EspeciesDB): IndiceEspecies {
     porGrupo.set(e.grupo, lista)
   }
 
+  // Una variedad hereda los alias de su especie: quien busca "poroto" espera
+  // ver también la enana y la de enrame.
   const textoBusqueda = new Map(
     todas.map((e) => [
       e.slug,
-      normalizar([e.nombre_comun, e.nombre_cientifico, ...(ALIAS[e.slug] ?? [])].join(' ')),
+      normalizar(
+        [e.nombre_comun, e.nombre_cientifico, ...(ALIAS[e.variedad_de ?? e.slug] ?? [])].join(' '),
+      ),
     ]),
   )
 

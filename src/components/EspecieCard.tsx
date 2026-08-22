@@ -25,6 +25,9 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
         {/* h2 y no h3: la tarjeta cuelga directo del título de la pantalla, y
             así quien navega por encabezados recorre la lista de especies */}
         <h2 className="especie-card__nombre">{especie.nombre_comun}</h2>
+        {especie.variedades.length > 0 && (
+          <span className="especie-card__variedades">{especie.variedades.length} variedades</span>
+        )}
         {estado === 'ideal' && (
           <span className={`especie-card__ahora ${quedan != null ? 'es-cierra' : ''}`}>
             {quedan != null ? (

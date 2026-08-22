@@ -42,7 +42,9 @@ export function Explorar() {
   const resultados = useMemo(() => {
     if (!indice) return []
     const texto = normalizar(busqueda.trim())
-    return indice.padres.filter((e) => {
+    // Sin búsqueda se ven las especies del catálogo; escribiendo aparecen
+    // también las variedades, que es cuando el nombre puntual importa.
+    return (texto ? indice.todas : indice.padres).filter((e) => {
       if (texto && !indice.textoBusqueda.get(e.slug)!.includes(texto)) return false
       if (soloAhora && !estadoSiembra(e, decadaHoy, zona)) return false
       if (grupo && e.grupo !== grupo) return false
