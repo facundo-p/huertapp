@@ -7,7 +7,7 @@ import { ETIQUETA_RIEGO, QUE_ES_RIEGO, nivelRiego } from '../src/lib/riego'
 const ESPECIES = (enriquecido as unknown as { especies: EspecieEnriquecida[] }).especies
 
 describe('riego y maceta', () => {
-  it('las dos claves están en las 55, aunque valgan null', () => {
+  it('las dos claves están en todas las entradas, aunque valgan null', () => {
     // JSON.stringify borra undefined: sin esto el tipo miente y la ficha omite
     for (const e of ESPECIES) {
       expect(Object.hasOwn(e, 'riego'), e.slug).toBe(true)

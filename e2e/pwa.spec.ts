@@ -75,7 +75,7 @@ test('sin internet la app abre entera: pantallas, catálogo y calendario', async
   // y las sugerencias, que salen del catálogo cruzado con el clima de la zona
   await expect(page.getByRole('heading', { name: 'Para sembrar ahora' })).toBeVisible()
 
-  // el catálogo son 55 especies en un chunk aparte: el caso más fácil de olvidar
+  // el catálogo va en un chunk aparte: el caso más fácil de olvidar
   await page.getByRole('link', { name: 'Explorar' }).click()
   await expect(page.getByPlaceholder(/Buscar/)).toBeVisible()
   await expect(page.getByText('Tomate', { exact: true })).toBeVisible()
