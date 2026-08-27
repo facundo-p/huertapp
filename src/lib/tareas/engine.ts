@@ -50,6 +50,19 @@ export const ESTADO_VACIO: EstadoTarea = { completadas: {}, pospuestas: {} }
 
 const conf = (n: number) => `confianza ${n}/10`
 
+/**
+ * La corrección por germinación va pegada al dato de la ficha, no lo reemplaza:
+ * la ficha dice lo que dice y esto es lo que le pasó a TU planta.
+ */
+const corrido = (dias: number) => {
+  if (dias === 0) return ''
+  const n = Math.abs(dias)
+  const cuantos = `${n} ${n === 1 ? 'día' : 'días'}`
+  // Corto a propósito: el porqué entero está en la ficha de la planta, y acá
+  // esta línea ya venía en dos renglones de itálica chica.
+  return dias > 0 ? ` · corrido ${cuantos} porque asomó tarde` : ` · adelantado ${cuantos} porque asomó antes`
+}
+
 export interface EntradaMotor {
   plantas: Planta[]
   porSlug: Map<string, EspecieEnriquecida>
@@ -102,7 +115,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
         detalle: peligroso
           ? `Está en edad, pero todavía hay ${Math.round(riesgo * 100)} % de probabilidad de helada y no la banca. Si podés, esperá o cubrila de noche.`
           : `Ya tiene edad de pasar a su lugar definitivo. ${e.transplante.signos_listo}`,
-        fuente: `según la ficha: ${e.dias_a_trasplante!.min}-${e.dias_a_trasplante!.max} días desde la siembra · ${conf(e.transplante.confianza)}`,
+        fuente: `según la ficha: ${e.dias_a_trasplante!.min}-${e.dias_a_trasplante!.max} días desde la siembra · ${conf(e.transplante.confianza)}${corrido(est.corrimiento)}`,
         prioridad: peligroso ? 3 : 1,
       })
     }
@@ -116,7 +129,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
         slug: e.slug,
         titulo: `${nombre} ya estaría para cosechar`,
         detalle: e.cosecha.indicadores_listo,
-        fuente: `según la ficha: ${e.dias_a_cosecha!.min}-${e.dias_a_cosecha!.max} días desde la siembra · ${conf(e.cosecha.confianza)}`,
+        fuente: `según la ficha: ${e.dias_a_cosecha!.min}-${e.dias_a_cosecha!.max} días desde la siembra · ${conf(e.cosecha.confianza)}${corrido(est.corrimiento)}`,
         prioridad: 2,
       })
     }
