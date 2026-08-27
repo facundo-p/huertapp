@@ -15,6 +15,17 @@ const PANTALLAS = [
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
   { ruta: '/#/calendario', nombre: 'Calendario' },
   { ruta: '/#/huerta', nombre: 'Mi huerta' },
+  // La ficha de una planta se llega clickeando: el id lo genera la app. Va la
+  // zanahoria porque es la que trae el bloque de germinación entero —los tres
+  // chips para decir cuándo asomó y el diagnóstico de la demora.
+  {
+    ruta: '/#/huerta',
+    nombre: 'Planta',
+    entrar: async (page: Page) => {
+      await page.getByRole('link', { name: /Zanahoria/ }).click()
+      await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
+    },
+  },
   { ruta: '/#/glosario', nombre: 'Glosario' },
   { ruta: '/#/ajustes', nombre: 'Ajustes' },
 ]
@@ -31,7 +42,7 @@ async function conDemo(page: Page) {
  * veces el esqueleto vacío y pasan sin haber revisado nada: un test de
  * accesibilidad que pasa por llegar temprano es peor que no tenerlo.
  */
-async function abrir(page: Page, ruta: string) {
+async function abrir(page: Page, ruta: string, entrar?: (page: Page) => Promise<void>) {
   await page.goto(ruta)
   await page.waitForLoadState('networkidle')
   await page.waitForFunction(
@@ -42,6 +53,10 @@ async function abrir(page: Page, ruta: string) {
     { timeout: 15_000 },
   )
   await page.evaluate(() => document.fonts.ready)
+  if (entrar) {
+    await entrar(page)
+    await page.evaluate(() => document.fonts.ready)
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -51,8 +66,8 @@ test('nada interactivo queda sin nombre accesible', async ({ page }) => {
   await conDemo(page)
   const sinNombre: string[] = []
 
-  for (const { ruta, nombre } of PANTALLAS) {
-    await abrir(page, ruta)
+  for (const { ruta, nombre, entrar } of PANTALLAS) {
+    await abrir(page, ruta, entrar)
 
     const malos = await page.evaluate(() => {
       const nombreDe = (el: Element) =>
@@ -92,8 +107,8 @@ test('los targets táctiles llegan a 44 px', async ({ page }) => {
   await conDemo(page)
   const chicos: string[] = []
 
-  for (const { ruta, nombre } of PANTALLAS) {
-    await abrir(page, ruta)
+  for (const { ruta, nombre, entrar } of PANTALLAS) {
+    await abrir(page, ruta, entrar)
 
     const malos = await page.evaluate(() => {
       const MIN = 44
@@ -119,8 +134,8 @@ test('el texto llega al contraste AA', async ({ page }) => {
   await conDemo(page)
   const flojos: string[] = []
 
-  for (const { ruta, nombre } of PANTALLAS) {
-    await abrir(page, ruta)
+  for (const { ruta, nombre, entrar } of PANTALLAS) {
+    await abrir(page, ruta, entrar)
 
     const malos = await page.evaluate(() => {
       const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number)
@@ -205,8 +220,8 @@ test('la jerarquía de encabezados es navegable', async ({ page }) => {
   await conDemo(page)
   const problemas: string[] = []
 
-  for (const { ruta, nombre } of PANTALLAS) {
-    await abrir(page, ruta)
+  for (const { ruta, nombre, entrar } of PANTALLAS) {
+    await abrir(page, ruta, entrar)
 
     const niveles = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>('h1, h2, h3, h4, h5, h6')]

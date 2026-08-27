@@ -21,8 +21,17 @@ import {
 } from '../lib/huerta/tipos'
 import { estimar, siguienteEtapa, textoHito } from '../lib/huerta/estimar'
 import { METODOS } from '../lib/calendario'
-import { IconoFoto, IconoHuerta, IconoNota, IconoReloj } from '../icons'
+import { IconoFoto, IconoHuerta, IconoNota, IconoReloj, IconoSembrar } from '../icons'
 import './DetallePlanta.css'
+
+/** El ciclo arranca cuando la semilla asoma, no cuando la enterrás. */
+function textoCorrimiento(dias: number): string {
+  const n = Math.abs(dias)
+  const cuantos = `${n} ${n === 1 ? 'día' : 'días'}`
+  return dias > 0
+    ? `Corrido ${cuantos}: asomó más tarde de lo que decía la ficha y el ciclo se cuenta desde que asoma.`
+    : `Adelantado ${cuantos}: asomó antes de lo que decía la ficha.`
+}
 
 export function DetallePlanta() {
   const { id } = useParams()
@@ -126,6 +135,15 @@ export function DetallePlanta() {
                 <strong>{est.proximo.titulo}</strong> estimado entre el {fechaCorta(est.proximo.desde)} y
                 el {fechaCorta(est.proximo.hasta)} — {textoHito(est.proximo)}.
               </span>
+            </p>
+          )}
+
+          {/* Por qué esa fecha no es la que sale de la ficha: se corrió con TU
+              planta, y sin decirlo parece que el catálogo se contradice. */}
+          {!!est?.corrimiento && (
+            <p className="planta__corrimiento">
+              <IconoSembrar size={15} />
+              <span>{textoCorrimiento(est.corrimiento)}</span>
             </p>
           )}
 

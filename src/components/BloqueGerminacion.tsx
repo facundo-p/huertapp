@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { marcarGerminada, sinRomper } from '../lib/huerta/store'
 import { causasDeDemora, germinacion, type Causa } from '../lib/huerta/germinacion'
-import { desdeISO, type Planta } from '../lib/huerta/tipos'
+import { desdeISO, hoyISO, type Planta } from '../lib/huerta/tipos'
+import { sumarDias } from '../lib/huerta/estimar'
 import { IconoAlerta, IconoFuente, IconoSembrar } from '../icons'
 import type { ClimaDecada, EspecieEnriquecida, Fuente } from '../lib/data/types'
 import './BloqueGerminacion.css'
@@ -16,6 +17,37 @@ const negritas = (t: string) =>
 const fuentesDeLaFicha = (causas: Causa[]): Fuente[] => [
   ...new Map(causas.flatMap((c) => c.fuentes ?? []).map((f) => [f.url, f])).values(),
 ]
+
+/**
+ * Un chip que abre el calendario nativo. El input tapa toda la etiqueta en
+ * transparente: así abre tocando cualquier parte, no un ícono de 16 px. Y
+ * queda siempre vacío porque es una acción, no un campo — se elige y se aplica.
+ */
+function OtroDia({
+  texto,
+  clase,
+  planta,
+  elegir,
+}: {
+  texto: string
+  clase: string
+  planta: Planta
+  elegir: (fecha: string) => void
+}) {
+  return (
+    <label className={clase}>
+      {texto}
+      <input
+        type="date"
+        className="germ__fecha"
+        min={planta.sembrada}
+        max={hoyISO()}
+        value=""
+        onChange={(ev) => elegir(ev.target.value)}
+      />
+    </label>
+  )
+}
 
 /**
  * "¿Ya tendría que haber asomado?", que es la pregunta que uno se hace mirando
@@ -36,6 +68,15 @@ export function BloqueGerminacion({
   const g = germinacion(planta, especie)
   if (!g || g.estado === 'no_aplica') return null
 
+  const hoy = hoyISO()
+
+  /** Acota a mano lo que el `min`/`max` del input no garantiza si lo tipean. */
+  const asomo = (fecha: string) => {
+    if (!fecha) return
+    const acotada = fecha < planta.sembrada ? planta.sembrada : fecha > hoy ? hoy : fecha
+    sinRomper(marcarGerminada(planta, acotada))
+  }
+
   if (g.estado === 'germino') {
     return (
       <p className="germ germ--ok">
@@ -43,6 +84,7 @@ export function BloqueGerminacion({
         <span>
           Germinó el <strong>{fechaCorta(planta.germino!)}</strong>.
         </span>
+        <OtroDia texto="Corregir" clase="germ__corregir" planta={planta} elegir={asomo} />
       </p>
     )
   }
@@ -70,9 +112,18 @@ export function BloqueGerminacion({
       </div>
 
       {g.estado !== 'temprano' && (
-        <button className="germ__boton" onClick={() => sinRomper(marcarGerminada(planta))}>
-          🌱 Ya asomó
-        </button>
+        <div className="germ__asomo">
+          <p className="germ__pregunta">¿Cuándo asomó?</p>
+          <div className="germ__opciones">
+            <button className="germ__boton" onClick={() => asomo(hoy)}>
+              Hoy
+            </button>
+            <button className="germ__boton es-suave" onClick={() => asomo(sumarDias(hoy, -1))}>
+              Ayer
+            </button>
+            <OtroDia texto="Otro día" clase="germ__boton es-suave" planta={planta} elegir={asomo} />
+          </div>
+        </div>
       )}
 
       {g.estado === 'demorada' && (

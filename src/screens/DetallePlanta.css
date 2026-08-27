@@ -69,7 +69,26 @@
   color: var(--verde-prof);
 }
 
+.planta__corrimiento {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  margin-top: calc(var(--esp-2) * -1);
+  font-size: var(--texto-xs);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+.planta__corrimiento svg {
+  flex: none;
+  margin-top: 1px;
+  color: var(--verde-hoja);
+}
+
 .planta__ficha-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
   font-size: var(--texto-s);
   font-weight: 600;
 }
@@ -84,7 +103,7 @@
 }
 
 .diario__agregar {
-  min-height: 38px;
+  min-height: var(--tap-min);
   padding: 0 var(--esp-4);
   border-radius: var(--radio-chip);
   background: var(--papel-alto);
