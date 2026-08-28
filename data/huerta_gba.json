@@ -1484,13 +1484,18 @@
         "confianza": 6
       },
       "transplante": {
-        "valor": "Cuando los plantines tienen algunas hojas se pasan al agua o a suelo encharcado, cuidando que las hojas superiores queden por encima de la superficie del agua. También se propaga directamente por esquejes en agua sin necesidad de almácigo.",
+        "valor": "Cuando los plantines tienen algunas hojas se pasan al agua o a suelo encharcado, cuidando que las hojas superiores queden por encima de la superficie del agua. También se propaga directamente por esquejes en agua sin necesidad de almácigo. Si va a suelo o borde de estanque, dejar ~15 cm entre plantas (PlotMyGarden).",
         "signos_listo": "Plantín con varias hojas verdaderas y raíces visibles; en esquejes, cuando emiten raicillas en los nudos.",
         "fuentes": [
           {
             "titulo": "Berro, Berros - Nasturtium officinale (fichas)",
             "url": "https://fichas.infojardin.com/hortalizas-verduras/berros-nasturtium-officinale.htm",
             "organizacion": "Infojardín (divulgación)"
+          },
+          {
+            "titulo": "Berro — Guía de Cultivo y Cuidados",
+            "url": "https://plotmygarden.com/es/plants/watercress-herb",
+            "organizacion": "PlotMyGarden (divulgación)"
           }
         ],
         "confianza": 5
@@ -3385,13 +3390,18 @@
         "confianza": 3
       },
       "transplante": {
-        "valor": "Se trasplanta a los ~50-60 días desde la siembra en almácigo, cuando el plantín tiene 4-6 hojas verdaderas.",
+        "valor": "Se trasplanta a los ~50-60 días desde la siembra en almácigo, cuando el plantín tiene 4-6 hojas verdaderas. Marco: 50-60 cm entre plantas y 70-80 cm entre surcos (UNLu; el calendario INTA da 50 x 70 cm).",
         "signos_listo": "Plantín robusto de 4-6 hojas verdaderas, 10-15 cm de altura, y sin riesgo de heladas en el lugar definitivo.",
         "fuentes": [
           {
             "titulo": "Manual para la realización de una huerta-jardín (2021)",
             "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
             "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
+          },
+          {
+            "titulo": "Calendario de siembra - INTA/ProHuerta",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
+            "organizacion": "INTA - ProHuerta"
           },
           {
             "titulo": "¿Cómo cultivar Berenjena?",
@@ -3541,7 +3551,7 @@
         "confianza": 8
       },
       "forma_siembra": {
-        "valor": "Siembra directa a golpe, 2-3 semillas por golpe a ~2 cm de profundidad, en surcos separados ~1 m (UNLu y Calendario INTA). Puede hacerse almácigo en vasitos para trasplantar temprano y mejorar el éxito, pero lo habitual y recomendado es la siembra directa.",
+        "valor": "Siembra directa a golpe, 2-3 semillas por golpe a ~2 cm de profundidad, en surcos separados ~1 m (UNLu y Calendario INTA), con golpes a ~0,70 m y raleo a una planta por hoyo (INTA Cerbas; UNLu da 50-60 cm entre plantas). Puede hacerse almácigo en vasitos para trasplantar temprano y mejorar el éxito, pero lo habitual y recomendado es la siembra directa.",
         "fuentes": [
           {
             "titulo": "Manual para la realización de una huerta-jardín (2021)",
@@ -3552,6 +3562,11 @@
             "titulo": "Calendario de siembra - INTA/ProHuerta",
             "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf",
             "organizacion": "INTA - ProHuerta"
+          },
+          {
+            "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
             "titulo": "¿Cómo cultivar Zapallito Redondo y Zuccini?",
@@ -4905,7 +4920,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -4931,7 +4946,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -4949,7 +4964,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -4982,7 +4997,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5010,7 +5025,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5021,7 +5036,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5043,7 +5058,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5185,7 +5200,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5211,7 +5226,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5229,7 +5244,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5245,7 +5260,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5257,7 +5272,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5273,7 +5288,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5285,7 +5300,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5296,7 +5311,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5307,7 +5322,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5318,7 +5333,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5329,7 +5344,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5412,7 +5427,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5429,17 +5444,22 @@
         "confianza": 8
       },
       "forma_siembra": {
-        "valor": "Siembra directa 'de asiento' (no requiere almácigo), en líneas separadas 0,70-0,80 m, colocando 2-3 semillas por golpe (a razón de 3-4 semillas por metro lineal). Semilla grande, se entierra unos 4-5 cm.",
+        "valor": "Siembra directa 'de asiento' (no requiere almácigo), en líneas separadas 0,70-0,80 m, colocando 2-3 semillas por golpe (a razón de 3-4 semillas por metro lineal). Semilla grande, se entierra unos 4-5 cm. Distancia entre golpes: 30-40 cm (Mi Huerta: 30 x 70 cm; UNLu: golpes a 40 cm en líneas a 60 cm).",
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
             "titulo": "Calendario de siembra",
             "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
             "organizacion": "Mi Huerta"
+          },
+          {
+            "titulo": "Manual para la realización de una huerta-jardín (2021)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+            "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
           }
         ],
         "confianza": 8
@@ -5451,7 +5471,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5467,7 +5487,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5479,7 +5499,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           },
           {
@@ -5495,7 +5515,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5507,7 +5527,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5518,7 +5538,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5529,7 +5549,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5540,7 +5560,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5551,7 +5571,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -5562,7 +5582,7 @@
         "fuentes": [
           {
             "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
-            "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
             "organizacion": "INTA / ProHuerta (EEA Cerbas)"
           }
         ],
@@ -6798,13 +6818,23 @@
         "confianza": 5
       },
       "transplante": {
-        "valor": "Se trasplanta a los ~50-60 días de almácigo.",
+        "valor": "Se trasplanta a los ~50-60 días de almácigo. Marco en línea simple: 8-10 cm entre plantas y 40 cm entre hileras (Fecoagro/INTA Cerbas; UNLu da 10 x 50 cm).",
         "signos_listo": "Plantín con grosor de lápiz (aprox. 15 cm de alto y 0,5 cm de diámetro).",
         "fuentes": [
           {
             "titulo": "Cultivo, cuidados y siembra de la cebolla",
             "url": "https://www.fecoagro.com.ar/cultivo-cuidados-y-siembra-de-la-cebolla/",
             "organizacion": "Fecoagro (Argentina)"
+          },
+          {
+            "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+            "url": "https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-manual_de_cultivos_para_la_huerta_organica_familiar_-.pdf",
+            "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+          },
+          {
+            "titulo": "Manual para la realización de una huerta-jardín (2021)",
+            "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Manual%20Huerta-jard%C3%ADn%202021.pdf",
+            "organizacion": "Universidad Nacional de Luján - Cátedra de Horticultura"
           }
         ],
         "confianza": 5
@@ -8255,13 +8285,18 @@
         "confianza": 3
       },
       "transplante": {
-        "valor": "Cuando se hace por almácigo/esqueje, se trasplanta al lugar definitivo una vez que el plantín está bien enraizado y alcanza unos 10 cm. Botanical-online (hemisferio norte) indica trasplantar 'cuando la plántula haya alcanzado los 10 cm' (en su calendario, otoño; en GBA correspondería a fines de primavera-verano tras siembra de primavera).",
+        "valor": "Cuando se hace por almácigo/esqueje, se trasplanta al lugar definitivo una vez que el plantín está bien enraizado y alcanza unos 10 cm. Botanical-online (hemisferio norte) indica trasplantar 'cuando la plántula haya alcanzado los 10 cm' (en su calendario, otoño; en GBA correspondería a fines de primavera-verano tras siembra de primavera). En la plantación definitiva, 30-40 cm entre plantas y 50-70 cm entre líneas (Herbotecnia, marco de producción a campo).",
         "signos_listo": "Plantín de ~10 cm, con varias ramitas, raíces que ocupan el cepellón y resisten un tironcito suave; esquejes con raíces visibles de 2-3 cm.",
         "fuentes": [
           {
             "titulo": "El cultivo del tomillo: cómo plantar y cuidados",
             "url": "https://www.botanical-online.com/cultivo/tomillo-como-plantar-cuidados",
             "organizacion": "Botanical-online (España, divulgativa)"
+          },
+          {
+            "titulo": "Cultivo de Tomillo (Thymus vulgaris) y usos",
+            "url": "http://www.herbotecnia.com.ar/exo-tomillo.html",
+            "organizacion": "Herbotecnia (Argentina)"
           }
         ],
         "confianza": 4
@@ -8452,13 +8487,18 @@
         "confianza": 3
       },
       "transplante": {
-        "valor": "Los gajos se mantienen con tierra húmeda (no anegada) para favorecer el enraizado y luego se trasplantan al lugar definitivo. Se lleva a cantero/maceta grande cuando la estaca ha enraizado bien (raíces desarrolladas, brotes nuevos).",
+        "valor": "Los gajos se mantienen con tierra húmeda (no anegada) para favorecer el enraizado y luego se trasplantan al lugar definitivo. Se lleva a cantero/maceta grande cuando la estaca ha enraizado bien (raíces desarrolladas, brotes nuevos). Distancia de plantación: 0,60-1,20 m en todo sentido según el terreno (Herbotecnia, marco de producción a campo; es un arbusto grande).",
         "signos_listo": "Estaca con raíces formadas y emisión de brotes nuevos; resistencia al tironcito suave; plantín que ya no marchita al sol.",
         "fuentes": [
           {
             "titulo": "Aromas de la huerta: Romero",
             "url": "https://municipalidadvgb.gob.ar/aromas-de-la-huerta-romero/",
             "organizacion": "Municipalidad de Villa Gesell"
+          },
+          {
+            "titulo": "Cultivo de Romero (Rosmarinus officinalis) y usos",
+            "url": "http://www.herbotecnia.com.ar/exo-romero.html",
+            "organizacion": "Herbotecnia (Argentina)"
           }
         ],
         "confianza": 5
@@ -8653,13 +8693,18 @@
         "confianza": 2
       },
       "transplante": {
-        "valor": "Si se hace por almácigo, se trasplanta cuando el plantín tiene varias hojas verdaderas y está bien enraizado (habitualmente algunas semanas tras la emergencia). Dato aproximado; no se halló fuente argentina que precise plazos.",
+        "valor": "Si se hace por almácigo, se trasplanta cuando el plantín tiene varias hojas verdaderas y está bien enraizado (habitualmente algunas semanas tras la emergencia). Dato aproximado; no se halló fuente argentina que precise plazos. Marco: 50-60 cm entre plantas y 70-80 cm entre líneas, adaptable a cada huerta (Herbotecnia).",
         "signos_listo": "Plantín con 4-6 hojas verdaderas y buen cepellón/raíces; resiste el tironcito suave sin desarmarse.",
         "fuentes": [
           {
             "titulo": "Cultivo de Salvia officinalis en el huerto",
             "url": "https://www.agromatica.es/cultivo-de-salvia-en-el-huerto/",
             "organizacion": "Agromática (España, divulgativa)"
+          },
+          {
+            "titulo": "Cultivo de Salvia (Salvia officinalis) y usos",
+            "url": "http://www.herbotecnia.com.ar/exo-salviaoff.html",
+            "organizacion": "Herbotecnia (Argentina)"
           }
         ],
         "confianza": 3
@@ -8845,13 +8890,18 @@
         "confianza": 5
       },
       "transplante": {
-        "valor": "El esqueje se mantiene con el tallo inferior sumergido en agua durante algunos días hasta que desarrolla raíces, y recién entonces se trasplanta a maceta o suelo. Se lleva a su lugar definitivo cuando el esqueje ya tiene raíces formadas.",
+        "valor": "El esqueje se mantiene con el tallo inferior sumergido en agua durante algunos días hasta que desarrolla raíces, y recién entonces se trasplanta a maceta o suelo. Se lleva a su lugar definitivo cuando el esqueje ya tiene raíces formadas, a unos 30 cm entre plantas y 70-80 cm entre líneas (Herbotecnia, para menta piperita).",
         "signos_listo": "Esqueje con raíces visibles (varios milímetros a centímetros) y, preferentemente, algún brote nuevo; plantín que no marchita tras el trasplante.",
         "fuentes": [
           {
             "titulo": "El sembrado y cuidado de la menta en la huerta en casa",
             "url": "https://infoagro.com.ar/el-sembrado-y-cuidado-de-la-menta-en-la-huerta-en-casa/",
             "organizacion": "Infoagro Argentina"
+          },
+          {
+            "titulo": "Cultivo de Menta piperita (Mentha inglesa) y usos",
+            "url": "http://www.herbotecnia.com.ar/exotica-mentapiperita.html",
+            "organizacion": "Herbotecnia (Argentina)"
           }
         ],
         "confianza": 6
@@ -9194,12 +9244,17 @@
         "confianza": 6
       },
       "transplante": {
-        "valor": "Si se hace por semilla en almácigo, se trasplanta en matas cuando los plantines tienen varias hojas y buen porte; también se plantan directamente los bulbos/matas divididas. Es planta perenne que se puede dividir cada 2-3 años.",
+        "valor": "Si se hace por semilla en almácigo, se trasplanta en matas cuando los plantines tienen varias hojas y buen porte; también se plantan directamente los bulbos/matas divididas, a 15-20 cm entre sí (Flor de Planta). Es planta perenne que se puede dividir cada 2-3 años.",
         "signos_listo": "Plantín con varios tallos de tamaño manejable (varios cm) y raíces desarrolladas.",
         "fuentes": [
           {
             "titulo": "Ciboulette o cebollín: características, cultivo y reproducción",
             "url": "https://www.flordeplanta.com.ar/aromaticas/ciboulette-o-cebollin-caracteristicas-cultivo-y-reproduccion/",
+            "organizacion": "Flor de Planta (Argentina)"
+          },
+          {
+            "titulo": "Ciboulette cultivado en casa: consejos de utilidad",
+            "url": "https://www.flordeplanta.com.ar/huerta/ciboulette-cultivado-en-casa-consejos-de-utilidad/",
             "organizacion": "Flor de Planta (Argentina)"
           }
         ],
@@ -9653,7 +9708,7 @@
         "confianza": 6
       },
       "forma_siembra": {
-        "valor": "Siembra directa o en almácigo, ambas viables; de germinación muy fácil. Enterrar la semilla 2-3 veces su tamaño. Almácigo 6-8 semanas antes de la última helada. Suele resembrarse sola.",
+        "valor": "Siembra directa o en almácigo, ambas viables; de germinación muy fácil. Enterrar la semilla 2-3 veces su tamaño. Almácigo 6-8 semanas antes de la última helada. Suele resembrarse sola. Distancia: 25-30 cm entre plantas (Jardín de Campo).",
         "fuentes": [
           {
             "titulo": "Caléndula (Calendula officinalis) - Ficha de cultivo",
@@ -9882,13 +9937,18 @@
         "confianza": 5
       },
       "transplante": {
-        "valor": "Trasplante aproximadamente 1 a 1,5 meses después de la siembra en almácigo, pasado el riesgo de heladas.",
+        "valor": "Trasplante aproximadamente 1 a 1,5 meses después de la siembra en almácigo, pasado el riesgo de heladas. Distancia: ~25 cm entre plantas (ficha del copete enano, Tagetes patula; Jardín de Campo).",
         "signos_listo": "Plantín con varias hojas verdaderas y buen sistema radicular.",
         "fuentes": [
           {
             "titulo": "Copete, tagete",
             "url": "https://www.entrejardines.uy/copete-tagete/",
             "organizacion": "Entrejardines (Uruguay, hemisferio sur)"
+          },
+          {
+            "titulo": "Copete enano (Tagetes patula) - Ficha de cultivo",
+            "url": "https://jardindecampo.mitiendanube.com/productos/copete-enano-tagetes-patula/",
+            "organizacion": "Jardín de Campo (semillero, Argentina)"
           }
         ],
         "confianza": 6
@@ -10217,7 +10277,7 @@
         "confianza": 7
       },
       "forma_siembra": {
-        "valor": "Por semilla: siembra directa (junto a cercos o al pie de frutales), almácigo, o por estacas de tallo. La semilla es grande y germina con facilidad; la siembra directa es habitual.",
+        "valor": "Por semilla: siembra directa (junto a cercos o al pie de frutales), almácigo, o por estacas de tallo. La semilla es grande y germina con facilidad; la siembra directa es habitual. En directa o trasplante, separación aproximada de 25 cm entre plantas (Agronomía Olavarría).",
         "fuentes": [
           {
             "titulo": "En la huerta: taco de reina, la flor comestible que reemplaza a las alcaparras",
@@ -10228,6 +10288,11 @@
             "titulo": "Taco de reina (Tropaeolum majus): la flor comestible y fácil de cuidar",
             "url": "https://deraiz.ar/taco-de-reina-tropaeolum-majus-la-flor-comestible-y-facil-de-cuidar-que-previene-resfrios-y-es-ideal-para-tener-en-la-huerta/",
             "organizacion": "De Raíz (Argentina)"
+          },
+          {
+            "titulo": "Taco de reina - Ficha de cultivo",
+            "url": "https://agronomiaolavarria.com.ar/producto/taco-de-reina/",
+            "organizacion": "Agronomía Olavarría (Argentina)"
           }
         ],
         "confianza": 7
@@ -10428,7 +10493,7 @@
         "confianza": 5
       },
       "forma_siembra": {
-        "valor": "Admite siembra directa en el suelo o en almácigo/almacigueras (semilleros biodegradables) para luego trasplantar. En huerta suele hacerse siembra directa por su fácil germinación; el almácigo permite adelantar la temporada.",
+        "valor": "Admite siembra directa en el suelo o en almácigo/almacigueras (semilleros biodegradables) para luego trasplantar. En huerta suele hacerse siembra directa por su fácil germinación; el almácigo permite adelantar la temporada. Distancia: 40-50 cm entre plantas las variedades altas y 20-30 cm las bajas; en directa se ralea a un plantín cada 20-45 cm según variedad (Promesse de Fleurs).",
         "fuentes": [
           {
             "titulo": "¿Cómo cultivar flor cosmos?",
@@ -10439,6 +10504,11 @@
             "titulo": "Flor del Cosmos, el seto perfecto para la huerta",
             "url": "https://www.lahuertinadetoni.es/flor-del-cosmos-el-seto-perfecto-para-la-huerta/",
             "organizacion": "La Huertina de Toni (España)"
+          },
+          {
+            "titulo": "Cosmos: siembra y plantación",
+            "url": "https://www.promessedefleurs.es/consejos-plantas-jardin/fichaplanta/cosmos-siembra-y-plantacion/",
+            "organizacion": "Promesse de Fleurs (Francia)"
           }
         ],
         "confianza": 6
@@ -10625,12 +10695,17 @@
         "confianza": 6
       },
       "forma_siembra": {
-        "valor": "Preferentemente siembra directa: se coloca la semilla en su lugar definitivo porque germina muy rápido y no le gusta el trasplante. También puede hacerse en maceta/almácigo para trasplantar después. En huerta ornamental conviene la siembra directa en línea, dejando distancia entre plantas.",
+        "valor": "Preferentemente siembra directa: se coloca la semilla en su lugar definitivo porque germina muy rápido y no le gusta el trasplante. También puede hacerse en maceta/almácigo para trasplantar después. En huerta ornamental conviene la siembra directa en línea, sembrando cada 20-50 cm y raleando a las más vigorosas a 30-40 cm entre plantas (Promesse de Fleurs).",
         "fuentes": [
           {
             "titulo": "Cómo cultivar tus propios girasoles en el jardín",
             "url": "https://www.lanacion.com.ar/revista-jardin/como-cultivar-tus-propios-girasoles-en-el-jardin-nid18122021/",
             "organizacion": "La Nación / Revista Jardín (Argentina)"
+          },
+          {
+            "titulo": "Girasol: siembra, plantación, cuidados",
+            "url": "https://www.promessedefleurs.es/consejos-plantas-jardin/fichaplanta/girasol-siembra-plantacion-cuidados/",
+            "organizacion": "Promesse de Fleurs (Francia)"
           }
         ],
         "confianza": 6
@@ -10688,13 +10763,18 @@
         "confianza": 6
       },
       "transplante": {
-        "valor": "Generalmente NO requiere trasplante: conviene siembra directa porque germina rápido y la raíz pivotante sufre con el trasplante. Si se hace en maceta, trasplantar muy joven (plantín pequeño) para minimizar el daño de raíz.",
+        "valor": "Generalmente NO requiere trasplante: conviene siembra directa porque germina rápido y la raíz pivotante sufre con el trasplante. Si se hace en maceta, trasplantar muy joven (plantín pequeño) para minimizar el daño de raíz, dejando 45-60 cm entre plantas (Promesse de Fleurs).",
         "signos_listo": "Si se trasplanta, hacerlo con plantín pequeño (2-4 hojas verdaderas) y cepellón entero para no dañar la raíz principal.",
         "fuentes": [
           {
             "titulo": "Cómo cultivar tus propios girasoles en el jardín",
             "url": "https://www.lanacion.com.ar/revista-jardin/como-cultivar-tus-propios-girasoles-en-el-jardin-nid18122021/",
             "organizacion": "La Nación / Revista Jardín (Argentina)"
+          },
+          {
+            "titulo": "Girasol: siembra, plantación, cuidados",
+            "url": "https://www.promessedefleurs.es/consejos-plantas-jardin/fichaplanta/girasol-siembra-plantacion-cuidados/",
+            "organizacion": "Promesse de Fleurs (Francia)"
           }
         ],
         "confianza": 5
@@ -10869,7 +10949,7 @@
         "confianza": 3
       },
       "transplante": {
-        "valor": "Los plantines de almácigo se trasplantan a vivero/lugar definitivo durante el otoño-invierno siguiente, y la plantación definitiva se realiza después de las últimas heladas. Las estacas se enraízan en otoño-invierno antes de llevarlas al lugar definitivo.",
+        "valor": "Los plantines de almácigo se trasplantan a vivero/lugar definitivo durante el otoño-invierno siguiente, y la plantación definitiva se realiza después de las últimas heladas. Las estacas se enraízan en otoño-invierno antes de llevarlas al lugar definitivo. Marco: 0,60-0,80 m entre plantas y 1,20-1,50 m entre líneas, evitando plantar demasiado cerrado (Herbotecnia, marco de producción a campo).",
         "signos_listo": "Plantín/estaca bien enraizado y endurecido, con brotes nuevos, listo para pasar a suelo definitivo una vez pasado el riesgo de heladas.",
         "fuentes": [
           {

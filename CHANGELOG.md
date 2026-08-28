@@ -134,6 +134,14 @@ Qué significa cada parte en este proyecto:
   sembraste directa…"*—, porque a la que hiciste en almácigo la trasplantás en
   vez de ralearla.
 
+- **La distancia entre planta y planta, ahora en todas las fichas (menos una).**
+  De las 55 especies, 17 no decían a cuánto dejar las plantas al trasplantar o
+  ralear: berenjena, cebolla, haba, berro, zapallito de tronco, girasol, seis
+  aromáticas y cuatro flores. Ahora lo dicen, cada una con el número de su
+  fuente —*8-10 cm* la cebolla, *~25 cm* el copete, *0,60-1,20 m* el romero, que
+  es un arbusto—. La única que quedó igual es el laurel: ninguna fuente
+  confiable da una distancia, y acá no se inventa.
+
 ### Cambiado
 
 - **El trasplante y la cosecha se cuentan desde que la semilla asomó, no desde
