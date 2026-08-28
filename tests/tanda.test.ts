@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  aCantidad,
   dividirTanda,
   moverTanda,
   partesDe,
@@ -205,6 +206,17 @@ describe('textos del diario', () => {
       'Movida a Bancal del fondo.',
     )
     expect(textoTrasplanteEntero({ cambioEtapa: true })).toBe('Trasplantada.')
+  })
+
+  it('aCantidad: lo que escribió la persona, o nada', () => {
+    expect(aCantidad('12')).toBe(12)
+    expect(aCantidad(' 12 ')).toBe(12)
+    expect(aCantidad('12.7')).toBe(13)
+    expect(aCantidad('0')).toBe(0)
+    expect(aCantidad('')).toBeUndefined()
+    expect(aCantidad('   ')).toBeUndefined()
+    expect(aCantidad('-3')).toBeUndefined()
+    expect(aCantidad('unas cuantas')).toBeUndefined()
   })
 
   it('conteo: primera vez, baja, suba y última en pie', () => {

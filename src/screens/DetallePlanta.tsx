@@ -6,9 +6,12 @@ import { BottomSheet } from '../components/BottomSheet'
 import { CycleProgress } from '../components/CycleProgress'
 import { FotoDeDiario } from '../components/FotoDeDiario'
 import { BloqueGerminacion } from '../components/BloqueGerminacion'
+import { Trasplantar } from '../components/Trasplantar'
+import { CambiarCantidad } from '../components/CambiarCantidad'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa, sinRomper } from '../lib/huerta/store'
+import { partesDe, textoCantidad } from '../lib/huerta/tanda'
 import * as db from '../lib/huerta/db'
 import { prepararFoto, FotoInvalida } from '../lib/huerta/fotos'
 import {
@@ -33,6 +36,8 @@ export function DetallePlanta() {
 
   const [entradas, setEntradas] = useState<EntradaDiario[] | null>(null)
   const [abrirDiario, setAbrirDiario] = useState(false)
+  const [abrirTrasplante, setAbrirTrasplante] = useState(false)
+  const [abrirCantidad, setAbrirCantidad] = useState(false)
 
   const planta = plantas.find((p) => p.id === id)
 
@@ -75,6 +80,9 @@ export function DetallePlanta() {
   const est = especie ? estimar(planta, especie) : null
   const sigue = siguienteEtapa(planta)
   const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
+  const nombre = planta.apodo || especie?.nombre_comun || 'Planta'
+  const partes = partesDe(plantas, planta)
+  const cantidad = textoCantidad(planta)
 
   async function borrar() {
     if (!planta) return
@@ -88,7 +96,7 @@ export function DetallePlanta() {
   return (
     <div className="pantalla pantalla--detalle">
       <Header
-        titulo={planta.apodo || especie?.nombre_comun || 'Planta'}
+        titulo={nombre}
         sobretitulo={planta.apodo ? especie?.nombre_comun : especie?.nombre_cientifico}
         volver
       />
@@ -101,9 +109,21 @@ export function DetallePlanta() {
             <BloqueGerminacion planta={planta} especie={especie} clima={clima} />
           )}
 
-          {sigue && (
-            <button className="planta__avanzar" onClick={() => sinRomper(cambiarEtapa(planta, sigue))}>
-              Marcar como {ETAPA_INFO[sigue].etiqueta.toLowerCase()}
+          {planta.etapa === 'almacigo' ? (
+            <button className="planta__avanzar" onClick={() => setAbrirTrasplante(true)}>
+              La trasplanté…
+            </button>
+          ) : (
+            sigue && (
+              <button className="planta__avanzar" onClick={() => sinRomper(cambiarEtapa(planta, sigue))}>
+                Marcar como {ETAPA_INFO[sigue].etiqueta.toLowerCase()}
+              </button>
+            )
+          )}
+
+          {planta.etapa !== 'almacigo' && planta.etapa !== 'terminada' && (
+            <button className="planta__mover" onClick={() => setAbrirTrasplante(true)}>
+              Mover o separar una parte…
             </button>
           )}
 
@@ -118,6 +138,32 @@ export function DetallePlanta() {
               />
             )}
           </dl>
+
+          {planta.etapa !== 'terminada' && (
+            <button className="planta__cantidad" onClick={() => setAbrirCantidad(true)}>
+              {cantidad ? `${cantidad} — cambiar la cuenta` : 'Anotar cuántas hay'}
+            </button>
+          )}
+
+          {partes.length > 0 && (
+            <div className="planta__partes">
+              <p className="planta__partes-titulo">Esta siembra también está en:</p>
+              <ul className="planta__partes-lista">
+                {partes.map((p) => {
+                  const lugar = ubicaciones.find((u) => u.id === p.ubicacionId)?.nombre
+                  const cant = textoCantidad(p)
+                  const donde = lugar ? (cant ? `${cant} en ${lugar}` : `En ${lugar}`) : cant ? `${cant} sin lugar asignado` : 'Sin lugar asignado'
+                  return (
+                    <li key={p.id}>
+                      <Link to={`/huerta/${p.id}`}>
+                        {donde} · {ETAPA_INFO[p.etapa].etiqueta}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
 
           {est?.proximo && (
             <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
@@ -180,6 +226,22 @@ export function DetallePlanta() {
         plantaId={planta.id}
         onCerrar={() => setAbrirDiario(false)}
         onGuardada={recargarDiario}
+      />
+
+      <Trasplantar
+        abierto={abrirTrasplante}
+        planta={planta}
+        nombre={nombre}
+        onCerrar={() => setAbrirTrasplante(false)}
+        onListo={() => void recargarDiario()}
+      />
+
+      <CambiarCantidad
+        abierto={abrirCantidad}
+        planta={planta}
+        nombre={nombre}
+        onCerrar={() => setAbrirCantidad(false)}
+        onListo={() => void recargarDiario()}
       />
     </div>
   )

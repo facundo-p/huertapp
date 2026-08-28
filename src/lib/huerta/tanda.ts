@@ -57,6 +57,13 @@ export function moverTanda(p: Planta, o: { fecha: string; ubicacionId?: string }
   }
 }
 
+/** Del input de texto a una cantidad, o undefined si no es un número usable. */
+export function aCantidad(texto: string): number | undefined {
+  if (!texto.trim()) return undefined
+  const n = Math.round(Number(texto))
+  return Number.isFinite(n) && n >= 0 ? n : undefined
+}
+
 /** "~8", salvo que sea una sola (o ninguna): la virgulilla ahí suena a chiste. */
 const aprox = (n: number): string => (n > 1 ? `~${n}` : String(n))
 

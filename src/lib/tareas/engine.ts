@@ -135,9 +135,10 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
       )
     })
     if (expuestas.length) {
-      const nombres = expuestas
-        .map((p) => (p.apodo || porSlug.get(p.slug)!.nombre_comun).toLowerCase())
-        .slice(0, 3)
+      // una tanda dividida comparte apodo entre sus partes: se nombra una vez
+      const nombres = [
+        ...new Set(expuestas.map((p) => (p.apodo || porSlug.get(p.slug)!.nombre_comun).toLowerCase())),
+      ].slice(0, 3)
       tareas.push({
         id: `helada:${nombreDecada(siguienteDecada(decada))}`,
         tipo: 'helada',

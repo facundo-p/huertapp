@@ -11,6 +11,7 @@ import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
 import { ETAPA_INFO, hoyISO, type Planta } from '../lib/huerta/tipos'
+import { resumenHuerta, textoCantidad } from '../lib/huerta/tanda'
 import { estimar, textoHito } from '../lib/huerta/estimar'
 import { germinacion } from '../lib/huerta/germinacion'
 import {
@@ -112,7 +113,7 @@ export function MiHuerta() {
     <div className="pantalla">
       <Header
         titulo="Mi huerta"
-        sobretitulo={listo && activas.length ? `${activas.length} plantas` : 'Lo que tenés plantado'}
+        sobretitulo={listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'}
       />
 
       <div className="pantalla__cuerpo">
@@ -261,6 +262,7 @@ function TarjetaPlanta({ planta, especie, abierta, pendientes, alPlegar }: Tarje
               </span>
               <span className="planta-card__cuando">
                 {planta.apodo ? `${especie.nombre_comun} · ` : ''}
+                {textoCantidad(planta) ? `${textoCantidad(planta)} · ` : ''}
                 {est.diasDesdeSiembra === 0
                   ? 'sembrada hoy'
                   : est.diasDesdeSiembra === 1

@@ -8,6 +8,7 @@ import {
   type Tarea,
 } from '../src/lib/tareas/engine'
 import { sumarDias } from '../src/lib/huerta/estimar'
+import { dividirTanda } from '../src/lib/huerta/tanda'
 import type { Planta } from '../src/lib/huerta/tipos'
 import type { EspecieEnriquecida, Zona } from '../src/lib/data/types'
 import db from '../data/huerta_gba_enriquecido.json'
@@ -145,6 +146,58 @@ describe('motor de tareas', () => {
     const t = motor(p)
     const prioridades = t.map((x) => x.prioridad)
     expect(prioridades).toEqual([...prioridades].sort((a, b) => a - b))
+  })
+})
+
+describe('tandas divididas en el motor', () => {
+  it('la madre con resto sigue pidiendo trasplante; la parte que ya salió, no', () => {
+    const madre = planta({
+      slug: 'tomate',
+      sembrada: sumarDias(HOY, -35),
+      etapa: 'almacigo',
+      germino: sumarDias(HOY, -27),
+      cantidad: 10,
+    })
+    const { madre: conResto, hija } = dividirTanda(madre, {
+      fecha: HOY,
+      cuantas: 4,
+      idHija: 'hija-1',
+      creadaHija: `${HOY}T10:00:00.000Z`,
+    })
+    const t = motor([conResto, hija]).filter((x) => x.tipo === 'trasplantar')
+    expect(t).toHaveLength(1)
+    expect(t[0].plantaId).toBe(madre.id)
+  })
+
+  it('madre e hija en ventana de cosecha son dos tareas, cada una con su id', () => {
+    const madre = planta({
+      slug: 'tomate',
+      sembrada: sumarDias(HOY, -85),
+      etapa: 'creciendo',
+      germino: sumarDias(HOY, -77),
+    })
+    const { madre: quedada, hija } = dividirTanda(madre, {
+      fecha: sumarDias(HOY, -30),
+      idHija: 'hija-2',
+      creadaHija: `${HOY}T10:00:00.000Z`,
+    })
+    const t = motor([quedada, hija]).filter((x) => x.tipo === 'cosechar')
+    expect(t).toHaveLength(2)
+    expect(new Set(t.map((x) => x.id)).size).toBe(2)
+  })
+
+  it('el aviso de helada no repite el nombre de una tanda dividida', () => {
+    const madre = planta({ slug: 'tomate', apodo: 'los del cajón', etapa: 'creciendo', germino: HOY })
+    const { madre: quedada, hija } = dividirTanda(madre, {
+      fecha: HOY,
+      idHija: 'hija-3',
+      creadaHija: `${HOY}T10:00:00.000Z`,
+    })
+    const helada = motor([quedada, { ...hija, etapa: 'creciendo' }], 'conurbano', '2026-08-15').find(
+      (x) => x.tipo === 'helada',
+    )
+    expect(helada).toBeDefined()
+    expect(helada!.detalle.split('los del cajón').length - 1).toBe(1)
   })
 })
 
