@@ -5,6 +5,7 @@ import { AJUSTE_SUELO, LABORES, PALABRAS, SUSTRATO, type Termino } from '../lib/
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import {
+  CIELOS,
   GRUPOS,
   LUCES,
   SUELOS,
@@ -12,11 +13,14 @@ import {
   IconoAlmacigo,
   IconoBajar,
   IconoCampana,
+  IconoCalor,
+  IconoGota,
   IconoInstalar,
   IconoConfianza,
   IconoCosechar,
   IconoCuidado,
   IconoDesplegar,
+  IconoEditar,
   IconoFoto,
   IconoFuente,
   IconoNota,
@@ -26,6 +30,8 @@ import {
   IconoReloj,
   IconoSembrar,
   IconoTrasplantar,
+  IconoUbicacion,
+  IconoViento,
   type IconProps,
 } from '../icons'
 import './Glosario.css'
@@ -46,6 +52,7 @@ const ACCIONES: Item[] = [
   { Icono: IconoMaceta, nombre: 'Maceta', desc: 'En qué recipiente entra: profundidad y litros.' },
   { Icono: IconoPlaga, nombre: 'Plaga', desc: 'Bichos o enfermedades a vigilar.' },
   { Icono: IconoNota, nombre: 'Nota', desc: 'Apunte del diario de una planta.' },
+  { Icono: IconoEditar, nombre: 'Editar', desc: 'Cambiar los datos de algo ya creado.' },
   { Icono: IconoFoto, nombre: 'Foto', desc: 'Registro visual: el antes y después.' },
   { Icono: IconoAlerta, nombre: 'Alerta', desc: 'Advertencia: algo pide atención.' },
   { Icono: IconoFuente, nombre: 'Fuente', desc: 'De dónde sale el dato (INTA, UNLP…).' },
@@ -252,6 +259,38 @@ export function Glosario() {
           </ul>
         </Seccion>
 
+        <Seccion titulo="El tiempo de la semana" retraso={0.17}>
+          <p className="glosario__intro">
+            Si activaste el pronóstico en Ajustes, Hoy muestra la semana con
+            estos íconos.
+          </p>
+          <ul className="glosario__lista etiqueta">
+            {Object.entries(CIELOS).map(([c, info]) => (
+              <Fila key={c} Icono={info.Icono} nombre={info.nombre} desc={descCielo(c)} />
+            ))}
+            <Fila
+              Icono={IconoCalor}
+              nombre="calor extremo"
+              desc="Máxima de 32,3 °C o más: el umbral de calor extremo del SMN para Buenos Aires."
+            />
+            <Fila
+              Icono={IconoViento}
+              nombre="viento"
+              desc="Cuánto sopla ese día, con las ráfagas, en el detalle."
+            />
+            <Fila
+              Icono={IconoGota}
+              nombre="probabilidad de lluvia"
+              desc="Qué tan probable es que llueva ese día. La humedad del aire va en el detalle."
+            />
+            <Fila
+              Icono={IconoUbicacion}
+              nombre="ubicación de la huerta"
+              desc="Desde dónde se pide el pronóstico. Se elige en Ajustes y se saca cuando quieras."
+            />
+          </ul>
+        </Seccion>
+
         <Seccion titulo="El calendario" retraso={0.2}>
           <div className="etiqueta glosario__calendario">
             <div className="glosario__celda-demo">
@@ -361,6 +400,20 @@ function descGrupo(g: string): string {
     'Flor polinizadora': 'Caléndula, copete… traen abejas y espantan plagas.',
   }
   return d[g] ?? ''
+}
+
+function descCielo(c: string): string {
+  return {
+    sol: 'Día de sol, sin nubes que importen.',
+    'sol-nubes': 'Sol con nubes: la huerta lo aprovecha igual.',
+    nublado: 'Cielo cubierto todo el día.',
+    niebla: 'Amanece cerrado; suele levantar a media mañana.',
+    llovizna: 'Agua fina, de la que casi no acumula.',
+    lluvia: 'Lluvia de verdad: los milímetros están en el detalle del día.',
+    tormenta: 'Lluvia fuerte, ráfagas y rayos.',
+    nieve:
+      'En el cielo del día, nieve (rarísimo acá). En una alerta, riesgo de helada: mínima de 3 °C o menos — a esa marca el pasto puede estar a 0 °C (umbral FAUBA).',
+  }[c]!
 }
 
 function nombreSuelo(c: string): string {

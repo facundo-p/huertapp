@@ -93,10 +93,10 @@ test('sin internet la app abre entera: pantallas, catálogo y calendario', async
   // y se puede seguir cargando la huerta sin conexión: IndexedDB es local
   await page.goto('/#/ajustes')
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
-  await expect(page.getByText(/^5 plantas$/)).toBeVisible({ timeout: 5000 })
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 5000 })
 
   await page.goto('/#/huerta')
-  await expect(page.getByRole('link', { name: /Los del cajón/ })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Los del cajón/ }).first()).toBeVisible()
 })
 
 test('las fuentes tipográficas también están cacheadas: nada de texto en Times', async ({

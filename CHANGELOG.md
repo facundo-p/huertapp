@@ -46,6 +46,36 @@ Qué significa cada parte en este proyecto:
   morada se cultiva como la común, así que no es una entrada del catálogo — pero
   ahora podés escribirla al dar de alta la planta y te queda en el diario. Es
   dato tuyo, y la app lo dice así: no lleva fuente porque no la necesita.
+- **Tus lugares ahora tienen ficha propia.** Una ubicación ya no es solo un
+  nombre: le podés decir qué es (maceta, bancal elevado, bancal a tierra,
+  almácigo), sus medidas en centímetros —en el bancal elevado el volumen de
+  sustrato se calcula solo—, cuánto sol recibe, cómo la agarra una helada (a
+  cielo abierto, resguardada o invernadero) y notas libres. Todo opcional y
+  editable cuando quieras, con el lápiz que aparece al lado de cada lugar en
+  Mi huerta. Al crear un lugar desde el alta de una planta o un trasplante se
+  abre la misma ficha completa. Y desde ahí también podés borrar un lugar: sus
+  plantas quedan "sin lugar asignado", no se borran.
+
+- **Una siembra ya no es "una planta".** Ahora podés anotarle a cada siembra
+  cuántas plantitas tiene, más o menos (~8), y cuando trasplantás **una parte**
+  —del semillero a las macetitas, de las macetitas al bancal— esa parte pasa a
+  su propia tarjeta, con su lugar y su fecha, y el movimiento queda anotado en
+  el diario de las dos. La cuenta se ajusta cuando germinan, cuando raleás o
+  cuando se pierde alguna, también con nota automática. Todo a ojo y nada
+  obligatorio: sin cantidades, la app sigue andando como siempre. Mi huerta
+  ahora cuenta en serio: "3 siembras · ~24 plantas".
+
+- **El pronóstico de la semana, si vos querés.** En Ajustes le decís a la app
+  más o menos dónde está tu huerta —tu zona así nomás, tu localidad, o el GPS—
+  y Hoy te muestra los próximos 7 días, con avisos cuando viene una helada,
+  lluvia que te ahorra un riego o un calor que pide regar dos veces. Cada día
+  se toca y abre su detalle: humedad, viento, UV, presión, rocío al amanecer y
+  hasta la temperatura del suelo.
+
+  Es **opcional y es lo único que sale de tu teléfono**: el pedido va directo a
+  Open-Meteo (CC BY 4.0), sin pasar por ningún otro lado. Si no lo activás, la
+  app sigue sin tocar internet, como siempre. Y sin señal muestra lo último que
+  trajo, diciendo de cuándo es.
 
 - **Riego y maceta, dos datos que la app no tenía.** Cuánta agua pide cada
   especie, en una barrita de cuatro niveles que va de *escaso* a *constante*, y
@@ -84,6 +114,13 @@ Qué significa cada parte en este proyecto:
   le corresponde. Que la zanahoria no tenga días a trasplante no es un hueco
   de la investigación: es que a la zanahoria no se la trasplanta.
 
+- **Un registro de arranques, en Ajustes → "Si algo se rompe".** Hay reportes de
+  huertas que aparecen vacías sin que se sepa reproducirlo. La app ahora anota
+  cada vez que abre tus datos —cuándo, qué versión, cuántas plantas encontró y
+  si el navegador los está protegiendo—, y ese registro **sobrevive aunque se
+  borre la base**. Si te llega a pasar, con copiarlo y mandarlo alcanza para
+  saber qué pasó. No sale de tu aparato.
+
 - **Siete especies más te dicen cuándo ralear.** Cuando una planta va de siembra
   directa no hay trasplante que esperar: la labor que decide el resultado es el
   raleo, y en la espinaca, la rúcula, el radicchio, el melón, la sandía, el
@@ -98,6 +135,22 @@ Qué significa cada parte en este proyecto:
   vez de ralearla.
 
 ### Cambiado
+
+- **El trasplante y la cosecha se cuentan desde que la semilla asomó, no desde
+  que la sembraste.** Si germinó más tarde de lo que decía la ficha, todas las
+  fechas de esa planta se corren ese mismo tanto —y con ellas la tarea de Hoy y
+  el aviso que llega al teléfono. Dos semillas del mismo sobre sembradas el
+  mismo día, una que asomó a los 5 y otra a los 22, ya no comparten fecha de
+  trasplante: la segunda tiene diecisiete días menos de plantín encima.
+
+  La ficha no cambia lo que dice: sigue siendo *"25-35 días desde la siembra"*,
+  con su fuente y su confianza. Lo que se le suma es **tu** dato, y la app
+  aclara de cuánto fue el corrimiento y por qué.
+
+- **Al marcar que asomó ya se puede decir qué día fue.** Antes el botón anotaba
+  siempre hoy, así que marcar tres días tarde metía tres días de error en todo
+  lo que venía después. Ahora son **Hoy · Ayer · Otro día**, y la fecha se puede
+  corregir después desde la misma ficha.
 
 - **La acelga vuelve a mostrar cuándo trasplantarla según la fuente**, con la
   altura incluida: *"3-4 hojas verdaderas y ~8-10 cm"*. Antes mostraba un
@@ -115,6 +168,31 @@ Qué significa cada parte en este proyecto:
   poco: el melón son 100 días clavados y su aviso aparecía **un solo día**. Si
   no abrías la app justo ese día, no te enterabas. Ahora aparece cuando entra en
   fecha y se queda hasta que la marcás como cosechando.
+- **La ficha de una planta ahora cumple accesibilidad como el resto.** Tres
+  botones quedaban abajo de los 44 px y el plazo de germinación no llegaba al
+  contraste mínimo sobre el fondo del aviso. Se medían las siete pantallas
+  principales y ésta no estaba en la lista; ahora sí.
+
+- **Restaurar un backup ya no puede costarte la huerta que tenías.** La
+  restauración borraba todo *antes* de escribir lo del archivo, y de a un
+  registro por vez. Si el archivo estaba cortado o traía algo que el navegador
+  rechazaba, te quedabas **sin lo viejo y sin lo nuevo** — la propia pantalla lo
+  admitía ("tus datos anteriores pueden haberse perdido"). Ahora se reemplaza
+  todo de una sola vez: **o entra entero, o tu huerta queda exactamente como
+  estaba.**
+
+- **Cuando la app no puede leer tus datos, ahora te lo dice.** Antes, si la
+  lectura fallaba, la pantalla quedaba en blanco o —peor— te mostraba *"Todavía
+  no plantaste nada"*, el mismo cartel que ve alguien que recién empieza. A
+  quien no le podemos leer la huerta no se le dice que nunca plantó nada: ahora
+  aclara que **lo tuyo sigue guardado en el aparato**, muestra el nombre del
+  error y te deja **probar de nuevo**. Antes ni siquiera reintentaba: un fallo
+  de un segundo dejaba la app sin datos hasta que la cerrabas.
+
+- **Un guardado que falla ya no se ve igual que un botón que no anda.** Si algo
+  no se puede guardar aparece un aviso con el motivo, y cuando hay algo que
+  hacer, lo dice: si no entra más en el aparato, que bajes un backup y borres
+  fotos viejas.
 
 - **La leyenda de confianza del glosario enseñaba un código de formas distinto
   del que usa la app.** El borde de "confianza media" salía sólido y el de

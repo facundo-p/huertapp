@@ -6,12 +6,30 @@ import { desdeISO, diasEntre, hoyISO, type Etapa, type Planta } from './tipos'
  * como tales: el rango de la ficha se conserva entero en vez de promediarlo,
  * porque un "entre 80 y 100 días" no es lo mismo que un "90 días" y la
  * diferencia importa cuando estás mirando si ya se puede cosechar.
+ *
+ * Y todo se cuenta desde la siembra pero **corrido por la germinación real**:
+ * el reloj de un plantín arranca cuando asoma, no cuando lo enterraste.
  */
 
 export function sumarDias(iso: string, dias: number): string {
   const d = desdeISO(iso)
   d.setDate(d.getDate() + dias)
   return hoyISO(d)
+}
+
+/**
+ * Cuántos días se salió esta planta de la ventana de germinación que decía la
+ * ficha. Es dato tuyo, no de la especie: la ficha sigue diciendo "25-35 días
+ * desde la siembra" y esto corrige que esta semilla arrancó tarde. Adentro de
+ * la ventana no corrige nada — la ficha ya lo daba por normal.
+ */
+export function corrimiento(p: Planta, e: EspecieEnriquecida): number {
+  if (!p.germino || !e.dias_germinacion) return 0
+  const tarde = diasEntre(sumarDias(p.sembrada, e.dias_germinacion.max), p.germino)
+  const temprano = diasEntre(p.germino, sumarDias(p.sembrada, e.dias_germinacion.min))
+  if (tarde > 0) return tarde
+  if (temprano > 0) return -temprano
+  return 0
 }
 
 export interface Hito {
@@ -24,15 +42,17 @@ export interface Hito {
   enVentana: boolean
 }
 
-function hito(titulo: string, sembrada: string, rango: Rango, hoy: string): Hito {
-  const desde = sumarDias(sembrada, rango.min)
-  const hasta = sumarDias(sembrada, rango.max)
+function hito(titulo: string, sembrada: string, rango: Rango, hoy: string, corrido: number): Hito {
+  const desde = sumarDias(sembrada, rango.min + corrido)
+  const hasta = sumarDias(sembrada, rango.max + corrido)
   const faltan = diasEntre(hoy, desde)
   return { titulo, desde, hasta, faltan, enVentana: faltan <= 0 && diasEntre(hoy, hasta) >= 0 }
 }
 
 export interface Estimacion {
   diasDesdeSiembra: number
+  /** días que se corrió todo el ciclo porque la germinación no fue la prevista */
+  corrimiento: number
   trasplante: Hito | null
   cosecha: Hito | null
   /** el hito que viene, para mostrar uno solo en la tarjeta */
@@ -40,12 +60,16 @@ export interface Estimacion {
 }
 
 export function estimar(p: Planta, e: EspecieEnriquecida, hoy = hoyISO()): Estimacion {
+  const corrido = corrimiento(p, e)
   const trasplante =
-    e.dias_a_trasplante && p.etapa === 'almacigo' ? hito('Trasplante', p.sembrada, e.dias_a_trasplante, hoy) : null
-  const cosecha = e.dias_a_cosecha ? hito('Cosecha', p.sembrada, e.dias_a_cosecha, hoy) : null
+    e.dias_a_trasplante && p.etapa === 'almacigo'
+      ? hito('Trasplante', p.sembrada, e.dias_a_trasplante, hoy, corrido)
+      : null
+  const cosecha = e.dias_a_cosecha ? hito('Cosecha', p.sembrada, e.dias_a_cosecha, hoy, corrido) : null
 
   return {
     diasDesdeSiembra: diasEntre(p.sembrada, hoy),
+    corrimiento: corrido,
     trasplante,
     cosecha,
     proximo: p.etapa === 'terminada' ? null : (trasplante ?? cosecha),

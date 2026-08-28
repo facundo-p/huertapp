@@ -134,6 +134,66 @@ vale la pena paralelizar algo que comparte un `dist/` y un servidor.
 
 ---
 
+## Almacenamiento
+
+### `promesa ??= cargar()` guarda también el rechazo
+
+**Síntoma:** la app abre sin datos y no se recupera hasta cerrarla del todo. Un
+error de IndexedDB de un segundo cuesta la sesión entera.
+
+**Causa:** `??=` cachea la promesa *rechazada*. Todo el que pida después recibe
+el mismo rechazo, y no hay segundo intento nunca.
+
+**Qué hacer:** `unaVez()` en `src/lib/huerta/reintento.ts` — comparte el
+resultado mientras está en vuelo, lo conserva si salió bien, y lo limpia si
+falló. Estaba en `store.ts` y en `db.ts`, los dos.
+
+### Borrar antes de escribir es perder los datos dos veces
+
+**Síntoma:** restaurar un backup cortado dejaba la huerta vacía. La pantalla se
+disculpaba: *"tus datos anteriores pueden haberse perdido"*.
+
+**Causa:** `vaciarTodo()` y después escribir de a un registro, fuera de
+transacción. Cualquier fallo a mitad de camino te deja sin lo viejo y sin lo
+nuevo.
+
+**Qué hacer:** una sola transacción de IndexedDB, que es atómica. Dos trampas:
+los blobs se resuelven **antes** —un `await` que no sea de IndexedDB adentro de
+la transacción la deja auto-commitear— y el `abort()` va **explícito**, porque
+un `put` sin keyPath tira DataError sincrónico, se escapa del bloque y el
+`clear()` encolado se confirma igual.
+
+### Un fallo que no se ve convierte un bug chico en "perdí todo"
+
+**Síntoma:** tres reportes distintos —"no me deja guardar", "se me borró la
+huerta", "el botón no anda"— que eran el mismo error, invisible.
+
+**Causa:** escrituras con `void` y sin `catch`, lecturas que fallaban en
+silencio, y un estado vacío que decía *"Todavía no plantaste nada"* tanto al que
+empieza como al que no le pudimos leer los datos.
+
+**Qué hacer:** el error se muestra **con su `name`** (`QuotaExceededError`,
+`NotFoundError`) — el mensaje cambia entre navegadores, el name no, y es lo
+único que una persona puede copiar y mandar. Y "no pude leer" nunca se dibuja
+igual que "no tenés nada".
+
+### Un bug que no se reproduce necesita instrumentación, no hipótesis
+
+**Síntoma:** la base se borra "a veces", sin patrón. Tres sesiones de análisis
+de código sin encontrar un solo camino que borre.
+
+**Causa:** no había forma de saber qué pasó. La app no registraba nada, y
+`espacioUsado()` suma Cache Storage e IndexedDB: con el precache de 1,7 MB,
+Ajustes muestra "2,8 MB ocupados" aunque la huerta esté vacía. Ese número no
+sirve para saber si tus datos están.
+
+**Qué hacer:** la bitácora (`src/lib/huerta/bitacora.ts`) vive en
+**localStorage**, no en la base — anotar en lo que se borra no sirve de nada.
+Antes de proponer un arreglo para algo que no se reproduce, poné a la app a
+contar qué le pasa.
+
+---
+
 ## Frontend
 
 ### Un test que pasa por llegar temprano es peor que no tenerlo

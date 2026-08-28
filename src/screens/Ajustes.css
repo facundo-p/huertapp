@@ -298,3 +298,98 @@
   text-align: center;
 }
 
+
+/* Bitácora: registro técnico, plegado. Es para copiar y mandar, no para leer. */
+.bitacora__ver {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--verde-prof);
+  cursor: pointer;
+}
+
+.bitacora__texto {
+  margin: var(--esp-2) 0;
+  padding: var(--esp-3);
+  max-height: 40vh;
+  overflow: auto;
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  color: var(--tinta);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--texto-xs);
+  line-height: 1.6;
+  /* una línea por apunte: se rompe donde el texto lo pide, no a la mitad */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ── pronóstico: buscador de localidad ── */
+
+.ajustes__buscador {
+  display: flex;
+  gap: var(--esp-2);
+  margin-top: var(--esp-3);
+}
+
+/* los botones del repo son de ancho completo; al lado del input, no */
+.ajustes__buscador .boton-secundario {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0 var(--esp-4);
+}
+
+.ajustes__input {
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap-min);
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-s);
+  border: 1.5px solid var(--linea);
+  background: var(--papel-alto);
+  font: inherit;
+  font-size: var(--texto-m);
+  color: var(--tinta);
+}
+
+.ajustes__input:focus-visible {
+  border-color: var(--verde-hoja);
+}
+
+.ajustes__resultados {
+  list-style: none;
+  margin: var(--esp-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+}
+
+.ajustes__resultado {
+  width: 100%;
+  min-height: var(--tap-min);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1px;
+  padding: var(--esp-2) var(--esp-3);
+  border: 1.5px solid var(--linea);
+  border-radius: var(--radio-s);
+  background: var(--papel-alto);
+  color: var(--tinta);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ajustes__resultado-nombre {
+  font-weight: 700;
+}
+
+.ajustes__resultado-detalle {
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}

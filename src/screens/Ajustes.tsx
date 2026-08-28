@@ -5,6 +5,7 @@ import { elegirZona, useZona, ZONAS_INFO } from '../lib/zona'
 import { ZONAS, type Zona } from '../lib/data/types'
 import { useHuerta, recargar } from '../lib/huerta/store'
 import { espacioUsado, pedirPersistencia } from '../lib/huerta/db'
+import { comoTexto, leer as leerBitacora, nombreError } from '../lib/huerta/bitacora'
 import { pesoLegible } from '../lib/huerta/fotos'
 import { borrarTodo, sembrarDemo } from '../lib/huerta/demo'
 import {
@@ -18,6 +19,10 @@ import {
   type ResumenBackup,
 } from '../lib/huerta/backup'
 import { instalar, useComoInstalar } from '../lib/instalar'
+import { elegirUbicacion, sacarUbicacion, usePronostico } from '../lib/pronostico/store'
+import { proveedor } from '../lib/pronostico/proveedor'
+import { ubicarPorGPS } from '../lib/pronostico/geo'
+import { COORDS_ZONA, type Localidad, type UbicacionClima } from '../lib/pronostico/tipos'
 import { VERSION } from '../lib/version'
 import {
   activarAvisos,
@@ -28,7 +33,8 @@ import {
   probarAviso,
   type EstadoAvisos,
 } from '../lib/avisos'
-import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir } from '../icons'
+import { resumenHuerta } from '../lib/huerta/tanda'
+import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir, IconoUbicacion } from '../icons'
 import './Ajustes.css'
 
 export function Ajustes() {
@@ -40,10 +46,12 @@ export function Ajustes() {
       <Header titulo="Ajustes" volver />
       <div className="pantalla__cuerpo">
         <SeccionZona zona={zona} />
+        <SeccionPronostico zona={zona} />
         <SeccionInstalar />
-        <SeccionBackup cuantasPlantas={plantas.length} />
+        <SeccionBackup cuantasPlantas={plantas.length} resumen={resumenHuerta(plantas)} />
         <SeccionAvisos />
         <SeccionDemo cuantasPlantas={plantas.length} />
+        <SeccionBitacora />
         <PieVersion />
       </div>
     </div>
@@ -102,6 +110,159 @@ function SeccionZona({ zona }: { zona: Zona }) {
         <span>
           Si dudás, dejá <strong>Conurbano</strong>: es la opción del medio y cubre la mayor parte del
           GBA. Ante la duda conviene la zona más fría, que atrasa la siembra y arriesga menos.
+        </span>
+      </p>
+    </section>
+  )
+}
+
+
+/* ---------- pronóstico ---------- */
+
+/**
+ * Activar el pronóstico es dar una ubicación, y es opt-in a propósito: sin
+ * esto la app no toca la red. Tres caminos, del más reservado al más fino:
+ * la estación de la zona, una localidad buscada, o el GPS.
+ */
+function SeccionPronostico({ zona }: { zona: Zona }) {
+  const { ubicacion } = usePronostico()
+  const [eligiendo, setEligiendo] = useState(false)
+  const [busqueda, setBusqueda] = useState('')
+  const [resultados, setResultados] = useState<Localidad[] | null>(null)
+  const [buscando, setBuscando] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function elegir(u: UbicacionClima) {
+    setError(null)
+    await elegirUbicacion(u)
+    setEligiendo(false)
+    setBusqueda('')
+    setResultados(null)
+  }
+
+  function porZona() {
+    const ref = COORDS_ZONA[zona]
+    void elegir({ modo: 'zona', lat: ref.lat, lon: ref.lon, etiqueta: `cerca de ${ref.nombre}, aproximado` })
+  }
+
+  async function porGPS() {
+    setError(null)
+    try {
+      const { lat, lon } = await ubicarPorGPS()
+      await elegir({ modo: 'gps', lat, lon, etiqueta: 'tu ubicación' })
+    } catch (e) {
+      setError(
+        (e as Error).message === 'denegado'
+          ? 'El navegador no dio permiso de ubicación. Buscá tu localidad, que funciona igual.'
+          : 'El GPS no anduvo. Buscá tu localidad, que funciona igual.',
+      )
+    }
+  }
+
+  async function buscar() {
+    const texto = busqueda.trim()
+    if (!texto || buscando) return
+    setBuscando(true)
+    setError(null)
+    setResultados(null)
+    try {
+      setResultados(await proveedor.buscarLocalidad(texto))
+    } catch {
+      setError('No pude buscar: fijate si hay internet.')
+    } finally {
+      setBuscando(false)
+    }
+  }
+
+  if (ubicacion && !eligiendo) {
+    return (
+      <section className="ajustes__seccion">
+        <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
+        <p className="ajustes__bajada">
+          Se pide para <strong>{ubicacion.etiqueta}</strong>, directo de tu teléfono a{' '}
+          {proveedor.nombre}. Lo ves en Hoy, con la semana y sus avisos.
+        </p>
+        <div className="ajustes__botones">
+          <button className="boton-secundario" onClick={() => setEligiendo(true)}>
+            Cambiar la ubicación
+          </button>
+          <button className="boton-peligro-suave" onClick={() => void sacarUbicacion()}>
+            Sacarla y apagar el pronóstico
+          </button>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
+      <p className="ajustes__bajada">
+        Si querés, Hoy te muestra el pronóstico de la semana y te avisa cuando vienen heladas,
+        lluvia o mucho calor. Para eso la app necesita saber más o menos dónde estás — y es lo
+        único que sale de tu teléfono: va directo a {proveedor.nombre}, sin pasar por ningún otro
+        lado. Si no lo prendés, todo sigue igual que siempre.
+      </p>
+
+      <div className="ajustes__botones">
+        <button className="boton-secundario" onClick={porZona}>
+          Usar mi zona, así nomás
+        </button>
+        <button className="boton-secundario" onClick={() => void porGPS()}>
+          Usar el GPS
+        </button>
+        {eligiendo && (
+          <button className="boton-secundario" onClick={() => setEligiendo(false)}>
+            Dejar como está
+          </button>
+        )}
+      </div>
+
+      <form
+        className="ajustes__buscador"
+        onSubmit={(e) => {
+          e.preventDefault()
+          void buscar()
+        }}
+      >
+        <input
+          className="ajustes__input"
+          type="search"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          placeholder="O buscá tu localidad…"
+          aria-label="Buscar tu localidad"
+        />
+        <button className="boton-secundario" type="submit" disabled={buscando}>
+          {buscando ? 'Buscando…' : 'Buscar'}
+        </button>
+      </form>
+
+      {resultados && resultados.length > 0 && (
+        <ul className="ajustes__resultados">
+          {resultados.map((r) => (
+            <li key={`${r.lat},${r.lon}`}>
+              <button
+                className="ajustes__resultado"
+                onClick={() => void elegir({ modo: 'localidad', lat: r.lat, lon: r.lon, etiqueta: r.nombre })}
+              >
+                <span className="ajustes__resultado-nombre">{r.nombre}</span>
+                {r.detalle && <span className="ajustes__resultado-detalle">{r.detalle}</span>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {resultados?.length === 0 && (
+        <p className="ajustes__error">No encontré esa localidad. Probá con el nombre del partido.</p>
+      )}
+      {error && <p className="ajustes__error">{error}</p>}
+
+      <p className="ajustes__nota">
+        <IconoUbicacion size={15} />
+        <span>
+          El GPS pide permiso del navegador. Vayas por donde vayas, la ubicación viaja redondeada
+          a un kilómetro más o menos, y la sacás cuando quieras.
         </span>
       </p>
     </section>
@@ -186,7 +347,7 @@ function SeccionInstalar() {
 
 /* ---------- backup ---------- */
 
-function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
+function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; resumen: string }) {
   const archivo = useRef<HTMLInputElement>(null)
   const [espacio, setEspacio] = useState<{ usado: number; total: number } | null>(null)
   const [ultimo, setUltimo] = useState<string | null | undefined>(undefined)
@@ -233,8 +394,10 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
       await recargar()
       setPendiente(null)
       setMensaje('Listo: tu huerta quedó como en el backup.')
-    } catch {
-      setError('Falló la importación. Tus datos anteriores pueden haberse perdido: si tenés otro backup, probá con ese.')
+    } catch (e) {
+      setError(
+        `No se pudo restaurar el backup, así que tu huerta quedó como estaba (${nombreError(e)}). Si el archivo está cortado, probá con otro.`,
+      )
     } finally {
       setImportando(false)
     }
@@ -280,7 +443,7 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
       <dl className="ajustes__estado">
         <div>
           <dt>En la app</dt>
-          <dd>{cuantasPlantas === 1 ? '1 planta' : `${cuantasPlantas} plantas`}</dd>
+          <dd>{resumen}</dd>
         </div>
         {espacio && (
           <div>
@@ -319,14 +482,14 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
             <p className="alta__aviso es-mala">
               <IconoAlerta size={17} />
               <span>
-                Esto <strong>borra</strong> tus {cuantasPlantas === 1 ? '1 planta' : `${cuantasPlantas} plantas`}{' '}
-                actuales y las reemplaza por las del archivo. No se puede deshacer.
+                Esto <strong>borra</strong> lo que tenés ahora ({resumen}) y lo reemplaza por lo del
+                archivo. No se puede deshacer.
               </span>
             </p>
             <dl className="ajustes__estado">
               <div>
                 <dt>Trae</dt>
-                <dd>{pendiente.resumen.plantas} plantas</dd>
+                <dd>{pendiente.resumen.huerta}</dd>
               </div>
               <div>
                 <dt>Diario</dt>
@@ -522,6 +685,71 @@ function LimitesDeAvisos({ estado, prendidos }: { estado: EstadoAvisos; prendido
 }
 
 /* ---------- demo ---------- */
+
+/* ---------- bitácora ---------- */
+
+/**
+ * El registro de arranques.
+ *
+ * Existe por un bug que no se puede reproducir: hay quien abre la app y se
+ * encuentra la huerta vacía, sin patrón conocido. Sin esto el diagnóstico es a
+ * ciegas —así fue el de la 1.1.0, preguntando datos de a uno—, porque la app no
+ * dejaba rastro de nada.
+ *
+ * Vive en localStorage, que es lo único que sobrevive a que IndexedDB se vacíe.
+ */
+function SeccionBitacora() {
+  const [apuntes, setApuntes] = useState(() => leerBitacora())
+  const [abierta, setAbierta] = useState(false)
+  const [copiado, setCopiado] = useState(false)
+
+  const texto = comoTexto(apuntes)
+
+  async function copiar() {
+    try {
+      await navigator.clipboard.writeText(texto)
+      setCopiado(true)
+      setTimeout(() => setCopiado(false), 2500)
+    } catch {
+      // sin permiso de portapapeles queda el texto a la vista para seleccionar
+    }
+  }
+
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">Si algo se rompe</h2>
+      <p className="ajustes__bajada">
+        Cada vez que abrís la app, se anota acá cómo le fue al leer tu huerta.{' '}
+        <strong>Si alguna vez aparece vacía, copiá esto y mandalo</strong>: dice qué pasó y cuándo.
+        No sale de tu aparato.
+      </p>
+
+      <details
+        className="bitacora"
+        onToggle={(e) => {
+          setAbierta(e.currentTarget.open)
+          setApuntes(leerBitacora())
+        }}
+      >
+        <summary className="bitacora__ver">
+          Ver el registro ({apuntes.length === 1 ? '1 apunte' : `${apuntes.length} apuntes`})
+        </summary>
+        {/* el registro se dibuja recién al abrirlo: son decenas de líneas que
+            nadie mira, y adentro de un details cerrado igual pesan */}
+        {abierta && (
+          <>
+            <pre className="bitacora__texto">{texto}</pre>
+            <div className="ajustes__botones">
+              <button className="boton-secundario" onClick={() => void copiar()}>
+                {copiado ? 'Copiado' : 'Copiar el registro'}
+              </button>
+            </div>
+          </>
+        )}
+      </details>
+    </section>
+  )
+}
 
 function SeccionDemo({ cuantasPlantas }: { cuantasPlantas: number }) {
   const [ocupado, setOcupado] = useState(false)

@@ -1,6 +1,9 @@
 import * as db from './db'
 import { hoyISO, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
+import { resumenHuerta } from './tanda'
 import { zonaActual, elegirZona } from '../zona'
+import { CLAVE_UBICACION, elegirUbicacion, sacarUbicacion } from '../pronostico/store'
+import type { UbicacionClima } from '../pronostico/tipos'
 import type { Zona } from '../data/types'
 
 /**
@@ -23,6 +26,8 @@ export interface Backup {
   version: number
   exportado: string
   zona: Zona
+  /** dónde pedir el pronóstico; opcional: solo si el usuario lo activó */
+  ubicacionClima?: UbicacionClima
   plantas: Planta[]
   diario: EntradaDiario[]
   ubicaciones: Ubicacion[]
@@ -40,17 +45,19 @@ const aDataURL = (blob: Blob): Promise<string> =>
 const desdeDataURL = async (datos: string): Promise<Blob> => (await fetch(datos)).blob()
 
 export async function armarBackup(): Promise<Backup> {
-  const [plantas, diario, ubicaciones, fotos] = await Promise.all([
+  const [plantas, diario, ubicaciones, fotos, ubicacionClima] = await Promise.all([
     db.listarPlantas(),
     db.listarTodoElDiario(),
     db.listarUbicaciones(),
     db.listarFotos(),
+    db.leerAjuste<UbicacionClima>(CLAVE_UBICACION),
   ])
   return {
     app: 'huerta-gba',
     version: VERSION_BACKUP,
     exportado: new Date().toISOString(),
     zona: zonaActual(),
+    ...(ubicacionClima ? { ubicacionClima } : {}),
     plantas,
     diario,
     ubicaciones,
@@ -121,6 +128,8 @@ export function validar(dato: unknown): Backup {
 
 export interface ResumenBackup {
   plantas: number
+  /** "3 siembras · ~24 plantas": el mismo texto que usa Mi huerta */
+  huerta: string
   entradas: number
   fotos: number
   exportado: string
@@ -129,6 +138,7 @@ export interface ResumenBackup {
 
 export const resumir = (b: Backup): ResumenBackup => ({
   plantas: b.plantas.length,
+  huerta: resumenHuerta(b.plantas),
   entradas: b.diario.length,
   fotos: b.fotos.length,
   exportado: b.exportado,
@@ -150,20 +160,27 @@ export async function leerArchivo(archivo: File): Promise<Backup> {
  * explícita del usuario: la pantalla muestra primero qué trae el archivo.
  */
 export async function importar(b: Backup): Promise<void> {
-  await db.vaciarTodo()
-
-  for (const u of b.ubicaciones) await db.guardarUbicacion(u)
-  for (const p of b.plantas) await db.guardarPlanta(p)
-  for (const e of b.diario) await db.guardarEntrada(e)
-  for (const f of b.fotos) {
-    await db.guardarFoto({
+  // Las fotos se decodifican ANTES de tocar la base: adentro de la transacción
+  // un await que no sea de IndexedDB la deja morir sola y se pierde el rollback.
+  const fotos: Foto[] = await Promise.all(
+    b.fotos.map(async (f) => ({
       id: f.id,
       blob: await desdeDataURL(f.datos),
       tipo: f.tipo,
       ancho: f.ancho,
       alto: f.alto,
       creada: f.creada,
-    })
-  }
+    })),
+  )
+
+  await db.reemplazarTodo({
+    plantas: b.plantas,
+    diario: b.diario,
+    ubicaciones: b.ubicaciones,
+    fotos,
+  })
   if (b.zona) elegirZona(b.zona)
+  // el import reemplaza todo: también la ubicación del pronóstico
+  if (b.ubicacionClima) await elegirUbicacion(b.ubicacionClima)
+  else await sacarUbicacion()
 }

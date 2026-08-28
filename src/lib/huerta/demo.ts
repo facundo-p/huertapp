@@ -1,5 +1,13 @@
 import * as db from './db'
-import { agregarEntrada, agregarPlanta, agregarUbicacion, marcarGerminada, recargar } from './store'
+import {
+  agregarEntrada,
+  agregarPlanta,
+  agregarUbicacion,
+  cambiarCantidad,
+  marcarGerminada,
+  recargar,
+  trasplantarParte,
+} from './store'
 import { hoyISO, nuevoId, type Foto } from './tipos'
 import { sumarDias } from './estimar'
 
@@ -44,15 +52,29 @@ async function fotoDeMentira(tono: number): Promise<Foto> {
 
 export async function sembrarDemo(): Promise<void> {
   const hoy = hoyISO()
-  const balcon = await agregarUbicacion('Macetas del balcón', 'maceta')
-  const bancal = await agregarUbicacion('Bancal del fondo', 'bancal')
+  const balcon = await agregarUbicacion({
+    nombre: 'Macetas del balcón',
+    tipo: 'maceta',
+    luz: 'media_sombra',
+    proteccion: 'resguardada',
+    medidas: { profundidad: 25, volumen: 20 },
+  })
+  const bancal = await agregarUbicacion({
+    nombre: 'Bancal del fondo',
+    tipo: 'bancal_elevado',
+    luz: 'pleno_sol',
+    proteccion: 'expuesta',
+    medidas: { ancho: 120, largo: 240, profundidad: 30 },
+  })
 
+  // la nota de abajo cuenta la historia: sembró 10, germinaron 7
   const tomate = await agregarPlanta({
     slug: 'tomate',
     apodo: 'Los del cajón',
     ubicacionId: balcon.id,
     sembrada: sumarDias(hoy, -22),
     metodo: 'almacigo_protegido',
+    cantidad: 7,
   })
 
   const lechuga = await agregarPlanta({
@@ -74,6 +96,7 @@ export async function sembrarDemo(): Promise<void> {
     ubicacionId: bancal.id,
     sembrada: sumarDias(hoy, -31),
     metodo: 'directa',
+    cantidad: 25,
   })
 
   // sembrada hace 32 días y germina en 10-20: pasada de plazo, para ver el aviso
@@ -86,7 +109,9 @@ export async function sembrarDemo(): Promise<void> {
 
   // las que ya asomaron quedan marcadas; la albahaca (7-14 días, sembrada hace
   // 9) queda en plena ventana, que es el tercer estado
-  await marcarGerminada(tomate, sumarDias(hoy, -14))
+  // el tomate germina en 6-10 días y éste tardó 16: seis de atraso que le
+  // corren el trasplante. Es el caso que hay que poder ver en la ficha.
+  await marcarGerminada(tomate, sumarDias(hoy, -6))
   await marcarGerminada(lechuga, sumarDias(hoy, -41))
   await marcarGerminada(rucula, sumarDias(hoy, -25))
 
@@ -95,12 +120,20 @@ export async function sembrarDemo(): Promise<void> {
   await db.guardarFoto(f1)
   await db.guardarFoto(f2)
 
+  // El diario del tomate cuenta la demora, que es lo que le corre el trasplante
   await agregarEntrada({
     plantaId: tomate.id,
-    fecha: sumarDias(hoy, -16),
+    fecha: sumarDias(hoy, -12),
     tipo: 'nota',
-    texto: 'Germinaron 7 de 10. Los tengo contra la ventana que da al norte.',
+    texto: 'Se cumplió el plazo y no asomó ninguna. Hizo frío toda la semana.',
     fotoIds: [f1.id],
+  })
+  await agregarEntrada({
+    plantaId: tomate.id,
+    fecha: sumarDias(hoy, -6),
+    tipo: 'nota',
+    texto: 'Germinaron 7 de 10, seis días tarde. Los tengo contra la ventana que da al norte.',
+    fotoIds: [f2.id],
   })
   await agregarEntrada({
     plantaId: tomate.id,
@@ -108,13 +141,6 @@ export async function sembrarDemo(): Promise<void> {
     tipo: 'riego',
     texto: 'Se secó rápido con el viento. Riego cada dos días.',
     fotoIds: [],
-  })
-  await agregarEntrada({
-    plantaId: tomate.id,
-    fecha: sumarDias(hoy, -1),
-    tipo: 'nota',
-    texto: 'Ya tienen las primeras hojas verdaderas. Falta poco para el trasplante.',
-    fotoIds: [f2.id],
   })
   await agregarEntrada({
     plantaId: lechuga.id,
@@ -130,6 +156,16 @@ export async function sembrarDemo(): Promise<void> {
     texto: 'Primer corte de hojas de afuera. Siguen creciendo del centro.',
     fotoIds: [],
   })
+
+  // la tanda dividida: 3 plantines del tomate ya pasaron al bancal, el resto
+  // sigue en el almácigo — es la pantalla que muestra la feature
+  await trasplantarParte(
+    { ...tomate, germino: sumarDias(hoy, -14) },
+    { ubicacionId: bancal.id, cuantas: 3 },
+  )
+
+  // y el conteo que cambia: la rúcula quedó raleada, con su nota automática
+  await cambiarCantidad(rucula, 18, 'Raleé las más débiles.')
 
   await recargar()
 }

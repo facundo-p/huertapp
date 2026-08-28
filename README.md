@@ -15,6 +15,10 @@ Responde tres preguntas, que son las que uno se hace con tierra en las manos:
   cuando cada una entra en ventana.
 - **¿Qué le pasa a mi tomate?** — la ficha completa de cada especie, con las
   fuentes y el índice de confianza de cada dato a la vista.
+- **¿Y esta semana?** — opcional: si le decís dónde estás (tu zona alcanza),
+  Hoy suma el pronóstico de 7 días con avisos de heladas, lluvia y calor. Es lo
+  único que sale de tu teléfono, directo a [Open-Meteo](https://open-meteo.com/)
+  (CC BY 4.0).
 
 ---
 

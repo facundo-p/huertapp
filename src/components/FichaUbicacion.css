@@ -1,0 +1,43 @@
+.ficha-ubi__medidas {
+  display: flex;
+  gap: var(--esp-2);
+}
+
+.ficha-ubi__medida {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ficha-ubi__rotulo {
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.ficha-ubi__rotulo em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--tinta-suave);
+}
+
+.ficha-ubi__notas {
+  resize: vertical;
+  min-height: var(--tap-min);
+  font-family: inherit;
+}
+
+.ficha-ubi__borrar {
+  align-self: center;
+  min-height: var(--tap-min);
+  margin: var(--esp-2) auto 0;
+  display: block;
+  padding: 0 var(--esp-4);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--peligro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
