@@ -419,3 +419,38 @@
   font-weight: 700;
   text-decoration: none;
 }
+
+/* Fila propia y no un botón dentro del botón de la especie: anidar botones no
+   es HTML válido, y la fila entera ya abre el detalle del mes. */
+.cal-desplegar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 8px 0 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--tinta-media);
+  text-align: left;
+}
+
+.cal-desplegar__flecha {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+}
+
+.cal-desplegar__flecha.es-abierta {
+  transform: rotate(180deg);
+}
+
+/* 34px y no 20: el nombre del padre ya arranca a los 20 después de su ícono,
+   así que con 20 quedaban alineadas y la sangría no decía nada. */
+.cal-fila--variedad .cal-nombre {
+  padding-left: 34px;
+}
+
+.cal-nombre__variedad {
+  font-weight: 500;
+  font-style: italic;
+}

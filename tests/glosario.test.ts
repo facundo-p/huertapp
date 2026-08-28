@@ -46,6 +46,17 @@ describe('glosario', () => {
     expect(SUSTRATO.funciones).toHaveLength(3)
   })
 
+  it('la aclaración del sustrato de semillero también, que es otro dato y no una definición', () => {
+    expect(SUSTRATO.semillero.fuente.url).toMatch(/^https?:\/\//)
+    expect(SUSTRATO.semillero.fuente.organizacion.length).toBeGreaterThan(3)
+    expect(SUSTRATO.semillero.confianza).toBeGreaterThanOrEqual(1)
+    expect(SUSTRATO.semillero.confianza).toBeLessThanOrEqual(10)
+    // la receta de arriba lleva compost y ésta es la que dice que en la bandeja
+    // germinadora no va: si el texto deja de decirlo, la aclaración no aclara nada
+    expect(SUSTRATO.base).toMatch(/compost/i)
+    expect(SUSTRATO.semillero.texto).toMatch(/sin compost/i)
+  })
+
   it('las cinco categorías de suelo dicen hacia dónde correr la mezcla', () => {
     expect(Object.keys(AJUSTE_SUELO).sort()).toEqual([
       'ARENOSO_DRENANTE',

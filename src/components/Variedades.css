@@ -1,0 +1,81 @@
+.variedades__bajada {
+  font-size: var(--texto-s);
+  line-height: 1.6;
+  color: var(--tinta-media);
+}
+
+.variedades__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cada variedad es una ficha entera y clickeable, no un link de una línea:
+   lo que decide si es la tuya son los cambios, no el nombre. */
+.variedad {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border: 1.5px solid var(--linea);
+  background: var(--crema);
+  color: inherit;
+  text-decoration: none;
+}
+
+.variedad:hover,
+.variedad:focus-visible {
+  border-color: var(--salvia);
+}
+
+.variedad__nombre {
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  color: var(--verde-prof);
+  /* el nombre solo ya llega a 44 px de alto junto con su primera fila */
+  line-height: 1.4;
+}
+
+.variedad__cambios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.variedad__cambio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-1);
+}
+
+/* La chapita va pegada al nombre del campo, igual que en las tarjetas de
+   cuidado: sola en su renglón, un "5" pelado se lee como puntaje sobre 5. */
+.variedad__cabeza {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.variedad__campo {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-media);
+}
+
+.variedad__valor {
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta);
+}

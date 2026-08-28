@@ -13,6 +13,23 @@ export type CategoriaSuelo =
 
 export type CategoriaLuz = 'PLENO_SOL' | 'SOL_PARCIAL' | 'MEDIA_SOMBRA' | 'TOLERA_SOMBRA'
 
+/**
+ * Cuánta agua, en escala ordinal de menos a más. Que sea ordinal es lo que deja
+ * dibujarla como barrita; un enum sobre dos ejes mezclados no se podría.
+ */
+export const REGIMENES_RIEGO = ['escaso', 'espaciado', 'parejo', 'constante'] as const
+export type RegimenRiego = (typeof REGIMENES_RIEGO)[number]
+
+/**
+ * Cada medida puede faltar sola: TAMU publica litros sin profundidad y UC
+ * publica profundidad sin litros.
+ */
+export interface MacetaMedidas {
+  profundidad_min_cm: number | null
+  litros_min: number | null
+  plantas_por_contenedor: number | null
+}
+
 export type Grupo =
   | 'Hortaliza de hoja'
   | 'Hortaliza de raíz/bulbo'
@@ -182,6 +199,22 @@ export interface PistaGerminacion {
   confianza: number
 }
 
+/**
+ * Lo que el padre necesita saber de una variedad para dibujar su tarjeta sin
+ * cargar la derivada entera.
+ */
+export interface VariedadRef {
+  slug: string
+  /** el nombre corto, como lo escribe la fuente: "Temprana", "De enrame" */
+  nombre: string
+  nombre_comun: string
+  /** los campos en los que difiere, listos para mostrar */
+  cambia: { campo: string; valor: string; confianza: number }[]
+  /** los cuidados del padre que esta variedad no lleva */
+  quita: TipoCuidado[]
+  derivacion: string
+}
+
 export interface EspecieEnriquecida {
   slug: string
   nombre_comun: string
@@ -199,6 +232,9 @@ export interface EspecieEnriquecida {
   }
   cosecha: Dato & { indicadores_listo: string }
   transplante: Dato & { signos_listo: string }
+  /** `regimen` null con `riego` presente es legítimo: hay prosa que no mapea. */
+  riego: (Dato & { regimen: RegimenRiego | null }) | null
+  maceta: (Dato & { medidas: MacetaMedidas }) | null
   germinacion: Dato
   longevidad: Dato
   trucos: Dato
@@ -214,6 +250,14 @@ export interface EspecieEnriquecida {
   dias_a_cosecha: Rango | null
   dias_germinacion: Rango | null
   asociaciones: { buenas: AsocRef[]; malas: AsocRef[] }
+  /** slug del padre; null en las 55 especies propiamente dichas */
+  variedad_de: string | null
+  /** el nombre de la variedad ("Temprana"); null si no lo es */
+  variedad: string | null
+  /** por qué difiere del padre. Es razonamiento, no cita: por eso no va en un `valor` */
+  variedad_derivacion: string | null
+  /** las variedades de esta especie; vacío en las derivadas */
+  variedades: VariedadRef[]
 }
 
 export interface CategoriaInfo {

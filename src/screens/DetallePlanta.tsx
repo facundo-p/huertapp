@@ -6,9 +6,12 @@ import { BottomSheet } from '../components/BottomSheet'
 import { CycleProgress } from '../components/CycleProgress'
 import { FotoDeDiario } from '../components/FotoDeDiario'
 import { BloqueGerminacion } from '../components/BloqueGerminacion'
+import { Trasplantar } from '../components/Trasplantar'
+import { CambiarCantidad } from '../components/CambiarCantidad'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa } from '../lib/huerta/store'
+import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa, sinRomper } from '../lib/huerta/store'
+import { partesDe, textoCantidad } from '../lib/huerta/tanda'
 import * as db from '../lib/huerta/db'
 import { prepararFoto, FotoInvalida } from '../lib/huerta/fotos'
 import {
@@ -21,8 +24,17 @@ import {
 } from '../lib/huerta/tipos'
 import { estimar, siguienteEtapa, textoHito } from '../lib/huerta/estimar'
 import { METODOS } from '../lib/calendario'
-import { IconoFoto, IconoHuerta, IconoNota, IconoReloj } from '../icons'
+import { IconoFoto, IconoHuerta, IconoNota, IconoReloj, IconoSembrar } from '../icons'
 import './DetallePlanta.css'
+
+/** El ciclo arranca cuando la semilla asoma, no cuando la enterrás. */
+function textoCorrimiento(dias: number): string {
+  const n = Math.abs(dias)
+  const cuantos = `${n} ${n === 1 ? 'día' : 'días'}`
+  return dias > 0
+    ? `Corrido ${cuantos}: asomó más tarde de lo que decía la ficha y el ciclo se cuenta desde que asoma.`
+    : `Adelantado ${cuantos}: asomó antes de lo que decía la ficha.`
+}
 
 export function DetallePlanta() {
   const { id } = useParams()
@@ -33,6 +45,8 @@ export function DetallePlanta() {
 
   const [entradas, setEntradas] = useState<EntradaDiario[] | null>(null)
   const [abrirDiario, setAbrirDiario] = useState(false)
+  const [abrirTrasplante, setAbrirTrasplante] = useState(false)
+  const [abrirCantidad, setAbrirCantidad] = useState(false)
 
   const planta = plantas.find((p) => p.id === id)
 
@@ -75,20 +89,31 @@ export function DetallePlanta() {
   const est = especie ? estimar(planta, especie) : null
   const sigue = siguienteEtapa(planta)
   const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
+  const nombre = planta.apodo || especie?.nombre_comun || 'Planta'
+  const partes = partesDe(plantas, planta)
+  const cantidad = textoCantidad(planta)
 
   async function borrar() {
     if (!planta) return
     const nombre = planta.apodo || especie?.nombre_comun || 'esta planta'
     if (!confirm(`¿Borrar ${nombre} y todo su diario? No se puede deshacer.`)) return
     await borrarPlanta(planta.id)
+    // solo se navega si de verdad se borró: si falló, el aviso queda a la vista
     navegar('/huerta', { replace: true })
   }
 
   return (
     <div className="pantalla pantalla--detalle">
       <Header
-        titulo={planta.apodo || especie?.nombre_comun || 'Planta'}
-        sobretitulo={planta.apodo ? especie?.nombre_comun : especie?.nombre_cientifico}
+        titulo={nombre}
+        // La variedad anotada a mano viaja en el sobretítulo, pegada a la
+        // especie: es el dato que después hace útil el historial.
+        sobretitulo={[
+          planta.apodo ? especie?.nombre_comun : especie?.nombre_cientifico,
+          planta.variedad,
+        ]
+          .filter(Boolean)
+          .join(' · ')}
         volver
       />
 
@@ -100,9 +125,21 @@ export function DetallePlanta() {
             <BloqueGerminacion planta={planta} especie={especie} clima={clima} />
           )}
 
-          {sigue && (
-            <button className="planta__avanzar" onClick={() => cambiarEtapa(planta, sigue)}>
-              Marcar como {ETAPA_INFO[sigue].etiqueta.toLowerCase()}
+          {planta.etapa === 'almacigo' ? (
+            <button className="planta__avanzar" onClick={() => setAbrirTrasplante(true)}>
+              La trasplanté…
+            </button>
+          ) : (
+            sigue && (
+              <button className="planta__avanzar" onClick={() => sinRomper(cambiarEtapa(planta, sigue))}>
+                Marcar como {ETAPA_INFO[sigue].etiqueta.toLowerCase()}
+              </button>
+            )
+          )}
+
+          {planta.etapa !== 'almacigo' && planta.etapa !== 'terminada' && (
+            <button className="planta__mover" onClick={() => setAbrirTrasplante(true)}>
+              Mover o separar una parte…
             </button>
           )}
 
@@ -118,6 +155,32 @@ export function DetallePlanta() {
             )}
           </dl>
 
+          {planta.etapa !== 'terminada' && (
+            <button className="planta__cantidad" onClick={() => setAbrirCantidad(true)}>
+              {cantidad ? `${cantidad} — cambiar la cuenta` : 'Anotar cuántas hay'}
+            </button>
+          )}
+
+          {partes.length > 0 && (
+            <div className="planta__partes">
+              <p className="planta__partes-titulo">Esta siembra también está en:</p>
+              <ul className="planta__partes-lista">
+                {partes.map((p) => {
+                  const lugar = ubicaciones.find((u) => u.id === p.ubicacionId)?.nombre
+                  const cant = textoCantidad(p)
+                  const donde = lugar ? (cant ? `${cant} en ${lugar}` : `En ${lugar}`) : cant ? `${cant} sin lugar asignado` : 'Sin lugar asignado'
+                  return (
+                    <li key={p.id}>
+                      <Link to={`/huerta/${p.id}`}>
+                        {donde} · {ETAPA_INFO[p.etapa].etiqueta}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
+
           {est?.proximo && (
             <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
               <IconoReloj size={15} />
@@ -125,6 +188,15 @@ export function DetallePlanta() {
                 <strong>{est.proximo.titulo}</strong> estimado entre el {fechaCorta(est.proximo.desde)} y
                 el {fechaCorta(est.proximo.hasta)} — {textoHito(est.proximo)}.
               </span>
+            </p>
+          )}
+
+          {/* Por qué esa fecha no es la que sale de la ficha: se corrió con TU
+              planta, y sin decirlo parece que el catálogo se contradice. */}
+          {!!est?.corrimiento && (
+            <p className="planta__corrimiento">
+              <IconoSembrar size={15} />
+              <span>{textoCorrimiento(est.corrimiento)}</span>
             </p>
           )}
 
@@ -179,6 +251,22 @@ export function DetallePlanta() {
         plantaId={planta.id}
         onCerrar={() => setAbrirDiario(false)}
         onGuardada={recargarDiario}
+      />
+
+      <Trasplantar
+        abierto={abrirTrasplante}
+        planta={planta}
+        nombre={nombre}
+        onCerrar={() => setAbrirTrasplante(false)}
+        onListo={() => void recargarDiario()}
+      />
+
+      <CambiarCantidad
+        abierto={abrirCantidad}
+        planta={planta}
+        nombre={nombre}
+        onCerrar={() => setAbrirCantidad(false)}
+        onListo={() => void recargarDiario()}
       />
     </div>
   )
@@ -247,7 +335,7 @@ function NuevaEntrada({
       onCerrar={onCerrar}
       titulo="Anotar en el diario"
       pie={
-        <button className="alta__guardar" onClick={guardar} disabled={ocupado}>
+        <button className="alta__guardar" onClick={() => sinRomper(guardar())} disabled={ocupado}>
           {ocupado ? 'Procesando la foto…' : 'Guardar'}
         </button>
       }

@@ -1,8 +1,11 @@
 # Huerta GBA — cómo trabajar en este repo
 
 PWA offline-first para una huerta casera en el Gran Buenos Aires. Local-first:
-sin backend, sin cuentas, sin nube. Leé `README.md` para qué es y `BRIEF.md`
-para el encargo original.
+sin backend, sin cuentas. Lo único que puede salir del aparato es, si la
+persona activa el pronóstico en Ajustes, el pedido directo de su teléfono a
+Open-Meteo (CC BY 4.0) — encapsulado tras `src/lib/pronostico/proveedor.ts`.
+Sin eso, cero red. Leé `README.md` para qué es y `BRIEF.md` para el encargo
+original.
 
 ## Las cuatro reglas que no se negocian
 
@@ -16,7 +19,7 @@ que parezca razonable. Cada dato conserva sus `fuentes` con URL y su
 **2. El modelo climático solo puede recortar lo que dijeron las fuentes, nunca
 agregar.** Las fuentes hablan en meses; el afinado a décadas puede quitar
 décadas dentro de esos meses, jamás poner una fuera. Hay un `throw` en runtime
-y un test sobre 55 especies × 3 zonas. Cuando el modelo contradice a una
+y un test sobre las 66 entradas × 3 zonas. Cuando el modelo contradice a una
 fuente, **gana la fuente y se corrige el modelo** — pasó cinco veces y las
 cinco el modelo estaba mal. Ver `.claude/LECCIONES.md`.
 
@@ -114,10 +117,13 @@ una lista de pasos desarmada en palabras sueltas y un ícono de libro para
 
 - **Identificadores y comentarios en español.** `derivarTareas`, `esperarOffline`,
   `posible`, `ideal`. Es el idioma del dominio y del producto.
-- **Los comentarios explican por qué, no qué.** Si un comentario se puede
-  deducir leyendo la línea de abajo, sobra. Los que valen son los que dejan
-  registrada una decisión o una trampa: *"replaceAll y no replace: si el
-  marcador aparece también en un comentario, replace sustituye ese. Pasó."*
+- **Los comentarios explican por qué, no qué — y en las menos palabras que se
+  entiendan.** Si se deduce leyendo la línea de abajo, sobra. Mucho texto no lo
+  lee nadie, así que dos líneas que se leen valen más que ocho que se saltean.
+  Vale igual para `CLAUDE.md` y `.claude/LECCIONES.md`. El comentario que sirve
+  registra una decisión o una trampa: *"replaceAll y no replace: si el marcador
+  aparece también en un comentario, replace sustituye ese. Pasó."* Los largos
+  que ya están se acortan al tocar el archivo, no en una barrida aparte.
 - **Un token de color, un significado.** Todo color de texto vive en
   `src/theme.css` calibrado a ~4,6:1. No hay colores sueltos en los CSS de
   componentes.

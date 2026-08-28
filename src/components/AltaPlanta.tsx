@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react'
 import { BottomSheet } from './BottomSheet'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, agregarPlanta, agregarUbicacion } from '../lib/huerta/store'
+import { useHuerta, agregarPlanta, sinRomper } from '../lib/huerta/store'
+import { SelectorUbicacion } from './SelectorUbicacion'
 import { compatibilidad } from '../lib/huerta/compat'
+import { aCantidad } from '../lib/huerta/tanda'
 import { hoyISO } from '../lib/huerta/tipos'
 import { estadoSiembra, metodoDelMes } from '../lib/data/especies'
 import { normalizar } from '../lib/data/slugs'
@@ -26,20 +28,22 @@ interface Props {
 export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   const { indice } = useEspecies()
   const zona = useZona()
-  const { ubicaciones } = useHuerta()
   const hoy = new Date()
   const decadaHoy = decadaDe(hoy)
 
   const [elegida, setElegida] = useState<string | undefined>(slug)
   const [busqueda, setBusqueda] = useState('')
   const [apodo, setApodo] = useState('')
+  const [variedad, setVariedad] = useState('')
   const [sembrada, setSembrada] = useState(hoyISO())
   const [ubicacionId, setUbicacionId] = useState<string>('')
-  const [nuevaUbicacion, setNuevaUbicacion] = useState('')
   const [metodo, setMetodo] = useState<Metodo | null>(null)
+  const [cuantas, setCuantas] = useState('')
   const [guardando, setGuardando] = useState(false)
 
-  const especieSlug = slug ?? elegida
+  // `elegida` primero y no `slug`: viniendo de una ficha, elegir una variedad
+  // tiene que poder pisar a la especie de la que se abrió la hoja.
+  const especieSlug = elegida ?? slug
   const especie = especieSlug ? indice?.porSlug.get(especieSlug) : undefined
 
   // el método sugerido sale del calendario para el mes de la fecha elegida
@@ -69,30 +73,31 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   }, [especie, indice, ubicacionId, plantas])
 
   function limpiar() {
-    setElegida(undefined)
+    setElegida(slug)
     setBusqueda('')
     setApodo('')
+    setVariedad('')
     setSembrada(hoyISO())
     setUbicacionId('')
-    setNuevaUbicacion('')
     setMetodo(null)
+    setCuantas('')
   }
 
   async function guardar() {
     if (!especieSlug || guardando) return
     setGuardando(true)
     try {
-      let ubi = ubicacionId
-      if (ubicacionId === '__nueva' && nuevaUbicacion.trim()) {
-        ubi = (await agregarUbicacion(nuevaUbicacion, 'otro')).id
-      }
       const p = await agregarPlanta({
         slug: especieSlug,
         apodo,
-        ubicacionId: ubi && ubi !== '__nueva' ? ubi : undefined,
+        variedad,
+        ubicacionId: ubicacionId || undefined,
         sembrada,
         metodo: metodoFinal ?? null,
+        cantidad: aCantidad(cuantas),
       })
+      // sin catch a propósito: si el guardado falló, la hoja queda abierta con
+      // lo que escribiste y el aviso de "no se pudo guardar" a la vista
       limpiar()
       onCerrar()
       onListo?.(p.id)
@@ -114,7 +119,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
       sobretitulo={especie ? especie.nombre_cientifico : nombreDecada(decadaHoy)}
       pie={
         especie && (
-          <button className="alta__guardar" onClick={guardar} disabled={guardando}>
+          <button className="alta__guardar" onClick={() => sinRomper(guardar())} disabled={guardando}>
             {guardando ? 'Guardando…' : 'Listo, la planté'}
           </button>
         )
@@ -161,6 +166,33 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
             </p>
           )}
 
+          {especie.variedades.length > 0 && (
+            <div className="alta__campo">
+              <span className="alta__label">¿Qué variedad?</span>
+              <div className="alta__variedades">
+                {especie.variedades.map((v) => (
+                  <button key={v.slug} className="alta__variedad" onClick={() => setElegida(v.slug)}>
+                    {v.nombre}
+                  </button>
+                ))}
+              </div>
+              <p className="alta__ayuda">
+                Si no sabés cuál es, seguí de largo: te vamos a dar los datos de la especie, que son
+                más amplios pero igual de ciertos.
+              </p>
+            </div>
+          )}
+
+          {especie.variedad_de && (
+            <p className="alta__aviso es-buena">
+              <IconoAlerta size={17} />
+              <span>
+                Cargás una <strong>{especie.nombre_comun.toLowerCase()}</strong>. Los avisos van a
+                salir según esta variedad y no según la especie.
+              </span>
+            </p>
+          )}
+
           <div className="alta__campo">
             <label className="alta__label" htmlFor="alta-fecha">
               ¿Cuándo la sembraste?
@@ -199,32 +231,25 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
           </div>
 
           <div className="alta__campo">
+            <label className="alta__label" htmlFor="alta-cuantas">
+              ¿Cuántas, más o menos? <span className="alta__opcional">(opcional)</span>
+            </label>
+            <input
+              id="alta-cuantas"
+              className="alta__input"
+              inputMode="numeric"
+              placeholder="12"
+              value={cuantas}
+              onChange={(ev) => setCuantas(ev.target.value)}
+            />
+            <p className="alta__ayuda">Un número redondo alcanza. Lo ajustás después, cuando asomen.</p>
+          </div>
+
+          <div className="alta__campo">
             <label className="alta__label" htmlFor="alta-ubi">
               ¿Dónde?
             </label>
-            <select
-              id="alta-ubi"
-              className="alta__input"
-              value={ubicacionId}
-              onChange={(ev) => setUbicacionId(ev.target.value)}
-            >
-              <option value="">Sin especificar</option>
-              {ubicaciones.map((u) => (
-                <option key={u.id} value={u.id}>
-                  {u.nombre}
-                </option>
-              ))}
-              <option value="__nueva">＋ Un lugar nuevo…</option>
-            </select>
-            {ubicacionId === '__nueva' && (
-              <input
-                className="alta__input"
-                placeholder="Maceta del balcón, bancal del fondo…"
-                value={nuevaUbicacion}
-                onChange={(ev) => setNuevaUbicacion(ev.target.value)}
-                autoFocus
-              />
-            )}
+            <SelectorUbicacion id="alta-ubi" valor={ubicacionId} onValor={setUbicacionId} />
           </div>
 
           {compat && (
@@ -265,6 +290,22 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
               value={apodo}
               onChange={(ev) => setApodo(ev.target.value)}
             />
+          </div>
+
+          {/* Para la variedad que no cambia el cultivo y por eso no está en el
+              catálogo. Es dato tuyo: no lleva fuente y no pretende tenerla. */}
+          <div className="alta__campo">
+            <label className="alta__label" htmlFor="alta-variedad">
+              Variedad <span className="alta__opcional">(opcional)</span>
+            </label>
+            <input
+              id="alta-variedad"
+              className="alta__input"
+              placeholder="Morada, genovesa, la del vivero…"
+              value={variedad}
+              onChange={(ev) => setVariedad(ev.target.value)}
+            />
+            <p className="alta__ayuda">Queda anotada en tu diario. Es dato tuyo, no del catálogo.</p>
           </div>
         </>
       )}

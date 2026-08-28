@@ -1,7 +1,7 @@
 {
   "name": "huerta-gba",
   "private": true,
-  "version": "1.1.1",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "data:tabla": "node scripts/build-tabla-revision.mjs",
     "iconos": "node scripts/build-iconos.mjs",
     "shots": "npm run build && playwright test e2e/screenshots.spec.ts",
-    "e2e": "npm run build && playwright test e2e/backup.spec.ts e2e/pwa.spec.ts e2e/accesibilidad.spec.ts e2e/almacenamiento.spec.ts",
+    "e2e": "npm run build && playwright test e2e/backup.spec.ts e2e/pwa.spec.ts e2e/accesibilidad.spec.ts e2e/almacenamiento.spec.ts e2e/pronostico.spec.ts e2e/variedades.spec.ts",
     "og": "node scripts/build-og.mjs"
   },
   "dependencies": {

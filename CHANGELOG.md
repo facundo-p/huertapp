@@ -22,9 +22,197 @@ Qué significa cada parte en este proyecto:
 > `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
 > versión nueva con su fecha.
 
-## [Sin publicar]
+## [1.2.0] — 2026-08-28
 
-Nada todavía.
+Las versiones anteriores hablaban de plantas en general. Ésta se mete con **tu**
+huerta: qué variedad plantaste, cómo es el lugar donde está, cuántas plantitas
+tiene cada siembra y qué día asomó cada una — y con eso las fechas dejan de ser
+las del promedio y pasan a ser las tuyas. Y, si querés, el pronóstico de tu
+semana.
+
+### Agregado
+
+- **Ahora podés decir qué variedad plantaste, y los avisos salen por esa.**
+  Una coliflor temprana y una tardía no se siembran el mismo mes ni tardan lo
+  mismo en estar: la temprana va en octubre y está en tres meses, la tardía va
+  en marzo y tarda casi siete. Hasta ahora la app te decía lo mismo para las
+  dos, con un "entre 90 y 200 días" que no le servía a nadie.
+
+  Cuando sumás una planta de una especie con variedades, la app te pregunta
+  cuál. Si no sabés, seguís de largo y te da los datos de la especie, que son
+  más amplios pero igual de ciertos. En el Calendario, cada especie con
+  variedades se despliega para que veas las ventanas una al lado de la otra.
+
+  Son **once variedades** de coliflor, chaucha, arveja, tomate y zanahoria,
+  cada una con su fuente y su índice de confianza. Se separaron solo donde una
+  fuente dice que se cultivan distinto: el apio, el brócoli y la papa **no**
+  entraron, porque sus fuentes nombran la diferencia y no la cuantifican.
+
+- **Y si tu variedad no cambia el cultivo, la podés anotar igual.** Una albahaca
+  morada se cultiva como la común, así que no es una entrada del catálogo — pero
+  ahora podés escribirla al dar de alta la planta y te queda en el diario. Es
+  dato tuyo, y la app lo dice así: no lleva fuente porque no la necesita.
+- **Tus lugares ahora tienen ficha propia.** Una ubicación ya no es solo un
+  nombre: le podés decir qué es (maceta, bancal elevado, bancal a tierra,
+  almácigo), sus medidas en centímetros —en el bancal elevado el volumen de
+  sustrato se calcula solo—, cuánto sol recibe, cómo la agarra una helada (a
+  cielo abierto, resguardada o invernadero) y notas libres. Todo opcional y
+  editable cuando quieras, con el lápiz que aparece al lado de cada lugar en
+  Mi huerta. Al crear un lugar desde el alta de una planta o un trasplante se
+  abre la misma ficha completa. Y desde ahí también podés borrar un lugar: sus
+  plantas quedan "sin lugar asignado", no se borran.
+
+- **Una siembra ya no es "una planta".** Ahora podés anotarle a cada siembra
+  cuántas plantitas tiene, más o menos (~8), y cuando trasplantás **una parte**
+  —del semillero a las macetitas, de las macetitas al bancal— esa parte pasa a
+  su propia tarjeta, con su lugar y su fecha, y el movimiento queda anotado en
+  el diario de las dos. La cuenta se ajusta cuando germinan, cuando raleás o
+  cuando se pierde alguna, también con nota automática. Todo a ojo y nada
+  obligatorio: sin cantidades, la app sigue andando como siempre. Mi huerta
+  ahora cuenta en serio: "3 siembras · ~24 plantas".
+
+- **El pronóstico de la semana, si vos querés.** En Ajustes le decís a la app
+  más o menos dónde está tu huerta —tu zona así nomás, tu localidad, o el GPS—
+  y Hoy te muestra los próximos 7 días, con avisos cuando viene una helada,
+  lluvia que te ahorra un riego o un calor que pide regar dos veces. Cada día
+  se toca y abre su detalle: humedad, viento, UV, presión, rocío al amanecer y
+  hasta la temperatura del suelo.
+
+  Es **opcional y es lo único que sale de tu teléfono**: el pedido va directo a
+  Open-Meteo (CC BY 4.0), sin pasar por ningún otro lado. Si no lo activás, la
+  app sigue sin tocar internet, como siempre. Y sin señal muestra lo último que
+  trajo, diciendo de cuándo es.
+
+- **Riego y maceta, dos datos que la app no tenía.** Cuánta agua pide cada
+  especie, en una barrita de cuatro niveles que va de *escaso* a *constante*, y
+  en qué maceta entra: profundidad mínima, litros y cuántas plantas. Para quien
+  tiene la huerta en un balcón, **"¿me entra?" es la primera pregunta**, y hasta
+  ahora ninguna de las siete pantallas la contestaba.
+
+  **Riego en 33 especies y maceta en 26**; 41 de las 55 tienen al menos uno de
+  los dos. Las que faltan dicen **"s/d"** en vez de esconder la sección: las
+  aromáticas —romero, tomillo, salvia— no tienen tamaño de maceta publicado en
+  ninguna fuente seria, y decirlo es más útil que inventarlo.
+
+  El riego sale de lo que ya estaba investigado: la mitad de las fichas tenían
+  el dato enterrado en un párrafo largo, y ahora está afuera y se puede comparar
+  de un vistazo. Los litros y la profundidad son investigación nueva, de dos
+  servicios de extensión universitaria.
+
+- **El glosario ahora explica "ahilarse".** La palabra aparece 39 veces en las
+  fichas —*"con poca luz se ahíla"*— y no estaba definida en ningún lado. Ahora
+  dice qué es, que le pasa igual al plantín en la bandeja que a la planta grande
+  a la sombra, y que no se arregla después: o hay luz desde el principio, o no.
+- **"El de la bandeja germinadora es otro".** La receta de tierra del glosario
+  lleva compost, que es lo correcto para la maceta y lo contrario de lo que
+  quiere una semilla germinando. Faltaba decirlo: quien leía la receta y la usaba
+  para llenar el semillero hacía justo lo que hay que evitar. La aclaración va
+  debajo de la receta, con su fuente y su confianza como cualquier otro dato.
+
+- **Cuando falta un dato, ahora la ficha lo dice.** La app promete que un dato
+  que no está se muestra como tal, y no lo estaba cumpliendo: el dato faltante
+  desaparecía en silencio. En el romero, la menta, el laurel y la lavanda eso
+  dejaba **la fila de tiempos completamente en blanco**, sin una palabra que
+  explicara por qué.
+
+  Y distingue las dos cosas, que no son la misma: **"s/d"** cuando no
+  encontramos una fuente que lo diga, y **"no aplica"** cuando a esa planta no
+  le corresponde. Que la zanahoria no tenga días a trasplante no es un hueco
+  de la investigación: es que a la zanahoria no se la trasplanta.
+
+- **Un registro de arranques, en Ajustes → "Si algo se rompe".** Hay reportes de
+  huertas que aparecen vacías sin que se sepa reproducirlo. La app ahora anota
+  cada vez que abre tus datos —cuándo, qué versión, cuántas plantas encontró y
+  si el navegador los está protegiendo—, y ese registro **sobrevive aunque se
+  borre la base**. Si te llega a pasar, con copiarlo y mandarlo alcanza para
+  saber qué pasó. No sale de tu aparato.
+
+- **Siete especies más te dicen cuándo ralear.** Cuando una planta va de siembra
+  directa no hay trasplante que esperar: la labor que decide el resultado es el
+  raleo, y en la espinaca, la rúcula, el radicchio, el melón, la sandía, el
+  eneldo y la borraja la ficha no lo mencionaba en ninguna parte. Ahora está en
+  **"Mientras crece"**, con el número que da cada fuente y no con un "dale
+  espacio" genérico: *5-8 cm entre plantas* en la espinaca, *la mejor de cada
+  hoyo cuando tienen 2 hojas verdaderas* en el melón y la sandía, *45-60 cm* en
+  la borraja. Van **13 de las 55** con raleo, contra 6 que había antes.
+
+  Las que se pueden sembrar de las dos formas lo dicen en el "cuándo" —*"si la
+  sembraste directa…"*—, porque a la que hiciste en almácigo la trasplantás en
+  vez de ralearla.
+
+- **La distancia entre planta y planta, ahora en todas las fichas (menos una).**
+  De las 55 especies, 17 no decían a cuánto dejar las plantas al trasplantar o
+  ralear: berenjena, cebolla, haba, berro, zapallito de tronco, girasol, seis
+  aromáticas y cuatro flores. Ahora lo dicen, cada una con el número de su
+  fuente —*8-10 cm* la cebolla, *~25 cm* el copete, *0,60-1,20 m* el romero, que
+  es un arbusto—. La única que quedó igual es el laurel: ninguna fuente
+  confiable da una distancia, y acá no se inventa.
+
+### Cambiado
+
+- **El trasplante y la cosecha se cuentan desde que la semilla asomó, no desde
+  que la sembraste.** Si germinó más tarde de lo que decía la ficha, todas las
+  fechas de esa planta se corren ese mismo tanto —y con ellas la tarea de Hoy y
+  el aviso que llega al teléfono. Dos semillas del mismo sobre sembradas el
+  mismo día, una que asomó a los 5 y otra a los 22, ya no comparten fecha de
+  trasplante: la segunda tiene diecisiete días menos de plantín encima.
+
+  La ficha no cambia lo que dice: sigue siendo *"25-35 días desde la siembra"*,
+  con su fuente y su confianza. Lo que se le suma es **tu** dato, y la app
+  aclara de cuánto fue el corrimiento y por qué.
+
+- **Al marcar que asomó ya se puede decir qué día fue.** Antes el botón anotaba
+  siempre hoy, así que marcar tres días tarde metía tres días de error en todo
+  lo que venía después. Ahora son **Hoy · Ayer · Otro día**, y la fecha se puede
+  corregir después desde la misma ficha.
+
+- **La acelga vuelve a mostrar cuándo trasplantarla según la fuente**, con la
+  altura incluida: *"3-4 hojas verdaderas y ~8-10 cm"*. Antes mostraba un
+  criterio propio de confianza baja que tapaba el dato investigado.
+
+### Arreglado
+
+- **Un tomate determinado ya no te pide tutor ni desbrote.** Las fuentes acotan
+  las dos prácticas a las variedades indeterminadas, y la app se lo decía a todo
+  el mundo. Lo mismo con la chaucha y la arveja de mata baja, que no necesitan
+  el tutor de 2 metros que pide la de enrame.
+
+- **El aviso de "ya estaría para cosechar" se archivaba solo.** Se cerraba al
+  pasar el máximo estimado, así que en una especie de rango angosto duraba muy
+  poco: el melón son 100 días clavados y su aviso aparecía **un solo día**. Si
+  no abrías la app justo ese día, no te enterabas. Ahora aparece cuando entra en
+  fecha y se queda hasta que la marcás como cosechando.
+- **La ficha de una planta ahora cumple accesibilidad como el resto.** Tres
+  botones quedaban abajo de los 44 px y el plazo de germinación no llegaba al
+  contraste mínimo sobre el fondo del aviso. Se medían las siete pantallas
+  principales y ésta no estaba en la lista; ahora sí.
+
+- **Restaurar un backup ya no puede costarte la huerta que tenías.** La
+  restauración borraba todo *antes* de escribir lo del archivo, y de a un
+  registro por vez. Si el archivo estaba cortado o traía algo que el navegador
+  rechazaba, te quedabas **sin lo viejo y sin lo nuevo** — la propia pantalla lo
+  admitía ("tus datos anteriores pueden haberse perdido"). Ahora se reemplaza
+  todo de una sola vez: **o entra entero, o tu huerta queda exactamente como
+  estaba.**
+
+- **Cuando la app no puede leer tus datos, ahora te lo dice.** Antes, si la
+  lectura fallaba, la pantalla quedaba en blanco o —peor— te mostraba *"Todavía
+  no plantaste nada"*, el mismo cartel que ve alguien que recién empieza. A
+  quien no le podemos leer la huerta no se le dice que nunca plantó nada: ahora
+  aclara que **lo tuyo sigue guardado en el aparato**, muestra el nombre del
+  error y te deja **probar de nuevo**. Antes ni siquiera reintentaba: un fallo
+  de un segundo dejaba la app sin datos hasta que la cerrabas.
+
+- **Un guardado que falla ya no se ve igual que un botón que no anda.** Si algo
+  no se puede guardar aparece un aviso con el motivo, y cuando hay algo que
+  hacer, lo dice: si no entra más en el aparato, que bajes un backup y borres
+  fotos viejas.
+
+- **La leyenda de confianza del glosario enseñaba un código de formas distinto
+  del que usa la app.** El borde de "confianza media" salía sólido y el de
+  "baja" rayado, cuando en las fichas son rayado y punteado. Era el único lugar
+  donde se explica ese código, y explicaba el equivocado — justo en el canal
+  que existe para no depender del color.
 
 ---
 

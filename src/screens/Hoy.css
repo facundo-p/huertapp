@@ -132,6 +132,11 @@
   color: var(--tinta-suave);
 }
 
+/* sobre el fondo terracota de la helada, la tinta suave baja de AA */
+.tarea.es-helada .tarea__fuente {
+  color: var(--tinta-media);
+}
+
 .tarea__acciones {
   display: flex;
   border-top: 1.5px dashed var(--linea);

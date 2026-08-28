@@ -153,4 +153,48 @@ describe('validación del backup', () => {
       expect(() => validar(roto), campo).toThrow(BackupInvalido)
     }
   })
+
+  it('cantidad y origenId viajan en la versión 1: van y vuelven intactos', () => {
+    // Campos aditivos a propósito: un backup nuevo abre en una app vieja
+    // (los ignora) y uno viejo abre acá (quedan undefined).
+    const conTanda = {
+      ...valido,
+      plantas: [
+        {
+          id: 'p1',
+          slug: 'tomate',
+          sembrada: '2026-08-01',
+          metodo: 'almacigo',
+          etapa: 'almacigo',
+          etapaDesde: '2026-08-01',
+          creada: '2026-08-01T10:00:00.000Z',
+          cantidad: 8,
+          origenId: 'p0',
+        },
+      ],
+    }
+    expect(() => validar(conTanda)).not.toThrow()
+    const vuelta = JSON.parse(JSON.stringify(conTanda))
+    expect(vuelta.plantas[0].cantidad).toBe(8)
+    expect(vuelta.plantas[0].origenId).toBe('p0')
+  })
+})
+
+describe('backup y ubicación del pronóstico', () => {
+  const base = {
+    app: 'huerta-gba',
+    version: VERSION_BACKUP,
+    exportado: '2026-08-15T12:00:00.000Z',
+    zona: 'conurbano',
+    plantas: [],
+    diario: [],
+    ubicaciones: [],
+    fotos: [],
+  }
+
+  it('la ubicación del clima viaja en el backup si existe, y no molesta si falta', () => {
+    const ubicacionClima = { modo: 'zona', lat: -34.82, lon: -58.54, etiqueta: 'cerca de Ezeiza' }
+    expect(validar({ ...base, ubicacionClima }).ubicacionClima).toEqual(ubicacionClima)
+    expect(validar(base).ubicacionClima).toBeUndefined()
+  })
 })

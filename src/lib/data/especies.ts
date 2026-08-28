@@ -13,7 +13,10 @@ import { decadaDe, decadasDelMes, diasHastaFinDeDecada, siguienteDecada } from '
 
 export interface IndiceEspecies {
   db: EspeciesDB
+  /** todas, variedades derivadas incluidas: es lo que resuelve `porSlug` */
   todas: EspecieEnriquecida[]
+  /** las 55 del catálogo: lo que se lista en Explorar y en el Calendario */
+  padres: EspecieEnriquecida[]
   porSlug: Map<string, EspecieEnriquecida>
   porGrupo: Map<Grupo, EspecieEnriquecida[]>
   /** texto normalizado de búsqueda por slug (nombre común, científico y alias) */
@@ -31,23 +34,30 @@ export function cargarEspecies(): Promise<IndiceEspecies> {
 
 function indexar(db: EspeciesDB): IndiceEspecies {
   const todas = db.especies
+  const padres = todas.filter((e) => !e.variedad_de)
   const porSlug = new Map(todas.map((e) => [e.slug, e]))
 
+  // Por grupo van solo los padres: el Calendario dibuja una fila por especie y
+  // las variedades se despliegan desde ahí.
   const porGrupo = new Map<Grupo, EspecieEnriquecida[]>()
-  for (const e of todas) {
+  for (const e of padres) {
     const lista = porGrupo.get(e.grupo) ?? []
     lista.push(e)
     porGrupo.set(e.grupo, lista)
   }
 
+  // Una variedad hereda los alias de su especie: quien busca "poroto" espera
+  // ver también la enana y la de enrame.
   const textoBusqueda = new Map(
     todas.map((e) => [
       e.slug,
-      normalizar([e.nombre_comun, e.nombre_cientifico, ...(ALIAS[e.slug] ?? [])].join(' ')),
+      normalizar(
+        [e.nombre_comun, e.nombre_cientifico, ...(ALIAS[e.variedad_de ?? e.slug] ?? [])].join(' '),
+      ),
     ]),
   )
 
-  return { db, todas, porSlug, porGrupo, textoBusqueda }
+  return { db, todas, padres, porSlug, porGrupo, textoBusqueda }
 }
 
 /** Estado de una década para una especie: ideal, posible o fuera de ventana. */
@@ -111,8 +121,24 @@ export function admiteAlmacigo(e: EspecieEnriquecida, mes: Mes): boolean {
   return metodo === 'almacigo' || metodo === 'almacigo_protegido' || metodo === 'directa|almacigo'
 }
 
-export function nivelConfianza(n: number): 'alta' | 'media' | 'baja' {
+/** `null` no es un escalón peor: es estar fuera de la escala. */
+export function nivelConfianza(n: number | null): 'alta' | 'media' | 'baja' | 'sin' {
+  if (n === null) return 'sin'
   if (n >= 8) return 'alta'
   if (n >= 5) return 'media'
   return 'baja'
+}
+
+/** Falta el dato ≠ no corresponde. A la zanahoria no se la trasplanta. */
+export type Ausencia = 'sin_dato' | 'no_aplica'
+
+export function trasplanteAplica(e: EspecieEnriquecida): boolean {
+  const { trasplante_ideal, trasplante_posible } = e.calendario.fuente_meses
+  return trasplante_ideal.length + trasplante_posible.length > 0
+}
+
+/** Gajo, diente o corona: no hay semilla que germinar. */
+export function germinacionAplica(e: EspecieEnriquecida): boolean {
+  const metodos = Object.values(e.calendario.metodo_por_mes)
+  return metodos.length > 0 && !metodos.every((m) => m === 'plantacion')
 }

@@ -27,3 +27,9 @@
   color: var(--conf-baja);
   border: 1.5px dotted var(--conf-baja);
 }
+/* Fuera de la escala. Lo distingue el texto `s/d`, no el borde. */
+.conf--sin {
+  background: var(--conf-sin-fondo);
+  color: var(--conf-sin);
+  border: 1.5px dotted var(--conf-sin);
+}

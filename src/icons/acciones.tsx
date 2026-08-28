@@ -98,6 +98,16 @@ export function IconoPlaga(p: IconProps) {
   )
 }
 
+/** Editar: lápiz sobre recuadro. El lápiz solo ya significa "nota del diario". */
+export function IconoEditar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M11.2 5.8 H 6.4 C 5.1 5.8, 4.2 6.7, 4.2 8 V 17.6 C 4.2 18.9, 5.1 19.8, 6.4 19.8 H 16 C 17.3 19.8, 18.2 18.9, 18.2 17.6 V 12.6" />
+      <path d="M9.6 14.6 L 10.2 12.1 L 16.9 5.4 C 17.7 4.6, 18.9 4.6, 19.7 5.4 C 20.5 6.2, 20.5 7.4, 19.7 8.2 L 13 14.9 L 9.6 14.6 Z" />
+    </Svg>
+  )
+}
+
 /** Nota: lápiz */
 export function IconoNota(p: IconProps) {
   return (
@@ -234,6 +244,18 @@ export function IconoCampana(p: IconProps) {
       <path d="M6.3 16.6 V 11.1 C 6.3 7.9, 8.8 5.4, 12 5.4 C 15.2 5.4, 17.7 7.9, 17.7 11.1 V 16.6 L 19.2 18.6 H 4.8 Z" />
       <path d="M10.2 18.6 C 10.2 19.7, 11 20.5, 12 20.5 C 13 20.5, 13.8 19.7, 13.8 18.6" />
       <path d="M12 5.4 V 3.6" />
+    </Svg>
+  )
+}
+
+/** Maceta: labio, cuerpo cónico y un brote. Sin el brote se lee como balde. */
+export function IconoMaceta(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 9.6 V 6.6" />
+      <path d="M12 7.4 C 10.1 7.4, 9 5.9, 9.2 4.2 C 11 4.3, 12 5.7, 12 7.4 Z" />
+      <path d="M4.6 9.6 H 19.4 V 11.6 H 4.6 Z" />
+      <path d="M6.2 11.6 L 7.5 19.4 C 7.6 20 8.1 20.4 8.7 20.4 H 15.3 C 15.9 20.4 16.4 20 16.5 19.4 L 17.8 11.6" />
     </Svg>
   )
 }

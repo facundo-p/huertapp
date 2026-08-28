@@ -1,0 +1,31 @@
+.riego-escala {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+}
+
+.riego-escala__barra {
+  display: flex;
+  gap: 3px;
+  flex: none;
+}
+
+.riego-escala__nivel {
+  width: 16px;
+  height: 20px;
+  border-radius: 3px;
+  /* vacío: punteado y hueco. Lleno: sólido y relleno. Dos canales además del color. */
+  border: 1.5px dotted var(--linea);
+  background: transparent;
+}
+
+.riego-escala__nivel.es-lleno {
+  border: 1.5px solid var(--suelo-humedo);
+  background: var(--suelo-humedo);
+}
+
+.riego-escala__etiqueta {
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  color: var(--tinta);
+}

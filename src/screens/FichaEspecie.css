@@ -184,6 +184,20 @@
   color: var(--tinta);
 }
 
+/* Distinta, no más apagada: cambia el peso y el fondo, no el contraste (regla 3). */
+.ficha__ciclo-dato.es-sin-dato,
+.ficha__ciclo-dato.es-no-aplica {
+  background: transparent;
+  border: 1.5px dashed var(--linea-suave);
+}
+
+.es-sin-dato .ficha__ciclo-valor,
+.es-no-aplica .ficha__ciclo-valor {
+  font-weight: 600;
+  font-size: var(--texto-xs);
+  color: var(--tinta-media);
+}
+
 /* --- asociaciones --- */
 .ficha__asoc {
   display: flex;
@@ -273,4 +287,66 @@
   line-height: 1.5;
   color: var(--tinta-suave);
   text-align: center;
+}
+
+/* --- medidas de maceta --- */
+.maceta-medidas {
+  list-style: none;
+  margin: 0;
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.maceta-medidas li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}
+
+.maceta-medidas__que {
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}
+
+.maceta-medidas__cuanto {
+  font-family: var(--font-display);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  color: var(--tinta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* La procedencia se lee antes que el resto: si llegaste por un link, lo
+   primero que necesitás saber es que esto es una variedad. */
+.ficha__procedencia {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-4);
+  padding: var(--esp-3);
+  border-radius: var(--radio-s);
+  border-left: 3px solid var(--salvia);
+  background: var(--crema);
+  font-size: var(--texto-s);
+  line-height: 1.6;
+  color: var(--tinta);
+}
+
+/* Es razonamiento nuestro, no cita: va en cuerpo más chico y con su etiqueta,
+   para que no se lea como si lo hubiera dicho una fuente. */
+.ficha__derivacion {
+  font-size: var(--texto-xs);
+  line-height: 1.6;
+  color: var(--tinta-media);
+}
+
+/* Etiqueta en el DOM y no como ::before: carga significado, así que tiene que
+   poder leerse, buscarse y seleccionarse como cualquier texto. */
+.ficha__derivacion-etiqueta {
+  font-weight: 700;
 }

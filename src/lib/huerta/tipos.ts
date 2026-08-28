@@ -14,11 +14,30 @@ export const ETAPA_INFO: Record<Etapa, { etiqueta: string; verbo: string }> = {
   terminada: { etiqueta: 'Terminada', verbo: 'Terminó su ciclo' },
 }
 
+/** 'bancal' es legado: los datos viejos lo traen; el alta ofrece los dos específicos. */
+export type TipoUbicacion = 'maceta' | 'bancal' | 'bancal_elevado' | 'bancal_tierra' | 'almacigo' | 'otro'
+export type LuzUbicacion = 'pleno_sol' | 'media_sombra' | 'sombra'
+export type ProteccionUbicacion = 'expuesta' | 'resguardada' | 'invernadero'
+
+/** Todo en centímetros; el volumen en litros. Qué campo aplica lo decide el tipo. */
+export interface MedidasUbicacion {
+  ancho?: number
+  largo?: number
+  profundidad?: number
+  volumen?: number
+}
+
+// Los campos nuevos son opcionales a propósito: el backup viejo los tolera sin
+// bump de versión, y "sin dato" es un estado válido, no un error.
 export interface Ubicacion {
   id: string
   nombre: string
-  tipo: 'maceta' | 'bancal' | 'almacigo' | 'otro'
+  tipo: TipoUbicacion
   creada: string
+  luz?: LuzUbicacion
+  proteccion?: ProteccionUbicacion
+  medidas?: MedidasUbicacion
+  notas?: string
 }
 
 export interface Planta {
@@ -26,6 +45,12 @@ export interface Planta {
   /** slug de la especie en el catálogo */
   slug: string
   apodo?: string
+  /**
+   * La variedad, cuando no cambia el cultivo y por eso no tiene entrada propia
+   * (la albahaca morada). Texto libre: es dato tuyo, no del catálogo. Las que
+   * sí cambian el cultivo son una especie más y viajan en `slug`.
+   */
+  variedad?: string
   ubicacionId?: string
   /** fecha de siembra o plantación, ISO corta (yyyy-mm-dd) */
   sembrada: string
@@ -36,6 +61,10 @@ export interface Planta {
   etapaDesde: string
   /** fecha en que el usuario confirmó que germinó (ISO corta) */
   germino?: string
+  /** cuántas hay ahora, a ojo. Nunca obligatorio; se muestra como "~8" */
+  cantidad?: number
+  /** raíz de la siembra de la que se separó esta tarjeta. Sin él, esta tarjeta ES la siembra */
+  origenId?: string
   notas?: string
   creada: string
   archivada?: boolean

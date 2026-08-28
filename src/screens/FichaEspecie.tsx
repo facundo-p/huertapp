@@ -3,13 +3,20 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { DatoSection } from '../components/DatoSection'
 import { Cuidados } from '../components/Cuidados'
+import { Variedades } from '../components/Variedades'
+import { EscalaRiego } from '../components/EscalaRiego'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
 import { MonthStrip } from '../components/MonthStrip'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { EmptyState } from '../components/EmptyState'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { useEspecies } from '../lib/useEspecies'
-import { estadoSiembra, metodoDelMes } from '../lib/data/especies'
+import {
+  estadoSiembra,
+  germinacionAplica,
+  metodoDelMes,
+  trasplanteAplica,
+} from '../lib/data/especies'
 import { METODOS } from '../lib/calendario'
 import { decadaDe, mesDeDecada, nombreDecada } from '../lib/fechas'
 import { useZona, ZONAS_INFO } from '../lib/zona'
@@ -25,13 +32,22 @@ import {
   IconoFlor,
   IconoGrupo,
   IconoLuz,
+  IconoMaceta,
   IconoPlaga,
+  IconoRegar,
   IconoSembrar,
   IconoSuelo,
   IconoProtegido,
   IconoTrasplantar,
 } from '../icons'
-import type { AsocRef, Decada, EspecieEnriquecida, Mes, Zona } from '../lib/data/types'
+import type {
+  AsocRef,
+  Decada,
+  EspecieEnriquecida,
+  MacetaMedidas,
+  Mes,
+  Zona,
+} from '../lib/data/types'
 import './FichaEspecie.css'
 
 export function FichaEspecie() {
@@ -76,6 +92,26 @@ export function FichaEspecie() {
       <Header titulo={e.nombre_comun} sobretitulo={e.nombre_cientifico} volver />
 
       <div className="pantalla__cuerpo">
+        {/* Quien llegó por un link tiene que entender antes que nada que está
+            en una variedad y no en la especie, y de dónde sale lo que lee. */}
+        {e.variedad_de && (
+          <aside className="ficha__procedencia">
+            <p>
+              Variedad de{' '}
+              <Link to={`/explorar/${e.variedad_de}`}>
+                {indice!.porSlug.get(e.variedad_de)?.nombre_comun}
+              </Link>
+              . Lo que no figura acá abajo es igual que en la especie, con las mismas fuentes.
+            </p>
+            {e.variedad_derivacion && (
+              <p className="ficha__derivacion">
+                <span className="ficha__derivacion-etiqueta">Por qué difiere:</span>{' '}
+                {e.variedad_derivacion}
+              </p>
+            )}
+          </aside>
+        )}
+
         {/* --- resumen visual: los tres íconos con su nombre --- */}
         <div className="ficha__resumen etiqueta">
           <div className="ficha__categorias">
@@ -118,15 +154,27 @@ export function FichaEspecie() {
           <AhoraMismo especie={e} zona={zona} decadaHoy={decadaHoy} mes={mesHoy} />
 
           <div className="ficha__ciclo">
-            {e.dias_germinacion && <Dato titulo="Germina" valor={rango(e.dias_germinacion, 'días')} />}
-            {e.dias_a_trasplante && (
-              <Dato titulo="Trasplante" valor={rango(e.dias_a_trasplante, 'días')} />
-            )}
-            {e.dias_a_cosecha && <Dato titulo="Cosecha" valor={rango(e.dias_a_cosecha, 'días')} />}
+            <Dato
+              titulo="Germina"
+              valor={e.dias_germinacion}
+              porQue={
+                germinacionAplica(e)
+                  ? undefined
+                  : 'Se planta un gajo, un bulbo o una corona: no hay semilla que germinar.'
+              }
+            />
+            <Dato
+              titulo="Trasplante"
+              valor={e.dias_a_trasplante}
+              porQue={
+                trasplanteAplica(e) ? undefined : 'Va de siembra directa: no se trasplanta.'
+              }
+            />
+            <Dato titulo="Cosecha" valor={e.dias_a_cosecha} />
           </div>
         </div>
 
-        <TemperaturaBloque t={e.temperaturas} />
+        <TemperaturaBloque t={e.temperaturas} germinaAplica={germinacionAplica(e)} />
 
         <DatoSection titulo="Cuándo sembrar" Icono={IconoSembrar} dato={e.fecha_siembra} />
         <DatoSection titulo="Cómo sembrar" Icono={IconoAlmacigo} dato={e.forma_siembra} />
@@ -155,9 +203,11 @@ export function FichaEspecie() {
           dato={e.luz}
           advertencia={{ titulo: 'Si no se cumple', texto: e.luz.que_pasa_si_no }}
         />
+        <RiegoYMaceta e={e} />
         <DatoSection titulo="Ciclo de vida" Icono={IconoFlor} dato={e.longevidad} />
 
         <Cuidados cuidados={e.cuidados} />
+        <Variedades refs={e.variedades} />
 
         <DatoSection
           titulo="Todos los trucos"
@@ -265,11 +315,93 @@ function Categoria({ Icono, texto }: { Icono: React.ComponentType; texto: string
   )
 }
 
-function Dato({ titulo, valor }: { titulo: string; valor: string }) {
+/**
+ * Las dos preguntas de balcón: cuánta agua y en qué entra. Cuando faltan las
+ * dos van juntas en una sola tarjeta: dos "s/d" seguidos parecen una ficha rota
+ * justo donde la app está siendo honesta.
+ */
+function RiegoYMaceta({ e }: { e: EspecieEnriquecida }) {
+  if (!e.riego && !e.maceta) {
+    return (
+      <DatoSection
+        titulo="Riego y maceta"
+        Icono={IconoRegar}
+        dato={null}
+        vacio="Todavía no encontramos fuentes que digan cuánta agua pide ni en qué maceta entra."
+      />
+    )
+  }
+
   return (
-    <div className="ficha__ciclo-dato">
+    <>
+      <DatoSection
+        titulo="Riego"
+        Icono={IconoRegar}
+        dato={e.riego}
+        vacio="No encontramos una fuente que diga cuánta agua pide esta especie."
+      >
+        {e.riego?.regimen && <EscalaRiego regimen={e.riego.regimen} />}
+      </DatoSection>
+      <DatoSection
+        titulo="Maceta"
+        Icono={IconoMaceta}
+        dato={e.maceta}
+        vacio="No encontramos una fuente que diga en qué maceta entra esta especie."
+      >
+        {e.maceta && <Medidas m={e.maceta.medidas} />}
+      </DatoSection>
+    </>
+  )
+}
+
+/** Las tres medidas pueden faltar por separado: se dibuja la que haya. */
+function Medidas({ m }: { m: MacetaMedidas }) {
+  const filas = [
+    m.profundidad_min_cm && { que: 'Profundidad mínima', cuanto: `${m.profundidad_min_cm} cm` },
+    m.litros_min && { que: 'Volumen', cuanto: `${m.litros_min} litros` },
+    m.plantas_por_contenedor && {
+      que: 'Plantas por maceta',
+      cuanto: String(m.plantas_por_contenedor),
+    },
+  ].filter(Boolean) as { que: string; cuanto: string }[]
+
+  return (
+    <ul className="maceta-medidas">
+      {filas.map((f) => (
+        <li key={f.que}>
+          <span className="maceta-medidas__que">{f.que}</span>
+          <span className="maceta-medidas__cuanto">{f.cuanto}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/**
+ * Se dibuja siempre: omitirla dejaba la fila entera vacía en romero, menta,
+ * laurel y lavanda. `s/d` = la fuente no lo dice; `no aplica` = no corresponde.
+ */
+function Dato({
+  titulo,
+  valor,
+  porQue,
+}: {
+  titulo: string
+  valor: { min: number; max: number } | null
+  /** por qué no corresponde; sin esto y sin valor, es `s/d` */
+  porQue?: string
+}) {
+  const ausencia = valor ? null : porQue ? 'no-aplica' : 'sin-dato'
+  const texto = valor ? rango(valor, 'días') : porQue ? 'no aplica' : 's/d'
+  const detalle = porQue ?? 'No encontramos una fuente que lo diga para esta especie.'
+
+  return (
+    <div className={`ficha__ciclo-dato${ausencia ? ` es-${ausencia}` : ''}`}>
       <span className="ficha__ciclo-titulo">{titulo}</span>
-      <span className="ficha__ciclo-valor">{valor}</span>
+      <span className="ficha__ciclo-valor" title={ausencia ? detalle : undefined}>
+        {texto}
+        {ausencia && <span className="sr-solo">: {detalle}</span>}
+      </span>
     </div>
   )
 }

@@ -2,12 +2,16 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
+import { NoSePudoLeer } from '../components/AvisoDatos'
 import { AltaPlanta } from '../components/AltaPlanta'
+import { Pronostico } from '../components/Pronostico'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
+import { usePronostico } from '../lib/pronostico/store'
+import { derivarAvisos, frescura, suprimirHeladaEstadistica } from '../lib/pronostico/derivar'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
-import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea } from '../lib/tareas/engine'
+import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
 import { hoyISO } from '../lib/huerta/tipos'
 import { fechaLarga, nombreDecada, decadaDe, saludoEstacional } from '../lib/fechas'
 import {
@@ -32,7 +36,7 @@ const ICONO_TAREA = {
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, cargado } = useHuerta()
+  const { plantas, cargado, errorCarga } = useHuerta()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
   const iso = hoyISO(hoy)
@@ -56,6 +60,22 @@ export function Hoy() {
     [indice, zona, iso],
   )
 
+  const estadoPron = usePronostico()
+  const ahoraISO = hoy.toISOString()
+  const avisos = useMemo(() => {
+    const p = estadoPron.pronostico
+    if (!estadoPron.ubicacion || !p || frescura(p, ahoraISO) === 'vencido') return []
+    const nombres = indice
+      ? expuestasAHelada(plantas, indice.porSlug)
+          .map((pl) => (pl.apodo || indice.porSlug.get(pl.slug)!.nombre_comun).toLowerCase())
+          .slice(0, 3)
+      : []
+    return derivarAvisos(p, iso, nombres)
+  }, [estadoPron, indice, plantas, iso, ahoraISO])
+
+  // con alerta de helada del pronóstico, la tarea estadística se corre sola
+  const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
+
   async function alCompletar(t: Tarea) {
     setFestejando(t.id)
     setTimeout(() => setFestejando(null), 700)
@@ -69,11 +89,15 @@ export function Hoy() {
       <Header titulo={fechaLarga(hoy)} sobretitulo={saludoEstacional(hoy)} />
 
       <div className="pantalla__cuerpo">
-        {listo && tareas.length > 0 && (
+        {errorCarga && <NoSePudoLeer error={errorCarga} />}
+
+        <Pronostico estado={estadoPron} avisos={avisos} hoy={iso} ahora={ahoraISO} />
+
+        {listo && tareasMostradas.length > 0 && (
           <section className="hoy__seccion">
             <h2 className="seccion__titulo subrayado-onda">Para hacer</h2>
             <ul className="tareas">
-              {tareas.map((t, i) => (
+              {tareasMostradas.map((t, i) => (
                 <li
                   key={t.id}
                   className={`tarea es-${t.tipo} ${festejando === t.id ? 'es-festejando' : ''} aparecer`}
@@ -91,7 +115,7 @@ export function Hoy() {
           </section>
         )}
 
-        {listo && tareas.length === 0 && plantas.length > 0 && (
+        {listo && tareasMostradas.length === 0 && plantas.length > 0 && (
           <p className="hoy__al-dia">
             🌿 Nada urgente hoy. Aprovechá para mirar cómo van y sacarles una foto.
           </p>

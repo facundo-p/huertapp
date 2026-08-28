@@ -8,6 +8,7 @@ import {
   type Tarea,
 } from '../src/lib/tareas/engine'
 import { sumarDias } from '../src/lib/huerta/estimar'
+import { dividirTanda } from '../src/lib/huerta/tanda'
 import type { Planta } from '../src/lib/huerta/tipos'
 import type { EspecieEnriquecida, Zona } from '../src/lib/data/types'
 import db from '../data/huerta_gba_enriquecido.json'
@@ -74,6 +75,40 @@ describe('motor de tareas', () => {
     expect(t!.fuente).toMatch(/30-60 días desde la siembra/)
   })
 
+  it('no pide trasplantar si la semilla asomó tarde: la fecha se corrió con ella', () => {
+    // tomate: germina en 6-10 días y se trasplanta a los 30-60. Ésta asomó a
+    // los 23 de sembrada, o sea 13 días tarde: el trasplante se va a los 43.
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -12) })
+    expect(motor([p]).some((x) => x.tipo === 'trasplantar')).toBe(false)
+    expect(motor([p], 'conurbano', sumarDias(HOY, 8)).some((x) => x.tipo === 'trasplantar')).toBe(true)
+  })
+
+  it('cuando corrió la fecha, la tarea dice cuánto y por qué', () => {
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -12) })
+    const t = motor([p], 'conurbano', sumarDias(HOY, 8)).find((x) => x.tipo === 'trasplantar')!
+    expect(t.fuente).toMatch(/30-60 días desde la siembra/)
+    expect(t.fuente).toMatch(/corrido 13 días/)
+  })
+
+  it('dos plantas iguales con distinta germinación no se avisan el mismo día', () => {
+    const base = { slug: 'tomate' as const, sembrada: sumarDias(HOY, -35), etapa: 'almacigo' as const }
+    const enFecha = planta({ ...base, germino: sumarDias(HOY, -27) })
+    const tardia = planta({ ...base, id: 'p-tardia', germino: sumarDias(HOY, -12) })
+    const tareas = motor([enFecha, tardia]).filter((x) => x.tipo === 'trasplantar')
+    expect(tareas).toHaveLength(1)
+    expect(tareas[0].plantaId).toBe(enFecha.id)
+  })
+
+  it('la cosecha también se corre con la germinación', () => {
+    // rúcula: germina en 4-8 días y cosecha a los 20-60. A los 40 de sembrada
+    // la que asomó en fecha ya está; la que tardó 30 días en asomar, no.
+    const base = { slug: 'rucula' as const, sembrada: sumarDias(HOY, -40) }
+    const enFecha = planta({ ...base, germino: sumarDias(HOY, -34) })
+    const tardia = planta({ ...base, id: 'p-tardia', germino: sumarDias(HOY, -10) })
+    expect(motor([enFecha]).some((x) => x.tipo === 'cosechar')).toBe(true)
+    expect(motor([tardia]).some((x) => x.tipo === 'cosechar')).toBe(false)
+  })
+
   it('si trasplantar expone a la helada, lo dice y lo baja de prioridad', () => {
     const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -27) })
     const enAgosto = motor([p], 'conurbano', '2026-08-15').find((x) => x.tipo === 'trasplantar')!
@@ -92,6 +127,27 @@ describe('motor de tareas', () => {
     const base = { slug: 'rucula', sembrada: sumarDias(HOY, -40), germino: sumarDias(HOY, -34) }
     expect(motor([planta(base)]).some((t) => t.tipo === 'cosechar')).toBe(true)
     expect(motor([planta({ ...base, etapa: 'cosechando' })]).some((t) => t.tipo === 'cosechar')).toBe(false)
+  })
+
+  it('el aviso de cosecha no se archiva solo al pasarse de largo', () => {
+    // El melón son 100 días clavados: con la ventana cerrándose en el máximo,
+    // el aviso duraba un día. Ahora queda hasta que la marques cosechando.
+    const tarde = planta({ slug: 'melon', sembrada: sumarDias(HOY, -300), germino: sumarDias(HOY, -290) })
+    expect(motor([tarde]).some((t) => t.tipo === 'cosechar')).toBe(true)
+  })
+
+  /**
+   * El requisito que motivó las variedades: dos coliflores sembradas el mismo
+   * día no se cosechan el mismo día. Antes las dos heredaban el 90-200 del
+   * padre y el aviso salía a los 90 para las dos, incluida la tardía.
+   */
+  it('el aviso de cosecha sale según la variedad, no según la especie', () => {
+    const hace120 = sumarDias(HOY, -120)
+    const temprana = planta({ slug: 'coliflor-temprana', id: 'ct', sembrada: hace120 })
+    const tardia = planta({ slug: 'coliflor-tardia', id: 'cd', sembrada: hace120 })
+
+    expect(motor([temprana]).some((t) => t.tipo === 'cosechar')).toBe(true)
+    expect(motor([tardia]).some((t) => t.tipo === 'cosechar')).toBe(false)
   })
 
   it('avisa de helada solo si hay plantas expuestas que no la banquen', () => {
@@ -145,6 +201,58 @@ describe('motor de tareas', () => {
     const t = motor(p)
     const prioridades = t.map((x) => x.prioridad)
     expect(prioridades).toEqual([...prioridades].sort((a, b) => a - b))
+  })
+})
+
+describe('tandas divididas en el motor', () => {
+  it('la madre con resto sigue pidiendo trasplante; la parte que ya salió, no', () => {
+    const madre = planta({
+      slug: 'tomate',
+      sembrada: sumarDias(HOY, -35),
+      etapa: 'almacigo',
+      germino: sumarDias(HOY, -27),
+      cantidad: 10,
+    })
+    const { madre: conResto, hija } = dividirTanda(madre, {
+      fecha: HOY,
+      cuantas: 4,
+      idHija: 'hija-1',
+      creadaHija: `${HOY}T10:00:00.000Z`,
+    })
+    const t = motor([conResto, hija]).filter((x) => x.tipo === 'trasplantar')
+    expect(t).toHaveLength(1)
+    expect(t[0].plantaId).toBe(madre.id)
+  })
+
+  it('madre e hija en ventana de cosecha son dos tareas, cada una con su id', () => {
+    const madre = planta({
+      slug: 'tomate',
+      sembrada: sumarDias(HOY, -85),
+      etapa: 'creciendo',
+      germino: sumarDias(HOY, -77),
+    })
+    const { madre: quedada, hija } = dividirTanda(madre, {
+      fecha: sumarDias(HOY, -30),
+      idHija: 'hija-2',
+      creadaHija: `${HOY}T10:00:00.000Z`,
+    })
+    const t = motor([quedada, hija]).filter((x) => x.tipo === 'cosechar')
+    expect(t).toHaveLength(2)
+    expect(new Set(t.map((x) => x.id)).size).toBe(2)
+  })
+
+  it('el aviso de helada no repite el nombre de una tanda dividida', () => {
+    const madre = planta({ slug: 'tomate', apodo: 'los del cajón', etapa: 'creciendo', germino: HOY })
+    const { madre: quedada, hija } = dividirTanda(madre, {
+      fecha: HOY,
+      idHija: 'hija-3',
+      creadaHija: `${HOY}T10:00:00.000Z`,
+    })
+    const helada = motor([quedada, { ...hija, etapa: 'creciendo' }], 'conurbano', '2026-08-15').find(
+      (x) => x.tipo === 'helada',
+    )
+    expect(helada).toBeDefined()
+    expect(helada!.detalle.split('los del cajón').length - 1).toBe(1)
   })
 })
 
@@ -205,5 +313,17 @@ describe('qué sembrar ahora', () => {
 
   it('respeta el límite', () => {
     expect(paraSembrarAhora(especies, 'conurbano', HOY, 5)).toHaveLength(5)
+  })
+})
+
+describe('expuestasAHelada', () => {
+  it('junta las que la helada mata, sin contar almácigos bajo techo', async () => {
+    const { expuestasAHelada } = await import('../src/lib/tareas/engine')
+    const plantas = [
+      planta({ slug: 'tomate' }), // muere
+      planta({ slug: 'albahaca', id: 'p-alba', etapa: 'almacigo' }), // muere, pero en almácigo
+      planta({ slug: 'lechuga', id: 'p-lechu' }), // tolera
+    ]
+    expect(expuestasAHelada(plantas, porSlug).map((p) => p.slug)).toEqual(['tomate'])
   })
 })

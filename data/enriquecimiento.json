@@ -150,7 +150,13 @@
         "texto": "Si la semilla es muy fresca puede estar todavía dormida: la lechuga tiene latencia hasta unos dos meses después de cosechada.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 15,
+      "litros_min": 4,
+      "plantas_por_contenedor": 2
+    }
   },
   "espinaca": {
     "calendario": {
@@ -229,7 +235,9 @@
       ]
     },
     "revisar": [
-      "Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14."
+      "Remolacha quitada de buenas y malas (conflicto en fuente) — decisión del usuario 2026-08-14.",
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32.",
+      "El cuidado de riego duplica el campo `riego` nuevo, pero no se puede podar: es su único cuidado y hay un test que exige al menos uno."
     ],
     "temperaturas": {
       "germinacion": {
@@ -267,6 +275,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Si la sembraste directa, después de que nacen",
+        "que_hacer": "Sacá las de más hasta dejar 5-8 cm entre planta y planta.",
+        "de": "forma_siembra"
+      },
+      {
         "tipo": "riego",
         "cuando": "Todo el ciclo",
         "que_hacer": "Riegos frecuentes y regulares.",
@@ -279,7 +293,13 @@
         "texto": "Va a 1 o 2 cm. Más honda tarda o no llega.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 15,
+      "litros_min": 4,
+      "plantas_por_contenedor": 2
+    }
   },
   "acelga": {
     "calendario": {
@@ -369,9 +389,10 @@
       ]
     },
     "revisar": [
-      "Remolacha quitada de buenas y malas; señal de trasplante ~4 hojas verdaderas — decisión del usuario 2026-08-14."
+      "Remolacha quitada de buenas y malas — decisión del usuario 2026-08-14.",
+      "Señal de trasplante: el 2026-08-14 se fijó \"~4 hojas verdaderas (criterio propio, confianza baja)\" en `transplante_signos`, y ese override pisaba el dato con fuente de la base (\"Plantín con 3-4 hojas verdaderas y ~8-10 cm de altura\", La Nación Revista Jardín, confianza 6). Se quitó el 2026-08-20 (#29): las ~4 hojas quedan dentro del rango de la fuente, que además aporta la altura. Si el criterio propio era distinto a propósito, volver a ponerlo.",
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ],
-    "transplante_signos": "Plantines con ~4 hojas verdaderas (criterio propio, confianza baja).",
     "temperaturas": {
       "germinacion": {
         "min": 5,
@@ -412,12 +433,6 @@
         "cuando": "Cuando las plantitas empiezan a estorbarse",
         "que_hacer": "Sacá las que sobran y dejale espacio a cada una.",
         "de": "trucos"
-      },
-      {
-        "tipo": "riego",
-        "cuando": "Todo el ciclo",
-        "que_hacer": "Mantené el riego regular.",
-        "de": "trucos"
       }
     ],
     "germinacion_pistas": [
@@ -426,7 +441,13 @@
         "texto": "Cada \"semilla\" de acelga es un glomérulo con varias semillas adentro: de cada una salen varias plantitas juntas. Si te salió un mechón apretado no falló nada — hay que ralear.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "rucula": {
     "calendario": {
@@ -557,6 +578,12 @@
       "confianza": 7
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Sólo si nació muy tupida",
+        "que_hacer": "Sacá algunas y quedate con las mejores.",
+        "de": "transplante"
+      },
       {
         "tipo": "proteger",
         "cuando": "En verano",
@@ -757,7 +784,13 @@
         "texto": "Unas tres veces el tamaño de la semilla, que es poquito.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "repollo": {
     "calendario": {
@@ -885,7 +918,8 @@
         "que_hacer": "Arrimale tierra a la base y mantené el cantero sin yuyos.",
         "de": "trucos"
       }
-    ]
+    ],
+    "riego_regimen": "parejo"
   },
   "radicchio": {
     "calendario": {
@@ -986,6 +1020,12 @@
       "confianza": 6
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Si la sembraste directa, con plantitas de 5 cm",
+        "que_hacer": "Sacá las de más hasta dejar unos 30 cm entre planta y planta.",
+        "de": "transplante"
+      },
       {
         "tipo": "blanqueo",
         "cuando": "Antes de cosechar",
@@ -1106,7 +1146,8 @@
         "texto": "No alcanza con húmedo: el berro quiere el sustrato empapado todo el tiempo, o directamente la maceta en una bandeja con agua.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "constante"
   },
   "apio": {
     "calendario": {
@@ -1245,7 +1286,16 @@
         "texto": "Es lenta de verdad: 15 a 20 días. A los diez no hay nada para ver y está todo bien.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 6-8 meses (180-240 d) contra nuestros 120-150. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "brocoli": {
     "calendario": {
@@ -1334,7 +1384,8 @@
       ]
     },
     "revisar": [
-      "Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo)."
+      "Cosecha: la ficha da 50-150+ días DESDE TRASPLANTE según ciclo; se unificó a 90-160 desde siembra (sumando ~40 días de almácigo).",
+      "CONTRADICE en riego: el kit pide \"espaciado\" y nuestro cuidado pide humedad pareja todo el ciclo. Gana la fuente que ya está. No se cambió nada (#29)."
     ],
     "temperaturas": {
       "germinacion": {
@@ -1372,18 +1423,18 @@
     },
     "cuidados": [
       {
-        "tipo": "riego",
-        "cuando": "Todo el ciclo",
-        "que_hacer": "Humedad pareja.",
-        "de": "trucos"
-      },
-      {
         "tipo": "abonado",
         "cuando": "Cuando ya está armando la cabeza",
         "que_hacer": "Nada de nitrógeno tardío.",
         "de": "riesgos"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": 8,
+      "plantas_por_contenedor": 1
+    }
   },
   "coliflor": {
     "calendario": {
@@ -1512,7 +1563,46 @@
         "que_hacer": "Arrimale tierra a la base.",
         "de": "trucos"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "temprana": {
+      "nombre_comun": "Coliflor temprana",
+      "derivacion": "El Brote Urbano separa tempranas de tardías. Los meses salen textuales de esa frase y se quedan dentro de los del padre, conservando su jerarquía: octubre ya era ideal; noviembre y diciembre, posibles. Los 90 días parten el rango 90-200 que el padre ya publica, sin ninguna cuenta nueva.",
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [10],
+          "siembra_posible": [11, 12],
+          "trasplante_ideal": [1, 12],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": { "10": "almacigo", "11": "almacigo", "12": "almacigo" },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tempranas almácigo oct-dic, trasplante dic-ene. Se conserva la jerarquía del padre en cada mes.",
+        "confianza": 7
+      },
+      "dias_a_cosecha": { "min": 90, "max": 90 }
+    },
+    "tardia": {
+      "nombre_comun": "Coliflor tardía",
+      "derivacion": "La otra mitad de la misma frase de El Brote Urbano: almácigo mar-abr, trasplante may-jun, unos 200 días. Los meses y los días quedan dentro de los del padre.",
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [3, 4],
+          "siembra_posible": [],
+          "trasplante_ideal": [5, 6],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": { "3": "almacigo", "4": "almacigo" },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tardías almácigo mar-abr, trasplante may-jun.",
+        "confianza": 7
+      },
+      "dias_a_cosecha": { "min": 200, "max": 200 }
+    }
+  }
   },
   "repollitos-de-bruselas": {
     "calendario": {
@@ -1634,12 +1724,6 @@
         "cuando": "Si el lugar es ventoso",
         "que_hacer": "Ponele un tutor.",
         "de": "trucos"
-      },
-      {
-        "tipo": "riego",
-        "cuando": "Todo el ciclo",
-        "que_hacer": "Regular, sin saturar.",
-        "de": "trucos"
       }
     ],
     "germinacion_pistas": [
@@ -1648,7 +1732,8 @@
         "texto": "Entre medio centímetro y uno: es semilla chica y no se entierra.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo"
   },
   "nabo": {
     "calendario": {
@@ -1803,7 +1888,13 @@
         "texto": "A 2 cm. Enterrada de más no llega arriba.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": 8,
+      "plantas_por_contenedor": 2
+    }
   },
   "tomate": {
     "calendario": {
@@ -1992,7 +2083,27 @@
         "por_que": "Se acumulan enfermedades del suelo.",
         "de": "riesgos"
       }
-    ]
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 4 meses (~120 d) contra nuestros 80-100. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    },
+  "variedades_derivado": {
+    "determinado": {
+      "nombre_comun": "Tomate determinado",
+      "derivacion": "El texto de trucos acota la práctica: «tutorar y realizar desbrote/poda en variedades indeterminadas» (FIQ-UNL, Fecoagro). Una determinada no entra en esa frase, así que no lleva esos dos cuidados. El texto se hereda entero y sin tocar: la frase que lo justifica queda a la vista en la ficha.",
+      "cuidados_quita": ["tutorado", "poda"]
+    },
+    "indeterminado": {
+      "nombre_comun": "Tomate indeterminado",
+      "derivacion": "Es la variedad a la que las fuentes le atribuyen el tutorado, el desbrote y la producción escalonada hasta las heladas. Conserva todos los cuidados del padre."
+    }
+  }
   },
   "pimiento": {
     "calendario": {
@@ -2094,7 +2205,8 @@
       ]
     },
     "revisar": [
-      "Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135."
+      "Cosecha: INTA dice 80-100 desde siembra pero UNLu 70-90 desde trasplante (~115-135 total); rango unificado 80-135.",
+      "Cosecha: el kit impreso de La Huerta Orgánica da 5-6 meses (150-180 d) contra nuestros 80-135. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ],
     "temperaturas": {
       "germinacion": {
@@ -2152,7 +2264,13 @@
         "texto": "Germina lento: 8 a 12 días con temperatura buena. Y por debajo de 13 °C puede directamente no germinar, así que la fecha importa más que la paciencia.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    }
   },
   "aji-picante": {
     "calendario": {
@@ -2302,7 +2420,13 @@
         "texto": "Lenta e **irregular**: no salen todas juntas, y las que faltan pueden aparecer una semana después. Es lo normal en los ajíes.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    }
   },
   "berenjena": {
     "calendario": {
@@ -2472,7 +2596,13 @@
         "texto": "Arranca lenta y necesita calor. Por eso se hace en almácigo protegido a fin de invierno y no directa en el cantero.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    }
   },
   "zapallito-de-tronco": {
     "calendario": {
@@ -2606,7 +2736,13 @@
         "texto": "A unos 2 cm, 2 o 3 semillas por golpe. Con menos tapada se seca; con más, tarda.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    }
   },
   "zapallo": {
     "calendario": {
@@ -2755,7 +2891,12 @@
         "texto": "Remojar la semilla la noche anterior mejora la germinación.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": 19,
+      "plantas_por_contenedor": 1
+    }
   },
   "pepino": {
     "calendario": {
@@ -2909,6 +3050,15 @@
         "por_que": "Si pasa sed, los frutos amargan.",
         "de": "trucos"
       }
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    },
+    "revisar": [
+      "Maceta: Texas A&M (E-545, tabla 1) da 1 galón por planta y en el mismo folleto dice que pepino y poroto de guía \"require considerably more space because of their vining growth habit\". Se contradice a sí mismo, así que se cargó sólo la profundidad de UC (45-60 cm) y confianza 5."
     ]
   },
   "melon": {
@@ -2985,6 +3135,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Cuando las plantitas del hoyo tienen 2 hojas verdaderas",
+        "que_hacer": "Dejá la mejor de cada hoyo y sacá las demás.",
+        "de": "forma_siembra"
+      },
+      {
         "tipo": "riego",
         "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
         "que_hacer": "Espaciá los riegos cuando ya hay fruta.",
@@ -3011,7 +3167,8 @@
         "texto": "A 2,5 o 3 cm, 2 o 3 semillas por hoyo, y después se ralea a la mejor plantita.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "espaciado"
   },
   "sandia": {
     "calendario": {
@@ -3087,6 +3244,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Cuando las plantitas del hoyo tienen 2 hojas verdaderas",
+        "que_hacer": "Dejá la mejor de cada hoyo y sacá las demás.",
+        "de": "forma_siembra"
+      },
+      {
         "tipo": "riego",
         "cuando": "Al principio casi a diario; en floración y cuaje, cada 3 días",
         "que_hacer": "Dejá que la superficie se seque entre riegos.",
@@ -3113,7 +3276,12 @@
         "texto": "A 2,5 o 3 cm, y después se ralea a la mejor plantita de cada golpe.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 4-5 meses (120-150 d) contra nuestros 90-100. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29).",
+      "CONTRADICE en riego: el kit pide \"frecuente, mantener humedad\" y nuestro cuidado dice \"dejá que la superficie se seque entre riegos\" porque el exceso de agua pudre y da frutos insípidos. Gana la fuente que ya está: tiene el porqué agronómico y el kit da un solo régimen para todo el ciclo. No se cambió nada (#29)."
+    ],
+    "riego_regimen": "espaciado"
   },
   "choclo": {
     "calendario": {
@@ -3228,7 +3396,15 @@
         "por_que": "Es de los que más nitrógeno piden.",
         "de": "trucos"
       }
-    ]
+    ],
+    "revisar": [
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "frutilla": {
     "calendario": {
@@ -3531,7 +3707,39 @@
         "texto": "A 3 o 4 cm, 3 o 4 semillas por golpe. Es grande: enterrada poco se seca antes de arrancar.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "revisar": [
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32.",
+      "CONTRADICE al kit: Illinois Extension desaconseja de frente remojar poroto — \"Seeds of most varieties tend to crack and germinate poorly if the soil's moisture content is too high. For this reason, never soak bean seeds before planting\" (https://extension.illinois.edu/gardening/snap-beans). Gana la fuente universitaria: el remojo no se carga en esta especie ni siquiera si #32 vuelve citable al kit.",
+      "Cosecha: el kit impreso de La Huerta Orgánica da 3-4 meses (90-120 d) contra nuestros 60-80. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": 8,
+      "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "enana": {
+      "nombre_comun": "Chaucha enana",
+      "derivacion": "INTA/ProHuerta separa enanas de enrame en la siembra y en el ciclo. Los 60 días parten el 60-80 que el padre ya publica. El tutor de 2 a 2,5 m lo pide Huerta de Cero «para las variedades de enrame», así que la enana no lo lleva.",
+      "dias_a_cosecha": {
+        "min": 60,
+        "max": 60
+      },
+      "cuidados_quita": [
+        "tutorado"
+      ]
+    },
+    "de-enrame": {
+      "nombre_comun": "Chaucha de enrame",
+      "derivacion": "La otra mitad de la misma frase de INTA/ProHuerta: 70-80 días y siembra a golpe. Conserva el tutorado, que es el que le corresponde.",
+      "dias_a_cosecha": {
+        "min": 70,
+        "max": 80
+      }
+    }
+  }
   },
   "arveja": {
     "calendario": {
@@ -3668,7 +3876,28 @@
         "texto": "No más de 5 cm. Más honda, en suelo frío o pesado, se pudre antes de salir.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "revisar": [
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "enana": {
+      "nombre_comun": "Arveja enana",
+      "derivacion": "INTA/ProHuerta acota el tutor a las trepadoras: «colocar ramas o tutores/enrejado a las variedades trepadoras». La enana no entra en esa frase y queda sin ese cuidado; el texto se hereda entero.",
+      "cuidados_quita": [
+        "tutorado"
+      ]
+    },
+    "de-enrame": {
+      "nombre_comun": "Arveja de enrame",
+      "derivacion": "Es la trepadora a la que INTA/ProHuerta le pide ramas o enrejado. Conserva el tutorado."
+    }
+  }
   },
   "haba": {
     "calendario": {
@@ -3736,7 +3965,8 @@
       ]
     },
     "revisar": [
-      "CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar."
+      "CONFLICTO en la fuente: el ajo figura como buena asociación (repelente de pulgón en entresurco) y también desaconsejado para producción de grano. Se dejó en buenas; revisar.",
+      "Pretratamiento pendiente (#29): el kit impreso de La Huerta Orgánica manda hidratar la semilla antes de sembrar en las que llama \"semillas grandes\" (habas, acelga, maíz, poroto, arveja, espinaca), y su calendario repite \"Hidratar 4-6 hs antes\". NO entró como `germinacion_pistas`: una pista hereda las fuentes del campo de la base que declara en `de`, y ningún campo de esta especie habla de hidratar — apoyarla en `forma_siembra` le colgaría al consejo fuentes que nunca lo dijeron. Además el consejo es sólo de papel: no está publicado en lahuertasemillas.com/tecnicas-de-siembra. Depende de #32."
     ],
     "temperaturas": {
       "germinacion": {
@@ -3980,7 +4210,38 @@
         "texto": "Mezclar la semilla con arena seca (una parte de semilla por tres de arena) la reparte pareja y evita el mechón.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": 4,
+      "plantas_por_contenedor": 2
+    },
+  "variedades_derivado": {
+    "chantenay-nantesa": {
+      "nombre_comun": "Zanahoria Chantenay-Nantesa",
+      "derivacion": "Los tres números salen de la misma frase de cosecha del padre y parten su 50-150: no hay ninguna cuenta nueva. Confianza 5 y no 7 porque la separación por variedad la sostienen fuentes más flojas que INTA.",
+      "dias_a_cosecha": {
+        "min": 110,
+        "max": 110
+      }
+    },
+    "criolla": {
+      "nombre_comun": "Zanahoria Criolla",
+      "derivacion": "El extremo lento del rango del padre, de la misma frase y con la misma fuente floja que la Chantenay-Nantesa.",
+      "dias_a_cosecha": {
+        "min": 150,
+        "max": 150
+      }
+    },
+    "corta": {
+      "nombre_comun": "Zanahoria corta",
+      "derivacion": "El extremo rápido del rango del padre. Portal Frutícola la da en 50-90 días, y ese 50 ya era el mínimo que el padre publicaba.",
+      "dias_a_cosecha": {
+        "min": 50,
+        "max": 90
+      }
+    }
+  }
   },
   "remolacha": {
     "calendario": {
@@ -4075,7 +4336,8 @@
       ]
     },
     "revisar": [
-      "Cosecha: Fecoagro inicia ~60 días (primaverales); INTA 100-130. Rango unificado 60-130."
+      "Cosecha: Fecoagro inicia ~60 días (primaverales); INTA 100-130. Rango unificado 60-130.",
+      "Cosecha: el kit impreso de La Huerta Orgánica da 5-6 meses (150-180 d) contra nuestros 60-130. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ],
     "temperaturas": {
       "germinacion": {
@@ -4140,7 +4402,13 @@
         "texto": "Lo que sembraste es un glomérulo con varias semillas adentro: de cada uno salen varias plantitas y después hay que ralear.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "rabanito": {
     "calendario": {
@@ -4295,7 +4563,13 @@
         "texto": "A 1 o 1,5 cm. Es de las más fáciles y rápidas: si no salió, mirá el agua primero.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "parejo",
+    "maceta_medidas": {
+      "profundidad_min_cm": 15,
+      "litros_min": 4,
+      "plantas_por_contenedor": 3
+    }
   },
   "papa": {
     "calendario": {
@@ -4442,7 +4716,12 @@
         "texto": "La papa **no germina**: brota de las yemas del tubérculo, y eso depende de en qué estado fisiológico venía. La emergencia puede tardar de 2 a 4 semanas.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 45,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "batata": {
     "calendario": {
@@ -4952,6 +5231,9 @@
         "texto": "De 10 a 14 días para emerger, y después unos dos meses en el semillero. Es de las más lentas de la huerta.",
         "de": "germinacion"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 6-7 meses (180-210 d) contra nuestros 120-150. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "cebolla-de-verdeo": {
@@ -5070,7 +5352,12 @@
         "texto": "De 7 a 15 días para emerger, igual que la cebolla. No es rápida.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 15,
+      "litros_min": 4,
+      "plantas_por_contenedor": 3
+    }
   },
   "albahaca": {
     "calendario": {
@@ -5180,6 +5467,9 @@
         "texto": "Grano fino: siembra superficial, apenas cubierta.",
         "de": "forma_siembra"
       }
+    ],
+    "revisar": [
+      "Cosecha: el kit impreso de La Huerta Orgánica da 2,5 meses (~75 d) contra nuestros 90-100 — acá el kit es más CORTO, al revés que en las otras siete. No corrige: el kit no dice desde dónde cuenta el ciclo y sus tiempos están declarados para la región centro-norte. Divergencia registrada (#21 · #29)."
     ]
   },
   "perejil": {
@@ -5300,7 +5590,12 @@
         "texto": "No más de 1 cm. Y con esa profundidad, el riego tiene que ser suave para no destaparla.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": null,
+      "litros_min": 4,
+      "plantas_por_contenedor": 3
+    }
   },
   "cilantro": {
     "calendario": {
@@ -5390,12 +5685,6 @@
         "que_hacer": "Ponelo donde tenga sol de la mañana y sombra al mediodía.",
         "por_que": "Arriba de unos 21 °C se va a flor enseguida.",
         "de": "trucos"
-      },
-      {
-        "tipo": "riego",
-        "cuando": "Todo el ciclo",
-        "que_hacer": "Suelo húmedo, sin encharcar.",
-        "de": "trucos"
       }
     ],
     "germinacion_pistas": [
@@ -5409,7 +5698,8 @@
         "texto": "Alrededor de 15 días, y no salen todas juntas. Es normal.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "parejo"
   },
   "oregano": {
     "calendario": {
@@ -5524,7 +5814,8 @@
         "texto": "Casi nadie lo hace de semilla: por división de mata o esqueje sale más rápido y todas las plantas salen iguales.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "escaso"
   },
   "tomillo": {
     "calendario": {
@@ -5652,7 +5943,8 @@
         "texto": "De semilla es lenta e irregular —2 a 4 semanas— y la semilla es diminuta. Por esqueje o división de mata es mucho más seguro.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "escaso"
   },
   "romero": {
     "calendario": {
@@ -5771,7 +6063,8 @@
         "texto": "De semilla germina lento y disparejo. Por gajo es rápido, sale igual a la planta madre y es lo que se recomienda para huerta.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "escaso"
   },
   "salvia": {
     "calendario": {
@@ -5873,7 +6166,8 @@
         "por_que": "Con los años se pone leñosa.",
         "de": "trucos"
       }
-    ]
+    ],
+    "riego_regimen": "escaso"
   },
   "menta": {
     "calendario": {
@@ -6112,7 +6406,8 @@
         "texto": "Lenta y despareja: 2 a 3 semanas, y ni siquiera todas a la vez.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "parejo"
   },
   "ciboulette": {
     "calendario": {
@@ -6228,12 +6523,6 @@
         "que_hacer": "Partí la mata.",
         "por_que": "Arranca más rápido y más vigorosa que de semilla.",
         "de": "trucos"
-      },
-      {
-        "tipo": "riego",
-        "cuando": "Todo el ciclo",
-        "que_hacer": "Humedad constante, sin encharcar.",
-        "de": "trucos"
       }
     ],
     "germinacion_pistas": [
@@ -6242,7 +6531,13 @@
         "texto": "Entre 1 y 3 cm, en almácigo o directa en línea.",
         "de": "forma_siembra"
       }
-    ]
+    ],
+    "riego_regimen": "constante",
+    "maceta_medidas": {
+      "profundidad_min_cm": 15,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "laurel": {
     "calendario": {
@@ -6351,7 +6646,8 @@
         "texto": "De semilla tarda **semanas o meses** y es muy irregular. Por eso el laurel se hace por esqueje de una planta adulta.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "riego_regimen": "espaciado"
   },
   "eneldo": {
     "calendario": {
@@ -6449,6 +6745,12 @@
     },
     "cuidados": [
       {
+        "tipo": "raleo",
+        "cuando": "Si lo sembraste al voleo, con plantitas de 10 cm",
+        "que_hacer": "Sacá las de más y dejale lugar a cada una.",
+        "de": "transplante"
+      },
+      {
         "tipo": "desmalezar",
         "cuando": "Todo el ciclo",
         "que_hacer": "Mantenelo limpio de yuyos.",
@@ -6468,7 +6770,12 @@
         "texto": "De 10 a 21 días. A la semana todavía no hay nada que ver.",
         "de": "germinacion"
       }
-    ]
+    ],
+    "maceta_medidas": {
+      "profundidad_min_cm": 30,
+      "litros_min": null,
+      "plantas_por_contenedor": null
+    }
   },
   "calendula": {
     "calendario": {
@@ -6777,6 +7084,12 @@
       "confianza": 6
     },
     "cuidados": [
+      {
+        "tipo": "raleo",
+        "cuando": "Después de que nacen",
+        "que_hacer": "Sacá las de más hasta dejar 45-60 cm entre planta y planta.",
+        "de": "forma_siembra"
+      },
       {
         "tipo": "contener",
         "cuando": "Al final de la temporada",
@@ -7235,6 +7548,7 @@
         "por_que": "La mantiene compacta y con brotes fuertes.",
         "de": "trucos"
       }
-    ]
+    ],
+    "riego_regimen": "escaso"
   }
 }
