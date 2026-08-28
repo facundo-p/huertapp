@@ -41,11 +41,14 @@ async function refrescar() {
 const cargaInicial = unaVez(async () => {
   try {
     await refrescar()
+    // el conteo del momento del arranque: leído al anotar, dos awaits más
+    // tarde, podía caer después de una siembra y decir otra cosa. Pasó en CI.
+    const plantas = estado.plantas.length
     const { baseVersion, faltan } = await db.radiografia()
     anotar('arranque', {
       baseVersion,
       faltan,
-      plantas: estado.plantas.length,
+      plantas,
       persistente: await db.estaPersistido(),
     })
   } catch (e) {
