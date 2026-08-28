@@ -207,3 +207,15 @@ describe('qué sembrar ahora', () => {
     expect(paraSembrarAhora(especies, 'conurbano', HOY, 5)).toHaveLength(5)
   })
 })
+
+describe('expuestasAHelada', () => {
+  it('junta las que la helada mata, sin contar almácigos bajo techo', async () => {
+    const { expuestasAHelada } = await import('../src/lib/tareas/engine')
+    const plantas = [
+      planta({ slug: 'tomate' }), // muere
+      planta({ slug: 'albahaca', id: 'p-alba', etapa: 'almacigo' }), // muere, pero en almácigo
+      planta({ slug: 'lechuga', id: 'p-lechu' }), // tolera
+    ]
+    expect(expuestasAHelada(plantas, porSlug).map((p) => p.slug)).toEqual(['tomate'])
+  })
+})

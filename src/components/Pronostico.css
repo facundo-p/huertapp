@@ -1,0 +1,174 @@
+/* La semana en Hoy: franja de días, alertas y detalle. Colores solo de theme.css. */
+
+.pronostico__franja {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--esp-1);
+}
+
+.pronostico__dia {
+  width: 100%;
+  min-height: var(--tap-min);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: var(--esp-2) 0;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--radio-s);
+  background: var(--papel-alto);
+  color: var(--tinta);
+  font: inherit;
+  cursor: pointer;
+}
+
+.pronostico__dia-nombre {
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.pronostico__dia-icono {
+  color: var(--tinta-media);
+  display: flex;
+}
+
+.pronostico__dia-max {
+  font-weight: 700;
+  font-size: var(--texto-s);
+}
+
+.pronostico__dia-min {
+  font-size: var(--texto-xs);
+  color: var(--tinta-media);
+}
+
+.pronostico__dia-lluvia {
+  min-height: 13px;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  color: var(--suelo-humedo);
+}
+
+/* ── alertas ── */
+
+.pronostico__avisos {
+  list-style: none;
+  margin: 0 0 var(--esp-3);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.pronostico__aviso {
+  display: flex;
+  gap: var(--esp-3);
+  align-items: flex-start;
+  padding: var(--esp-3);
+  border: 1.5px solid var(--linea);
+  border-radius: var(--radio-m);
+  background: var(--papel-alto);
+}
+
+.pronostico__aviso-icono {
+  display: flex;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pronostico__aviso.es-helada {
+  background: var(--peligro-fondo);
+  border-color: var(--peligro);
+}
+.pronostico__aviso.es-helada .pronostico__aviso-icono {
+  color: var(--peligro);
+}
+
+.pronostico__aviso.es-calor {
+  background: var(--posible-fondo);
+  border-color: var(--sol);
+}
+/* --sol es solo relleno: el ícono va en un marrón que sí contrasta */
+.pronostico__aviso.es-calor .pronostico__aviso-icono {
+  color: var(--conf-media);
+}
+
+.pronostico__aviso.es-lluvia .pronostico__aviso-icono {
+  color: var(--suelo-humedo);
+}
+
+.pronostico__aviso-titulo {
+  margin: 0;
+  font-weight: 700;
+}
+
+.pronostico__aviso-detalle {
+  margin: 2px 0 0;
+  font-size: var(--texto-s);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
+/* ── estados y letra chica ── */
+
+.pronostico__estado {
+  margin: 0;
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}
+
+.pronostico__estado.es-viejo {
+  margin-top: var(--esp-2);
+  color: var(--conf-media);
+}
+
+.pronostico__fuente {
+  margin: var(--esp-1) 0 0;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--tinta-suave);
+}
+
+/* ── detalle del día (hoja) ── */
+
+.pronostico__detalle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--esp-2) var(--esp-4);
+  margin: 0;
+}
+
+.pronostico__detalle dt {
+  color: var(--tinta-media);
+}
+
+.pronostico__detalle dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.pronostico__detalle dd.es-sin-dato {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--tinta-suave);
+}
+
+.pronostico__atribucion {
+  margin: var(--esp-4) 0 0;
+  font-size: var(--texto-xs);
+  color: var(--tinta-suave);
+}
+
+/* sobre los fondos de color de las alertas, la tinta suave baja de AA */
+.pronostico__aviso .pronostico__fuente {
+  color: var(--tinta-media);
+}

@@ -154,3 +154,22 @@ describe('validación del backup', () => {
     }
   })
 })
+
+describe('backup y ubicación del pronóstico', () => {
+  const base = {
+    app: 'huerta-gba',
+    version: VERSION_BACKUP,
+    exportado: '2026-08-15T12:00:00.000Z',
+    zona: 'conurbano',
+    plantas: [],
+    diario: [],
+    ubicaciones: [],
+    fotos: [],
+  }
+
+  it('la ubicación del clima viaja en el backup si existe, y no molesta si falta', () => {
+    const ubicacionClima = { modo: 'zona', lat: -34.82, lon: -58.54, etiqueta: 'cerca de Ezeiza' }
+    expect(validar({ ...base, ubicacionClima }).ubicacionClima).toEqual(ubicacionClima)
+    expect(validar(base).ubicacionClima).toBeUndefined()
+  })
+})

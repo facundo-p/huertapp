@@ -1,8 +1,11 @@
 # Huerta GBA — cómo trabajar en este repo
 
 PWA offline-first para una huerta casera en el Gran Buenos Aires. Local-first:
-sin backend, sin cuentas, sin nube. Leé `README.md` para qué es y `BRIEF.md`
-para el encargo original.
+sin backend, sin cuentas. Lo único que puede salir del aparato es, si la
+persona activa el pronóstico en Ajustes, el pedido directo de su teléfono a
+Open-Meteo (CC BY 4.0) — encapsulado tras `src/lib/pronostico/proveedor.ts`.
+Sin eso, cero red. Leé `README.md` para qué es y `BRIEF.md` para el encargo
+original.
 
 ## Las cuatro reglas que no se negocian
 
