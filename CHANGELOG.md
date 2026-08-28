@@ -22,6 +22,10 @@ Qué significa cada parte en este proyecto:
 > `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
 > versión nueva con su fecha.
 
+## [Sin publicar]
+
+---
+
 ## [1.2.0] — 2026-08-28
 
 Las versiones anteriores hablaban de plantas en general. Ésta se mete con **tu**
