@@ -239,6 +239,14 @@ test('la bitácora sobrevive a que se borre IndexedDB y anota la huerta vacía',
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
   await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
 
+  // Un arranque CON plantas, que es el registro que la última aserción exige.
+  // Sin esto el test dependía de una carrera: el apunte solo decía plantas > 0
+  // si el conteo llegaba tarde, después de que la demo sembrara. En CI llegaba
+  // temprano y el test caía (pasó acá y en el push a staging del 2026-08-22).
+  await page.reload()
+  await page.waitForLoadState('networkidle')
+  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+
   const leerBitacora = () =>
     page.evaluate(() => {
       const crudo = localStorage.getItem('huerta-bitacora')
