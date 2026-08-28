@@ -3,6 +3,13 @@ import * as db from './db'
 import { anotar, nombreError } from './bitacora'
 import { unaVez } from './reintento'
 import { hoyISO, nuevoId, type Etapa, type EntradaDiario, type Planta, type Ubicacion } from './tipos'
+import {
+  dividirTanda,
+  moverTanda,
+  textoConteo,
+  textosTrasplanteParcial,
+  textoTrasplanteEntero,
+} from './tanda'
 import type { Metodo } from '../data/types'
 
 // Store fino sobre IndexedDB: nada de Redux para cuatro listas. Se lee con
@@ -105,6 +112,7 @@ export interface AltaPlanta {
   ubicacionId?: string
   sembrada?: string
   metodo: Metodo | null
+  cantidad?: number
   notas?: string
 }
 
@@ -124,6 +132,7 @@ export async function agregarPlanta(alta: AltaPlanta): Promise<Planta> {
     metodo: alta.metodo,
     etapa: etapaInicial(alta.metodo),
     etapaDesde: sembrada,
+    cantidad: alta.cantidad,
     notas: alta.notas?.trim() || undefined,
     creada: new Date().toISOString(),
   }
@@ -152,6 +161,79 @@ export async function marcarGerminada(p: Planta, fecha = hoyISO()) {
 export async function cambiarEtapa(p: Planta, etapa: Etapa) {
   await escribiendo(async () => {
     await db.guardarPlanta({ ...p, etapa, etapaDesde: hoyISO() })
+    await refrescar()
+  })
+}
+
+// ── Tandas: trasplantes y cantidades ─────────────────────────────────────────
+// El diario es la traza de estos movimientos: cada acción escribe la suya.
+
+const nombreUbicacion = (id?: string) => estado.ubicaciones.find((u) => u.id === id)?.nombre
+
+const entradaDe = (plantaId: string, fecha: string, tipo: EntradaDiario['tipo'], texto: string): EntradaDiario => ({
+  id: nuevoId(),
+  plantaId,
+  fecha,
+  tipo,
+  texto,
+  fotoIds: [],
+  creada: new Date().toISOString(),
+})
+
+export interface OpcionesTrasplante {
+  fecha?: string
+  ubicacionId?: string
+  cuantas?: number
+}
+
+/** Trasplanta una parte: la parte pasa a su propia tarjeta, la madre queda con el resto. */
+export async function trasplantarParte(madre: Planta, o: OpcionesTrasplante = {}): Promise<Planta> {
+  const fecha = o.fecha ?? hoyISO()
+  const dividida = dividirTanda(madre, { fecha, ubicacionId: o.ubicacionId, cuantas: o.cuantas })
+  const textos = textosTrasplanteParcial({
+    cuantas: o.cuantas,
+    nombreDestino: nombreUbicacion(o.ubicacionId),
+    nombreOrigen: nombreUbicacion(madre.ubicacionId),
+  })
+  await escribiendo(async () => {
+    await db.guardarLote({
+      plantas: [dividida.madre, dividida.hija],
+      entradas: [
+        entradaDe(madre.id, fecha, 'trasplante', textos.madre),
+        entradaDe(dividida.hija.id, fecha, 'trasplante', textos.hija),
+      ],
+    })
+    await refrescar()
+  })
+  return dividida.hija
+}
+
+/** Trasplanta o muda la tarjeta entera, con fecha y lugar elegibles. */
+export async function trasplantarTanda(p: Planta, o: Omit<OpcionesTrasplante, 'cuantas'> = {}) {
+  const fecha = o.fecha ?? hoyISO()
+  const movida = moverTanda(p, { fecha, ubicacionId: o.ubicacionId })
+  const texto = textoTrasplanteEntero({
+    cambioEtapa: movida.etapa !== p.etapa,
+    nombreDestino: nombreUbicacion(o.ubicacionId),
+  })
+  await escribiendo(async () => {
+    await db.guardarLote({
+      plantas: [movida],
+      entradas: [entradaDe(p.id, fecha, 'trasplante', texto)],
+    })
+    await refrescar()
+  })
+}
+
+/** La cuenta cambió: germinaron, raleaste o se perdieron. Queda anotado solo. */
+export async function cambiarCantidad(p: Planta, cantidad: number, quePaso?: string) {
+  const base = textoConteo(p.cantidad, cantidad)
+  const extra = quePaso?.trim()
+  await escribiendo(async () => {
+    await db.guardarLote({
+      plantas: [{ ...p, cantidad }],
+      entradas: [entradaDe(p.id, hoyISO(), 'nota', extra ? `${base} ${extra}` : base)],
+    })
     await refrescar()
   })
 }
