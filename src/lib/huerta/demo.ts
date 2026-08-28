@@ -52,8 +52,20 @@ async function fotoDeMentira(tono: number): Promise<Foto> {
 
 export async function sembrarDemo(): Promise<void> {
   const hoy = hoyISO()
-  const balcon = await agregarUbicacion('Macetas del balcón', 'maceta')
-  const bancal = await agregarUbicacion('Bancal del fondo', 'bancal')
+  const balcon = await agregarUbicacion({
+    nombre: 'Macetas del balcón',
+    tipo: 'maceta',
+    luz: 'media_sombra',
+    proteccion: 'resguardada',
+    medidas: { profundidad: 25, volumen: 20 },
+  })
+  const bancal = await agregarUbicacion({
+    nombre: 'Bancal del fondo',
+    tipo: 'bancal_elevado',
+    luz: 'pleno_sol',
+    proteccion: 'expuesta',
+    medidas: { ancho: 120, largo: 240, profundidad: 30 },
+  })
 
   // la nota de abajo cuenta la historia: sembró 10, germinaron 7
   const tomate = await agregarPlanta({

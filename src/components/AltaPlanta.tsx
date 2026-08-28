@@ -3,7 +3,7 @@ import { BottomSheet } from './BottomSheet'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, agregarPlanta, sinRomper } from '../lib/huerta/store'
-import { SelectorUbicacion, resolverUbicacion } from './SelectorUbicacion'
+import { SelectorUbicacion } from './SelectorUbicacion'
 import { compatibilidad } from '../lib/huerta/compat'
 import { aCantidad } from '../lib/huerta/tanda'
 import { hoyISO } from '../lib/huerta/tipos'
@@ -36,7 +36,6 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   const [apodo, setApodo] = useState('')
   const [sembrada, setSembrada] = useState(hoyISO())
   const [ubicacionId, setUbicacionId] = useState<string>('')
-  const [nuevaUbicacion, setNuevaUbicacion] = useState('')
   const [metodo, setMetodo] = useState<Metodo | null>(null)
   const [cuantas, setCuantas] = useState('')
   const [guardando, setGuardando] = useState(false)
@@ -76,7 +75,6 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
     setApodo('')
     setSembrada(hoyISO())
     setUbicacionId('')
-    setNuevaUbicacion('')
     setMetodo(null)
     setCuantas('')
   }
@@ -88,7 +86,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
       const p = await agregarPlanta({
         slug: especieSlug,
         apodo,
-        ubicacionId: await resolverUbicacion(ubicacionId, nuevaUbicacion),
+        ubicacionId: ubicacionId || undefined,
         sembrada,
         metodo: metodoFinal ?? null,
         cantidad: aCantidad(cuantas),
@@ -219,13 +217,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
             <label className="alta__label" htmlFor="alta-ubi">
               ¿Dónde?
             </label>
-            <SelectorUbicacion
-              id="alta-ubi"
-              valor={ubicacionId}
-              onValor={setUbicacionId}
-              nombreNuevo={nuevaUbicacion}
-              onNombreNuevo={setNuevaUbicacion}
-            />
+            <SelectorUbicacion id="alta-ubi" valor={ubicacionId} onValor={setUbicacionId} />
           </div>
 
           {compat && (

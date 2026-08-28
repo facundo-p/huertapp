@@ -196,6 +196,30 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // la ficha del lugar en edición: el bancal de la demo trae medidas y el
+    // volumen calculado, que es lo que hay que mirar
+    nombre: 'lugar-editar',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: 'Editar Bancal del fondo' }).click()
+      await page.locator('dialog.hoja[open]').waitFor()
+    },
+  },
+  {
+    // "un lugar nuevo" desde el alta: la ficha se apila sobre la hoja del alta
+    nombre: 'lugar-nuevo-desde-alta',
+    ruta: '/#/explorar/rucula',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /Agregar a mi huerta/ }).click()
+      await page.waitForTimeout(400)
+      await page.locator('#alta-ubi').selectOption('__nueva')
+      await page.getByRole('heading', { name: 'Un lugar nuevo' }).waitFor()
+    },
+  },
+  {
     nombre: 'germinacion-demorada',
     ruta: '/#/huerta',
     fullPage: true,

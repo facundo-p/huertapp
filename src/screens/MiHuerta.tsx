@@ -5,12 +5,13 @@ import { EmptyState } from '../components/EmptyState'
 import { NoSePudoLeer } from '../components/AvisoDatos'
 import { CycleProgress } from '../components/CycleProgress'
 import { AltaPlanta } from '../components/AltaPlanta'
+import { FichaUbicacion } from '../components/FichaUbicacion'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
-import { ETAPA_INFO, hoyISO, type Planta } from '../lib/huerta/tipos'
+import { ETAPA_INFO, hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
 import { cantidadCorta, resumenHuerta } from '../lib/huerta/tanda'
 import { estimar, textoHito } from '../lib/huerta/estimar'
 import { germinacion } from '../lib/huerta/germinacion'
@@ -25,6 +26,7 @@ import {
 import {
   IconoAlerta,
   IconoDesplegar,
+  IconoEditar,
   IconoGrupo,
   IconoHuerta,
   IconoReloj,
@@ -39,6 +41,7 @@ export function MiHuerta() {
   const { plantas, ubicaciones, cargado, errorCarga } = useHuerta()
   const estadoTareas = useEstadoTareas()
   const [abrirAlta, setAbrirAlta] = useState(false)
+  const [editando, setEditando] = useState<Ubicacion | null>(null)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
 
   const activas = useMemo(
@@ -142,23 +145,36 @@ export function MiHuerta() {
 
             return (
               <section key={ubiId || 'sin'} className="huerta__seccion">
-                <h2 className="huerta__ubicacion">
-                  <button
-                    className="huerta__plegar"
-                    aria-expanded={!cerrada}
-                    aria-controls={panel}
-                    onClick={() => guardar(alternarUbicacion(plegado, ubiId))}
-                  >
-                    <IconoDesplegar
-                      size={18}
-                      className={`galon ${cerrada ? '' : 'es-abierto'}`}
-                    />
-                    <span className="huerta__lugar">{ubi ? ubi.nombre : 'Sin lugar asignado'}</span>
-                    <span className="huerta__cuenta">{lista.length}</span>
-                    {/* plegar una ubicación no puede esconder que algo pide atención */}
-                    {cerrada && alertas > 0 && <Alertas cuantas={alertas} />}
-                  </button>
-                </h2>
+                {/* el lápiz va fuera del h2: adentro le sumaría "Editar…" al
+                    nombre del encabezado cada vez que se navega por títulos */}
+                <div className="huerta__fila">
+                  <h2 className="huerta__ubicacion">
+                    <button
+                      className="huerta__plegar"
+                      aria-expanded={!cerrada}
+                      aria-controls={panel}
+                      onClick={() => guardar(alternarUbicacion(plegado, ubiId))}
+                    >
+                      <IconoDesplegar
+                        size={18}
+                        className={`galon ${cerrada ? '' : 'es-abierto'}`}
+                      />
+                      <span className="huerta__lugar">{ubi ? ubi.nombre : 'Sin lugar asignado'}</span>
+                      <span className="huerta__cuenta">{lista.length}</span>
+                      {/* plegar una ubicación no puede esconder que algo pide atención */}
+                      {cerrada && alertas > 0 && <Alertas cuantas={alertas} />}
+                    </button>
+                  </h2>
+                  {ubi && (
+                    <button
+                      className="huerta__editar"
+                      aria-label={`Editar ${ubi.nombre}`}
+                      onClick={() => setEditando(ubi)}
+                    >
+                      <IconoEditar size={18} />
+                    </button>
+                  )}
+                </div>
 
                 <div id={panel} className="huerta__grilla" hidden={cerrada}>
                   {lista.map((p, i) => (
@@ -189,6 +205,11 @@ export function MiHuerta() {
       </div>
 
       <AltaPlanta abierto={abrirAlta} onCerrar={() => setAbrirAlta(false)} />
+      <FichaUbicacion
+        abierto={!!editando}
+        ubicacion={editando ?? undefined}
+        onCerrar={() => setEditando(null)}
+      />
     </div>
   )
 }

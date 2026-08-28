@@ -248,13 +248,22 @@ export async function borrarPlanta(id: string) {
   })
 }
 
-export async function agregarUbicacion(nombre: string, tipo: Ubicacion['tipo']): Promise<Ubicacion> {
-  const u: Ubicacion = { id: nuevoId(), nombre: nombre.trim(), tipo, creada: new Date().toISOString() }
+export type DatosUbicacion = Omit<Ubicacion, 'id' | 'creada'>
+
+export async function agregarUbicacion(datos: DatosUbicacion): Promise<Ubicacion> {
+  const u: Ubicacion = { ...datos, nombre: datos.nombre.trim(), id: nuevoId(), creada: new Date().toISOString() }
   await escribiendo(async () => {
     await db.guardarUbicacion(u)
     await refrescar()
   })
   return u
+}
+
+export async function actualizarUbicacion(u: Ubicacion) {
+  await escribiendo(async () => {
+    await db.guardarUbicacion({ ...u, nombre: u.nombre.trim() })
+    await refrescar()
+  })
 }
 
 export async function borrarUbicacion(id: string) {

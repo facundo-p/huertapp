@@ -4,11 +4,28 @@
   gap: var(--esp-2);
 }
 
-/* El h2 queda como encabezado y el botón adentro se lleva toda la fila: así la
-   pantalla se sigue navegando por encabezados y el target táctil es la línea
-   entera, no una flechita. */
-.huerta__ubicacion {
+/* El h2 queda como encabezado y el botón adentro se lleva casi toda la fila:
+   así la pantalla se sigue navegando por encabezados y el target táctil es la
+   línea entera, no una flechita. El lápiz comparte la fila desde afuera. */
+.huerta__fila {
+  display: flex;
+  align-items: center;
   margin-top: var(--esp-2);
+}
+
+.huerta__ubicacion {
+  flex: 1;
+  min-width: 0;
+}
+
+.huerta__editar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-min);
+  min-height: var(--tap-min);
+  color: var(--tinta-suave);
 }
 
 .huerta__plegar {
