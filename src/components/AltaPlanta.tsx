@@ -34,13 +34,16 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   const [elegida, setElegida] = useState<string | undefined>(slug)
   const [busqueda, setBusqueda] = useState('')
   const [apodo, setApodo] = useState('')
+  const [variedad, setVariedad] = useState('')
   const [sembrada, setSembrada] = useState(hoyISO())
   const [ubicacionId, setUbicacionId] = useState<string>('')
   const [metodo, setMetodo] = useState<Metodo | null>(null)
   const [cuantas, setCuantas] = useState('')
   const [guardando, setGuardando] = useState(false)
 
-  const especieSlug = slug ?? elegida
+  // `elegida` primero y no `slug`: viniendo de una ficha, elegir una variedad
+  // tiene que poder pisar a la especie de la que se abrió la hoja.
+  const especieSlug = elegida ?? slug
   const especie = especieSlug ? indice?.porSlug.get(especieSlug) : undefined
 
   // el método sugerido sale del calendario para el mes de la fecha elegida
@@ -70,9 +73,10 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   }, [especie, indice, ubicacionId, plantas])
 
   function limpiar() {
-    setElegida(undefined)
+    setElegida(slug)
     setBusqueda('')
     setApodo('')
+    setVariedad('')
     setSembrada(hoyISO())
     setUbicacionId('')
     setMetodo(null)
@@ -86,6 +90,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
       const p = await agregarPlanta({
         slug: especieSlug,
         apodo,
+        variedad,
         ubicacionId: ubicacionId || undefined,
         sembrada,
         metodo: metodoFinal ?? null,
@@ -157,6 +162,33 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
               <span>
                 Según el calendario, {nombreDecada(decadaHoy)} no es época de sembrarla en tu zona. La
                 podés cargar igual: la huerta es tuya.
+              </span>
+            </p>
+          )}
+
+          {especie.variedades.length > 0 && (
+            <div className="alta__campo">
+              <span className="alta__label">¿Qué variedad?</span>
+              <div className="alta__variedades">
+                {especie.variedades.map((v) => (
+                  <button key={v.slug} className="alta__variedad" onClick={() => setElegida(v.slug)}>
+                    {v.nombre}
+                  </button>
+                ))}
+              </div>
+              <p className="alta__ayuda">
+                Si no sabés cuál es, seguí de largo: te vamos a dar los datos de la especie, que son
+                más amplios pero igual de ciertos.
+              </p>
+            </div>
+          )}
+
+          {especie.variedad_de && (
+            <p className="alta__aviso es-buena">
+              <IconoAlerta size={17} />
+              <span>
+                Cargás una <strong>{especie.nombre_comun.toLowerCase()}</strong>. Los avisos van a
+                salir según esta variedad y no según la especie.
               </span>
             </p>
           )}
@@ -258,6 +290,22 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
               value={apodo}
               onChange={(ev) => setApodo(ev.target.value)}
             />
+          </div>
+
+          {/* Para la variedad que no cambia el cultivo y por eso no está en el
+              catálogo. Es dato tuyo: no lleva fuente y no pretende tenerla. */}
+          <div className="alta__campo">
+            <label className="alta__label" htmlFor="alta-variedad">
+              Variedad <span className="alta__opcional">(opcional)</span>
+            </label>
+            <input
+              id="alta-variedad"
+              className="alta__input"
+              placeholder="Morada, genovesa, la del vivero…"
+              value={variedad}
+              onChange={(ev) => setVariedad(ev.target.value)}
+            />
+            <p className="alta__ayuda">Queda anotada en tu diario. Es dato tuyo, no del catálogo.</p>
           </div>
         </>
       )}

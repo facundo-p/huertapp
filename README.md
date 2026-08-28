@@ -8,8 +8,9 @@ ni nube: todo lo que cargás vive en tu aparato.
 
 Responde tres preguntas, que son las que uno se hace con tierra en las manos:
 
-- **¿Qué siembro esta semana?** — el calendario de 55 especies, afinado a
-  períodos de 10 días y a tu zona del GBA.
+- **¿Qué siembro esta semana?** — el calendario de 55 especies —y de las
+  variedades que no se cultivan igual, como la coliflor temprana y la tardía—,
+  afinado a períodos de 10 días y a tu zona del GBA.
 - **¿Esto ya se trasplanta?** — tus plantas con sus fechas estimadas, y avisos
   cuando cada una entra en ventana.
 - **¿Qué le pasa a mi tomate?** — la ficha completa de cada especie, con las
@@ -116,8 +117,8 @@ INTA.
 
 La regla de oro que hace todo esto defendible: **el modelo solo puede recortar lo
 que dijeron las fuentes, nunca agregar**. Está verificada por un test sobre las
-55 especies × 3 zonas, y el build falla si alguna década se sale de los meses de
-origen. Cada recorte queda registrado con su regla y su motivo en
+66 entradas del catálogo × 3 zonas, y el build falla si alguna década se sale de los meses de
+origen, variedades incluidas. Cada recorte queda registrado con su regla y su motivo en
 `data/REVISION_CALENDARIO.md`.
 
 Precisión honesta del afinado: **±10 días**. Va declarado en el glosario y al pie
@@ -165,7 +166,7 @@ npm run preview      # sirve dist/ en :4173 — necesario para los e2e
 - Tipografías **self-hosted** (Nunito y Quicksand variables, subconjunto latin):
   nada por CDN, que rompería el offline.
 
-Números del build: **1200 KB** precacheados (el catálogo de 55 especies es la
+Números del build: **1516 KB** precacheados (el catálogo es la
 mayor parte), 1,6 s hasta contenido útil en la primera visita simulando un
 teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
 

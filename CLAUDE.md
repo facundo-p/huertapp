@@ -19,7 +19,7 @@ que parezca razonable. Cada dato conserva sus `fuentes` con URL y su
 **2. El modelo climático solo puede recortar lo que dijeron las fuentes, nunca
 agregar.** Las fuentes hablan en meses; el afinado a décadas puede quitar
 décadas dentro de esos meses, jamás poner una fuera. Hay un `throw` en runtime
-y un test sobre 55 especies × 3 zonas. Cuando el modelo contradice a una
+y un test sobre las 66 entradas × 3 zonas. Cuando el modelo contradice a una
 fuente, **gana la fuente y se corrige el modelo** — pasó cinco veces y las
 cinco el modelo estaba mal. Ver `.claude/LECCIONES.md`.
 

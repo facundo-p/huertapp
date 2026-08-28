@@ -42,7 +42,9 @@ export function Explorar() {
   const resultados = useMemo(() => {
     if (!indice) return []
     const texto = normalizar(busqueda.trim())
-    return indice.todas.filter((e) => {
+    // Sin búsqueda se ven las especies del catálogo; escribiendo aparecen
+    // también las variedades, que es cuando el nombre puntual importa.
+    return (texto ? indice.todas : indice.padres).filter((e) => {
       if (texto && !indice.textoBusqueda.get(e.slug)!.includes(texto)) return false
       if (soloAhora && !estadoSiembra(e, decadaHoy, zona)) return false
       if (grupo && e.grupo !== grupo) return false
@@ -118,7 +120,7 @@ export function Explorar() {
         )}
 
         <p className="explorar__cuenta" aria-live="polite">
-          {cargando ? 'Cargando el catálogo…' : `${resultados.length} de 55 especies`}
+          {cargando ? 'Cargando el catálogo…' : `${resultados.length} de ${indice!.padres.length} especies`}
         </p>
       </div>
 

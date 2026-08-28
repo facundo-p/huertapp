@@ -26,6 +26,26 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Ahora podés decir qué variedad plantaste, y los avisos salen por esa.**
+  Una coliflor temprana y una tardía no se siembran el mismo mes ni tardan lo
+  mismo en estar: la temprana va en octubre y está en tres meses, la tardía va
+  en marzo y tarda casi siete. Hasta ahora la app te decía lo mismo para las
+  dos, con un "entre 90 y 200 días" que no le servía a nadie.
+
+  Cuando sumás una planta de una especie con variedades, la app te pregunta
+  cuál. Si no sabés, seguís de largo y te da los datos de la especie, que son
+  más amplios pero igual de ciertos. En el Calendario, cada especie con
+  variedades se despliega para que veas las ventanas una al lado de la otra.
+
+  Son **once variedades** de coliflor, chaucha, arveja, tomate y zanahoria,
+  cada una con su fuente y su índice de confianza. Se separaron solo donde una
+  fuente dice que se cultivan distinto: el apio, el brócoli y la papa **no**
+  entraron, porque sus fuentes nombran la diferencia y no la cuantifican.
+
+- **Y si tu variedad no cambia el cultivo, la podés anotar igual.** Una albahaca
+  morada se cultiva como la común, así que no es una entrada del catálogo — pero
+  ahora podés escribirla al dar de alta la planta y te queda en el diario. Es
+  dato tuyo, y la app lo dice así: no lleva fuente porque no la necesita.
 - **Tus lugares ahora tienen ficha propia.** Una ubicación ya no es solo un
   nombre: le podés decir qué es (maceta, bancal elevado, bancal a tierra,
   almácigo), sus medidas en centímetros —en el bancal elevado el volumen de
@@ -138,6 +158,16 @@ Qué significa cada parte en este proyecto:
 
 ### Arreglado
 
+- **Un tomate determinado ya no te pide tutor ni desbrote.** Las fuentes acotan
+  las dos prácticas a las variedades indeterminadas, y la app se lo decía a todo
+  el mundo. Lo mismo con la chaucha y la arveja de mata baja, que no necesitan
+  el tutor de 2 metros que pide la de enrame.
+
+- **El aviso de "ya estaría para cosechar" se archivaba solo.** Se cerraba al
+  pasar el máximo estimado, así que en una especie de rango angosto duraba muy
+  poco: el melón son 100 días clavados y su aviso aparecía **un solo día**. Si
+  no abrías la app justo ese día, no te enterabas. Ahora aparece cuando entra en
+  fecha y se queda hasta que la marcás como cosechando.
 - **La ficha de una planta ahora cumple accesibilidad como el resto.** Tres
   botones quedaban abajo de los 44 px y el plazo de germinación no llegaba al
   contraste mínimo sobre el fondo del aviso. Se medían las siete pantallas

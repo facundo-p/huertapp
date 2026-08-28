@@ -121,7 +121,11 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
     }
 
     // ── cosecha ──────────────────────────────────────────────────────────────
-    if (est.cosecha?.enVentana && p.etapa !== 'cosechando') {
+    // Se dispara al pasar el mínimo estimado y queda hasta que la marques
+    // cosechando: un pendiente no se archiva solo. Con `enVentana` se cerraba
+    // al pasar el máximo, y en una especie de rango angosto —el melón son 100
+    // días clavados— el aviso duraba un día y no lo veía nadie.
+    if (est.cosecha && est.cosecha.faltan <= 0 && p.etapa !== 'cosechando') {
       tareas.push({
         id: `cosechar:${p.id}`,
         tipo: 'cosechar',

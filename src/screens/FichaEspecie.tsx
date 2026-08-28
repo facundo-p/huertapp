@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { DatoSection } from '../components/DatoSection'
 import { Cuidados } from '../components/Cuidados'
+import { Variedades } from '../components/Variedades'
 import { EscalaRiego } from '../components/EscalaRiego'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
 import { MonthStrip } from '../components/MonthStrip'
@@ -91,6 +92,26 @@ export function FichaEspecie() {
       <Header titulo={e.nombre_comun} sobretitulo={e.nombre_cientifico} volver />
 
       <div className="pantalla__cuerpo">
+        {/* Quien llegó por un link tiene que entender antes que nada que está
+            en una variedad y no en la especie, y de dónde sale lo que lee. */}
+        {e.variedad_de && (
+          <aside className="ficha__procedencia">
+            <p>
+              Variedad de{' '}
+              <Link to={`/explorar/${e.variedad_de}`}>
+                {indice!.porSlug.get(e.variedad_de)?.nombre_comun}
+              </Link>
+              . Lo que no figura acá abajo es igual que en la especie, con las mismas fuentes.
+            </p>
+            {e.variedad_derivacion && (
+              <p className="ficha__derivacion">
+                <span className="ficha__derivacion-etiqueta">Por qué difiere:</span>{' '}
+                {e.variedad_derivacion}
+              </p>
+            )}
+          </aside>
+        )}
+
         {/* --- resumen visual: los tres íconos con su nombre --- */}
         <div className="ficha__resumen etiqueta">
           <div className="ficha__categorias">
@@ -186,6 +207,7 @@ export function FichaEspecie() {
         <DatoSection titulo="Ciclo de vida" Icono={IconoFlor} dato={e.longevidad} />
 
         <Cuidados cuidados={e.cuidados} />
+        <Variedades refs={e.variedades} />
 
         <DatoSection
           titulo="Todos los trucos"

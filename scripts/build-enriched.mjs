@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { slugify } from './slugs.mjs'
 import { afinarEspecie } from './afinar-calendario.mjs'
+import { validarRecorte } from './validar-variedades.mjs'
 import { CLIMA, ZONAS, ZONA_DEFAULT, riesgoHelada, tempAire, tempMaxima, tempMinima } from './clima-gba.mjs'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -153,6 +154,113 @@ function resolverMaceta(slug, dato, medidas) {
   return { ...dato, medidas: m }
 }
 
+/**
+ * Una variedad se escribe como el conjunto de campos en los que difiere, y acá
+ * se expande a una especie completa que hereda el resto del padre. No es una
+ * copia: si mañana se corrige el padre, las derivadas se corrigen solas.
+ */
+function expandirVariedades(padre, citables, derivado) {
+  const refs = []
+  const hijas = []
+
+  for (const v of citables ?? []) {
+    const clave = slugify(v.nombre)
+    const donde = `${padre.slug} · variedad "${v.nombre}"`
+    const over = (derivado ?? {})[clave]
+    if (!over) {
+      errores.push(`${donde}: sin entrada "${clave}" en variedades_derivado del overlay`)
+      continue
+    }
+
+    const difiere = v.difiere_en ?? {}
+    const quita = over.cuidados_quita ?? []
+    // El diff es la decisión. Y a veces el diff es lo que la variedad NO lleva:
+    // al tomate determinado lo define que no se tutora, no un dato nuevo.
+    if (!Object.keys(difiere).length && !quita.length) {
+      errores.push(`${donde}: sin \`difiere_en\` ni \`cuidados_quita\`. Si no difiere en nada, no es una variedad aparte`)
+    }
+    for (const [campo, dato] of Object.entries(difiere)) {
+      if (!(campo in padre)) errores.push(`${donde}: \`${campo}\` no es un campo de la especie`)
+      else citable(`${donde} · ${campo}`, dato)
+    }
+    // Sacarle un cuidado a una variedad es un paso de razonamiento sobre el
+    // texto del padre, no una cita. Va declarado como tal o no va.
+    if (!over.derivacion) errores.push(`${donde}: le falta \`derivacion\``)
+
+    for (const t of quita) {
+      if (!padre.cuidados.some((c) => c.tipo === t)) {
+        errores.push(`${donde}: quita el cuidado "${t}", que el padre no tiene`)
+      }
+    }
+
+    // Un cuidado o una pista heredan las fuentes del campo del que salen (`de`).
+    // Si la variedad override ese campo, las de la variedad son otras: heredar
+    // las del padre dejaría un consejo citando una fuente que ya no es la suya.
+    const reanclar = (item) =>
+      difiere[item.de]
+        ? { ...item, fuentes: difiere[item.de].fuentes, confianza: difiere[item.de].confianza }
+        : item
+
+    const cuidados = padre.cuidados.filter((c) => !quita.includes(c.tipo)).map(reanclar)
+    if (!cuidados.length) errores.push(`${donde}: se queda sin ningún cuidado`)
+
+    const slug = `${padre.slug}-${clave}`
+    const nombreBase = padre.nombre_comun.split(/[/(]/)[0].trim()
+    const nombre_comun = over.nombre_comun ?? `${nombreBase} ${v.nombre.toLowerCase()}`
+
+    const hija = {
+      ...padre,
+      ...difiere,
+      slug,
+      nombre_comun,
+      variedad_de: padre.slug,
+      variedad: v.nombre,
+      variedad_derivacion: over.derivacion ?? null,
+      variedades: [],
+      cuidados,
+      germinacion_pistas: padre.germinacion_pistas.map(reanclar),
+      calendario: over.calendario ? { ...padre.calendario, ...over.calendario } : padre.calendario,
+      dias_a_cosecha: over.dias_a_cosecha ?? padre.dias_a_cosecha,
+      dias_a_trasplante: over.dias_a_trasplante ?? padre.dias_a_trasplante,
+      dias_germinacion: over.dias_germinacion ?? padre.dias_germinacion,
+    }
+    errores.push(...validarRecorte(padre, hija))
+
+    // El afinado corre igual que para cualquier especie: la derivada tiene su
+    // propio calendario y merece su propia lectura del clima.
+    const { decadas, afinado } = afinarEspecie(
+      slug,
+      hija.calendario,
+      hija.temperaturas,
+      hija.dias_germinacion,
+      hija.dias_a_cosecha,
+    )
+    hija.calendario = { ...hija.calendario, decadas, afinado }
+
+    hijas.push(hija)
+    refs.push({
+      slug,
+      nombre: v.nombre,
+      nombre_comun,
+      cambia: Object.entries(difiere).map(([campo, d]) => ({
+        campo,
+        valor: d.valor,
+        confianza: d.confianza,
+      })),
+      quita,
+      derivacion: over.derivacion ?? '',
+    })
+  }
+
+  for (const clave of Object.keys(derivado ?? {})) {
+    if (!(citables ?? []).some((v) => slugify(v.nombre) === clave)) {
+      errores.push(`${padre.slug}: variedades_derivado tiene "${clave}" sin variedad citable que lo respalde`)
+    }
+  }
+
+  return { refs, hijas }
+}
+
 for (const slug of Object.keys(overlay)) {
   if (!slugsFuente.has(slug)) errores.push(`Slug del overlay sin especie en la fuente: ${slug}`)
 }
@@ -164,11 +272,13 @@ if (errores.length) {
   process.exit(1)
 }
 
-const especies = fuente.especies.map((e) => {
+const especies = []
+for (const e of fuente.especies) {
   const slug = slugify(e.nombre_comun)
-  // riego_regimen y maceta_medidas se llaman distinto que sus campos de la base
-  // a propósito: el merge de abajo es shallow y una clave `riego` en el overlay
-  // pisaría el Dato entero, fuentes incluidas, sin que nada avise.
+  // riego_regimen, maceta_medidas y variedades_derivado se llaman distinto que
+  // sus campos de la base a propósito: el merge de abajo es shallow y una clave
+  // `riego` o `variedades` en el overlay pisaría el dato citable entero,
+  // fuentes incluidas, sin que nada avise.
   const {
     revisar,
     transplante_signos,
@@ -176,11 +286,15 @@ const especies = fuente.especies.map((e) => {
     germinacion_pistas,
     riego_regimen,
     maceta_medidas,
+    variedades_derivado,
     ...derivado
   } = overlay[slug]
+  // `variedades` sale acá porque lo consume expandirVariedades; en la especie
+  // queda la versión resuelta (refs), que es la que la ficha sabe dibujar.
+  const { variedades: variedadesCitables, ...campos } = e
   const base = transplante_signos
-    ? { ...e, transplante: { ...e.transplante, signos_listo: transplante_signos } }
-    : e
+    ? { ...campos, transplante: { ...campos.transplante, signos_listo: transplante_signos } }
+    : campos
 
   // El afinado a décadas se genera acá: no vive en el overlay hecho a mano
   // porque es derivado, y así siempre se puede regenerar desde cero.
@@ -192,7 +306,7 @@ const especies = fuente.especies.map((e) => {
     derivado.dias_a_cosecha,
   )
 
-  return {
+  const padre = {
     slug,
     ...base,
     ...derivado,
@@ -201,8 +315,16 @@ const especies = fuente.especies.map((e) => {
     germinacion_pistas: resolverPistas(slug, germinacion_pistas, base),
     riego: resolverRiego(slug, e.riego, riego_regimen),
     maceta: resolverMaceta(slug, e.maceta, maceta_medidas),
+    variedad_de: null,
+    variedad: null,
+    variedad_derivacion: null,
+    variedades: [],
   }
-})
+
+  const { refs, hijas } = expandirVariedades(padre, variedadesCitables, variedades_derivado)
+  padre.variedades = refs
+  especies.push(padre, ...hijas)
+}
 
 // segunda pasada: los cuidados se validan recién acá, cuando ya se resolvió
 // contra qué campo de la fuente se apoya cada uno
