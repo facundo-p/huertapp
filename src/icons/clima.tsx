@@ -140,14 +140,17 @@ export function IconoUbicacion(p: IconProps) {
   )
 }
 
-/** El ícono y el nombre de cada cielo del pronóstico. */
-export const CIELOS: Record<CieloDia, { Icono: ComponentType<IconProps>; nombre: string }> = {
-  sol: { Icono: IconoSol, nombre: 'despejado' },
-  'sol-nubes': { Icono: IconoSolYNubes, nombre: 'algo nublado' },
-  nublado: { Icono: IconoNube, nombre: 'nublado' },
-  niebla: { Icono: IconoNiebla, nombre: 'niebla' },
-  llovizna: { Icono: IconoLlovizna, nombre: 'llovizna' },
-  lluvia: { Icono: IconoLluvia, nombre: 'lluvia' },
-  tormenta: { Icono: IconoTormenta, nombre: 'tormenta' },
-  nieve: { Icono: IconoEscarcha, nombre: 'nieve o escarcha' },
+/** El ícono, el nombre y el color de cada cielo del pronóstico. */
+export const CIELOS: Record<
+  CieloDia,
+  { Icono: ComponentType<IconProps>; nombre: string; color: string }
+> = {
+  sol: { Icono: IconoSol, nombre: 'despejado', color: 'var(--cielo-sol)' },
+  'sol-nubes': { Icono: IconoSolYNubes, nombre: 'algo nublado', color: 'var(--cielo-sol)' },
+  nublado: { Icono: IconoNube, nombre: 'nublado', color: 'var(--cielo-nube)' },
+  niebla: { Icono: IconoNiebla, nombre: 'niebla', color: 'var(--cielo-nube)' },
+  llovizna: { Icono: IconoLlovizna, nombre: 'llovizna', color: 'var(--cielo-agua)' },
+  lluvia: { Icono: IconoLluvia, nombre: 'lluvia', color: 'var(--cielo-agua)' },
+  tormenta: { Icono: IconoTormenta, nombre: 'tormenta', color: 'var(--cielo-agua)' },
+  nieve: { Icono: IconoEscarcha, nombre: 'nieve o escarcha', color: 'var(--cielo-frio)' },
 }
