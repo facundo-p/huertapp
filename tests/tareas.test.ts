@@ -75,6 +75,40 @@ describe('motor de tareas', () => {
     expect(t!.fuente).toMatch(/30-60 días desde la siembra/)
   })
 
+  it('no pide trasplantar si la semilla asomó tarde: la fecha se corrió con ella', () => {
+    // tomate: germina en 6-10 días y se trasplanta a los 30-60. Ésta asomó a
+    // los 23 de sembrada, o sea 13 días tarde: el trasplante se va a los 43.
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -12) })
+    expect(motor([p]).some((x) => x.tipo === 'trasplantar')).toBe(false)
+    expect(motor([p], 'conurbano', sumarDias(HOY, 8)).some((x) => x.tipo === 'trasplantar')).toBe(true)
+  })
+
+  it('cuando corrió la fecha, la tarea dice cuánto y por qué', () => {
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -12) })
+    const t = motor([p], 'conurbano', sumarDias(HOY, 8)).find((x) => x.tipo === 'trasplantar')!
+    expect(t.fuente).toMatch(/30-60 días desde la siembra/)
+    expect(t.fuente).toMatch(/corrido 13 días/)
+  })
+
+  it('dos plantas iguales con distinta germinación no se avisan el mismo día', () => {
+    const base = { slug: 'tomate' as const, sembrada: sumarDias(HOY, -35), etapa: 'almacigo' as const }
+    const enFecha = planta({ ...base, germino: sumarDias(HOY, -27) })
+    const tardia = planta({ ...base, id: 'p-tardia', germino: sumarDias(HOY, -12) })
+    const tareas = motor([enFecha, tardia]).filter((x) => x.tipo === 'trasplantar')
+    expect(tareas).toHaveLength(1)
+    expect(tareas[0].plantaId).toBe(enFecha.id)
+  })
+
+  it('la cosecha también se corre con la germinación', () => {
+    // rúcula: germina en 4-8 días y cosecha a los 20-60. A los 40 de sembrada
+    // la que asomó en fecha ya está; la que tardó 30 días en asomar, no.
+    const base = { slug: 'rucula' as const, sembrada: sumarDias(HOY, -40) }
+    const enFecha = planta({ ...base, germino: sumarDias(HOY, -34) })
+    const tardia = planta({ ...base, id: 'p-tardia', germino: sumarDias(HOY, -10) })
+    expect(motor([enFecha]).some((x) => x.tipo === 'cosechar')).toBe(true)
+    expect(motor([tardia]).some((x) => x.tipo === 'cosechar')).toBe(false)
+  })
+
   it('si trasplantar expone a la helada, lo dice y lo baja de prioridad', () => {
     const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -27) })
     const enAgosto = motor([p], 'conurbano', '2026-08-15').find((x) => x.tipo === 'trasplantar')!

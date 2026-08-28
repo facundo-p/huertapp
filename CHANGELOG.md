@@ -116,11 +116,32 @@ Qué significa cada parte en este proyecto:
 
 ### Cambiado
 
+- **El trasplante y la cosecha se cuentan desde que la semilla asomó, no desde
+  que la sembraste.** Si germinó más tarde de lo que decía la ficha, todas las
+  fechas de esa planta se corren ese mismo tanto —y con ellas la tarea de Hoy y
+  el aviso que llega al teléfono. Dos semillas del mismo sobre sembradas el
+  mismo día, una que asomó a los 5 y otra a los 22, ya no comparten fecha de
+  trasplante: la segunda tiene diecisiete días menos de plantín encima.
+
+  La ficha no cambia lo que dice: sigue siendo *"25-35 días desde la siembra"*,
+  con su fuente y su confianza. Lo que se le suma es **tu** dato, y la app
+  aclara de cuánto fue el corrimiento y por qué.
+
+- **Al marcar que asomó ya se puede decir qué día fue.** Antes el botón anotaba
+  siempre hoy, así que marcar tres días tarde metía tres días de error en todo
+  lo que venía después. Ahora son **Hoy · Ayer · Otro día**, y la fecha se puede
+  corregir después desde la misma ficha.
+
 - **La acelga vuelve a mostrar cuándo trasplantarla según la fuente**, con la
   altura incluida: *"3-4 hojas verdaderas y ~8-10 cm"*. Antes mostraba un
   criterio propio de confianza baja que tapaba el dato investigado.
 
 ### Arreglado
+
+- **La ficha de una planta ahora cumple accesibilidad como el resto.** Tres
+  botones quedaban abajo de los 44 px y el plazo de germinación no llegaba al
+  contraste mínimo sobre el fondo del aviso. Se medían las siete pantallas
+  principales y ésta no estaba en la lista; ahora sí.
 
 - **Restaurar un backup ya no puede costarte la huerta que tenías.** La
   restauración borraba todo *antes* de escribir lo del archivo, y de a un
