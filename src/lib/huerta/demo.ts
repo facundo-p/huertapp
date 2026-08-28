@@ -1,5 +1,13 @@
 import * as db from './db'
-import { agregarEntrada, agregarPlanta, agregarUbicacion, marcarGerminada, recargar } from './store'
+import {
+  agregarEntrada,
+  agregarPlanta,
+  agregarUbicacion,
+  cambiarCantidad,
+  marcarGerminada,
+  recargar,
+  trasplantarParte,
+} from './store'
 import { hoyISO, nuevoId, type Foto } from './tipos'
 import { sumarDias } from './estimar'
 
@@ -47,12 +55,14 @@ export async function sembrarDemo(): Promise<void> {
   const balcon = await agregarUbicacion('Macetas del balcón', 'maceta')
   const bancal = await agregarUbicacion('Bancal del fondo', 'bancal')
 
+  // la nota de abajo cuenta la historia: sembró 10, germinaron 7
   const tomate = await agregarPlanta({
     slug: 'tomate',
     apodo: 'Los del cajón',
     ubicacionId: balcon.id,
     sembrada: sumarDias(hoy, -22),
     metodo: 'almacigo_protegido',
+    cantidad: 7,
   })
 
   const lechuga = await agregarPlanta({
@@ -74,6 +84,7 @@ export async function sembrarDemo(): Promise<void> {
     ubicacionId: bancal.id,
     sembrada: sumarDias(hoy, -31),
     metodo: 'directa',
+    cantidad: 25,
   })
 
   // sembrada hace 32 días y germina en 10-20: pasada de plazo, para ver el aviso
@@ -130,6 +141,16 @@ export async function sembrarDemo(): Promise<void> {
     texto: 'Primer corte de hojas de afuera. Siguen creciendo del centro.',
     fotoIds: [],
   })
+
+  // la tanda dividida: 3 plantines del tomate ya pasaron al bancal, el resto
+  // sigue en el almácigo — es la pantalla que muestra la feature
+  await trasplantarParte(
+    { ...tomate, germino: sumarDias(hoy, -14) },
+    { ubicacionId: bancal.id, cuantas: 3 },
+  )
+
+  // y el conteo que cambia: la rúcula quedó raleada, con su nota automática
+  await cambiarCantidad(rucula, 18, 'Raleé las más débiles.')
 
   await recargar()
 }

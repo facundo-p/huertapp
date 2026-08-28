@@ -25,6 +25,20 @@ async function conDemo(page: import('@playwright/test').Page) {
   await page.waitForTimeout(800)
 }
 
+/**
+ * La tanda dividida de la demo repite el apodo en dos lugares: el link a una
+ * planta hay que buscarlo dentro de su sección, no en la pantalla entera.
+ */
+function linkEnSeccion(
+  page: import('@playwright/test').Page,
+  seccion: RegExp,
+  nombre: RegExp,
+) {
+  return page
+    .locator('section', { has: page.getByRole('button', { name: seccion }) })
+    .getByRole('link', { name: nombre })
+}
+
 const TOMAS: Toma[] = [
   { nombre: 'explorar', ruta: '/#/explorar' },
   {
@@ -134,8 +148,50 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('link', { name: /Los del cajón/ }).click()
+      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
       await page.waitForTimeout(600)
+    },
+  },
+  {
+    // la otra punta de la tanda dividida: la parte que ya está en el bancal,
+    // con su "Vienen de..." en el diario y el link de vuelta al almácigo
+    nombre: 'detalle-parte-trasplantada',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await linkEnSeccion(page, /Bancal del fondo/, /Los del cajón/).click()
+      await page.waitForTimeout(600)
+    },
+  },
+  {
+    nombre: 'trasplantar-hoja',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
+      await page.waitForTimeout(400)
+      await page.getByRole('button', { name: /La trasplanté/ }).click()
+      await page.waitForTimeout(300)
+      await page.getByRole('button', { name: 'Una parte' }).click()
+      await page.waitForTimeout(300)
+    },
+  },
+  {
+    nombre: 'cantidad-hoja',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await linkEnSeccion(page, /Bancal del fondo/, /Rúcula/).click()
+      await page.waitForTimeout(400)
+      await page.getByRole('button', { name: /cambiar la cuenta/ }).click()
+      await page.waitForTimeout(300)
     },
   },
   {
@@ -167,7 +223,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('link', { name: /Los del cajón/ }).click()
+      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
       await page.waitForTimeout(400)
       await page.getByRole('button', { name: /Anotar/ }).click()
       await page.waitForTimeout(400)

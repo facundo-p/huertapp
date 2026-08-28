@@ -84,6 +84,11 @@ export function textoCantidad(p: Planta): string | null {
   return `${aprox(p.cantidad)} ${p.cantidad === 1 ? unidad[0] : unidad[1]}`
 }
 
+/** "~8" a secas, para la fila apretada de la tarjeta; la unidad vive en el detalle. */
+export function cantidadCorta(p: Planta): string | null {
+  return p.cantidad == null ? null : aprox(p.cantidad)
+}
+
 // ── Textos de las entradas de diario automáticas ─────────────────────────────
 // El diario ES la traza de los movimientos: acá se redacta, el store la guarda.
 

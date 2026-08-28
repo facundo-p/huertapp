@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   aCantidad,
+  cantidadCorta,
   dividirTanda,
   moverTanda,
   partesDe,
@@ -176,6 +177,13 @@ describe('textoCantidad', () => {
 
   it('cero es una cuenta, no una ausencia', () => {
     expect(textoCantidad(planta({ cantidad: 0 }))).toBe('0 plantines')
+  })
+
+  it('la forma corta para la tarjeta: número solo, sin unidad', () => {
+    expect(cantidadCorta(planta({ cantidad: 18 }))).toBe('~18')
+    expect(cantidadCorta(planta({ cantidad: 1 }))).toBe('1')
+    expect(cantidadCorta(planta({ cantidad: 0 }))).toBe('0')
+    expect(cantidadCorta(planta())).toBeNull()
   })
 })
 

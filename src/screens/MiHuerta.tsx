@@ -11,7 +11,7 @@ import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
 import { ETAPA_INFO, hoyISO, type Planta } from '../lib/huerta/tipos'
-import { resumenHuerta, textoCantidad } from '../lib/huerta/tanda'
+import { cantidadCorta, resumenHuerta } from '../lib/huerta/tanda'
 import { estimar, textoHito } from '../lib/huerta/estimar'
 import { germinacion } from '../lib/huerta/germinacion'
 import {
@@ -262,7 +262,7 @@ function TarjetaPlanta({ planta, especie, abierta, pendientes, alPlegar }: Tarje
               </span>
               <span className="planta-card__cuando">
                 {planta.apodo ? `${especie.nombre_comun} · ` : ''}
-                {textoCantidad(planta) ? `${textoCantidad(planta)} · ` : ''}
+                {cantidadCorta(planta) ? `${cantidadCorta(planta)} · ` : ''}
                 {est.diasDesdeSiembra === 0
                   ? 'sembrada hoy'
                   : est.diasDesdeSiembra === 1

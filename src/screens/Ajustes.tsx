@@ -29,6 +29,7 @@ import {
   probarAviso,
   type EstadoAvisos,
 } from '../lib/avisos'
+import { resumenHuerta } from '../lib/huerta/tanda'
 import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir } from '../icons'
 import './Ajustes.css'
 
@@ -42,7 +43,7 @@ export function Ajustes() {
       <div className="pantalla__cuerpo">
         <SeccionZona zona={zona} />
         <SeccionInstalar />
-        <SeccionBackup cuantasPlantas={plantas.length} />
+        <SeccionBackup cuantasPlantas={plantas.length} resumen={resumenHuerta(plantas)} />
         <SeccionAvisos />
         <SeccionDemo cuantasPlantas={plantas.length} />
         <SeccionBitacora />
@@ -188,7 +189,7 @@ function SeccionInstalar() {
 
 /* ---------- backup ---------- */
 
-function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
+function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; resumen: string }) {
   const archivo = useRef<HTMLInputElement>(null)
   const [espacio, setEspacio] = useState<{ usado: number; total: number } | null>(null)
   const [ultimo, setUltimo] = useState<string | null | undefined>(undefined)
@@ -284,7 +285,7 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
       <dl className="ajustes__estado">
         <div>
           <dt>En la app</dt>
-          <dd>{cuantasPlantas === 1 ? '1 planta' : `${cuantasPlantas} plantas`}</dd>
+          <dd>{resumen}</dd>
         </div>
         {espacio && (
           <div>
@@ -323,14 +324,14 @@ function SeccionBackup({ cuantasPlantas }: { cuantasPlantas: number }) {
             <p className="alta__aviso es-mala">
               <IconoAlerta size={17} />
               <span>
-                Esto <strong>borra</strong> tus {cuantasPlantas === 1 ? '1 planta' : `${cuantasPlantas} plantas`}{' '}
-                actuales y las reemplaza por las del archivo. No se puede deshacer.
+                Esto <strong>borra</strong> lo que tenés ahora ({resumen}) y lo reemplaza por lo del
+                archivo. No se puede deshacer.
               </span>
             </p>
             <dl className="ajustes__estado">
               <div>
                 <dt>Trae</dt>
-                <dd>{pendiente.resumen.plantas} plantas</dd>
+                <dd>{pendiente.resumen.huerta}</dd>
               </div>
               <div>
                 <dt>Diario</dt>
