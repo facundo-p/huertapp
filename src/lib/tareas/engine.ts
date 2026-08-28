@@ -125,15 +125,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
   // ── helada a la vista ──────────────────────────────────────────────────────
   const riesgo = clima[siguienteDecada(decada) - 1]?.helada ?? 0
   if (riesgo >= 0.3) {
-    const expuestas = activas.filter((p) => {
-      const e = porSlug.get(p.slug)
-      const tolera = e?.temperaturas.crecimiento.tolera_min
-      return (
-        e?.temperaturas.helada === 'muere' &&
-        (tolera == null || tolera > 0) &&
-        p.etapa !== 'almacigo'
-      )
-    })
+    const expuestas = expuestasAHelada(activas, porSlug)
     if (expuestas.length) {
       // una tanda dividida comparte apodo entre sus partes: se nombra una vez
       const nombres = [
@@ -151,6 +143,27 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
   }
 
   return tareas.sort((a, b) => a.prioridad - b.prioridad || a.titulo.localeCompare(b.titulo, 'es'))
+}
+
+/**
+ * Las plantas a las que una helada les pega de verdad: mueren con helada, no
+ * la toleran bajo cero, y no están a resguardo en almácigo. También la usa el
+ * aviso del pronóstico, para nombrar qué tapar.
+ */
+export function expuestasAHelada(
+  plantas: Planta[],
+  porSlug: Map<string, EspecieEnriquecida>,
+): Planta[] {
+  return plantas.filter((p) => {
+    if (p.archivada || p.etapa === 'terminada') return false
+    const e = porSlug.get(p.slug)
+    const tolera = e?.temperaturas.crecimiento.tolera_min
+    return (
+      e?.temperaturas.helada === 'muere' &&
+      (tolera == null || tolera > 0) &&
+      p.etapa !== 'almacigo'
+    )
+  })
 }
 
 /** Saca de la lista lo completado y lo pospuesto que sigue vigente. */

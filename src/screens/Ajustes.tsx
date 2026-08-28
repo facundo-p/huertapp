@@ -19,6 +19,10 @@ import {
   type ResumenBackup,
 } from '../lib/huerta/backup'
 import { instalar, useComoInstalar } from '../lib/instalar'
+import { elegirUbicacion, sacarUbicacion, usePronostico } from '../lib/pronostico/store'
+import { proveedor } from '../lib/pronostico/proveedor'
+import { ubicarPorGPS } from '../lib/pronostico/geo'
+import { COORDS_ZONA, type Localidad, type UbicacionClima } from '../lib/pronostico/tipos'
 import { VERSION } from '../lib/version'
 import {
   activarAvisos,
@@ -30,7 +34,7 @@ import {
   type EstadoAvisos,
 } from '../lib/avisos'
 import { resumenHuerta } from '../lib/huerta/tanda'
-import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir } from '../icons'
+import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir, IconoUbicacion } from '../icons'
 import './Ajustes.css'
 
 export function Ajustes() {
@@ -42,6 +46,7 @@ export function Ajustes() {
       <Header titulo="Ajustes" volver />
       <div className="pantalla__cuerpo">
         <SeccionZona zona={zona} />
+        <SeccionPronostico zona={zona} />
         <SeccionInstalar />
         <SeccionBackup cuantasPlantas={plantas.length} resumen={resumenHuerta(plantas)} />
         <SeccionAvisos />
@@ -105,6 +110,159 @@ function SeccionZona({ zona }: { zona: Zona }) {
         <span>
           Si dudás, dejá <strong>Conurbano</strong>: es la opción del medio y cubre la mayor parte del
           GBA. Ante la duda conviene la zona más fría, que atrasa la siembra y arriesga menos.
+        </span>
+      </p>
+    </section>
+  )
+}
+
+
+/* ---------- pronóstico ---------- */
+
+/**
+ * Activar el pronóstico es dar una ubicación, y es opt-in a propósito: sin
+ * esto la app no toca la red. Tres caminos, del más reservado al más fino:
+ * la estación de la zona, una localidad buscada, o el GPS.
+ */
+function SeccionPronostico({ zona }: { zona: Zona }) {
+  const { ubicacion } = usePronostico()
+  const [eligiendo, setEligiendo] = useState(false)
+  const [busqueda, setBusqueda] = useState('')
+  const [resultados, setResultados] = useState<Localidad[] | null>(null)
+  const [buscando, setBuscando] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function elegir(u: UbicacionClima) {
+    setError(null)
+    await elegirUbicacion(u)
+    setEligiendo(false)
+    setBusqueda('')
+    setResultados(null)
+  }
+
+  function porZona() {
+    const ref = COORDS_ZONA[zona]
+    void elegir({ modo: 'zona', lat: ref.lat, lon: ref.lon, etiqueta: `cerca de ${ref.nombre}, aproximado` })
+  }
+
+  async function porGPS() {
+    setError(null)
+    try {
+      const { lat, lon } = await ubicarPorGPS()
+      await elegir({ modo: 'gps', lat, lon, etiqueta: 'tu ubicación' })
+    } catch (e) {
+      setError(
+        (e as Error).message === 'denegado'
+          ? 'El navegador no dio permiso de ubicación. Buscá tu localidad, que funciona igual.'
+          : 'El GPS no anduvo. Buscá tu localidad, que funciona igual.',
+      )
+    }
+  }
+
+  async function buscar() {
+    const texto = busqueda.trim()
+    if (!texto || buscando) return
+    setBuscando(true)
+    setError(null)
+    setResultados(null)
+    try {
+      setResultados(await proveedor.buscarLocalidad(texto))
+    } catch {
+      setError('No pude buscar: fijate si hay internet.')
+    } finally {
+      setBuscando(false)
+    }
+  }
+
+  if (ubicacion && !eligiendo) {
+    return (
+      <section className="ajustes__seccion">
+        <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
+        <p className="ajustes__bajada">
+          Se pide para <strong>{ubicacion.etiqueta}</strong>, directo de tu teléfono a{' '}
+          {proveedor.nombre}. Lo ves en Hoy, con la semana y sus avisos.
+        </p>
+        <div className="ajustes__botones">
+          <button className="boton-secundario" onClick={() => setEligiendo(true)}>
+            Cambiar la ubicación
+          </button>
+          <button className="boton-peligro-suave" onClick={() => void sacarUbicacion()}>
+            Sacarla y apagar el pronóstico
+          </button>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
+      <p className="ajustes__bajada">
+        Si querés, Hoy te muestra el pronóstico de la semana y te avisa cuando vienen heladas,
+        lluvia o mucho calor. Para eso la app necesita saber más o menos dónde estás — y es lo
+        único que sale de tu teléfono: va directo a {proveedor.nombre}, sin pasar por ningún otro
+        lado. Si no lo prendés, todo sigue igual que siempre.
+      </p>
+
+      <div className="ajustes__botones">
+        <button className="boton-secundario" onClick={porZona}>
+          Usar mi zona, así nomás
+        </button>
+        <button className="boton-secundario" onClick={() => void porGPS()}>
+          Usar el GPS
+        </button>
+        {eligiendo && (
+          <button className="boton-secundario" onClick={() => setEligiendo(false)}>
+            Dejar como está
+          </button>
+        )}
+      </div>
+
+      <form
+        className="ajustes__buscador"
+        onSubmit={(e) => {
+          e.preventDefault()
+          void buscar()
+        }}
+      >
+        <input
+          className="ajustes__input"
+          type="search"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          placeholder="O buscá tu localidad…"
+          aria-label="Buscar tu localidad"
+        />
+        <button className="boton-secundario" type="submit" disabled={buscando}>
+          {buscando ? 'Buscando…' : 'Buscar'}
+        </button>
+      </form>
+
+      {resultados && resultados.length > 0 && (
+        <ul className="ajustes__resultados">
+          {resultados.map((r) => (
+            <li key={`${r.lat},${r.lon}`}>
+              <button
+                className="ajustes__resultado"
+                onClick={() => void elegir({ modo: 'localidad', lat: r.lat, lon: r.lon, etiqueta: r.nombre })}
+              >
+                <span className="ajustes__resultado-nombre">{r.nombre}</span>
+                {r.detalle && <span className="ajustes__resultado-detalle">{r.detalle}</span>}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {resultados?.length === 0 && (
+        <p className="ajustes__error">No encontré esa localidad. Probá con el nombre del partido.</p>
+      )}
+      {error && <p className="ajustes__error">{error}</p>}
+
+      <p className="ajustes__nota">
+        <IconoUbicacion size={15} />
+        <span>
+          El GPS pide permiso del navegador. Vayas por donde vayas, la ubicación viaja redondeada
+          a un kilómetro más o menos, y la sacás cuando quieras.
         </span>
       </p>
     </section>

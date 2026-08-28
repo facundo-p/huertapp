@@ -1,6 +1,7 @@
 import { test } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
+import { conHelada, fixtureDesdeHoy } from './apoyo-pronostico'
 
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
@@ -261,6 +262,103 @@ const TOMAS: Toma[] = [
       await page.reload()
       await page.waitForLoadState('networkidle')
       await page.getByRole('heading', { name: 'Avisos' }).scrollIntoViewIfNeeded()
+    },
+  },
+  {
+    nombre: 'hoy-pronostico',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await page.goto('/#/hoy')
+      await page.locator('.pronostico__dia').first().waitFor()
+    },
+  },
+  {
+    nombre: 'hoy-pronostico-alerta',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      // helada mañana + la lluvia que el fixture trae de fábrica: dos alertas
+      await page.route('https://api.open-meteo.com/**', (r) =>
+        r.fulfill({
+          json: fixtureDesdeHoy((f) => {
+            f.daily.temperature_2m_min[1] = 2.0
+            f.daily.precipitation_probability_max[2] = 85
+            f.daily.precipitation_sum[2] = 14.0
+          }),
+        }),
+      )
+      await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await page.goto('/#/hoy')
+      await page.locator('.pronostico__aviso').first().waitFor()
+    },
+  },
+  {
+    nombre: 'hoy-pronostico-sheet',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await page.goto('/#/hoy')
+      await page.locator('.pronostico__dia').first().click()
+      await page.locator('dialog.hoja[open]').waitFor()
+    },
+  },
+  {
+    nombre: 'hoy-pronostico-viejo',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await page.goto('/#/hoy')
+      await page.locator('.pronostico__dia').first().waitFor()
+      // se envejece el caché a mano y se corta la red: el estado "viejo" real
+      await page.evaluate(async () => {
+        const pedido = indexedDB.open('huerta-gba')
+        const base = await new Promise<IDBDatabase>((res, rej) => {
+          pedido.onsuccess = () => res(pedido.result)
+          pedido.onerror = () => rej(pedido.error)
+        })
+        const tx = base.transaction('ajustes', 'readwrite')
+        const ajustes = tx.objectStore('ajustes')
+        const cache = await new Promise<{ obtenido: string }>((res) => {
+          const g = ajustes.get('pronostico-cache')
+          g.onsuccess = () => res(g.result as { obtenido: string })
+        })
+        cache.obtenido = new Date(Date.now() - 20 * 3_600_000).toISOString()
+        ajustes.put(cache, 'pronostico-cache')
+        await new Promise((res) => (tx.oncomplete = res))
+        base.close()
+      })
+      await page.unroute('https://api.open-meteo.com/**')
+      await page.route('https://api.open-meteo.com/**', (r) => r.abort())
+      await page.reload()
+      await page.locator('.pronostico__estado.es-viejo').waitFor()
+    },
+  },
+  {
+    nombre: 'ajustes-pronostico',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await page.route('https://geocoding-api.open-meteo.com/**', (r) =>
+        r.fulfill({
+          json: {
+            results: [
+              {
+                name: 'Temperley',
+                latitude: -34.77435,
+                longitude: -58.39347,
+                admin1: 'Buenos Aires',
+                admin2: 'Partido de Lomas de Zamora',
+              },
+            ],
+          },
+        }),
+      )
+      await page.getByRole('searchbox', { name: 'Buscar tu localidad' }).fill('Temperley')
+      await page.getByRole('button', { name: 'Buscar' }).click()
+      await page.getByRole('button', { name: /Temperley/ }).scrollIntoViewIfNeeded()
     },
   },
   {

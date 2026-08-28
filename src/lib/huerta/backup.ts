@@ -2,6 +2,8 @@ import * as db from './db'
 import { hoyISO, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
 import { resumenHuerta } from './tanda'
 import { zonaActual, elegirZona } from '../zona'
+import { CLAVE_UBICACION, elegirUbicacion, sacarUbicacion } from '../pronostico/store'
+import type { UbicacionClima } from '../pronostico/tipos'
 import type { Zona } from '../data/types'
 
 /**
@@ -24,6 +26,8 @@ export interface Backup {
   version: number
   exportado: string
   zona: Zona
+  /** dónde pedir el pronóstico; opcional: solo si el usuario lo activó */
+  ubicacionClima?: UbicacionClima
   plantas: Planta[]
   diario: EntradaDiario[]
   ubicaciones: Ubicacion[]
@@ -41,17 +45,19 @@ const aDataURL = (blob: Blob): Promise<string> =>
 const desdeDataURL = async (datos: string): Promise<Blob> => (await fetch(datos)).blob()
 
 export async function armarBackup(): Promise<Backup> {
-  const [plantas, diario, ubicaciones, fotos] = await Promise.all([
+  const [plantas, diario, ubicaciones, fotos, ubicacionClima] = await Promise.all([
     db.listarPlantas(),
     db.listarTodoElDiario(),
     db.listarUbicaciones(),
     db.listarFotos(),
+    db.leerAjuste<UbicacionClima>(CLAVE_UBICACION),
   ])
   return {
     app: 'huerta-gba',
     version: VERSION_BACKUP,
     exportado: new Date().toISOString(),
     zona: zonaActual(),
+    ...(ubicacionClima ? { ubicacionClima } : {}),
     plantas,
     diario,
     ubicaciones,
@@ -174,4 +180,7 @@ export async function importar(b: Backup): Promise<void> {
     fotos,
   })
   if (b.zona) elegirZona(b.zona)
+  // el import reemplaza todo: también la ubicación del pronóstico
+  if (b.ubicacionClima) await elegirUbicacion(b.ubicacionClima)
+  else await sacarUbicacion()
 }

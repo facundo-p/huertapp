@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
+import { conHelada } from './apoyo-pronostico'
 
 /**
  * Accesibilidad, como test y no como revisión de una sola vez.
@@ -20,10 +21,13 @@ const PANTALLAS = [
 ]
 
 async function conDemo(page: Page) {
+  await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: conHelada() }))
   await page.goto('/#/ajustes')
   await page.waitForLoadState('networkidle')
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
   await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 5000 })
+  await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+  await expect(page.getByText(/Se pide para/)).toBeVisible()
 }
 
 /**

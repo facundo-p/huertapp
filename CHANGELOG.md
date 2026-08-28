@@ -35,6 +35,18 @@ Qué significa cada parte en este proyecto:
   obligatorio: sin cantidades, la app sigue andando como siempre. Mi huerta
   ahora cuenta en serio: "3 siembras · ~24 plantas".
 
+- **El pronóstico de la semana, si vos querés.** En Ajustes le decís a la app
+  más o menos dónde está tu huerta —tu zona así nomás, tu localidad, o el GPS—
+  y Hoy te muestra los próximos 7 días, con avisos cuando viene una helada,
+  lluvia que te ahorra un riego o un calor que pide regar dos veces. Cada día
+  se toca y abre su detalle: humedad, viento, UV, presión, rocío al amanecer y
+  hasta la temperatura del suelo.
+
+  Es **opcional y es lo único que sale de tu teléfono**: el pedido va directo a
+  Open-Meteo (CC BY 4.0), sin pasar por ningún otro lado. Si no lo activás, la
+  app sigue sin tocar internet, como siempre. Y sin señal muestra lo último que
+  trajo, diciendo de cuándo es.
+
 - **Riego y maceta, dos datos que la app no tenía.** Cuánta agua pide cada
   especie, en una barrita de cuatro niveles que va de *escaso* a *constante*, y
   en qué maceta entra: profundidad mínima, litros y cuántas plantas. Para quien

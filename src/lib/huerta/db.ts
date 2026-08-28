@@ -205,6 +205,9 @@ export const leerAjuste = async <T>(clave: string) => (await abrir()).get('ajust
 export const guardarAjuste = async (clave: string, valor: unknown) => {
   await (await abrir()).put('ajustes', valor, clave)
 }
+export const borrarAjuste = async (clave: string) => {
+  await (await abrir()).delete('ajustes', clave)
+}
 
 /**
  * Reemplaza toda la huerta **en una sola transacción**: si algo falla, no se
