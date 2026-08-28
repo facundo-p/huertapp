@@ -199,6 +199,22 @@ export interface PistaGerminacion {
   confianza: number
 }
 
+/**
+ * Lo que el padre necesita saber de una variedad para dibujar su tarjeta sin
+ * cargar la derivada entera.
+ */
+export interface VariedadRef {
+  slug: string
+  /** el nombre corto, como lo escribe la fuente: "Temprana", "De enrame" */
+  nombre: string
+  nombre_comun: string
+  /** los campos en los que difiere, listos para mostrar */
+  cambia: { campo: string; valor: string; confianza: number }[]
+  /** los cuidados del padre que esta variedad no lleva */
+  quita: TipoCuidado[]
+  derivacion: string
+}
+
 export interface EspecieEnriquecida {
   slug: string
   nombre_comun: string
@@ -234,6 +250,14 @@ export interface EspecieEnriquecida {
   dias_a_cosecha: Rango | null
   dias_germinacion: Rango | null
   asociaciones: { buenas: AsocRef[]; malas: AsocRef[] }
+  /** slug del padre; null en las 55 especies propiamente dichas */
+  variedad_de: string | null
+  /** el nombre de la variedad ("Temprana"); null si no lo es */
+  variedad: string | null
+  /** por qué difiere del padre. Es razonamiento, no cita: por eso no va en un `valor` */
+  variedad_derivacion: string | null
+  /** las variedades de esta especie; vacío en las derivadas */
+  variedades: VariedadRef[]
 }
 
 export interface CategoriaInfo {

@@ -28,6 +28,16 @@
   min-width: 0;
 }
 
+/* Informa, no compite con el chip de "ahora": se distingue por tamaño y peso,
+   nunca aclarando el color. */
+.especie-card__variedades {
+  flex: none;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tinta-media);
+  white-space: nowrap;
+}
+
 .especie-card__ahora {
   display: inline-flex;
   align-items: center;

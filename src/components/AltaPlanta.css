@@ -159,3 +159,24 @@ select.alta__input {
 .alta__guardar:disabled {
   opacity: 0.6;
 }
+
+.alta__variedades {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+/* Mismo cuerpo que los métodos, pero sin estado activo: elegir una variedad
+   cambia de especie y la hoja se redibuja, así que no hay nada que marcar. */
+.alta__variedad {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-chip);
+  border: 1.5px solid var(--salvia);
+  background: var(--papel-alto);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--verde-prof);
+}

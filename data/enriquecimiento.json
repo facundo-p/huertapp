@@ -1568,7 +1568,41 @@
       "profundidad_min_cm": 30,
       "litros_min": null,
       "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "temprana": {
+      "nombre_comun": "Coliflor temprana",
+      "derivacion": "El Brote Urbano separa tempranas de tardías. Los meses salen textuales de esa frase y se quedan dentro de los del padre, conservando su jerarquía: octubre ya era ideal; noviembre y diciembre, posibles. Los 90 días parten el rango 90-200 que el padre ya publica, sin ninguna cuenta nueva.",
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [10],
+          "siembra_posible": [11, 12],
+          "trasplante_ideal": [1, 12],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": { "10": "almacigo", "11": "almacigo", "12": "almacigo" },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tempranas almácigo oct-dic, trasplante dic-ene. Se conserva la jerarquía del padre en cada mes.",
+        "confianza": 7
+      },
+      "dias_a_cosecha": { "min": 90, "max": 90 }
+    },
+    "tardia": {
+      "nombre_comun": "Coliflor tardía",
+      "derivacion": "La otra mitad de la misma frase de El Brote Urbano: almácigo mar-abr, trasplante may-jun, unos 200 días. Los meses y los días quedan dentro de los del padre.",
+      "calendario": {
+        "fuente_meses": {
+          "siembra_ideal": [3, 4],
+          "siembra_posible": [],
+          "trasplante_ideal": [5, 6],
+          "trasplante_posible": []
+        },
+        "metodo_por_mes": { "3": "almacigo", "4": "almacigo" },
+        "derivacion": "De fecha_siembra, El Brote Urbano: tardías almácigo mar-abr, trasplante may-jun.",
+        "confianza": 7
+      },
+      "dias_a_cosecha": { "min": 200, "max": 200 }
     }
+  }
   },
   "repollitos-de-bruselas": {
     "calendario": {
@@ -2058,7 +2092,18 @@
       "profundidad_min_cm": 45,
       "litros_min": 19,
       "plantas_por_contenedor": 1
+    },
+  "variedades_derivado": {
+    "determinado": {
+      "nombre_comun": "Tomate determinado",
+      "derivacion": "El texto de trucos acota la práctica: «tutorar y realizar desbrote/poda en variedades indeterminadas» (FIQ-UNL, Fecoagro). Una determinada no entra en esa frase, así que no lleva esos dos cuidados. El texto se hereda entero y sin tocar: la frase que lo justifica queda a la vista en la ficha.",
+      "cuidados_quita": ["tutorado", "poda"]
+    },
+    "indeterminado": {
+      "nombre_comun": "Tomate indeterminado",
+      "derivacion": "Es la variedad a la que las fuentes le atribuyen el tutorado, el desbrote y la producción escalonada hasta las heladas. Conserva todos los cuidados del padre."
     }
+  }
   },
   "pimiento": {
     "calendario": {
@@ -3673,7 +3718,28 @@
       "profundidad_min_cm": 45,
       "litros_min": 8,
       "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "enana": {
+      "nombre_comun": "Chaucha enana",
+      "derivacion": "INTA/ProHuerta separa enanas de enrame en la siembra y en el ciclo. Los 60 días parten el 60-80 que el padre ya publica. El tutor de 2 a 2,5 m lo pide Huerta de Cero «para las variedades de enrame», así que la enana no lo lleva.",
+      "dias_a_cosecha": {
+        "min": 60,
+        "max": 60
+      },
+      "cuidados_quita": [
+        "tutorado"
+      ]
+    },
+    "de-enrame": {
+      "nombre_comun": "Chaucha de enrame",
+      "derivacion": "La otra mitad de la misma frase de INTA/ProHuerta: 70-80 días y siembra a golpe. Conserva el tutorado, que es el que le corresponde.",
+      "dias_a_cosecha": {
+        "min": 70,
+        "max": 80
+      }
     }
+  }
   },
   "arveja": {
     "calendario": {
@@ -3818,7 +3884,20 @@
       "profundidad_min_cm": 30,
       "litros_min": null,
       "plantas_por_contenedor": null
+    },
+  "variedades_derivado": {
+    "enana": {
+      "nombre_comun": "Arveja enana",
+      "derivacion": "INTA/ProHuerta acota el tutor a las trepadoras: «colocar ramas o tutores/enrejado a las variedades trepadoras». La enana no entra en esa frase y queda sin ese cuidado; el texto se hereda entero.",
+      "cuidados_quita": [
+        "tutorado"
+      ]
+    },
+    "de-enrame": {
+      "nombre_comun": "Arveja de enrame",
+      "derivacion": "Es la trepadora a la que INTA/ProHuerta le pide ramas o enrejado. Conserva el tutorado."
     }
+  }
   },
   "haba": {
     "calendario": {
@@ -4136,7 +4215,33 @@
       "profundidad_min_cm": 30,
       "litros_min": 4,
       "plantas_por_contenedor": 2
+    },
+  "variedades_derivado": {
+    "chantenay-nantesa": {
+      "nombre_comun": "Zanahoria Chantenay-Nantesa",
+      "derivacion": "Los tres números salen de la misma frase de cosecha del padre y parten su 50-150: no hay ninguna cuenta nueva. Confianza 5 y no 7 porque la separación por variedad la sostienen fuentes más flojas que INTA.",
+      "dias_a_cosecha": {
+        "min": 110,
+        "max": 110
+      }
+    },
+    "criolla": {
+      "nombre_comun": "Zanahoria Criolla",
+      "derivacion": "El extremo lento del rango del padre, de la misma frase y con la misma fuente floja que la Chantenay-Nantesa.",
+      "dias_a_cosecha": {
+        "min": 150,
+        "max": 150
+      }
+    },
+    "corta": {
+      "nombre_comun": "Zanahoria corta",
+      "derivacion": "El extremo rápido del rango del padre. Portal Frutícola la da en 50-90 días, y ese 50 ya era el mínimo que el padre publicaba.",
+      "dias_a_cosecha": {
+        "min": 50,
+        "max": 90
+      }
     }
+  }
   },
   "remolacha": {
     "calendario": {

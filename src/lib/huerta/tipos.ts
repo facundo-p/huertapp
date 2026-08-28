@@ -45,6 +45,12 @@ export interface Planta {
   /** slug de la especie en el catálogo */
   slug: string
   apodo?: string
+  /**
+   * La variedad, cuando no cambia el cultivo y por eso no tiene entrada propia
+   * (la albahaca morada). Texto libre: es dato tuyo, no del catálogo. Las que
+   * sí cambian el cultivo son una especie más y viajan en `slug`.
+   */
+  variedad?: string
   ubicacionId?: string
   /** fecha de siembra o plantación, ISO corta (yyyy-mm-dd) */
   sembrada: string

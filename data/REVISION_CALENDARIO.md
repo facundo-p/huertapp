@@ -20,7 +20,7 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 
 **Precisión honesta: ±10 días.** No existe ningún calendario de siembra argentino publicado con resolución sub-mensual (revisados ProHuerta, Cambio Rural y los calendarios provinciales del INTA, todos mensuales), así que esto no tiene antecedente citable: la trazabilidad del método es todo lo que hay.
 
-## Hortaliza de hoja (13)
+## Hortaliza de hoja (15)
 
 | Especie | E | F | M | A | M | J | J | A | S | O | N | D | Estado | Conf |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|:-:|
@@ -30,6 +30,8 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 | **Brócoli** | ··· | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ●●● | ●●● | ○○○ | ··· | afinado (0) | 7 |
 | **Cebolla de verdeo** | ··· | ●●● | ●●● | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ··· | ··· | afinado (0) | 7 |
 | **Coliflor** | ··· | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ●●● | ●●● | ○○○ | ○○○ | afinado (0) | 7 |
+| **Coliflor tardía** | ··· | ··· | ●●● | ●●● | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | afinado (0) | 7 |
+| **Coliflor temprana** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ○○○ | ○○○ | afinado (0) | 7 |
 | **Espinaca** | ··· | ○○○ | ●●● | ●●● | ○○○ | ○○● | ○○○ | ○○○ | ··· | ··· | ··· | ··· | afinado (5) | 7 |
 | **Kale (col rizada)** | ··· | ●●● | ●●● | ○○○ | ○○○ | ○○○ | ○○○ | ○○○ | ○○○ | ○○○ | ··· | ··· | afinado (0) | 7 |
 | **Lechuga** | ··· | ○○○ | ●●● | ●●● | ○○○ | ○○○ | ○○○ | ●●● | ●●● | ●●○ | ○○○ | ··· | afinado (4) | 7 |
@@ -46,6 +48,8 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 | **Apio** | ●●● | ●●● | ●●● | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ○○○ | ●●● |
 | **Brócoli** | ○○○ | ··· | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ●●● | ●●● | ○○○ |
 | **Coliflor** | ●●● | ○○○ | ··· | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ●●● | ●●● |
+| **Coliflor tardía** | ··· | ··· | ··· | ··· | ●●● | ●●● | ··· | ··· | ··· | ··· | ··· | ··· |
+| **Coliflor temprana** | ●●● | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ●●● |
 | **Espinaca** | ··· | ··· | ○○○ | ●●● | ●●● | ●●● | ●●● | ○○○ | ○○○ | ··· | ··· | ··· |
 | **Kale (col rizada)** | ··· | ··· | ●●● | ●●● | ○○○ | ○○○ | ○○○ | ○○○ | ○○○ | ○○○ | ○○○ | ··· |
 | **Lechuga** | ··· | ··· | ○○○ | ●●● | ●●● | ○○○ | ○○○ | ○○○ | ●●● | ●●● | ●●● | ●●● |
@@ -54,7 +58,7 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 
 </details>
 
-## Hortaliza de raíz/bulbo (9)
+## Hortaliza de raíz/bulbo (12)
 
 | Especie | E | F | M | A | M | J | J | A | S | O | N | D | Estado | Conf |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|:-:|
@@ -67,6 +71,9 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 | **Rabanito** | ○○○ | ●●● | ●●● | ●●○ | ○○○ | ○○○ | ○○○ | ○○○ | ●●● | ●●● | ●●● | ●●● | afinado (7) | 7 |
 | **Remolacha** | ··· | ··· | ●●● | ●●○ | ○○○ | ○○○ | ··· | ○○○ | ●●● | ●●● | ●●● | ○○○ | afinado (4) | 7 |
 | **Zanahoria** | ○○○ | ○○○ | ●●● | ●○○ | ○○○ | ●●● | ●●● | ●●● | ○○○ | ○○○ | ··· | ○○○ | afinado (8) | 7 |
+| **Zanahoria Chantenay-Nantesa** | ○○○ | ○○○ | ●●● | ●○○ | ○○○ | ●●● | ●●● | ●●● | ○○○ | ○○○ | ··· | ○○○ | afinado (8) | 7 |
+| **Zanahoria corta** | ○○○ | ○○○ | ●●● | ●●○ | ○○○ | ○●● | ●●● | ●●● | ○○○ | ○○○ | ○·· | ·○○ | afinado (8) | 7 |
+| **Zanahoria Criolla** | ○○○ | ○○○ | ●●● | ●○○ | ○○○ | ●●● | ●●● | ●●● | ○○○ | ○○○ | ··· | ○○○ | afinado (8) | 7 |
 
 <details><summary>Trasplante de este grupo</summary>
 
@@ -78,7 +85,7 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 
 </details>
 
-## Hortaliza de fruto (11)
+## Hortaliza de fruto (13)
 
 | Especie | E | F | M | A | M | J | J | A | S | O | N | D | Estado | Conf |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|:-:|
@@ -91,6 +98,8 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 | **Pimiento / Morrón** | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ●●● | ··· | ··· | ··· | afinado (5) | 8 |
 | **Sandía** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○○○ | ··· | ○●● | ··· | ··· | afinado (4) | 8 |
 | **Tomate** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ●●● | ○○○ | ○○○ | afinado (5) | 8 |
+| **Tomate determinado** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ●●● | ○○○ | ○○○ | afinado (5) | 8 |
+| **Tomate indeterminado** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ●●● | ●●● | ●●● | ○○○ | ○○○ | afinado (5) | 8 |
 | **Zapallito de tronco** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ●●● | ●●● | ●●● | afinado (1) | 6 |
 | **Zapallo / Calabaza** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ●●● | ··· | afinado (4) | 8 |
 
@@ -102,15 +111,21 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 | **Berenjena** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ·○● | ○○○ | ··· |
 | **Pimiento / Morrón** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ·○● | ○○○ | ··· |
 | **Tomate** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ·○● | ●●● | ○○○ |
+| **Tomate determinado** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ·○● | ●●● | ○○○ |
+| **Tomate indeterminado** | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ·○● | ●●● | ○○○ |
 
 </details>
 
-## Legumbre (3)
+## Legumbre (7)
 
 | Especie | E | F | M | A | M | J | J | A | S | O | N | D | Estado | Conf |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|:-:|
 | **Arveja** | ··· | ··· | ··· | ●○○ | ○○○ | ●●● | ○○○ | ○○○ | ··· | ··· | ··· | ··· | afinado (5) | 7 |
+| **Arveja de enrame** | ··· | ··· | ··· | ●○○ | ○○○ | ●●● | ○○○ | ○○○ | ··· | ··· | ··· | ··· | afinado (5) | 7 |
+| **Arveja enana** | ··· | ··· | ··· | ●○○ | ○○○ | ●●● | ○○○ | ○○○ | ··· | ··· | ··· | ··· | afinado (5) | 7 |
 | **Chaucha (poroto / judía)** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ○○○ | ○○○ | afinado (4) | 8 |
+| **Chaucha de enrame** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ○○○ | ○○○ | afinado (4) | 8 |
+| **Chaucha enana** | ○○○ | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ··· | ○●● | ○○○ | ○○○ | afinado (4) | 8 |
 | **Haba** | ··· | ··· | ··· | ●●● | ●●● | ●●● | ●●● | ··· | ··· | ··· | ··· | ··· | afinado (0) | 7 |
 
 ## Aromática (13)
@@ -166,7 +181,7 @@ Cada criterio se evalúa en el momento del ciclo en que actúa: la germinación 
 
 Cada línea es una década que el afinado sacó o degradó respecto de lo que decía la fuente. Es la lista para vetar caso por caso.
 
-Son 29 especies con recortes; las otras 26 quedaron tal cual las dejó la fuente.
+Son 38 especies con recortes; las otras 28 quedaron tal cual las dejó la fuente.
 
 ### Lechuga
 
@@ -225,6 +240,30 @@ Fuente: siembra ideal en los meses 2, 3, 4, 5 · confianza del calendario 4/10
 | fines de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.1 °C de media, por debajo de los 16 °C que quiere para crecer. |
 
 ### Tomate
+
+Fuente: siembra ideal en los meses 8, 9, 10 · confianza del calendario 9/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| principios de septiembre | `helada_trasplante` | Trasplantar a principios de septiembre expone el plantín a un 90 % de probabilidad de helada. |
+| mediados de septiembre | `helada_trasplante` | Trasplantar a mediados de septiembre expone el plantín a un 81 % de probabilidad de helada. |
+| fines de septiembre | `helada_trasplante` | Trasplantar a fines de septiembre expone el plantín a un 65 % de probabilidad de helada. |
+| principios de octubre | `helada_trasplante` | Trasplantar a principios de octubre expone el plantín a un 50 % de probabilidad de helada. |
+| mediados de octubre | `helada_trasplante_riesgo` | 33 % de probabilidad de helada a mediados de octubre. |
+
+### Tomate determinado
+
+Fuente: siembra ideal en los meses 8, 9, 10 · confianza del calendario 9/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| principios de septiembre | `helada_trasplante` | Trasplantar a principios de septiembre expone el plantín a un 90 % de probabilidad de helada. |
+| mediados de septiembre | `helada_trasplante` | Trasplantar a mediados de septiembre expone el plantín a un 81 % de probabilidad de helada. |
+| fines de septiembre | `helada_trasplante` | Trasplantar a fines de septiembre expone el plantín a un 65 % de probabilidad de helada. |
+| principios de octubre | `helada_trasplante` | Trasplantar a principios de octubre expone el plantín a un 50 % de probabilidad de helada. |
+| mediados de octubre | `helada_trasplante_riesgo` | 33 % de probabilidad de helada a mediados de octubre. |
+
+### Tomate indeterminado
 
 Fuente: siembra ideal en los meses 8, 9, 10 · confianza del calendario 9/10
 
@@ -343,7 +382,53 @@ Fuente: siembra ideal en los meses 9, 10 · confianza del calendario 8/10
 | fines de septiembre | `helada` | Sembrando a fines de septiembre emerge a principios de octubre, cuando todavía hay 50 % de probabilidad de helada — y la helada la mata. |
 | principios de octubre | `helada_riesgo` | Emerge a mediados de octubre, con 33 % de probabilidad de helada. |
 
+### Chaucha enana
+
+Fuente: siembra ideal en los meses 9, 10 · confianza del calendario 8/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| principios de septiembre | `helada` | Sembrando a principios de septiembre emerge a mediados de septiembre, cuando todavía hay 81 % de probabilidad de helada — y la helada la mata. |
+| mediados de septiembre | `helada` | Sembrando a mediados de septiembre emerge a fines de septiembre, cuando todavía hay 65 % de probabilidad de helada — y la helada la mata. |
+| fines de septiembre | `helada` | Sembrando a fines de septiembre emerge a principios de octubre, cuando todavía hay 50 % de probabilidad de helada — y la helada la mata. |
+| principios de octubre | `helada_riesgo` | Emerge a mediados de octubre, con 33 % de probabilidad de helada. |
+
+### Chaucha de enrame
+
+Fuente: siembra ideal en los meses 9, 10 · confianza del calendario 8/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| principios de septiembre | `helada` | Sembrando a principios de septiembre emerge a mediados de septiembre, cuando todavía hay 81 % de probabilidad de helada — y la helada la mata. |
+| mediados de septiembre | `helada` | Sembrando a mediados de septiembre emerge a fines de septiembre, cuando todavía hay 65 % de probabilidad de helada — y la helada la mata. |
+| fines de septiembre | `helada` | Sembrando a fines de septiembre emerge a principios de octubre, cuando todavía hay 50 % de probabilidad de helada — y la helada la mata. |
+| principios de octubre | `helada_riesgo` | Emerge a mediados de octubre, con 33 % de probabilidad de helada. |
+
 ### Arveja
+
+Fuente: siembra ideal en los meses 4, 5, 6 · confianza del calendario 8/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| mediados de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.4 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.1 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| mediados de mayo | `aire_fresco` | El grueso del ciclo transcurre a 9.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.5 °C de media, por debajo de los 15 °C que quiere para crecer. |
+
+### Arveja enana
+
+Fuente: siembra ideal en los meses 4, 5, 6 · confianza del calendario 8/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| mediados de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.4 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.1 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| mediados de mayo | `aire_fresco` | El grueso del ciclo transcurre a 9.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.5 °C de media, por debajo de los 15 °C que quiere para crecer. |
+
+### Arveja de enrame
 
 Fuente: siembra ideal en los meses 4, 5, 6 · confianza del calendario 8/10
 
@@ -369,6 +454,51 @@ Fuente: siembra ideal en los meses 3, 4, 5, 6, 7, 8 · confianza del calendario 
 | principios de noviembre | `calor_extremo` | Sembrando a principios de noviembre la planta crece con máximas de 29.9 °C, por encima de lo que tolera (28 °C). |
 | mediados de noviembre | `calor_extremo` | Sembrando a mediados de noviembre la planta crece con máximas de 30.3 °C, por encima de lo que tolera (28 °C). |
 | fines de noviembre | `calor_extremo` | Sembrando a fines de noviembre la planta crece con máximas de 29.8 °C, por encima de lo que tolera (28 °C). |
+
+### Zanahoria Chantenay-Nantesa
+
+Fuente: siembra ideal en los meses 3, 4, 5, 6, 7, 8 · confianza del calendario 7/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| mediados de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.4 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.1 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| mediados de mayo | `aire_fresco` | El grueso del ciclo transcurre a 9.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.5 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de noviembre | `calor_extremo` | Sembrando a principios de noviembre la planta crece con máximas de 29.9 °C, por encima de lo que tolera (28 °C). |
+| mediados de noviembre | `calor_extremo` | Sembrando a mediados de noviembre la planta crece con máximas de 30.3 °C, por encima de lo que tolera (28 °C). |
+| fines de noviembre | `calor_extremo` | Sembrando a fines de noviembre la planta crece con máximas de 29.8 °C, por encima de lo que tolera (28 °C). |
+
+### Zanahoria Criolla
+
+Fuente: siembra ideal en los meses 3, 4, 5, 6, 7, 8 · confianza del calendario 7/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| mediados de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.4 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.1 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| mediados de mayo | `aire_fresco` | El grueso del ciclo transcurre a 9.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.5 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de noviembre | `calor_extremo` | Sembrando a principios de noviembre la planta crece con máximas de 29.9 °C, por encima de lo que tolera (28 °C). |
+| mediados de noviembre | `calor_extremo` | Sembrando a mediados de noviembre la planta crece con máximas de 30.3 °C, por encima de lo que tolera (28 °C). |
+| fines de noviembre | `calor_extremo` | Sembrando a fines de noviembre la planta crece con máximas de 29.8 °C, por encima de lo que tolera (28 °C). |
+
+### Zanahoria corta
+
+Fuente: siembra ideal en los meses 3, 4, 5, 6, 7, 8 · confianza del calendario 7/10
+
+| Década | Regla | Por qué |
+|---|---|---|
+| fines de abril | `aire_fresco` | El grueso del ciclo transcurre a 10.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.4 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| mediados de mayo | `aire_fresco` | El grueso del ciclo transcurre a 10.1 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| fines de mayo | `aire_fresco` | El grueso del ciclo transcurre a 9.8 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| principios de junio | `aire_fresco` | El grueso del ciclo transcurre a 10.5 °C de media, por debajo de los 15 °C que quiere para crecer. |
+| mediados de noviembre | `calor_extremo` | Sembrando a mediados de noviembre la planta crece con máximas de 29.9 °C, por encima de lo que tolera (28 °C). |
+| fines de noviembre | `calor_extremo` | Sembrando a fines de noviembre la planta crece con máximas de 30.3 °C, por encima de lo que tolera (28 °C). |
+| principios de diciembre | `calor_extremo` | Sembrando a principios de diciembre la planta crece con máximas de 29.8 °C, por encima de lo que tolera (28 °C). |
 
 ### Remolacha
 
@@ -534,6 +664,8 @@ Entre el Observatorio y La Plata hay 35 días de diferencia en la última helada
 | **Sandía** | mediados de septiembre → fines de octubre | mediados de octubre → fines de octubre | fines de octubre → fines de octubre |
 | **Choclo / Maíz dulce** | principios de octubre → fines de diciembre | mediados de octubre → fines de diciembre | fines de octubre → fines de diciembre |
 | **Chaucha (poroto / judía)** | mediados de septiembre → fines de octubre | mediados de octubre → fines de octubre | fines de octubre → fines de octubre |
+| **Chaucha enana** | mediados de septiembre → fines de octubre | mediados de octubre → fines de octubre | fines de octubre → fines de octubre |
+| **Chaucha de enrame** | mediados de septiembre → fines de octubre | mediados de octubre → fines de octubre | fines de octubre → fines de octubre |
 | **Copete / Tagetes** | principios de septiembre → fines de diciembre | mediados de septiembre → fines de diciembre | fines de septiembre → fines de diciembre |
 | **Capuchina (taco de reina)** | principios de marzo → fines de mayo | principios de marzo → fines de abril | principios de marzo → fines de abril |
 | **Cosmos** | mediados de septiembre → fines de noviembre | fines de septiembre → fines de noviembre | principios de octubre → fines de noviembre |

@@ -112,6 +112,7 @@ export function useHuerta(): Estado {
 export interface AltaPlanta {
   slug: string
   apodo?: string
+  variedad?: string
   ubicacionId?: string
   sembrada?: string
   metodo: Metodo | null
@@ -130,6 +131,7 @@ export async function agregarPlanta(alta: AltaPlanta): Promise<Planta> {
     id: nuevoId(),
     slug: alta.slug,
     apodo: alta.apodo?.trim() || undefined,
+    variedad: alta.variedad?.trim() || undefined,
     ubicacionId: alta.ubicacionId,
     sembrada,
     metodo: alta.metodo,

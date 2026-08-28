@@ -2145,7 +2145,63 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Temprana",
+          "difiere_en": {
+            "fecha_siembra": {
+              "valor": "Variedades tempranas: almácigo de octubre a diciembre, trasplante de diciembre a enero, cosecha de marzo a abril.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            },
+            "cosecha": {
+              "valor": "Variedades tempranas: aproximadamente 90 días desde el almácigo/trasplante.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            }
+          }
+        },
+        {
+          "nombre": "Tardía",
+          "difiere_en": {
+            "fecha_siembra": {
+              "valor": "Variedades tardías: almácigo de marzo a abril, trasplante de mayo a junio, cosecha de agosto a septiembre.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            },
+            "cosecha": {
+              "valor": "Variedades tardías: aproximadamente 200 días.",
+              "fuentes": [
+                {
+                  "titulo": "¿Cómo cultivar Coliflor?",
+                  "url": "https://www.elbroteurbano.com/como-cultivar-coliflor/",
+                  "organizacion": "El Brote Urbano"
+                }
+              ],
+              "confianza": 7
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Repollitos de Bruselas",
@@ -2744,7 +2800,29 @@
           }
         ],
         "confianza": 8
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Determinado",
+          "difiere_en": {}
+        },
+        {
+          "nombre": "Indeterminado",
+          "difiere_en": {
+            "longevidad": {
+              "valor": "Las variedades indeterminadas siguen dando frutos escalonadamente hasta las primeras heladas.",
+              "fuentes": [
+                {
+                  "titulo": "Ficha de cultivo Tomate",
+                  "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf",
+                  "organizacion": "Cátedra de Horticultura - UNLu"
+                }
+              ],
+              "confianza": 7
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Pimiento / Morrón",
@@ -5055,7 +5133,63 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Enana",
+          "difiere_en": {
+            "cosecha": {
+              "valor": "Variedades enanas: aproximadamente 60 días desde la siembra.",
+              "fuentes": [
+                {
+                  "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+                  "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+                  "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+                }
+              ],
+              "confianza": 8
+            },
+            "forma_siembra": {
+              "valor": "Variedades enanas (mata baja): a chorrillo, 15-20 plantas por metro lineal, surcos a 70 cm.",
+              "fuentes": [
+                {
+                  "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+                  "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+                  "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+                }
+              ],
+              "confianza": 8
+            }
+          }
+        },
+        {
+          "nombre": "De enrame",
+          "difiere_en": {
+            "cosecha": {
+              "valor": "Variedades de enrame: 70-80 días desde la siembra.",
+              "fuentes": [
+                {
+                  "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+                  "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+                  "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+                }
+              ],
+              "confianza": 8
+            },
+            "forma_siembra": {
+              "valor": "Variedades de enrame: 3-4 semillas por golpe cada 30 cm, a 3-4 cm de profundidad, en surcos separados 70 cm.",
+              "fuentes": [
+                {
+                  "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+                  "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+                  "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+                }
+              ],
+              "confianza": 8
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Arveja",
@@ -5248,7 +5382,41 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Enana",
+          "difiere_en": {
+            "forma_siembra": {
+              "valor": "Entre hileras 30-40 cm en variedades enanas.",
+              "fuentes": [
+                {
+                  "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+                  "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+                  "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+                }
+              ],
+              "confianza": 8
+            }
+          }
+        },
+        {
+          "nombre": "De enrame",
+          "difiere_en": {
+            "forma_siembra": {
+              "valor": "Entre hileras hasta 60 cm en las variedades de enrame.",
+              "fuentes": [
+                {
+                  "titulo": "Manual de Cultivos para la Huerta Orgánica Familiar (Pro-Huerta)",
+                  "url": "https://usermanual.wiki/Pdf/Manual20Cultivos20Pro20Huerta2020Cerbas.1931620069/html",
+                  "organizacion": "INTA / ProHuerta (EEA Cerbas)"
+                }
+              ],
+              "confianza": 8
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Haba",
@@ -5669,7 +5837,57 @@
           }
         ],
         "confianza": 7
-      }
+      },
+      "variedades": [
+        {
+          "nombre": "Chantenay-Nantesa",
+          "difiere_en": {
+            "cosecha": {
+              "valor": "Chantenay-Nantesa: aproximadamente 110 días desde la siembra.",
+              "fuentes": [
+                {
+                  "titulo": "Calendario de siembra",
+                  "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+                  "organizacion": "Mi Huerta"
+                }
+              ],
+              "confianza": 5
+            }
+          }
+        },
+        {
+          "nombre": "Criolla",
+          "difiere_en": {
+            "cosecha": {
+              "valor": "Criolla: aproximadamente 150 días desde la siembra.",
+              "fuentes": [
+                {
+                  "titulo": "Calendario de siembra",
+                  "url": "https://www.mihuerta.org.ar/wp-content/uploads/2013/11/Calendario-de-siembra.pdf",
+                  "organizacion": "Mi Huerta"
+                }
+              ],
+              "confianza": 5
+            }
+          }
+        },
+        {
+          "nombre": "Corta",
+          "difiere_en": {
+            "cosecha": {
+              "valor": "Variedades cortas: 50-90 días desde la siembra.",
+              "fuentes": [
+                {
+                  "titulo": "Cómo cultivar zanahorias en el huerto | Guía 2026",
+                  "url": "https://www.portalfruticola.com/noticias/2026/02/23/zanahorias/",
+                  "organizacion": "Portal Frutícola"
+                }
+              ],
+              "confianza": 5
+            }
+          }
+        }
+      ]
     },
     {
       "nombre_comun": "Remolacha",

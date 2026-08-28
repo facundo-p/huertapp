@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
@@ -12,7 +12,14 @@ import { estadosDelMes, seTrasplanta, type Capa, type EstadoMes } from '../lib/d
 import { nombreCorto } from '../lib/data/slugs'
 import { METODOS, metodosPorMes, textoDecadas, textoMeses } from '../lib/calendario'
 import { INICIALES_MES, decadaDe, decadasDelMes, mesDeDecada, nombreDecada } from '../lib/fechas'
-import { GRUPOS, IconoCalendario, IconoGrupo, IconoSembrar, IconoTrasplantar } from '../icons'
+import {
+  GRUPOS,
+  IconoCalendario,
+  IconoDesplegar,
+  IconoGrupo,
+  IconoSembrar,
+  IconoTrasplantar,
+} from '../icons'
 import type { Decada, EspecieEnriquecida, Grupo, Mes, Zona } from '../lib/data/types'
 import './Calendario.css'
 
@@ -27,6 +34,15 @@ export function Calendario() {
   const [capa, setCapa] = useState<Capa>('siembra')
   const [grupo, setGrupo] = useState<Grupo | null>(null)
   const [elegida, setElegida] = useState<EspecieEnriquecida | null>(null)
+  const [abiertas, setAbiertas] = useState<ReadonlySet<string>>(new Set())
+
+  function alternar(slug: string) {
+    setAbiertas((s) => {
+      const n = new Set(s)
+      if (!n.delete(slug)) n.add(slug)
+      return n
+    })
+  }
 
   const secciones = useMemo(() => {
     if (!indice) return []
@@ -117,14 +133,47 @@ export function Calendario() {
               ))}
             </h2>
             {especies.map((e) => (
-              <FilaEspecie
-                key={e.slug}
-                especie={e}
-                capa={capa}
-                zona={zona}
-                decadaHoy={decadaHoy}
-                onAbrir={() => setElegida(e)}
-              />
+              <Fragment key={e.slug}>
+                <FilaEspecie
+                  especie={e}
+                  capa={capa}
+                  zona={zona}
+                  decadaHoy={decadaHoy}
+                  onAbrir={() => setElegida(e)}
+                />
+                {/* Plegadas por defecto: son once filas más sobre 55, y en la
+                    pantalla más apretada de la app eso se nota. */}
+                {e.variedades.length > 0 && (
+                  <button
+                    className="cal-desplegar"
+                    aria-expanded={abiertas.has(e.slug)}
+                    onClick={() => alternar(e.slug)}
+                  >
+                    <span className={abiertas.has(e.slug) ? 'cal-desplegar__flecha es-abierta' : 'cal-desplegar__flecha'}>
+                      <IconoDesplegar size={13} />
+                    </span>
+                    {abiertas.has(e.slug)
+                      ? 'ocultar variedades'
+                      : `${e.variedades.length} variedades`}
+                  </button>
+                )}
+                {abiertas.has(e.slug) &&
+                  e.variedades.map((v) => {
+                    const hija = indice!.porSlug.get(v.slug)
+                    if (!hija) return null
+                    return (
+                      <FilaEspecie
+                        key={v.slug}
+                        especie={hija}
+                        capa={capa}
+                        zona={zona}
+                        decadaHoy={decadaHoy}
+                        onAbrir={() => setElegida(hija)}
+                        variedad
+                      />
+                    )
+                  })}
+              </Fragment>
             ))}
           </section>
         ))}
@@ -148,22 +197,34 @@ function FilaEspecie({
   zona,
   decadaHoy,
   onAbrir,
+  variedad,
 }: {
   especie: EspecieEnriquecida
   capa: Capa
   zona: Zona
   decadaHoy: Decada
   onAbrir: () => void
+  /** es una variedad desplegada bajo su especie */
+  variedad?: boolean
 }) {
   return (
     <button
-      className="cal-fila cal-fila--dato"
+      className={`cal-fila cal-fila--dato${variedad ? ' cal-fila--variedad' : ''}`}
       onClick={onAbrir}
       aria-label={etiquetaFila(especie, capa, zona)}
     >
       <span className="cal-nombre">
-        <IconoGrupo grupo={especie.grupo} size={15} decorativo />
-        {nombreCorto(especie.nombre_comun)}
+        {/* La variedad no repite el ícono de grupo ni el nombre de la especie:
+            los dos están en la fila de arriba. Se distingue por sangría y por
+            su nombre propio, no por color. */}
+        {variedad ? (
+          <span className="cal-nombre__variedad">{especie.variedad}</span>
+        ) : (
+          <>
+            <IconoGrupo grupo={especie.grupo} size={15} decorativo />
+            {nombreCorto(especie.nombre_comun)}
+          </>
+        )}
       </span>
       {MESES.map((m) => (
         <Celda

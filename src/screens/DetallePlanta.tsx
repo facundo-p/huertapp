@@ -106,7 +106,14 @@ export function DetallePlanta() {
     <div className="pantalla pantalla--detalle">
       <Header
         titulo={nombre}
-        sobretitulo={planta.apodo ? especie?.nombre_comun : especie?.nombre_cientifico}
+        // La variedad anotada a mano viaja en el sobretítulo, pegada a la
+        // especie: es el dato que después hace útil el historial.
+        sobretitulo={[
+          planta.apodo ? especie?.nombre_comun : especie?.nombre_cientifico,
+          planta.variedad,
+        ]
+          .filter(Boolean)
+          .join(' · ')}
         volver
       />
 
