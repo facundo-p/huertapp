@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { BottomSheet } from './BottomSheet'
-import { SelectorUbicacion, resolverUbicacion } from './SelectorUbicacion'
+import { SelectorUbicacion } from './SelectorUbicacion'
 import { trasplantarParte, trasplantarTanda, sinRomper } from '../lib/huerta/store'
 import { aCantidad, textoCantidad } from '../lib/huerta/tanda'
 import { hoyISO, type Planta } from '../lib/huerta/tipos'
@@ -24,7 +24,6 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
   const [parte, setParte] = useState(false)
   const [cuantas, setCuantas] = useState('')
   const [ubicacionId, setUbicacionId] = useState('')
-  const [nuevaUbicacion, setNuevaUbicacion] = useState('')
   const [fecha, setFecha] = useState(hoyISO())
   const [guardando, setGuardando] = useState(false)
 
@@ -37,7 +36,6 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
     setParte(false)
     setCuantas('')
     setUbicacionId('')
-    setNuevaUbicacion('')
     setFecha(hoyISO())
   }
 
@@ -45,7 +43,7 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
     if (guardando || cero || sinResto) return
     setGuardando(true)
     try {
-      const ubi = await resolverUbicacion(ubicacionId, nuevaUbicacion)
+      const ubi = ubicacionId || undefined
       if (parte) await trasplantarParte(planta, { fecha, ubicacionId: ubi, cuantas: n })
       else await trasplantarTanda(planta, { fecha, ubicacionId: ubi })
       limpiar()
@@ -129,13 +127,7 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
         <label className="alta__label" htmlFor="tras-ubi">
           {parte ? '¿A dónde van?' : '¿A dónde va?'}
         </label>
-        <SelectorUbicacion
-          id="tras-ubi"
-          valor={ubicacionId}
-          onValor={setUbicacionId}
-          nombreNuevo={nuevaUbicacion}
-          onNombreNuevo={setNuevaUbicacion}
-        />
+        <SelectorUbicacion id="tras-ubi" valor={ubicacionId} onValor={setUbicacionId} />
       </div>
 
       <div className="alta__campo">

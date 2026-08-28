@@ -98,6 +98,16 @@ export function IconoPlaga(p: IconProps) {
   )
 }
 
+/** Editar: lápiz sobre recuadro. El lápiz solo ya significa "nota del diario". */
+export function IconoEditar(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M11.2 5.8 H 6.4 C 5.1 5.8, 4.2 6.7, 4.2 8 V 17.6 C 4.2 18.9, 5.1 19.8, 6.4 19.8 H 16 C 17.3 19.8, 18.2 18.9, 18.2 17.6 V 12.6" />
+      <path d="M9.6 14.6 L 10.2 12.1 L 16.9 5.4 C 17.7 4.6, 18.9 4.6, 19.7 5.4 C 20.5 6.2, 20.5 7.4, 19.7 8.2 L 13 14.9 L 9.6 14.6 Z" />
+    </Svg>
+  )
+}
+
 /** Nota: lápiz */
 export function IconoNota(p: IconProps) {
   return (

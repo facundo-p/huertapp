@@ -26,6 +26,16 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Tus lugares ahora tienen ficha propia.** Una ubicación ya no es solo un
+  nombre: le podés decir qué es (maceta, bancal elevado, bancal a tierra,
+  almácigo), sus medidas en centímetros —en el bancal elevado el volumen de
+  sustrato se calcula solo—, cuánto sol recibe, cómo la agarra una helada (a
+  cielo abierto, resguardada o invernadero) y notas libres. Todo opcional y
+  editable cuando quieras, con el lápiz que aparece al lado de cada lugar en
+  Mi huerta. Al crear un lugar desde el alta de una planta o un trasplante se
+  abre la misma ficha completa. Y desde ahí también podés borrar un lugar: sus
+  plantas quedan "sin lugar asignado", no se borran.
+
 - **Una siembra ya no es "una planta".** Ahora podés anotarle a cada siembra
   cuántas plantitas tiene, más o menos (~8), y cuando trasplantás **una parte**
   —del semillero a las macetitas, de las macetitas al bancal— esa parte pasa a
