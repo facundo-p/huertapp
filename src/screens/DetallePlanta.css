@@ -17,6 +17,18 @@
   font-weight: 700;
 }
 
+/* la mudanza es acción secundaria: mismo cuerpo que avanzar, sin el relleno */
+.planta__mover {
+  min-height: var(--tap-min);
+  border-radius: var(--radio-chip);
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  color: var(--verde-prof);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
+
 .planta__datos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -24,6 +36,49 @@
   margin: 0;
   padding-top: var(--esp-3);
   border-top: 1.5px dashed var(--linea-suave);
+}
+
+/* el borde punteado dice "esto se completa": es la cuenta a ojo */
+.planta__cantidad {
+  min-height: var(--tap-min);
+  border-radius: var(--radio-s);
+  background: var(--papel-hundido);
+  border: 1.5px dashed var(--linea);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.planta__partes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  padding-top: var(--esp-3);
+  border-top: 1.5px dashed var(--linea-suave);
+}
+
+.planta__partes-titulo {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.planta__partes-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.planta__partes-lista a {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-size: var(--texto-s);
+  font-weight: 600;
 }
 
 .planta__dato {

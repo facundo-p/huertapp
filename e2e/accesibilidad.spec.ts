@@ -25,7 +25,7 @@ async function conDemo(page: Page) {
   await page.goto('/#/ajustes')
   await page.waitForLoadState('networkidle')
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
-  await expect(page.getByText(/^5 plantas$/)).toBeVisible({ timeout: 5000 })
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 5000 })
   await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
   await expect(page.getByText(/Se pide para/)).toBeVisible()
 }

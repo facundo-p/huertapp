@@ -177,9 +177,9 @@
 }
 
 .planta-card__cuando {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* con apodo y cantidad no entra en una línea: mejor que envuelva a que
+     termine en "hace 2…" */
+  overflow-wrap: anywhere;
 }
 
 .planta-card__etapa {

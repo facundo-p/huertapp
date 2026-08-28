@@ -161,6 +161,20 @@ export const guardarEntrada = async (e: EntradaDiario) => {
   await (await abrir()).put('diario', e)
 }
 
+/**
+ * Guarda plantas y entradas de diario juntas: o entra todo o nada. Dividir una
+ * tanda escribe dos plantas y dos entradas; a medias sería una huerta que
+ * cuenta plantines que no existen.
+ */
+export async function guardarLote(datos: { plantas: Planta[]; entradas: EntradaDiario[] }) {
+  const d = await abrir()
+  const tx = d.transaction(['plantas', 'diario'], 'readwrite')
+  // sin ningún await ajeno a la transacción (auto-commit, ver reemplazarTodo)
+  for (const p of datos.plantas) tx.objectStore('plantas').put(p)
+  for (const e of datos.entradas) tx.objectStore('diario').put(e)
+  await tx.done
+}
+
 export async function borrarEntrada(id: string) {
   const d = await abrir()
   const entrada = await d.get('diario', id)

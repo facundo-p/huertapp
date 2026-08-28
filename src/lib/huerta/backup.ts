@@ -1,5 +1,6 @@
 import * as db from './db'
 import { hoyISO, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
+import { resumenHuerta } from './tanda'
 import { zonaActual, elegirZona } from '../zona'
 import { CLAVE_UBICACION, elegirUbicacion, sacarUbicacion } from '../pronostico/store'
 import type { UbicacionClima } from '../pronostico/tipos'
@@ -127,6 +128,8 @@ export function validar(dato: unknown): Backup {
 
 export interface ResumenBackup {
   plantas: number
+  /** "3 siembras · ~24 plantas": el mismo texto que usa Mi huerta */
+  huerta: string
   entradas: number
   fotos: number
   exportado: string
@@ -135,6 +138,7 @@ export interface ResumenBackup {
 
 export const resumir = (b: Backup): ResumenBackup => ({
   plantas: b.plantas.length,
+  huerta: resumenHuerta(b.plantas),
   entradas: b.diario.length,
   fotos: b.fotos.length,
   exportado: b.exportado,

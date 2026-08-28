@@ -67,8 +67,8 @@ test('la app se recupera de una base creada sin sus object stores', async ({ pag
 
   // y tiene que poder guardar: es justo lo que no podía hacer
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
-  // `[1-9]` y no `\d`: con "0 plantas" este test pasaba sin haber guardado nada
-  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+  // el texto final exacto: "1 siembra" a mitad de la carga también matchearía
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 10_000 })
 
   // y sobre todo: tiene que haber quedado escrito de verdad
   await page.goto('/sw.js')
@@ -126,7 +126,7 @@ test('un import que falla a la mitad deja intacto lo que ya había', async ({ pa
   await page.waitForLoadState('networkidle')
 
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
-  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 10_000 })
 
   const antes = await page.evaluate(
     () =>
@@ -237,7 +237,7 @@ test('la bitácora sobrevive a que se borre IndexedDB y anota la huerta vacía',
   await page.goto('/#/ajustes')
   await page.waitForLoadState('networkidle')
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
-  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 10_000 })
 
   // Un arranque CON plantas, que es el registro que la última aserción exige.
   // Sin esto el test dependía de una carrera: el apunte solo decía plantas > 0
@@ -245,7 +245,7 @@ test('la bitácora sobrevive a que se borre IndexedDB y anota la huerta vacía',
   // temprano y el test caía (pasó acá y en el push a staging del 2026-08-22).
   await page.reload()
   await page.waitForLoadState('networkidle')
-  await expect(page.getByText(/^[1-9]\d* plantas$/)).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 10_000 })
 
   const leerBitacora = () =>
     page.evaluate(() => {
@@ -272,7 +272,7 @@ test('la bitácora sobrevive a que se borre IndexedDB y anota la huerta vacía',
 
   await page.goto('/#/ajustes')
   await page.waitForLoadState('networkidle')
-  await expect(page.getByText(/^0 plantas$|^Todavía no/)).toBeVisible({ timeout: 10_000 })
+  await expect(page.getByText(/^0 siembras$|^Todavía no/)).toBeVisible({ timeout: 10_000 })
 
   const despues = await leerBitacora()
   expect(despues.length, 'los apuntes viejos no se pierden con la base').toBeGreaterThan(

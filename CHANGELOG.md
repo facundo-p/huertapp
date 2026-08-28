@@ -26,6 +26,15 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Una siembra ya no es "una planta".** Ahora podés anotarle a cada siembra
+  cuántas plantitas tiene, más o menos (~8), y cuando trasplantás **una parte**
+  —del semillero a las macetitas, de las macetitas al bancal— esa parte pasa a
+  su propia tarjeta, con su lugar y su fecha, y el movimiento queda anotado en
+  el diario de las dos. La cuenta se ajusta cuando germinan, cuando raleás o
+  cuando se pierde alguna, también con nota automática. Todo a ojo y nada
+  obligatorio: sin cantidades, la app sigue andando como siempre. Mi huerta
+  ahora cuenta en serio: "3 siembras · ~24 plantas".
+
 - **El pronóstico de la semana, si vos querés.** En Ajustes le decís a la app
   más o menos dónde está tu huerta —tu zona así nomás, tu localidad, o el GPS—
   y Hoy te muestra los próximos 7 días, con avisos cuando viene una helada,

@@ -36,6 +36,10 @@ export interface Planta {
   etapaDesde: string
   /** fecha en que el usuario confirmó que germinó (ISO corta) */
   germino?: string
+  /** cuántas hay ahora, a ojo. Nunca obligatorio; se muestra como "~8" */
+  cantidad?: number
+  /** raíz de la siembra de la que se separó esta tarjeta. Sin él, esta tarjeta ES la siembra */
+  origenId?: string
   notas?: string
   creada: string
   archivada?: boolean
