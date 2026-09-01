@@ -52,6 +52,14 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    nombre: 'explorar-filtro-temperatura',
+    ruta: '/#/explorar',
+    antes: async (page) => {
+      await page.getByRole("button", { name: /^Filtros/ }).click()
+      await page.getByRole('button', { name: /Necesita calor para germinar/ }).click()
+    },
+  },
+  {
     nombre: 'explorar-busqueda',
     ruta: '/#/explorar',
     antes: async (page) => {
