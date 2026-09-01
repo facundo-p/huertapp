@@ -204,6 +204,43 @@ describe('motor de tareas', () => {
   })
 })
 
+describe('germinación manda', () => {
+  it('sin germinación confirmada no se pide trasplante, aunque la edad dé', () => {
+    // el bug: este tomate recibía "fijate si asomó" y "hora de trasplantar" a la vez
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo' })
+    const tipos = motor([p]).map((t) => t.tipo)
+    expect(tipos).toContain('revisar_germinacion')
+    expect(tipos).not.toContain('trasplantar')
+  })
+
+  it('marcada la germinación, el trasplante vuelve y la pregunta se va', () => {
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -27) })
+    const tipos = motor([p]).map((t) => t.tipo)
+    expect(tipos).toContain('trasplantar')
+    expect(tipos).not.toContain('revisar_germinacion')
+  })
+
+  it('una especie sin dato de germinación no espera nada: el trasplante sale igual', () => {
+    // batata: dias_germinacion null, trasplante a los 50-70
+    const p = planta({ slug: 'batata', sembrada: sumarDias(HOY, -55), etapa: 'almacigo' })
+    expect(motor([p]).some((t) => t.tipo === 'trasplantar')).toBe(true)
+  })
+
+  it('lo plantado no germina: el trasplante no se bloquea', () => {
+    const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', metodo: 'plantacion' })
+    expect(motor([p]).some((t) => t.tipo === 'trasplantar')).toBe(true)
+  })
+
+  it('la cosecha no espera a la germinación', () => {
+    // quien siembra directo muchas veces no responde nunca la pregunta,
+    // y a los 40 días la rúcula le corresponde igual
+    const p = planta({ slug: 'rucula', sembrada: sumarDias(HOY, -40) })
+    const tipos = motor([p]).map((t) => t.tipo)
+    expect(tipos).toContain('cosechar')
+    expect(tipos).toContain('revisar_germinacion')
+  })
+})
+
 describe('tandas divididas en el motor', () => {
   it('la madre con resto sigue pidiendo trasplante; la parte que ya salió, no', () => {
     const madre = planta({

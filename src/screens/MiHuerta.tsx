@@ -14,7 +14,7 @@ import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
 import { ETAPA_INFO, hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
 import { cantidadCorta, resumenHuerta } from '../lib/huerta/tanda'
 import { estimar, textoHito } from '../lib/huerta/estimar'
-import { germinacion } from '../lib/huerta/germinacion'
+import { germinacion, germinacionPendiente } from '../lib/huerta/germinacion'
 import {
   alternarPlanta,
   alternarUbicacion,
@@ -312,8 +312,7 @@ function TarjetaPlanta({ planta, especie, abierta, pendientes, alPlegar }: Tarje
       <div id={panel} className="planta-card__detalle" hidden={!abierta}>
         <CycleProgress etapa={planta.etapa} directa={directa} compacto />
 
-        {/* mientras se espera la germinación, ése es EL dato: lo demás puede esperar */}
-        {germ && germ.estado !== 'germino' && germ.estado !== 'no_aplica' ? (
+        {germinacionPendiente(germ) ? (
           <p className={`planta-card__hito ${claseGerminacion(germ.estado)}`}>
             {germ.estado === 'demorada' ? <IconoAlerta size={14} /> : <IconoSembrar size={14} />}
             {textoGerminacion(germ)}

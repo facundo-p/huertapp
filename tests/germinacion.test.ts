@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { causasDeDemora } from '../src/lib/huerta/germinacion'
+import { causasDeDemora, germinacion, germinacionPendiente } from '../src/lib/huerta/germinacion'
 import type { EspecieEnriquecida, PistaGerminacion } from '../src/lib/data/types'
 import type { Planta } from '../src/lib/huerta/tipos'
 
@@ -113,5 +113,25 @@ describe('pistas de germinación por especie', () => {
       if (c.clase === 'especie') expect(c.fuentes?.length).toBeGreaterThan(0)
       else expect(c.fuentes).toBeUndefined()
     }
+  })
+})
+
+describe('germinacionPendiente', () => {
+  const tomate = porSlug('tomate')
+
+  it('pendiente mientras la pregunta siga abierta: temprano, en ventana o demorada', () => {
+    // el tomate germina en 6-10 días; sembrado el 1/3
+    expect(germinacionPendiente(germinacion(planta('tomate'), tomate, '2026-03-03'))).toBe(true)
+    expect(germinacionPendiente(germinacion(planta('tomate'), tomate, '2026-03-08'))).toBe(true)
+    expect(germinacionPendiente(germinacion(planta('tomate'), tomate, '2026-03-25'))).toBe(true)
+  })
+
+  it('resuelta o inaplicable, no hay nada que esperar', () => {
+    const marcada = { ...planta('tomate'), germino: '2026-03-08' }
+    const plantada = { ...planta('tomate'), metodo: 'plantacion' as const }
+    expect(germinacionPendiente(germinacion(marcada, tomate, '2026-03-25'))).toBe(false)
+    expect(germinacionPendiente(germinacion(plantada, tomate, '2026-03-25'))).toBe(false)
+    // especie sin dias_germinacion: germinacion() da null, y sin dato no se espera
+    expect(germinacionPendiente(null)).toBe(false)
   })
 })

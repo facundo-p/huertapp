@@ -7,12 +7,12 @@ import { AltaPlanta } from '../components/AltaPlanta'
 import { Pronostico } from '../components/Pronostico'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta } from '../lib/huerta/store'
+import { useHuerta, marcarGerminada } from '../lib/huerta/store'
 import { usePronostico } from '../lib/pronostico/store'
 import { derivarAvisos, frescura, suprimirHeladaEstadistica } from '../lib/pronostico/derivar'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
-import { hoyISO } from '../lib/huerta/tipos'
+import { hoyISO, type Planta } from '../lib/huerta/tipos'
 import { fechaLarga, nombreDecada, decadaDe, saludoEstacional } from '../lib/fechas'
 import {
   IconoAlerta,
@@ -82,6 +82,14 @@ export function Hoy() {
     await completar(t.id)
   }
 
+  // "Asomó" no toca `completadas`: setear `germino` ya apaga el aviso en la
+  // derivación, y esa verdad tiene que vivir en un solo lugar.
+  async function alAsomar(t: Tarea, p: Planta) {
+    setFestejando(t.id)
+    setTimeout(() => setFestejando(null), 700)
+    await marcarGerminada(p) // con la fecha de hoy; "ayer/otro día" queda en la ficha
+  }
+
   const listo = cargado && !cargando
 
   return (
@@ -97,20 +105,27 @@ export function Hoy() {
           <section className="hoy__seccion">
             <h2 className="seccion__titulo subrayado-onda">Para hacer</h2>
             <ul className="tareas">
-              {tareasMostradas.map((t, i) => (
-                <li
-                  key={t.id}
-                  className={`tarea es-${t.tipo} ${festejando === t.id ? 'es-festejando' : ''} aparecer`}
-                  style={{ '--retraso': `${Math.min(i, 6) * 0.04}s` } as React.CSSProperties}
-                >
-                  <TareaFila
-                    tarea={t}
-                    festejando={festejando === t.id}
-                    onCompletar={() => void alCompletar(t)}
-                    onPosponer={() => void posponer(t.id)}
-                  />
-                </li>
-              ))}
+              {tareasMostradas.map((t, i) => {
+                const suya =
+                  t.tipo === 'revisar_germinacion'
+                    ? plantas.find((p) => p.id === t.plantaId)
+                    : undefined
+                return (
+                  <li
+                    key={t.id}
+                    className={`tarea es-${t.tipo} ${festejando === t.id ? 'es-festejando' : ''} aparecer`}
+                    style={{ '--retraso': `${Math.min(i, 6) * 0.04}s` } as React.CSSProperties}
+                  >
+                    <TareaFila
+                      tarea={t}
+                      festejando={festejando === t.id}
+                      onCompletar={() => void alCompletar(t)}
+                      onPosponer={() => void posponer(t.id)}
+                      onAsomo={suya ? () => void alAsomar(t, suya) : undefined}
+                    />
+                  </li>
+                )
+              })}
             </ul>
           </section>
         )}
@@ -182,11 +197,14 @@ function TareaFila({
   festejando,
   onCompletar,
   onPosponer,
+  onAsomo,
 }: {
   tarea: Tarea
   festejando: boolean
   onCompletar: () => void
   onPosponer: () => void
+  /** solo en el aviso de germinación: responde la pregunta en vez de taparla */
+  onAsomo?: () => void
 }) {
   const Icono = ICONO_TAREA[t.tipo]
   const cuerpo = (
@@ -216,12 +234,25 @@ function TareaFila({
         <div className="tarea__cuerpo">{cuerpo}</div>
       )}
       <div className="tarea__acciones">
-        <button className="tarea__accion es-listo" onClick={onCompletar}>
-          Hecho
-        </button>
-        <button className="tarea__accion" onClick={onPosponer}>
-          Más tarde
-        </button>
+        {onAsomo ? (
+          <>
+            <button className="tarea__accion es-listo" onClick={onAsomo}>
+              Asomó
+            </button>
+            <button className="tarea__accion" onClick={onPosponer}>
+              Todavía no
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="tarea__accion es-listo" onClick={onCompletar}>
+              Hecho
+            </button>
+            <button className="tarea__accion" onClick={onPosponer}>
+              Más tarde
+            </button>
+          </>
+        )}
       </div>
     </>
   )
