@@ -24,6 +24,15 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Arreglado
+
+- **La barra de temperaturas ahora dice todo lo que sabe — y solo lo que
+  sabe.** Los mínimos y máximos que la planta aguanta se leen alineados a su
+  tramo de la barra, no perdidos en las puntas. Y cuando una fuente no da un
+  extremo, vas a ver "s/d" en su lugar: antes la barra repetía el número del
+  ideal como si fuera el límite, y eso era inventar un dato. De paso, la barra
+  se presenta entera a los lectores de pantalla.
+
 ---
 
 ## [1.2.0] — 2026-08-28

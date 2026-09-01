@@ -56,15 +56,37 @@
   opacity: 0.55;
 }
 
+/* Dos renglones absolutos bajo el riel: arriba los viables alineados a su
+   ala, abajo el ideal centrado en su banda. Determinístico: no hay posición
+   en la que un número pise a otro. */
 .escala__numeros {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  height: 2.6em;
   margin-top: 3px;
-  font-size: 11px;
+  font-size: var(--texto-xs);
   color: var(--tinta-suave);
 }
 
-.escala__numeros strong {
+.escala__num {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+.escala__num.es-centrada {
+  transform: translateX(-50%);
+}
+
+/* "s/d" con estilo propio: es un dato que falta, no un número más */
+.escala__num.es-sd {
+  font-style: italic;
+}
+
+.escala__ideal-num {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
   color: var(--verde-prof);
   font-family: var(--font-display);
 }
