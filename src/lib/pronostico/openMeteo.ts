@@ -24,6 +24,8 @@ const DIARIAS = [
   'uv_index_max',
   'sunrise',
   'sunset',
+  'sunshine_duration',
+  'daylight_duration',
 ]
 
 const HORARIAS = [
@@ -32,6 +34,7 @@ const HORARIAS = [
   'surface_pressure',
   'soil_temperature_6cm',
   'soil_moisture_3_to_9cm',
+  'weather_code',
 ]
 
 export function armarURL(lat: number, lon: number): string {
@@ -55,6 +58,31 @@ export function cieloDeCodigo(codigo: number): CieloDia {
   return 'nublado' // el 3, y cualquier código que no conozcamos
 }
 
+/**
+ * El weather_code diario de Open-Meteo es "la condición MÁS SEVERA del día":
+ * una mañana cerrada tapa un día de sol entero (pasó: 91 % de sol efectivo y
+ * el código decía nublado — por eso el sol no aparecía nunca). El cielo del
+ * día sale de la fracción de sol efectivo, y el agua de las horas de luz
+ * tiene prioridad. Umbrales SUPUESTOS de presentación, no dato agronómico:
+ * 60/30 % de sol, 2 h de agua, 3 h de niebla.
+ */
+export function cieloDelDia(
+  codigoDiario: number,
+  diurnos: number[],
+  fraccionSol: number | null,
+): CieloDia {
+  const familias = diurnos.map(cieloDeCodigo)
+  if (familias.includes('tormenta')) return 'tormenta'
+  if (familias.includes('nieve')) return 'nieve'
+  const agua = familias.filter((f) => f === 'lluvia' || f === 'llovizna')
+  if (agua.length >= 2) return agua.includes('lluvia') ? 'lluvia' : 'llovizna'
+  if (fraccionSol == null) return cieloDeCodigo(codigoDiario)
+  if (fraccionSol >= 0.6) return 'sol'
+  if (fraccionSol >= 0.3) return 'sol-nubes'
+  if (familias.filter((f) => f === 'niebla').length >= 3) return 'niebla'
+  return 'nublado'
+}
+
 interface RespuestaOM {
   daily?: {
     time?: string[]
@@ -67,6 +95,9 @@ interface RespuestaOM {
     wind_gusts_10m_max?: (number | null)[]
     uv_index_max?: (number | null)[]
     sunrise?: string[]
+    sunset?: string[]
+    sunshine_duration?: (number | null)[]
+    daylight_duration?: (number | null)[]
   }
   hourly?: {
     time?: string[]
@@ -74,6 +105,7 @@ interface RespuestaOM {
     dew_point_2m?: (number | null)[]
     surface_pressure?: (number | null)[]
     soil_temperature_6cm?: (number | null)[]
+    weather_code?: (number | null)[]
   }
 }
 
@@ -112,12 +144,27 @@ export function parsear(json: unknown, lat: number, lon: number, obtenido: strin
     // Sin cielo o sin temperaturas el día no dice nada: se omite, no se inventa.
     if (fecha == null || codigo == null || min == null || max == null) continue
 
+    // los códigos de las horas de luz: de la salida a la puesta del sol
+    const amanecer = d.sunrise?.[i]
+    const atardecer = d.sunset?.[i]
+    const hDesde = amanecer ? Number(amanecer.slice(11, 13)) : 0
+    const hHasta = atardecer ? Number(atardecer.slice(11, 13)) : 23
+    const diurnos: number[] = []
+    for (let j = 0; j < horas.length; j++) {
+      const v = r.hourly?.weather_code?.[j]
+      if (!horas[j].startsWith(fecha) || typeof v !== 'number') continue
+      const hora = Number(horas[j].slice(11, 13))
+      if (hora >= hDesde && hora <= hHasta) diurnos.push(v)
+    }
+    const solSeg = numero(d.sunshine_duration?.[i])
+    const luzSeg = numero(d.daylight_duration?.[i])
+    const fraccionSol = solSeg != null && luzSeg != null && luzSeg > 0 ? solSeg / luzSeg : null
+
     const humedades = valoresDelDia(horas, r.hourly?.relative_humidity_2m, fecha)
     const presiones = valoresDelDia(horas, r.hourly?.surface_pressure, fecha)
     const suelos = valoresDelDia(horas, r.hourly?.soil_temperature_6cm, fecha)
 
     // El rocío del amanecer: el dew point a la hora en que sale el sol.
-    const amanecer = d.sunrise?.[i]
     let rocio: number | null = null
     if (amanecer) {
       const horaAmanecer = `${fecha}T${amanecer.slice(11, 13)}:00`
@@ -127,7 +174,7 @@ export function parsear(json: unknown, lat: number, lon: number, obtenido: strin
 
     dias.push({
       fecha,
-      cielo: cieloDeCodigo(codigo),
+      cielo: cieloDelDia(codigo, diurnos, fraccionSol),
       min,
       max,
       probLluvia: numero(d.precipitation_probability_max?.[i]),

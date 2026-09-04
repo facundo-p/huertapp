@@ -24,6 +24,16 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **El pronóstico ya no te esconde el sol, y hoy manda.** El cielo de cada día
+  ahora sale de cuántas horas de sol efectivo trae el pronóstico, no del "peor
+  momento del día" como venía: una mañana nublada pintaba de gris un día
+  entero de sol. La franja pasa a ser un carrusel: hoy va primero y en grande
+  —cielo, temperaturas, lluvia, viento y UV a la vista— y el resto de la
+  semana se desliza con el dedo. Y los íconos ganaron color: el sol en ámbar,
+  la lluvia en azul.
+
 ### Arreglado
 
 - **La app ya no te apura a trasplantar lo que todavía no asomó.** Si no

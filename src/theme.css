@@ -71,6 +71,12 @@
   --suelo-rustico: #8d8776;
 
   /* ---- Categorías de luz ---- */
+  /* cielos del pronóstico: trazo de ícono, ≥3:1 sobre papel-alto */
+  --cielo-sol: #a07414;
+  --cielo-agua: #4f7f95;
+  --cielo-nube: #5c6350;
+  --cielo-frio: #67737f;
+
   --luz-pleno: #d98e23;
   --luz-parcial: #dcb13c;
   --luz-media: #8fa3ae;
