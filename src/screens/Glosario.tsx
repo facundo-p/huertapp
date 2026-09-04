@@ -291,7 +291,7 @@ export function Glosario() {
           </p>
           <ul className="glosario__lista etiqueta">
             {Object.entries(CIELOS).map(([c, info]) => (
-              <Fila key={c} Icono={info.Icono} nombre={info.nombre} desc={descCielo(c)} />
+              <Fila key={c} Icono={info.Icono} nombre={info.nombre} desc={descCielo(c)} color={info.color} />
             ))}
             <Fila
               Icono={IconoCalor}

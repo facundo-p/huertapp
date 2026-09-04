@@ -4,7 +4,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { openMeteo, armarURL, parsear, cieloDeCodigo } from '../src/lib/pronostico/openMeteo'
+import { openMeteo, armarURL, parsear, cieloDeCodigo, cieloDelDia } from '../src/lib/pronostico/openMeteo'
 import { proveedor } from '../src/lib/pronostico/proveedor'
 import { COORDS_ZONA } from '../src/lib/pronostico/tipos'
 import type { UbicacionClima } from '../src/lib/pronostico/tipos'
@@ -34,6 +34,8 @@ const minima = (daily: Record<string, unknown[]>, hourly?: Record<string, unknow
     uv_index_max: [5],
     sunrise: ['2026-08-27T07:19'],
     sunset: ['2026-08-27T18:30'],
+    sunshine_duration: [null],
+    daylight_duration: [null],
     ...daily,
   },
   hourly: hourly ?? {
@@ -43,6 +45,7 @@ const minima = (daily: Record<string, unknown[]>, hourly?: Record<string, unknow
     surface_pressure: Array(24).fill(1010),
     soil_temperature_6cm: Array(24).fill(14),
     soil_moisture_3_to_9cm: Array(24).fill(0.3),
+    weather_code: Array(24).fill(3),
   },
 })
 
@@ -50,8 +53,8 @@ describe('armarURL', () => {
   it('pide exactamente las variables acordadas, en hora de Buenos Aires', () => {
     expect(armarURL(-34.82, -58.54)).toBe(
       'https://api.open-meteo.com/v1/forecast?latitude=-34.82&longitude=-58.54' +
-        '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,uv_index_max,sunrise,sunset' +
-        '&hourly=relative_humidity_2m,dew_point_2m,surface_pressure,soil_temperature_6cm,soil_moisture_3_to_9cm' +
+        '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,uv_index_max,sunrise,sunset,sunshine_duration,daylight_duration' +
+        '&hourly=relative_humidity_2m,dew_point_2m,surface_pressure,soil_temperature_6cm,soil_moisture_3_to_9cm,weather_code' +
         '&timezone=America%2FArgentina%2FBuenos_Aires&forecast_days=7',
     )
   })
@@ -81,33 +84,72 @@ describe('cieloDeCodigo', () => {
   })
 })
 
+describe('cieloDelDia', () => {
+  const soleado = Array(12).fill(0)
+
+  it('la fracción de sol manda: mucha luz es sol, media es sol con nubes, poca es nublado', () => {
+    expect(cieloDelDia(3, [3, 3, 3, 0, 0, 0], 0.91)).toBe('sol')
+    expect(cieloDelDia(3, [3, 3, 3, 0, 0, 0], 0.45)).toBe('sol-nubes')
+    expect(cieloDelDia(3, [3, 3, 3, 3, 3, 3], 0.2)).toBe('nublado')
+  })
+
+  it('el código diario "más severo del día" ya no decide solo (el bug del sol que nunca aparecía)', () => {
+    // día real 2026-08-28: código diario 3 por la mañana cerrada, 91 % de sol
+    expect(cieloDelDia(3, [3, 3, 3, 2, 3, 3, 2, 1, 3, 0, 0, 1], 0.91)).toBe('sol')
+  })
+
+  it('dos o más horas de agua a la luz del día pisan al sol', () => {
+    expect(cieloDelDia(3, [61, 63, ...soleado], 0.7)).toBe('lluvia')
+    expect(cieloDelDia(3, [51, 53, ...soleado], 0.8)).toBe('llovizna')
+  })
+
+  it('una sola hora de agua no alcanza para teñir el día', () => {
+    expect(cieloDelDia(3, [51, ...soleado], 0.8)).toBe('sol')
+  })
+
+  it('la tormenta y la nieve ganan siempre', () => {
+    expect(cieloDelDia(3, [95, ...soleado], 0.9)).toBe('tormenta')
+    expect(cieloDelDia(3, [71, ...soleado], 0.9)).toBe('nieve')
+  })
+
+  it('la niebla aparece cuando domina y no hay sol que la levante', () => {
+    expect(cieloDelDia(45, [45, 45, 45, 3, 3, 3], 0.1)).toBe('niebla')
+  })
+
+  it('sin fracción de sol ni horarios, cae al código diario de siempre', () => {
+    expect(cieloDelDia(55, [], null)).toBe('llovizna')
+  })
+})
+
 describe('parsear', () => {
   const p = parsear(ejemplo, -34.82, -58.54, '2026-08-27T14:00:00.000Z')
 
   it('devuelve los 7 días con sus fechas', () => {
     expect(p.dias).toHaveLength(7)
-    expect(p.dias[0].fecha).toBe('2026-08-27')
-    expect(p.dias[6].fecha).toBe('2026-09-02')
+    expect(p.dias[0].fecha).toBe('2026-08-28')
+    expect(p.dias[6].fecha).toBe('2026-09-03')
   })
 
   it('traduce el diario del primer día: cielo, temperaturas, lluvia, uv, viento', () => {
     const dia = p.dias[0]
-    expect(dia.cielo).toBe('llovizna') // weather_code 55
-    expect(dia.min).toBe(11.1)
-    expect(dia.max).toBe(17.8)
-    expect(dia.probLluvia).toBe(99)
-    expect(dia.lluviaMm).toBe(6.0)
-    expect(dia.uvMax).toBe(4.35)
-    expect(dia.vientoMax).toBe(18.1)
-    expect(dia.rafagas).toBe(34.9)
+    // el código diario dice 3 (nublado) por la mañana cerrada, pero el día
+    // tuvo 91 % de sol efectivo y ni una hora de agua a la luz del día: es sol
+    expect(dia.cielo).toBe('sol')
+    expect(dia.min).toBe(7.6)
+    expect(dia.max).toBe(19.4)
+    expect(dia.probLluvia).toBe(2)
+    expect(dia.lluviaMm).toBe(0.0)
+    expect(dia.uvMax).toBe(5.25)
+    expect(dia.vientoMax).toBe(10.1)
+    expect(dia.rafagas).toBe(18.7)
   })
 
   it('agrega el horario del primer día: humedad, presión, rocío al amanecer, suelo', () => {
     const dia = p.dias[0]
-    expect(dia.humedad).toEqual({ min: 62, max: 97 })
-    expect(dia.presionMedia).toBe(1005)
-    expect(dia.rocioAmanecer).toBe(11.0) // dew_point a la hora del amanecer (07:19 → hora 7)
-    expect(dia.sueloTemp).toBe(12.0)
+    expect(dia.humedad).toEqual({ min: 43, max: 100 })
+    expect(dia.presionMedia).toBe(1008)
+    expect(dia.rocioAmanecer).toBe(8.1) // dew_point a la hora del amanecer (07:17 → hora 7)
+    expect(dia.sueloTemp).toBe(11.7)
   })
 
   it('recuerda con qué se pidió: coordenadas y momento', () => {
