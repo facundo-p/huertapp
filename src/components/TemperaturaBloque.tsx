@@ -1,4 +1,5 @@
 import type { Temperaturas } from '../lib/data/types'
+import { modeloEscala, rotuloEscala, textoSinIdeal, type ValoresEscala } from '../lib/escalaTemperatura'
 import { ConfidenceBadge } from './ConfidenceBadge'
 import { IconoFuente } from '../icons'
 import './TemperaturaBloque.css'
@@ -10,59 +11,52 @@ const HELADA = {
   mejora: { texto: 'La helada la mejora', clase: 'mejora', emoji: '⭐' },
 } as const
 
-/** Escala visual de temperatura: rango tolerado con la franja ideal adentro. */
-function Escala({
-  min,
-  idealMin,
-  idealMax,
-  max,
-  unidad = '°C',
-}: {
-  min: number | null
-  idealMin: number | null
-  idealMax: number | null
-  max: number | null
-  unidad?: string
-}) {
-  // dominio de dibujo: -10 a 45 °C cubre todo lo de la huerta
-  const DOM_MIN = -10
-  const DOM_MAX = 45
-  const pct = (v: number) => ((v - DOM_MIN) / (DOM_MAX - DOM_MIN)) * 100
-
-  const desde = min ?? idealMin
-  const hasta = max ?? idealMax
-  if (desde === null || hasta === null) return null
-
-  const iMin = idealMin ?? desde
-  const iMax = idealMax ?? hasta
+/**
+ * Escala visual de temperatura: la banda ideal con sus alas toleradas, cada
+ * número alineado a lo que rotula. La geometría vive en `modeloEscala`; si un
+ * extremo no tiene dato, ese lado no se dibuja y la etiqueta dice "s/d".
+ */
+function Escala({ nombre, ...v }: { nombre: string } & ValoresEscala) {
+  const m = modeloEscala(v)
+  if (!m) {
+    // hay algún viable pero no el par ideal: el dato se dice, no se dibuja
+    const texto = textoSinIdeal(v)
+    return texto ? (
+      <p className="temp__sin">
+        <ConfidenceBadge valor={null} compacto /> {texto}
+      </p>
+    ) : null
+  }
 
   return (
-    <div className="escala">
-      <div className="escala__riel">
-        <span
-          className="escala__tolerado"
-          style={{ left: `${pct(desde)}%`, width: `${pct(hasta) - pct(desde)}%` }}
-        />
-        <span
-          className="escala__ideal"
-          style={{ left: `${pct(iMin)}%`, width: `${Math.max(pct(iMax) - pct(iMin), 2)}%` }}
-        />
+    <div className="escala" role="img" aria-label={rotuloEscala(nombre, v)}>
+      <div className="escala__riel" aria-hidden>
+        {m.bandas.map((b) => (
+          <span
+            key={`${b.tipo}-${b.desdePct}`}
+            className={b.tipo === 'ideal' ? 'escala__ideal' : 'escala__tolerado'}
+            style={{ left: `${b.desdePct}%`, width: `${b.anchoPct}%` }}
+          />
+        ))}
         {/* referencia: 0 °C */}
-        <span className="escala__cero" style={{ left: `${pct(0)}%` }} aria-hidden />
+        <span className="escala__cero" style={{ left: `${m.ceroPct}%` }} />
       </div>
-      <div className="escala__numeros">
-        <span>
-          {desde}
-          {unidad}
-        </span>
-        <strong>
-          ideal {iMin}–{iMax}
-          {unidad}
-        </strong>
-        <span>
-          {hasta}
-          {unidad}
-        </span>
+      <div className="escala__numeros" aria-hidden>
+        {m.etiquetas.map((et) =>
+          et.lado === 'ideal' ? (
+            <strong key={et.lado} className="escala__ideal-num" style={{ left: `${et.pct}%` }}>
+              {et.texto}
+            </strong>
+          ) : (
+            <span
+              key={et.lado}
+              className={`escala__num ${et.sinDato ? 'es-sd' : 'es-centrada'}`}
+              style={et.pct === null ? (et.lado === 'min' ? { left: 0 } : { right: 0 }) : { left: `${et.pct}%` }}
+            >
+              {et.texto}
+            </span>
+          ),
+        )}
       </div>
     </div>
   )
@@ -93,6 +87,7 @@ export function TemperaturaBloque({
           <p className="dato__subtitulo">Para germinar (tierra)</p>
           {hayGerm ? (
             <Escala
+              nombre="temperatura de la tierra para germinar"
               min={t.germinacion.min}
               idealMin={t.germinacion.ideal_min}
               idealMax={t.germinacion.ideal_max}
@@ -111,6 +106,7 @@ export function TemperaturaBloque({
         <div className="temp__fila">
           <p className="dato__subtitulo">Para crecer (aire)</p>
           <Escala
+            nombre="temperatura del aire para crecer"
             min={t.crecimiento.tolera_min}
             idealMin={t.crecimiento.ideal_min}
             idealMax={t.crecimiento.ideal_max}
