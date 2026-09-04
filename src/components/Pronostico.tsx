@@ -1,6 +1,6 @@
 import { useState, type ComponentType } from 'react'
 import { BottomSheet } from './BottomSheet'
-import { CIELOS, IconoCalor, IconoEscarcha, IconoGota, IconoLluvia, type IconProps } from '../icons'
+import { CIELOS, IconoCalor, IconoEscarcha, IconoGota, IconoLluvia, IconoViento, type IconProps } from '../icons'
 import { frescura, recortarPasados } from '../lib/pronostico/derivar'
 import { proveedor } from '../lib/pronostico/proveedor'
 import type { EstadoPronostico } from '../lib/pronostico/store'
@@ -31,8 +31,12 @@ function actualizadoHace(obtenido: string, ahora: string): string {
 
 function etiquetaDia(d: DiaPronostico, hoy: string): string {
   const lluvia = d.probLluvia != null ? `, ${d.probLluvia} % de probabilidad de lluvia` : ''
+  const extra =
+    d.fecha === hoy
+      ? `, viento de ${Math.round(d.vientoMax)} km/h${d.uvMax != null ? `, UV ${Math.round(d.uvMax)}` : ''}`
+      : ''
   const dia = d.fecha === hoy ? 'hoy' : nombreLargo(d.fecha)
-  return `${dia}: ${CIELOS[d.cielo].nombre}, mínima ${Math.round(d.min)}, máxima ${Math.round(d.max)}${lluvia}`
+  return `${dia}: ${CIELOS[d.cielo].nombre}, mínima ${Math.round(d.min)}, máxima ${Math.round(d.max)}${lluvia}${extra}`
 }
 
 interface Props {
@@ -92,34 +96,66 @@ export function Pronostico({ estado, avisos, hoy, ahora }: Props) {
 
           <ul className="pronostico__franja">
             {dias.map((d) => {
-              const { Icono } = CIELOS[d.cielo]
+              const { Icono, nombre, color } = CIELOS[d.cielo]
+              const esHoy = d.fecha === hoy
               return (
-                <li key={d.fecha}>
+                <li key={d.fecha} className={esHoy ? 'es-hoy' : undefined}>
                   <button
                     type="button"
                     className="pronostico__dia"
                     onClick={() => setAbierto(d)}
                     aria-label={etiquetaDia(d, hoy)}
                   >
-                    <span className="pronostico__dia-nombre" aria-hidden>
-                      {nombreCorto(d.fecha, hoy)}
-                    </span>
-                    <span className="pronostico__dia-icono" aria-hidden>
-                      <Icono size={22} />
-                    </span>
-                    <span className="pronostico__dia-max" aria-hidden>
-                      {Math.round(d.max)}°
-                    </span>
-                    <span className="pronostico__dia-min" aria-hidden>
-                      {Math.round(d.min)}°
-                    </span>
-                    <span className="pronostico__dia-lluvia" aria-hidden>
-                      {d.probLluvia != null && d.probLluvia >= 40 && (
-                        <>
-                          <IconoGota size={11} /> {d.probLluvia}%
-                        </>
-                      )}
-                    </span>
+                    {esHoy ? (
+                      <>
+                        <span className="pronostico__hoy-cabeza" aria-hidden>
+                          <span className="pronostico__dia-icono" data-cielo={d.cielo} style={{ color }}>
+                            <Icono size={30} />
+                          </span>
+                          <span className="pronostico__hoy-titulos">
+                            <span className="pronostico__dia-nombre">hoy</span>
+                            <span className="pronostico__hoy-cielo">{nombre}</span>
+                          </span>
+                        </span>
+                        <span className="pronostico__hoy-temps" aria-hidden>
+                          {Math.round(d.max)}°
+                          <span className="pronostico__hoy-min"> / {Math.round(d.min)}°</span>
+                        </span>
+                        <span className="pronostico__hoy-datos" aria-hidden>
+                          {d.probLluvia != null && (
+                            <span className="pronostico__dia-lluvia">
+                              <IconoGota size={12} /> {d.probLluvia}%
+                            </span>
+                          )}
+                          <span>
+                            <IconoViento size={12} /> {Math.round(d.vientoMax)} km/h
+                          </span>
+                          {d.uvMax != null && <span>UV {Math.round(d.uvMax)}</span>}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="pronostico__dia-nombre" aria-hidden>
+                          {nombreCorto(d.fecha, hoy)}
+                        </span>
+                        <span className="pronostico__dia-icono" data-cielo={d.cielo} style={{ color }} aria-hidden>
+                          <Icono size={22} />
+                        </span>
+                        <span className="pronostico__dia-max" aria-hidden>
+                          {Math.round(d.max)}°
+                        </span>
+                        <span className="pronostico__dia-min" aria-hidden>
+                          {Math.round(d.min)}°
+                        </span>
+                        <span className="pronostico__dia-lluvia" aria-hidden>
+                          {d.probLluvia != null && d.probLluvia >= 40 && (
+                            <>
+                              <IconoGota size={11} /> {d.probLluvia}%
+                            </>
+                          )}
+                        </span>
+                      </>
+                    )}
                   </button>
                 </li>
               )
