@@ -34,6 +34,14 @@ Qué significa cada parte en este proyecto:
   semana se desliza con el dedo. Y los íconos ganaron color: el sol en ámbar,
   la lluvia en azul.
 
+- **Ahora podés filtrar el catálogo por la temperatura que pide cada especie.**
+  En Explorar → Filtros hay dos filas nuevas —para germinar y para crecer— con
+  tres bandas: con fresco le alcanza, templado, necesita calor. Los cortes no
+  son un invento: salen del rango ideal investigado de cada ficha, y cada chip
+  dice su número. Las pocas especies sin dato de temperatura no aparecen con el
+  filtro puesto, y la pantalla las nombra para que no parezca que no existen.
+  Los termómetros nuevos están explicados en el Glosario.
+
 ---
 
 ## [1.2.0] — 2026-08-28
