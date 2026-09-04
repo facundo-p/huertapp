@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@500;600;700&family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#e9e4d6;font-family:system-ui,sans-serif;color:#1a1a1a}a{color:#4d7440}a:hover{color:#33502b}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-direction:column;gap:44px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.4 system-ui,sans-serif;color:rgba(0,0,0,.6);max-width:1240px}.dv-olabel strong{color:#1a1a1a;font-weight:600}.dv-row{display:flex;gap:28px;align-items:flex-start}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}.tel{width:390px;height:844px;position:relative;overflow:hidden;border-radius:30px;box-shadow:0 1px 3px rgba(0,0,0,.08),0 12px 30px rgba(0,0,0,.08)}.scr{position:absolute;inset:0;overflow-y:auto;scrollbar-width:none}.scr::-webkit-scrollbar{display:none}.ico{display:inline-grid;place-items:center;line-height:0}.ico svg{width:1em;height:1em}
+@keyframes aparecer{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+@keyframes brotar{0%{opacity:0;transform:scale(.3) rotate(-30deg)}60%{opacity:1;transform:scale(1.15) rotate(8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes pulso{0%,100%{box-shadow:0 0 0 0 rgba(227,165,47,.55)}50%{box-shadow:0 0 0 7px rgba(227,165,47,0)}}</style></helmet>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Cantero de noche en modo claro: misma estructura, misma tipografía, sólo cambia la paleta · y los anillos ahora marcan los meses en tercios</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a><span><strong>Cantero de día.</strong> La tierra oscura pasa a papel (#f7f3e7), las tarjetas a blanco cálido y los verdes y terracotas se oscurecen para sostener el contraste sobre claro; el amarillo baja a un ocre (#c98718) para poder usarse también como texto. Los cinco planos de <a class="dv-oid" href="#1c">1c</a> y <a class="dv-oid" href="#2a">2a</a>, sin cambiar una sola medida ni una jerarquía.</span></div>
+<div class="dv-row">
+
+<div class="tel" data-screen-label="3a Hoy" style="background:#f7f3e7;color:#22301c;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 92px">
+<div style="padding:26px 22px 8px;display:flex;justify-content:space-between;align-items:flex-start">
+<div><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c98718">Primavera · principios de septiembre</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:10px;letter-spacing:-.01em">La semana</div></div>
+<div style="display:flex;gap:6px"><span class="ico" style="width:40px;height:40px;border-radius:12px;background:#ebe6d4;font-size:20px;color:#4d7440">{{ ico.glosario }}</span><span class="ico" style="width:40px;height:40px;border-radius:12px;background:#ebe6d4;font-size:20px;color:#4d7440">{{ ico.ajustes }}</span></div>
+</div>
+<div style="margin:10px 22px 0;padding:12px 14px;border-radius:14px;background:#c98718;color:#2a2110;display:flex;gap:10px;align-items:center">
+<span class="ico" style="font-size:22px">{{ ico.escarcha }}</span>
+<div style="flex:1;font-size:13px;line-height:1.35"><b style="font-weight:800">Helada el viernes, mínima 1 °C.</b> Cubrí de noche los del cajón y la lechuga.</div>
+</div>
+<div style="padding:18px 22px 0;display:flex;flex-direction:column">
+<sc-for list="{{ agendaL }}" as="d" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:54px 1fr;gap:0 14px;position:relative">
+<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 14px;border-right:1px solid #dcd5bf;position:relative">
+<div style="font:600 11px/1 Unbounded,sans-serif;text-transform:uppercase;color:{{ d.colDia }}">{{ d.dia }}</div>
+<div style="font:800 22px/1 Manrope,sans-serif;margin-top:5px;color:{{ d.colNum }}">{{ d.num }}</div>
+<span class="ico" style="font-size:18px;margin-top:8px;color:{{ d.colCielo }}">{{ d.icono }}</span>
+<div style="font-size:11px;font-weight:700;margin-top:4px;color:#22301c">{{ d.max }}°<span style="color:#78856c;font-weight:500"> {{ d.min }}°</span></div>
+<span style="position:absolute;right:-5px;top:16px;width:9px;height:9px;border-radius:50%;background:{{ d.punto }};border:2px solid #f7f3e7"></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:8px 0 14px">
+<sc-for list="{{ d.items }}" as="it" hint-placeholder-count="1">
+<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:{{ it.bg }};border:1px solid {{ it.borde }}">
+<span class="ico" style="font-size:19px;margin-top:1px;color:{{ it.color }}">{{ it.icono }}</span>
+<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800;line-height:1.3;color:#1c2617">{{ it.titulo }}</div><div style="font-size:12px;line-height:1.4;color:#57654c;margin-top:2px">{{ it.detalle }}</div><div style="font-size:10px;line-height:1.3;color:#78856c;margin-top:5px;font-style:italic">{{ it.fuente }}</div></div>
+<sc-if value="{{ it.accion }}" hint-placeholder-val="{{ true }}"><button onClick="{{ it.onHecho }}" style="flex:none;height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #c98718;background:none;color:#c98718;font:700 11px Manrope,sans-serif;cursor:pointer">Hecho</button></sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ d.vacio }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#8e9682;padding:6px 2px">—</div></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="padding:8px 22px 0">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font:600 16px/1.1 Unbounded,sans-serif">Sembrá ahora</div><div style="font-size:11px;color:#78856c">ordenado por lo que se cierra</div></div>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+<sc-for list="{{ sugerenciasL }}" as="s" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;padding:8px 10px 8px 8px;border-radius:14px;background:#fffdf5">
+<span class="ico" style="width:38px;height:38px;border-radius:11px;background:#ebe6d4;font-size:21px;color:{{ s.colorB }}">{{ s.icono }}</span>
+<div><div style="font-size:14px;font-weight:800">{{ s.nombre }}</div><div style="font-size:11px;color:#78856c">{{ s.metodoB }}</div></div>
+<div style="text-align:right"><div style="font:600 15px/1 Unbounded,sans-serif;color:{{ s.colorDiasB }}">{{ s.diasNum }}</div><div style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#78856c;margin-top:3px">{{ s.diasTxt }}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<nav style="position:absolute;left:14px;right:14px;bottom:14px;height:64px;border-radius:20px;background:#ebe6d4;display:flex;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;background:#c98718;color:#2a2110"><span class="ico" style="font-size:22px">{{ ico.hoy }}</span><span style="font:600 9px Unbounded,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.explorar }}</span><span style="font:500 9px Unbounded,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.calendario }}</span><span style="font:500 9px Unbounded,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.huerta }}</span><span style="font:500 9px Unbounded,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+
+<div class="tel" data-screen-label="3a Explorar" style="background:#f7f3e7;color:#22301c;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 92px">
+<div style="padding:26px 22px 0"><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c98718">55 especies · Conurbano</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:10px">Explorar</div></div>
+<div style="margin:16px 22px 0;height:46px;border-radius:14px;background:#ebe6d4;display:flex;align-items:center;gap:10px;padding:0 14px;color:#78856c"><span class="ico" style="font-size:19px">{{ ico.explorar }}</span><span style="font-size:14px">Buscar especie…</span></div>
+<div style="display:flex;gap:8px;padding:12px 22px 0;overflow:hidden">
+<button onClick="{{ toggleAhora }}" style="flex:none;white-space:nowrap;height:34px;padding:0 14px;border-radius:999px;border:1.5px solid {{ ahoraBordeC }};background:{{ ahoraBgC }};color:{{ ahoraColC }};font:700 12px Manrope,sans-serif;cursor:pointer">Se siembra ahora</button>
+<span style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #dcd5bf;color:#44523a;font:700 12px/34px Manrope,sans-serif">Grupo</span>
+<span style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #dcd5bf;color:#44523a;font:700 12px/34px Manrope,sans-serif">Suelo</span>
+<span style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #dcd5bf;color:#44523a;font:700 12px/34px Manrope,sans-serif">Luz</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 22px 8px;font-size:11px;color:#78856c"><span>{{ cuenta }}</span><span style="display:flex;gap:10px;align-items:center"><span style="display:inline-flex;align-items:center;gap:4px"><i style="width:9px;height:9px;border-radius:50%;background:#5d8a48;display:inline-block"></i>ideal</span><span style="display:inline-flex;align-items:center;gap:4px"><i style="width:9px;height:9px;border-radius:50%;background:#c98718;display:inline-block"></i>se puede</span></span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 22px">
+<sc-for list="{{ especiesVisL }}" as="e" hint-placeholder-count="6">
+<div style="border-radius:18px;background:#fffdf5;border:1px solid #dcd5bf;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;position:relative">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span class="ico" style="font-size:24px;color:{{ e.colorB }}">{{ e.icoGrupo }}</span>
+<sc-if value="{{ e.esIdeal }}" hint-placeholder-val="{{ false }}"><span style="font:600 8px/1 Unbounded,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:999px;background:#c98718;color:#2a2110">ahora</span></sc-if>
+<sc-if value="{{ e.esPosible }}" hint-placeholder-val="{{ false }}"><span style="font:600 8px/1 Unbounded,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:999px;border:1px dashed #c98718;color:#c98718">se puede</span></sc-if>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:56px;height:56px;border-radius:50%;flex:none;background:{{ e.anillo }};display:grid;place-items:center;position:relative"><div style="width:38px;height:38px;border-radius:50%;background:#eae4d2;background:#efeadb;display:grid;place-items:center;font:600 9px Unbounded,sans-serif;color:#22301c">{{ e.mesCorto }}</div><span style="position:absolute;left:50%;top:50%;width:2px;height:36px;transform-origin:50% 100%;transform:translate(-1px,-36px) rotate(245deg);z-index:2"><i style="display:block;width:2px;height:11px;border-radius:1px;background:#1c2617"></i></span></div>
+<div style="min-width:0"><div style="font-size:14px;font-weight:800;line-height:1.15">{{ e.nombre }}</div><div style="display:flex;gap:6px;margin-top:6px;font-size:15px"><span class="ico" style="color:{{ e.colorSuelo }}">{{ e.icoSuelo }}</span><span class="ico" style="color:{{ e.colorLuz }}">{{ e.icoLuz }}</span></div></div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<nav style="position:absolute;left:14px;right:14px;bottom:14px;height:64px;border-radius:20px;background:#ebe6d4;display:flex;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.hoy }}</span><span style="font:500 9px Unbounded,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;background:#c98718;color:#2a2110"><span class="ico" style="font-size:22px">{{ ico.explorar }}</span><span style="font:600 9px Unbounded,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.calendario }}</span><span style="font:500 9px Unbounded,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.huerta }}</span><span style="font:500 9px Unbounded,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+
+<div class="tel" data-screen-label="3a Mi huerta" style="background:#f7f3e7;color:#22301c;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 92px">
+<div style="padding:26px 22px 0;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c98718">6 plantas · 2 lugares</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:10px">Mi huerta</div></div><button style="height:40px;padding:0 14px;border-radius:12px;border:none;background:#c98718;color:#2a2110;font:700 12px Manrope,sans-serif;cursor:pointer">+ Sumar</button></div>
+<div style="padding:22px 22px 0">
+<div style="display:grid;grid-template-columns:1fr;position:relative">
+<div style="display:flex;justify-content:space-between;font:600 9px Unbounded,sans-serif;letter-spacing:.06em;color:#9aa48d;padding:0 0 6px 0"><span>jul</span><span>ago</span><span style="color:#c98718">sep · hoy</span><span>oct</span><span>nov</span><span>dic</span><span>ene</span></div>
+</div>
+<sc-for list="{{ lugaresL }}" as="l" hint-placeholder-count="2">
+<div style="margin-top:14px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="ico" style="font-size:16px;color:#78856c">{{ l.icono }}</span><span style="font-size:12px;font-weight:800;color:#44523a">{{ l.nombre }}</span><span style="font-size:10px;color:#9aa48d">{{ l.detalle }}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;position:relative">
+<sc-for list="{{ l.plantas }}" as="p" hint-placeholder-count="3">
+<div style="position:relative;height:74px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf;overflow:hidden">
+<div style="position:absolute;left:0;right:0;top:29px;height:24px;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/6 - 1px),#22301c26 calc(100%/6 - 1px) calc(100%/6));z-index:0"><span style="position:absolute;left:33.33%;top:0;bottom:0;width:1.5px;background:#c98718"></span></div>
+<div style="position:absolute;top:8px;left:12px;display:flex;align-items:center;gap:7px;z-index:3"><span class="ico" style="font-size:16px;color:{{ p.colorB }}">{{ p.icono }}</span><span style="font-size:13px;font-weight:800;color:#1c2617">{{ p.nombre }}</span><span style="font-size:10px;color:#78856c">{{ p.sub }}</span><sc-if value="{{ p.alerta }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;color:#2a2110;background:#c98718;border-radius:999px;padding:2px 7px;animation:pulso 2s infinite">{{ ico.alerta }} {{ p.alerta }}</span></sc-if></div>
+<div style="position:absolute;left:{{ p.x0 }}%;width:{{ p.wCrece }}%;top:36px;height:10px;border-radius:5px;background:#4d7440"></div>
+<div style="position:absolute;left:{{ p.xTras }}%;width:{{ p.wTras }}%;top:36px;height:10px;border-radius:5px;background:#a1583d"></div>
+<div style="position:absolute;left:{{ p.xCos }}%;width:{{ p.wCos }}%;top:36px;height:10px;border-radius:5px;background:repeating-linear-gradient(90deg,#c98718 0 4px,#a86a10 4px 8px)"></div>
+<span style="position:absolute;left:{{ p.x0 }}%;top:33px;width:16px;height:16px;border-radius:50%;background:#f7f3e7;border:2.5px solid #5d8a48;transform:translateX(-8px);display:grid;place-items:center;font-size:9px;color:#5d8a48" class="ico">{{ ico.sembrar }}</span>
+<div style="position:absolute;left:12px;top:52px;font-size:10px;font-weight:700;color:{{ p.colorHito }};background:#f7f3e7;padding:0 4px;border-radius:4px;z-index:3">{{ p.hito }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<div style="display:flex;gap:14px;margin-top:18px;font-size:10px;color:#78856c;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:5px"><i style="width:14px;height:6px;border-radius:3px;background:#4d7440;display:inline-block"></i>creciendo</span><span style="display:inline-flex;align-items:center;gap:5px"><i style="width:14px;height:6px;border-radius:3px;background:#a1583d;display:inline-block"></i>ventana de trasplante</span><span style="display:inline-flex;align-items:center;gap:5px"><i style="width:14px;height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,#c98718 0 3px,#a86a10 3px 6px);display:inline-block"></i>ventana de cosecha</span></div>
+</div>
+</div>
+<nav style="position:absolute;left:14px;right:14px;bottom:14px;height:64px;border-radius:20px;background:#ebe6d4;display:flex;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.hoy }}</span><span style="font:500 9px Unbounded,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.explorar }}</span><span style="font:500 9px Unbounded,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#78856c"><span class="ico" style="font-size:22px">{{ ico.calendario }}</span><span style="font:500 9px Unbounded,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;background:#c98718;color:#2a2110"><span class="ico" style="font-size:22px">{{ ico.huerta }}</span><span style="font:600 9px Unbounded,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+
+<div class="tel" data-screen-label="3a Ficha Tomate" style="background:#f7f3e7;color:#22301c;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 40px">
+<div style="padding:22px 22px 0;display:flex;gap:12px;align-items:flex-start">
+<span class="ico" style="width:40px;height:40px;border-radius:12px;background:#ebe6d4;font-size:20px;color:#4d7440;flex:none">{{ ico.volver }}</span>
+<div style="flex:1;min-width:0"><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c98718;font-style:normal">Solanum lycopersicum</div><div style="font:600 34px/1 Unbounded,sans-serif;margin-top:8px;letter-spacing:-.01em">Tomate</div></div>
+</div>
+<div style="display:flex;gap:6px;padding:16px 22px 0;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;background:#ebe6d4;font-size:11px;font-weight:700;color:#44523a"><span class="ico" style="font-size:16px;color:#a85c68">{{ ico.fruto }}</span>Hortaliza de fruto</span>
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;background:#ebe6d4;font-size:11px;font-weight:700;color:#44523a"><span class="ico" style="font-size:16px;color:#5d8a48">{{ ico.sFertil }}</span>Suelo franco fértil</span>
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;background:#ebe6d4;font-size:11px;font-weight:700;color:#44523a"><span class="ico" style="font-size:16px;color:#c98718">{{ ico.lPleno }}</span>Pleno sol · 6 h o más</span>
+</div>
+
+<div style="margin:18px 22px 0;padding:16px 14px;border-radius:18px;background:#fffdf5;border:1px solid #dcd5bf;display:grid;grid-template-columns:146px 1fr;gap:12px;align-items:center">
+<div style="width:146px;height:146px;border-radius:50%;background:{{ tomateL.anilloS }};display:grid;place-items:center;position:relative">
+<div style="width:110px;height:110px;border-radius:50%;background:#f7f3e7;display:grid;place-items:center"><div style="width:100px;height:100px;border-radius:50%;background:{{ tomateL.anilloT }};display:grid;place-items:center"><div style="width:68px;height:68px;border-radius:50%;background:#f7f3e7;display:grid;place-items:center;text-align:center"><div style="font:600 9px/1.2 Unbounded,sans-serif;color:#c98718">sep<br><span style="color:#78856c;font-size:7px">principios</span></div></div></div></div>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(15deg) translateY(-64px) rotate(-15deg)">E</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(45deg) translateY(-64px) rotate(-45deg)">F</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(75deg) translateY(-64px) rotate(-75deg)">M</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(105deg) translateY(-64px) rotate(-105deg)">A</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(135deg) translateY(-64px) rotate(-135deg)">M</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(165deg) translateY(-64px) rotate(-165deg)">J</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(195deg) translateY(-64px) rotate(-195deg)">J</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(225deg) translateY(-64px) rotate(-225deg)">A</span>
+<span style="position:absolute;top:50%;left:50%;font:800 10px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(255deg) translateY(-64px) rotate(-255deg)">S</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(285deg) translateY(-64px) rotate(-285deg)">O</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(315deg) translateY(-64px) rotate(-315deg)">N</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#1c2617;text-shadow:0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7,0 0 2.5px #f7f3e7;transform:translate(-50%,-50%) rotate(345deg) translateY(-64px) rotate(-345deg)">D</span>
+<span style="position:absolute;left:50%;top:50%;width:2px;height:82px;transform-origin:50% 100%;transform:translate(-1px,-82px) rotate(245deg)"><i style="display:block;width:2px;height:17px;border-radius:1px;background:#1c2617"></i></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px;font-size:11px;color:#57654c">
+<div style="font:600 12px Unbounded,sans-serif;color:#22301c;margin-bottom:2px">Siembra y trasplante</div>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#5d8a48"></i>siembra ideal · ago–oct</span>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#c98718"></i>se puede · oct–ene, directa</span>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#a1583d"></i>trasplante · sep–nov</span>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;border:1.5px dashed #a1583d;box-sizing:border-box"></i>trasplante posible · dic</span>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;margin-top:4px;font-size:10px;color:#78856c">tercios de mes · Conurbano <span style="display:inline-flex;gap:2px">{{ tomateL.confCal }}</span> 8</div>
+</div>
+</div>
+
+<div style="margin:10px 22px 0;padding:12px 14px;border-radius:14px;background:#c98718;color:#2a2110;display:flex;gap:10px;align-items:flex-start">
+<span class="ico" style="font-size:22px;flex:none">{{ ico.protegido }}</span>
+<div style="font-size:12.5px;line-height:1.4"><b style="font-weight:800">Es buen momento para sembrarla, pero bajo reparo.</b> Almácigo protegido. Todavía hace frío para que arranque a la intemperie: va en invernadero, cajón con nailon o botella cortada, hasta que afloje.</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 22px 0">
+<div style="padding:12px 10px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">Germina</div><div style="font:600 18px/1 Unbounded,sans-serif;margin-top:6px">6–10</div><div style="font-size:10px;color:#78856c;margin-top:3px">días</div></div>
+<div style="padding:12px 10px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">Trasplante</div><div style="font:600 18px/1 Unbounded,sans-serif;margin-top:6px">30–60</div><div style="font-size:10px;color:#78856c;margin-top:3px">días</div></div>
+<div style="padding:12px 10px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">Cosecha</div><div style="font:600 18px/1 Unbounded,sans-serif;margin-top:6px">80–100</div><div style="font-size:10px;color:#78856c;margin-top:3px">días</div></div>
+</div>
+
+<div style="margin:10px 22px 0;padding:14px 16px;border-radius:18px;background:#fffdf5;border:1px solid #dcd5bf">
+<div style="display:flex;justify-content:space-between;align-items:center"><div style="font:600 12px Unbounded,sans-serif">Temperaturas</div><span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#78856c"><span style="display:inline-flex;gap:2px">{{ tomateL.confTemp }}</span>7</span></div>
+<div style="margin-top:14px;font-size:10px;color:#78856c;display:flex;justify-content:space-between"><span>Suelo para germinar</span><span>°C</span></div>
+<div style="position:relative;height:14px;margin-top:6px;border-radius:7px;background:#ebe6d4">
+<div style="position:absolute;left:21%;width:9%;top:0;bottom:0;background:#a1583d55"></div>
+<div style="position:absolute;left:30%;width:20%;top:0;bottom:0;background:#c9871866"></div>
+<div style="position:absolute;left:45%;width:5%;top:0;bottom:0;border-radius:4px;background:#5d8a48"></div>
+<div style="position:absolute;left:87.5%;width:5%;top:0;bottom:0;background:#a1583d55"></div>
+</div>
+<div style="position:relative;height:14px;font-size:9px;color:#78856c;margin-top:3px"><span style="position:absolute;left:0">0</span><span style="position:absolute;left:21%;transform:translateX(-50%);color:#a1583d">8,5</span><span style="position:absolute;left:47.5%;transform:translateX(-50%);color:#5d8a48;font-weight:700">18–20</span><span style="position:absolute;left:87.5%;transform:translateX(-50%);color:#a1583d">35</span><span style="position:absolute;right:0">40</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #dcd5bf;font-size:12px"><span style="color:#57654c">Helada</span><span style="font-weight:800;color:#c98718;display:inline-flex;align-items:center;gap:5px"><span class="ico" style="font-size:14px">{{ ico.escarcha }}</span>la mata</span></div>
+<div style="font-size:11px;color:#78856c;margin-top:6px;line-height:1.4">Por debajo de 8,5–12 °C o por encima de 35–37 °C el crecimiento de la radícula es muy lento.</div>
+</div>
+
+<div style="padding:24px 22px 0;display:flex;flex-direction:column;gap:22px">
+<sc-for list="{{ tomateL.secciones }}" as="s" hint-placeholder-count="4">
+<section>
+<div style="display:flex;align-items:center;gap:10px"><span class="ico" style="width:32px;height:32px;border-radius:10px;background:#ebe6d4;font-size:18px;color:#4d7440;flex:none">{{ s.icono }}</span><h2 style="margin:0;flex:1;font:600 14px Unbounded,sans-serif">{{ s.titulo }}</h2><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:{{ s.confColor }}"><span style="display:inline-flex;gap:2px">{{ s.puntos }}</span>{{ s.conf }}</span></div>
+<p style="margin:10px 0 0;font-size:13px;line-height:1.5;color:#3b4833">{{ s.valor }}</p>
+<sc-if value="{{ s.senal }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:#5d8a4814;border-left:3px solid #5d8a48"><div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#5d8a48">{{ s.senalTitulo }}</div><div style="font-size:12px;line-height:1.45;color:#44523a;margin-top:3px">{{ s.senal }}</div></div></sc-if>
+<sc-if value="{{ s.aviso }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:#a1583d22;border-left:3px solid #a1583d;display:flex;gap:8px"><span class="ico" style="font-size:15px;color:#a1583d;flex:none;margin-top:1px">{{ ico.alerta }}</span><div><div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#a1583d">Si no se cumple</div><div style="font-size:12px;line-height:1.45;color:#44523a;margin-top:3px">{{ s.aviso }}</div></div></div></sc-if>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+<sc-for list="{{ s.fuentes }}" as="f" hint-placeholder-count="2"><a href="{{ f.url }}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;border-radius:999px;border:1px solid #dcd5bf;font-size:10.5px;font-weight:700;color:#4d7440;text-decoration:none"><span class="ico" style="font-size:12px">{{ ico.fuente }}</span>{{ f.org }}</a></sc-for>
+</div>
+</section>
+</sc-for>
+
+<section>
+<h2 style="margin:0;font:600 14px Unbounded,sans-serif">Con quién se lleva bien</h2>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+<sc-for list="{{ tomateL.buenas }}" as="a" hint-placeholder-count="6"><span style="height:30px;padding:0 12px;border-radius:999px;background:#5d8a4818;border:1px solid #5d8a4855;font-size:12px;font-weight:700;line-height:30px;color:#4d7440">{{ a }}</span></sc-for>
+</div>
+<h2 style="margin:18px 0 0;font:600 14px Unbounded,sans-serif">Con quién no</h2>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+<sc-for list="{{ tomateL.malas }}" as="a" hint-placeholder-count="6"><span style="height:30px;padding:0 12px;border-radius:999px;background:#a1583d22;border:1px dashed #a1583d66;font-size:12px;font-weight:700;line-height:30px;color:#e8c4b3">{{ a }}</span></sc-for>
+</div>
+</section>
+
+<button style="height:52px;border-radius:16px;border:none;background:#c98718;color:#2a2110;font:700 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span class="ico" style="font-size:20px">{{ ico.cosechar }}</span>Agregar a mi huerta</button>
+<p style="margin:0;font-size:10.5px;line-height:1.5;color:#78856c">Cada dato lleva su índice de confianza y sus fuentes. Los datos derivados (calendario y temperaturas) se explican en el <a href="#" style="color:#c98718">glosario</a>. Precisión del afinado a décadas: ±10 días.</p>
+</div>
+</div>
+</div>
+
+<div class="tel" data-screen-label="3a Detalle Los del cajón" style="background:#f7f3e7;color:#22301c;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 40px">
+<div style="padding:22px 22px 0;display:flex;gap:12px;align-items:flex-start">
+<span class="ico" style="width:40px;height:40px;border-radius:12px;background:#ebe6d4;font-size:20px;color:#4d7440;flex:none">{{ ico.volver }}</span>
+<div style="flex:1;min-width:0"><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#c98718">Tomate · Macetas del balcón</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:8px;letter-spacing:-.01em">Los del cajón</div></div>
+<span class="ico" style="font-size:30px;color:#a85c68;margin-top:14px">{{ ico.fruto }}</span>
+</div>
+
+<div style="margin:20px 22px 0;display:flex;align-items:flex-start;position:relative">
+<sc-for list="{{ ciclo5L }}" as="c" hint-placeholder-count="5">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;min-width:0">
+<span style="position:absolute;top:15px;right:50%;width:100%;height:2px;background:{{ c.linea }};display:{{ c.lineaDisplay }}"></span>
+<span class="ico" style="position:relative;width:32px;height:32px;border-radius:50%;background:{{ c.bg }};border:2px solid {{ c.borde }};color:{{ c.color }};font-size:16px;box-shadow:{{ c.sombra }}">{{ c.icono }}</span>
+<span style="font-size:9px;text-align:center;color:{{ c.txt }};font-weight:{{ c.peso }};line-height:1.2">{{ c.etiqueta }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="margin:18px 22px 0;padding:14px 16px;border-radius:18px;background:#fffdf5;border:1px solid #dcd5bf;display:flex;gap:12px;align-items:flex-start">
+<span class="ico" style="font-size:22px;color:#5d8a48;flex:none;margin-top:1px">{{ ico.sembrar }}</span>
+<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800">Germinó el <span style="color:#5d8a48">27 ago</span>, 6 días después de lo que decía la ficha.</div><div style="font-size:11.5px;line-height:1.45;color:#57654c;margin-top:4px">La ficha da entre 6 y 10 días: del 17 al 21 ago. El ciclo se cuenta desde que asoma, así que el trasplante y la cosecha se corren 6 días.</div></div>
+<button style="height:30px;padding:0 10px;border-radius:999px;border:1px solid #dcd5bf;background:none;color:#4d7440;font:700 11px Manrope,sans-serif;cursor:pointer;flex:none">Corregir</button>
+</div>
+
+<div style="margin:10px 22px 0;display:flex;flex-direction:column;gap:8px">
+<button style="height:52px;border-radius:16px;border:none;background:#c98718;color:#2a2110;font:700 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span class="ico" style="font-size:20px">{{ ico.trasplantar }}</span>La trasplanté…</button>
+<button style="height:44px;border-radius:14px;border:1px solid #dcd5bf;background:none;color:#44523a;font:700 12px Manrope,sans-serif;cursor:pointer">Anotar cuántas hay · ahora ~4</button>
+</div>
+
+<div style="margin:16px 22px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:12px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">Sembrada</div><div style="font:600 15px/1 Unbounded,sans-serif;margin-top:6px">11 ago</div></div>
+<div style="padding:12px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">Lleva</div><div style="font:600 15px/1 Unbounded,sans-serif;margin-top:6px">22 días</div></div>
+<div style="padding:12px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">Cómo</div><div style="font-size:12px;font-weight:700;margin-top:6px;line-height:1.3">Almácigo protegido</div></div>
+<div style="padding:12px;border-radius:14px;background:#fffdf5;border:1px solid #dcd5bf"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#78856c;font-weight:700">También está en</div><div style="font-size:12px;font-weight:700;margin-top:6px;line-height:1.3;color:#c98718">~3 en Bancal del fondo →</div><div style="font-size:10px;color:#78856c">trasplantadas</div></div>
+</div>
+
+<div style="margin:10px 22px 0;padding:12px 14px;border-radius:14px;background:#5d8a4814;border:1px solid #5d8a4844;display:flex;gap:10px;align-items:flex-start">
+<span class="ico" style="font-size:18px;color:#5d8a48;flex:none;margin-top:1px">{{ ico.reloj }}</span>
+<div style="font-size:12px;line-height:1.45;color:#3b4833"><b style="color:#4d7440">Trasplante</b> estimado entre el <b>16 sep</b> y el <b>16 oct</b> — ya está en ventana. <span style="color:#78856c;font-style:italic">Según la ficha: 30–60 días · confianza 8/10 · corrido 6 días porque asomó tarde.</span></div>
+</div>
+
+<div style="padding:26px 22px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:600 16px/1.1 Unbounded,sans-serif">Diario</div><button style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #c98718;background:none;color:#c98718;font:700 12px Manrope,sans-serif;cursor:pointer">+ Anotar</button></div>
+<div style="padding:14px 22px 0 22px;position:relative">
+<span style="position:absolute;left:39px;top:14px;bottom:0;width:1.5px;background:#dcd5bf"></span>
+<sc-for list="{{ diarioL }}" as="d" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:34px 1fr;gap:12px;padding-bottom:18px;position:relative">
+<div style="display:flex;flex-direction:column;align-items:center"><span style="width:12px;height:12px;border-radius:50%;background:{{ d.color }};border:3px solid #f7f3e7;box-shadow:0 0 0 1.5px {{ d.color }};position:relative;z-index:2;margin-top:4px"></span></div>
+<div>
+<div style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:{{ d.color }}">{{ d.tipo }}</span><span style="font-size:11px;color:#78856c">{{ d.fecha }}</span></div>
+<div style="font-size:13px;line-height:1.5;color:#3b4833;margin-top:4px">{{ d.texto }}</div>
+<sc-if value="{{ d.foto }}" hint-placeholder-val="{{ false }}"><div style="margin-top:8px;width:120px;height:120px;border-radius:14px;background:{{ d.foto }};position:relative;overflow:hidden"><span style="position:absolute;left:50%;bottom:14px;width:6px;height:56px;border-radius:3px;background:rgba(255,255,255,.5);transform:translateX(-3px)"></span><span style="position:absolute;left:28px;top:48px;width:44px;height:22px;border-radius:50%;background:rgba(255,255,255,.42);transform:rotate(-28deg)"></span><span style="position:absolute;left:56px;top:62px;width:44px;height:22px;border-radius:50%;background:rgba(255,255,255,.42);transform:rotate(28deg)"></span></div></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="padding:4px 22px 0;display:flex;justify-content:space-between;align-items:center"><a href="#" style="font-size:12px;font-weight:700;color:#c98718;text-decoration:none">Ver la ficha de tomate →</a><span style="font-size:11px;color:#78856c">Borrar esta planta</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<p class="dv-next">Probá: "quedate con el claro y bajá el ocre" · "el claro con las tarjetas sin borde" · "mostrá los dos modos en Calendario y Ajustes".</p>
+</section>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Cantero de noche (<a class="dv-oid" href="#1c">1c</a>) con los datos de verdad: ficha de Tomate (catálogo, fuentes y confianza) y detalle de planta con diario</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a><span><strong>Ficha de especie · Tomate.</strong> Los 13 campos del catálogo tal como están en <code>huerta_gba.json</code>, con su índice de confianza como fila de 10 puntos (verde ≥ 8, amarillo 5–7, terracota &lt; 5) y las fuentes como chips. El anillo doble muestra siembra (afuera) y trasplante (adentro); la escala térmica dibuja los umbrales de germinación de la ficha. <strong>Detalle de planta · Los del cajón.</strong> Ciclo, germinación con el corrimiento explicado, datos de la siembra, hito estimado y el diario con fotos.</span></div>
+<div class="dv-row">
+
+<!-- 2a FICHA -->
+<div class="tel" data-screen-label="2a Ficha Tomate" style="background:#1f2a1c;color:#ece6d3;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 40px">
+<div style="padding:22px 22px 0;display:flex;gap:12px;align-items:flex-start">
+<span class="ico" style="width:40px;height:40px;border-radius:12px;background:#2b3826;font-size:20px;color:#b9c9a8;flex:none">{{ ico.volver }}</span>
+<div style="flex:1;min-width:0"><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e3a52f;font-style:normal">Solanum lycopersicum</div><div style="font:600 34px/1 Unbounded,sans-serif;margin-top:8px;letter-spacing:-.01em">Tomate</div></div>
+</div>
+<div style="display:flex;gap:6px;padding:16px 22px 0;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;background:#2b3826;font-size:11px;font-weight:700;color:#c9d1bd"><span class="ico" style="font-size:16px;color:#d98a96">{{ ico.fruto }}</span>Hortaliza de fruto</span>
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;background:#2b3826;font-size:11px;font-weight:700;color:#c9d1bd"><span class="ico" style="font-size:16px;color:#8fbf6f">{{ ico.sFertil }}</span>Suelo franco fértil</span>
+<span style="display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px 0 8px;border-radius:999px;background:#2b3826;font-size:11px;font-weight:700;color:#c9d1bd"><span class="ico" style="font-size:16px;color:#e3a52f">{{ ico.lPleno }}</span>Pleno sol · 6 h o más</span>
+</div>
+
+<div style="margin:18px 22px 0;padding:16px 14px;border-radius:18px;background:#26332270;border:1px solid #33422e;display:grid;grid-template-columns:146px 1fr;gap:12px;align-items:center">
+<div style="width:146px;height:146px;border-radius:50%;background:{{ tomate.anilloS }};display:grid;place-items:center;position:relative">
+<div style="width:110px;height:110px;border-radius:50%;background:#1f2a1c;display:grid;place-items:center"><div style="width:100px;height:100px;border-radius:50%;background:{{ tomate.anilloT }};display:grid;place-items:center"><div style="width:68px;height:68px;border-radius:50%;background:#1f2a1c;display:grid;place-items:center;text-align:center"><div style="font:600 9px/1.2 Unbounded,sans-serif;color:#e3a52f">sep<br><span style="color:#93a087;font-size:7px">principios</span></div></div></div></div>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(15deg) translateY(-64px) rotate(-15deg)">E</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(45deg) translateY(-64px) rotate(-45deg)">F</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(75deg) translateY(-64px) rotate(-75deg)">M</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(105deg) translateY(-64px) rotate(-105deg)">A</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(135deg) translateY(-64px) rotate(-135deg)">M</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(165deg) translateY(-64px) rotate(-165deg)">J</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(195deg) translateY(-64px) rotate(-195deg)">J</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(225deg) translateY(-64px) rotate(-225deg)">A</span>
+<span style="position:absolute;top:50%;left:50%;font:800 10px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(255deg) translateY(-64px) rotate(-255deg)">S</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(285deg) translateY(-64px) rotate(-285deg)">O</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(315deg) translateY(-64px) rotate(-315deg)">N</span>
+<span style="position:absolute;top:50%;left:50%;font:800 8.5px/1 Manrope,sans-serif;color:#f3eedd;text-shadow:0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c,0 0 2.5px #1f2a1c;transform:translate(-50%,-50%) rotate(345deg) translateY(-64px) rotate(-345deg)">D</span>
+<span style="position:absolute;left:50%;top:50%;width:2px;height:82px;transform-origin:50% 100%;transform:translate(-1px,-82px) rotate(245deg)"><i style="display:block;width:2px;height:17px;border-radius:1px;background:#f3eedd"></i></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:7px;font-size:11px;color:#b7c0ab">
+<div style="font:600 12px Unbounded,sans-serif;color:#ece6d3;margin-bottom:2px">Siembra y trasplante</div>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#8fbf6f"></i>siembra ideal · ago–oct</span>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#e3a52f"></i>se puede · oct–ene, directa</span>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;background:#d4917a"></i>trasplante · sep–nov</span>
+<span style="display:flex;align-items:center;gap:6px"><i style="width:10px;height:10px;border-radius:50%;border:1.5px dashed #d4917a;box-sizing:border-box"></i>trasplante posible · dic</span>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;margin-top:4px;font-size:10px;color:#8a9680">tercios de mes · Conurbano <span style="display:inline-flex;gap:2px">{{ tomate.confCal }}</span> 8</div>
+</div>
+</div>
+
+<div style="margin:10px 22px 0;padding:12px 14px;border-radius:14px;background:#e3a52f;color:#2a2110;display:flex;gap:10px;align-items:flex-start">
+<span class="ico" style="font-size:22px;flex:none">{{ ico.protegido }}</span>
+<div style="font-size:12.5px;line-height:1.4"><b style="font-weight:800">Es buen momento para sembrarla, pero bajo reparo.</b> Almácigo protegido. Todavía hace frío para que arranque a la intemperie: va en invernadero, cajón con nailon o botella cortada, hasta que afloje.</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 22px 0">
+<div style="padding:12px 10px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">Germina</div><div style="font:600 18px/1 Unbounded,sans-serif;margin-top:6px">6–10</div><div style="font-size:10px;color:#93a087;margin-top:3px">días</div></div>
+<div style="padding:12px 10px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">Trasplante</div><div style="font:600 18px/1 Unbounded,sans-serif;margin-top:6px">30–60</div><div style="font-size:10px;color:#93a087;margin-top:3px">días</div></div>
+<div style="padding:12px 10px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">Cosecha</div><div style="font:600 18px/1 Unbounded,sans-serif;margin-top:6px">80–100</div><div style="font-size:10px;color:#93a087;margin-top:3px">días</div></div>
+</div>
+
+<div style="margin:10px 22px 0;padding:14px 16px;border-radius:18px;background:#26332270;border:1px solid #33422e">
+<div style="display:flex;justify-content:space-between;align-items:center"><div style="font:600 12px Unbounded,sans-serif">Temperaturas</div><span style="display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#93a087"><span style="display:inline-flex;gap:2px">{{ tomate.confTemp }}</span>7</span></div>
+<div style="margin-top:14px;font-size:10px;color:#93a087;display:flex;justify-content:space-between"><span>Suelo para germinar</span><span>°C</span></div>
+<div style="position:relative;height:14px;margin-top:6px;border-radius:7px;background:#2b3826">
+<div style="position:absolute;left:21%;width:9%;top:0;bottom:0;background:#a1583d55"></div>
+<div style="position:absolute;left:30%;width:20%;top:0;bottom:0;background:#e3a52f66"></div>
+<div style="position:absolute;left:45%;width:5%;top:0;bottom:0;border-radius:4px;background:#8fbf6f"></div>
+<div style="position:absolute;left:87.5%;width:5%;top:0;bottom:0;background:#a1583d55"></div>
+</div>
+<div style="position:relative;height:14px;font-size:9px;color:#93a087;margin-top:3px"><span style="position:absolute;left:0">0</span><span style="position:absolute;left:21%;transform:translateX(-50%);color:#d4917a">8,5</span><span style="position:absolute;left:47.5%;transform:translateX(-50%);color:#8fbf6f;font-weight:700">18–20</span><span style="position:absolute;left:87.5%;transform:translateX(-50%);color:#d4917a">35</span><span style="position:absolute;right:0">40</span></div>
+<div style="display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #33422e;font-size:12px"><span style="color:#b7c0ab">Helada</span><span style="font-weight:800;color:#e3a52f;display:inline-flex;align-items:center;gap:5px"><span class="ico" style="font-size:14px">{{ ico.escarcha }}</span>la mata</span></div>
+<div style="font-size:11px;color:#8a9680;margin-top:6px;line-height:1.4">Por debajo de 8,5–12 °C o por encima de 35–37 °C el crecimiento de la radícula es muy lento.</div>
+</div>
+
+<div style="padding:24px 22px 0;display:flex;flex-direction:column;gap:22px">
+<sc-for list="{{ tomate.secciones }}" as="s" hint-placeholder-count="4">
+<section>
+<div style="display:flex;align-items:center;gap:10px"><span class="ico" style="width:32px;height:32px;border-radius:10px;background:#2b3826;font-size:18px;color:#b9c9a8;flex:none">{{ s.icono }}</span><h2 style="margin:0;flex:1;font:600 14px Unbounded,sans-serif">{{ s.titulo }}</h2><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:{{ s.confColor }}"><span style="display:inline-flex;gap:2px">{{ s.puntos }}</span>{{ s.conf }}</span></div>
+<p style="margin:10px 0 0;font-size:13px;line-height:1.5;color:#d6dccb">{{ s.valor }}</p>
+<sc-if value="{{ s.senal }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:#8fbf6f18;border-left:3px solid #8fbf6f"><div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#8fbf6f">{{ s.senalTitulo }}</div><div style="font-size:12px;line-height:1.45;color:#c9d1bd;margin-top:3px">{{ s.senal }}</div></div></sc-if>
+<sc-if value="{{ s.aviso }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;padding:10px 12px;border-radius:12px;background:#a1583d22;border-left:3px solid #d4917a;display:flex;gap:8px"><span class="ico" style="font-size:15px;color:#d4917a;flex:none;margin-top:1px">{{ ico.alerta }}</span><div><div style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:#d4917a">Si no se cumple</div><div style="font-size:12px;line-height:1.45;color:#c9d1bd;margin-top:3px">{{ s.aviso }}</div></div></div></sc-if>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+<sc-for list="{{ s.fuentes }}" as="f" hint-placeholder-count="2"><a href="{{ f.url }}" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;border-radius:999px;border:1px solid #3a4933;font-size:10.5px;font-weight:700;color:#b9c9a8;text-decoration:none"><span class="ico" style="font-size:12px">{{ ico.fuente }}</span>{{ f.org }}</a></sc-for>
+</div>
+</section>
+</sc-for>
+
+<section>
+<h2 style="margin:0;font:600 14px Unbounded,sans-serif">Con quién se lleva bien</h2>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+<sc-for list="{{ tomate.buenas }}" as="a" hint-placeholder-count="6"><span style="height:30px;padding:0 12px;border-radius:999px;background:#8fbf6f22;border:1px solid #8fbf6f66;font-size:12px;font-weight:700;line-height:30px;color:#c5dbb4">{{ a }}</span></sc-for>
+</div>
+<h2 style="margin:18px 0 0;font:600 14px Unbounded,sans-serif">Con quién no</h2>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+<sc-for list="{{ tomate.malas }}" as="a" hint-placeholder-count="6"><span style="height:30px;padding:0 12px;border-radius:999px;background:#a1583d22;border:1px dashed #d4917a99;font-size:12px;font-weight:700;line-height:30px;color:#e2b8a6">{{ a }}</span></sc-for>
+</div>
+</section>
+
+<button style="height:52px;border-radius:16px;border:none;background:#e3a52f;color:#2a2110;font:700 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span class="ico" style="font-size:20px">{{ ico.cosechar }}</span>Agregar a mi huerta</button>
+<p style="margin:0;font-size:10.5px;line-height:1.5;color:#8a9680">Cada dato lleva su índice de confianza y sus fuentes. Los datos derivados (calendario y temperaturas) se explican en el <a href="#" style="color:#e3a52f">glosario</a>. Precisión del afinado a décadas: ±10 días.</p>
+</div>
+</div>
+</div>
+
+<!-- 2a DETALLE PLANTA -->
+<div class="tel" data-screen-label="2a Detalle Los del cajón" style="background:#1f2a1c;color:#ece6d3;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 40px">
+<div style="padding:22px 22px 0;display:flex;gap:12px;align-items:flex-start">
+<span class="ico" style="width:40px;height:40px;border-radius:12px;background:#2b3826;font-size:20px;color:#b9c9a8;flex:none">{{ ico.volver }}</span>
+<div style="flex:1;min-width:0"><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e3a52f">Tomate · Macetas del balcón</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:8px;letter-spacing:-.01em">Los del cajón</div></div>
+<span class="ico" style="font-size:30px;color:#d98a96;margin-top:14px">{{ ico.fruto }}</span>
+</div>
+
+<div style="margin:20px 22px 0;display:flex;align-items:flex-start;position:relative">
+<sc-for list="{{ ciclo5 }}" as="c" hint-placeholder-count="5">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;min-width:0">
+<span style="position:absolute;top:15px;right:50%;width:100%;height:2px;background:{{ c.linea }};display:{{ c.lineaDisplay }}"></span>
+<span class="ico" style="position:relative;width:32px;height:32px;border-radius:50%;background:{{ c.bg }};border:2px solid {{ c.borde }};color:{{ c.color }};font-size:16px;box-shadow:{{ c.sombra }}">{{ c.icono }}</span>
+<span style="font-size:9px;text-align:center;color:{{ c.txt }};font-weight:{{ c.peso }};line-height:1.2">{{ c.etiqueta }}</span>
+</div>
+</sc-for>
+</div>
+
+<div style="margin:18px 22px 0;padding:14px 16px;border-radius:18px;background:#26332270;border:1px solid #33422e;display:flex;gap:12px;align-items:flex-start">
+<span class="ico" style="font-size:22px;color:#8fbf6f;flex:none;margin-top:1px">{{ ico.sembrar }}</span>
+<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800">Germinó el <span style="color:#8fbf6f">27 ago</span>, 6 días después de lo que decía la ficha.</div><div style="font-size:11.5px;line-height:1.45;color:#b7c0ab;margin-top:4px">La ficha da entre 6 y 10 días: del 17 al 21 ago. El ciclo se cuenta desde que asoma, así que el trasplante y la cosecha se corren 6 días.</div></div>
+<button style="height:30px;padding:0 10px;border-radius:999px;border:1px solid #3a4933;background:none;color:#b9c9a8;font:700 11px Manrope,sans-serif;cursor:pointer;flex:none">Corregir</button>
+</div>
+
+<div style="margin:10px 22px 0;display:flex;flex-direction:column;gap:8px">
+<button style="height:52px;border-radius:16px;border:none;background:#e3a52f;color:#2a2110;font:700 14px Manrope,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><span class="ico" style="font-size:20px">{{ ico.trasplantar }}</span>La trasplanté…</button>
+<button style="height:44px;border-radius:14px;border:1px solid #3a4933;background:none;color:#c9d1bd;font:700 12px Manrope,sans-serif;cursor:pointer">Anotar cuántas hay · ahora ~4</button>
+</div>
+
+<div style="margin:16px 22px 0;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:12px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">Sembrada</div><div style="font:600 15px/1 Unbounded,sans-serif;margin-top:6px">11 ago</div></div>
+<div style="padding:12px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">Lleva</div><div style="font:600 15px/1 Unbounded,sans-serif;margin-top:6px">22 días</div></div>
+<div style="padding:12px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">Cómo</div><div style="font-size:12px;font-weight:700;margin-top:6px;line-height:1.3">Almácigo protegido</div></div>
+<div style="padding:12px;border-radius:14px;background:#26332270;border:1px solid #33422e"><div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#93a087;font-weight:700">También está en</div><div style="font-size:12px;font-weight:700;margin-top:6px;line-height:1.3;color:#e3a52f">~3 en Bancal del fondo →</div><div style="font-size:10px;color:#93a087">trasplantadas</div></div>
+</div>
+
+<div style="margin:10px 22px 0;padding:12px 14px;border-radius:14px;background:#8fbf6f18;border:1px solid #8fbf6f55;display:flex;gap:10px;align-items:flex-start">
+<span class="ico" style="font-size:18px;color:#8fbf6f;flex:none;margin-top:1px">{{ ico.reloj }}</span>
+<div style="font-size:12px;line-height:1.45;color:#d6dccb"><b style="color:#c5dbb4">Trasplante</b> estimado entre el <b>16 sep</b> y el <b>16 oct</b> — ya está en ventana. <span style="color:#8a9680;font-style:italic">Según la ficha: 30–60 días · confianza 8/10 · corrido 6 días porque asomó tarde.</span></div>
+</div>
+
+<div style="padding:26px 22px 0;display:flex;justify-content:space-between;align-items:center"><div style="font:600 16px/1.1 Unbounded,sans-serif">Diario</div><button style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #e3a52f;background:none;color:#e3a52f;font:700 12px Manrope,sans-serif;cursor:pointer">+ Anotar</button></div>
+<div style="padding:14px 22px 0 22px;position:relative">
+<span style="position:absolute;left:39px;top:14px;bottom:0;width:1.5px;background:#35432f"></span>
+<sc-for list="{{ diario }}" as="d" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:34px 1fr;gap:12px;padding-bottom:18px;position:relative">
+<div style="display:flex;flex-direction:column;align-items:center"><span style="width:12px;height:12px;border-radius:50%;background:{{ d.color }};border:3px solid #1f2a1c;box-shadow:0 0 0 1.5px {{ d.color }};position:relative;z-index:2;margin-top:4px"></span></div>
+<div>
+<div style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:{{ d.color }}">{{ d.tipo }}</span><span style="font-size:11px;color:#93a087">{{ d.fecha }}</span></div>
+<div style="font-size:13px;line-height:1.5;color:#d6dccb;margin-top:4px">{{ d.texto }}</div>
+<sc-if value="{{ d.foto }}" hint-placeholder-val="{{ false }}"><div style="margin-top:8px;width:120px;height:120px;border-radius:14px;background:{{ d.foto }};position:relative;overflow:hidden"><span style="position:absolute;left:50%;bottom:14px;width:6px;height:56px;border-radius:3px;background:rgba(255,255,255,.5);transform:translateX(-3px)"></span><span style="position:absolute;left:28px;top:48px;width:44px;height:22px;border-radius:50%;background:rgba(255,255,255,.42);transform:rotate(-28deg)"></span><span style="position:absolute;left:56px;top:62px;width:44px;height:22px;border-radius:50%;background:rgba(255,255,255,.42);transform:rotate(28deg)"></span></div></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="padding:4px 22px 0;display:flex;justify-content:space-between;align-items:center"><a href="#" style="font-size:12px;font-weight:700;color:#e3a52f;text-decoration:none">Ver la ficha de tomate →</a><span style="font-size:11px;color:#8a9680">Borrar esta planta</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p class="dv-next">Probá: "llevá esto a Calendario y Ajustes" · "la ficha con menos densidad: colapsá los campos" · "el diario con más fotos, tipo tira".</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Huerta GBA · estado actual y la dirección elegida · Hoy / Explorar / Mi huerta · miércoles 2 de septiembre, Conurbano, huerta de ejemplo</span></div>
+<div class="dv-opts">
+
+<!-- ===================== 1c · TIERRA DE NOCHE ===================== -->
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a><span><strong>Cantero de noche.</strong> Fondo de tierra oscura, tipografía geométrica (Unbounded + Manrope), el sol amarillo pasa de relleno a color primario. Cambia el modelo de lectura: Hoy es la agenda de la semana en una sola línea vertical (clima y tareas en el mismo eje de días); Explorar mide los meses en un anillo anual con el tick de hoy; Mi huerta es un gantt del ciclo de cada planta con la línea de hoy, así se ve de un vistazo qué se acerca.</span></div>
+<div class="dv-row">
+
+<!-- 1c HOY -->
+<div class="tel" data-screen-label="1c Hoy" style="background:#1f2a1c;color:#ece6d3;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 92px">
+<div style="padding:26px 22px 8px;display:flex;justify-content:space-between;align-items:flex-start">
+<div><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e3a52f">Primavera · principios de septiembre</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:10px;letter-spacing:-.01em">La semana</div></div>
+<div style="display:flex;gap:6px"><span class="ico" style="width:40px;height:40px;border-radius:12px;background:#2b3826;font-size:20px;color:#b9c9a8">{{ ico.glosario }}</span><span class="ico" style="width:40px;height:40px;border-radius:12px;background:#2b3826;font-size:20px;color:#b9c9a8">{{ ico.ajustes }}</span></div>
+</div>
+<div style="margin:10px 22px 0;padding:12px 14px;border-radius:14px;background:#e3a52f;color:#2a2110;display:flex;gap:10px;align-items:center">
+<span class="ico" style="font-size:22px">{{ ico.escarcha }}</span>
+<div style="flex:1;font-size:13px;line-height:1.35"><b style="font-weight:800">Helada el viernes, mínima 1 °C.</b> Cubrí de noche los del cajón y la lechuga.</div>
+</div>
+<div style="padding:18px 22px 0;display:flex;flex-direction:column">
+<sc-for list="{{ agenda }}" as="d" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:54px 1fr;gap:0 14px;position:relative">
+<div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 14px;border-right:1px solid #35432f;position:relative">
+<div style="font:600 11px/1 Unbounded,sans-serif;text-transform:uppercase;color:{{ d.colDia }}">{{ d.dia }}</div>
+<div style="font:800 22px/1 Manrope,sans-serif;margin-top:5px;color:{{ d.colNum }}">{{ d.num }}</div>
+<span class="ico" style="font-size:18px;margin-top:8px;color:{{ d.colCielo }}">{{ d.icono }}</span>
+<div style="font-size:11px;font-weight:700;margin-top:4px;color:#ece6d3">{{ d.max }}°<span style="color:#93a087;font-weight:500"> {{ d.min }}°</span></div>
+<span style="position:absolute;right:-5px;top:16px;width:9px;height:9px;border-radius:50%;background:{{ d.punto }};border:2px solid #1f2a1c"></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:8px 0 14px">
+<sc-for list="{{ d.items }}" as="it" hint-placeholder-count="1">
+<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:{{ it.bg }};border:1px solid {{ it.borde }}">
+<span class="ico" style="font-size:19px;margin-top:1px;color:{{ it.color }}">{{ it.icono }}</span>
+<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:800;line-height:1.3;color:#f3eedd">{{ it.titulo }}</div><div style="font-size:12px;line-height:1.4;color:#b7c0ab;margin-top:2px">{{ it.detalle }}</div><div style="font-size:10px;line-height:1.3;color:#8a9680;margin-top:5px;font-style:italic">{{ it.fuente }}</div></div>
+<sc-if value="{{ it.accion }}" hint-placeholder-val="{{ true }}"><button onClick="{{ it.onHecho }}" style="flex:none;height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #e3a52f;background:none;color:#e3a52f;font:700 11px Manrope,sans-serif;cursor:pointer">Hecho</button></sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ d.vacio }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#5f6d58;padding:6px 2px">—</div></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="padding:8px 22px 0">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font:600 16px/1.1 Unbounded,sans-serif">Sembrá ahora</div><div style="font-size:11px;color:#93a087">ordenado por lo que se cierra</div></div>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+<sc-for list="{{ sugerencias }}" as="s" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;padding:8px 10px 8px 8px;border-radius:14px;background:#26332270">
+<span class="ico" style="width:38px;height:38px;border-radius:11px;background:#2b3826;font-size:21px;color:{{ s.colorB }}">{{ s.icono }}</span>
+<div><div style="font-size:14px;font-weight:800">{{ s.nombre }}</div><div style="font-size:11px;color:#93a087">{{ s.metodoB }}</div></div>
+<div style="text-align:right"><div style="font:600 15px/1 Unbounded,sans-serif;color:{{ s.colorDiasB }}">{{ s.diasNum }}</div><div style="font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#93a087;margin-top:3px">{{ s.diasTxt }}</div></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<nav style="position:absolute;left:14px;right:14px;bottom:14px;height:64px;border-radius:20px;background:#2b3826;display:flex;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;background:#e3a52f;color:#2a2110"><span class="ico" style="font-size:22px">{{ ico.hoy }}</span><span style="font:600 9px Unbounded,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.explorar }}</span><span style="font:500 9px Unbounded,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.calendario }}</span><span style="font:500 9px Unbounded,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.huerta }}</span><span style="font:500 9px Unbounded,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+
+<!-- 1c EXPLORAR -->
+<div class="tel" data-screen-label="1c Explorar" style="background:#1f2a1c;color:#ece6d3;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 92px">
+<div style="padding:26px 22px 0"><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e3a52f">55 especies · Conurbano</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:10px">Explorar</div></div>
+<div style="margin:16px 22px 0;height:46px;border-radius:14px;background:#2b3826;display:flex;align-items:center;gap:10px;padding:0 14px;color:#93a087"><span class="ico" style="font-size:19px">{{ ico.explorar }}</span><span style="font-size:14px">Buscar especie…</span></div>
+<div style="display:flex;gap:8px;padding:12px 22px 0;overflow:hidden">
+<button onClick="{{ toggleAhora }}" style="flex:none;white-space:nowrap;height:34px;padding:0 14px;border-radius:999px;border:1.5px solid {{ ahoraBordeB }};background:{{ ahoraBgB }};color:{{ ahoraColB }};font:700 12px Manrope,sans-serif;cursor:pointer">Se siembra ahora</button>
+<span style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #3a4933;color:#c9d1bd;font:700 12px/34px Manrope,sans-serif">Grupo</span>
+<span style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #3a4933;color:#c9d1bd;font:700 12px/34px Manrope,sans-serif">Suelo</span>
+<span style="height:34px;padding:0 14px;border-radius:999px;border:1.5px solid #3a4933;color:#c9d1bd;font:700 12px/34px Manrope,sans-serif">Luz</span>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:18px 22px 8px;font-size:11px;color:#93a087"><span>{{ cuenta }}</span><span style="display:flex;gap:10px;align-items:center"><span style="display:inline-flex;align-items:center;gap:4px"><i style="width:9px;height:9px;border-radius:50%;background:#8fbf6f;display:inline-block"></i>ideal</span><span style="display:inline-flex;align-items:center;gap:4px"><i style="width:9px;height:9px;border-radius:50%;background:#e3a52f;display:inline-block"></i>se puede</span></span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 22px">
+<sc-for list="{{ especiesVis }}" as="e" hint-placeholder-count="6">
+<div style="border-radius:18px;background:#26332270;border:1px solid #33422e;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;position:relative">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span class="ico" style="font-size:24px;color:{{ e.colorB }}">{{ e.icoGrupo }}</span>
+<sc-if value="{{ e.esIdeal }}" hint-placeholder-val="{{ false }}"><span style="font:600 8px/1 Unbounded,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:999px;background:#e3a52f;color:#2a2110">ahora</span></sc-if>
+<sc-if value="{{ e.esPosible }}" hint-placeholder-val="{{ false }}"><span style="font:600 8px/1 Unbounded,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:999px;border:1px dashed #e3a52f;color:#e3a52f">se puede</span></sc-if>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<div style="width:56px;height:56px;border-radius:50%;flex:none;background:{{ e.anillo }};display:grid;place-items:center;position:relative"><div style="width:38px;height:38px;border-radius:50%;background:#26332f;background:#243021;display:grid;place-items:center;font:600 9px Unbounded,sans-serif;color:#ece6d3">{{ e.mesCorto }}</div><span style="position:absolute;left:50%;top:50%;width:2px;height:36px;transform-origin:50% 100%;transform:translate(-1px,-36px) rotate(245deg);z-index:2"><i style="display:block;width:2px;height:11px;border-radius:1px;background:#f3eedd"></i></span></div>
+<div style="min-width:0"><div style="font-size:14px;font-weight:800;line-height:1.15">{{ e.nombre }}</div><div style="display:flex;gap:6px;margin-top:6px;font-size:15px"><span class="ico" style="color:{{ e.colorSuelo }}">{{ e.icoSuelo }}</span><span class="ico" style="color:{{ e.colorLuz }}">{{ e.icoLuz }}</span></div></div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<nav style="position:absolute;left:14px;right:14px;bottom:14px;height:64px;border-radius:20px;background:#2b3826;display:flex;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.hoy }}</span><span style="font:500 9px Unbounded,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;background:#e3a52f;color:#2a2110"><span class="ico" style="font-size:22px">{{ ico.explorar }}</span><span style="font:600 9px Unbounded,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.calendario }}</span><span style="font:500 9px Unbounded,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.huerta }}</span><span style="font:500 9px Unbounded,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+
+<!-- 1c MI HUERTA -->
+<div class="tel" data-screen-label="1c Mi huerta" style="background:#1f2a1c;color:#ece6d3;font-family:Manrope,sans-serif">
+<div class="scr" style="padding:0 0 92px">
+<div style="padding:26px 22px 0;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font:500 10px/1 Unbounded,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#e3a52f">6 plantas · 2 lugares</div><div style="font:600 30px/1.05 Unbounded,sans-serif;margin-top:10px">Mi huerta</div></div><button style="height:40px;padding:0 14px;border-radius:12px;border:none;background:#e3a52f;color:#2a2110;font:700 12px Manrope,sans-serif;cursor:pointer">+ Sumar</button></div>
+<div style="padding:22px 22px 0">
+<div style="display:grid;grid-template-columns:1fr;position:relative">
+<div style="display:flex;justify-content:space-between;font:600 9px Unbounded,sans-serif;letter-spacing:.06em;color:#6f7d67;padding:0 0 6px 0"><span>jul</span><span>ago</span><span style="color:#e3a52f">sep · hoy</span><span>oct</span><span>nov</span><span>dic</span><span>ene</span></div>
+</div>
+<sc-for list="{{ lugares }}" as="l" hint-placeholder-count="2">
+<div style="margin-top:14px">
+<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="ico" style="font-size:16px;color:#93a087">{{ l.icono }}</span><span style="font-size:12px;font-weight:800;color:#c9d1bd">{{ l.nombre }}</span><span style="font-size:10px;color:#6f7d67">{{ l.detalle }}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;position:relative">
+<sc-for list="{{ l.plantas }}" as="p" hint-placeholder-count="3">
+<div style="position:relative;height:74px;border-radius:14px;background:#26332270;border:1px solid #33422e;overflow:hidden">
+<div style="position:absolute;left:0;right:0;top:29px;height:24px;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/6 - 1px),#f3eedd26 calc(100%/6 - 1px) calc(100%/6));z-index:0"><span style="position:absolute;left:33.33%;top:0;bottom:0;width:1.5px;background:#e3a52f"></span></div>
+<div style="position:absolute;top:8px;left:12px;display:flex;align-items:center;gap:7px;z-index:3"><span class="ico" style="font-size:16px;color:{{ p.colorB }}">{{ p.icono }}</span><span style="font-size:13px;font-weight:800;color:#f3eedd">{{ p.nombre }}</span><span style="font-size:10px;color:#93a087">{{ p.sub }}</span><sc-if value="{{ p.alerta }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:800;color:#2a2110;background:#e3a52f;border-radius:999px;padding:2px 7px;animation:pulso 2s infinite">{{ ico.alerta }} {{ p.alerta }}</span></sc-if></div>
+<div style="position:absolute;left:{{ p.x0 }}%;width:{{ p.wCrece }}%;top:36px;height:10px;border-radius:5px;background:#6d9a52"></div>
+<div style="position:absolute;left:{{ p.xTras }}%;width:{{ p.wTras }}%;top:36px;height:10px;border-radius:5px;background:#c07352"></div>
+<div style="position:absolute;left:{{ p.xCos }}%;width:{{ p.wCos }}%;top:36px;height:10px;border-radius:5px;background:repeating-linear-gradient(90deg,#e3a52f 0 4px,#b8801a 4px 8px)"></div>
+<span style="position:absolute;left:{{ p.x0 }}%;top:33px;width:16px;height:16px;border-radius:50%;background:#1f2a1c;border:2.5px solid #8fbf6f;transform:translateX(-8px);display:grid;place-items:center;font-size:9px;color:#8fbf6f" class="ico">{{ ico.sembrar }}</span>
+<div style="position:absolute;left:12px;top:52px;font-size:10px;font-weight:700;color:{{ p.colorHito }};background:#1f2a1c;padding:0 4px;border-radius:4px;z-index:3">{{ p.hito }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+<div style="display:flex;gap:14px;margin-top:18px;font-size:10px;color:#93a087;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:5px"><i style="width:14px;height:6px;border-radius:3px;background:#6d9a52;display:inline-block"></i>creciendo</span><span style="display:inline-flex;align-items:center;gap:5px"><i style="width:14px;height:6px;border-radius:3px;background:#c07352;display:inline-block"></i>ventana de trasplante</span><span style="display:inline-flex;align-items:center;gap:5px"><i style="width:14px;height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,#e3a52f 0 3px,#b8801a 3px 6px);display:inline-block"></i>ventana de cosecha</span></div>
+</div>
+</div>
+<nav style="position:absolute;left:14px;right:14px;bottom:14px;height:64px;border-radius:20px;background:#2b3826;display:flex;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.35)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.hoy }}</span><span style="font:500 9px Unbounded,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.explorar }}</span><span style="font:500 9px Unbounded,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#93a087"><span class="ico" style="font-size:22px">{{ ico.calendario }}</span><span style="font:500 9px Unbounded,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:14px;background:#e3a52f;color:#2a2110"><span class="ico" style="font-size:22px">{{ ico.huerta }}</span><span style="font:600 9px Unbounded,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+</div>
+</div>
+
+<!-- ===================== 1a · ACTUAL ===================== -->
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a><span><strong>Actual (recreación desde el código).</strong> theme.css, Header, TabBar, Hoy, Explorar, MiHuerta, EspecieCard, MonthStrip, CycleProgress, Pronostico, íconos propios. Con la huerta de ejemplo cargada. Referencia para comparar.</span></div>
+<div class="dv-row">
+
+<!-- 1a HOY -->
+<div class="tel" data-screen-label="1a Hoy" style="background:#f6efdd;color:#3a4030;font-family:Nunito,sans-serif;font-size:16px;line-height:1.5;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E&quot;)">
+<div class="scr" style="padding:0 0 92px">
+<header style="display:flex;align-items:center;gap:12px;padding:16px 16px 12px">
+<div style="flex:1;min-width:0"><p style="margin:0 0 2px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a1583d">Se viene lo mejor: todo quiere brotar</p><h1 style="margin:0;font:700 24px/1.2 Quicksand,sans-serif;letter-spacing:.01em;color:#3a4030">Miércoles 2 de septiembre</h1></div>
+<div style="display:flex;gap:4px"><span class="ico" style="width:44px;height:44px;border-radius:50%;color:#5c6350;background:#fdf9ee;border:1.5px solid #ddd2b6;box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06);font-size:22px">{{ ico.glosario }}</span><span class="ico" style="width:44px;height:44px;border-radius:50%;color:#5c6350;background:#fdf9ee;border:1.5px solid #ddd2b6;box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06);font-size:22px">{{ ico.ajustes }}</span></div>
+</header>
+<div style="padding:0 16px;display:flex;flex-direction:column;gap:16px">
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="display:inline-block;align-self:flex-start;margin:16px 0 0;font:700 19px/1.2 Quicksand,sans-serif;padding-bottom:9px;background:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='6' viewBox='0 0 28 6'%3E%3Cpath d='M0 3 Q 3.5 0, 7 3 T 14 3 T 21 3 T 28 3' fill='none' stroke='%237fa06f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) left bottom/28px 6px repeat-x">La semana</h2>
+<div style="display:flex;gap:12px;align-items:flex-start;padding:12px;border:1.5px solid #9e4729;border-radius:16px;background:#f3d9cd"><span class="ico" style="font-size:22px;color:#9e4729;margin-top:2px">{{ ico.escarcha }}</span><div><p style="margin:0;font-weight:700">Puede helar el viernes</p><p style="margin:2px 0 0;font-size:14px;line-height:1.5;color:#5c6350">Mínima prevista de 1 °C. Cubrí de noche los del cajón, lechuga: la helada las mata.</p><p style="margin:4px 0 0;font-size:11px;font-style:italic;line-height:1.4;color:#5c6350">Open-Meteo · pronóstico para Quilmes</p></div></div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+<sc-for list="{{ agenda }}" as="d" hint-placeholder-count="7">
+<div style="display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 0;border:1.5px solid #ddd2b6;border-radius:10px;background:#fdf9ee"><span style="font-size:12px;font-weight:600;color:#5c6350">{{ d.dia }}</span><span class="ico" style="font-size:22px;color:#5c6350">{{ d.icono }}</span><span style="font-size:14px;font-weight:700">{{ d.max }}°</span><span style="font-size:12px;color:#5c6350">{{ d.min }}°</span><span style="min-height:13px;display:flex;align-items:center;gap:1px;font-size:12px;font-weight:600;color:#4f7f95">{{ d.lluvia }}</span></div>
+</sc-for>
+</div>
+<p style="margin:0;font-size:11px;font-style:italic;line-height:1.4;color:#5d6253">Open-Meteo · actualizado hace 2 h · para Quilmes</p>
+</section>
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="display:inline-block;align-self:flex-start;margin:16px 0 0;font:700 19px/1.2 Quicksand,sans-serif;padding-bottom:9px;background:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='6' viewBox='0 0 28 6'%3E%3Cpath d='M0 3 Q 3.5 0, 7 3 T 14 3 T 21 3 T 28 3' fill='none' stroke='%237fa06f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) left bottom/28px 6px repeat-x">Para hacer</h2>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ tareas }}" as="t" hint-placeholder-count="3">
+<li style="display:flex;flex-direction:column;border-radius:16px;background:#fdf9ee;border:1.5px solid #ddd2b6;border-left:4px solid {{ t.borde }};box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06);overflow:hidden;animation:aparecer .45s both">
+<div style="display:flex;align-items:flex-start;gap:12px;padding:16px"><span class="ico" style="width:38px;height:38px;border-radius:10px;background:#eee4cc;color:#5c6350;flex:none;font-size:21px">{{ t.icono }}</span><div style="display:flex;flex-direction:column;gap:3px;min-width:0"><span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:700 16px/1.5 Quicksand,sans-serif">{{ t.titulo }}<sc-if value="{{ t.atrasada }}" hint-placeholder-val="{{ false }}"><span style="padding:1px 8px;border-radius:999px;background:#f3d9cd;color:#7d3a20;font:700 10px/1.5 Nunito,sans-serif;letter-spacing:.02em;text-transform:uppercase">atrasada</span></sc-if></span><span style="font-size:14px;line-height:1.5;color:#5c6350">{{ t.detalle }}</span><span style="margin-top:2px;font-size:11px;font-style:italic;line-height:1.4;color:#5d6253">{{ t.fuente }}</span></div></div>
+<div style="display:flex;border-top:1.5px dashed #ddd2b6"><button onClick="{{ t.onHecho }}" style="flex:1;min-height:44px;border:none;background:none;font:700 14px Quicksand,sans-serif;color:#33502b;cursor:pointer">Hecho</button><button style="flex:1;min-height:44px;border:none;border-left:1.5px dashed #ddd2b6;background:none;font:700 14px Quicksand,sans-serif;color:#5c6350;cursor:pointer">Más tarde</button></div>
+</li>
+</sc-for>
+</ul>
+</section>
+<section style="display:flex;flex-direction:column;gap:12px">
+<h2 style="display:inline-block;align-self:flex-start;margin:16px 0 0;font:700 19px/1.2 Quicksand,sans-serif;padding-bottom:9px;background:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='6' viewBox='0 0 28 6'%3E%3Cpath d='M0 3 Q 3.5 0, 7 3 T 14 3 T 21 3 T 28 3' fill='none' stroke='%237fa06f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E&quot;) left bottom/28px 6px repeat-x">Para sembrar ahora</h2>
+<p style="margin:0;font-size:14px;color:#5d6253">En principios de septiembre, ordenado por lo que primero se te cierra.</p>
+<ul style="list-style:none;display:flex;gap:12px;margin:0 -16px 0 0;padding:4px 16px 12px 0;overflow-x:auto;scrollbar-width:none">
+<sc-for list="{{ sugerencias }}" as="s" hint-placeholder-count="4">
+<li style="flex:none;width:154px"><div style="position:relative;display:flex;flex-direction:column;height:100%;overflow:hidden;background:#fdf9ee;border:1.5px solid #ddd2b6;border-radius:16px;box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06)"><span style="position:absolute;top:10px;left:10px;width:9px;height:9px;border-radius:50%;background:#f6efdd;border:1.5px solid #ddd2b6;box-shadow:inset 0 1px 1.5px rgba(74,60,28,.18)"></span>
+<div style="display:flex;flex-direction:column;gap:4px;flex:1;padding:24px 12px 12px 16px"><span class="ico" style="width:34px;height:34px;border-radius:10px;background:#eee4cc;font-size:22px;color:{{ s.color }}">{{ s.icono }}</span><span style="font:700 14px/1.2 Quicksand,sans-serif;color:#3a4030">{{ s.nombre }}</span><span style="font-size:11px;color:{{ s.colorVentana }};font-weight:{{ s.pesoVentana }}">{{ s.ventana }}</span><sc-if value="{{ s.almacigo }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:4px;margin-top:2px;font-size:10px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:#a1583d"><span class="ico" style="font-size:13px">{{ ico.protegido }}</span> en almácigo</span></sc-if></div>
+<button style="min-height:44px;border:none;border-top:1.5px dashed #ddd2b6;background:none;font:700 14px Quicksand,sans-serif;color:#33502b;cursor:pointer">Sumar</button></div></li>
+</sc-for>
+</ul>
+</section>
+</div>
+</div>
+<nav style="position:absolute;left:0;right:0;bottom:0;height:62px;padding:6px 8px 0;display:flex;justify-content:space-around;background:#fdf9ee;border-top:1.5px solid #ddd2b6;box-shadow:0 -2px 14px rgba(74,60,28,.1)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#33502b"><span class="ico" style="width:52px;height:30px;border-radius:999px;background:#dbe7cf;font-size:23px;transform:translateY(-1px)">{{ ico.hoy }}</span><span style="font:600 11px Quicksand,sans-serif;letter-spacing:.02em">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.explorar }}</span><span style="font:600 11px Quicksand,sans-serif;letter-spacing:.02em">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.calendario }}</span><span style="font:600 11px Quicksand,sans-serif;letter-spacing:.02em">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.huerta }}</span><span style="font:600 11px Quicksand,sans-serif;letter-spacing:.02em">Mi huerta</span></div>
+</nav>
+</div>
+
+<!-- 1a EXPLORAR -->
+<div class="tel" data-screen-label="1a Explorar" style="background:#f6efdd;color:#3a4030;font-family:Nunito,sans-serif;font-size:16px;line-height:1.5;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E&quot;)">
+<div class="scr" style="padding:0 0 92px">
+<header style="display:flex;align-items:center;gap:12px;padding:16px 16px 12px">
+<div style="flex:1;min-width:0"><p style="margin:0 0 2px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a1583d">principios de septiembre · Conurbano</p><h1 style="margin:0;font:700 24px/1.2 Quicksand,sans-serif;color:#3a4030">Explorar</h1></div>
+<div style="display:flex;gap:4px"><span class="ico" style="width:44px;height:44px;border-radius:50%;color:#5c6350;background:#fdf9ee;border:1.5px solid #ddd2b6;box-shadow:0 1px 2px rgba(74,60,28,.07);font-size:22px">{{ ico.glosario }}</span><span class="ico" style="width:44px;height:44px;border-radius:50%;color:#5c6350;background:#fdf9ee;border:1.5px solid #ddd2b6;box-shadow:0 1px 2px rgba(74,60,28,.07);font-size:22px">{{ ico.ajustes }}</span></div>
+</header>
+<div style="display:flex;flex-direction:column;gap:12px;padding:0 16px 12px">
+<div style="display:flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;background:#fdf9ee;border:1.5px solid #ddd2b6;color:#5d6253;box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06)"><span class="ico" style="font-size:19px">{{ ico.explorar }}</span><span style="font-size:16px">Buscar especie…</span></div>
+<div style="display:flex;align-items:center;gap:8px">
+<button onClick="{{ toggleAhora }}" style="flex:none;white-space:nowrap;height:44px;padding:0 16px;border-radius:16px;background:{{ ahoraBg }};border:{{ ahoraBorde }};font:700 14px Quicksand,sans-serif;color:{{ ahoraCol }};cursor:pointer">Se siembra ahora</button>
+<span style="height:44px;padding:0 16px;border-radius:16px;background:#fdf9ee;border:1.5px solid #ddd2b6;font:700 14px/44px Quicksand,sans-serif;color:#5c6350">Filtros</span>
+</div>
+<p style="margin:0;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5d6253">{{ cuenta }}</p>
+</div>
+<div style="padding:0 16px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ especiesVis }}" as="e" hint-placeholder-count="5">
+<div style="position:relative;display:flex;flex-direction:column;gap:12px;padding:12px 16px 16px;background:#fdf9ee;border:1.5px solid #ddd2b6;border-radius:16px;box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06)">
+<span style="position:absolute;top:10px;left:10px;width:9px;height:9px;border-radius:50%;background:#f6efdd;border:1.5px solid #ddd2b6;box-shadow:inset 0 1px 1.5px rgba(74,60,28,.18)"></span>
+<div style="display:flex;align-items:baseline;gap:8px;padding-left:18px"><h2 style="flex:1;margin:0;font:700 19px/1.2 Quicksand,sans-serif;min-width:0">{{ e.nombre }}</h2><sc-if value="{{ e.variedades }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#5c6350;white-space:nowrap">{{ e.variedades }} variedades</span></sc-if><sc-if value="{{ e.esIdeal }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:999px;background:{{ e.ahoraBg }};color:{{ e.ahoraCol }};border:1.5px solid {{ e.ahoraBorde }};font:700 11px Quicksand,sans-serif">{{ e.ahoraTxt }}</span></sc-if><sc-if value="{{ e.esPosible }}" hint-placeholder-val="{{ false }}"><span style="padding:3px 9px;border-radius:999px;background:#f8ecc9;color:#8a5a12;border:1.5px dashed #e3a52f;font:700 11px Quicksand,sans-serif">se puede</span></sc-if></div>
+<div style="display:flex;gap:12px;padding-left:18px;font-size:21px"><span class="ico" style="color:{{ e.color }}">{{ e.icoGrupo }}</span><span class="ico" style="color:{{ e.colorSuelo }}">{{ e.icoSuelo }}</span><span class="ico" style="color:{{ e.colorLuz }}">{{ e.icoLuz }}</span></div>
+<ul style="display:flex;gap:4px;list-style:none;margin:0;padding:0">
+<sc-for list="{{ e.meses }}" as="m" hint-placeholder-count="12">
+<li style="flex:1;min-width:0"><span style="display:flex;width:100%;height:13px;border-radius:4px;overflow:hidden;background:#eee4cc;outline:{{ m.outline }};outline-offset:2px">
+<sc-for list="{{ m.tercios }}" as="tc" hint-placeholder-count="3"><span style="flex:1;background:{{ tc.bg }};box-shadow:{{ tc.sombra }};border:{{ tc.borde }};box-sizing:border-box"></span></sc-for>
+</span></li>
+</sc-for>
+</ul>
+</div>
+</sc-for>
+</div>
+</div>
+<nav style="position:absolute;left:0;right:0;bottom:0;height:62px;padding:6px 8px 0;display:flex;justify-content:space-around;background:#fdf9ee;border-top:1.5px solid #ddd2b6;box-shadow:0 -2px 14px rgba(74,60,28,.1)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.hoy }}</span><span style="font:600 11px Quicksand,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#33502b"><span class="ico" style="width:52px;height:30px;border-radius:999px;background:#dbe7cf;font-size:23px">{{ ico.explorar }}</span><span style="font:600 11px Quicksand,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.calendario }}</span><span style="font:600 11px Quicksand,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.huerta }}</span><span style="font:600 11px Quicksand,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+
+<!-- 1a MI HUERTA -->
+<div class="tel" data-screen-label="1a Mi huerta" style="background:#f6efdd;color:#3a4030;font-family:Nunito,sans-serif;font-size:16px;line-height:1.5;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E&quot;)">
+<div class="scr" style="padding:0 0 92px">
+<header style="display:flex;align-items:center;gap:12px;padding:16px 16px 12px">
+<div style="flex:1;min-width:0"><p style="margin:0 0 2px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a1583d">6 plantas en 2 lugares</p><h1 style="margin:0;font:700 24px/1.2 Quicksand,sans-serif;color:#3a4030">Mi huerta</h1></div>
+<div style="display:flex;gap:4px"><span class="ico" style="width:44px;height:44px;border-radius:50%;color:#5c6350;background:#fdf9ee;border:1.5px solid #ddd2b6;box-shadow:0 1px 2px rgba(74,60,28,.07);font-size:22px">{{ ico.glosario }}</span><span class="ico" style="width:44px;height:44px;border-radius:50%;color:#5c6350;background:#fdf9ee;border:1.5px solid #ddd2b6;box-shadow:0 1px 2px rgba(74,60,28,.07);font-size:22px">{{ ico.ajustes }}</span></div>
+</header>
+<div style="padding:0 16px;display:flex;flex-direction:column;gap:16px">
+<sc-for list="{{ lugares }}" as="l" hint-placeholder-count="2">
+<section style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;margin-top:8px"><h2 style="flex:1;margin:0;min-width:0"><span style="display:flex;align-items:center;gap:8px;width:100%;min-height:44px;padding:0 4px;font:700 14px Nunito,sans-serif;color:#5c6350"><span class="ico" style="font-size:18px;transform:rotate(180deg)">{{ ico.desplegar }}</span><span>{{ l.nombre }}</span><span style="min-width:20px;padding:1px 7px;border-radius:999px;background:#eee4cc;font:400 10px/1.5 Nunito,sans-serif;color:#5d6253;text-align:center">{{ l.n }}</span></span></h2><span class="ico" style="width:44px;height:44px;color:#5d6253;font-size:18px">{{ ico.editar }}</span></div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ l.plantas }}" as="p" hint-placeholder-count="3">
+<article style="position:relative;display:flex;flex-direction:column;padding:8px 12px 8px 26px;background:#fdf9ee;border:1.5px solid #ddd2b6;border-radius:16px;box-shadow:0 1px 2px rgba(74,60,28,.07),0 2px 8px rgba(74,60,28,.06)">
+<span style="position:absolute;top:30px;left:9px;width:9px;height:9px;border-radius:50%;background:#f6efdd;border:1.5px solid #ddd2b6;box-shadow:inset 0 1px 1.5px rgba(74,60,28,.18)"></span>
+<div style="display:flex;align-items:center;gap:8px">
+<div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;min-height:44px"><span class="ico" style="width:34px;height:34px;border-radius:10px;background:#eee4cc;flex:none;font-size:22px;color:{{ p.color }}">{{ p.icono }}</span><div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0"><h3 style="margin:0;font:700 16px/1.2 Quicksand,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.nombre }}</h3><span style="display:flex;align-items:center;gap:8px;font-size:12px;color:#5d6253"><span style="flex:none;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;background:{{ p.etapaBg }};color:{{ p.etapaCol }}">{{ p.etapa }}</span><span>{{ p.sub }}</span></span></div></div>
+<sc-if value="{{ p.alerta }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:3px;padding:2px 8px 2px 6px;border-radius:999px;background:#f3d9cd;font-size:12px;font-weight:700;color:#9e4729"><span class="ico" style="font-size:14px">{{ ico.alerta }}</span>{{ p.alerta }}</span></sc-if>
+<button onClick="{{ p.onPlegar }}" style="width:44px;height:44px;border:none;background:none;color:#5c6350;cursor:pointer;display:grid;place-items:center"><span class="ico" style="font-size:20px;transition:transform .18s;transform:{{ p.rot }}">{{ ico.desplegar }}</span></button>
+</div>
+<sc-if value="{{ p.abierta }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:12px;padding:12px 0 8px">
+<ol style="display:flex;list-style:none;margin:0;padding:0">
+<sc-for list="{{ p.ciclo }}" as="c" hint-placeholder-count="5">
+<li style="flex:1;display:flex;flex-direction:column;align-items:center;position:relative;min-width:0"><span style="position:absolute;top:10px;right:50%;width:100%;height:2px;background:{{ c.linea }};display:{{ c.lineaDisplay }}"></span><span class="ico" style="position:relative;width:21px;height:21px;border-radius:50%;background:{{ c.bg }};border:1.5px {{ c.estiloBorde }} {{ c.borde }};color:{{ c.color }};font-size:13px;box-shadow:{{ c.sombra }};opacity:{{ c.opacidad }}">{{ c.icono }}</span></li>
+</sc-for>
+</ol>
+<p style="margin:0;display:flex;align-items:center;gap:5px;padding-top:8px;border-top:1.5px dashed #e9e0c8;font-size:12px;color:{{ p.hitoCol }};font-weight:{{ p.hitoPeso }}"><span class="ico" style="font-size:14px">{{ p.hitoIcono }}</span>{{ p.hito }}</p>
+</div>
+</sc-if>
+</article>
+</sc-for>
+</div>
+</section>
+</sc-for>
+<button style="display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;border-radius:999px;background:none;border:2px dashed #ddd2b6;color:#5c6350;font:700 16px Quicksand,sans-serif;cursor:pointer">＋ Sumar otra planta</button>
+</div>
+</div>
+<nav style="position:absolute;left:0;right:0;bottom:0;height:62px;padding:6px 8px 0;display:flex;justify-content:space-around;background:#fdf9ee;border-top:1.5px solid #ddd2b6;box-shadow:0 -2px 14px rgba(74,60,28,.1)">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.hoy }}</span><span style="font:600 11px Quicksand,sans-serif">Hoy</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.explorar }}</span><span style="font:600 11px Quicksand,sans-serif">Explorar</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#5d6253"><span class="ico" style="width:52px;height:30px;font-size:23px">{{ ico.calendario }}</span><span style="font:600 11px Quicksand,sans-serif">Calendario</span></div>
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#33502b"><span class="ico" style="width:52px;height:30px;border-radius:999px;background:#dbe7cf;font-size:23px">{{ ico.huerta }}</span><span style="font:600 11px Quicksand,sans-serif">Mi huerta</span></div>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Probá: "llevá <a class="dv-oid" href="#1c">1c</a> a Calendario y Ajustes" · "el anillo anual más grande en Explorar".</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const P = {
+  hoy:'<path d="M4.5 10.8 L12 4.3 L19.5 10.8 V18.3 C19.5 19.4 18.6 20.3 17.5 20.3 H6.5 C5.4 20.3 4.5 19.4 4.5 18.3 Z"/><path d="M9.8 20.3 V15.7 C9.8 14.6 10.8 14 12 14 C13.2 14 14.2 14.6 14.2 15.7 V20.3"/>',
+  explorar:'<circle cx="10.6" cy="10.6" r="5.7"/><path d="M14.9 14.9 L20 20"/>',
+  calendario:'<rect x="4" y="5.8" width="16" height="14.5" rx="2.6"/><path d="M8.4 3.8V7.6"/><path d="M15.6 3.8V7.6"/><path d="M4 10.4H20"/><circle cx="8.9" cy="14" r=".7" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".7" fill="currentColor" stroke="none"/><circle cx="15.1" cy="17" r=".7" fill="currentColor" stroke="none"/>',
+  huerta:'<path d="M4.5 19.5V13.5M19.5 19.5V13.5"/><path d="M3 19.5H21"/><path d="M12 19.5V11.5"/><path d="M12 13.3 C9.8 13.3 8.4 12 8.1 9.8 C10.4 9.8 11.7 11.1 12 13.3Z"/><path d="M12 13.3 C14.2 13.3 15.6 12 15.9 9.8 C13.6 9.8 12.3 11.1 12 13.3Z"/>',
+  glosario:'<circle cx="12" cy="12" r="8.2"/><path d="M9.9 9.8 C9.9 8.4 10.8 7.4 12.2 7.4 C13.5 7.4 14.4 8.3 14.4 9.5 C14.4 10.5 13.8 11.1 12.9 11.7 C12.3 12.1 12 12.6 12 13.4"/><circle cx="12" cy="16.2" r=".65" fill="currentColor" stroke="none"/>',
+  ajustes:'<path d="M4.5 8H19.5"/><circle cx="9.4" cy="8" r="1.9"/><path d="M4.5 16H19.5"/><circle cx="14.6" cy="16" r="1.9"/>',
+  hoja:'<path d="M19.5 4.5 C10.5 4.5 4.5 10 4.5 19.5 C13.5 19.5 19.5 14 19.5 4.5Z"/><path d="M4.5 19.5 C9.5 14.5 14 10 19.5 4.5"/>',
+  fruto:'<circle cx="12" cy="14" r="6.25"/><path d="M12 7.75V5"/><path d="M12 7.75 C11 5.9 9.3 5.2 7.6 5.4"/><path d="M12 7.75 C13 5.9 14.7 5.2 16.4 5.4"/>',
+  raiz:'<path d="M9.2 9.5 L14.8 9.5 C15.3 13 14.3 17 12 20.75 C9.7 17 8.7 13 9.2 9.5Z"/><path d="M9.8 6.5 C9.6 4.8 8.6 3.6 7.2 3"/><path d="M12 6.7V3.2"/><path d="M14.2 6.5 C14.4 4.8 15.4 3.6 16.8 3"/><path d="M10.6 13H13.4"/>',
+  legumbre:'<path d="M5 15.5 C4.2 9 9 4 17.6 4.4 C19.6 11.5 15 18.6 6.8 19.6 C5.8 18.4 5.2 17 5 15.5Z"/><circle cx="9.1" cy="13.4" r="1.5"/><circle cx="12.1" cy="10.7" r="1.5"/><circle cx="14.9" cy="7.9" r="1.5"/>',
+  aromatica:'<path d="M12 21 C12 15 12 9 12 3.75"/><path d="M12 17.5 C9.3 17.5 7.6 15.9 7.2 13.4 C9.9 13.4 11.6 15 12 17.5Z"/><path d="M12 17.5 C14.7 17.5 16.4 15.9 16.8 13.4 C14.1 13.4 12.4 15 12 17.5Z"/><path d="M12 11.5 C9.9 11.5 8.5 10.2 8.2 8.2 C10.4 8.2 11.7 9.5 12 11.5Z"/><path d="M12 11.5 C14.1 11.5 15.5 10.2 15.8 8.2 C13.6 8.2 12.3 9.5 12 11.5Z"/>',
+  flor:'<circle cx="12" cy="12" r="2.4"/>'+[0,60,120,180,240,300].map(a=>`<path d="M12 9.4 C10.7 8.1 10.7 5.3 12 3.9 C13.3 5.3 13.3 8.1 12 9.4Z" transform="rotate(${a} 12 12)"/>`).join(''),
+  sembrar:'<path d="M4 19.5 C8 16.8 16 16.8 20 19.5"/><path d="M9 6.2 a1.15 1.5 -20 1 0 .01 0Z"/><path d="M14.2 9.2 a1.15 1.5 20 1 0 .01 0Z"/><path d="M10.6 12.6 a1.15 1.5 -12 1 0 .01 0Z"/>',
+  almacigo:'<path d="M7.2 12.5H16.8L16 17.6 C15.8 18.7 14.9 19.5 13.8 19.5H10.2 C9.1 19.5 8.2 18.7 8 17.6Z"/><path d="M6.2 12.5H17.8"/><path d="M12 12.5V8.7"/><path d="M12 9.7 C10.2 9.7 9 8.5 8.8 6.6 C10.7 6.6 11.8 7.7 12 9.7Z"/><path d="M12 9.7 C13.8 9.7 15 8.5 15.2 6.6 C13.3 6.6 12.2 7.7 12 9.7Z"/>',
+  protegido:'<path d="M3.5 19h17"/><path d="M4.5 19a7.5 7.5 0 0 1 15 0"/><path d="M12 19v-4.5"/><path d="M12 15.5c-1.6 0-2.6-1-2.6-2.6 1.6 0 2.6 1 2.6 2.6Z"/>',
+  trasplantar:'<path d="M12 8.6V4.9"/><path d="M12 5.9 C10.4 5.9 9.3 4.9 9.1 3.2 C10.8 3.2 11.8 4.2 12 5.9Z"/><path d="M12 5.9 C13.6 5.9 14.7 4.9 14.9 3.2 C13.2 3.2 12.2 4.2 12 5.9Z"/><path d="M12 11.5V17.5"/><path d="M9.6 15.2 L12 17.7 L14.4 15.2"/><path d="M4.5 20.8 C7.5 19 16.5 19 19.5 20.8"/>',
+  cosechar:'<path d="M4.8 11.6H19.2L17.8 17.6 C17.5 19 16.5 19.7 15.1 19.7H8.9 C7.5 19.7 6.5 19 6.2 17.6Z"/><path d="M6.3 15H17.7"/><circle cx="9.7" cy="8.6" r="2.2"/><circle cx="14.4" cy="9.4" r="1.8"/><path d="M9.7 6.4 C9.7 5 10.9 4.3 12 4.3"/>',
+  alerta:'<path d="M10.5 4.8 C11.2 3.6 12.8 3.6 13.5 4.8 L20.6 17.3 C21.3 18.5 20.4 20 19.1 20H4.9 C3.6 20 2.7 18.5 3.4 17.3Z"/><path d="M12 9.5V13.7"/><circle cx="12" cy="16.6" r=".6" fill="currentColor" stroke="none"/>',
+  reloj:'<circle cx="12" cy="12" r="7.6"/><path d="M12 7.8V12L15.2 13.8"/>',
+  desplegar:'<path d="M7 10 L12 15 L17 10"/>',
+  editar:'<path d="M11.2 5.8H6.4 C5.1 5.8 4.2 6.7 4.2 8V17.6 C4.2 18.9 5.1 19.8 6.4 19.8H16 C17.3 19.8 18.2 18.9 18.2 17.6V12.6"/><path d="M9.6 14.6 L10.2 12.1 L16.9 5.4 C17.7 4.6 18.9 4.6 19.7 5.4 C20.5 6.2 20.5 7.4 19.7 8.2 L13 14.9 L9.6 14.6Z"/>',
+  sol:'<circle cx="12" cy="12" r="4"/>'+[0,45,90,135,180,225,270,315].map(a=>`<path d="M12 3.2V5.6" transform="rotate(${a} 12 12)"/>`).join(''),
+  solnubes:'<circle cx="9.2" cy="8.8" r="3"/>'+[-45,0,45,90,270].map(a=>`<path d="M9.2 2.6V4.7" transform="rotate(${a} 9.2 8.8)"/>`).join('')+'<path d="M8.3 19.3H17 A2.8 2.8 0 0 0 17 13.7 A4 4 0 0 0 9.4 13.2 A3.05 3.05 0 0 0 8.3 19.3Z"/>',
+  nube:'<path d="M7.1 17.4H16.6 A3.1 3.1 0 0 0 16.6 11.2 A4.4 4.4 0 0 0 8.1 10.6 A3.4 3.4 0 0 0 7.1 17.4Z"/>',
+  lluvia:'<path d="M7.6 14.3H16.3 A2.9 2.9 0 0 0 16.3 8.5 A4 4 0 0 0 8.6 8 A3.1 3.1 0 0 0 7.6 14.3Z"/><path d="M9.8 16.6l-1.1 3.2"/><path d="M13.2 16.6l-1.1 3.2"/><path d="M16.6 16.6l-1.1 3.2"/>',
+  gota:'<path d="M12 4.5 C12 4.5 6.8 10.6 6.8 14.2 A5.2 5.2 0 0 0 17.2 14.2 C17.2 10.6 12 4.5 12 4.5Z"/>',
+  escarcha:'<path d="M12 4.4V19.6"/><path d="M12 4.4V19.6" transform="rotate(60 12 12)"/><path d="M12 4.4V19.6" transform="rotate(120 12 12)"/><path d="M10.4 6.6 L12 8.2 L13.6 6.6"/><path d="M10.4 17.4 L12 15.8 L13.6 17.4"/>',
+  sFertil:'<path d="M3.5 18 C6.2 13.6 9 12 12 12 C15 12 17.8 13.6 20.5 18"/><path d="M3 18H21"/><path d="M12 12V8.2"/><path d="M12 9.2 C10.3 9.2 9.2 8.1 9 6.3 C10.8 6.3 11.8 7.4 12 9.2Z"/><path d="M12 9.2 C13.7 9.2 14.8 8.1 15 6.3 C13.2 6.3 12.2 7.4 12 9.2Z"/>',
+  sHumedo:'<path d="M3.5 18 C6.2 13.6 9 12 12 12 C15 12 17.8 13.6 20.5 18"/><path d="M3 18H21"/><path d="M12 4 C10.6 6.2 9.9 7.5 9.9 8.7 A2.1 2.1 0 0 0 14.1 8.7 C14.1 7.5 13.4 6.2 12 4Z"/>',
+  sArenoso:'<path d="M3.5 18 C6.2 13.6 9 12 12 12 C15 12 17.8 13.6 20.5 18"/><path d="M3 18H21"/><circle cx="9.2" cy="15.9" r=".55" fill="currentColor" stroke="none"/><circle cx="12" cy="14.4" r=".55" fill="currentColor" stroke="none"/><circle cx="14.8" cy="15.9" r=".55" fill="currentColor" stroke="none"/>',
+  sProfundo:'<path d="M3.5 18 C6.2 13.6 9 12 12 12 C15 12 17.8 13.6 20.5 18"/><path d="M3 18H21"/><path d="M9 18V20.6"/><path d="M12 18V21.6"/><path d="M15 18V20.6"/>',
+  lPleno:'<circle cx="12" cy="12" r="3.8"/>'+[0,45,90,135,180,225,270,315].map(a=>`<path d="M12 3.2V5.6" transform="rotate(${a} 12 12)"/>`).join(''),
+  lParcial:'<circle cx="9.5" cy="9.5" r="3.2"/>'+[-45,0,45,90,270].map(a=>`<path d="M9.5 2.8V4.9" transform="rotate(${a} 9.5 9.5)"/>`).join('')+'<path d="M8.5 19.5H17.4 A2.8 2.8 0 0 0 17.4 13.9 A4 4 0 0 0 9.7 13.4 A3.05 3.05 0 0 0 8.5 19.5Z"/>',
+  lMedia:'<path d="M7.3 8.2 A3.2 3.2 0 0 1 12.8 6.1"/><path d="M8.6 3.4 L8.9 4.5"/><path d="M4.2 5.6 L5.1 6.3"/><path d="M3 10.2 L4.1 10.1"/><path d="M7.5 20H16.9 A3 3 0 0 0 16.9 14 A4.3 4.3 0 0 0 8.6 13.4 A3.3 3.3 0 0 0 7.5 20Z"/>',
+  volver:'<path d="M14.5 5.5 L8 12 L14.5 18.5"/>',
+  fuente:'<path d="M12 6.6 C10 4.9 7 4.6 4 5.1V17.6 C7 17.1 10 17.4 12 19.1 C14 17.4 17 17.1 20 17.6V5.1 C17 4.6 14 4.9 12 6.6Z"/><path d="M12 6.6V19.1"/>',
+  plaga:'<circle cx="12" cy="13.4" r="5"/><path d="M12 8.4V18.4"/><path d="M10.3 8.7 C9.5 7.3 8.4 6.5 7 6.3"/><path d="M13.7 8.7 C14.5 7.3 15.6 6.5 17 6.3"/><path d="M7.2 12H5"/><path d="M7.5 15.4 L5.6 16.6"/><path d="M16.8 12H19"/><path d="M16.5 15.4 L18.4 16.6"/>',
+  regar:'<rect x="8" y="10.5" width="9.5" height="8" rx="2.2"/><path d="M11 10.5 C11 8.4 14.5 8.4 14.5 10.5"/><path d="M8 13.2 L4.4 9.9"/><path d="M4.9 7.4 L4.6 7"/><path d="M3.1 8.9 L2.7 8.6"/><path d="M6.4 6.5 L6.2 6"/>',
+  maceta:'<path d="M12 9.6V6.6"/><path d="M12 7.4 C10.1 7.4 9 5.9 9.2 4.2 C11 4.3 12 5.7 12 7.4Z"/><path d="M4.6 9.6H19.4V11.6H4.6Z"/><path d="M6.2 11.6 L7.5 19.4 C7.6 20 8.1 20.4 8.7 20.4H15.3 C15.9 20.4 16.4 20 16.5 19.4 L17.8 11.6"/>',
+};
+const ICO = {};
+for (const k in P) ICO[k] = React.createElement('svg', { key: k, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.75, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true, dangerouslySetInnerHTML: { __html: P[k] } });
+
+const GRUPO = {
+  hoja: { ico: 'hoja', color: '#4d7440', colorB: '#8fbf6f', corto: 'de hoja' },
+  fruto: { ico: 'fruto', color: '#a85c68', colorB: '#d98a96', corto: 'de fruto' },
+  raiz: { ico: 'raiz', color: '#a1583d', colorB: '#d4917a', corto: 'raíz o bulbo' },
+  legumbre: { ico: 'legumbre', color: '#8a8f4a', colorB: '#b9be7a', corto: 'legumbre' },
+  aromatica: { ico: 'aromatica', color: '#7fa06f', colorB: '#a7c898', corto: 'aromática' },
+  flor: { ico: 'flor', color: '#e3a52f', colorB: '#e3a52f', corto: 'flor' },
+};
+const SUELO = { fertil: ['sFertil', '#5f8a4a', '#8fbf6f'], humedo: ['sHumedo', '#4f7f95', '#7fb0c8'], arenoso: ['sArenoso', '#b0803f', '#d2a86a'], profundo: ['sProfundo', '#c07b35', '#dfa066'] };
+const LUZ = { pleno: ['lPleno', '#d98e23', '#e3a52f'], parcial: ['lParcial', '#dcb13c', '#e6c561'], media: ['lMedia', '#8fa3ae', '#a9bcc6'] };
+const HOY = 25; // principios de septiembre
+// barras de mes (cada 30°) y de tercio (cada 10°) dentro del anillo anual
+const marcas = (mes, terc, k = 1) => { const st = []; let cur = 0;
+  for (let i = 0; i < 36; i++) { const a = i * 10, esM = i % 3 === 0, w = (esM ? 1.8 : 1) * k, c = esM ? mes : terc, s0 = a - w / 2, e0 = a + w / 2;
+    if (i === 0) { st.push(`${c} 0deg ${e0}deg`) } else { st.push(`transparent ${cur}deg ${s0}deg`, `${c} ${s0}deg ${e0}deg`) }
+    cur = e0 }
+  st.push(`transparent ${cur}deg 359.1deg`, `${mes} 359.1deg 360deg`); return `conic-gradient(${st.join(',')})` };
+const MES_CORTO = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+// [nombre, grupo, suelo, luz, idealRanges(décadas), posibleRanges, variedades, almacigo]
+const ESPECIES = [
+  ['Acelga', 'hoja', 'fertil', 'pleno', [[19, 26]], [[16, 18], [27, 30]], 0, false],
+  ['Ají', 'fruto', 'fertil', 'pleno', [[25, 30]], [[22, 24], [31, 33]], 3, true],
+  ['Ajo', 'raiz', 'profundo', 'pleno', [[10, 15]], [[16, 18]], 0, false],
+  ['Albahaca', 'aromatica', 'humedo', 'pleno', [[25, 33]], [[34, 36]], 0, true],
+  ['Alcaucil', 'hoja', 'fertil', 'pleno', [[22, 27]], [[28, 30]], 0, false],
+  ['Apio', 'hoja', 'humedo', 'parcial', [[19, 24]], [[25, 27]], 0, true],
+  ['Arveja', 'legumbre', 'fertil', 'pleno', [[10, 25]], [[26, 27]], 2, false],
+  ['Berenjena', 'fruto', 'fertil', 'pleno', [[25, 30]], [[31, 33]], 0, true],
+  ['Brócoli', 'hoja', 'fertil', 'pleno', [[4, 9]], [[1, 3], [10, 12]], 0, true],
+  ['Cebolla', 'raiz', 'arenoso', 'pleno', [[7, 12]], [[13, 15]], 2, true],
+];
+const en = (d, rs) => rs.some(([a, b]) => d >= a && d <= b);
+const estado = (e, d) => en(d, e[4]) ? 'ideal' : en(d, e[5]) ? 'posible' : null;
+function restantes(e) { let n = 0, d = HOY; while (estado(e, d) === 'ideal' && n < 36) { n++; d = (d % 36) + 1 } return n }
+
+class Component extends DCLogic {
+  state = { hechas: {}, abiertas: { tom1: true }, ahora: false };
+  renderVals() {
+    const { hechas, abiertas, ahora } = this.state;
+    const hecho = (id) => () => this.setState(s => ({ hechas: { ...s.hechas, [id]: true } }));
+
+    const especies = ESPECIES.map(e => {
+      const g = GRUPO[e[1]], su = SUELO[e[2]], lu = LUZ[e[3]];
+      const est = estado(e, HOY); const r = restantes(e);
+      const dec = []; for (let d = 1; d <= 36; d++) dec.push(estado(e, d));
+      const meses = []; const barras = []; const conic = [];
+      for (let m = 0; m < 12; m++) {
+        const t = dec.slice(m * 3, m * 3 + 3);
+        meses.push({ outline: m === 8 ? '2px solid #3a4030' : 'none', tercios: t.map((s, i) => ({ bg: s === 'ideal' ? '#4d7440' : s === 'posible' ? '#f8ecc9' : 'transparent', sombra: s === 'posible' ? 'inset 0 1.5px 0 #e3a52f, inset 0 -1.5px 0 #e3a52f' : 'none', borde: m * 3 + i + 1 === HOY ? '2px solid #3a4030' : 'none' })) });
+        barras.push({ bordeHoy: m === 8 ? '1.5px solid #a1583d' : '1.5px solid transparent', segs: t.filter(Boolean).map(s => s === 'ideal' ? '#4d7440' : '#e3a52f') });
+        t.forEach((s, i) => conic.push((s === 'ideal' ? '#8fbf6f' : s === 'posible' ? '#e3a52f' : '#33422e') + ` ${(m * 3 + i) * 10}deg ${(m * 3 + i + 1) * 10}deg`));
+      }
+      const quedan = r <= 2 ? r * 10 - 1 : null;
+      return { nombre: e[0], grupoCorto: g.corto, icoGrupo: ICO[g.ico], color: g.color, colorB: g.colorB, icoSuelo: ICO[su[0]], colorSuelo: su[1], icoLuz: ICO[lu[0]], colorLuz: lu[1],
+        variedades: e[6] || false, esIdeal: est === 'ideal', esPosible: est === 'posible', ahoraTxt: quedan != null ? `quedan ${quedan} días` : 'ahora',
+        ahoraBg: quedan != null ? '#f8ecc9' : '#e2ecd8', ahoraCol: quedan != null ? '#8a5a12' : '#33502b', ahoraBorde: quedan != null ? '#e3a52f' : '#4d7440',
+        meses, barras, anillo: `${marcas('#f3eeddcc', 'transparent', 1.5)}, conic-gradient(${conic.join(',')})`, mesCorto: MES_CORTO[8] };
+    });
+    const especiesVis = ahora ? especies.filter(e => e.esIdeal) : especies;
+
+    const sugerencias = ESPECIES.filter(e => estado(e, HOY) === 'ideal').map(e => ({ e, r: restantes(e) })).sort((a, b) => a.r - b.r || a.e[0].localeCompare(b.e[0])).map(({ e, r }) => {
+      const g = GRUPO[e[1]]; const cierra = r <= 2;
+      return { nombre: e[0], icono: ICO[g.ico], color: g.color, colorB: g.colorB, almacigo: e[7], metodoA: e[7] ? 'almácigo' : 'directa', metodoB: e[7] ? 'en almácigo protegido' : 'siembra directa',
+        ventana: cierra ? (r === 1 ? 'última semana' : 'se cierra pronto') : `quedan ${r * 10} días`, colorVentana: cierra ? '#a1583d' : '#5d6253', pesoVentana: cierra ? 700 : 400,
+        diasNum: r * 10 - 1, diasTxt: r === 1 ? 'días · última' : 'días', colorDiasA: cierra ? '#a1583d' : '#2b3324', colorDiasB: cierra ? '#e3a52f' : '#ece6d3' };
+    });
+
+    const T = [
+      { id: 't1', tipo: 'trasplantar', borde: '#a1583d', colorA: '#a1583d', ico: 'trasplantar', titulo: 'Los del cajón: hora de trasplantar', detalle: 'Ya tiene edad de pasar a su lugar definitivo. Con 4 a 6 hojas verdaderas y unos 15 cm ya aguanta.', fuente: 'según la ficha: 30-45 días desde la siembra · confianza 8/10 · corrido 6 días porque asomó tarde', dia: 0 },
+      { id: 't2', tipo: 'germinacion', borde: '#e3a52f', colorA: '#86611f', ico: 'sembrar', titulo: 'Zanahoria: fijate si asomó', atrasada: true, detalle: 'Hace 12 días que se pasó del plazo. Si no hay nada, puede que esas semillas no prosperen.', fuente: 'según la ficha: germina en 10-20 días · confianza 7/10', dia: 0 },
+      { id: 't3', tipo: 'cosechar', borde: '#4d7440', colorA: '#4d7440', ico: 'cosechar', titulo: 'Lechuga ya estaría para cosechar', detalle: 'Hojas exteriores de 15 cm, planta compacta. Cortá de afuera y sigue dando del centro.', fuente: 'según la ficha: 45-70 días desde la siembra · confianza 9/10', dia: 1 },
+    ];
+    const tareas = T.filter(t => !hechas[t.id]).map(t => ({ ...t, icono: ICO[t.ico], atrasada: !!t.atrasada, onHecho: hecho(t.id), checkBg: 'transparent' }));
+
+    const DIAS = [
+      ['mié', 2, 'solnubes', 18, 9, 0], ['jue', 3, 'sol', 20, 8, 0], ['vie', 4, 'sol', 12, 1, 0], ['sáb', 5, 'sol', 15, 4, 0], ['dom', 6, 'nube', 17, 7, 0], ['lun', 7, 'lluvia', 16, 10, 70], ['mar', 8, 'solnubes', 19, 11, 0],
+    ];
+    const agenda = DIAS.map((d, i) => {
+      const items = tareas.filter(t => t.dia === i).map(t => ({ ...t, bg: '#26332270', borde: '#33422e', color: t.tipo === 'trasplantar' ? '#d4917a' : t.tipo === 'cosechar' ? '#8fbf6f' : '#e3a52f', accion: true }));
+      if (i === 2) items.unshift({ titulo: 'Helada: cubrí de noche', detalle: 'Mínima de 1 °C. Los del cajón y la lechuga no la bancan.', fuente: 'Open-Meteo · Quilmes', icono: ICO.escarcha, color: '#e3a52f', bg: '#e3a52f22', borde: '#e3a52f66', accion: false });
+      if (i === 5) items.push({ titulo: 'Lluvia probable, 70 %', detalle: 'Podés saltear el riego del lunes.', fuente: 'Open-Meteo · Quilmes', icono: ICO.gota, color: '#7fb0c8', bg: '#26332270', borde: '#33422e', accion: false });
+      const helada = i === 2, hoyD = i === 0;
+      return { dia: d[0], num: d[1], icono: ICO[d[2]], max: d[3], min: d[4], lluvia: d[5] ? React.createElement('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 1 } }, React.createElement('span', { className: 'ico', style: { fontSize: 11 } }, ICO.gota), ` ${d[5]}%`) : '', items, vacio: items.length === 0,
+        colDia: hoyD ? '#e3a52f' : '#93a087', colNum: hoyD ? '#f3eedd' : '#c9d1bd', colCielo: helada ? '#e3a52f' : '#93a087', punto: items.length ? '#e3a52f' : '#35432f',
+        colDiaA: hoyD ? '#a1583d' : '#5c6350', colNumA: helada ? '#9e4729' : '#2b3324', colCieloA: helada ? '#9e4729' : '#5c6350' };
+    });
+
+    const PL = [
+      { id: 'tom1', lugar: 0, nombre: 'Los del cajón', g: 'fruto', etapa: 'almacigo', etq: 'En almácigo', sub: 'Tomate · ~4 · hace 22 días', alerta: 1, sem: -22, tras: [8, 23], cos: [68, 88], hito: 'Trasplante: ya está en ventana', hitoLista: true, hitoIco: 'reloj' },
+      { id: 'alb', lugar: 0, nombre: 'Albahaca', g: 'aromatica', etapa: 'almacigo', etq: 'En almácigo', sub: 'hace 9 días', alerta: 0, sem: -9, tras: [26, 36], cos: [51, 71], hito: 'Ya podría estar asomando', hitoLista: true, hitoIco: 'sembrar' },
+      { id: 'tom2', lugar: 1, nombre: 'Los del cajón', g: 'fruto', etapa: 'trasplantada', etq: 'Trasplantada', sub: 'Tomate · ~3 · hace 22 días', alerta: 0, sem: -22, tras: null, cos: [68, 88], hito: 'Cosecha: en unos 68 días', hitoLista: false, hitoIco: 'reloj', directa: false },
+      { id: 'lec', lugar: 1, nombre: 'Lechuga', g: 'hoja', etapa: 'creciendo', etq: 'Creciendo', sub: 'hace 48 días', alerta: 1, sem: -48, tras: null, cos: [-3, 22], hito: 'Cosecha: ya está en ventana', hitoLista: true, hitoIco: 'reloj', directa: true },
+      { id: 'ruc', lugar: 1, nombre: 'Rúcula', g: 'hoja', etapa: 'creciendo', etq: 'Creciendo', sub: '~18 · hace 31 días', alerta: 0, sem: -31, tras: null, cos: [-1, 14], hito: 'Cosecha: ya está en ventana', hitoLista: true, hitoIco: 'reloj', directa: true },
+      { id: 'zan', lugar: 1, nombre: 'Zanahoria', g: 'raiz', etapa: 'creciendo', etq: 'Creciendo', sub: 'hace 32 días', alerta: 1, sem: -32, tras: null, cos: [58, 88], hito: 'Hace 12 días que debería haber asomado', hitoLista: false, hitoDemorada: true, hitoIco: 'alerta', directa: true },
+    ];
+    const ETAPAS = ['almacigo', 'trasplantada', 'creciendo', 'cosechando', 'terminada'];
+    const ETI = { almacigo: 'almacigo', trasplantada: 'trasplantar', creciendo: 'sembrar', cosechando: 'cosechar', terminada: 'flor' };
+    const pct = d => Math.max(0, Math.min(100, (d + 60) / 180 * 100));
+    const LUG = [{ nombre: 'Macetas del balcón', detalle: 'maceta · media sombra · resguardada', ico: 'maceta', radio: '28px 28px 12px 12px', alto: '120px' }, { nombre: 'Bancal del fondo', detalle: '120 × 240 cm · pleno sol · expuesta', ico: 'huerta', radio: '10px', alto: '150px' }];
+    const lugares = LUG.map((l, li) => {
+      const plantas = PL.filter(p => p.lugar === li).map(p => {
+        const g = GRUPO[p.g]; const idx = ETAPAS.indexOf(p.etapa); const ab = !!abiertas[p.id];
+        const ciclo = ETAPAS.map((e, i) => {
+          const om = p.directa && i < 2; const hecha = i < idx, act = i === idx;
+          return { icono: ICO[ETI[e]], lineaDisplay: i === 0 ? 'none' : 'block', linea: hecha || act ? '#7fa06f' : '#ddd2b6', bg: act ? '#4d7440' : hecha ? '#dbe7cf' : '#fdf9ee', borde: act ? '#4d7440' : hecha ? '#7fa06f' : '#ddd2b6', estiloBorde: om ? 'dashed' : 'solid', color: act ? '#fdf9ee' : hecha ? '#33502b' : '#5d6253', sombra: act ? '0 0 0 3px #e2ecd8' : 'none', opacidad: om ? .55 : 1 };
+        });
+        const x0 = pct(p.sem), xCos = pct(p.cos[0]), wCos = pct(p.cos[1]) - xCos;
+        const xTras = p.tras ? pct(p.tras[0]) : 0, wTras = p.tras ? pct(p.tras[1]) - xTras : 0;
+        return { nombre: p.nombre, sub: p.sub, etapa: p.etq, icono: ICO[g.ico], color: g.color, colorB: g.colorB, alerta: p.alerta || false,
+          etapaBg: p.etapa === 'almacigo' ? '#f8ecc9' : p.etapa === 'cosechando' ? '#e2ecd8' : '#eee4cc', etapaCol: p.etapa === 'almacigo' ? '#7a5a12' : p.etapa === 'cosechando' ? '#33502b' : '#5c6350',
+          colorEtapaA: p.etapa === 'almacigo' ? '#86611f' : '#4d7440', radioA: p.g === 'fruto' ? '50% 50% 14px 14px / 40% 40% 14px 14px' : '14px',
+          abierta: ab, rot: ab ? 'rotate(180deg)' : 'none', onPlegar: () => this.setState(s => ({ abiertas: { ...s.abiertas, [p.id]: !s.abiertas[p.id] } })),
+          ciclo, hito: p.hito, hitoIcono: ICO[p.hitoIco], hitoCol: p.hitoDemorada ? '#9e4729' : p.hitoLista ? '#33502b' : '#5d6253', hitoPeso: p.hitoDemorada || p.hitoLista ? 700 : 400,
+          x0, wCrece: (p.tras ? xTras : xCos) - x0, xTras, wTras, xCos, wCos, hito: p.hito, colorHito: p.hitoDemorada ? '#e3a52f' : p.hitoLista ? '#8fbf6f' : '#93a087' };
+      });
+      return { nombre: l.nombre, detalle: l.detalle, n: plantas.length, icono: ICO[l.ico], radio: l.radio, alto: l.alto, plantas };
+    });
+    const hitos = [
+      { planta: 'Los del cajón', que: 'trasplantar', cuando: 'ahora', color: '#a1583d', colorCuando: '#a1583d', icono: ICO.trasplantar },
+      { planta: 'Lechuga', que: 'primer corte', cuando: 'ahora', color: '#4d7440', colorCuando: '#4d7440', icono: ICO.cosechar },
+      { planta: 'Rúcula', que: 'cosecha', cuando: '14 d', color: '#4d7440', colorCuando: '#2b3324', icono: ICO.cosechar },
+      { planta: 'Albahaca', que: 'trasplantar', cuando: '26 d', color: '#a1583d', colorCuando: '#2b3324', icono: ICO.trasplantar },
+    ];
+
+    // ── Turno 2: ficha de Tomate (data/huerta_gba.md) y detalle de Los del cajón ──
+    const puntos = (n, key) => Array.from({ length: 10 }, (_, i) => React.createElement('i', { key: key + i, style: { display: 'inline-block', width: 4, height: 4, borderRadius: 2, background: i < n ? (n >= 8 ? '#8fbf6f' : n >= 5 ? '#e3a52f' : '#d4917a') : '#8b9a7f66' } }));
+    const confColor = n => n >= 8 ? '#8fbf6f' : n >= 5 ? '#e3a52f' : '#d4917a';
+    const F = {
+      inta: { org: 'INTA / Min. Desarrollo Social', url: 'https://www.argentina.gob.ar/sites/default/files/2023/08/script-tmp-inta_-calendario_de_siembra.pdf' },
+      unl: { org: 'FIQ - UNL', url: 'https://www.fiq.unl.edu.ar/culturacientifica/wp-content/uploads/2020/08/El-Suelo_Calendario-de-siembra-abono-y-fertilizantes_fichas-para-imprimir1.pdf' },
+      unida: { org: 'UNIDA', url: 'https://www.unida.org.ar/Virtuales/Huerta/Calendarios%20de%20Siembra.pdf' },
+      unlu: { org: 'Cátedra de Horticultura - UNLu', url: 'https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Tomate.pdf' },
+      feco: { org: 'Fecoagro', url: 'https://www.fecoagro.com.ar/asociaciones-de-cultivos-en-nuestra-huerta/' },
+      eco: { org: 'Ecoagricultor', url: 'https://www.ecoagricultor.com/ejemplos-de-asociaciones-de-cultivos-a-la-hora-de-planificar-el-diseno-del-huerto/' },
+    };
+    const SEC = [
+      ['Cuándo sembrar', 'sembrar', 9, "Almácigo protegido: agosto-octubre (INTA/ProHuerta indican almácigo ago-oct y trasplante sep-nov, siempre después de la última helada; en GBA la última helada suele darse hacia septiembre). Siembra directa 'a golpes': octubre a enero. UNIDA coincide: almácigo sep-oct, trasplante oct-dic.", ['inta', 'unl', 'unida']],
+      ['Cómo sembrar', 'almacigo', 9, "Preferentemente almácigo y luego trasplante (recomendado en INTA/ProHuerta); también admite siembra directa 'a golpes' en primavera-verano. El almácigo permite adelantar el cultivo y proteger de heladas.", ['inta', 'unl']],
+      ['Trasplante', 'trasplantar', 8, 'Se trasplanta desde el almácigo: siembras tempranas ~60 días de almácigo, siembras tardías ~30 días. Marco final: surcos a 0,80-1,20 m y 25-50 cm entre plantas (INTA: 30-50 x 70 cm), densidad media ~3 plantas/m2.', ['unlu', 'inta'], { senalTitulo: 'Está listo cuando…', senal: 'Plantín con el segundo par de hojas verdaderas expandidas (aprox. 10-15 cm de altura) y pasado el riesgo de heladas.' }],
+      ['Germinación', 'sembrar', 7, 'Germina con temperatura óptima de 18-20 °C, aproximadamente en 6-10 días. Por debajo de 8,5-12 °C o por encima de 35-37 °C el crecimiento de la radícula es muy lento.', ['unlu']],
+      ['Cosecha', 'cosechar', 8, '80 a 100 días desde la siembra hasta la cosecha (INTA/ProHuerta). Desde la apertura de la flor a la maduración del fruto transcurren 50-60 días (UNLu).', ['inta', 'unlu'], { senalTitulo: 'Está lista cuando…', senal: 'Fruto de color rojo (o el color de la variedad) uniforme, firme pero que cede levemente a la presión; se desprende con facilidad del pedúnculo.' }],
+      ['Suelo', 'sFertil', 8, 'Suelos sueltos, profundos, con buen nivel de materia orgánica y bien drenados. pH óptimo 6,5-6,9 (tolera desde 5,5).', ['unlu'], { aviso: 'En suelos pesados, encharcados o pobres crece débil, es más susceptible a enfermedades de raíz (Phytophthora, marchitez) y baja el rendimiento; el mal drenaje favorece la podredumbre.' }],
+      ['Luz', 'lPleno', 7, 'Cultivo exigente en luz; requiere pleno sol para florecer y fructificar bien. Luz directa: mínimo 6 h, ideal 6-8 h o más; sin sol directo: no.', ['unlu'], { aviso: 'Con poca luz la planta se ahíla (tallos largos y débiles), atrasa y reduce la floración/cuaje y produce pocos frutos, más blandos y de peor color.' }],
+      ['Riego y maceta', 'regar', null, 'Todavía no encontramos fuentes que digan cuánta agua pide ni en qué maceta entra.', []],
+      ['Ciclo de vida', 'flor', 7, 'Anual en cultivo de huerta (en clima templado con heladas). Produce durante toda la temporada primavera-verano-otoño; las variedades indeterminadas siguen dando frutos escalonadamente hasta las primeras heladas.', ['unlu']],
+      ['Todos los trucos', 'almacigo', 7, 'Trasplantar después de la última helada; tutorar y realizar desbrote/poda en variedades indeterminadas; intercalar albahaca entre las líneas para reducir insectos y flores de copete (tagetes) contra arañuela roja y ácaros. Riego regular y parejo para evitar podredumbre apical y rajado del fruto.', ['unl', 'feco']],
+      ['Riesgos', 'alerta', 6, 'Evitar heladas (mata la planta), exceso o falta de agua (podredumbre apical / rajado), y suelos mal drenados. No repetir tomate/solanáceas en el mismo cantero años seguidos por acumulación de enfermedades de suelo. Sensible a hongos en ambientes húmedos sin aireación.', ['unlu']],
+      ['Plagas', 'plaga', 6, 'Pulgones, mosca blanca, arañuela roja/ácaros, chinches y polilla del tomate (Tuta absoluta); enfermedades fúngicas como tizón (Phytophthora), oídio, botritis; y virosis. La podredumbre apical (blossom-end rot) es un desorden fisiológico por falta de calcio/riego irregular.', ['unl', 'unlu']],
+    ];
+    const secciones = SEC.map(([titulo, ico, conf, valor, fs, extra], i) => ({ titulo, icono: ICO[ico], conf: conf == null ? 's/d' : conf, confColor: conf == null ? '#93a087' : confColor(conf), puntos: puntos(conf ?? 0, 'p' + i), valor, fuentes: fs.map(k => F[k]), senal: false, aviso: false, ...(extra || {}) }));
+    const anillo = (segs, vacio) => { const out = []; for (let d = 1; d <= 36; d++) { const c = segs.find(s => d >= s[0] && d <= s[1]); out.push((c ? c[2] : vacio) + ` ${(d - 1) * 10}deg ${d * 10}deg`) } return `${marcas('#f3eeddb3', '#f3eedd40')}, conic-gradient(${out.join(',')})` };
+    const tomate = {
+      anilloS: anillo([[22, 30, '#8fbf6f'], [31, 36, '#e3a52f'], [1, 3, '#e3a52f']], '#33422e'),
+      anilloT: anillo([[25, 33, '#d4917a'], [34, 36, '#7a4f3e']], '#2b3826'),
+      confCal: puntos(8, 'cal'), confTemp: puntos(7, 'tmp'), secciones,
+      buenas: ['Albahaca · repele insectos', 'Copete / tagetes', 'Caléndula', 'Zanahoria', 'Apio', 'Cebolla', 'Ajo', 'Puerro', 'Lechuga', 'Espinaca'],
+      malas: ['Papa · comparten tizón', 'Otras solanáceas', 'Brócoli y coliflor', 'Arveja', 'Remolacha', 'Zapallito', 'Hinojo'],
+    };
+    const ET5 = [['almacigo', 'En almácigo'], ['trasplantar', 'Trasplantada'], ['sembrar', 'Creciendo'], ['cosechar', 'Cosechando'], ['flor', 'Terminada']];
+    const ciclo5 = ET5.map(([ico, etiqueta], i) => ({ icono: ICO[ico], etiqueta, lineaDisplay: i === 0 ? 'none' : 'block', linea: '#35432f', bg: i === 0 ? '#e3a52f' : '#26332f', borde: i === 0 ? '#e3a52f' : '#3a4933', color: i === 0 ? '#2a2110' : '#6f7d67', sombra: i === 0 ? '0 0 0 4px #e3a52f33' : 'none', txt: i === 0 ? '#e3a52f' : '#6f7d67', peso: i === 0 ? 800 : 500 }));
+    const diario = [
+      { tipo: 'Riego', color: '#7fb0c8', fecha: '29 ago', texto: 'Se secó rápido con el viento. Riego cada dos días.', foto: false },
+      { tipo: 'Nota', color: '#b7c0ab', fecha: '27 ago', texto: 'Germinaron 7 de 10, seis días tarde. Los tengo contra la ventana que da al norte.', foto: 'linear-gradient(135deg, hsl(115 45% 62%), hsl(140 40% 38%))' },
+      { tipo: 'Nota', color: '#b7c0ab', fecha: '21 ago', texto: 'Se cumplió el plazo y no asomó ninguna. Hizo frío toda la semana.', foto: 'linear-gradient(135deg, hsl(95 45% 62%), hsl(120 40% 38%))' },
+      { tipo: 'Siembra', color: '#8fbf6f', fecha: '11 ago', texto: '10 semillas en almácigo protegido, en el cajón del balcón.', foto: false },
+    ];
+
+    // ── modo claro: misma data, paleta traducida ──
+    const CLARO = {"#1f2a1c":"#f7f3e7","#26332270":"#fffdf5","#26332f":"#eae4d2","#2b3826":"#ebe6d4","#243021":"#efeadb","#33422e":"#dcd5bf","#3a4933":"#dcd5bf","#35432f":"#dcd5bf","#3a4030":"#c9c1a8","#5f6d58":"#8e9682","#f3eedd":"#1c2617","#ece6d3":"#22301c","#d6dccb":"#3b4833","#c9d1bd":"#44523a","#b7c0ab":"#57654c","#b9c9a8":"#4d7440","#93a087":"#78856c","#8a9680":"#78856c","#6f7d67":"#9aa48d","#c5dbb4":"#4d7440","#8fbf6f":"#5d8a48","#8fbf6f66":"#5d8a4855","#8fbf6f55":"#5d8a4844","#8fbf6f22":"#5d8a4818","#8fbf6f18":"#5d8a4814","#d4917a":"#a1583d","#d4917a99":"#a1583d66","#e2b8a6":"#e8c4b3","#7a4f3e":"#e8c4b3","#d98a96":"#a85c68","#7fb0c8":"#4f7f95","#f6d97a":"#8a5a12","#e3a52f":"#c98718","#e3a52f66":"#c9871866","#e3a52f33":"#c9871833","#e3a52f22":"#c9871822","#e3a52f18":"#c9871818","#f3eeddb3":"#2b332480","#f3eedd40":"#2b332426","#f3eedd80":"#2b332459"};
+    const kcl = Object.keys(CLARO).sort((a, b) => b.length - a.length);
+    const aClaro = v => {
+      if (typeof v === 'string') { let o = v; for (const k of kcl) o = o.split(k).join('\u0001' + CLARO[k].slice(1)); return o.split('\u0001').join('#') }
+      if (Array.isArray(v)) return v.map(aClaro);
+      if (v && typeof v === 'object' && !v.$$typeof) { const o = {}; for (const k in v) o[k] = aClaro(v[k]); return o }
+      return v };
+
+    return { ico: ICO, tomate, ciclo5, diario, especiesVis,
+      tomateL: aClaro(tomate), ciclo5L: aClaro(ciclo5), diarioL: aClaro(diario), especiesVisL: aClaro(especiesVis),
+      sugerenciasL: aClaro(sugerencias), agendaL: aClaro(agenda), lugaresL: aClaro(lugares),
+      ahoraBgC: ahora ? '#c98718' : 'transparent', ahoraBordeC: ahora ? '#c98718' : '#dcd5bf', ahoraColC: ahora ? '#2a2110' : '#44523a', sugerencias, tareas, nTareas: tareas.length, agenda, lugares, hitos,
+      cuenta: `${especiesVis.length} de 55 especies`, toggleAhora: () => this.setState(s => ({ ahora: !s.ahora })),
+      ahoraBg: ahora ? '#e4ebd7' : '#fdf9ee', ahoraBorde: ahora ? '2.5px solid #4d7440' : '1.5px solid #ddd2b6', ahoraCol: ahora ? '#33502b' : '#5c6350',
+      ahoraBgA: ahora ? '#2b3324' : 'transparent', ahoraColA: ahora ? '#f8f3e6' : '#2b3324',
+      ahoraBgB: ahora ? '#e3a52f' : 'transparent', ahoraBordeB: ahora ? '#e3a52f' : '#3a4933', ahoraColB: ahora ? '#2a2110' : '#c9d1bd' };
+  }
+}
+</script>
+</body>
+</html>

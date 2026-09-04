@@ -16,5 +16,8 @@ playwright-report/
 # OS
 .DS_Store
 
+# entregas de diseño y otros artefactos externos: lo que se conserva va a docs/
+.artifacts/
+
 # caché incremental de tsc
 *.tsbuildinfo
