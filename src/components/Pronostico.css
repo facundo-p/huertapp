@@ -2,15 +2,28 @@
 
 .pronostico__franja {
   list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  display: flex;
   gap: var(--esp-1);
+  /* sangra por la derecha, como el carrusel de Hoy: el último día se asoma
+     fuera de pantalla, que es lo que invita a deslizar */
+  margin: 0 calc(var(--esp-4) * -1) 0 0;
+  padding: 0 var(--esp-4) var(--esp-2) 0;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.pronostico__franja::-webkit-scrollbar {
+  display: none;
+}
+
+.pronostico__franja > li {
+  flex: none;
+  scroll-snap-align: start;
 }
 
 .pronostico__dia {
-  width: 100%;
+  width: 64px;
   min-height: var(--tap-min);
   display: flex;
   flex-direction: column;
@@ -46,6 +59,65 @@
   color: var(--tinta-media);
 }
 
+/* ── el día de hoy, en grande ── */
+
+.es-hoy .pronostico__dia {
+  width: 158px;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  padding: var(--esp-2) var(--esp-3);
+}
+
+.pronostico__hoy-cabeza {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.pronostico__hoy-titulos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pronostico__hoy-cielo {
+  font-size: var(--texto-xs);
+  color: var(--tinta-media);
+}
+
+.pronostico__hoy-temps {
+  font-size: var(--texto-l);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pronostico__hoy-min {
+  font-size: var(--texto-m);
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.pronostico__hoy-datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-1) var(--esp-2);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.pronostico__hoy-datos > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* el sol se pinta: relleno suave bajo el trazo ámbar */
+.pronostico__dia-icono[data-cielo='sol'] circle,
+.pronostico__dia-icono[data-cielo='sol-nubes'] circle {
+  fill: var(--sol-suave);
+}
+
 .pronostico__dia-lluvia {
   min-height: 13px;
   display: flex;
@@ -53,7 +125,12 @@
   gap: 1px;
   font-size: var(--texto-xs);
   font-weight: 600;
-  color: var(--suelo-humedo);
+  color: var(--tinta-media);
+}
+
+/* el azul va en la gotita (gráfico, 3:1); el número, en tinta que llega a AA */
+.pronostico__dia-lluvia svg {
+  color: var(--cielo-agua);
 }
 
 /* ── alertas ── */
