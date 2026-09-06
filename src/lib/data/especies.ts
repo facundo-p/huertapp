@@ -142,3 +142,35 @@ export function germinacionAplica(e: EspecieEnriquecida): boolean {
   const metodos = Object.values(e.calendario.metodo_por_mes)
   return metodos.length > 0 && !metodos.every((m) => m === 'plantacion')
 }
+
+// ── Bandas de temperatura para filtrar ──────────────────────────────────────
+
+export type BandaTemp = 'frio' | 'templado' | 'calor'
+
+/**
+ * Clasifica por el `ideal_min` investigado —el umbral para estar a gusto—,
+ * nunca por un dato inventado. Los cortes salen de la distribución real del
+ * catálogo (medida antes de elegirlos): germinación 21/14/17 especies y
+ * crecimiento 12/25/17, con el grupo "calor" calcando los cultivos de verano.
+ */
+export const CORTES_BANDA = {
+  /** °C de suelo: frío ≤15 · templado 16-19 · calor ≥20 */
+  germinacion: { frio: 15, calor: 20 },
+  /** °C de aire: frío ≤13 · templado 14-17 · calor ≥18 */
+  crecimiento: { frio: 13, calor: 18 },
+} as const
+
+function banda(idealMin: number | null, cortes: { frio: number; calor: number }): BandaTemp | null {
+  if (idealMin === null) return null
+  if (idealMin <= cortes.frio) return 'frio'
+  if (idealMin >= cortes.calor) return 'calor'
+  return 'templado'
+}
+
+export function bandaGerminacion(e: EspecieEnriquecida): BandaTemp | null {
+  return banda(e.temperaturas.germinacion.ideal_min, CORTES_BANDA.germinacion)
+}
+
+export function bandaCrecimiento(e: EspecieEnriquecida): BandaTemp | null {
+  return banda(e.temperaturas.crecimiento.ideal_min, CORTES_BANDA.crecimiento)
+}

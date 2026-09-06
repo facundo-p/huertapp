@@ -5,6 +5,7 @@ import { AJUSTE_SUELO, LABORES, PALABRAS, SUSTRATO, type Termino } from '../lib/
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import {
+  BANDAS_GERMINACION,
   CIELOS,
   GRUPOS,
   LUCES,
@@ -256,6 +257,30 @@ export function Glosario() {
             {Object.entries(LUCES).map(([c, info]) => (
               <Fila key={c} Icono={info.Icono} nombre={nombreLuz(c)} desc={descLuz(c)} color={info.color} />
             ))}
+          </ul>
+        </Seccion>
+
+        <Seccion titulo="Qué temperatura le gusta" retraso={0.16}>
+          {/* la altura del mercurio dice la banda; el corte exacto va en cada chip */}
+          <ul className="glosario__lista etiqueta">
+            <Fila
+              Icono={BANDAS_GERMINACION.frio.Icono}
+              nombre="Con fresco le alcanza"
+              desc="Su rango ideal arranca abajo: germina con el suelo todavía fresco o crece a gusto en clima fresco. Las de estación fría."
+              color={BANDAS_GERMINACION.frio.color}
+            />
+            <Fila
+              Icono={BANDAS_GERMINACION.templado.Icono}
+              nombre="Templado"
+              desc="Ni fría ni calurosa: su ideal arranca en el medio de la escala. La mayoría del catálogo vive acá."
+              color={BANDAS_GERMINACION.templado.color}
+            />
+            <Fila
+              Icono={BANDAS_GERMINACION.calor.Icono}
+              nombre="Necesita calor"
+              desc="Su ideal arranca alto: sin calor no germina o no avanza. Las de verano — tomate, pimiento, sandía y compañía."
+              color={BANDAS_GERMINACION.calor.color}
+            />
           </ul>
         </Seccion>
 

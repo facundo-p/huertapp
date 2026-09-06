@@ -82,6 +82,12 @@
   --luz-media: #8fa3ae;
   --luz-sombra: #67737f;
 
+  /* ---- Bandas de temperatura (chips de filtro) ---- */
+  /* objetos gráficos sobre --papel-alto: 4.0 / 3.5 / 4.8 — medidos */
+  --temp-frio: #5d7f9a;
+  --temp-templado: #a1802f;
+  --temp-calor: #b5502c;
+
   /* ---- Tipografía (self-hosted, ver main.tsx) ---- */
   --font-display: 'Quicksand Variable', 'Avenir Next Rounded', sans-serif;
   --font-cuerpo: 'Nunito Variable', 'Avenir Next', sans-serif;
