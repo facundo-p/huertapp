@@ -42,6 +42,15 @@ export function esperaGerminacion(p: Planta): boolean {
   return p.etapa === 'almacigo' || p.etapa === 'creciendo'
 }
 
+/**
+ * Mientras se espera la germinación, ése es EL dato: los demás hitos se
+ * callan. La regla vive acá y solo acá — el motor de tareas y las pantallas
+ * deciden con la misma función, que no vuelvan a contradecirse.
+ */
+export function germinacionPendiente(g: Germinacion | null): g is Germinacion {
+  return !!g && g.estado !== 'germino' && g.estado !== 'no_aplica'
+}
+
 export function germinacion(
   p: Planta,
   e: EspecieEnriquecida,
