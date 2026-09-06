@@ -3,7 +3,7 @@ import { estadoSiembra, metodoDelMes } from '../data/especies'
 import { decadaDe, mesDeDecada, nombreDecada, siguienteDecada } from '../fechas'
 import { diasEntre, hoyISO, type Planta } from '../huerta/tipos'
 import { estimar } from '../huerta/estimar'
-import { germinacion } from '../huerta/germinacion'
+import { germinacion, germinacionPendiente } from '../huerta/germinacion'
 
 /**
  * Motor de tareas: función pura de (plantas, especies, zona, hoy) a lista de
@@ -103,7 +103,11 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
     const est = estimar(p, e, hoy)
 
     // ── trasplante ───────────────────────────────────────────────────────────
-    if (p.etapa === 'almacigo' && est.trasplante?.enVentana) {
+    // Germinación manda: sin confirmar que asomó no se apura el trasplante —
+    // la fecha estimada seguiría en corrimiento 0, una precisión que no hay.
+    // La cosecha no espera: quien siembra directo muchas veces no responde
+    // nunca la pregunta, y a los 90 días el aviso le corresponde igual.
+    if (!germinacionPendiente(g) && p.etapa === 'almacigo' && est.trasplante?.enVentana) {
       const riesgo = clima[decada - 1]?.helada ?? 0
       const peligroso = e.temperaturas.helada === 'muere' && riesgo >= 0.2
       tareas.push({

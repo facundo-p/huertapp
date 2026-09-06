@@ -34,6 +34,16 @@ Qué significa cada parte en este proyecto:
   semana se desliza con el dedo. Y los íconos ganaron color: el sol en ámbar,
   la lluvia en azul.
 
+### Arreglado
+
+- **La app ya no te apura a trasplantar lo que todavía no asomó.** Si no
+  contaste que germinó, el aviso de trasplante espera: primero te pregunta si
+  asomó — ahora directo desde el aviso de Hoy, con un botón **"Asomó"** (y
+  **"Todavía no"** si sigue sin señales). Apenas confirmás, las fechas se
+  acomodan a tu planta y recién ahí aparece lo que sigue. Antes podían salir
+  los dos avisos juntos, y el de trasplante encima usaba la fecha de la ficha
+  sin corregir.
+
 ---
 
 ## [1.2.0] — 2026-08-28
