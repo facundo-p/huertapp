@@ -36,6 +36,14 @@ Qué significa cada parte en este proyecto:
 
 ### Arreglado
 
+- **La app ya no te apura a trasplantar lo que todavía no asomó.** Si no
+  contaste que germinó, el aviso de trasplante espera: primero te pregunta si
+  asomó — ahora directo desde el aviso de Hoy, con un botón **"Asomó"** (y
+  **"Todavía no"** si sigue sin señales). Apenas confirmás, las fechas se
+  acomodan a tu planta y recién ahí aparece lo que sigue. Antes podían salir
+  los dos avisos juntos, y el de trasplante encima usaba la fecha de la ficha
+  sin corregir.
+
 - **La barra de temperaturas ahora dice todo lo que sabe — y solo lo que
   sabe.** Los mínimos y máximos que la planta aguanta se leen alineados a su
   tramo de la barra, no perdidos en las puntas. Y cuando una fuente no da un

@@ -23,6 +23,7 @@ import {
   type TipoEntrada,
 } from '../lib/huerta/tipos'
 import { estimar, siguienteEtapa, textoHito } from '../lib/huerta/estimar'
+import { germinacion, germinacionPendiente } from '../lib/huerta/germinacion'
 import { METODOS } from '../lib/calendario'
 import { IconoFoto, IconoHuerta, IconoNota, IconoReloj, IconoSembrar } from '../icons'
 import './DetallePlanta.css'
@@ -87,6 +88,7 @@ export function DetallePlanta() {
   const clima = indice?.db.meta.enriquecido.clima[zona]
   const ubicacion = ubicaciones.find((u) => u.id === planta.ubicacionId)
   const est = especie ? estimar(planta, especie) : null
+  const germ = especie ? germinacion(planta, especie) : null
   const sigue = siguienteEtapa(planta)
   const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
   const nombre = planta.apodo || especie?.nombre_comun || 'Planta'
@@ -181,7 +183,7 @@ export function DetallePlanta() {
             </div>
           )}
 
-          {est?.proximo && (
+          {!germinacionPendiente(germ) && est?.proximo && (
             <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
               <IconoReloj size={15} />
               <span>
