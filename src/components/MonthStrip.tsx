@@ -1,6 +1,6 @@
 import type { Decada, EspecieEnriquecida, Mes, Zona } from '../lib/data/types'
-import { estadosDelMes, necesitaProteccion, type EstadoMes } from '../lib/data/especies'
-import { INICIALES_MES, NOMBRES_MES, NOMBRES_TERCIO, decadasDelMes, mesDeDecada } from '../lib/fechas'
+import { estadosDelMes, etiquetaMes, necesitaProteccion, type EstadoMes } from '../lib/data/especies'
+import { INICIALES_MES, NOMBRES_MES, decadasDelMes, mesDeDecada } from '../lib/fechas'
 import './MonthStrip.css'
 
 interface Props {
@@ -75,19 +75,3 @@ export function MonthStrip({
 }
 
 const clase = (e: EstadoMes) => (e ? `es-${e}` : 'es-nada')
-
-function etiquetaMes(
-  mes: Mes,
-  siembra: EstadoMes[],
-  trasplante: EstadoMes[] | null,
-): string {
-  const nombre = NOMBRES_MES[mes - 1]
-  const partes: string[] = []
-  for (let i = 0; i < 3; i++) {
-    const frases: string[] = []
-    if (siembra[i]) frases.push(`siembra ${siembra[i] === 'ideal' ? 'ideal' : 'posible'}`)
-    if (trasplante?.[i]) frases.push(`trasplante ${trasplante[i] === 'ideal' ? 'ideal' : 'posible'}`)
-    if (frases.length) partes.push(`${NOMBRES_TERCIO[i]}: ${frases.join(' y ')}`)
-  }
-  return partes.length ? `${nombre} — ${partes.join('; ')}` : `${nombre}: no se siembra`
-}

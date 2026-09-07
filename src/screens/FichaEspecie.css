@@ -57,12 +57,29 @@
   flex: 1;
 }
 
-.ficha__leyenda {
+/* El anillo a la izquierda y la leyenda al lado: los cuatro estados se leen
+   mirando el anillo, no scrolleando. */
+.ficha__anillo-fila {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--esp-4);
+  padding: var(--esp-2) 0;
+}
+
+.ficha__leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 10px;
   font-size: 11px;
   color: var(--tinta-suave);
+}
+
+.ficha__leyenda > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
 }
 
 .punto {
