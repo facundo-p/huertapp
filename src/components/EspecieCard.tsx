@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import type { Decada, EspecieEnriquecida, Zona } from '../lib/data/types'
 import { IconoGrupo, IconoLuz, IconoSuelo, IconoReloj } from '../icons'
-import { MonthStrip } from './MonthStrip'
+import { AnilloAnual } from './AnilloAnual'
 import { diasHastaCierre, estadoSiembra } from '../lib/data/especies'
 import './EspecieCard.css'
 
@@ -42,13 +42,14 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
         {estado === 'posible' && <span className="especie-card__ahora es-posible">se puede</span>}
       </div>
 
-      <div className="especie-card__iconos">
-        <IconoGrupo grupo={especie.grupo} size={21} />
-        <IconoSuelo categoria={especie.suelo.categoria_suelo} size={21} />
-        <IconoLuz categoria={especie.luz.categoria_luz} size={21} />
+      <div className="especie-card__pie">
+        <div className="especie-card__iconos">
+          <IconoGrupo grupo={especie.grupo} size={21} />
+          <IconoSuelo categoria={especie.suelo.categoria_suelo} size={21} />
+          <IconoLuz categoria={especie.luz.categoria_luz} size={21} />
+        </div>
+        <AnilloAnual especie={especie} zona={zona} decadaActual={decadaActual} />
       </div>
-
-      <MonthStrip especie={especie} zona={zona} decadaActual={decadaActual} />
     </Link>
   )
 }

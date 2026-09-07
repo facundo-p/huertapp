@@ -6,7 +6,7 @@ import { Cuidados } from '../components/Cuidados'
 import { Variedades } from '../components/Variedades'
 import { EscalaRiego } from '../components/EscalaRiego'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
-import { MonthStrip } from '../components/MonthStrip'
+import { AnilloAnual } from '../components/AnilloAnual'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import { EmptyState } from '../components/EmptyState'
 import { AltaPlanta } from '../components/AltaPlanta'
@@ -132,19 +132,32 @@ export function FichaEspecie() {
               <span>Siembra y trasplante</span>
               <ConfidenceBadge valor={e.calendario.confianza} compacto />
             </div>
-            <MonthStrip
-              especie={e}
-              zona={zona}
-              decadaActual={decadaHoy}
-              conTrasplante
-              conEtiquetas
-              conProteccion
-            />
-            <p className="ficha__leyenda">
-              <span className="punto es-ideal" /> ideal <span className="punto es-posible" /> posible{' '}
-              <span className="punto es-trasplante" /> trasplante{' '}
-              <span className="punto es-protegido" /> bajo reparo
-            </p>
+            <div className="ficha__anillo-fila">
+              <AnilloAnual
+                especie={e}
+                zona={zona}
+                decadaActual={decadaHoy}
+                tamano="grande"
+                conTrasplante
+              />
+              {/* cada muestra y su palabra van en un mismo span: con los
+                  textos sueltos, el wrap del flex separaba el cuadradito de lo
+                  que nombra y la leyenda dejaba de significar nada */}
+              <p className="ficha__leyenda">
+                <span>
+                  <span className="punto es-ideal" /> ideal
+                </span>
+                <span>
+                  <span className="punto es-posible" /> posible
+                </span>
+                <span>
+                  <span className="punto es-trasplante" /> trasplante
+                </span>
+                <span>
+                  <span className="punto es-protegido" /> bajo reparo
+                </span>
+              </p>
+            </div>
             <p className="ficha__zona">
               Cada mes va partido en tres. Calendario de {ZONAS_INFO[zona].etiqueta.toLowerCase()};
               hoy es {nombreDecada(decadaHoy)}.

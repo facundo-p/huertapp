@@ -26,6 +26,11 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **El año ahora se ve como un reloj.** En Explorar, cada especie lleva un
+  anillo con los doce meses y una aguja que marca en qué década del año estás:
+  de un vistazo ves cuánto falta para su ventana y cuánto le queda. En la ficha
+  el anillo es grande y doble, con la siembra afuera y el trasplante adentro.
+
 - **La barra de abajo ahora flota.** Dejó de estar pegada al borde: es una
   píldora redondeada que se apoya sobre el contenido, y la sección en la que
   estás se marca con un bloque entero en ocre, ícono y nombre juntos.

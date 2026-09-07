@@ -72,3 +72,12 @@
   gap: var(--esp-3);
   padding-left: 18px;
 }
+
+/* El anillo va al lado de los íconos de categoría, no debajo: a 56 px queda
+   a la misma altura que la fila de tres y la tarjeta no crece. */
+.especie-card__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+}

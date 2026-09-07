@@ -41,6 +41,13 @@ export const NOMBRES_MES = [
 
 export const INICIALES_MES = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'] as const
 
+/** Abreviatura de tres letras. Va en el hueco del anillo anual, donde el
+ *  nombre entero no entra y una sola inicial no alcanza para ubicarse. */
+export const MES_CORTO = [
+  'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+  'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+] as const
+
 // ── Décadas (tercios de mes) ────────────────────────────────────────────────
 // 36 al año. Es la unidad de los boletines agrometeorológicos del INTA y la
 // que usa el calendario afinado. Mantener sincronizado con scripts/clima-gba.mjs.
