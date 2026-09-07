@@ -61,11 +61,12 @@
   background: var(--salvia);
 }
 
+/* la actual va en --sol: es «acá estás», no «esto ya pasó» */
 .ciclo__paso.es-actual .ciclo__punto {
-  background: var(--verde-hoja);
-  border-color: var(--verde-hoja);
-  color: var(--papel);
-  box-shadow: 0 0 0 3px var(--ideal-fondo);
+  background: var(--sol);
+  border-color: var(--sol);
+  color: var(--sobre-sol);
+  box-shadow: 0 0 0 3px var(--sol-velo);
 }
 .ciclo__paso.es-actual::before {
   background: var(--salvia);
@@ -90,5 +91,5 @@
 
 .ciclo__paso.es-actual .ciclo__etiqueta {
   font-weight: 700;
-  color: var(--verde-prof);
+  color: var(--sol-texto);
 }
