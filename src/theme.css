@@ -61,7 +61,9 @@
 
   /* Táctil / layout */
   --tap-min: 44px;
-  --tab-alto: 62px;
+  --tab-alto: 64px;
+  /* el aire entre la píldora de nav y el borde de abajo */
+  --tab-aire: 14px;
   --max-ancho: 640px;
 }
 
