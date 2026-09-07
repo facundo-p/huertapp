@@ -1,0 +1,59 @@
+.chip-hoja {
+  display: grid;
+  place-items: center;
+  min-height: var(--tap-min);
+  padding: 0;
+  font-family: inherit;
+}
+
+.chip-hoja__pildora {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1.5px solid var(--linea-fuerte);
+  border-radius: var(--radio-chip);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tinta-media);
+  white-space: nowrap;
+}
+
+.chip-hoja.es-activo .chip-hoja__pildora {
+  background: var(--sol);
+  border-color: var(--sol);
+  color: var(--sobre-sol);
+}
+
+.chip-hoja:active .chip-hoja__pildora {
+  background: var(--papel-hundido);
+}
+
+.chip-hoja__grupos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+}
+
+.chip-hoja__subtitulo {
+  margin: 0 0 var(--esp-1);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.opcion__textos--fila {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.opcion__icono {
+  display: grid;
+  place-items: center;
+  flex: none;
+}

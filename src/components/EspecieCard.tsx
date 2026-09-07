@@ -20,7 +20,7 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
   const quedan = diasHastaCierre(especie, hoy, zona)
 
   return (
-    <Link to={`/explorar/${especie.slug}`} className="especie-card etiqueta">
+    <Link to={`/explorar/${especie.slug}`} className="especie-card">
       <div className="especie-card__cabeza">
         {/* h2 y no h3: la tarjeta cuelga directo del título de la pantalla, y
             así quien navega por encabezados recorre la lista de especies */}
