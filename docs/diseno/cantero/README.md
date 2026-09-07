@@ -6,7 +6,7 @@ El rediseño de Huerta GBA en **dos temas idénticos e intercambiables**: `noche
 (fondo tierra oscura) y `día` (papel claro). Misma estructura, misma tipografía,
 mismas medidas: **lo único que cambia son los colores**, y se cambian con un
 control. Además del tema, el rediseño cambia varias **funcionalidades** respecto
-de la versión actual (`facundo-p/huertapp@staging`, a la fecha del handoff: 1.2.0).
+de la versión actual (`facundo-p/huertapp@staging`).
 
 Por eso el paquete viene partido en dos:
 
@@ -14,9 +14,15 @@ Por eso el paquete viene partido en dos:
 |---|---|
 | [`01-diseno-dos-temas.md`](01-diseno-dos-temas.md) | Los dos temas: tokens, tipografía, medidas, componentes nuevos, y cómo montar el switch de un click |
 | [`02-funcionalidad.md`](02-funcionalidad.md) | Lo que cambia de comportamiento pantalla por pantalla, contra el código actual, con lo que hay que agregar al modelo de datos y a los motores |
+| [`03-calendario-y-compostaje.md`](03-calendario-y-compostaje.md) | **Segunda entrega.** Hoy pasa a llamarse Esta semana; el Calendario cambia a grilla de siembra/cosecha (reemplaza `02` § 7); nace la pestaña Compost, una guía de consulta con contenido provisorio que requiere investigación con fuentes citables |
 
 `cantero-referencia.html` es el prototipo: abrilo en el navegador y navegá las
-cinco pantallas de cada tema, una al lado de la otra.
+pantallas de cada tema, una al lado de la otra. El **turno 4** (arriba de todo)
+es la segunda entrega: calendario en grilla y Compost, en día y en noche.
+
+> **Si venís de la primera entrega:** leé `03` primero. Dice qué se suma, qué se
+> reemplaza (sólo `02` § 7) y qué queda igual. No hay que rehacer nada de lo ya
+> implementado salvo el nombre de la pestaña Hoy y la pantalla Calendario.
 
 ## Sobre los archivos de diseño
 
@@ -45,25 +51,26 @@ Dos salvedades honestas:
 
 ## Alcance
 
-Cinco pantallas, en los dos temas:
+Ocho pantallas, en los dos temas:
 
-1. **Hoy** — carril vertical de la semana (clima y tareas en el mismo eje)
+1. **Esta semana** (antes Hoy) — carril vertical de la semana (clima y tareas en el mismo eje)
 2. **Explorar** — catálogo con anillo anual por especie
 3. **Mi huerta** — gantt del ciclo de cada planta
 4. **Ficha de especie** (Tomate) — los 13 campos del catálogo con confianza y fuentes
 5. **Detalle de planta** (Los del cajón) — ciclo, germinación y diario
+6. **Calendario** — grilla de siembra / cosecha, especie × tercios de mes, con el mes en curso desplegable (`03` § 2). La versión en lista de `02` § 7 (`*-06-calendario.png`) queda **superada**.
+7. **Compost** — portada de la guía (`03` § 3)
+8. **Compost · capítulo** — la receta para restos de cocina en tachos rotativos (`03` § 3.3). **Texto provisorio, sin fuentes todavía.**
 
-**Fuera de alcance, sin diseñar todavía:** Calendario, Glosario, Ajustes, alta
+**Fuera de alcance, sin diseñar todavía:** Glosario, Ajustes, alta
 de planta (`AltaPlanta`), ficha de ubicación (`FichaUbicacion`), backup. Para
 esas pantallas, aplicá los tokens del tema y los patrones de este documento; no
 inventes layouts nuevos sin consultar.
 
 ## Capturas
 
-Las capturas **no están en el repo**: están adjuntas en el issue del epic,
-[#66](https://github.com/facundo-p/huertapp/issues/66). Son las cinco pantallas
-en los dos temas, a 2× (780 × 1688), en el mismo orden en los dos juegos para
-poder compararlas de a pares:
+`capturas/` tiene las pantallas en los dos temas, a 2× (780 × 1688), en el
+mismo orden en los dos juegos para poder compararlas de a pares:
 
 | | Cantero de día | Cantero de noche |
 |---|---|---|
@@ -72,6 +79,10 @@ poder compararlas de a pares:
 | Mi huerta | `dia-03-mi-huerta.png` | `noche-03-mi-huerta.png` |
 | Ficha de especie | `dia-04-ficha-tomate.png` | `noche-04-ficha-tomate.png` |
 | Detalle de planta | `dia-05-detalle-planta.png` | `noche-05-detalle-planta.png` |
+| Calendario (lista, superada) | `dia-06-calendario.png` | `noche-06-calendario.png` |
+| Calendario (grilla) | `dia-07-calendario-grilla.png` | `noche-07-calendario-grilla.png` |
+| Compost · portada | `dia-08-compostaje.png` | `noche-08-compostaje.png` |
+| Compost · capítulo | `dia-09-compost-guia.png` | `noche-09-compost-guia.png` |
 
 Son el estado inicial de cada pantalla, sin scrollear: la ficha de especie y el
 detalle de planta siguen bastante más abajo (13 campos y el diario). Para ver el
@@ -86,4 +97,9 @@ resto, y para medir, abrí `cantero-referencia.html`.
    reemplaza a `MonthStrip` en las tarjetas y aparece doble en la ficha.
 4. Mi huerta con el gantt (`02`, sección 3), que es el cambio funcional más
    grande porque necesita ventanas completas de `estimar()`.
-5. Hoy con el carril semanal (`02`, sección 1), que necesita fechar las tareas.
+5. Esta semana con el carril semanal (`02`, sección 1), que necesita fechar las tareas.
+6. Calendario en grilla (`03`, sección 2): reusa `decadasDelAnio` y suma
+   `decadasDeCosecha`.
+7. Compost (`03`, sección 3): el molde de las dos pantallas, con el texto
+   detrás de un flag o marcado como borrador hasta que la investigación con
+   fuentes esté hecha (issue existente).
