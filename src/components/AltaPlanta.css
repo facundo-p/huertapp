@@ -130,7 +130,7 @@ select.alta__input {
 .alta__aviso.es-mala {
   background: var(--peligro-fondo);
   border-left-color: var(--peligro);
-  color: #7d3a20;
+  color: var(--terracota-texto);
 }
 
 .alta__aviso.es-buena {

@@ -213,7 +213,7 @@
 
 .planta-card__etapa.es-almacigo {
   background: var(--posible-fondo);
-  color: #7a5a12;
+  color: var(--sol-texto);
 }
 .planta-card__etapa.es-cosechando {
   background: var(--ideal-fondo);

@@ -192,7 +192,7 @@
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 26px solid var(--terracota);
-  filter: drop-shadow(0 1px 1px rgba(74, 60, 28, 0.15));
+  filter: drop-shadow(0 1px 1px var(--grilla-mes));
 }
 
 .glosario__nota-a11y {

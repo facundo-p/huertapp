@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Header } from '../components/Header'
 import { BottomSheet } from '../components/BottomSheet'
 import { elegirZona, useZona, ZONAS_INFO } from '../lib/zona'
+import { elegirTema, usePreferenciaTema, TEMAS_INFO, type Preferencia } from '../lib/tema'
 import { ZONAS, type Zona } from '../lib/data/types'
 import { useHuerta, recargar } from '../lib/huerta/store'
 import { espacioUsado, pedirPersistencia } from '../lib/huerta/db'
@@ -37,14 +38,53 @@ import { resumenHuerta } from '../lib/huerta/tanda'
 import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir, IconoUbicacion } from '../icons'
 import './Ajustes.css'
 
+const PREFERENCIAS: Preferencia[] = ['auto', 'dia', 'noche']
+
+/* ---------- tema ---------- */
+
+function SeccionTema({ preferencia }: { preferencia: Preferencia }) {
+  return (
+    <section className="ajustes__seccion">
+      <h2 className="ajustes__titulo subrayado-onda">¿Cómo la querés ver?</h2>
+      <p className="ajustes__bajada">
+        El mismo diseño en dos climas: papel claro para el día, tierra oscura para la noche. Cambia
+        al toque, sin recargar nada.
+      </p>
+
+      <div className="opciones" role="radiogroup" aria-label="Tema de la app">
+        {PREFERENCIAS.map((p) => {
+          const info = TEMAS_INFO[p]
+          return (
+            <button
+              key={p}
+              className={`opcion ${preferencia === p ? 'es-elegida' : ''}`}
+              onClick={() => elegirTema(p)}
+              role="radio"
+              aria-checked={preferencia === p}
+            >
+              <span className="opcion__marca" aria-hidden />
+              <span className="opcion__textos">
+                <span className="opcion__nombre">{info.etiqueta}</span>
+                <span className="opcion__detalle">{info.detalle}</span>
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
 export function Ajustes() {
   const zona = useZona()
+  const preferencia = usePreferenciaTema()
   const { plantas } = useHuerta()
 
   return (
     <div className="pantalla pantalla--detalle">
       <Header titulo="Ajustes" volver />
       <div className="pantalla__cuerpo">
+        <SeccionTema preferencia={preferencia} />
         <SeccionZona zona={zona} />
         <SeccionPronostico zona={zona} />
         <SeccionInstalar />
@@ -78,9 +118,9 @@ function SeccionZona({ zona }: { zona: Zona }) {
     <section className="ajustes__seccion">
       <h2 className="ajustes__titulo subrayado-onda">¿Dónde está tu huerta?</h2>
       <p className="ajustes__bajada">
-        Dentro del GBA la última helada cambia más de un mes según dónde estés, y de eso depende todo
-        el calendario. En el centro porteño casi no hiela; en La Plata o Cañuelas, hasta bien entrada
-        la primavera.
+        Dentro del GBA la última helada cambia más de un mes según dónde estés, y de eso depende
+        todo el calendario. En el centro porteño casi no hiela; en La Plata o Cañuelas, hasta bien
+        entrada la primavera.
       </p>
 
       <div className="opciones" role="radiogroup" aria-label="Zona de la huerta">
@@ -108,14 +148,13 @@ function SeccionZona({ zona }: { zona: Zona }) {
       <p className="ajustes__nota">
         <IconoAlerta size={15} />
         <span>
-          Si dudás, dejá <strong>Conurbano</strong>: es la opción del medio y cubre la mayor parte del
-          GBA. Ante la duda conviene la zona más fría, que atrasa la siembra y arriesga menos.
+          Si dudás, dejá <strong>Conurbano</strong>: es la opción del medio y cubre la mayor parte
+          del GBA. Ante la duda conviene la zona más fría, que atrasa la siembra y arriesga menos.
         </span>
       </p>
     </section>
   )
 }
-
 
 /* ---------- pronóstico ---------- */
 
@@ -142,7 +181,12 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
 
   function porZona() {
     const ref = COORDS_ZONA[zona]
-    void elegir({ modo: 'zona', lat: ref.lat, lon: ref.lon, etiqueta: `cerca de ${ref.nombre}, aproximado` })
+    void elegir({
+      modo: 'zona',
+      lat: ref.lat,
+      lon: ref.lon,
+      etiqueta: `cerca de ${ref.nombre}, aproximado`,
+    })
   }
 
   async function porGPS() {
@@ -199,9 +243,9 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
       <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
       <p className="ajustes__bajada">
         Si querés, Hoy te muestra el pronóstico de la semana y te avisa cuando vienen heladas,
-        lluvia o mucho calor. Para eso la app necesita saber más o menos dónde estás — y es lo
-        único que sale de tu teléfono: va directo a {proveedor.nombre}, sin pasar por ningún otro
-        lado. Si no lo prendés, todo sigue igual que siempre.
+        lluvia o mucho calor. Para eso la app necesita saber más o menos dónde estás — y es lo único
+        que sale de tu teléfono: va directo a {proveedor.nombre}, sin pasar por ningún otro lado. Si
+        no lo prendés, todo sigue igual que siempre.
       </p>
 
       <div className="ajustes__botones">
@@ -244,7 +288,14 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
             <li key={`${r.lat},${r.lon}`}>
               <button
                 className="ajustes__resultado"
-                onClick={() => void elegir({ modo: 'localidad', lat: r.lat, lon: r.lon, etiqueta: r.nombre })}
+                onClick={() =>
+                  void elegir({
+                    modo: 'localidad',
+                    lat: r.lat,
+                    lon: r.lon,
+                    etiqueta: r.nombre,
+                  })
+                }
               >
                 <span className="ajustes__resultado-nombre">{r.nombre}</span>
                 {r.detalle && <span className="ajustes__resultado-detalle">{r.detalle}</span>}
@@ -254,15 +305,17 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
         </ul>
       )}
       {resultados?.length === 0 && (
-        <p className="ajustes__error">No encontré esa localidad. Probá con el nombre del partido.</p>
+        <p className="ajustes__error">
+          No encontré esa localidad. Probá con el nombre del partido.
+        </p>
       )}
       {error && <p className="ajustes__error">{error}</p>}
 
       <p className="ajustes__nota">
         <IconoUbicacion size={15} />
         <span>
-          El GPS pide permiso del navegador. Vayas por donde vayas, la ubicación viaja redondeada
-          a un kilómetro más o menos, y la sacás cuando quieras.
+          El GPS pide permiso del navegador. Vayas por donde vayas, la ubicación viaja redondeada a
+          un kilómetro más o menos, y la sacás cuando quieras.
         </span>
       </p>
     </section>
@@ -299,8 +352,8 @@ function SeccionInstalar() {
     <section className="ajustes__seccion">
       <h2 className="ajustes__titulo subrayado-onda">Instalar en el celu</h2>
       <p className="ajustes__bajada">
-        Queda como una app más: abre a pantalla completa, <strong>funciona sin internet</strong> y el
-        navegador le borra los datos menos fácil. No ocupa casi nada y no hay que crear ninguna
+        Queda como una app más: abre a pantalla completa, <strong>funciona sin internet</strong> y
+        el navegador le borra los datos menos fácil. No ocupa casi nada y no hay que crear ninguna
         cuenta.
       </p>
 
@@ -336,7 +389,8 @@ function SeccionInstalar() {
             Abrí el <strong>menú del navegador</strong> (los tres puntitos).
           </li>
           <li>
-            Buscá <strong>"Instalar app"</strong> o <strong>"Agregar a la pantalla de inicio"</strong>.
+            Buscá <strong>"Instalar app"</strong> o{' '}
+            <strong>"Agregar a la pantalla de inicio"</strong>.
           </li>
           <li>Confirmá y listo.</li>
         </ol>
@@ -349,12 +403,18 @@ function SeccionInstalar() {
 
 function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; resumen: string }) {
   const archivo = useRef<HTMLInputElement>(null)
-  const [espacio, setEspacio] = useState<{ usado: number; total: number } | null>(null)
+  const [espacio, setEspacio] = useState<{
+    usado: number
+    total: number
+  } | null>(null)
   const [ultimo, setUltimo] = useState<string | null | undefined>(undefined)
   const [persistente, setPersistente] = useState<boolean | null>(null)
   const [mensaje, setMensaje] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [pendiente, setPendiente] = useState<{ backup: Backup; resumen: ResumenBackup } | null>(null)
+  const [pendiente, setPendiente] = useState<{
+    backup: Backup
+    resumen: ResumenBackup
+  } | null>(null)
   const [importando, setImportando] = useState(false)
 
   useEffect(() => {
@@ -502,9 +562,10 @@ function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; re
             </dl>
             <p className="ajustes__bajada">
               Exportado el{' '}
-              {new Intl.DateTimeFormat('es-AR', { dateStyle: 'long', timeStyle: 'short' }).format(
-                new Date(pendiente.resumen.exportado),
-              )}
+              {new Intl.DateTimeFormat('es-AR', {
+                dateStyle: 'long',
+                timeStyle: 'short',
+              }).format(new Date(pendiente.resumen.exportado))}
               , zona {ZONAS_INFO[pendiente.resumen.zona]?.etiqueta.toLowerCase() ?? '—'}.
             </p>
           </>
@@ -522,7 +583,9 @@ function AvisoUltimoBackup({ iso, hayDatos }: { iso: string | null; hayDatos: bo
     return (
       <p className="ajustes__recordatorio es-nunca">
         <IconoAlerta size={16} />
-        <span>Todavía no bajaste ningún backup. Si perdés estos datos, no hay de dónde sacarlos.</span>
+        <span>
+          Todavía no bajaste ningún backup. Si perdés estos datos, no hay de dónde sacarlos.
+        </span>
       </p>
     )
   }
@@ -534,9 +597,7 @@ function AvisoUltimoBackup({ iso, hayDatos }: { iso: string | null; hayDatos: bo
       <IconoAlerta size={16} />
       <span>
         Último backup:{' '}
-        <strong>
-          {dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : `hace ${dias} días`}
-        </strong>
+        <strong>{dias === 0 ? 'hoy' : dias === 1 ? 'ayer' : `hace ${dias} días`}</strong>
         {viejo && '. Ya va siendo hora de bajar uno nuevo.'}
       </span>
     </p>
@@ -640,8 +701,8 @@ function LimitesDeAvisos({ estado, prendidos }: { estado: EstadoAvisos; prendido
         <IconoAlerta size={15} />
         <span>
           <strong>En iPhone y iPad no van a llegar con la app cerrada.</strong> iOS no deja que una
-          app instalada se despierte sola, y no hay forma de darle la vuelta sin un servidor. Por eso
-          la app está pensada para funcionar sin avisos.
+          app instalada se despierte sola, y no hay forma de darle la vuelta sin un servidor. Por
+          eso la app está pensada para funcionar sin avisos.
         </span>
       </p>
     )
@@ -676,8 +737,8 @@ function LimitesDeAvisos({ estado, prendidos }: { estado: EstadoAvisos; prendido
     <p className="ajustes__nota">
       <IconoAlerta size={15} />
       <span>
-        {prendidos ? 'Te va a avisar' : 'Te avisaría'} <strong>una vez por día como mucho</strong>, y
-        solo los días en que aparece algo nuevo. La hora la decide el navegador: sin un servidor
+        {prendidos ? 'Te va a avisar' : 'Te avisaría'} <strong>una vez por día como mucho</strong>,
+        y solo los días en que aparece algo nuevo. La hora la decide el navegador: sin un servidor
         atrás no se puede pedir una exacta.
       </span>
     </p>
@@ -755,7 +816,11 @@ function SeccionDemo({ cuantasPlantas }: { cuantasPlantas: number }) {
   const [ocupado, setOcupado] = useState(false)
 
   async function demo() {
-    if (cuantasPlantas > 0 && !confirm('Vas a sumar plantas de ejemplo a las que ya tenés. ¿Seguimos?')) return
+    if (
+      cuantasPlantas > 0 &&
+      !confirm('Vas a sumar plantas de ejemplo a las que ya tenés. ¿Seguimos?')
+    )
+      return
     setOcupado(true)
     try {
       await sembrarDemo()

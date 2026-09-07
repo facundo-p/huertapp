@@ -26,6 +26,12 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Ahora la app tiene tema de noche.** El mismo diseño en dos climas: papel
+  claro para el día, tierra oscura para la noche. Se elige en Ajustes —Día,
+  Noche o Automático, que sigue lo que tengas puesto en el teléfono— y cambia
+  al toque, sin recargar. Si abrís de noche con el tema oscuro puesto, ya no
+  hay destello blanco: arranca oscura desde el primer momento.
+
 - **El pronóstico ya no te esconde el sol, y hoy manda.** El cielo de cada día
   ahora sale de cuántas horas de sol efectivo trae el pronóstico, no del "peor
   momento del día" como venía: una mañana nublada pintaba de gris un día

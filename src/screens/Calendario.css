@@ -11,7 +11,7 @@
   gap: var(--esp-3);
   padding: 0 var(--esp-3) var(--esp-1);
   background: var(--papel);
-  box-shadow: 0 6px 10px -8px rgba(74, 60, 28, 0.35);
+  box-shadow: var(--sombra-1);
 }
 
 /* --- conmutador de capa --- */
@@ -46,7 +46,7 @@
 }
 
 .segmentado__opcion:nth-child(2).es-activo {
-  color: #8a4029; /* terracota oscurecido para contraste AA sobre papel */
+  color: var(--terracota-texto); /* terracota oscurecido para contraste AA sobre papel */
 }
 
 /* --- cuenta + leyenda --- */

@@ -110,7 +110,7 @@
   padding: 1px 8px;
   border-radius: var(--radio-chip);
   background: var(--peligro-fondo);
-  color: #7d3a20;
+  color: var(--terracota-texto);
   font-family: var(--font-cuerpo);
   font-size: 10px;
   font-weight: 700;
