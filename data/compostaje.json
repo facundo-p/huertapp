@@ -16,35 +16,40 @@
         "titulo": "Instructivo para la producción de compost domiciliario. Una oportunidad para convertir residuos del hogar en una enmienda orgánica",
         "url": "https://www.argentina.gob.ar/sites/default/files/instructivo_para_la_produccion_de_compost_domiciliario.pdf",
         "anio": null,
-        "nota": "Sin fecha en el documento. Autores: Ing. Agr. Roger A. Benitez (INTA ProHuerta) e Ing. Agr. Violeta Silbert (INTI)."
+        "nota": "Sin fecha en el documento. Autores: Ing. Agr. Roger A. Benitez (INTA ProHuerta) e Ing. Agr. Violeta Silbert (INTI).",
+        "corto": "INTI-INTA ProHuerta"
       },
       "opds": {
         "organizacion": "OPDS · Provincia de Buenos Aires",
         "titulo": "Manual de compostaje domiciliario (versión 1.29)",
         "url": "https://www.ambiente.gba.gob.ar/sites/default/files/029_ManualCompostDomiciliario_AGO20%20(1).pdf",
         "anio": 2020,
-        "nota": "Dirección Provincial de Residuos. Licencia CC BY-NC-ND 4.0."
+        "nota": "Dirección Provincial de Residuos. Licencia CC BY-NC-ND 4.0.",
+        "corto": "Provincia (OPDS)"
       },
       "gcba": {
         "organizacion": "Ciudad de Buenos Aires · Ministerio de Espacio Público e Higiene Urbana",
         "titulo": "Guía de compostaje domiciliario",
         "url": "https://static.buenosaires.gob.ar/sites/default/files/media/document/2022/06/27/8bdc7b94579399e3d9ea7bfc5c1de94009fb5ed3.pdf",
         "anio": 2022,
-        "nota": "Subsecretaría de Higiene Urbana."
+        "nota": "Subsecretaría de Higiene Urbana.",
+        "corto": "Ciudad de Buenos Aires"
       },
       "santafe": {
         "organizacion": "Gobierno de Santa Fe · Ministerio de Ambiente y Cambio Climático",
         "titulo": "Guía para compostaje domiciliario",
         "url": "https://www.santafe.gov.ar/index.php/web/content/download/276191/1435077/file/Guia%20Compostaje%20A4_.pdf",
         "anio": 2024,
-        "nota": "Clima distinto al del GBA; se cita solo en lo que no depende del clima."
+        "nota": "Clima distinto al del GBA; se cita solo en lo que no depende del clima.",
+        "corto": "Santa Fe"
       },
       "fao": {
         "organizacion": "FAO · Oficina Regional para América Latina y el Caribe",
         "titulo": "Manual de compostaje del agricultor. Experiencias en América Latina",
         "url": "https://www.fao.org/4/i3388s/i3388s.pdf",
         "anio": 2013,
-        "nota": "Román, Martínez y Pantoja. Escala de finca; se cita para el proceso (fases, C/N, humedad, madurez), no para volúmenes de balcón."
+        "nota": "Román, Martínez y Pantoja. Escala de finca; se cita para el proceso (fases, C/N, humedad, madurez), no para volúmenes de balcón.",
+        "corto": "FAO"
       }
     }
   },

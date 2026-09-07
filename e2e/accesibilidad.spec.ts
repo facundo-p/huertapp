@@ -16,6 +16,8 @@ const PANTALLAS = [
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
   { ruta: '/#/calendario', nombre: 'Calendario' },
   { ruta: '/#/huerta', nombre: 'Mi huerta' },
+  { ruta: '/#/compost', nombre: 'Compost' },
+  { ruta: '/#/compost/cocina-tachos', nombre: 'Compost capítulo' },
   // La ficha de una planta se llega clickeando: el id lo genera la app. Va la
   // zanahoria porque es la que trae el bloque de germinación entero —los tres
   // chips para decir cuándo asomó y el diagnóstico de la demora.
