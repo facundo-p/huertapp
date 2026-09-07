@@ -1,5 +1,9 @@
 /* Una planta como fila de gantt. Alto fijo: la lectura que se busca es
-   comparar filas entre sí, y para eso todas tienen que medir lo mismo. */
+   comparar filas entre sí, y para eso todas tienen que medir lo mismo.
+   Reglada, no tarjeta: una lista homogénea se separa con hairlines de borde
+   a borde. La fila sangra el padding de la pantalla y la caja de adentro lo
+   devuelve, así la línea llega al borde y el contenido queda alineado con
+   el eje de arriba. */
 /* La fila ENTERA es el enlace al detalle. Con el enlace solo en el nombre el
    target medía 20 px de alto; así son los 74 de la fila. */
 .gantt {
@@ -7,17 +11,25 @@
   text-decoration: none;
   position: relative;
   height: 74px;
-  border-radius: var(--radio-tarjeta);
-  background: var(--papel-alto);
-  border: 1px solid var(--linea);
+  margin-inline: calc(-1 * var(--esp-4));
+  border-top: 1px solid var(--linea);
   overflow: hidden;
+}
+
+.gantt:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+.gantt__caja {
+  position: absolute;
+  inset: 0 var(--esp-4);
 }
 
 .gantt__cabeza {
   position: absolute;
   top: 8px;
-  left: 12px;
-  right: 12px;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -131,10 +143,10 @@
 .gantt__hito {
   position: absolute;
   top: 52px;
-  left: 12px;
+  left: 0;
   margin: 0;
   /* el fondo tapa la grilla que le pasa por detrás */
-  background: var(--papel-alto);
+  background: var(--papel);
   padding: 0 4px;
   font-size: 10px;
   font-weight: 700;
