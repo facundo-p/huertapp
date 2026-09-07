@@ -114,6 +114,9 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'calendario-completo', ruta: '/#/calendario', fullPage: true },
+  { nombre: 'compost', ruta: '/#/compost', fullPage: true },
+  { nombre: 'compost-capitulo', ruta: '/#/compost/cocina-tachos', fullPage: true },
+  { nombre: 'compost-capitulo-suelo', ruta: '/#/compost/jardin-suelo', fullPage: true },
   { nombre: 'ajustes-zona', ruta: '/#/ajustes' },
   {
     nombre: 'calendario-zona-periurbano',

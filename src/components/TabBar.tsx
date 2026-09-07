@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router'
-import { IconoCalendario, IconoExplorar, IconoHoy, IconoHuerta } from '../icons'
+import { IconoCalendario, IconoCompost, IconoExplorar, IconoHoy, IconoHuerta } from '../icons'
 import './TabBar.css'
 
 const TABS = [
@@ -8,6 +8,7 @@ const TABS = [
   { a: '/hoy', etiqueta: 'Esta semana', Icono: IconoHoy },
   { a: '/explorar', etiqueta: 'Explorar', Icono: IconoExplorar },
   { a: '/calendario', etiqueta: 'Calendario', Icono: IconoCalendario },
+  { a: '/compost', etiqueta: 'Compost', Icono: IconoCompost },
   { a: '/huerta', etiqueta: 'Mi huerta', Icono: IconoHuerta },
 ] as const
 
