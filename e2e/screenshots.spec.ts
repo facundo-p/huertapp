@@ -149,15 +149,15 @@ const TOMAS: Toma[] = [
     },
   },
   {
-    // los dos estados nuevos en la misma toma: una tarjeta abierta y un lugar
-    // cerrado que igual muestra que algo pide atención
+    // un lugar cerrado que igual muestra que algo pide atención. Las plantas
+    // ya no se pliegan —la fila de gantt no tiene nada que esconder—, pero el
+    // lugar sí, y plegarlo no puede tapar los pendientes.
     nombre: 'huerta-plegada',
     ruta: '/#/ajustes',
     antes: async (page) => {
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('button', { name: /Ver el detalle de Albahaca/ }).click()
       await page.getByRole('button', { name: /^Bancal del fondo/ }).click()
       await page.waitForTimeout(400)
     },

@@ -1,0 +1,205 @@
+/* Una planta como fila de gantt. Alto fijo: la lectura que se busca es
+   comparar filas entre sí, y para eso todas tienen que medir lo mismo. */
+/* La fila ENTERA es el enlace al detalle. Con el enlace solo en el nombre el
+   target medía 20 px de alto; así son los 74 de la fila. */
+.gantt {
+  display: block;
+  text-decoration: none;
+  position: relative;
+  height: 74px;
+  border-radius: var(--radio-tarjeta);
+  background: var(--papel-alto);
+  border: 1px solid var(--linea);
+  overflow: hidden;
+}
+
+.gantt__cabeza {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--verde-prof);
+}
+
+.gantt__nombre {
+  font-family: var(--font-cuerpo);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tinta-alta);
+  white-space: nowrap;
+}
+
+.gantt__sub {
+  flex: 1;
+  min-width: 0;
+  font-size: 10px;
+  color: var(--tinta-tenue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gantt__alertas {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+  padding: 1px 7px;
+  border-radius: var(--radio-chip);
+  background: var(--sol);
+  color: var(--sobre-sol);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ---- Banda de tiempo ---- */
+.gantt__banda {
+  position: absolute;
+  top: 29px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  /* una línea cada 30 días */
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 calc(100% / 6 - 1px),
+    var(--grilla-mes) calc(100% / 6 - 1px) calc(100% / 6)
+  );
+}
+
+.gantt__hoy {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 33.33%;
+  width: 1.5px;
+  background: var(--sol);
+}
+
+/* ---- Barras ---- */
+.gantt__barras {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.gantt__barra {
+  position: absolute;
+  top: 0;
+  height: 10px;
+  border-radius: 5px;
+}
+
+/* Tres familias de color distintas, no tres verdes: con dos tonos del mismo
+   la fila no se lee, y el rayado solo tampoco alcanza. */
+.gantt__barra.es-crece {
+  background: var(--gantt-crece);
+}
+
+.gantt__barra.es-trasplante {
+  background: var(--gantt-trasplante);
+}
+
+.gantt__barra.es-cosecha {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gantt-cosecha-a) 0 4px,
+    var(--gantt-cosecha-b) 4px 8px
+  );
+}
+
+.gantt__siembra {
+  position: absolute;
+  top: -3px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--papel);
+  border: 2.5px solid var(--verde-hoja);
+  color: var(--verde-prof);
+  transform: translateX(-8px);
+}
+
+/* ---- Hito ---- */
+.gantt__hito {
+  position: absolute;
+  top: 52px;
+  left: 12px;
+  margin: 0;
+  /* el fondo tapa la grilla que le pasa por detrás */
+  background: var(--papel-alto);
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tinta-tenue);
+}
+
+.gantt__hito.es-lista {
+  color: var(--verde-prof);
+}
+
+.gantt__hito.es-demorada {
+  color: var(--sol-texto);
+}
+
+/* ---- Eje, una sola vez por lugar ---- */
+.gantt-eje {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2px var(--esp-1);
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--tinta-tenue);
+}
+
+.gantt-eje span.es-actual {
+  color: var(--sol-texto);
+}
+
+.gantt-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding-top: var(--esp-2);
+  font-size: 11px;
+  color: var(--tinta-suave);
+}
+
+/* muestra y palabra juntas: si el wrap las separa, la leyenda no dice nada */
+.gantt-leyenda > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.gantt-leyenda i {
+  width: 18px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.gantt-leyenda i.es-crece {
+  background: var(--gantt-crece);
+}
+
+.gantt-leyenda i.es-trasplante {
+  background: var(--gantt-trasplante);
+}
+
+.gantt-leyenda i.es-cosecha {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gantt-cosecha-a) 0 4px,
+    var(--gantt-cosecha-b) 4px 8px
+  );
+}
