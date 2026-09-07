@@ -10,6 +10,8 @@
 }
 
 .nolei__titulo {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   font-size: var(--texto-l);
   font-weight: 700;
   color: var(--tinta);

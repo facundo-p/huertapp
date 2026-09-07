@@ -28,6 +28,8 @@
 }
 
 .dato__titulo {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   flex: 1;
   font-size: var(--texto-m);
   font-weight: 700;

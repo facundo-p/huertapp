@@ -96,6 +96,8 @@
 }
 
 .tarea__titulo {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   display: flex;
   align-items: center;
   gap: var(--esp-2);

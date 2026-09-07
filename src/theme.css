@@ -29,8 +29,11 @@
 /* ---- Medidas: idénticas en los dos temas, por definición ---- */
 :root {
   /* Tipografía (self-hosted, ver src/fuentes.css) */
-  --font-display: 'Quicksand Variable', 'Avenir Next Rounded', sans-serif;
-  --font-cuerpo: 'Nunito Variable', 'Avenir Next', sans-serif;
+  /* Unbounded es una display geométrica de ancho aparente fijo: NUNCA por
+     debajo de 9 px y nunca en párrafos. Solo títulos, sobretítulos, números
+     grandes y etiquetas de nav. */
+  --font-display: 'Unbounded Variable', system-ui, sans-serif;
+  --font-cuerpo: 'Manrope Variable', system-ui, sans-serif;
   --texto-xs: 0.75rem;
   --texto-s: 0.875rem;
   --texto-m: 1rem;
@@ -315,7 +318,9 @@ h4 {
   line-height: 1.2;
   margin: 0;
   color: var(--tinta);
-  letter-spacing: 0.01em;
+  /* Unbounded ya es ancha de por sí: el interletrado positivo que pedía
+     Quicksand acá desarma la palabra. */
+  letter-spacing: -0.01em;
 }
 
 p {
