@@ -113,6 +113,30 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: /^Tomate:/ }).click()
     },
   },
+  {
+    nombre: 'calendario-cosecha',
+    ruta: '/#/calendario',
+    antes: async (page) => {
+      await page.getByRole('button', { name: 'Cosecha' }).click()
+    },
+  },
+  {
+    // el panel de otro mes: el actual arranca abierto, este se toca
+    nombre: 'calendario-mes',
+    ruta: '/#/calendario',
+    antes: async (page) => {
+      await page.getByRole('button', { name: 'mes siguiente' }).click()
+    },
+  },
+  {
+    nombre: 'calendario-solo-mia',
+    ruta: '/#/calendario',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/calendario')
+      await page.getByRole('button', { name: 'Solo mi huerta' }).click()
+    },
+  },
   { nombre: 'calendario-completo', ruta: '/#/calendario', fullPage: true },
   { nombre: 'ajustes-zona', ruta: '/#/ajustes' },
   {

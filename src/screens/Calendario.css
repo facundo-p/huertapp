@@ -49,12 +49,47 @@
   color: var(--terracota-texto); /* terracota oscurecido para contraste AA sobre papel */
 }
 
+.segmentado__opcion:nth-child(3).es-activo {
+  color: var(--sol-texto);
+}
+
+/* «Solo mi huerta»: chip de contorno; activo, tinta sobre papel */
+.calendario__mia {
+  display: grid;
+  place-items: center;
+  min-height: var(--tap-min);
+  font-family: inherit;
+}
+
+.calendario__mia-pildora {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border: 1.5px solid var(--linea-fuerte);
+  border-radius: var(--radio-chip);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tinta-media);
+  white-space: nowrap;
+}
+
+.calendario__mia.es-activo .calendario__mia-pildora {
+  background: var(--tinta-alta);
+  border-color: var(--tinta-alta);
+  color: var(--papel);
+}
+
 /* --- cuenta + leyenda --- */
 .calendario__pie-controles {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--esp-2);
+}
+
+.calendario__pie-controles .calendario__leyenda {
+  margin-left: auto;
 }
 
 .calendario__cuenta {
@@ -91,6 +126,11 @@
   align-items: center;
 }
 
+/* el mes que está abierto en el panel */
+.cal-inicial.es-abierto {
+  box-shadow: 0 0 0 2px var(--sol);
+}
+
 .cal-cabecera__hueco {
   font-size: 10px;
   font-weight: 700;
@@ -114,8 +154,8 @@
 }
 
 .cal-inicial.es-ahora {
-  background: var(--tinta);
-  color: var(--papel);
+  background: var(--sol);
+  color: var(--sobre-sol);
 }
 
 /* --- filas --- */
@@ -198,7 +238,16 @@
 
 /* banda del mes actual, continua a lo largo de toda la matriz */
 .cal-celda.es-mes-ahora {
-  background: color-mix(in srgb, var(--sol) 13%, transparent);
+  background: var(--sol-velo);
+}
+
+/* el punto de «está en mi huerta», antes del nombre */
+.cal-mia {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sol);
 }
 
 .cal-tercio {
@@ -209,9 +258,15 @@
   align-items: center;
 }
 
-/* la década en curso: la franja fina que baja por toda la matriz */
-.cal-tercio.es-ahora {
-  background: color-mix(in srgb, var(--sol) 34%, transparent);
+/* la aguja de hoy: una línea de 1,5 px que baja por toda la matriz */
+.cal-tercio.es-ahora::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 0.75px);
+  width: 1.5px;
+  background: var(--sol);
 }
 
 .cal-barra {
@@ -256,6 +311,139 @@
 .cal-barra.es-trasplante.es-posible {
   background: var(--terracota-suave);
   box-shadow: inset 0 1.5px 0 var(--terracota), inset 0 -1.5px 0 var(--terracota);
+}
+
+/* cosecha: el mismo rayado que la ventana de cosecha del gantt, que ya
+   significa eso; «posible» con el relleno pálido y los filetes */
+.cal-barra.es-cosecha {
+  height: 12px;
+}
+.cal-barra.es-cosecha.es-ideal {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gantt-cosecha-a) 0 4px,
+    var(--gantt-cosecha-b) 4px 8px
+  );
+}
+.cal-barra.es-cosecha.es-posible {
+  background: var(--posible-fondo);
+  box-shadow: inset 0 1.5px 0 var(--gantt-cosecha-a), inset 0 -1.5px 0 var(--gantt-cosecha-a);
+}
+
+/* ---- panel del mes: tinte a sangre, tres tercios ---- */
+.panel-mes {
+  margin: var(--esp-2) calc(-1 * var(--esp-3)) 0;
+  padding: var(--esp-3) var(--esp-4) var(--esp-4);
+  background: var(--sol-velo);
+}
+
+.panel-mes__cabeza {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-1);
+  margin-left: calc(-1 * var(--esp-2));
+}
+
+.panel-mes__nav {
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: var(--radio-s);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--sol-texto);
+}
+
+.panel-mes__nav:active {
+  background: var(--papel-hundido);
+}
+
+.panel-mes__mes {
+  min-width: 90px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--sol-texto);
+}
+
+.panel-mes__cerrar {
+  margin-left: auto;
+}
+
+/* cuando el panel está cerrado, el camino de vuelta */
+.calendario__abrir-mes {
+  align-self: flex-start;
+  min-height: var(--tap-min);
+  margin-top: var(--esp-2);
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-chip);
+  border: 1.5px solid var(--linea-fuerte);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tinta-media);
+}
+
+.panel-mes__cerrar {
+  min-height: var(--tap-min);
+  padding: 0 var(--esp-2);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.panel-mes__tercio {
+  display: grid;
+  grid-template-columns: 62px 1fr;
+  gap: var(--esp-3);
+  padding: var(--esp-2) 0;
+  border-top: 1px solid var(--linea);
+}
+
+.panel-mes__rotulo {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--tinta-suave);
+}
+
+.panel-mes__tercio.es-ahora .panel-mes__rotulo {
+  color: var(--sol-texto);
+}
+
+.panel-mes__aca {
+  display: block;
+  font-weight: 700;
+}
+
+.panel-mes__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--tinta-media);
+}
+
+.panel-mes__huerta {
+  font-weight: 700;
+  color: var(--sol-texto);
+}
+
+.calendario__pie {
+  margin: var(--esp-4) 0 var(--esp-2);
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--tinta-tenue);
 }
 
 /* muestra de la leyenda: un tercio suelto */
@@ -308,6 +496,17 @@
 .ventana.es-trasplante {
   border-left-color: var(--terracota);
   background: var(--terracota-suave);
+}
+.ventana.es-cosecha {
+  border-left-color: var(--gantt-cosecha-a);
+  background: var(--posible-fondo);
+}
+
+.hoja__anillo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-2);
 }
 
 .ventana dt {
