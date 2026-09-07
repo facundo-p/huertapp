@@ -45,54 +45,58 @@ export function GanttPlanta({ planta, especie, pendientes }: Props) {
 
   return (
     <Link to={`/huerta/${planta.id}`} className="gantt">
-      <div className="gantt__cabeza">
-        <IconoGrupo grupo={especie.grupo} size={16} />
-        <span className="gantt__nombre">{nombre}</span>
-        <span className="gantt__sub">
-          {planta.apodo ? `${especie.nombre_comun} · ` : ''}
-          {cantidadCorta(planta) ? `${cantidadCorta(planta)} · ` : ''}
-          {v.siembra === 0 ? 'sembrada hoy' : `hace ${-v.siembra} días`}
-        </span>
-        {pendientes > 0 && (
-          <span className="gantt__alertas pulso">
-            <IconoAlerta size={11} />
-            {pendientes}
-            <span className="sr-solo">
-              {pendientes === 1 ? ' cosa para atender' : ' cosas para atender'}
-            </span>
+      <div className="gantt__caja">
+        <div className="gantt__cabeza">
+          <IconoGrupo grupo={especie.grupo} size={16} />
+          <span className="gantt__nombre">{nombre}</span>
+          <span className="gantt__sub">
+            {planta.apodo ? `${especie.nombre_comun} · ` : ''}
+            {cantidadCorta(planta) ? `${cantidadCorta(planta)} · ` : ''}
+            {v.siembra === 0 ? 'sembrada hoy' : `hace ${-v.siembra} días`}
           </span>
-        )}
-      </div>
+          {pendientes > 0 && (
+            <span className="gantt__alertas pulso">
+              <IconoAlerta size={11} />
+              {pendientes}
+              <span className="sr-solo">
+                {pendientes === 1 ? ' cosa para atender' : ' cosas para atender'}
+              </span>
+            </span>
+          )}
+        </div>
 
-      {/* La grilla de meses y la línea de hoy quedan ACOTADAS a esta banda a
+        {/* La grilla de meses y la línea de hoy quedan ACOTADAS a esta banda a
           propósito: cruzando la tarjeta entera pasaban por encima del nombre y
           del hito y ensuciaban la lectura. */}
-      <div className="gantt__banda" aria-hidden>
-        <span className="gantt__hoy" />
-      </div>
+        <div className="gantt__banda" aria-hidden>
+          <span className="gantt__hoy" />
+        </div>
 
-      <div className="gantt__barras" aria-hidden>
-        <span className="gantt__barra es-crece" style={tramo([v.siembra, finCrecer])} />
-        {visible(v.trasplante) && (
-          <span className="gantt__barra es-trasplante" style={tramo(v.trasplante!)} />
-        )}
-        {visible(v.cosecha) && (
-          <span className="gantt__barra es-cosecha" style={tramo(v.cosecha!)} />
-        )}
-        <span className="gantt__siembra" style={{ left: `${pct(v.siembra)}%` }}>
-          <IconoSembrar size={9} />
-        </span>
-      </div>
+        <div className="gantt__barras" aria-hidden>
+          <span className="gantt__barra es-crece" style={tramo([v.siembra, finCrecer])} />
+          {visible(v.trasplante) && (
+            <span className="gantt__barra es-trasplante" style={tramo(v.trasplante!)} />
+          )}
+          {visible(v.cosecha) && (
+            <span className="gantt__barra es-cosecha" style={tramo(v.cosecha!)} />
+          )}
+          <span className="gantt__siembra" style={{ left: `${pct(v.siembra)}%` }}>
+            <IconoSembrar size={9} />
+          </span>
+        </div>
 
-      {esperando ? (
-        <p className={`gantt__hito ${claseGerminacion(germ!.estado)}`}>{textoGerminacion(germ!)}</p>
-      ) : (
-        est.proximo && (
-          <p className={`gantt__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
-            {est.proximo.titulo}: {textoHito(est.proximo)}
+        {esperando ? (
+          <p className={`gantt__hito ${claseGerminacion(germ!.estado)}`}>
+            {textoGerminacion(germ!)}
           </p>
-        )
-      )}
+        ) : (
+          est.proximo && (
+            <p className={`gantt__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
+              {est.proximo.titulo}: {textoHito(est.proximo)}
+            </p>
+          )
+        )}
+      </div>
     </Link>
   )
 }
