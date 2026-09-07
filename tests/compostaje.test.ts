@@ -49,7 +49,7 @@ describe('data/compostaje.json', () => {
   it('todo bloque con contenido lleva fuentes que existen y confianza en rango', () => {
     for (const [ruta, b] of todos) {
       // el contenido puede ser un valor, una lista o los campos de una señal
-      const o = b as Record<string, unknown>
+      const o = b as unknown as Record<string, unknown>
       const texto = ['valor', 'items', 'porque', 'como', 'sintoma', 'correccion', 'bien']
         .map((k) => o[k])
         .find((v) => v !== undefined)
