@@ -1,0 +1,294 @@
+/* La semana como carril: siete filas regladas, de borde a borde. La fila
+   sangra el padding de la pantalla y lo devuelve por dentro, así la hairline
+   llega al borde y el texto queda alineado con el resto. */
+.carril {
+  list-style: none;
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: 0;
+}
+
+.carril__fila {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 0 14px;
+  padding-left: var(--esp-4);
+  border-top: 1px solid var(--linea);
+}
+
+.carril__fila:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+/* ---- columna del día ---- */
+.carril__dia {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 10px 0 14px;
+  border-right: 1px solid var(--linea-fuerte);
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+/* El punto sobre la línea: --sol si el día tiene cosas, gris si está vacío. */
+.carril__dia::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--linea-fuerte);
+  border: 2px solid var(--papel);
+}
+
+.es-con-cosas .carril__dia::after {
+  background: var(--sol);
+}
+
+/* solo cuando es botón (hay pronóstico) invita a tocar */
+button.carril__dia:active {
+  background: var(--papel-hundido);
+}
+
+.carril__sigla {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.es-hoy .carril__sigla {
+  color: var(--sol-texto);
+}
+
+.carril__numero {
+  font-family: var(--font-cuerpo);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--tinta-suave);
+}
+
+.es-hoy .carril__numero {
+  color: var(--tinta-alta);
+}
+
+.carril__cielo {
+  display: grid;
+  place-items: center;
+  margin-top: 4px;
+}
+
+.carril__cielo.es-helada {
+  color: var(--sol-texto);
+}
+
+.carril__temps {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tinta-alta);
+}
+
+.carril__temps small {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tinta-tenue);
+}
+
+/* ---- columna de items ---- */
+.carril__items {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+  padding: 10px var(--esp-4) 14px 0;
+}
+
+/* El handoff lo pide en --tinta-apagada, pero es texto que se lee (el día no
+   tiene nada) y a 12 px queda en 2,35:1: va en --tinta-tenue. */
+.carril__nada {
+  padding-top: 4px;
+  font-size: 12px;
+  color: var(--tinta-tenue);
+}
+
+/* El item no es una tarjeta: ícono, textos y las acciones a la derecha. */
+.carril__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* al completar: la hojita brota y la fila se va */
+.carril__item.es-festejando {
+  opacity: 0;
+  transform: translateX(14px);
+}
+
+.carril__cuerpo {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-2);
+  flex: 1;
+  min-width: 0;
+  min-height: var(--tap-min);
+  text-decoration: none;
+  color: inherit;
+}
+
+.carril__icono {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  margin-top: 1px;
+  color: var(--tinta-media);
+  font-size: 17px;
+}
+
+.es-helada .carril__icono {
+  color: var(--terracota-texto);
+}
+.es-cosechar .carril__icono {
+  color: var(--verde-prof);
+}
+.es-trasplantar .carril__icono {
+  color: var(--terracota-texto);
+}
+.es-revisar_germinacion .carril__icono {
+  color: var(--sol-texto);
+}
+.es-calor .carril__icono {
+  color: var(--sol-texto);
+}
+.es-lluvia .carril__icono {
+  color: var(--suelo-humedo);
+}
+
+.carril__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.carril__titulo {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  flex-wrap: wrap;
+  font-family: var(--font-cuerpo);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--tinta-alta);
+}
+
+.carril__atrasada {
+  padding: 1px 7px;
+  border-radius: var(--radio-chip);
+  background: var(--terracota-fondo);
+  color: var(--terracota-texto);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.carril__detalle {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--tinta-suave);
+}
+
+.carril__fuente {
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--tinta-tenue);
+}
+
+/* Aviso de clima: el mismo molde con un tinte a sangre por la derecha. */
+.carril__aviso {
+  margin-right: calc(-1 * var(--esp-4));
+  padding: 8px var(--esp-4) 9px 8px;
+  margin-left: -8px;
+  background: var(--sol-velo);
+}
+
+/* sobre el tinte, la tinta tenue baja de AA (4,12): sube un escalón */
+.carril__aviso .carril__fuente {
+  color: var(--tinta-suave);
+}
+
+/* ---- acciones ---- */
+/* Una sobre otra: al lado se comían 90 px de un texto que ya venía angosto. */
+.carril__acciones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+  margin-top: -6px;
+}
+
+.carril__hecho {
+  display: grid;
+  place-items: center;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  padding: 0 2px;
+  font-family: inherit;
+}
+
+.carril__pildora {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border: 1.5px solid var(--sol-texto);
+  border-radius: var(--radio-chip);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sol-texto);
+}
+
+.carril__hecho:active .carril__pildora {
+  background: var(--sol-velo);
+}
+
+.carril__menu {
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: var(--radio-s);
+  color: var(--tinta-suave);
+}
+
+.carril__menu:active {
+  background: var(--papel-hundido);
+}
+
+/* ---- pie: de dónde sale el pronóstico ---- */
+.carril__pie {
+  margin-top: var(--esp-2);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--tinta-suave);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carril__item {
+    transition: none;
+  }
+}

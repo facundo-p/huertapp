@@ -36,7 +36,9 @@
      no es un metadato accesorio: es lo que dice adónde vas. */
   color: var(--tinta-suave);
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  /* Sin transición de color: el test de contraste medía la pestaña a mitad
+     del fundido al cambiar de pantalla y fallaba según el reloj. Un cambio
+     de pestaña es un corte, no un fundido. */
 }
 
 .tabbar__pastilla {
@@ -63,10 +65,4 @@
 
 .tabbar__tab.active .tabbar__etiqueta {
   font-weight: 600;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tabbar__tab {
-    transition: none;
-  }
 }

@@ -1,0 +1,32 @@
+.hoja-dia__detalle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--esp-2) var(--esp-4);
+  margin: 0;
+  font-size: var(--texto-s);
+}
+
+.hoja-dia__detalle dt {
+  color: var(--tinta-suave);
+}
+
+.hoja-dia__detalle dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.hoja-dia__detalle dd.es-sin-dato {
+  font-weight: 400;
+  color: var(--tinta-tenue);
+}
+
+.hoja-dia__atribucion {
+  margin-top: var(--esp-4);
+  font-size: 11px;
+  color: var(--tinta-suave);
+}
+
+.hoja-dia__atribucion a {
+  color: inherit;
+}
