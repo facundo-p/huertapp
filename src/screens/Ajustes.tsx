@@ -46,7 +46,7 @@ const PREFERENCIAS: Preferencia[] = ['auto', 'dia', 'noche']
 function SeccionTema({ preferencia }: { preferencia: Preferencia }) {
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">¿Cómo la querés ver?</h2>
+      <h2 className="ajustes__titulo">¿Cómo la querés ver?</h2>
       <p className="ajustes__bajada">
         El mismo diseño en dos climas: papel claro para el día, tierra oscura para la noche. Cambia
         al toque, sin recargar nada.
@@ -117,7 +117,7 @@ function PieVersion() {
 function SeccionZona({ zona }: { zona: Zona }) {
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">¿Dónde está tu huerta?</h2>
+      <h2 className="ajustes__titulo">¿Dónde está tu huerta?</h2>
       <p className="ajustes__bajada">
         Dentro del GBA la última helada cambia más de un mes según dónde estés, y de eso depende
         todo el calendario. En el centro porteño casi no hiela; en La Plata o Cañuelas, hasta bien
@@ -222,7 +222,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
   if (ubicacion && !eligiendo) {
     return (
       <section className="ajustes__seccion">
-        <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
+        <h2 className="ajustes__titulo">El pronóstico</h2>
         <p className="ajustes__bajada">
           Se pide para <strong>{ubicacion.etiqueta}</strong>, directo de tu teléfono a{' '}
           {proveedor.nombre}. Lo ves en Hoy, con la semana y sus avisos.
@@ -241,7 +241,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">El pronóstico</h2>
+      <h2 className="ajustes__titulo">El pronóstico</h2>
       <p className="ajustes__bajada">
         Si querés, Hoy te muestra el pronóstico de la semana y te avisa cuando vienen heladas,
         lluvia o mucho calor. Para eso la app necesita saber más o menos dónde estás — y es lo único
@@ -337,7 +337,7 @@ function SeccionInstalar() {
   if (como === 'ya-esta') {
     return (
       <section className="ajustes__seccion">
-        <h2 className="ajustes__titulo subrayado-onda">La app</h2>
+        <h2 className="ajustes__titulo">La app</h2>
         <p className="ajustes__recordatorio es-ok">
           <IconoInstalar size={16} />
           <span>
@@ -351,7 +351,7 @@ function SeccionInstalar() {
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">Instalar en el celu</h2>
+      <h2 className="ajustes__titulo">Instalar en el celu</h2>
       <p className="ajustes__bajada">
         Queda como una app más: abre a pantalla completa, <strong>funciona sin internet</strong> y
         el navegador le borra los datos menos fácil. No ocupa casi nada y no hay que crear ninguna
@@ -466,7 +466,7 @@ function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; re
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">Tus datos</h2>
+      <h2 className="ajustes__titulo">Tus datos</h2>
       <p className="ajustes__bajada">
         Todo lo que cargás vive <strong>solo en este aparato</strong>: no hay cuenta ni servidor, y
         nadie más lo ve. La contra es que si borrás los datos del navegador, se va. Y en iPhone el
@@ -640,7 +640,7 @@ function SeccionAvisos() {
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">Avisos</h2>
+      <h2 className="ajustes__titulo">Avisos</h2>
       <p className="ajustes__bajada">
         La app <strong>no depende de esto</strong>: al abrirla, Hoy siempre te muestra lo pendiente.
         Un aviso es para los días que ni la abrís.
@@ -779,7 +779,7 @@ function SeccionBitacora() {
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">Si algo se rompe</h2>
+      <h2 className="ajustes__titulo">Si algo se rompe</h2>
       <p className="ajustes__bajada">
         Cada vez que abrís la app, se anota acá cómo le fue al leer tu huerta.{' '}
         <strong>Si alguna vez aparece vacía, copiá esto y mandalo</strong>: dice qué pasó y cuándo.
@@ -842,7 +842,7 @@ function SeccionDemo({ cuantasPlantas }: { cuantasPlantas: number }) {
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo subrayado-onda">Para probar</h2>
+      <h2 className="ajustes__titulo">Para probar</h2>
       <p className="ajustes__bajada">
         Una huerta de ejemplo con cuatro plantas en distintas etapas y algo de diario, para ver cómo
         se comporta la app sin esperar tres meses.
