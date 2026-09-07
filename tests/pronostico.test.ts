@@ -357,14 +357,33 @@ describe('derivarAvisos', () => {
     expect(derivarAvisos(pron([dia('2026-08-28', { probLluvia: null, lluviaMm: 12 })]), HOY)).toEqual([])
   })
 
-  it('varios días con helada: un solo aviso, el del primer día, que anuncia la repetición', () => {
+  it('varios días con helada: un aviso por día, cada uno en su fecha', () => {
+    // el carril ubica cada aviso en su fila: comprimirlos en «se repite el
+    // sábado» dejaba el sábado vacío con helada
     const avisos = derivarAvisos(
       pron([dia('2026-08-28', { min: 2 }), dia('2026-08-30', { min: 1 })]),
       HOY,
     )
-    expect(avisos).toHaveLength(1)
-    expect(avisos[0].fecha).toBe('2026-08-28')
-    expect(avisos[0].detalle).toMatch(/repite/i)
+    expect(avisos.map((a) => a.fecha)).toEqual(['2026-08-28', '2026-08-30'])
+    expect(avisos[1].detalle).toContain('1 °C')
+    expect(avisos[0].detalle).not.toMatch(/repite/i)
+  })
+
+  it('el aviso de hoy dice «hoy», no el nombre del día', () => {
+    const [a] = derivarAvisos(pron([dia(HOY, { min: 2 })]), HOY)
+    expect(a.titulo).toBe('Puede helar hoy')
+  })
+
+  it('un mismo día puede traer más de un aviso; el peligro manda y después la fecha', () => {
+    const avisos = derivarAvisos(
+      pron([dia('2026-08-29', { probLluvia: 90, lluviaMm: 10 }), dia('2026-08-28', { min: 2, max: 33 })]),
+      HOY,
+    )
+    expect(avisos.map((a) => `${a.tipo}:${a.fecha}`)).toEqual([
+      'helada:2026-08-28',
+      'calor:2026-08-28',
+      'lluvia:2026-08-29',
+    ])
   })
 
   it('los días que ya pasaron no generan avisos', () => {

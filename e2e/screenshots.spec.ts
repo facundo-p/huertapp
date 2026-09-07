@@ -330,19 +330,21 @@ const TOMAS: Toma[] = [
     },
   },
   {
-    nombre: 'hoy-pronostico',
+    nombre: 'hoy-carril',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__dia').first().waitFor()
+      await page.locator('.carril__cielo').first().waitFor()
     },
   },
   {
-    nombre: 'hoy-pronostico-alerta',
+    nombre: 'hoy-carril-helada',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       // helada mañana + la lluvia que el fixture trae de fábrica: dos alertas
       await page.route('https://api.open-meteo.com/**', (r) =>
         r.fulfill({
@@ -356,28 +358,30 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__aviso').first().waitFor()
+      await page.locator('.carril__aviso').first().waitFor()
     },
   },
   {
-    nombre: 'hoy-pronostico-sheet',
+    nombre: 'hoy-carril-hoja',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__dia').first().click()
+      await page.locator('button.carril__dia').first().click()
       await page.locator('dialog.hoja[open]').waitFor()
     },
   },
   {
-    nombre: 'hoy-pronostico-viejo',
+    nombre: 'hoy-carril-viejo',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__dia').first().waitFor()
+      await page.locator('.carril__cielo').first().waitFor()
       // se envejece el caché a mano y se corta la red: el estado "viejo" real
       await page.evaluate(async () => {
         const pedido = indexedDB.open('huerta-gba')
@@ -399,7 +403,7 @@ const TOMAS: Toma[] = [
       await page.unroute('https://api.open-meteo.com/**')
       await page.route('https://api.open-meteo.com/**', (r) => r.abort())
       await page.reload()
-      await page.locator('.pronostico__estado.es-viejo').waitFor()
+      await page.getByText(/No pude actualizar/).waitFor()
     },
   },
   {

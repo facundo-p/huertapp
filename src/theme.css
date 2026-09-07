@@ -112,6 +112,8 @@
   --terracota-fondo: #e8c4b3;
   --terracota-texto: #7d3a20;
   --sol: #c98718;
+  /* el tinte a sangre de un aviso o del mes en curso: --sol al 13 % */
+  --sol-velo: rgba(201, 135, 24, 0.13);
   --sol-suave: #f6e6c0;
   --sol-texto: #8a5a12;
   --sobre-sol: #2a2110;
@@ -227,6 +229,8 @@
   --terracota-fondo: #48322a;
   --terracota-texto: #d4917a;
   --sol: #e3a52f;
+  /* el tinte a sangre de un aviso o del mes en curso: --sol al 13 % */
+  --sol-velo: rgba(227, 165, 47, 0.13);
   --sol-suave: #3f3625;
   --sol-texto: #e3a52f;
   --sobre-sol: #2a2110;
