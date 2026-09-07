@@ -61,9 +61,12 @@
 
   /* Táctil / layout */
   --tap-min: 44px;
-  --tab-alto: 64px;
-  /* el aire entre la píldora de nav y el borde de abajo */
-  --tab-aire: 14px;
+  /* La barra mide 59 más la zona segura. El handoff dice «72 = 59 + 13», pero
+     los 13 son un mínimo: en un iPhone con home indicator la zona es más alta,
+     y sumarla fija dejaba la barra corta. Van separados y cada consumidor los
+     suma. */
+  --tab-alto: 59px;
+  --tab-zona-segura: max(13px, env(safe-area-inset-bottom));
   --max-ancho: 640px;
 }
 
@@ -179,7 +182,7 @@
   --sombra-2: 0 2px 4px rgba(74, 60, 28, 0.08), 0 8px 22px rgba(74, 60, 28, 0.1);
   --sombra-tab: 0 -2px 14px rgba(74, 60, 28, 0.1);
   --sombra-tel: 0 1px 3px rgba(74, 60, 28, 0.08), 0 12px 30px rgba(74, 60, 28, 0.08);
-  --sombra-nav: 0 8px 24px rgba(74, 60, 28, 0.14);
+  --sombra-nav: 0 8px 24px rgba(74, 60, 28, 0.14); /* sin uso desde la barra opaca; se va en #76 */
 
   /* velo de las hojas inferiores */
   --velo: rgba(34, 48, 28, 0.38);

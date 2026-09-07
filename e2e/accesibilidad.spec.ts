@@ -11,7 +11,7 @@ import { conHelada } from './apoyo-pronostico'
  */
 
 const PANTALLAS = [
-  { ruta: '/#/hoy', nombre: 'Hoy' },
+  { ruta: '/#/hoy', nombre: 'Esta semana' },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
   { ruta: '/#/calendario', nombre: 'Calendario' },

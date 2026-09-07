@@ -1,24 +1,25 @@
-/* La navegación no está pegada al borde: es una píldora que flota sobre el
-   contenido. `fixed` y no `absolute`: la pantalla mide 100dvh y no hay
-   contenedor posicionado, así que `absolute` la anclaría al documento y se
-   iría con el scroll. */
+/* Barra opaca, a ras del borde, de lado a lado. La segunda entrega del
+   rediseño deshizo la píldora flotante: con la barra flotando el contenido
+   que scrollea se veía por el hueco de abajo y por los costados, y se leía
+   como un error.
+   `fixed` y no `absolute`: la pantalla mide 100dvh y no hay contenedor
+   posicionado, así que `absolute` la anclaría al documento y se iría con el
+   scroll. */
 .tabbar {
   position: fixed;
-  left: 14px;
-  right: 14px;
-  /* el aire de abajo es 14 px MÁS el home indicator del iPhone: con 14 fijos
-     la píldora se le mete debajo */
-  bottom: calc(14px + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 20;
   display: flex;
   align-items: stretch;
-  height: var(--tab-alto);
-  max-width: calc(var(--max-ancho) - 28px);
+  /* 59 de barra más la zona segura: 13 fijos, o el home indicator si es más */
+  height: calc(var(--tab-alto) + var(--tab-zona-segura));
+  max-width: var(--max-ancho);
   margin-inline: auto;
-  padding: 6px;
-  border-radius: 20px;
-  background: var(--papel-hundido);
-  box-shadow: var(--sombra-nav);
+  padding: 7px 8px var(--tab-zona-segura);
+  background: var(--papel);
+  border-top: 1px solid var(--linea);
 }
 
 .tabbar__tab {
@@ -31,9 +32,8 @@
   gap: 3px;
   border-radius: var(--radio-tarjeta);
   text-decoration: none;
-  /* el handoff pide --tinta-tenue, pero da 4,12:1 sobre --papel-hundido y el
-     nombre de una pestaña no es un metadato accesorio: es lo que dice adónde
-     vas. --tinta-suave llega a 4,98 de día y 6,57 de noche. */
+  /* el handoff pide --tinta-tenue, pero da 4,12:1 y el nombre de una pestaña
+     no es un metadato accesorio: es lo que dice adónde vas. */
   color: var(--tinta-suave);
   -webkit-tap-highlight-color: transparent;
   transition: background-color 0.25s ease, color 0.25s ease;
@@ -49,6 +49,9 @@
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.02em;
+  /* con cinco pestañas cada una mide ~75 px y «Esta semana» tiene que entrar
+     en una línea: si se parte, la barra crece y tapa contenido */
+  white-space: nowrap;
 }
 
 /* La activa es un bloque entero, no una pastilla detrás del ícono: el ícono y
