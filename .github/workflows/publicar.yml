@@ -12,7 +12,7 @@ name: Publicar
 
 on:
   push:
-    branches: [main, staging, cantero]
+    branches: [main, staging]
   # También los PR contra `staging`: cada cambio entra por su propio PR para
   # poder rastrear después dónde se introdujo algo, y un PR sin checks no
   # sirve de nada.
@@ -21,7 +21,7 @@ on:
   # abren PR contra ella y no contra staging. Sin listarla acá esos PR entrarían
   # sin un solo check. Se saca de las dos listas cuando el epic cierre.
   pull_request:
-    branches: [main, staging, cantero]
+    branches: [main, staging]
   # permite dispararlo a mano desde la pestaña Actions, sin tener que
   # inventar un commit para republicar
   workflow_dispatch:
