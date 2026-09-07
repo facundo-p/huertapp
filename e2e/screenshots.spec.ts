@@ -8,6 +8,13 @@ import { conHelada, fixtureDesdeHoy } from './apoyo-pronostico'
 
 const FASE = process.env.FASE ?? 'fase-6'
 const DIR = `e2e/shots/${FASE}`
+/**
+ * El tema de las capturas. `TEMA=noche npm run shots` saca el juego oscuro:
+ * son el mismo diseño y hay que poder compararlas de a pares.
+ * Se fija antes del primer script, que es como lo lee el bootstrap de
+ * index.html.
+ */
+const TEMA = process.env.TEMA ?? 'dia'
 const SW = 'dist/sw.js'
 
 interface Toma {
@@ -447,6 +454,13 @@ test.beforeAll(() => {
 
 for (const { nombre, ruta, fullPage, antes } of TOMAS) {
   test(`captura ${nombre}`, async ({ page }) => {
+    await page.addInitScript((t) => {
+      try {
+        localStorage.setItem('huerta-gba:tema', t)
+      } catch {
+        /* storage bloqueado: sale en el tema por defecto */
+      }
+    }, TEMA)
     await page.goto(ruta)
     await page.waitForLoadState('networkidle')
     await page.evaluate(() => document.fonts.ready)

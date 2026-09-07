@@ -87,7 +87,7 @@
 }
 
 .opcion.es-elegida .opcion__helada {
-  color: #8a4029;
+  color: var(--terracota-texto);
 }
 
 .ajustes__nota {
@@ -175,7 +175,7 @@
 
 .ajustes__error {
   background: var(--peligro-fondo);
-  color: #7d3a20;
+  color: var(--terracota-texto);
 }
 
 .ajustes__estado {

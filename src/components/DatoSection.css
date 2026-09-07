@@ -80,7 +80,7 @@
 
 .dato__aviso .dato__texto-chico,
 .dato__aviso .dato__subtitulo {
-  color: #7d3a20;
+  color: var(--terracota-texto);
 }
 
 .dato__aviso svg {

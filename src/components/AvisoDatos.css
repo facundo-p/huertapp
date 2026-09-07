@@ -61,10 +61,10 @@
   /* la barra gruesa lo distingue sin depender del color */
   border-left: 4px solid var(--peligro);
   background: var(--peligro-fondo);
-  color: #7d3a20;
+  color: var(--terracota-texto);
   font-size: var(--texto-s);
   line-height: 1.5;
-  box-shadow: 0 6px 20px rgba(40, 52, 32, 0.28);
+  box-shadow: var(--sombra-2);
 }
 
 .aviso-guardar svg {

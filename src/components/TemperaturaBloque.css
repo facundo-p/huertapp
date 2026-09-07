@@ -103,12 +103,12 @@
 
 .temp__helada.es-muere {
   background: var(--peligro-fondo);
-  color: #7d3a20;
+  color: var(--terracota-texto);
   border: 1.5px solid var(--peligro);
 }
 .temp__helada.es-sensible {
   background: var(--posible-fondo);
-  color: #8a5a12;
+  color: var(--sol-texto);
   border: 1.5px dashed var(--posible);
 }
 .temp__helada.es-tolera {

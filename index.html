@@ -38,8 +38,8 @@
 
     <!-- el color de la barra de estado: el mismo papel del fondo, para que no
          quede una banda que corte la pantalla -->
-    <meta name="theme-color" content="#f6efdd" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7f3e7" />
+    <meta name="color-scheme" content="light dark" />
 
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="./icono.svg" />
@@ -64,7 +64,11 @@
         "inLanguage": "es-AR",
         "isAccessibleForFree": true,
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "ARS" },
-        "author": { "@type": "Person", "name": "facundo-p", "url": "https://github.com/facundo-p" },
+        "author": {
+          "@type": "Person",
+          "name": "facundo-p",
+          "url": "https://github.com/facundo-p"
+        },
         "featureList": [
           "Calendario de siembra y trasplante de 55 especies",
           "Ventanas afinadas a períodos de 10 días",
@@ -75,10 +79,37 @@
       }
     </script>
 
-    <!-- la pantalla arranca en papel, no en blanco: evita el flash antes del CSS -->
+    <!-- El tema, antes del primer paint. Si esto se hiciera desde React, abrir
+         en noche mostraría un destello de papel blanco: el HTML ya se pintó
+         para cuando el bundle corre. Los valores son `--papel` de cada bloque
+         de src/theme.css; si cambian allá, cambian acá. -->
+    <script>
+      ;(function () {
+        try {
+          var p = localStorage.getItem('huerta-gba:tema') || 'auto'
+          var t =
+            p === 'dia' || p === 'noche'
+              ? p
+              : matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'noche'
+                : 'dia'
+          document.documentElement.dataset.tema = t
+          document
+            .querySelector('meta[name=theme-color]')
+            .setAttribute('content', t === 'noche' ? '#1f2a1c' : '#f7f3e7')
+        } catch (e) {
+          document.documentElement.dataset.tema = 'dia'
+        }
+      })()
+    </script>
+
+    <!-- la pantalla arranca en el papel del tema, no en blanco -->
     <style>
       html {
-        background: #f6efdd;
+        background: #f7f3e7;
+      }
+      html[data-tema='noche'] {
+        background: #1f2a1c;
       }
     </style>
   </head>
