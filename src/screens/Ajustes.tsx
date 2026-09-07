@@ -36,6 +36,7 @@ import {
 } from '../lib/avisos'
 import { resumenHuerta } from '../lib/huerta/tanda'
 import { IconoAlerta, IconoBajar, IconoCampana, IconoInstalar, IconoSubir, IconoUbicacion } from '../icons'
+import '../components/opciones.css'
 import './Ajustes.css'
 
 const PREFERENCIAS: Preferencia[] = ['auto', 'dia', 'noche']

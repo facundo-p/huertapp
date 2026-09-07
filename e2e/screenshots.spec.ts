@@ -54,16 +54,16 @@ const TOMAS: Toma[] = [
     ruta: '/#/explorar',
     antes: async (page) => {
       await page.getByRole('button', { name: 'Se siembra ahora' }).click()
-      await page.getByRole("button", { name: /^Filtros/ }).click()
-      await page.getByRole("button", { name: /Aromática/ }).click()
+      await page.getByRole('button', { name: /^Grupo/ }).click()
+      await page.getByRole('radio', { name: /Aromática/ }).click()
     },
   },
   {
     nombre: 'explorar-filtro-temperatura',
     ruta: '/#/explorar',
     antes: async (page) => {
-      await page.getByRole("button", { name: /^Filtros/ }).click()
-      await page.getByRole('button', { name: /Necesita calor para germinar/ }).click()
+      await page.getByRole('button', { name: /^Temperatura/ }).click()
+      await page.getByRole('radio', { name: /Necesita calor para germinar/ }).click()
     },
   },
   {
