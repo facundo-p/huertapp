@@ -10,10 +10,11 @@
   gap: var(--esp-3);
 }
 
+/* Listas regladas: hairlines de borde a borde, sin tarjeta */
 .glosario__lista {
   list-style: none;
-  margin: 0;
-  padding: var(--esp-3) var(--esp-4);
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: 0 var(--esp-4);
   display: flex;
   flex-direction: column;
 }
@@ -24,10 +25,11 @@
   gap: var(--esp-4);
   padding: var(--esp-2) 0;
   min-height: var(--tap-min);
+  border-top: 1px solid var(--linea);
 }
 
-.glosario__fila + .glosario__fila {
-  border-top: 1.5px dashed var(--linea-suave);
+.glosario__fila:last-child {
+  border-bottom: 1px solid var(--linea);
 }
 
 .glosario__tile {
@@ -56,8 +58,8 @@
 /* --- términos --- */
 .glosario__terminos {
   list-style: none;
-  margin: 0;
-  padding: var(--esp-4);
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: 0 var(--esp-4);
   display: flex;
   flex-direction: column;
   gap: var(--esp-4);
@@ -192,7 +194,7 @@
   border-left: 15px solid transparent;
   border-right: 15px solid transparent;
   border-bottom: 26px solid var(--terracota);
-  filter: drop-shadow(0 1px 1px rgba(74, 60, 28, 0.15));
+  filter: drop-shadow(0 1px 1px var(--grilla-mes));
 }
 
 .glosario__nota-a11y {

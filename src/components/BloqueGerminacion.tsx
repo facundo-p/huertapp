@@ -163,8 +163,10 @@ export function BloqueGerminacion({
                     {fuentesDeLaFicha(causas).map((f) => (
                       <li key={f.url}>
                         <a href={f.url} target="_blank" rel="noreferrer noopener" className="fuente">
-                          <IconoFuente size={14} />
-                          <span>{f.organizacion}</span>
+                          <span className="fuente__pildora">
+                            <IconoFuente size={12} />
+                            {f.organizacion}
+                          </span>
                         </a>
                       </li>
                     ))}

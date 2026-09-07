@@ -11,7 +11,10 @@ ni pide una cuenta. Todo sale de lo que ya está en IndexedDB más el catálogo.
 
 ---
 
-## 1. Hoy — de lista de tareas a carril de la semana
+## 1. Hoy (ahora "Esta semana") — de lista de tareas a carril de la semana
+
+> La pestaña se renombra **Esta semana** en la segunda entrega (`03` § 1). El
+> comportamiento de esta sección no cambia.
 
 **Hoy:** `src/screens/Hoy.tsx` apila tres bloques independientes: `<Pronostico>`
 (su propia tarjeta con los 7 días), la sección "Para hacer" (`tareasVisibles` en
@@ -246,5 +249,49 @@ arriba a abajo:
   `Ventanas` de `estimar`) son puras y van con test unitario. `e2e/accesibilidad.
   spec.ts` corre dos veces, una por tema, sobre las 7 pantallas con datos
   cargados.
-- **Calendario, Glosario y Ajustes** no están diseñados. Aplicá tokens y patrones;
-  si hace falta layout nuevo, consultá antes de inventarlo.
+- **Glosario y Ajustes** no están diseñados. Aplicá tokens y patrones; si hace falta
+  layout nuevo, consultá antes de inventarlo.
+
+
+---
+
+## 7. Calendario — qué sembrar, mes a mes
+
+> **Superada por `03` § 2.** El Calendario es ahora una grilla de siembra /
+> cosecha; la lista por mes descrita acá sobrevive como el panel del mes que se
+> abre al tocar la cabecera. Leé esta sección como especificación del contenido
+> de ese panel, no de la pantalla.
+
+Pantalla nueva: la cuarta pestaña, hoy sin diseño.
+
+**La unidad es la década, no el día.** El catálogo no sabe de días: sabe de
+tercios de mes, que es como están cargadas las ventanas de siembra. Una
+cuadrícula mensual mentiría con una precisión que el dato no tiene. Y un gráfico
+de barras por mes tampoco sirve: "cuántas especies se pueden sembrar en abril"
+no es una pregunta que alguien se haga.
+
+La pregunta real es **qué puedo sembrar este mes**, así que la pantalla la
+contesta con nombres. Doce filas, una por mes, regladas y a sangre:
+
+- el mes (display 12 / 600, `--tinta-alta`; `--sol` el actual);
+- la lista de especies en palabras, `--tinta-media` 12.5 / 1.45. Sale de filtrar
+  el catálogo por `estadosDelMes(...) !== 'no'` y ordenar por relevancia
+  (primero las `ideal`), cortando en 7;
+- debajo, en `--sol` 9 px `uppercase`, **qué pasa ese mes en tu huerta**
+  ("trasplantás los del cajón", "cosechás rúcula y lechuga"), derivado de las
+  `Ventanas` de `estimar()` de cada planta activa (sección 3). Si no hay nada,
+  la línea no existe.
+
+El **mes en curso** lleva un tinte `--sol` al 8 % en toda la fila y se abre
+mostrando sus **tres tercios**: rótulo (Principios / Mediados / Fines) más el
+resumen en palabras, con `· estás acá` en el tercio actual. Tocar cualquier otro
+mes lo abre y cierra el anterior — un solo mes abierto a la vez.
+
+El chip **Todo el catálogo / Solo mi huerta** cambia qué alimenta las listas: el
+catálogo entero, o solo las especies que ya tenés plantadas.
+
+Al pie, una línea que dice de dónde sale la precisión: las fechas vienen por
+tercios de mes, no por día.
+
+Nada de esto pide datos nuevos: son `estadosDelMes` y las `Ventanas`, agregados
+por mes. Si esas dos funciones están bien, el calendario es una vista.

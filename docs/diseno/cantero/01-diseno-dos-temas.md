@@ -248,9 +248,26 @@ etiquetas de nav.
 
 ## 4. Medidas comunes
 
-- **Radios:** 999 (chips y píldoras), 20 (nav), 18 (tarjeta grande de la ficha),
-  16 (botón alto), 14 (tarjeta, fila, botón), 12–11 (ícono en cuadrito), 10 (chip
-  de fuente). No hay radios nuevos: usá `--radio-*` extendido con 14 y 18.
+- **Radios:** 999 (chips y píldoras), 18 (tarjeta grande de la ficha), 16 (botón
+  alto), 14 (tarjeta, botón, tab activa), 12–11 (ícono en cuadrito), 10 (chip de
+  fuente). Usá `--radio-*` extendido con 14 y 18.
+
+### Regla de superficie: reglado antes que tarjeta
+
+Una lista homogénea **no lleva tarjetas**. Las filas se separan con una hairline
+de 1 px `--linea` que llega **de borde a borde de la pantalla**, y el contenido
+respeta los 22 px de margen por dentro. Vale para las tareas del carril, las
+sugerencias de "Sembrá ahora", las plantas de Mi huerta y los meses del
+calendario.
+
+La tarjeta (`--papel-alto` + borde + radio 14/18) queda para lo que de verdad es
+una unidad separable y navegable: las especies de Explorar, los bloques de campo
+de la ficha, las entradas del diario.
+
+Y lo que se destaca sobre una fila —el aviso de helada, el mes en curso— lo hace
+con un **tinte a sangre**, sin borde ni radio: la banda de color llega a los dos
+bordes de la pantalla. Eso es lo que evita que la app se lea como una bandeja de
+cajitas.
 - **Espaciado:** grilla de 4 con dos excepciones heredadas del layout móvil:
   padding lateral de pantalla **22 px** y gap entre filas **8 px**.
 - **Altura táctil:** mínimo 44 px se mantiene. El botón "Hecho" del carril mide
@@ -367,21 +384,25 @@ Siete filas, una por día, en una grilla de dos columnas:
 - **Punto de la línea**: 9 px, `border: 2px solid var(--papel)`, pegado al borde
   derecho de la columna (`right: -5px; top: 16px`). `--sol` si el día tiene
   cosas, `--linea-fuerte` si está vacío.
-- **Columna de items** (`flex column`, gap 8, padding `8px 0 14px`): cada item es
-  una fila de radio 14, padding `10px 12px`, fondo `--papel-alto`, borde 1px
-  `--linea`, con ícono 19 px + título 13/800 + detalle 12 + procedencia 10 itálica,
-  y a la derecha el botón `Hecho` (32 px, píldora, borde 1.5 `--sol`, texto
-  `--sol`, fondo transparente).
-- Un **aviso de clima** usa el mismo molde pero fondo `--sol` al 13 % y borde
-  `--sol` al 40 %.
+- **Columna de items** (`flex column`, gap 11, padding `10px 22px 14px 0`): el item
+  **no es una tarjeta** — es ícono 19 px + título 13/800 + detalle 12 +
+  procedencia 10 itálica, sin fondo ni borde, y a la derecha el botón `Hecho`
+  (32 px, píldora, borde 1.5 `--sol`, texto `--sol`, fondo transparente).
+- Un **aviso de clima** es el mismo molde con fondo `--sol` al 13 %, y sangra al
+  borde derecho (`margin-right: -22px; padding-right: 22px`).
+- La fila del día lleva `border-top: 1px solid var(--linea)` de borde a borde de
+  la pantalla, y la grilla es `76px 1fr` con la columna del día en
+  `padding-left: 22px`.
 - Un día **sin nada** muestra un `—` de 12 px en `--tinta-apagada`: la fila no
   desaparece, para que la semana se lea como semana.
 
 ### 5.3 `GanttPlanta` — Mi huerta
 
-Cada planta es una fila de **74 px** de alto (radio 14, fondo `--papel-alto`,
-borde 1px `--linea`, `overflow: hidden`) sobre una ventana fija de **180 días**:
-60 atrás y 120 adelante.
+Cada planta es una fila de **74 px** de alto, separada de la anterior por una
+hairline `--linea` de borde a borde (sin fondo, sin radio, `overflow: hidden`),
+sobre una ventana fija de **180 días**: 60 atrás y 120 adelante. Adentro, un
+contenedor absoluto con `left: 22px; right: 22px` sostiene la banda y las barras,
+para que el eje de arriba y las barras compartan la misma caja.
 
 ```ts
 const pct = (d: number) => Math.max(0, Math.min(100, ((d + 60) / 180) * 100))
@@ -436,25 +457,27 @@ del dato tiene que ser navegable.
 
 ---
 
-## 6. `TabBar` flotante
+## 6. `TabBar`
 
-Deja de ser una barra pegada al borde: es una píldora que flota.
+Barra **opaca, a ras del borde inferior**, de lado a lado. Nada de píldora
+flotante: con la barra flotando, el contenido que scrollea se ve por el hueco de
+abajo y por los costados, y se lee como un error.
 
 ```
-position: absolute; left: 14px; right: 14px; bottom: 14px;
-height: 64px; border-radius: 20px;
-background: var(--papel-hundido);
-box-shadow: var(--sombra-nav);
-padding: 6px;
+position: absolute; left: 0; right: 0; bottom: 0;
+height: 72px;                      /* 59 de barra + 13 de zona segura */
+background: var(--papel);          /* opaco, el mismo de la pantalla */
+border-top: 1px solid var(--linea);
+padding: 7px 8px 13px;
 ```
 
 Cada tab es `flex: 1`, columna centrada, gap 3: ícono 22 px + etiqueta display 9.
 Inactivo en `--tinta-tenue`; el activo es un bloque de radio 14 con fondo `--sol`
 y contenido `--sobre-sol`, etiqueta en 600.
 
-El contenido de la pantalla lleva `padding-bottom: 92px` para no quedar debajo.
-`--tab-alto` pasa de 62 a 64 + 14 de aire; si algún cálculo depende de
-`--tab-alto`, sumale el `bottom`.
+En el dispositivo real el `padding-bottom` de 13 px es
+`max(13px, env(safe-area-inset-bottom))`, y la barra va `position: fixed`. El
+contenido lleva `padding-bottom: 92px`. `--tab-alto` pasa de 62 a 72.
 
 ---
 

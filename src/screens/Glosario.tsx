@@ -17,6 +17,13 @@ import {
   IconoCalor,
   IconoGota,
   IconoInstalar,
+  IconoProtegido,
+  IconoPuntos,
+  IconoCompost,
+  IconoTacho,
+  IconoTermo,
+  IconoCheck,
+  IconoCruz,
   IconoConfianza,
   IconoCosechar,
   IconoCuidado,
@@ -47,6 +54,7 @@ interface Item {
 const ACCIONES: Item[] = [
   { Icono: IconoSembrar, nombre: 'Sembrar', desc: 'Poner la semilla en tierra, directa o en almácigo.' },
   { Icono: IconoAlmacigo, nombre: 'Almácigo', desc: 'Cría protegida del plantín antes del lugar definitivo.' },
+  { Icono: IconoProtegido, nombre: 'Bajo reparo', desc: 'Almácigo con techo: invernadero, cajón con nailon o botella cortada, hasta que afloje el frío.' },
   { Icono: IconoTrasplantar, nombre: 'Trasplantar', desc: 'Mudar el plantín al bancal, maceta o cantero.' },
   { Icono: IconoCosechar, nombre: 'Cosechar', desc: 'La mejor parte. El canasto se llena solo (casi).' },
   { Icono: IconoRegar, nombre: 'Regar', desc: 'Agua: ni sed ni charco.' },
@@ -64,6 +72,12 @@ const ACCIONES: Item[] = [
   { Icono: IconoDesplegar, nombre: 'Desplegar', desc: 'Abre lo que está plegado. Girado, ya está abierto.' },
   { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
   { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
+  { Icono: IconoPuntos, nombre: 'Más opciones', desc: 'Lo que una fila también permite hacer, como posponer.' },
+  { Icono: IconoCompost, nombre: 'Compost', desc: 'La guía de compostaje: restos que vuelven a ser tierra.' },
+  { Icono: IconoTacho, nombre: 'Tacho', desc: 'Compostera cerrada, de balcón o patio.' },
+  { Icono: IconoTermo, nombre: 'Temperatura', desc: 'La pila que calienta: señal de que trabaja.' },
+  { Icono: IconoCheck, nombre: 'Se cumple', desc: 'Una señal que está.' },
+  { Icono: IconoCruz, nombre: 'No va', desc: 'Lo que no se composta.' },
 ]
 
 const CONFIANZAS = [
@@ -76,7 +90,7 @@ const CONFIANZAS = [
 function Seccion({ titulo, retraso, children }: { titulo: string; retraso: number; children: ReactNode }) {
   return (
     <section className="glosario__seccion aparecer" style={{ '--retraso': `${retraso}s` } as React.CSSProperties}>
-      <h2 className="seccion__titulo subrayado-onda">{titulo}</h2>
+      <h2 className="seccion__titulo">{titulo}</h2>
       {children}
     </section>
   )
@@ -148,7 +162,7 @@ export function Glosario() {
             Las catorce cosas que la app te puede pedir en la sección <strong>"Mientras crece"</strong>{' '}
             de una ficha. Qué son y, sobre todo, cómo se hacen.
           </p>
-          <ul className="glosario__terminos etiqueta">
+          <ul className="glosario__terminos">
             {ORDEN_CUIDADOS.map((t) => (
               <FilaTermino key={t} termino={LABORES[t]} id={`labor-${t}`} />
             ))}
@@ -156,7 +170,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Palabras que vas a leer en las fichas" retraso={0.05}>
-          <ul className="glosario__terminos etiqueta">
+          <ul className="glosario__terminos">
             {PALABRAS.map((t) => (
               <FilaTermino key={t.termino} termino={t} />
             ))}
@@ -164,7 +178,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Cómo se arma la tierra" retraso={0.07}>
-          <div className="etiqueta glosario__tierra">
+          <div className="tarjeta glosario__tierra">
             <p className="glosario__desc">
               La mezcla base, para maceta o cantero:
             </p>
@@ -180,8 +194,10 @@ export function Glosario() {
                   rel="noreferrer noopener"
                   className="fuente"
                 >
-                  <IconoFuente size={14} />
-                  <span>{SUSTRATO.fuente.organizacion}</span>
+                  <span className="fuente__pildora">
+                    <IconoFuente size={12} />
+                    {SUSTRATO.fuente.organizacion}
+                  </span>
                 </a>
               </li>
             </ul>
@@ -199,8 +215,10 @@ export function Glosario() {
                   rel="noreferrer noopener"
                   className="fuente"
                 >
-                  <IconoFuente size={14} />
-                  <span>{SUSTRATO.semillero.fuente.organizacion}</span>
+                  <span className="fuente__pildora">
+                    <IconoFuente size={12} />
+                    {SUSTRATO.semillero.fuente.organizacion}
+                  </span>
                 </a>
               </li>
             </ul>
@@ -237,7 +255,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Grupos de especies" retraso={0.05}>
-          <ul className="glosario__lista etiqueta">
+          <ul className="glosario__lista">
             {Object.entries(GRUPOS).map(([g, info]) => (
               <Fila key={g} Icono={info.Icono} nombre={g} desc={descGrupo(g)} color={info.color} />
             ))}
@@ -245,7 +263,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Qué suelo pide" retraso={0.1}>
-          <ul className="glosario__lista etiqueta">
+          <ul className="glosario__lista">
             {Object.entries(SUELOS).map(([c, info]) => (
               <Fila key={c} Icono={info.Icono} nombre={nombreSuelo(c)} desc={descSuelo(c)} color={info.color} />
             ))}
@@ -253,7 +271,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Cuánto sol necesita" retraso={0.15}>
-          <ul className="glosario__lista etiqueta">
+          <ul className="glosario__lista">
             {Object.entries(LUCES).map(([c, info]) => (
               <Fila key={c} Icono={info.Icono} nombre={nombreLuz(c)} desc={descLuz(c)} color={info.color} />
             ))}
@@ -262,7 +280,7 @@ export function Glosario() {
 
         <Seccion titulo="Qué temperatura le gusta" retraso={0.16}>
           {/* la altura del mercurio dice la banda; el corte exacto va en cada chip */}
-          <ul className="glosario__lista etiqueta">
+          <ul className="glosario__lista">
             <Fila
               Icono={BANDAS_GERMINACION.frio.Icono}
               nombre="Con fresco le alcanza"
@@ -289,7 +307,7 @@ export function Glosario() {
             Si activaste el pronóstico en Ajustes, Hoy muestra la semana con
             estos íconos.
           </p>
-          <ul className="glosario__lista etiqueta">
+          <ul className="glosario__lista">
             {Object.entries(CIELOS).map(([c, info]) => (
               <Fila key={c} Icono={info.Icono} nombre={info.nombre} desc={descCielo(c)} color={info.color} />
             ))}
@@ -317,7 +335,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="El calendario" retraso={0.2}>
-          <div className="etiqueta glosario__calendario">
+          <div className="tarjeta glosario__calendario">
             <div className="glosario__celda-demo">
               <span className="celda celda--ideal" aria-hidden />
               <div>
@@ -348,7 +366,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Por qué cada mes va partido en tres" retraso={0.22}>
-          <div className="etiqueta glosario__calendario">
+          <div className="tarjeta glosario__calendario">
             <p className="glosario__desc">
               No es lo mismo sembrar a principios de septiembre que a fines: el suelo está varios grados
               más frío y el riesgo de helada es mucho mayor. Por eso cada mes se muestra en tres
@@ -388,7 +406,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Ciclo y acciones" retraso={0.25}>
-          <ul className="glosario__lista etiqueta">
+          <ul className="glosario__lista">
             {ACCIONES.map((item) => (
               <Fila key={item.nombre} {...item} />
             ))}
@@ -396,7 +414,7 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="La escala de confianza" retraso={0.3}>
-          <div className="etiqueta glosario__confianza">
+          <div className="tarjeta glosario__confianza">
             <p className="glosario__desc">
               Cada dato de una ficha lleva su índice: cuánto lo respaldan las fuentes consultadas.
             </p>

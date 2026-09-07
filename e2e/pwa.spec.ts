@@ -107,14 +107,20 @@ test('las fuentes tipográficas también están cacheadas: nada de texto en Time
   await context.setOffline(true)
   await page.reload()
 
+  // Esperar a que la app haya pintado ANTES de mirar las fuentes. Una fuente
+  // se descarga cuando hay texto que la necesita: si se mide apenas recargó,
+  // solo está la del encabezado y la de cuerpo todavía no la pidió nadie.
+  // Medir temprano acá daba un rojo que no era del precache.
+  await expect(page.getByRole('heading', { name: 'Tu huerta está por empezar' })).toBeVisible()
+
   // si el woff2 no estuviera precacheado, el navegador caería al fallback del
   // sistema y la app se vería como un documento cualquiera
   const cargadas = await page.evaluate(async () => {
     await document.fonts.ready
     return [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family)
   })
-  expect(cargadas).toContain('Nunito Variable')
-  expect(cargadas).toContain('Quicksand Variable')
+  expect(cargadas).toContain('Manrope Variable')
+  expect(cargadas).toContain('Unbounded Variable')
 })
 
 /**

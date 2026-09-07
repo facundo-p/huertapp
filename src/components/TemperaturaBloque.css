@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--esp-3);
-  padding: var(--esp-4) 0;
-  border-bottom: 1.5px dashed var(--linea-suave);
+  padding: var(--esp-4);
+  border-radius: var(--radio-tarjeta);
+  background: var(--papel-alto);
+  border: 1px solid var(--linea);
 }
 
 .temp__cabeza {
@@ -103,12 +105,12 @@
 
 .temp__helada.es-muere {
   background: var(--peligro-fondo);
-  color: #7d3a20;
+  color: var(--terracota-texto);
   border: 1.5px solid var(--peligro);
 }
 .temp__helada.es-sensible {
   background: var(--posible-fondo);
-  color: #8a5a12;
+  color: var(--sol-texto);
   border: 1.5px dashed var(--posible);
 }
 .temp__helada.es-tolera {

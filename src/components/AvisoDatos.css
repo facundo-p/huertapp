@@ -10,6 +10,8 @@
 }
 
 .nolei__titulo {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   font-size: var(--texto-l);
   font-weight: 700;
   color: var(--tinta);
@@ -26,7 +28,7 @@
   padding: 0 var(--esp-5);
   border-radius: var(--radio-chip);
   background: var(--verde-prof);
-  color: var(--papel-alto);
+  color: var(--papel);
   font-weight: 700;
   font-size: var(--texto-m);
 }
@@ -49,7 +51,7 @@
   z-index: 31;
   left: max(var(--esp-3), env(safe-area-inset-left));
   right: max(var(--esp-3), env(safe-area-inset-right));
-  bottom: calc(var(--tab-alto) + env(safe-area-inset-bottom) + var(--esp-2));
+  bottom: calc(var(--tab-alto) + var(--tab-zona-segura) + var(--esp-2));
   max-width: calc(var(--max-ancho) - var(--esp-4));
   margin: 0 auto;
 
@@ -61,10 +63,10 @@
   /* la barra gruesa lo distingue sin depender del color */
   border-left: 4px solid var(--peligro);
   background: var(--peligro-fondo);
-  color: #7d3a20;
+  color: var(--terracota-texto);
   font-size: var(--texto-s);
   line-height: 1.5;
-  box-shadow: 0 6px 20px rgba(40, 52, 32, 0.28);
+  box-shadow: var(--sombra-2);
 }
 
 .aviso-guardar svg {

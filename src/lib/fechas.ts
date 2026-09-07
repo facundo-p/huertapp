@@ -41,6 +41,13 @@ export const NOMBRES_MES = [
 
 export const INICIALES_MES = ['E', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'] as const
 
+/** Abreviatura de tres letras. Va en el hueco del anillo anual, donde el
+ *  nombre entero no entra y una sola inicial no alcanza para ubicarse. */
+export const MES_CORTO = [
+  'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+  'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+] as const
+
 // ── Décadas (tercios de mes) ────────────────────────────────────────────────
 // 36 al año. Es la unidad de los boletines agrometeorológicos del INTA y la
 // que usa el calendario afinado. Mantener sincronizado con scripts/clima-gba.mjs.
@@ -97,3 +104,23 @@ export function diasHastaFinDeDecada(fecha: Date): number {
 
 export const siguienteDecada = (d: Decada): Decada => (d % 36) + 1
 export const anteriorDecada = (d: Decada): Decada => ((d + 34) % 36) + 1
+
+/* ---- días de la semana, desde una fecha ISO corta ---- */
+
+/** T12:00: el mediodía evita que el huso corra el día (patrón del repo). */
+export const aFechaLocal = (iso: string): Date => new Date(`${iso}T12:00:00`)
+
+/** «viernes» */
+export const nombreDia = (iso: string): string =>
+  aFechaLocal(iso).toLocaleDateString('es-AR', { weekday: 'long' })
+
+/** «vie»: la sigla del carril, sin el punto que agrega el locale */
+export const siglaDia = (iso: string): string =>
+  aFechaLocal(iso).toLocaleDateString('es-AR', { weekday: 'short' }).replace('.', '').slice(0, 3)
+
+/** «viernes, 11 de septiembre» */
+export const fechaDiaLarga = (iso: string): string =>
+  aFechaLocal(iso).toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' })
+
+/** «11» */
+export const numeroDia = (iso: string): number => aFechaLocal(iso).getDate()

@@ -48,6 +48,8 @@
 }
 
 .germ__titulo {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   font-family: var(--font-display);
   font-size: var(--texto-m);
   font-weight: 700;
@@ -55,7 +57,7 @@
 }
 
 .germ--demorada .germ__titulo {
-  color: #7d3a20;
+  color: var(--terracota-texto);
 }
 
 .germ__detalle {
@@ -92,7 +94,7 @@
   padding: 0 var(--esp-3);
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
-  color: var(--papel-alto);
+  color: var(--papel);
   font-family: var(--font-display);
   font-size: var(--texto-s);
   font-weight: 700;
@@ -177,8 +179,8 @@
 .germ__sello {
   padding: 1px 7px;
   border-radius: var(--radio-chip);
-  background: var(--terracota-suave);
-  color: #8a4029;
+  background: var(--terracota-fondo);
+  color: var(--terracota-texto);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.02em;

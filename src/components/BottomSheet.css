@@ -14,7 +14,7 @@
 }
 
 .hoja::backdrop {
-  background: rgba(43, 38, 22, 0.42);
+  background: var(--velo);
   backdrop-filter: blur(2px);
 }
 
@@ -26,7 +26,7 @@
   border-radius: var(--radio-l) var(--radio-l) 0 0;
   background: var(--papel);
   border-top: 1.5px solid var(--linea);
-  box-shadow: 0 -6px 30px rgba(74, 60, 28, 0.22);
+  box-shadow: var(--sombra-2);
 }
 
 .hoja__tirador {

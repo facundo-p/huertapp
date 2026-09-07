@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { EspecieCard } from '../components/EspecieCard'
-import { FilaChips } from '../components/FilaChips'
+import { ChipHoja } from '../components/ChipHoja'
 import { useEspecies } from '../lib/useEspecies'
 import { normalizar } from '../lib/data/slugs'
 import { bandaCrecimiento, bandaGerminacion, estadoSiembra, type BandaTemp } from '../lib/data/especies'
@@ -34,9 +34,6 @@ export function Explorar() {
   const [luz, setLuz] = useState<FiltroLuz>(null)
   const [bandaGerm, setBandaGerm] = useState<FiltroBanda>(null)
   const [bandaCrec, setBandaCrec] = useState<FiltroBanda>(null)
-  const [abierto, setAbierto] = useState(false)
-
-  const categoriasActivas = [grupo, suelo, luz, bandaGerm, bandaCrec].filter(Boolean).length
 
   function limpiar() {
     setBusqueda('')
@@ -96,61 +93,73 @@ export function Explorar() {
 
         <div className="filtros-barra">
           <button
-            className={`chip chip--texto ${soloAhora ? 'es-activo' : ''}`}
+            type="button"
+            className={`chip-hoja ${soloAhora ? 'es-activo' : ''}`}
             onClick={() => setSoloAhora((v) => !v)}
             aria-pressed={soloAhora}
           >
-            Se siembra ahora
-          </button>
-          <button
-            className={`chip chip--texto ${abierto || categoriasActivas > 0 ? 'es-activo' : ''}`}
-            onClick={() => setAbierto((v) => !v)}
-            aria-expanded={abierto}
-            aria-controls="panel-filtros"
-          >
-            Filtros{categoriasActivas > 0 ? ` (${categoriasActivas})` : ''}
+            <span className="chip-hoja__pildora">Se siembra ahora</span>
           </button>
           {hayFiltros && (
-            <button className="filtros-barra__limpiar" onClick={limpiar}>
+            <button type="button" className="filtros-barra__limpiar" onClick={limpiar}>
               Limpiar
             </button>
           )}
         </div>
 
-        {abierto && (
-          <div className="filtros" id="panel-filtros">
-            <FilaChips
-              etiqueta="Grupo"
-              opciones={Object.entries(GRUPOS).map(([k, v]) => ({ valor: k, ...v }))}
-              activo={grupo}
-              onElegir={(v) => setGrupo(v as FiltroGrupo)}
-            />
-            <FilaChips
-              etiqueta="Suelo"
-              opciones={Object.entries(SUELOS).map(([k, v]) => ({ valor: k, ...v }))}
-              activo={suelo}
-              onElegir={(v) => setSuelo(v as FiltroSuelo)}
-            />
-            <FilaChips
-              etiqueta="Luz"
-              opciones={Object.entries(LUCES).map(([k, v]) => ({ valor: k, ...v }))}
-              activo={luz}
-              onElegir={(v) => setLuz(v as FiltroLuz)}
-            />
-            <FilaChips
-              etiqueta="Temperatura para germinar"
-              opciones={Object.entries(BANDAS_GERMINACION).map(([k, v]) => ({ valor: k, ...v }))}
-              activo={bandaGerm}
-              onElegir={(v) => setBandaGerm(v as FiltroBanda)}
-            />
-            <FilaChips
-              etiqueta="Temperatura para crecer"
-              opciones={Object.entries(BANDAS_CRECIMIENTO).map(([k, v]) => ({ valor: k, ...v }))}
-              activo={bandaCrec}
-              onElegir={(v) => setBandaCrec(v as FiltroBanda)}
-            />
-          </div>
-        )}
+        {/* Los filtros de categoría, a la vista: cada chip abre su hoja. */}
+        <div className="filtros-linea">
+          <ChipHoja
+            etiqueta="Grupo"
+            grupos={[
+              {
+                etiqueta: 'Grupo',
+                opciones: Object.entries(GRUPOS).map(([k, v]) => ({ valor: k, ...v })),
+                activo: grupo,
+                onElegir: (v) => setGrupo(v as FiltroGrupo),
+              },
+            ]}
+          />
+          <ChipHoja
+            etiqueta="Suelo"
+            grupos={[
+              {
+                etiqueta: 'Suelo',
+                opciones: Object.entries(SUELOS).map(([k, v]) => ({ valor: k, ...v })),
+                activo: suelo,
+                onElegir: (v) => setSuelo(v as FiltroSuelo),
+              },
+            ]}
+          />
+          <ChipHoja
+            etiqueta="Luz"
+            grupos={[
+              {
+                etiqueta: 'Luz',
+                opciones: Object.entries(LUCES).map(([k, v]) => ({ valor: k, ...v })),
+                activo: luz,
+                onElegir: (v) => setLuz(v as FiltroLuz),
+              },
+            ]}
+          />
+          <ChipHoja
+            etiqueta="Temperatura"
+            grupos={[
+              {
+                etiqueta: 'Para germinar',
+                opciones: Object.entries(BANDAS_GERMINACION).map(([k, v]) => ({ valor: k, ...v })),
+                activo: bandaGerm,
+                onElegir: (v) => setBandaGerm(v as FiltroBanda),
+              },
+              {
+                etiqueta: 'Para crecer',
+                opciones: Object.entries(BANDAS_CRECIMIENTO).map(([k, v]) => ({ valor: k, ...v })),
+                activo: bandaCrec,
+                onElegir: (v) => setBandaCrec(v as FiltroBanda),
+              },
+            ]}
+          />
+        </div>
 
         <p className="explorar__cuenta" aria-live="polite">
           {cargando ? 'Cargando el catálogo…' : `${resultados.length} de ${indice!.padres.length} especies`}

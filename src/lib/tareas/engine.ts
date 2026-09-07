@@ -2,7 +2,7 @@ import type { ClimaDecada, EspecieEnriquecida, Zona } from '../data/types'
 import { estadoSiembra, metodoDelMes } from '../data/especies'
 import { decadaDe, mesDeDecada, nombreDecada, siguienteDecada } from '../fechas'
 import { diasEntre, hoyISO, type Planta } from '../huerta/tipos'
-import { estimar } from '../huerta/estimar'
+import { estimar, sumarDias } from '../huerta/estimar'
 import { germinacion, germinacionPendiente } from '../huerta/germinacion'
 
 /**
@@ -37,6 +37,8 @@ export interface Tarea {
   prioridad: number
   /** true si ya se pasó de tiempo */
   atrasada?: boolean
+  /** día en que cae (ISO corta). Lo atrasado y lo en ventana caen hoy. */
+  fecha: string
 }
 
 export interface EstadoTarea {
@@ -69,9 +71,30 @@ export interface EntradaMotor {
   /** la zona ya viene resuelta acá: son sus 36 décadas */
   clima: ClimaDecada[]
   hoy?: string
+  /** último día de la ventana (inclusive); sin él, solo hoy */
+  hasta?: string
 }
 
-export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: EntradaMotor): Tarea[] {
+/**
+ * Las tareas de la ventana [hoy, hasta], cada una fechada en el primer día en
+ * que aparece: lo que ya toca cae hoy, y lo que va a entrar en ventana el
+ * jueves cae el jueves. Es el mismo bucle que `construirAgenda`, que sigue
+ * llamando día por día y no cambia.
+ */
+export function derivarTareas({ hasta, ...entrada }: EntradaMotor): Tarea[] {
+  const hoy = entrada.hoy ?? hoyISO()
+  const fin = hasta && hasta > hoy ? hasta : hoy
+  const porId = new Map<string, Tarea>()
+  for (let dia = hoy; dia <= fin; dia = sumarDias(dia, 1)) {
+    for (const t of tareasDelDia(entrada, dia)) if (!porId.has(t.id)) porId.set(t.id, t)
+  }
+  return [...porId.values()].sort(
+    (a, b) =>
+      a.fecha.localeCompare(b.fecha) || a.prioridad - b.prioridad || a.titulo.localeCompare(b.titulo, 'es'),
+  )
+}
+
+function tareasDelDia({ plantas, porSlug, clima }: EntradaMotor, hoy: string): Tarea[] {
   const tareas: Tarea[] = []
   const decada = decadaDe(new Date(`${hoy}T12:00:00`))
   const activas = plantas.filter((p) => !p.archivada && p.etapa !== 'terminada')
@@ -86,6 +109,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
     if (g?.estado === 'demorada') {
       tareas.push({
         id: `revisar_germinacion:${p.id}`,
+        fecha: hoy,
         tipo: 'revisar_germinacion',
         plantaId: p.id,
         slug: e.slug,
@@ -112,6 +136,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
       const peligroso = e.temperaturas.helada === 'muere' && riesgo >= 0.2
       tareas.push({
         id: `trasplantar:${p.id}`,
+        fecha: hoy,
         tipo: 'trasplantar',
         plantaId: p.id,
         slug: e.slug,
@@ -132,6 +157,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
     if (est.cosecha && est.cosecha.faltan <= 0 && p.etapa !== 'cosechando') {
       tareas.push({
         id: `cosechar:${p.id}`,
+        fecha: hoy,
         tipo: 'cosechar',
         plantaId: p.id,
         slug: e.slug,
@@ -154,6 +180,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
       ].slice(0, 3)
       tareas.push({
         id: `helada:${nombreDecada(siguienteDecada(decada))}`,
+        fecha: hoy,
         tipo: 'helada',
         titulo: 'Puede helar',
         detalle: `Todavía hay ${Math.round(riesgo * 100)} % de probabilidad de helada. Cubrí de noche ${nombres.join(', ')}${expuestas.length > 3 ? ' y las demás' : ''}: la helada las mata.`,
@@ -163,7 +190,7 @@ export function derivarTareas({ plantas, porSlug, clima, hoy = hoyISO() }: Entra
     }
   }
 
-  return tareas.sort((a, b) => a.prioridad - b.prioridad || a.titulo.localeCompare(b.titulo, 'es'))
+  return tareas
 }
 
 /**

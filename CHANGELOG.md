@@ -19,12 +19,114 @@ Qué significa cada parte en este proyecto:
 ---
 
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
-> `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
-> versión nueva con su fecha.
+> `## [Sin publicar]
+
+### Cambiado
+
+- **La app cambió de cara: «Cantero», en dos temas.** El mismo diseño en
+  papel claro para el día y tierra oscura para la noche. Se elige en Ajustes
+  —Día, Noche o Automático— y cambia al toque; si abrís de noche con el tema
+  oscuro, ya no hay destello blanco. Los títulos van en Unbounded y el texto
+  en Manrope, y las dos viajan con la app: siguen sin internet. Las listas
+  dejaron de ser cajitas: filas separadas por una línea fina, de borde a
+  borde, y lo que importa se destaca con un tinte ocre.
+
+- **Hoy ahora se llama «Esta semana», y es un carril de siete días.** En cada
+  fila, el día con su cielo y sus temperaturas a la izquierda y, a la
+  derecha, lo que toca ese día: tareas y avisos del pronóstico. Las tareas que
+  van a entrar en ventana durante la semana aparecen el día que entran, cosa
+  que antes no veías. Un día sin nada muestra un guion. Una helada
+  pronosticada va en su día y, además, arriba de todo. Tocar el día abre el
+  detalle del pronóstico; «Más tarde» vive en el menú ⋯ de cada tarea.
+  «Sembrá ahora» sigue al pie, como lista.
+
+- **Explorar: el año como un reloj, y los filtros a la vista.** Cada especie
+  lleva un anillo con los doce meses y una aguja en la década de hoy. Los
+  filtros son cuatro chips en línea —Grupo, Suelo, Luz, Temperatura— que
+  abren cada uno su hoja; el chip dice lo que elegiste.
+
+- **La ficha de cada especie dice de dónde sale cada cosa, de un vistazo.** La
+  confianza es una fila de diez puntos y el número; las fuentes, chips que
+  enlazan al documento. El anillo es doble (siembra afuera, trasplante
+  adentro) y el aviso de almácigo protegido es una banda ocre arriba de los
+  campos. Y el botón «Agregar a mi huerta» se lee de noche: tenía el texto
+  casi invisible.
+
+- **Mi huerta muestra el ciclo entero de cada planta.** Cada una es una línea
+  de tiempo sobre seis meses —dos atrás y cuatro adelante— con la siembra, lo
+  que va creciendo, la ventana de trasplante y la de cosecha, y la marca de
+  hoy. Las filas ya no se pliegan; los lugares sí, y cerrarlos no esconde lo
+  que pide atención.
+
+- **El detalle de una planta, en orden.** El ciclo de cinco etapas con la
+  actual en ocre, la germinación con el corrimiento explicado en tres
+  números —lo que decía la ficha, lo que tardó, lo que se corrió—, los datos
+  de la siembra, lo que viene con su botón, y el diario como línea de tiempo
+  con un punto del color de cada entrada.
+
+- **El Calendario suma la cosecha y «Solo mi huerta».** Un tercer segmento
+  con la ventana de cosecha, calculada sumando los días a cosecha a cada
+  ventana de siembra (el pie lo dice). Un chip filtra a las especies que
+  tenés plantadas, con un punto ocre en cada una. Tocar un mes ya no hace
+  falta: el panel del mes muestra los tres tercios en palabras, con lo que se
+  cierra primero adelante y «en tu huerta» cuando una de tus plantas cae ahí,
+  y se navega con flechas.
+
+- **La barra de abajo vuelve al borde.** Opaca, de lado a lado, con la
+  sección activa en un bloque ocre. La píldora flotante dejaba ver el
+  contenido por debajo.
+
+### Agregado
+
+- **Compost: una guía de consulta, con fuentes.** Quinta pestaña. Qué vas a
+  compostar (cocina o jardín), en qué sistema (tachos o compostera a suelo),
+  y la receta que vale para todo. Cada capítulo cuenta los tres estados, qué
+  poner y qué no con el porqué, cuándo girar, qué señales dicen que va bien o
+  que algo falla, y cómo saber si está listo. Cada bloque lleva su confianza y
+  sus fuentes —INTI-INTA ProHuerta, la Provincia, la Ciudad, Santa Fe y FAO—
+  y lo que ninguna dice figura como «s/d». No registra tachos ni manda
+  tareas.
+
+- **El pronóstico ya no te esconde el sol.** El cielo de cada día sale de
+  cuántas horas de sol efectivo trae el pronóstico, no del «peor momento del
+  día»: una mañana nublada pintaba de gris un día de sol. Los íconos ganaron
+  color.
+
+- **Filtrar el catálogo por la temperatura que pide cada especie.** En
+  Explorar → Temperatura, dos filas —para germinar y para crecer— con tres
+  bandas. Los cortes salen del rango ideal investigado de cada ficha. Las
+  especies sin dato no aparecen con el filtro puesto, y la pantalla las nombra.
 
 ## [Sin publicar]
 
 ### Agregado
+
+- **Mi huerta muestra el ciclo entero de cada planta.** Cada una es una línea
+  de tiempo sobre seis meses —dos atrás y cuatro adelante— con la siembra, lo
+  que va creciendo, la ventana de trasplante y la de cosecha, y una marca en el
+  día de hoy. Las fichas dejaron de plegarse: la línea ocupa menos que la
+  tarjeta cerrada y muestra mucho más. Los lugares se siguen plegando, y
+  cerrarlos no esconde lo que pide atención.
+
+- **El año ahora se ve como un reloj.** En Explorar, cada especie lleva un
+  anillo con los doce meses y una aguja que marca en qué década del año estás:
+  de un vistazo ves cuánto falta para su ventana y cuánto le queda. En la ficha
+  el anillo es grande y doble, con la siembra afuera y el trasplante adentro.
+
+- **La barra de abajo ahora flota.** Dejó de estar pegada al borde: es una
+  píldora redondeada que se apoya sobre el contenido, y la sección en la que
+  estás se marca con un bloque entero en ocre, ícono y nombre juntos.
+
+- **La app cambió de letra.** Los títulos van en Unbounded, una geométrica de
+  trazo parejo, y el texto en Manrope. Se ven distintas y se leen mejor en
+  pantalla chica. Como las anteriores, viajan dentro de la app: siguen
+  funcionando sin internet.
+
+- **Ahora la app tiene tema de noche.** El mismo diseño en dos climas: papel
+  claro para el día, tierra oscura para la noche. Se elige en Ajustes —Día,
+  Noche o Automático, que sigue lo que tengas puesto en el teléfono— y cambia
+  al toque, sin recargar. Si abrís de noche con el tema oscuro puesto, ya no
+  hay destello blanco: arranca oscura desde el primer momento.
 
 - **El pronóstico ya no te esconde el sol, y hoy manda.** El cielo de cada día
   ahora sale de cuántas horas de sol efectivo trae el pronóstico, no del "peor

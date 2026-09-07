@@ -296,6 +296,7 @@ describe('tandas divididas en el motor', () => {
 describe('completar y posponer', () => {
   const tarea = (id: string): Tarea => ({
     id,
+    fecha: HOY,
     tipo: 'cosechar',
     titulo: 't',
     detalle: 'd',
@@ -362,5 +363,52 @@ describe('expuestasAHelada', () => {
       planta({ slug: 'lechuga', id: 'p-lechu' }), // tolera
     ]
     expect(expuestasAHelada(plantas, porSlug).map((p) => p.slug)).toEqual(['tomate'])
+  })
+})
+
+describe('la ventana de días del carril', () => {
+  const conVentana = (plantas: Planta[], dias: number) =>
+    derivarTareas({ plantas, porSlug, clima: clima.conurbano, hoy: HOY, hasta: sumarDias(HOY, dias) } as EntradaMotor)
+
+  it('sin `hasta`, todo cae hoy y la lista es la de siempre', () => {
+    const t = motor([planta({ slug: 'tomate', sembrada: sumarDias(HOY, -20), etapa: 'almacigo' })])
+    expect(t.length).toBeGreaterThan(0)
+    expect(t.every((x) => x.fecha === HOY)).toBe(true)
+  })
+
+  it('lo que va a entrar en ventana dentro de la semana cae el día que entra', () => {
+    // rúcula: 20-60 días a cosecha. Sembrada hace 17, la cosecha se abre en 3.
+    const p = [planta({ slug: 'rucula', sembrada: sumarDias(HOY, -17), germino: sumarDias(HOY, -12) })]
+    expect(motor(p).find((t) => t.tipo === 'cosechar')).toBeUndefined()
+    const cosecha = conVentana(p, 6).find((t) => t.tipo === 'cosechar')
+    expect(cosecha).toBeDefined()
+    expect(cosecha!.fecha).toBe(sumarDias(HOY, 3))
+  })
+
+  it('lo atrasado cae hoy, no en el pasado', () => {
+    const t = conVentana([planta({ slug: 'tomate', sembrada: sumarDias(HOY, -20), etapa: 'almacigo' })], 6)
+    const g = t.find((x) => x.tipo === 'revisar_germinacion')!
+    expect(g.atrasada).toBe(true)
+    expect(g.fecha).toBe(HOY)
+  })
+
+  it('una tarea que ya existe hoy no se repite en los días siguientes', () => {
+    const t = conVentana([planta({ slug: 'tomate', sembrada: sumarDias(HOY, -20), etapa: 'almacigo' })], 6)
+    const ids = t.map((x) => x.id)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('sale ordenado por fecha y después por prioridad', () => {
+    const p = [
+      planta({ slug: 'rucula', sembrada: sumarDias(HOY, -17), germino: sumarDias(HOY, -12) }),
+      planta({ slug: 'tomate', id: 'x', sembrada: sumarDias(HOY, -20), etapa: 'almacigo' }),
+    ]
+    const fechas = conVentana(p, 6).map((t) => t.fecha)
+    expect(fechas).toEqual([...fechas].sort())
+  })
+
+  it('con `hasta` anterior a hoy se comporta como sin ventana', () => {
+    const p = [planta({ slug: 'tomate', sembrada: sumarDias(HOY, -20), etapa: 'almacigo' })]
+    expect(conVentana(p, -3)).toEqual(motor(p))
   })
 })

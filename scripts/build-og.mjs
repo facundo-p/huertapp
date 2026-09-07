@@ -41,20 +41,17 @@ async function fuente(familia, archivo, pesos) {
 const html = `<!doctype html>
 <meta charset="utf-8">
 <style>
-  ${await fuente('Quicksand', 'quicksand/files/quicksand-latin-wght-normal.woff2', '300 700')}
-  ${await fuente('Nunito', 'nunito/files/nunito-latin-wght-normal.woff2', '200 1000')}
+  ${await fuente('Unbounded', 'unbounded/files/unbounded-latin-wght-normal.woff2', '200 900')}
+  ${await fuente('Manrope', 'manrope/files/manrope-latin-wght-normal.woff2', '200 800')}
 
   * { margin: 0; box-sizing: border-box; }
   body {
     width: ${ANCHO}px; height: ${ALTO}px;
     display: flex; flex-direction: column; justify-content: center;
     gap: 34px; padding: 78px 88px;
-    background-color: #f6efdd;
-    /* la misma textura de papel de la app, para que la tarjeta y la app se
-       reconozcan como la misma cosa */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-    color: #3a4030;
-    font-family: 'Nunito', sans-serif;
+    background-color: #f7f3e7;
+    color: #22301c;
+    font-family: 'Manrope', sans-serif;
   }
 
   .fila { display: flex; align-items: center; gap: 36px; }
@@ -62,7 +59,7 @@ const html = `<!doctype html>
            box-shadow: 0 10px 28px rgba(51, 80, 43, 0.26); overflow: hidden; }
   .marca svg { width: 100%; height: 100%; display: block; }
 
-  h1 { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 92px;
+  h1 { font-family: 'Unbounded', sans-serif; font-weight: 600; font-size: 78px;
        line-height: 1; letter-spacing: -0.015em; }
   .onda { margin-top: 14px; height: 10px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='10' viewBox='0 0 28 6'%3E%3Cpath d='M0 3 Q 3.5 0, 7 3 T 14 3 T 21 3 T 28 3' fill='none' stroke='%237fa06f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");

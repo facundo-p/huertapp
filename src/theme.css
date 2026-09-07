@@ -1,96 +1,41 @@
 /* ============================================================
    Huerta GBA — design tokens
-   Dirección: "cuaderno de campo querible" — papel cálido, tinta
-   verde-oliva, etiquetas de semillas, terracota y amarillo sol.
+   Dirección: "Cantero", en dos temas intercambiables — `día` (papel
+   claro) y `noche` (tierra oscura). Son EL MISMO diseño: ninguna
+   medida, ningún radio, ningún peso cambia entre los dos. Cambian
+   los valores de color, y nada más.
    Todos los tokens del sistema viven acá. No hay otro lugar.
 
    CONTRASTE — la regla que ordena la paleta:
    todo color que se use como TEXTO llega a 4.5:1 contra el fondo más
-   claro sobre el que aparece (AA), con margen: se calibraron a ~4.6
+   exigente sobre el que aparece (AA), con margen: se calibraron a ~4.6
    para no vivir en el borde del redondeo. Los que son solo relleno o
-   borde (--sol, --salvia) se rigen por 3:1, que es lo que pide WCAG
-   para objetos gráficos, y por eso el amarillo puede seguir siendo
-   amarillo. `e2e/accesibilidad.spec.ts` mide esto en las 7 pantallas
-   con datos cargados y falla si algo baja.
+   borde se rigen por 3:1, que es lo que pide WCAG para objetos
+   gráficos, y por eso el amarillo puede seguir siendo amarillo.
+   `e2e/accesibilidad.spec.ts` mide esto en las 10 pantallas con datos
+   cargados, EN LOS DOS TEMAS, y falla si algo baja. Compone el alpha de
+   las capas y también el del color del texto: --papel-alto de noche es
+   semitransparente y como texto no se ve.
 
-   Consecuencia de diseño: la jerarquía NO se hace bajando contraste.
-   El texto terciario es tan oscuro como el secundario; lo que lo
-   distingue es el tamaño y el peso.
+   Un color de relleno y su versión legible como texto son DOS tokens
+   (--sol / --sol-texto). Antes eso vivía como quince hex sueltos en
+   los CSS de componentes; era la misma decisión tomada quince veces.
+
+   Jerarquía y contraste: el texto que porta el DATO nunca baja de
+   4.5:1. Lo que sí puede bajar es el metadato accesorio —unidades,
+   ejes, "hace 22 días"— y para eso están --tinta-apagada y las marcas
+   del anillo. Si un dato queda solo en uno de esos colores, está mal
+   puesto: la jerarquía se hace con tamaño y peso.
    ============================================================ */
 
+/* ---- Medidas: idénticas en los dos temas, por definición ---- */
 :root {
-  /* ---- Paleta base: papel y tinta ---- */
-  --papel: #f6efdd;          /* fondo general, papel cálido */
-  --papel-alto: #fdf9ee;     /* superficie de tarjetas */
-  --papel-hundido: #eee4cc;  /* superficies hundidas, inputs */
-  --crema: #f1e8d2;
-  --tinta: #3a4030;          /* texto principal, verde-marrón oscuro */
-  --tinta-media: #5c6350;    /* texto secundario */
-  --tinta-suave: #5d6253;    /* texto terciario; 4,7:1 hasta sobre peligro-fondo */
-  --linea: #ddd2b6;          /* bordes y divisores */
-  --linea-suave: #e9e0c8;
-
-  /* ---- Verdes de huerta ---- */
-  --salvia: #7fa06f;
-  --salvia-suave: #dbe7cf;
-  --verde-hoja: #4d7440;     /* acción primaria, "ideal" */
-  --verde-prof: #33502b;
-  --oliva: #8a8f4a;
-
-  /* ---- Acentos cálidos ---- */
-  --terracota: #a1583d;
-  --terracota-suave: #f0d5c6;
-  --sol: #e3a52f;            /* "posible", destacados — solo relleno, nunca texto */
-  --sol-suave: #f8e7bb;
-  --frambuesa: #a85c68;      /* etiquetas de diario (plaga…) */
-
-  /* ---- Semánticos ---- */
-  --ideal: var(--verde-hoja);
-  --ideal-fondo: #e2ecd8;
-  --posible: var(--sol);
-  --posible-fondo: #f8ecc9;
-  --peligro: #9e4729;
-  --peligro-fondo: #f3d9cd;
-  --foco: #4d7440;
-
-  /* ---- Confianza (1-10 → baja/media/alta) ---- */
-  --conf-alta: #4b713e;
-  --conf-alta-fondo: #e2ecd8;
-  --conf-media: #86611f;
-  --conf-media-fondo: #f6e8c6;
-  --conf-baja: #9e4729;
-  --conf-baja-fondo: #f3d9cd;
-  --conf-sin: #616657;
-  --conf-sin-fondo: #eae3d0;
-
-  /* ---- Categorías de suelo ---- */
-  --suelo-arenoso: #b0803f;
-  --suelo-franco: #5f8a4a;
-  --suelo-humedo: #4f7f95;
-  --suelo-profundo: #c07b35;
-  --suelo-rustico: #8d8776;
-
-  /* ---- Categorías de luz ---- */
-  /* cielos del pronóstico: trazo de ícono, ≥3:1 sobre papel-alto */
-  --cielo-sol: #a07414;
-  --cielo-agua: #4f7f95;
-  --cielo-nube: #5c6350;
-  --cielo-frio: #67737f;
-
-  --luz-pleno: #d98e23;
-  --luz-parcial: #dcb13c;
-  --luz-media: #8fa3ae;
-  --luz-sombra: #67737f;
-
-  /* ---- Bandas de temperatura (chips de filtro) ---- */
-  /* objetos gráficos sobre --papel-alto: 4.0 / 3.5 / 4.8 — medidos */
-  --temp-frio: #5d7f9a;
-  --temp-templado: #a1802f;
-  --temp-calor: #b5502c;
-
-  /* ---- Tipografía (self-hosted, ver main.tsx) ---- */
-  --font-display: 'Quicksand Variable', 'Avenir Next Rounded', sans-serif;
-  --font-cuerpo: 'Nunito Variable', 'Avenir Next', sans-serif;
+  /* Tipografía (self-hosted, ver src/fuentes.css) */
+  /* Unbounded es una display geométrica de ancho aparente fijo: NUNCA por
+     debajo de 9 px y nunca en párrafos. Solo títulos, sobretítulos, números
+     grandes y etiquetas de nav. */
+  --font-display: 'Unbounded Variable', system-ui, sans-serif;
+  --font-cuerpo: 'Manrope Variable', system-ui, sans-serif;
   --texto-xs: 0.75rem;
   --texto-s: 0.875rem;
   --texto-m: 1rem;
@@ -98,7 +43,7 @@
   --texto-xl: 1.5rem;
   --texto-xxl: 1.875rem;
 
-  /* ---- Espaciado (grilla de 4) ---- */
+  /* Espaciado (grilla de 4) */
   --esp-1: 4px;
   --esp-2: 8px;
   --esp-3: 12px;
@@ -107,21 +52,243 @@
   --esp-6: 32px;
   --esp-7: 48px;
 
-  /* ---- Radios: todo bien redondeado, orgánico ---- */
+  /* Radios: todo bien redondeado, orgánico */
   --radio-s: 10px;
   --radio-m: 16px;
   --radio-l: 24px;
   --radio-chip: 999px;
+  /* el rediseño suma 14 (tarjeta, fila, botón) y 18 (tarjeta grande) */
+  --radio-tarjeta: 14px;
+  --radio-grande: 18px;
+
+  /* Táctil / layout */
+  --tap-min: 44px;
+  /* La barra mide 59 más la zona segura. El handoff dice «72 = 59 + 13», pero
+     los 13 son un mínimo: en un iPhone con home indicator la zona es más alta,
+     y sumarla fija dejaba la barra corta. Van separados y cada consumidor los
+     suma. */
+  --tab-alto: 59px;
+  --tab-zona-segura: max(13px, env(safe-area-inset-bottom));
+  --max-ancho: 640px;
+}
+
+/* ============================================================
+   Cantero de día — tema claro (el que sale sin elegir nada)
+   ============================================================ */
+:root,
+[data-tema='dia'] {
+  color-scheme: light;
+
+  /* ---- Superficies ---- */
+  --papel: #f7f3e7;
+  --papel-alto: #fffdf5;
+  --papel-hundido: #ebe6d4;
+  --papel-plano: #efeadb;
+  --crema: #eae4d2;
+
+  /* ---- Tinta ---- */
+  --tinta: #22301c;
+  --tinta-alta: #1c2617;
+  --tinta-media: #44523a;
+  --tinta-suave: #57654c;
+  --tinta-tenue: #66715c;
+  /* decorativo: ejes y etapas no alcanzadas. Nunca un dato. */
+  --tinta-apagada: #9aa48d;
+  --linea: #dcd5bf;
+  --linea-fuerte: #c9c1a8;
+  --linea-suave: #e7e1cd;
+
+  /* ---- Verdes de huerta ---- */
+  --salvia: #4d7440;
+  --salvia-suave: #dee8d2;
+  --verde-hoja: #4d7440;
+  --verde-prof: #33502b;
+  --oliva: #7c8143;
+
+  /* ---- Acentos cálidos ---- */
+  --terracota: #a1583d;
+  /* relleno: "trasplante posible" en el anillo */
+  --terracota-suave: #e8c4b3;
+  /* superficie teñida DETRÁS de texto terracota (el sello de germinación).
+     De día coincide con el relleno; de noche no, y por eso son dos tokens. */
+  --terracota-fondo: #e8c4b3;
+  --terracota-texto: #7d3a20;
+  --sol: #c98718;
+  /* el tinte a sangre de un aviso o del mes en curso: --sol al 13 % */
+  --sol-velo: rgba(201, 135, 24, 0.13);
+  --sol-suave: #f6e6c0;
+  --sol-texto: #8a5a12;
+  --sobre-sol: #2a2110;
+  --frambuesa: #a85c68;
+  --agua: #4f7f95;
+
+  /* ---- Semánticos ---- */
+  --ideal: var(--verde-hoja);
+  --ideal-fondo: #dfebd4;
+  --posible: var(--sol);
+  --posible-fondo: #f7e9c6;
+  --peligro: #9e4729;
+  --peligro-fondo: #f3d9cd;
+  --foco: #4d7440;
+
+  /* ---- Confianza (1-10 → baja/media/alta) ---- */
+  --conf-alta: #4b713e;
+  --conf-alta-fondo: #dfebd4;
+  --conf-media: #86611f;
+  --conf-media-fondo: #f6e8c6;
+  --conf-baja: #9e4729;
+  --conf-baja-fondo: #f3d9cd;
+  --conf-sin: #616657;
+  --conf-sin-fondo: #eae3d0;
+  /* punto apagado de la fila de confianza: igual en los dos temas */
+  --conf-vacio: #8b9a7f66;
+
+  /* ---- Categorías de suelo ---- */
+  --suelo-arenoso: #b0803f;
+  --suelo-franco: #5f8a4a;
+  --suelo-humedo: #4f7f95;
+  --suelo-profundo: #c07b35;
+  --suelo-rustico: #8d8776;
+
+  /* ---- Cielos del pronóstico: trazo de ícono, ≥3:1 ---- */
+  --cielo-sol: #a07414;
+  --cielo-agua: #4f7f95;
+  --cielo-nube: #5c6350;
+  --cielo-frio: #67737f;
+
+  /* ---- Categorías de luz ---- */
+  --luz-pleno: #d98e23;
+  --luz-parcial: #dcb13c;
+  --luz-media: #8fa3ae;
+  --luz-sombra: #67737f;
+
+  /* ---- Bandas de temperatura (chips de filtro) ---- */
+  --temp-frio: #5d7f9a;
+  --temp-templado: #a1802f;
+  --temp-calor: #b5502c;
+
+  /* ---- Anillo anual (el año como reloj) ---- */
+  --anillo-vacio: #dcd5bf;
+  --anillo-vacio-int: #ebe6d4;
+  --marca-mes: #1c2617cc;
+  --marca-mes-grande: #2b332480;
+  --marca-tercio: #2b332426;
+
+  /* ---- Gantt del ciclo ---- */
+  --grilla-mes: #22301c26;
+  --gantt-crece: #4d7440;
+  --gantt-trasplante: #a1583d;
+  --gantt-cosecha-a: #c98718;
+  --gantt-cosecha-b: #a86a10;
 
   /* ---- Sombras suaves y cálidas ---- */
   --sombra-1: 0 1px 2px rgba(74, 60, 28, 0.07), 0 2px 8px rgba(74, 60, 28, 0.06);
   --sombra-2: 0 2px 4px rgba(74, 60, 28, 0.08), 0 8px 22px rgba(74, 60, 28, 0.1);
-  --sombra-tab: 0 -2px 14px rgba(74, 60, 28, 0.1);
 
-  /* ---- Táctil / layout ---- */
-  --tap-min: 44px;
-  --tab-alto: 62px;
-  --max-ancho: 640px;
+  /* velo de las hojas inferiores */
+  --velo: rgba(34, 48, 28, 0.38);
+}
+
+/* ============================================================
+   Cantero de noche — tema oscuro
+
+   --papel-alto es semitransparente a propósito (44 % de #263322): la
+   tarjeta flota sobre la tierra en vez de taparla. Compuesto da
+   #222e1f, que es el fondo real contra el que hay que medir.
+   ============================================================ */
+[data-tema='noche'] {
+  color-scheme: dark;
+
+  --papel: #1f2a1c;
+  --papel-alto: #26332270;
+  --papel-hundido: #2b3826;
+  --papel-plano: #243021;
+  --crema: #26332f;
+
+  --tinta: #ece6d3;
+  --tinta-alta: #f3eedd;
+  --tinta-media: #c9d1bd;
+  --tinta-suave: #b7c0ab;
+  --tinta-tenue: #93a087;
+  --tinta-apagada: #6f7d67;
+  --linea: #33422e;
+  --linea-fuerte: #3a4933;
+  --linea-suave: #2a3626;
+
+  --salvia: #b9c9a8;
+  --salvia-suave: #2d3b23;
+  --verde-hoja: #8fbf6f;
+  /* el rol se invierte: --verde-prof es el verde de MÁS énfasis, y de
+     noche eso es el más claro. Es texto en doce lugares. */
+  --verde-prof: #a5cf88;
+  --oliva: #9ca153;
+
+  --terracota: #d4917a;
+  --terracota-suave: #7a4f3e;
+  --terracota-fondo: #48322a;
+  --terracota-texto: #d4917a;
+  --sol: #e3a52f;
+  /* el tinte a sangre de un aviso o del mes en curso: --sol al 13 % */
+  --sol-velo: rgba(227, 165, 47, 0.13);
+  --sol-suave: #3f3625;
+  --sol-texto: #e3a52f;
+  --sobre-sol: #2a2110;
+  --frambuesa: #d98a96;
+  --agua: #7fb0c8;
+
+  --ideal: var(--verde-hoja);
+  --ideal-fondo: #2d3b23;
+  --posible: var(--sol);
+  --posible-fondo: #3f3625;
+  --peligro: #d4917a;
+  --peligro-fondo: #48322a;
+  --foco: #8fbf6f;
+
+  --conf-alta: #8fbf6f;
+  --conf-alta-fondo: #2d3b23;
+  --conf-media: #e3a52f;
+  --conf-media-fondo: #3f3625;
+  --conf-baja: #d4917a;
+  --conf-baja-fondo: #48322a;
+  --conf-sin: #a8b29c;
+  --conf-sin-fondo: #303b23;
+
+  --suelo-arenoso: #c29455;
+  --suelo-franco: #78a95f;
+  --suelo-humedo: #7fb0c8;
+  --suelo-profundo: #ce8f4e;
+  --suelo-rustico: #a09c8d;
+
+  --cielo-sol: #ca9219;
+  --cielo-agua: #7fb0c8;
+  --cielo-nube: #979f89;
+  --cielo-frio: #939ea8;
+
+  --luz-pleno: #d68c23;
+  --luz-parcial: #c19623;
+  --luz-media: #8b9fab;
+  --luz-sombra: #939ea8;
+
+  --temp-frio: #85a0b5;
+  --temp-templado: #bd9737;
+  --temp-calor: #da8769;
+
+  --anillo-vacio: #33422e;
+  --anillo-vacio-int: #2b3826;
+  --marca-mes: #f3eeddcc;
+  --marca-mes-grande: #f3eeddb3;
+  --marca-tercio: #f3eedd40;
+
+  --grilla-mes: #f3eedd26;
+  --gantt-crece: #6d9a52;
+  --gantt-trasplante: #c07352;
+  --gantt-cosecha-a: #e3a52f;
+  --gantt-cosecha-b: #b8801a;
+
+  --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.22);
+  --sombra-2: 0 2px 4px rgba(0, 0, 0, 0.22), 0 8px 22px rgba(0, 0, 0, 0.3);
+
+  --velo: rgba(0, 0, 0, 0.55);
 }
 
 /* ============================================================
@@ -144,8 +311,6 @@ body {
   line-height: 1.5;
   color: var(--tinta);
   background-color: var(--papel);
-  /* textura de papel: ruido SVG inline, sutil, 100% offline */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.29 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
 }
@@ -158,7 +323,9 @@ h4 {
   line-height: 1.2;
   margin: 0;
   color: var(--tinta);
-  letter-spacing: 0.01em;
+  /* Unbounded ya es ancha de por sí: el interletrado positivo que pedía
+     Quicksand acá desarma la palabra. */
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -190,34 +357,13 @@ a {
    Utilidades chiquitas del sistema
    ============================================================ */
 
-/* subrayado ondulado para títulos de sección — firma visual */
-.subrayado-onda {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='6' viewBox='0 0 28 6'%3E%3Cpath d='M0 3 Q 3.5 0, 7 3 T 14 3 T 21 3 T 28 3' fill='none' stroke='%237fa06f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-position: left bottom;
-  background-size: 28px 6px;
-  padding-bottom: 9px;
-}
-
-/* tarjeta tipo etiqueta de semillas: ojal perforado arriba a la izquierda */
-.etiqueta {
-  position: relative;
+/* Tarjeta del rediseño: solo para lo separable y navegable (una especie,
+   un campo de la ficha, una entrada del diario). Las listas homogéneas van
+   regladas, con hairlines, no con esto. */
+.tarjeta {
   background: var(--papel-alto);
-  border: 1.5px solid var(--linea);
-  border-radius: var(--radio-m);
-  box-shadow: var(--sombra-1);
-}
-.etiqueta::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--papel);
-  border: 1.5px solid var(--linea);
-  box-shadow: inset 0 1px 1.5px rgba(74, 60, 28, 0.18);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio-tarjeta);
 }
 
 /* aparición suave escalonada (usar con --retraso en el elemento) */
@@ -256,9 +402,29 @@ a {
   transform-origin: bottom center;
 }
 
+/* Late en el triangulito de una planta con algo pendiente. Es la única
+   animación infinita de la app, y por eso la que más molesta si no la querés:
+   abajo se apaga con el resto. */
+@keyframes pulso {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.82;
+  }
+}
+
+.pulso {
+  animation: pulso 2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .aparecer,
-  .brotar {
+  .brotar,
+  .pulso {
     animation: none;
   }
   * {
