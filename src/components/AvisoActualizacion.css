@@ -4,7 +4,7 @@
   left: max(var(--esp-3), env(safe-area-inset-left));
   right: max(var(--esp-3), env(safe-area-inset-right));
   /* justo encima de la tab bar, no tapándola: la navegación sigue disponible */
-  bottom: calc(var(--tab-alto) + env(safe-area-inset-bottom) + var(--esp-2));
+  bottom: calc(var(--tab-alto) + var(--tab-zona-segura) + var(--esp-2));
   max-width: calc(var(--max-ancho) - var(--esp-4));
   margin: 0 auto;
 
