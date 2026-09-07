@@ -26,6 +26,10 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **La barra de abajo ahora flota.** Dejó de estar pegada al borde: es una
+  píldora redondeada que se apoya sobre el contenido, y la sección en la que
+  estás se marca con un bloque entero en ocre, ícono y nombre juntos.
+
 - **La app cambió de letra.** Los títulos van en Unbounded, una geométrica de
   trazo parejo, y el texto en Manrope. Se ven distintas y se leen mejor en
   pantalla chica. Como las anteriores, viajan dentro de la app: siguen

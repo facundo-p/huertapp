@@ -2,7 +2,10 @@
 .pantalla {
   max-width: var(--max-ancho);
   margin: 0 auto;
-  padding-bottom: calc(var(--tab-alto) + env(safe-area-inset-bottom) + var(--esp-5));
+  /* la nav flota: hay que despejar su alto, su aire de abajo y el safe-area */
+  padding-bottom: calc(
+    var(--tab-alto) + var(--tab-aire) + env(safe-area-inset-bottom) + var(--esp-4)
+  );
   min-height: 100dvh;
 }
 
