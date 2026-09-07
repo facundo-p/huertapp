@@ -17,6 +17,7 @@ import {
   IconoCalor,
   IconoGota,
   IconoInstalar,
+  IconoProtegido,
   IconoPuntos,
   IconoConfianza,
   IconoCosechar,
@@ -48,6 +49,7 @@ interface Item {
 const ACCIONES: Item[] = [
   { Icono: IconoSembrar, nombre: 'Sembrar', desc: 'Poner la semilla en tierra, directa o en almácigo.' },
   { Icono: IconoAlmacigo, nombre: 'Almácigo', desc: 'Cría protegida del plantín antes del lugar definitivo.' },
+  { Icono: IconoProtegido, nombre: 'Bajo reparo', desc: 'Almácigo con techo: invernadero, cajón con nailon o botella cortada, hasta que afloje el frío.' },
   { Icono: IconoTrasplantar, nombre: 'Trasplantar', desc: 'Mudar el plantín al bancal, maceta o cantero.' },
   { Icono: IconoCosechar, nombre: 'Cosechar', desc: 'La mejor parte. El canasto se llena solo (casi).' },
   { Icono: IconoRegar, nombre: 'Regar', desc: 'Agua: ni sed ni charco.' },
@@ -182,8 +184,10 @@ export function Glosario() {
                   rel="noreferrer noopener"
                   className="fuente"
                 >
-                  <IconoFuente size={14} />
-                  <span>{SUSTRATO.fuente.organizacion}</span>
+                  <span className="fuente__pildora">
+                    <IconoFuente size={12} />
+                    {SUSTRATO.fuente.organizacion}
+                  </span>
                 </a>
               </li>
             </ul>
@@ -201,8 +205,10 @@ export function Glosario() {
                   rel="noreferrer noopener"
                   className="fuente"
                 >
-                  <IconoFuente size={14} />
-                  <span>{SUSTRATO.semillero.fuente.organizacion}</span>
+                  <span className="fuente__pildora">
+                    <IconoFuente size={12} />
+                    {SUSTRATO.semillero.fuente.organizacion}
+                  </span>
                 </a>
               </li>
             </ul>
