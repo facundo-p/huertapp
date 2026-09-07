@@ -239,7 +239,7 @@ const TOMAS: Toma[] = [
       await page.waitForLoadState('networkidle')
       await linkEnSeccion(page, /Bancal del fondo/, /Rúcula/).click()
       await page.waitForTimeout(400)
-      await page.getByRole('button', { name: /cambiar la cuenta/ }).click()
+      await page.getByRole('button', { name: /cambiar la cuenta/i }).click()
       await page.waitForTimeout(300)
     },
   },

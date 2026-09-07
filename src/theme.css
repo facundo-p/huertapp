@@ -12,8 +12,10 @@
    para no vivir en el borde del redondeo. Los que son solo relleno o
    borde se rigen por 3:1, que es lo que pide WCAG para objetos
    gráficos, y por eso el amarillo puede seguir siendo amarillo.
-   `e2e/accesibilidad.spec.ts` mide esto en las 8 pantallas con datos
-   cargados, EN LOS DOS TEMAS, y falla si algo baja.
+   `e2e/accesibilidad.spec.ts` mide esto en las 10 pantallas con datos
+   cargados, EN LOS DOS TEMAS, y falla si algo baja. Compone el alpha de
+   las capas y también el del color del texto: --papel-alto de noche es
+   semitransparente y como texto no se ve.
 
    Un color de relleno y su versión legible como texto son DOS tokens
    (--sol / --sol-texto). Antes eso vivía como quince hex sueltos en
