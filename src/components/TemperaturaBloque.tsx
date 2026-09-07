@@ -1,6 +1,7 @@
 import type { Temperaturas } from '../lib/data/types'
 import { modeloEscala, rotuloEscala, textoSinIdeal, type ValoresEscala } from '../lib/escalaTemperatura'
 import { ConfidenceBadge } from './ConfidenceBadge'
+import { FilaConfianza } from './FilaConfianza'
 import { IconoFuente } from '../icons'
 import './TemperaturaBloque.css'
 
@@ -78,7 +79,7 @@ export function TemperaturaBloque({
     <section className="temp">
       <header className="temp__cabeza">
         <h2 className="dato__titulo">Temperaturas</h2>
-        <ConfidenceBadge valor={t.confianza} />
+        <FilaConfianza valor={t.confianza} />
       </header>
 
       {/* Se dibuja igual sin dato: desaparecer en silencio parece no tener nada que decir. */}
@@ -128,8 +129,10 @@ export function TemperaturaBloque({
           {t.fuentes.map((f) => (
             <li key={f.url}>
               <a href={f.url} target="_blank" rel="noreferrer noopener" className="fuente">
-                <IconoFuente size={14} />
-                <span>{f.organizacion}</span>
+                <span className="fuente__pildora">
+                  <IconoFuente size={12} />
+                  {f.organizacion}
+                </span>
               </a>
             </li>
           ))}

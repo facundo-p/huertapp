@@ -238,7 +238,14 @@ for (const tema of TEMAS) {
           const grande = px >= 24 || (px >= 18.66 && peso >= 700)
           const minimo = grande ? 3 : 4.5
 
-          const r = ratio(rgb(cs.color), fondo(el))
+          // El color del texto también puede venir con alpha (`--papel-alto`
+          // de noche lo tiene): se compone sobre el fondo, que es lo que se ve.
+          // Sin esto el botón «Agregar a mi huerta» pasaba con texto invisible.
+          const f = fondo(el)
+          const c = (cs.color.match(/[\d.]+/g) ?? []).map(Number)
+          const ac = c[3] ?? 1
+          const color = ac >= 0.999 ? rgb(cs.color) : [0, 1, 2].map((i) => ac * c[i] + (1 - ac) * f[i])
+          const r = ratio(color, f)
           if (r < minimo) {
             salida.push(
               `"${texto.slice(0, 30)}" ${r.toFixed(2)}:1 (pide ${minimo}) · ${px}px/${peso} · .${el.className}`,

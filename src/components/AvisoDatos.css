@@ -28,7 +28,7 @@
   padding: 0 var(--esp-5);
   border-radius: var(--radio-chip);
   background: var(--verde-prof);
-  color: var(--papel-alto);
+  color: var(--papel);
   font-weight: 700;
   font-size: var(--texto-m);
 }

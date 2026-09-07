@@ -94,7 +94,7 @@
   padding: 0 var(--esp-3);
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
-  color: var(--papel-alto);
+  color: var(--papel);
   font-family: var(--font-display);
   font-size: var(--texto-s);
   font-weight: 700;

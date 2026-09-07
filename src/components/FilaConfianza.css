@@ -1,0 +1,46 @@
+.fila-conf {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+}
+
+.fila-conf__puntos {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.fila-conf__puntos i {
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--conf-vacio);
+}
+
+.fila-conf__puntos i.es-alta {
+  background: var(--conf-alta);
+}
+.fila-conf__puntos i.es-media {
+  background: var(--conf-media);
+}
+.fila-conf__puntos i.es-baja {
+  background: var(--conf-baja);
+}
+
+.fila-conf__numero {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tinta-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.fila-conf--alta .fila-conf__numero {
+  color: var(--conf-alta);
+}
+.fila-conf--media .fila-conf__numero {
+  color: var(--conf-media);
+}
+.fila-conf--baja .fila-conf__numero {
+  color: var(--conf-baja);
+}

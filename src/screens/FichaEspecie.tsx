@@ -7,7 +7,7 @@ import { Variedades } from '../components/Variedades'
 import { EscalaRiego } from '../components/EscalaRiego'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
 import { AnilloAnual } from '../components/AnilloAnual'
-import { ConfidenceBadge } from '../components/ConfidenceBadge'
+import { FilaConfianza } from '../components/FilaConfianza'
 import { EmptyState } from '../components/EmptyState'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { useEspecies } from '../lib/useEspecies'
@@ -113,7 +113,7 @@ export function FichaEspecie() {
         )}
 
         {/* --- resumen visual: los tres íconos con su nombre --- */}
-        <div className="ficha__resumen etiqueta">
+        <div className="ficha__resumen">
           <div className="ficha__categorias">
             <Categoria Icono={() => <IconoGrupo grupo={e.grupo} size={24} decorativo />} texto={grupo.etiqueta} />
             <Categoria
@@ -130,7 +130,7 @@ export function FichaEspecie() {
             <div className="ficha__calendario-cabeza">
               <IconoCalendario size={17} />
               <span>Siembra y trasplante</span>
-              <ConfidenceBadge valor={e.calendario.confianza} compacto />
+              <FilaConfianza valor={e.calendario.confianza} />
             </div>
             <div className="ficha__anillo-fila">
               <AnilloAnual
@@ -145,26 +145,25 @@ export function FichaEspecie() {
                   que nombra y la leyenda dejaba de significar nada */}
               <p className="ficha__leyenda">
                 <span>
-                  <span className="punto es-ideal" /> ideal
+                  <span className="punto es-ideal" /> siembra ideal
                 </span>
                 <span>
-                  <span className="punto es-posible" /> posible
+                  <span className="punto es-posible" /> se puede
                 </span>
                 <span>
                   <span className="punto es-trasplante" /> trasplante
                 </span>
                 <span>
-                  <span className="punto es-protegido" /> bajo reparo
+                  <span className="punto es-trasplante-posible" /> trasplante posible
                 </span>
               </p>
             </div>
             <p className="ficha__zona">
-              Cada mes va partido en tres. Calendario de {ZONAS_INFO[zona].etiqueta.toLowerCase()};
-              hoy es {nombreDecada(decadaHoy)}.
+              El anillo de afuera es la siembra y el de adentro, el trasplante. Cada mes va partido
+              en tres. Calendario de {ZONAS_INFO[zona].etiqueta.toLowerCase()}; hoy es{' '}
+              {nombreDecada(decadaHoy)}.
             </p>
           </div>
-
-          <AhoraMismo especie={e} zona={zona} decadaHoy={decadaHoy} mes={mesHoy} />
 
           <div className="ficha__ciclo">
             <Dato
@@ -186,6 +185,8 @@ export function FichaEspecie() {
             <Dato titulo="Cosecha" valor={e.dias_a_cosecha} />
           </div>
         </div>
+
+        <AhoraMismo especie={e} zona={zona} decadaHoy={decadaHoy} mes={mesHoy} />
 
         <TemperaturaBloque t={e.temperaturas} germinaAplica={germinacionAplica(e)} />
 
@@ -266,7 +267,8 @@ export function FichaEspecie() {
 /**
  * La respuesta directa a "¿la puedo sembrar hoy, y necesito invernadero?".
  * El método vive a resolución mensual, así que esto es lo más preciso que se
- * puede decir sin inventar.
+ * puede decir sin inventar. Es el bloque de reparo del rediseño: un tinte a
+ * sangre arriba de los campos, con el texto de siempre.
  */
 function AhoraMismo({
   especie: e,
@@ -285,12 +287,12 @@ function AhoraMismo({
 
   if (!estado) {
     return (
-      <p className="ahora es-no">
-        <span className="ahora__icono" aria-hidden>
+      <p className="reparo es-no">
+        <span className="reparo__icono" aria-hidden>
           <IconoCalendario size={20} />
         </span>
         <span>
-          <strong>No es época de sembrarla.</strong> Mirá la tira de arriba para ver cuándo se abre la
+          <strong>No es época de sembrarla.</strong> Mirá el anillo de arriba para ver cuándo se abre la
           ventana.
         </span>
       </p>
@@ -298,8 +300,8 @@ function AhoraMismo({
   }
 
   return (
-    <p className={`ahora ${protegido ? 'es-protegido' : 'es-si'}`}>
-      <span className="ahora__icono" aria-hidden>
+    <p className={`reparo ${protegido ? 'es-protegido' : 'es-si'}`}>
+      <span className="reparo__icono" aria-hidden>
         {protegido ? <IconoProtegido size={20} /> : <IconoSembrar size={20} />}
       </span>
       <span>
