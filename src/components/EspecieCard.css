@@ -22,6 +22,8 @@
 }
 
 .especie-card__nombre {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   flex: 1;
   font-size: var(--texto-l);
   font-weight: 700;

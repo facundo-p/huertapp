@@ -26,6 +26,11 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **La app cambió de letra.** Los títulos van en Unbounded, una geométrica de
+  trazo parejo, y el texto en Manrope. Se ven distintas y se leen mejor en
+  pantalla chica. Como las anteriores, viajan dentro de la app: siguen
+  funcionando sin internet.
+
 - **Ahora la app tiene tema de noche.** El mismo diseño en dos climas: papel
   claro para el día, tierra oscura para la noche. Se elige en Ajustes —Día,
   Noche o Automático, que sigue lo que tengas puesto en el teléfono— y cambia
