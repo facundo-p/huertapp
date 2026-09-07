@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { NoSePudoLeer } from '../components/AvisoDatos'
-import { CycleProgress } from '../components/CycleProgress'
+import { GanttPlanta } from '../components/GanttPlanta'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { FichaUbicacion } from '../components/FichaUbicacion'
 import { useEspecies } from '../lib/useEspecies'
@@ -11,28 +10,18 @@ import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
-import { ETAPA_INFO, hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
-import { cantidadCorta, resumenHuerta } from '../lib/huerta/tanda'
-import { estimar, textoHito } from '../lib/huerta/estimar'
-import { germinacion, germinacionPendiente } from '../lib/huerta/germinacion'
+import { hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
+import { resumenHuerta } from '../lib/huerta/tanda'
+import { mesesDelEje } from '../lib/huerta/gantt'
+import { MES_CORTO } from '../lib/fechas'
 import {
-  alternarPlanta,
   alternarUbicacion,
   guardarPlegado,
   leerPlegado,
   podarPlegado,
   type Plegado,
 } from '../lib/huerta/plegado'
-import {
-  IconoAlerta,
-  IconoDesplegar,
-  IconoEditar,
-  IconoGrupo,
-  IconoHuerta,
-  IconoReloj,
-  IconoSembrar,
-} from '../icons'
-import type { EspecieEnriquecida } from '../lib/data/types'
+import { IconoAlerta, IconoDesplegar, IconoEditar, IconoHuerta } from '../icons'
 import './MiHuerta.css'
 
 export function MiHuerta() {
@@ -177,19 +166,20 @@ export function MiHuerta() {
                 </div>
 
                 <div id={panel} className="huerta__grilla" hidden={cerrada}>
+                  <GanttEje />
                   {lista.map((p, i) => (
                     <div
                       key={p.id}
                       className="aparecer"
                       style={{ '--retraso': `${Math.min(i, 8) * 0.03}s` } as React.CSSProperties}
                     >
-                      <TarjetaPlanta
-                        planta={p}
-                        especie={indice?.porSlug.get(p.slug)}
-                        abierta={plegado.plantasAbiertas.includes(p.id)}
-                        pendientes={pendientes.get(p.id) ?? 0}
-                        alPlegar={() => guardar(alternarPlanta(plegado, p.id))}
-                      />
+                      {indice?.porSlug.get(p.slug) && (
+                        <GanttPlanta
+                          planta={p}
+                          especie={indice.porSlug.get(p.slug)!}
+                          pendientes={pendientes.get(p.id) ?? 0}
+                        />
+                      )}
                     </div>
                   ))}
                 </div>
@@ -198,9 +188,27 @@ export function MiHuerta() {
           })}
 
         {listo && activas.length > 0 && (
-          <button className="huerta__cta huerta__cta--secundario" onClick={() => setAbrirAlta(true)}>
-            ＋ Sumar otra planta
-          </button>
+          <>
+            {/* cada muestra con su palabra: si el wrap las separa, la leyenda
+                deja de decir qué es cada color */}
+            <p className="gantt-leyenda">
+              <span>
+                <i className="es-crece" /> creciendo
+              </span>
+              <span>
+                <i className="es-trasplante" /> ventana de trasplante
+              </span>
+              <span>
+                <i className="es-cosecha" /> ventana de cosecha
+              </span>
+            </p>
+            <button
+              className="huerta__cta huerta__cta--secundario"
+              onClick={() => setAbrirAlta(true)}
+            >
+              ＋ Sumar otra planta
+            </button>
+          </>
         )}
       </div>
 
@@ -229,103 +237,21 @@ function Alertas({ cuantas }: { cuantas: number }) {
   )
 }
 
-function claseGerminacion(estado: string) {
-  return estado === 'demorada' ? 'es-demorada' : estado === 'en_ventana' ? 'es-lista' : ''
-}
-
-function textoGerminacion(g: { estado: string; faltan: number; diasDeMas: number }): string {
-  if (g.estado === 'temprano') {
-    return g.faltan === 1 ? 'Debería asomar mañana' : `Debería asomar en ${g.faltan} días`
-  }
-  if (g.estado === 'en_ventana') return 'Ya podría estar asomando'
-  return g.diasDeMas === 1
-    ? 'Hace 1 día que debería haber asomado'
-    : `Hace ${g.diasDeMas} días que debería haber asomado`
-}
-
-interface TarjetaProps {
-  planta: Planta
-  especie?: EspecieEnriquecida
-  abierta: boolean
-  pendientes: number
-  alPlegar: () => void
-}
-
 /**
- * La tarjeta arranca **plegada**: con seis plantas cargadas, la pantalla era
- * un scroll largo de barras de progreso donde encontrar una era trabajo. La
- * fila cerrada deja lo que se mira de reojo —qué es, qué etapa, si algo pide
- * atención— y el detalle queda a un toque.
- *
- * El nombre sigue siendo un enlace a la ficha de la planta: plegar no puede
- * costar un toque más para llegar al diario, que es a lo que se entra.
+ * Los siete meses del gantt, una sola vez por lugar. Se calculan desde hoy y
+ * no son fijos: en septiembre corresponde jul…ene.
  */
-function TarjetaPlanta({ planta, especie, abierta, pendientes, alPlegar }: TarjetaProps) {
-  if (!especie) return null
-  const est = estimar(planta, especie)
-  const germ = germinacion(planta, especie)
-  const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
-  const nombre = planta.apodo || especie.nombre_comun
-  const panel = `planta-${planta.id}`
-
+function GanttEje() {
   return (
-    <article className={`planta-card etiqueta ${abierta ? 'es-abierta' : ''}`}>
-      <div className="planta-card__cabeza">
-        <Link to={`/huerta/${planta.id}`} className="planta-card__ir">
-          <span className="planta-card__icono">
-            <IconoGrupo grupo={especie.grupo} size={22} decorativo />
+    <>
+      <p className="gantt-eje" aria-hidden>
+        {mesesDelEje().map((m, i) => (
+          <span key={i} className={m.esActual ? 'es-actual' : ''}>
+            {MES_CORTO[m.mes - 1]}
+            {m.esActual ? ' · hoy' : ''}
           </span>
-          <span className="planta-card__textos">
-            <h3 className="planta-card__nombre">{nombre}</h3>
-            <span className="planta-card__sub">
-              <span className={`planta-card__etapa es-${planta.etapa}`}>
-                {ETAPA_INFO[planta.etapa].etiqueta}
-              </span>
-              <span className="planta-card__cuando">
-                {planta.apodo ? `${especie.nombre_comun} · ` : ''}
-                {cantidadCorta(planta) ? `${cantidadCorta(planta)} · ` : ''}
-                {est.diasDesdeSiembra === 0
-                  ? 'sembrada hoy'
-                  : est.diasDesdeSiembra === 1
-                    ? 'hace 1 día'
-                    : `hace ${est.diasDesdeSiembra} días`}
-              </span>
-            </span>
-          </span>
-        </Link>
-
-        {pendientes > 0 && <Alertas cuantas={pendientes} />}
-
-        <button
-          className="planta-card__plegar"
-          aria-expanded={abierta}
-          aria-controls={panel}
-          onClick={alPlegar}
-        >
-          <IconoDesplegar size={20} className={`galon ${abierta ? 'es-abierto' : ''}`} />
-          <span className="sr-solo">
-            {abierta ? `Ocultar el detalle de ${nombre}` : `Ver el detalle de ${nombre}`}
-          </span>
-        </button>
-      </div>
-
-      <div id={panel} className="planta-card__detalle" hidden={!abierta}>
-        <CycleProgress etapa={planta.etapa} directa={directa} compacto />
-
-        {germinacionPendiente(germ) ? (
-          <p className={`planta-card__hito ${claseGerminacion(germ.estado)}`}>
-            {germ.estado === 'demorada' ? <IconoAlerta size={14} /> : <IconoSembrar size={14} />}
-            {textoGerminacion(germ)}
-          </p>
-        ) : (
-          est.proximo && (
-            <p className={`planta-card__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
-              <IconoReloj size={14} />
-              {est.proximo.titulo}: {textoHito(est.proximo)}
-            </p>
-          )
-        )}
-      </div>
-    </article>
+        ))}
+      </p>
+    </>
   )
 }

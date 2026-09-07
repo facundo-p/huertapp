@@ -92,7 +92,8 @@
 .huerta__grilla {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-3);
+  /* las filas de gantt se comparan entre sí: van juntas, con 8 de aire */
+  gap: var(--esp-2);
 }
 
 /* `hidden` solo esconde si nadie le puso display encima. Acá se lo puso el

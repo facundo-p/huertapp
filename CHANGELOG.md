@@ -26,6 +26,13 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Mi huerta muestra el ciclo entero de cada planta.** Cada una es una línea
+  de tiempo sobre seis meses —dos atrás y cuatro adelante— con la siembra, lo
+  que va creciendo, la ventana de trasplante y la de cosecha, y una marca en el
+  día de hoy. Las fichas dejaron de plegarse: la línea ocupa menos que la
+  tarjeta cerrada y muestra mucho más. Los lugares se siguen plegando, y
+  cerrarlos no esconde lo que pide atención.
+
 - **El año ahora se ve como un reloj.** En Explorar, cada especie lleva un
   anillo con los doce meses y una aguja que marca en qué década del año estás:
   de un vistazo ves cuánto falta para su ventana y cuánto le queda. En la ficha
