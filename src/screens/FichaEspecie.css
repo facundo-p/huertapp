@@ -1,10 +1,12 @@
-/* --- bloque resumen (arriba de todo) --- */
+/* --- bloque resumen (arriba de todo): la tarjeta grande, radio 18 --- */
 .ficha__resumen {
   display: flex;
   flex-direction: column;
   gap: var(--esp-4);
   padding: var(--esp-4);
-  padding-top: var(--esp-5);
+  border-radius: var(--radio-grande);
+  background: var(--papel-alto);
+  border: 1px solid var(--linea);
 }
 
 .ficha__categorias {
@@ -97,17 +99,6 @@
   background: var(--posible-fondo);
   border: 1.5px solid var(--posible);
 }
-/* la cupulita también entra en la leyenda */
-.punto.es-protegido {
-  width: 11px;
-  height: 5.5px;
-  border-radius: 999px 999px 0 0;
-  border: 1.5px solid var(--terracota);
-  border-bottom: none;
-  background: none;
-  align-self: flex-end;
-  margin-bottom: 2px;
-}
 
 .ficha__zona {
   font-size: 11px;
@@ -115,55 +106,58 @@
   color: var(--tinta-suave);
 }
 
+/* Los del anillo interno van redondos: mismo color que los de siembra, otra
+   forma. Así la leyenda no depende solo del color. */
+.punto.es-trasplante,
+.punto.es-trasplante-posible {
+  border-radius: 50%;
+  margin-left: 0;
+}
 .punto.es-trasplante {
-  width: 8px;
-  height: 6px;
-  border-radius: 2px;
-  background: var(--terracota);
-  align-self: flex-end;
-  margin-bottom: 1px;
+  background: var(--ideal);
+}
+.punto.es-trasplante-posible {
+  background: var(--posible-fondo);
+  border: 1.5px solid var(--posible);
 }
 
-/* --- aviso de ahora mismo --- */
-.ahora {
+/* --- el bloque de reparo: tinte a sangre, sin borde ni radio --- */
+.reparo {
   display: flex;
   align-items: flex-start;
   gap: var(--esp-3);
-  padding: var(--esp-3);
-  border-radius: var(--radio-s);
-  border-left: 4px solid var(--linea);
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: var(--esp-3) var(--esp-4);
   background: var(--papel-hundido);
   font-size: var(--texto-s);
   line-height: 1.5;
   color: var(--tinta-media);
 }
 
-.ahora strong {
+.reparo strong {
   color: var(--tinta);
 }
 
-.ahora__icono {
+.reparo__icono {
   flex: none;
   margin-top: 1px;
 }
 
-.ahora.es-si {
+.reparo.es-si {
   background: var(--ideal-fondo);
-  border-left-color: var(--ideal);
 }
-.ahora.es-si .ahora__icono {
+.reparo.es-si .reparo__icono {
   color: var(--verde-prof);
 }
 
-.ahora.es-protegido {
-  background: var(--posible-fondo);
-  border-left-color: var(--terracota);
+.reparo.es-protegido {
+  background: var(--sol-velo);
 }
-.ahora.es-protegido .ahora__icono {
-  color: var(--terracota);
+.reparo.es-protegido .reparo__icono {
+  color: var(--terracota-texto);
 }
 
-.ahora.es-no .ahora__icono {
+.reparo.es-no .reparo__icono {
   color: var(--tinta-suave);
 }
 
@@ -286,7 +280,7 @@
   margin-top: var(--esp-3);
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
-  color: var(--papel-alto);
+  color: var(--papel);
   font-family: var(--font-display);
   font-size: var(--texto-m);
   font-weight: 700;

@@ -64,7 +64,7 @@
 .ciclo__paso.es-actual .ciclo__punto {
   background: var(--verde-hoja);
   border-color: var(--verde-hoja);
-  color: var(--papel-alto);
+  color: var(--papel);
   box-shadow: 0 0 0 3px var(--ideal-fondo);
 }
 .ciclo__paso.es-actual::before {

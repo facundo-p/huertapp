@@ -133,7 +133,7 @@
 
 .boton-primario {
   background: var(--verde-hoja);
-  color: var(--papel-alto);
+  color: var(--papel);
 }
 
 .boton-secundario {
@@ -144,7 +144,7 @@
 
 .boton-peligro {
   background: var(--peligro);
-  color: var(--papel-alto);
+  color: var(--papel);
   min-height: 48px;
 }
 

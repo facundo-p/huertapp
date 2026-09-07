@@ -115,7 +115,7 @@
 
 .cal-inicial.es-ahora {
   background: var(--tinta);
-  color: var(--papel-alto);
+  color: var(--papel);
 }
 
 /* --- filas --- */
@@ -413,7 +413,7 @@
   min-height: 48px;
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
-  color: var(--papel-alto);
+  color: var(--papel);
   font-family: var(--font-display);
   font-size: var(--texto-m);
   font-weight: 700;

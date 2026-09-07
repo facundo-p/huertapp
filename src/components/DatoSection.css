@@ -1,13 +1,13 @@
+/* Cada campo es una tarjeta: es una unidad separable, con su confianza y sus
+   fuentes, que es lo que la regla «reglado antes que tarjeta» reserva. */
 .dato {
   display: flex;
   flex-direction: column;
   gap: var(--esp-2);
-  padding: var(--esp-4) 0;
-  border-bottom: 1.5px dashed var(--linea-suave);
-}
-
-.dato:last-of-type {
-  border-bottom: none;
+  padding: var(--esp-4);
+  border-radius: var(--radio-tarjeta);
+  background: var(--papel-alto);
+  border: 1px solid var(--linea);
 }
 
 .dato__cabeza {
@@ -93,28 +93,35 @@
 .dato__fuentes {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--esp-2);
+  /* sin aire vertical: el link ya mide 44 y el chip 26 */
+  gap: 0 var(--esp-2);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 /* Las fuentes son el corazón de la trazabilidad: se tocan de verdad, y
-   con el dedo sucio. Van a 44px de alto aunque el texto sea chico — el
-   costo es scroll, y el scroll es barato comparado con errarle al link. */
+   con el dedo sucio. El link mide 44 de alto; el chip de adentro, los 26
+   del diseño. */
 .fuente {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   min-height: var(--tap-min);
-  padding: 4px 12px;
-  border-radius: var(--radio-chip);
+  text-decoration: none;
+}
+
+.fuente__pildora {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 10px;
   background: var(--papel-hundido);
   border: 1px solid var(--linea);
   font-size: 11px;
   font-weight: 600;
   color: var(--tinta-media);
-  text-decoration: none;
 }
 
 /* Sin dato: la distingue el badge `s/d` de la cabecera, no un borde propio. */
