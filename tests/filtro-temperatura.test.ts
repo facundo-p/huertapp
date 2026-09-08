@@ -11,6 +11,7 @@ import {
   pasaTemperatura,
   pctEn,
   rangoDe,
+  resumenTemperatura,
   rotuloChip,
   seSolapan,
   sinDatoPara,
@@ -174,6 +175,15 @@ describe('lo elegido', () => {
       'Temperatura: ideal para germinar de 18 a 22 °C',
     )
   })
+
+  it('el contador dice lo mismo que el chip: lo elegido se lee sin abrir la hoja', () => {
+    expect(resumenTemperatura(SIN_TEMPERATURA)).toEqual([])
+    expect(
+      resumenTemperatura(
+        con({ germinacion_ideal: { min: 18, max: 22 }, crecimiento_ideal: { min: 13, max: 20 } }),
+      ),
+    ).toEqual(['ideal para germinar de 18 a 22 °C', 'ideal para crecer de 13 a 20 °C'])
+  })
 })
 
 describe('las que quedan afuera se nombran', () => {
@@ -203,6 +213,10 @@ describe('las que quedan afuera se nombran', () => {
     expect(textoSinDato(['menta'])).toBe('Sin ese dato investigado, queda afuera menta.')
     expect(textoSinDato(['menta', 'laurel'])).toBe(
       'Sin ese dato investigado, quedan afuera menta y laurel.',
+    )
+    // con más de un rango prendido faltan varios datos, no uno
+    expect(textoSinDato(['menta', 'laurel'], 2)).toBe(
+      'Sin esos datos investigados, quedan afuera menta y laurel.',
     )
   })
 })

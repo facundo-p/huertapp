@@ -8,9 +8,11 @@ import { useEspecies } from '../lib/useEspecies'
 import { normalizar } from '../lib/data/slugs'
 import { estadoSiembra } from '../lib/data/especies'
 import {
+  criteriosActivos,
   dominios,
   hayTemperatura,
   pasaTemperatura,
+  resumenTemperatura,
   SIN_TEMPERATURA,
   sinDatoPara,
   textoSinDato,
@@ -80,12 +82,14 @@ export function Explorar() {
     grupo ? corto(GRUPOS[grupo].etiqueta) : null,
     suelo ? corto(SUELOS[suelo].etiqueta) : null,
     luz ? corto(LUCES[luz].etiqueta) : null,
+    ...resumenTemperatura(temp),
   ].filter(Boolean)
 
   // A quiénes deja afuera el filtro de temperatura por falta de dato: se dice
   // con nombre, que desaparecer en silencio parece no existir en el catálogo.
   const sinDatoTemp = useMemo(
-    () => (indice ? textoSinDato(sinDatoPara(indice.padres, temp)) : null),
+    () =>
+      indice ? textoSinDato(sinDatoPara(indice.padres, temp), criteriosActivos(temp).length) : null,
     [indice, temp],
   )
 

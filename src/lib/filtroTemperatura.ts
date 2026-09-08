@@ -169,20 +169,23 @@ export function listar(nombres: string[]): string {
     : `${nombres.slice(0, -1).join(', ')} y ${nombres.at(-1)}`
 }
 
-export function textoSinDato(nombres: string[]): string | null {
+export function textoSinDato(nombres: string[], criterios = 1): string | null {
   if (nombres.length === 0) return null
+  const dato = criterios === 1 ? 'ese dato investigado' : 'esos datos investigados'
   const verbo = nombres.length === 1 ? 'queda' : 'quedan'
-  return `Sin ese dato investigado, ${verbo} afuera ${listar(nombres)}.`
+  return `Sin ${dato}, ${verbo} afuera ${listar(nombres)}.`
 }
 
 /** "de 18 a 27 °C" o "cualquiera" */
 export const rotuloRango = (r: Rango | null): string =>
   r === null ? 'cualquiera' : `de ${r.min} a ${r.max} °C`
 
-/** El nombre accesible del chip, que es donde se lee lo elegido. */
+/** Lo elegido, en frases sueltas, para la línea del contador. */
+export const resumenTemperatura = (s: SeleccionTemp): string[] =>
+  criteriosActivos(s).map((c) => `${c.etiqueta.toLowerCase()} ${rotuloRango(s[c.clave])}`)
+
+/** El nombre accesible del chip, que dice lo mismo que el contador. */
 export function rotuloChip(s: SeleccionTemp): string {
-  const activos = criteriosActivos(s)
-  if (activos.length === 0) return 'Temperatura: cualquiera'
-  const partes = activos.map((c) => `${c.etiqueta.toLowerCase()} ${rotuloRango(s[c.clave])}`)
-  return `Temperatura: ${listar(partes)}`
+  const partes = resumenTemperatura(s)
+  return partes.length === 0 ? 'Temperatura: cualquiera' : `Temperatura: ${listar(partes)}`
 }

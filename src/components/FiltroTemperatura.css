@@ -1,7 +1,9 @@
+/* --esp-5 y no --esp-4: con 16 cada riel quedaba más cerca de la casilla de
+   abajo que de la suya, y la proximidad agrupaba mal. */
 .filtro-temp {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-4);
+  gap: var(--esp-5);
 }
 
 .filtro-temp__bloque {
