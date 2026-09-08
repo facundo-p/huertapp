@@ -73,7 +73,7 @@ const ACCIONES: Item[] = [
   { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
   { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
   { Icono: IconoPuntos, nombre: 'Más opciones', desc: 'Lo que una fila también permite hacer, como posponer.' },
-  { Icono: IconoCompost, nombre: 'Compost', desc: 'La guía de compostaje: restos que vuelven a ser tierra.' },
+  { Icono: IconoCompost, nombre: 'Compost', desc: 'La guía de compostaje, y la tarea de revolver tu compostera.' },
   { Icono: IconoTacho, nombre: 'Tacho', desc: 'Compostera cerrada, de balcón o patio.' },
   { Icono: IconoTermo, nombre: 'Temperatura', desc: 'La pila que calienta: señal de que trabaja.' },
   { Icono: IconoCheck, nombre: 'Se cumple', desc: 'Una señal que está.' },

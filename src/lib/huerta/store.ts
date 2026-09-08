@@ -2,7 +2,16 @@ import { useSyncExternalStore } from 'react'
 import * as db from './db'
 import { anotar, nombreError } from './bitacora'
 import { unaVez } from './reintento'
-import { hoyISO, nuevoId, type Etapa, type EntradaDiario, type Planta, type Ubicacion } from './tipos'
+import {
+  hoyISO,
+  nuevoId,
+  type Compostera,
+  type Etapa,
+  type EntradaDiario,
+  type Planta,
+  type Ubicacion,
+} from './tipos'
+import { avanzar } from './compostera'
 import {
   dividirTanda,
   moverTanda,
@@ -20,6 +29,7 @@ import type { Metodo } from '../data/types'
 interface Estado {
   plantas: Planta[]
   ubicaciones: Ubicacion[]
+  composteras: Compostera[]
   cargado: boolean
   /**
    * No se pudo LEER. Distinto de una huerta vacía, y la diferencia importa: a
@@ -30,7 +40,7 @@ interface Estado {
   errorEscritura?: string
 }
 
-let estado: Estado = { plantas: [], ubicaciones: [], cargado: false }
+let estado: Estado = { plantas: [], ubicaciones: [], composteras: [], cargado: false }
 const oyentes = new Set<() => void>()
 
 function emitir(nuevo: Estado) {
@@ -39,8 +49,14 @@ function emitir(nuevo: Estado) {
 }
 
 async function refrescar() {
-  const [plantas, ubicaciones] = await Promise.all([db.listarPlantas(), db.listarUbicaciones()])
-  emitir({ ...estado, plantas, ubicaciones, cargado: true, errorCarga: undefined })
+  const [plantas, ubicaciones, composteras] = await Promise.all([
+    db.listarPlantas(),
+    db.listarUbicaciones(),
+    db.listarComposteras(),
+  ])
+  // por id salen en cualquier orden; por alta, siempre igual
+  composteras.sort((a, b) => a.creada.localeCompare(b.creada))
+  emitir({ ...estado, plantas, ubicaciones, composteras, cargado: true, errorCarga: undefined })
 }
 
 // `unaVez` y no `arranque ??=`: guardar la promesa rechazada dejaba la sesión
@@ -276,6 +292,43 @@ export async function borrarUbicacion(id: string) {
       if (p.ubicacionId === id) await db.guardarPlanta({ ...p, ubicacionId: undefined })
     }
     await db.borrarUbicacion(id)
+    await refrescar()
+  })
+}
+
+// ── Composteras ──────────────────────────────────────────────────────────────
+
+export type DatosCompostera = Omit<Compostera, 'id' | 'creada'>
+
+export async function agregarCompostera(datos: DatosCompostera): Promise<Compostera> {
+  const c: Compostera = { ...datos, nombre: datos.nombre.trim(), id: nuevoId(), creada: new Date().toISOString() }
+  await escribiendo(async () => {
+    await db.guardarCompostera(c)
+    await refrescar()
+  })
+  return c
+}
+
+export async function actualizarCompostera(c: Compostera) {
+  await escribiendo(async () => {
+    await db.guardarCompostera({ ...c, nombre: c.nombre.trim() })
+    await refrescar()
+  })
+}
+
+/** Pasa al estado que sigue; «madurando» vuelve a «llenando» porque el tacho se reusa. */
+export async function avanzarCompostera(c: Compostera) {
+  await actualizarCompostera(avanzar(c, hoyISO()))
+}
+
+/** «Hoy la giré»: el dato vive en la compostera y el próximo giro se cuenta desde acá. */
+export async function marcarGirada(c: Compostera, fecha = hoyISO()) {
+  await actualizarCompostera({ ...c, girada: fecha })
+}
+
+export async function borrarCompostera(id: string) {
+  await escribiendo(async () => {
+    await db.borrarCompostera(id)
     await refrescar()
   })
 }

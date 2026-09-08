@@ -29,6 +29,15 @@ const PANTALLAS = [
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
     },
   },
+  // la compostera de la demo con el giro atrasado; se entra desde Mi huerta
+  {
+    ruta: '/#/huerta',
+    nombre: 'Compostera',
+    entrar: async (page: Page) => {
+      await page.getByRole('link', { name: /Tacho del balcón/ }).click()
+      await page.getByRole('button', { name: /Hoy la giré/ }).waitFor()
+    },
+  },
   { ruta: '/#/glosario', nombre: 'Glosario' },
   { ruta: '/#/ajustes', nombre: 'Ajustes' },
 ]

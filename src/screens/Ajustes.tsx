@@ -560,6 +560,12 @@ function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; re
                 <dt>Fotos</dt>
                 <dd>{pendiente.resumen.fotos}</dd>
               </div>
+              {pendiente.resumen.composteras > 0 && (
+                <div>
+                  <dt>Composteras</dt>
+                  <dd>{pendiente.resumen.composteras}</dd>
+                </div>
+              )}
             </dl>
             <p className="ajustes__bajada">
               Exportado el{' '}

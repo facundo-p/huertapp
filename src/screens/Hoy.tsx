@@ -9,7 +9,8 @@ import { CarrilSemana } from '../components/CarrilSemana'
 import { HojaDia } from '../components/HojaDia'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, marcarGerminada } from '../lib/huerta/store'
+import { useHuerta, marcarGerminada, marcarGirada } from '../lib/huerta/store'
+import { useCompostaje } from '../lib/compostaje'
 import { usePronostico } from '../lib/pronostico/store'
 import { proveedor } from '../lib/pronostico/proveedor'
 import {
@@ -34,7 +35,8 @@ const DIAS_CARRIL = 6
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, cargado, errorCarga } = useHuerta()
+  const { plantas, composteras, cargado, errorCarga } = useHuerta()
+  const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
   const iso = hoyISO(hoy)
@@ -49,11 +51,19 @@ export function Hoy() {
     if (!indice) return []
     const clima = indice.db.meta.enriquecido.clima[zona]
     return tareasVisibles(
-      derivarTareas({ plantas, porSlug: indice.porSlug, clima, hoy: iso, hasta: sumarDias(iso, DIAS_CARRIL) }),
+      derivarTareas({
+        plantas,
+        porSlug: indice.porSlug,
+        clima,
+        composteras,
+        guia,
+        hoy: iso,
+        hasta: sumarDias(iso, DIAS_CARRIL),
+      }),
       estadoTareas,
       iso,
     )
-  }, [indice, plantas, zona, iso, estadoTareas])
+  }, [indice, plantas, composteras, guia, zona, iso, estadoTareas])
 
   const sugerencias = useMemo(
     () => (indice ? paraSembrarAhora(indice.todas, zona, iso) : []),
@@ -87,10 +97,14 @@ export function Hoy() {
   const plantaDe = (t: Tarea) =>
     t.tipo === 'revisar_germinacion' ? plantas.find((p) => p.id === t.plantaId) : undefined
 
+  // Girar el compost es como «Asomó»: el dato (la fecha del giro) vive en la
+  // compostera, y el próximo giro se cuenta desde ahí. No pasa por `completadas`.
   async function alCompletar(t: Tarea) {
     setFestejando(t.id)
     setTimeout(() => setFestejando(null), 700)
-    await completar(t.id)
+    const c = t.tipo === 'girar_compost' ? composteras.find((x) => x.id === t.composteraId) : undefined
+    if (c) await marcarGirada(c)
+    else await completar(t.id)
   }
 
   // "Asomó" no toca `completadas`: setear `germino` ya apaga el aviso en la
@@ -112,7 +126,7 @@ export function Hoy() {
       <div className="pantalla__cuerpo">
         {errorCarga && <NoSePudoLeer error={errorCarga} />}
 
-        {listo && plantas.length === 0 && (
+        {listo && plantas.length === 0 && composteras.length === 0 && (
           <EmptyState
             Icono={IconoHoy}
             titulo="Tu huerta está por empezar"
@@ -133,7 +147,7 @@ export function Hoy() {
           </div>
         )}
 
-        {listo && plantas.length > 0 && (
+        {listo && (plantas.length > 0 || composteras.length > 0) && (
           <section className="hoy__seccion">
             <CarrilSemana
               hoy={iso}

@@ -9,6 +9,7 @@ import { FichaEspecie } from './screens/FichaEspecie'
 import { Calendario } from './screens/Calendario'
 import { MiHuerta } from './screens/MiHuerta'
 import { DetallePlanta } from './screens/DetallePlanta'
+import { DetalleCompostera } from './screens/DetalleCompostera'
 import { Glosario } from './screens/Glosario'
 import { Ajustes } from './screens/Ajustes'
 import { Compost } from './screens/Compost'
@@ -39,6 +40,7 @@ export default function App() {
         </Route>
         <Route path="/explorar/:slug" element={<FichaEspecie />} />
         <Route path="/huerta/:id" element={<DetallePlanta />} />
+        <Route path="/huerta/compostera/:id" element={<DetalleCompostera />} />
         <Route path="/compost/:capitulo" element={<CompostCapitulo />} />
         <Route path="/glosario" element={<Glosario />} />
         <Route path="/ajustes" element={<Ajustes />} />

@@ -1,16 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { NoSePudoLeer } from '../components/AvisoDatos'
 import { GanttPlanta } from '../components/GanttPlanta'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { FichaUbicacion } from '../components/FichaUbicacion'
+import { FichaCompostera } from '../components/FichaCompostera'
+import { useCompostaje } from '../lib/compostaje'
+import { diasEnEstado, proximoGiro } from '../lib/huerta/compostera'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
-import { hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
+import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
 import { resumenHuerta } from '../lib/huerta/tanda'
 import { mesesDelEje } from '../lib/huerta/gantt'
 import { MES_CORTO } from '../lib/fechas'
@@ -21,15 +25,17 @@ import {
   podarPlegado,
   type Plegado,
 } from '../lib/huerta/plegado'
-import { IconoAlerta, IconoDesplegar, IconoEditar, IconoHuerta } from '../icons'
+import { IconoAlerta, IconoCompost, IconoDesplegar, IconoEditar, IconoHuerta, IconoTacho } from '../icons'
 import './MiHuerta.css'
 
 export function MiHuerta() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, cargado, errorCarga } = useHuerta()
+  const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const [abrirAlta, setAbrirAlta] = useState(false)
+  const [abrirCompostera, setAbrirCompostera] = useState(false)
   const [editando, setEditando] = useState<Ubicacion | null>(null)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
 
@@ -66,16 +72,19 @@ export function MiHuerta() {
         plantas,
         porSlug: indice.porSlug,
         clima: indice.db.meta.enriquecido.clima[zona],
+        composteras,
+        guia,
         hoy,
       }),
       estadoTareas,
       hoy,
     )
     for (const t of tareas) {
-      if (t.plantaId) cuenta.set(t.plantaId, (cuenta.get(t.plantaId) ?? 0) + 1)
+      const clave = t.plantaId ?? t.composteraId
+      if (clave) cuenta.set(clave, (cuenta.get(clave) ?? 0) + 1)
     }
     return cuenta
-  }, [indice, plantas, zona, estadoTareas])
+  }, [indice, plantas, composteras, guia, zona, estadoTareas])
 
   // los ids de lo que se borró no tienen por qué quedar guardados para siempre
   useEffect(() => {
@@ -210,9 +219,53 @@ export function MiHuerta() {
             </button>
           </>
         )}
+
+        {/* Las composteras viven acá, con lo demás que registrás; la guía es
+            la pestaña Compost y no sabe de tus tachos. */}
+        {listo && (
+          <section className="huerta__seccion huerta__compost">
+            <h2 className="huerta__compost-titulo">
+              <IconoCompost size={18} />
+              Compost
+              {composteras.length > 0 && <span className="huerta__cuenta">{composteras.length}</span>}
+            </h2>
+            {composteras.length > 0 && (
+              <ul className="composteras">
+                {composteras.map((c) => {
+                  const giro = proximoGiro(c)
+                  const alertas = pendientes.get(c.id) ?? 0
+                  const detalle = [
+                    `${ESTADO_COMPOST_INFO[c.estado].etiqueta.toLowerCase()} desde hace ${diasEnEstado(c, hoyISO())} días`,
+                    giro ? (giro <= hoyISO() ? 'toca girar' : `girar el ${fechaCorta(giro)}`) : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')
+                  return (
+                    <li key={c.id}>
+                      <Link to={`/huerta/compostera/${c.id}`} className="composteras__fila">
+                        <span className="composteras__icono" aria-hidden>
+                          {c.sistema === 'tachos' ? <IconoTacho size={20} /> : <IconoHuerta size={20} />}
+                        </span>
+                        <span className="composteras__textos">
+                          <span className="composteras__nombre">{c.nombre}</span>
+                          <span className="composteras__detalle">{detalle}</span>
+                        </span>
+                        {alertas > 0 && <Alertas cuantas={alertas} />}
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+            <button className="huerta__cta huerta__cta--secundario" onClick={() => setAbrirCompostera(true)}>
+              ＋ {composteras.length ? 'Sumar otra compostera' : 'Sumar una compostera'}
+            </button>
+          </section>
+        )}
       </div>
 
       <AltaPlanta abierto={abrirAlta} onCerrar={() => setAbrirAlta(false)} />
+      <FichaCompostera abierto={abrirCompostera} onCerrar={() => setAbrirCompostera(false)} />
       <FichaUbicacion
         abierto={!!editando}
         ubicacion={editando ?? undefined}
@@ -236,6 +289,9 @@ function Alertas({ cuantas }: { cuantas: number }) {
     </span>
   )
 }
+
+const fechaCorta = (iso: string) =>
+  new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short' }).format(desdeISO(iso))
 
 /**
  * Los siete meses del gantt, una sola vez por lugar. Se calculan desde hoy y

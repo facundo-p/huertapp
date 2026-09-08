@@ -70,6 +70,43 @@ export interface Planta {
   archivada?: boolean
 }
 
+// ── Compostera ───────────────────────────────────────────────────────────────
+// Entidad propia y no una Planta de otro tipo: no tiene especie, siembra ni
+// ciclo de cultivo. Los tres estados son los de la guía (data/compostaje.json).
+
+export const ESTADOS_COMPOST = ['llenando', 'cocinando', 'madurando'] as const
+export type EstadoCompost = (typeof ESTADOS_COMPOST)[number]
+
+export const ESTADO_COMPOST_INFO: Record<EstadoCompost, { etiqueta: string; avanzar: string }> = {
+  llenando: { etiqueta: 'Llenando', avanzar: 'Dejé de cargarla' },
+  cocinando: { etiqueta: 'Cocinando', avanzar: 'Ya no calienta: a madurar' },
+  madurando: { etiqueta: 'Madurando', avanzar: 'Lo usé: arranca de nuevo' },
+}
+
+/** los mismos literales que `Material` y `SistemaClave` de la guía */
+export type SistemaCompost = 'tachos' | 'suelo'
+export type MaterialCompost = 'cocina' | 'jardin'
+
+export interface Compostera {
+  id: string
+  nombre: string
+  sistema: SistemaCompost
+  /** qué compostás: elige el capítulo de la guía */
+  material: MaterialCompost
+  estado: EstadoCompost
+  /** desde cuándo está en ese estado (ISO corta) */
+  estadoDesde: string
+  /** desde cuándo no recibe restos (ISO corta); solo fuera de «llenando» */
+  cerrada?: string
+  /** cada cuántos días avisar que toca girar. Es tu ritmo, no el de la guía; null = sin aviso */
+  ritmoDias: number | null
+  /** última vez que la giraste (ISO corta) */
+  girada?: string
+  conLombrices?: boolean
+  notas?: string
+  creada: string
+}
+
 export type TipoEntrada = 'nota' | 'riego' | 'plaga' | 'cosecha' | 'trasplante' | 'floracion'
 
 export const TIPOS_ENTRADA: Record<TipoEntrada, { etiqueta: string; color: string }> = {

@@ -187,6 +187,33 @@ export function CompostCapitulo() {
             confianza={Math.min(sis.girar.cuando.confianza ?? 10, sis.girar.por_que.confianza ?? 10, sis.girar.sin_girar.confianza ?? 10)}
             fuentes={F}
           />
+
+          {/* Las guías no coinciden en la frecuencia porque hablan de casos
+              distintos: acá va cada caso con su porqué y su fuente. */}
+          <h3 className="compost__subtitulo" id="ritmos">
+            Cada cuánto, según el caso
+          </h3>
+          <ul className="compost__ritmos">
+            {g.comun.ritmos.map((r) => (
+              <li key={r.clave} className="compost__ritmo">
+                <span className="compost__ritmo-dias">
+                  {r.dias == null ? 'sin turno' : `cada ${r.dias} días`}
+                </span>
+                <span className="compost__ritmo-textos">
+                  <strong>{r.cuando}.</strong> {r.porque}
+                  <FuentesCompost ids={r.fuentes} confianza={r.confianza} fuentes={F} />
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="compost__texto">
+            <strong>Con lombrices.</strong> {sd(g.comun.con_lombrices)}
+          </p>
+          <FuentesCompost ids={g.comun.con_lombrices.fuentes} confianza={g.comun.con_lombrices.confianza} fuentes={F} />
+          <p className="compost__texto compost__texto--nota">
+            El ritmo de tu compostera lo elegís vos en Mi huerta; la app te avisa con ese ritmo y lo cuenta desde
+            el último giro que anotaste.
+          </p>
         </section>
 
         {/* 4. va bien / algo falla */}

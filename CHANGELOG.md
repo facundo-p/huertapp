@@ -19,7 +19,10 @@ Qué significa cada parte en este proyecto:
 ---
 
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
-> `## [Sin publicar]
+> `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
+> versión nueva con su fecha.
+
+## [Sin publicar]
 
 ### Cambiado
 
@@ -84,8 +87,23 @@ Qué significa cada parte en este proyecto:
   poner y qué no con el porqué, cuándo girar, qué señales dicen que va bien o
   que algo falla, y cómo saber si está listo. Cada bloque lleva su confianza y
   sus fuentes —INTI-INTA ProHuerta, la Provincia, la Ciudad, Santa Fe y FAO—
-  y lo que ninguna dice figura como «s/d». No registra tachos ni manda
-  tareas.
+  y lo que ninguna dice figura como «s/d». La guía no registra nada: tus
+  composteras van en Mi huerta.
+
+- **Mi compostera: tus tachos con estado y avisos de giro.** En Mi huerta hay
+  una sección Compost donde cargás cada compostera —tacho o a suelo, restos de
+  cocina o de jardín, si tiene lombrices— con su estado (llenando, cocinando,
+  madurando) y cada cuánto querés que te avise que toca revolver: cada 3 días,
+  cada semana, cada 15, cada mes o nunca. Es tu ritmo, no el de la guía. El
+  aviso sale en Esta semana como cualquier tarea, el día que toca, contado
+  desde el último giro que anotaste; «Hecho» anota el giro. Cuando pasó el
+  tiempo que dicen las fuentes desde que dejó de recibir restos, te avisa que
+  revises si ya está. El detalle de cada compostera dice qué hacer en ese
+  estado según la guía, con sus fuentes, y el botón grande es «Hoy la giré».
+  En la guía, el capítulo de girar ahora explica cada cuánto según el caso
+  —tacho cerrado mientras cargás, compostera con secos, pila grande, con
+  lombrices— y por qué, con la fuente de cada uno. Las composteras viajan en
+  el backup.
 
 - **El pronóstico ya no te esconde el sol.** El cielo de cada día sale de
   cuántas horas de sol efectivo trae el pronóstico, no del «peor momento del
@@ -97,58 +115,15 @@ Qué significa cada parte en este proyecto:
   bandas. Los cortes salen del rango ideal investigado de cada ficha. Las
   especies sin dato no aparecen con el filtro puesto, y la pantalla las nombra.
 
-## [Sin publicar]
-
-### Agregado
-
-- **Mi huerta muestra el ciclo entero de cada planta.** Cada una es una línea
-  de tiempo sobre seis meses —dos atrás y cuatro adelante— con la siembra, lo
-  que va creciendo, la ventana de trasplante y la de cosecha, y una marca en el
-  día de hoy. Las fichas dejaron de plegarse: la línea ocupa menos que la
-  tarjeta cerrada y muestra mucho más. Los lugares se siguen plegando, y
-  cerrarlos no esconde lo que pide atención.
-
-- **El año ahora se ve como un reloj.** En Explorar, cada especie lleva un
-  anillo con los doce meses y una aguja que marca en qué década del año estás:
-  de un vistazo ves cuánto falta para su ventana y cuánto le queda. En la ficha
-  el anillo es grande y doble, con la siembra afuera y el trasplante adentro.
-
-- **La barra de abajo ahora flota.** Dejó de estar pegada al borde: es una
-  píldora redondeada que se apoya sobre el contenido, y la sección en la que
-  estás se marca con un bloque entero en ocre, ícono y nombre juntos.
-
-- **La app cambió de letra.** Los títulos van en Unbounded, una geométrica de
-  trazo parejo, y el texto en Manrope. Se ven distintas y se leen mejor en
-  pantalla chica. Como las anteriores, viajan dentro de la app: siguen
-  funcionando sin internet.
-
-- **Ahora la app tiene tema de noche.** El mismo diseño en dos climas: papel
-  claro para el día, tierra oscura para la noche. Se elige en Ajustes —Día,
-  Noche o Automático, que sigue lo que tengas puesto en el teléfono— y cambia
-  al toque, sin recargar. Si abrís de noche con el tema oscuro puesto, ya no
-  hay destello blanco: arranca oscura desde el primer momento.
-
-- **El pronóstico ya no te esconde el sol, y hoy manda.** El cielo de cada día
-  ahora sale de cuántas horas de sol efectivo trae el pronóstico, no del "peor
-  momento del día" como venía: una mañana nublada pintaba de gris un día
-  entero de sol. La franja pasa a ser un carrusel: hoy va primero y en grande
-  —cielo, temperaturas, lluvia, viento y UV a la vista— y el resto de la
-  semana se desliza con el dedo. Y los íconos ganaron color: el sol en ámbar,
-  la lluvia en azul.
-
-- **Ahora podés filtrar el catálogo por la temperatura que pide cada especie.**
-  En Explorar → Filtros hay dos filas nuevas —para germinar y para crecer— con
-  tres bandas: con fresco le alcanza, templado, necesita calor. Los cortes no
-  son un invento: salen del rango ideal investigado de cada ficha, y cada chip
-  dice su número. Las pocas especies sin dato de temperatura no aparecen con el
-  filtro puesto, y la pantalla las nombra para que no parezca que no existen.
-  Los termómetros nuevos están explicados en el Glosario.
-
 ### Arreglado
+
+- **La guía de Compost ya no le atribuye al INTI-INTA el «cada 2 o 3 días».**
+  Esa frecuencia la da solo la Ciudad; el instructivo del INTI-INTA dice qué
+  hace el volteo y cuándo hace falta, no cada cuánto.
 
 - **La app ya no te apura a trasplantar lo que todavía no asomó.** Si no
   contaste que germinó, el aviso de trasplante espera: primero te pregunta si
-  asomó — ahora directo desde el aviso de Hoy, con un botón **"Asomó"** (y
+  asomó — ahora directo desde el aviso de Esta semana, con un botón **"Asomó"** (y
   **"Todavía no"** si sigue sin señales). Apenas confirmás, las fechas se
   acomodan a tu planta y recién ahí aparece lo que sigue. Antes podían salir
   los dos avisos juntos, y el de trasplante encima usaba la fecha de la ficha
