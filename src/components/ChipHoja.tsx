@@ -4,7 +4,8 @@ import type { OpcionChip } from './FilaChips'
 import './opciones.css'
 import './ChipHoja.css'
 
-export interface GrupoOpciones {
+interface Props {
+  /** lo que dice el chip, siempre: "Grupo", "Suelo", "Luz" */
   etiqueta: string
   opciones: OpcionChip[]
   activo: string | null
@@ -13,66 +14,54 @@ export interface GrupoOpciones {
 
 /**
  * Un chip que abre una hoja con sus opciones como lista de radios. Es lo que
- * deja los filtros a la vista sin desplegar un panel: el chip dice qué
- * dimensión es y, cuando hay algo elegido, qué.
+ * deja los filtros a la vista sin desplegar un panel.
  *
- * Con más de un grupo (temperatura para germinar y para crecer) la hoja los
- * apila: cinco chips no entran en 340 px, y esos dos son la misma pregunta.
+ * El chip no cambia de texto al elegir: los cinco tienen que entrar en una
+ * fila y una etiqueta que crece la corre. Qué elegiste se lee en el nombre
+ * accesible, en el relleno y en la línea del contador.
  */
-export function ChipHoja({ etiqueta, grupos }: { etiqueta: string; grupos: GrupoOpciones[] }) {
+export function ChipHoja({ etiqueta, opciones, activo, onElegir }: Props) {
   const [abierta, setAbierta] = useState(false)
-  const elegidas = grupos
-    .map((g) => g.opciones.find((o) => o.valor === g.activo))
-    .filter((o): o is OpcionChip => !!o)
-  const activo = elegidas.length > 0
-  // «Pleno sol: 6 o más horas…» en el chip es solo «Pleno sol»; la
-  // explicación queda en la hoja
-  const texto = activo ? elegidas.map((o) => o.etiqueta.split(':')[0]).join(' · ') : etiqueta
-  const Icono = elegidas.length === 1 ? elegidas[0].Icono : null
+  const elegida = opciones.find((o) => o.valor === activo)
+  // «Pleno sol: 6 o más horas…» se nombra solo «Pleno sol»; la explicación
+  // queda en la hoja
+  const corto = elegida ? elegida.etiqueta.split(':')[0] : 'cualquiera'
 
   return (
     <>
       <button
         type="button"
-        className={`chip-hoja ${activo ? 'es-activo' : ''}`}
+        className={`chip-hoja ${elegida ? 'es-activo' : ''}`}
         onClick={() => setAbierta(true)}
         aria-haspopup="dialog"
-        aria-label={activo ? `${etiqueta}: ${texto}` : `${etiqueta}: cualquiera`}
+        aria-label={`${etiqueta}: ${corto}`}
       >
         {/* El botón mide 44 para el dedo; la píldora, 32 para el ojo. */}
-        <span className="chip-hoja__pildora">
-          {Icono && <Icono size={15} />}
-          {texto}
-        </span>
+        <span className="chip-hoja__pildora">{etiqueta}</span>
       </button>
 
       <BottomSheet abierto={abierta} onCerrar={() => setAbierta(false)} titulo={etiqueta}>
-        <div className="chip-hoja__grupos">
-          {grupos.map((g) => (
-            <div key={g.etiqueta} className="opciones" role="radiogroup" aria-label={g.etiqueta}>
-              {grupos.length > 1 && <p className="chip-hoja__subtitulo">{g.etiqueta}</p>}
-              <Opcion
-                elegida={g.activo === null}
-                onClick={() => {
-                  g.onElegir(null)
-                  setAbierta(false)
-                }}
-                nombre="Cualquiera"
-              />
-              {g.opciones.map((o) => (
-                <Opcion
-                  key={o.valor}
-                  elegida={g.activo === o.valor}
-                  onClick={() => {
-                    g.onElegir(o.valor)
-                    setAbierta(false)
-                  }}
-                  nombre={o.etiqueta}
-                  Icono={o.Icono}
-                  color={o.color}
-                />
-              ))}
-            </div>
+        <div className="opciones" role="radiogroup" aria-label={etiqueta}>
+          <Opcion
+            elegida={activo === null}
+            onClick={() => {
+              onElegir(null)
+              setAbierta(false)
+            }}
+            nombre="Cualquiera"
+          />
+          {opciones.map((o) => (
+            <Opcion
+              key={o.valor}
+              elegida={activo === o.valor}
+              onClick={() => {
+                onElegir(o.valor)
+                setAbierta(false)
+              }}
+              nombre={o.etiqueta}
+              Icono={o.Icono}
+              color={o.color}
+            />
           ))}
         </div>
       </BottomSheet>

@@ -3,23 +3,33 @@ import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { EspecieCard } from '../components/EspecieCard'
 import { ChipHoja } from '../components/ChipHoja'
+import { FiltroTemperatura } from '../components/FiltroTemperatura'
 import { useEspecies } from '../lib/useEspecies'
 import { normalizar } from '../lib/data/slugs'
-import { bandaCrecimiento, bandaGerminacion, estadoSiembra, type BandaTemp } from '../lib/data/especies'
+import { estadoSiembra } from '../lib/data/especies'
+import {
+  criteriosActivos,
+  dominios,
+  hayTemperatura,
+  pasaTemperatura,
+  resumenTemperatura,
+  SIN_TEMPERATURA,
+  sinDatoPara,
+  textoSinDato,
+  type SeleccionTemp,
+} from '../lib/filtroTemperatura'
 import { useZona, ZONAS_INFO } from '../lib/zona'
 import { decadaDe, nombreDecada } from '../lib/fechas'
-import { BANDAS_CRECIMIENTO, BANDAS_GERMINACION, GRUPOS, LUCES, SUELOS, IconoExplorar } from '../icons'
+import { GRUPOS, LUCES, SUELOS, IconoExplorar } from '../icons'
 import type { CategoriaLuz, CategoriaSuelo, Grupo } from '../lib/data/types'
 import './Explorar.css'
 
 type FiltroGrupo = Grupo | null
 type FiltroSuelo = CategoriaSuelo | null
 type FiltroLuz = CategoriaLuz | null
-type FiltroBanda = BandaTemp | null
 
-/** "melisa, menta y laurel" — para nombrar a las que el filtro deja afuera. */
-const listar = (nombres: string[]) =>
-  nombres.length <= 1 ? nombres.join('') : `${nombres.slice(0, -1).join(', ')} y ${nombres.at(-1)}`
+/** «Pleno sol: 6 o más horas…» en la línea del contador es solo «pleno sol». */
+const corto = (etiqueta: string) => etiqueta.split(':')[0].toLowerCase()
 
 export function Explorar() {
   const { indice, cargando } = useEspecies()
@@ -32,8 +42,7 @@ export function Explorar() {
   const [grupo, setGrupo] = useState<FiltroGrupo>(null)
   const [suelo, setSuelo] = useState<FiltroSuelo>(null)
   const [luz, setLuz] = useState<FiltroLuz>(null)
-  const [bandaGerm, setBandaGerm] = useState<FiltroBanda>(null)
-  const [bandaCrec, setBandaCrec] = useState<FiltroBanda>(null)
+  const [temp, setTemp] = useState<SeleccionTemp>(SIN_TEMPERATURA)
 
   function limpiar() {
     setBusqueda('')
@@ -41,9 +50,12 @@ export function Explorar() {
     setGrupo(null)
     setSuelo(null)
     setLuz(null)
-    setBandaGerm(null)
-    setBandaCrec(null)
+    setTemp(SIN_TEMPERATURA)
   }
+
+  // Los rieles salen del catálogo: si mañana entra una especie más friolenta,
+  // la escala la acompaña sola.
+  const dominiosTemp = useMemo(() => (indice ? dominios(indice.padres) : null), [indice])
 
   const resultados = useMemo(() => {
     if (!indice) return []
@@ -56,23 +68,30 @@ export function Explorar() {
       if (grupo && e.grupo !== grupo) return false
       if (suelo && e.suelo.categoria_suelo !== suelo) return false
       if (luz && e.luz.categoria_luz !== luz) return false
-      // sin dato la banda es null y no pasa: no se asume lo que no se sabe
-      if (bandaGerm && bandaGerminacion(e) !== bandaGerm) return false
-      if (bandaCrec && bandaCrecimiento(e) !== bandaCrec) return false
+      // sin las dos puntas la especie no se evalúa y queda afuera; se la nombra abajo
+      if (!pasaTemperatura(e, temp)) return false
       return true
     })
-  }, [indice, busqueda, soloAhora, grupo, suelo, luz, bandaGerm, bandaCrec, decadaHoy, zona])
+  }, [indice, busqueda, soloAhora, grupo, suelo, luz, temp, decadaHoy, zona])
 
-  const hayFiltros = soloAhora || grupo || luz || suelo || bandaGerm || bandaCrec || busqueda.trim()
+  const hayFiltros = soloAhora || grupo || luz || suelo || hayTemperatura(temp) || busqueda.trim()
+
+  /** Lo elegido, para leerlo sin abrir cada hoja: los chips ya no lo dicen. */
+  const elegido = [
+    soloAhora ? 'se siembra ahora' : null,
+    grupo ? corto(GRUPOS[grupo].etiqueta) : null,
+    suelo ? corto(SUELOS[suelo].etiqueta) : null,
+    luz ? corto(LUCES[luz].etiqueta) : null,
+    ...resumenTemperatura(temp),
+  ].filter(Boolean)
 
   // A quiénes deja afuera el filtro de temperatura por falta de dato: se dice
   // con nombre, que desaparecer en silencio parece no existir en el catálogo.
-  const sinDatoTemp = useMemo(() => {
-    if (!indice || (!bandaGerm && !bandaCrec)) return []
-    return indice.padres
-      .filter((e) => (bandaGerm && bandaGerminacion(e) === null) || (bandaCrec && bandaCrecimiento(e) === null))
-      .map((e) => e.nombre_comun.toLowerCase())
-  }, [indice, bandaGerm, bandaCrec])
+  const sinDatoTemp = useMemo(
+    () =>
+      indice ? textoSinDato(sinDatoPara(indice.padres, temp), criteriosActivos(temp).length) : null,
+    [indice, temp],
+  )
 
   return (
     <div className="pantalla">
@@ -91,86 +110,65 @@ export function Explorar() {
           />
         </div>
 
-        <div className="filtros-barra">
+        {/* Los cinco filtros en una fila: etiquetas cortas y fijas, para que
+            elegir no corra el que está al lado. */}
+        <div className="filtros-linea">
           <button
             type="button"
             className={`chip-hoja ${soloAhora ? 'es-activo' : ''}`}
             onClick={() => setSoloAhora((v) => !v)}
             aria-pressed={soloAhora}
+            aria-label="Se siembra ahora"
           >
-            <span className="chip-hoja__pildora">Se siembra ahora</span>
+            <span className="chip-hoja__pildora">Ahora</span>
           </button>
+          <ChipHoja
+            etiqueta="Grupo"
+            opciones={Object.entries(GRUPOS).map(([k, v]) => ({ valor: k, ...v }))}
+            activo={grupo}
+            onElegir={(v) => setGrupo(v as FiltroGrupo)}
+          />
+          <ChipHoja
+            etiqueta="Suelo"
+            opciones={Object.entries(SUELOS).map(([k, v]) => ({ valor: k, ...v }))}
+            activo={suelo}
+            onElegir={(v) => setSuelo(v as FiltroSuelo)}
+          />
+          <ChipHoja
+            etiqueta="Luz"
+            opciones={Object.entries(LUCES).map(([k, v]) => ({ valor: k, ...v }))}
+            activo={luz}
+            onElegir={(v) => setLuz(v as FiltroLuz)}
+          />
+          {dominiosTemp && (
+            <FiltroTemperatura
+              seleccion={temp}
+              onCambiar={setTemp}
+              dominios={dominiosTemp}
+              cantidad={resultados.length}
+            />
+          )}
+        </div>
+
+        <div className="explorar__resumen">
+          <p className="explorar__cuenta" aria-live="polite">
+            {cargando ? (
+              'Cargando el catálogo…'
+            ) : (
+              <>
+                {resultados.length} de {indice!.padres.length} especies
+                {elegido.length > 0 && <span className="explorar__elegido"> · {elegido.join(' · ')}</span>}
+              </>
+            )}
+          </p>
           {hayFiltros && (
-            <button type="button" className="filtros-barra__limpiar" onClick={limpiar}>
+            <button type="button" className="explorar__limpiar" onClick={limpiar}>
               Limpiar
             </button>
           )}
         </div>
 
-        {/* Los filtros de categoría, a la vista: cada chip abre su hoja. */}
-        <div className="filtros-linea">
-          <ChipHoja
-            etiqueta="Grupo"
-            grupos={[
-              {
-                etiqueta: 'Grupo',
-                opciones: Object.entries(GRUPOS).map(([k, v]) => ({ valor: k, ...v })),
-                activo: grupo,
-                onElegir: (v) => setGrupo(v as FiltroGrupo),
-              },
-            ]}
-          />
-          <ChipHoja
-            etiqueta="Suelo"
-            grupos={[
-              {
-                etiqueta: 'Suelo',
-                opciones: Object.entries(SUELOS).map(([k, v]) => ({ valor: k, ...v })),
-                activo: suelo,
-                onElegir: (v) => setSuelo(v as FiltroSuelo),
-              },
-            ]}
-          />
-          <ChipHoja
-            etiqueta="Luz"
-            grupos={[
-              {
-                etiqueta: 'Luz',
-                opciones: Object.entries(LUCES).map(([k, v]) => ({ valor: k, ...v })),
-                activo: luz,
-                onElegir: (v) => setLuz(v as FiltroLuz),
-              },
-            ]}
-          />
-          <ChipHoja
-            etiqueta="Temperatura"
-            grupos={[
-              {
-                etiqueta: 'Para germinar',
-                opciones: Object.entries(BANDAS_GERMINACION).map(([k, v]) => ({ valor: k, ...v })),
-                activo: bandaGerm,
-                onElegir: (v) => setBandaGerm(v as FiltroBanda),
-              },
-              {
-                etiqueta: 'Para crecer',
-                opciones: Object.entries(BANDAS_CRECIMIENTO).map(([k, v]) => ({ valor: k, ...v })),
-                activo: bandaCrec,
-                onElegir: (v) => setBandaCrec(v as FiltroBanda),
-              },
-            ]}
-          />
-        </div>
-
-        <p className="explorar__cuenta" aria-live="polite">
-          {cargando ? 'Cargando el catálogo…' : `${resultados.length} de ${indice!.padres.length} especies`}
-        </p>
-
-        {sinDatoTemp.length > 0 && (
-          <p className="explorar__cuenta">
-            Sin dato de temperatura, {sinDatoTemp.length === 1 ? 'queda' : 'quedan'} afuera{' '}
-            {listar(sinDatoTemp)}.
-          </p>
-        )}
+        {sinDatoTemp && <p className="explorar__sindato">{sinDatoTemp}</p>}
       </div>
 
       <div className="pantalla__cuerpo">
@@ -200,4 +198,3 @@ export function Explorar() {
     </div>
   )
 }
-

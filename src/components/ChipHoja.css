@@ -11,7 +11,9 @@
   align-items: center;
   gap: 5px;
   height: 32px;
-  padding: 0 10px;
+  /* 9 y no 10: los cinco chips entran en una fila de 390 con dos píxeles de
+     aire, y a 360 con el contador prendido casi no hace falta deslizar */
+  padding: 0 9px;
   border: 1.5px solid var(--linea-fuerte);
   border-radius: var(--radio-chip);
   font-family: var(--font-display);
@@ -31,19 +33,19 @@
   background: var(--papel-hundido);
 }
 
-.chip-hoja__grupos {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-5);
-}
-
-.chip-hoja__subtitulo {
-  margin: 0 0 var(--esp-1);
+/* El relleno ocre solo sería color como único canal: el número dice cuántos
+   rangos están prendidos. */
+.chip-hoja__cuenta {
+  display: grid;
+  place-items: center;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: var(--radio-chip);
+  background: var(--sobre-sol);
+  color: var(--sol);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--tinta-suave);
 }
 
 .opcion__textos--fila {
