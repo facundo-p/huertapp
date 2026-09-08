@@ -3,10 +3,7 @@
 .especie-card {
   display: grid;
   grid-template-columns: auto 1fr;
-  /* El nombre arranca arriba, así las dos tarjetas de una fila alinean; el
-     alto que sobra cuando la vecina parte el nombre en dos líneas se lo queda
-     la fila del anillo, que lo centra, en vez de caer como hueco al pie. */
-  grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto;
   gap: var(--esp-2) var(--esp-2);
   height: 100%;
   padding: var(--esp-3) var(--esp-3) var(--esp-4);
@@ -23,11 +20,15 @@
   box-shadow: var(--sombra-2);
 }
 
-/* Media tarjeta parte los nombres largos («Radicchio / Achicoria»), así que
-   envuelve en dos líneas equilibradas en vez de recortarse. */
+/* Dos líneas reservadas siempre. Media tarjeta parte los nombres largos
+   («Radicchio / Achicoria»), y sin el alto fijo el anillo de la vecina queda
+   diez píxeles más arriba: en una grilla el ojo compara de a pares. */
 .especie-card__nombre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-column: 1 / -1;
-  align-self: start;
+  min-height: calc(2 * 1.3em);
   font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   font-weight: 700;
@@ -47,22 +48,22 @@
   align-self: center;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
   gap: var(--esp-2);
   min-width: 0;
+}
+
+/* El hueco del chip se reserva aunque la especie no tenga estado: si no, los
+   íconos de la tarjeta sin chip flotan a media altura y no alinean con los de
+   su compañera de fila. */
+.especie-card__estado {
+  display: flex;
+  align-items: center;
+  min-height: 22px;
 }
 
 .especie-card__iconos {
   display: flex;
   gap: var(--esp-2);
-}
-
-/* Informa, no compite con el chip de "ahora": se distingue por tamaño y peso,
-   nunca aclarando el color. */
-.especie-card__variedades {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--tinta-media);
 }
 
 .especie-card__ahora {

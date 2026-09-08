@@ -15,7 +15,9 @@ interface Props {
 
 /**
  * Tarjeta minimalista: el nombre arriba y, debajo, el año como anillo con el
- * resto al lado. Toda la densidad va en la ficha.
+ * estado y las categorías al lado. Toda la densidad va en la ficha, contador
+ * de variedades incluido: a media tarjeta era una cuarta fila apilada que
+ * dejaba la tarjeta más alta que el anillo en las cinco especies que tienen.
  */
 export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
   const estado = estadoSiembra(especie, decadaActual, zona)
@@ -31,29 +33,29 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
       <AnilloAnual especie={especie} zona={zona} decadaActual={decadaActual} />
 
       <div className="especie-card__datos">
-        {estado === 'ideal' && (
-          <span className={`especie-card__ahora ${quedan != null ? 'es-cierra' : ''}`}>
-            {/* "quedan 12 días" no entra en media tarjeta: la frase larga vive en la ficha */}
-            {quedan != null ? (
-              <>
-                <IconoReloj size={13} /> {quedan === 1 ? 'último día' : `${quedan} días`}
-              </>
-            ) : (
-              'ahora'
-            )}
-          </span>
-        )}
-        {estado === 'posible' && <span className="especie-card__ahora es-posible">se puede</span>}
+        {/* el hueco se reserva sin estado, para que los íconos alineen entre
+            las dos tarjetas de una fila */}
+        <div className="especie-card__estado">
+          {estado === 'ideal' && (
+            <span className={`especie-card__ahora ${quedan != null ? 'es-cierra' : ''}`}>
+              {/* "quedan 12 días" no entra en media tarjeta: la frase larga vive en la ficha */}
+              {quedan != null ? (
+                <>
+                  <IconoReloj size={13} /> {quedan === 1 ? 'último día' : `${quedan} días`}
+                </>
+              ) : (
+                'ahora'
+              )}
+            </span>
+          )}
+          {estado === 'posible' && <span className="especie-card__ahora es-posible">se puede</span>}
+        </div>
 
         <div className="especie-card__iconos">
           <IconoGrupo grupo={especie.grupo} size={20} />
           <IconoSuelo categoria={especie.suelo.categoria_suelo} size={20} />
           <IconoLuz categoria={especie.luz.categoria_luz} size={20} />
         </div>
-
-        {especie.variedades.length > 0 && (
-          <span className="especie-card__variedades">{especie.variedades.length} variedades</span>
-        )}
       </div>
     </Link>
   )

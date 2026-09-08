@@ -59,7 +59,10 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   gap: 4px;
-  margin: calc(-1 * var(--esp-2)) 0;
+  /* -6 y no -8: los 44 px del chip sobresalen 6 de su caja de flujo, y con el
+     hueco de 12 que sigue queda separación real de la fila de abajo. Con -8
+     la caja de «Limpiar» le montaba el filo, y «Limpiar» borra todo. */
+  margin-block: -6px;
   /* a 390 entran holgados; en pantallas de 360 con el contador de Temp.
      prendido, mejor que se deslicen a que se recorte la píldora */
   overflow-x: auto;
@@ -76,9 +79,7 @@
 
 .explorar__resumen {
   display: flex;
-  /* arriba y no centrado: con lo elegido la cuenta pasa a dos renglones y
-     «Limpiar» quedaba flotando a mitad de camino */
-  align-items: flex-start;
+  align-items: center;
   gap: var(--esp-3);
 }
 
@@ -106,9 +107,6 @@
   align-items: center;
   padding: 0 var(--esp-2);
   min-height: var(--tap-min);
-  /* los 44 px son para el dedo; en el flujo ocupa lo que mide su texto, así
-     queda en la misma línea que la cuenta y no estira la fila */
-  margin-block: -13px;
   font-size: var(--texto-s);
   font-weight: 600;
   color: var(--terracota);

@@ -183,6 +183,14 @@
   gap: 3px;
 }
 
+/* clavada al 50 % del riel y no al centro del flex: con etiquetas de distinto
+   largo en las puntas, space-between la corría del punto que dice nombrar */
+.rango__marca.es-templada {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .rango__marca svg {
   flex: none;
 }
