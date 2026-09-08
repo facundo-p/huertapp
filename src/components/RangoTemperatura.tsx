@@ -41,6 +41,9 @@ export function RangoTemperatura({ dominio, valor, onCambiar, nombre, activo }: 
     />
   )
 
+  // el ícono del medio cae en el centro del riel: que diga cuántos grados es
+  const medio = Math.round((dominio.min + dominio.max) / 2)
+
   return (
     <div className={`rango ${activo ? '' : 'es-apagado'}`}>
       <div className="rango__pista" aria-hidden>
@@ -52,15 +55,20 @@ export function RangoTemperatura({ dominio, valor, onCambiar, nombre, activo }: 
       {punta('max')}
       {/* frío a la izquierda, calor a la derecha: la dirección, dicha sin depender del color */}
       <div className="rango__marcas" aria-hidden>
-        <span className="rango__marca">
+        <span className="rango__marca es-fria">
           <IconoTempFria size={15} /> {dominio.min}°
         </span>
-        <span className="rango__marca">
-          <IconoTempTemplada size={15} />
+        <span className="rango__marca es-templada">
+          <IconoTempTemplada size={15} /> {medio}°
         </span>
-        <span className="rango__marca">
+        <span className="rango__marca es-calida">
           {dominio.max}° <IconoTempCalida size={15} />
         </span>
+        {cero !== null && (
+          <span className="rango__cero-rotulo" style={{ left: `${cero}%` }}>
+            0°
+          </span>
+        )}
       </div>
     </div>
   )

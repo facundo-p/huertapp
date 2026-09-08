@@ -3,9 +3,10 @@
 .especie-card {
   display: grid;
   grid-template-columns: auto 1fr;
-  /* centrado y no arriba: cuando una vecina parte el nombre en dos líneas, el
-     alto de más se reparte alrededor en vez de caer como hueco al pie */
-  align-content: center;
+  /* El nombre arranca arriba, así las dos tarjetas de una fila alinean; el
+     alto que sobra cuando la vecina parte el nombre en dos líneas se lo queda
+     la fila del anillo, que lo centra, en vez de caer como hueco al pie. */
+  grid-template-rows: auto 1fr;
   gap: var(--esp-2) var(--esp-2);
   height: 100%;
   padding: var(--esp-3) var(--esp-3) var(--esp-4);
@@ -26,6 +27,7 @@
    envuelve en dos líneas equilibradas en vez de recortarse. */
 .especie-card__nombre {
   grid-column: 1 / -1;
+  align-self: start;
   font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   font-weight: 700;
@@ -34,9 +36,15 @@
   text-wrap: balance;
 }
 
-/* El anillo ocupa la columna izquierda entera; a su lado, lo que se lee. */
+/* El anillo comparte fila con lo que se lee, los dos centrados en el alto
+   que quede después del nombre. */
+.especie-card .anillo {
+  align-self: center;
+}
+
 .especie-card__datos {
   display: flex;
+  align-self: center;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;

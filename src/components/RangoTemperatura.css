@@ -17,6 +17,9 @@
 }
 
 .rango__pista {
+  /* el riel es absoluto y los inputs estáticos: sin esto se pintaba encima del
+     pulgar que no lleva es-encima, y se veía mordido */
+  z-index: 0;
   top: calc(var(--pulgar) / 2);
   transform: translateY(-50%);
   height: 12px;
@@ -42,7 +45,8 @@
   background: var(--linea-fuerte);
 }
 
-/* el 0 °C, la referencia de la helada, como en la escala de la ficha */
+/* el 0 °C, la referencia de la helada, como en la escala de la ficha; sin el
+   rótulo la rayita sola se leía como suciedad */
 .rango__cero {
   position: absolute;
   top: -4px;
@@ -51,8 +55,19 @@
   background: var(--tinta-suave);
 }
 
+.rango__cero-rotulo {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tinta-suave);
+}
+
 .rango__input {
   grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: var(--pulgar);
   margin: 0;
@@ -68,7 +83,7 @@
 }
 
 .rango__input.es-encima {
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Webkit y Firefox van en reglas SEPARADAS: un pseudo desconocido en la lista
@@ -172,14 +187,14 @@
   flex: none;
 }
 
-.rango__marca:first-child svg {
+.rango__marca.es-fria svg {
   color: var(--temp-frio);
 }
 
-.rango__marca:nth-child(2) svg {
+.rango__marca.es-templada svg {
   color: var(--temp-templado);
 }
 
-.rango__marca:last-child svg {
+.rango__marca.es-calida svg {
   color: var(--temp-calor);
 }
