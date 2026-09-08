@@ -13,7 +13,10 @@ interface Props {
   hoy: Date
 }
 
-/** Tarjeta minimalista: nombre + íconos + tira de meses. Toda la densidad va en la ficha. */
+/**
+ * Tarjeta minimalista: el nombre arriba y, debajo, el año como anillo con el
+ * resto al lado. Toda la densidad va en la ficha.
+ */
 export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
   const estado = estadoSiembra(especie, decadaActual, zona)
   // con décadas ya no hay que decir "último mes": se sabe cuántos días faltan
@@ -21,18 +24,19 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
 
   return (
     <Link to={`/explorar/${especie.slug}`} className="especie-card">
-      <div className="especie-card__cabeza">
-        {/* h2 y no h3: la tarjeta cuelga directo del título de la pantalla, y
-            así quien navega por encabezados recorre la lista de especies */}
-        <h2 className="especie-card__nombre">{especie.nombre_comun}</h2>
-        {especie.variedades.length > 0 && (
-          <span className="especie-card__variedades">{especie.variedades.length} variedades</span>
-        )}
+      {/* h2 y no h3: la tarjeta cuelga directo del título de la pantalla, y
+          así quien navega por encabezados recorre la lista de especies */}
+      <h2 className="especie-card__nombre">{especie.nombre_comun}</h2>
+
+      <AnilloAnual especie={especie} zona={zona} decadaActual={decadaActual} />
+
+      <div className="especie-card__datos">
         {estado === 'ideal' && (
           <span className={`especie-card__ahora ${quedan != null ? 'es-cierra' : ''}`}>
+            {/* "quedan 12 días" no entra en media tarjeta: la frase larga vive en la ficha */}
             {quedan != null ? (
               <>
-                <IconoReloj size={13} /> {quedan === 1 ? 'último día' : `quedan ${quedan} días`}
+                <IconoReloj size={13} /> {quedan === 1 ? 'último día' : `${quedan} días`}
               </>
             ) : (
               'ahora'
@@ -40,15 +44,16 @@ export function EspecieCard({ especie, decadaActual, zona, hoy }: Props) {
           </span>
         )}
         {estado === 'posible' && <span className="especie-card__ahora es-posible">se puede</span>}
-      </div>
 
-      <div className="especie-card__pie">
         <div className="especie-card__iconos">
-          <IconoGrupo grupo={especie.grupo} size={21} />
-          <IconoSuelo categoria={especie.suelo.categoria_suelo} size={21} />
-          <IconoLuz categoria={especie.luz.categoria_luz} size={21} />
+          <IconoGrupo grupo={especie.grupo} size={20} />
+          <IconoSuelo categoria={especie.suelo.categoria_suelo} size={20} />
+          <IconoLuz categoria={especie.luz.categoria_luz} size={20} />
         </div>
-        <AnilloAnual especie={especie} zona={zona} decadaActual={decadaActual} />
+
+        {especie.variedades.length > 0 && (
+          <span className="especie-card__variedades">{especie.variedades.length} variedades</span>
+        )}
       </div>
     </Link>
   )

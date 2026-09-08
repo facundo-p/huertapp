@@ -50,33 +50,25 @@
 }
 
 /* --- chips de filtro --- */
-.filtros-barra {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-}
-
-.filtros-barra__limpiar {
-  margin-left: auto;
-  padding: 0 var(--esp-2);
-  min-height: 36px;
-  font-size: var(--texto-s);
-  font-weight: 600;
-  color: var(--terracota);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* los cuatro chips de categoría, en una línea; si el chip dice lo elegido y
-   no entra, la línea envuelve */
+/* Los cinco en una fila, con etiqueta corta y fija: no envuelve nunca, así
+   elegir no corre el chip de al lado. */
 .filtros-linea {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0 6px;
-  margin-top: calc(-1 * var(--esp-2));
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 4px;
+  margin: calc(-1 * var(--esp-2)) 0;
+}
+
+.explorar__resumen {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
 }
 
 .explorar__cuenta {
+  flex: 1;
+  min-width: 0;
   font-size: var(--texto-xs);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -84,9 +76,42 @@
   color: var(--tinta-suave);
 }
 
+/* lo elegido, sin versalitas: tres etiquetas en mayúscula son un muro */
+.explorar__elegido {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.explorar__limpiar {
+  flex: none;
+  padding: 0 var(--esp-2);
+  min-height: var(--tap-min);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--terracota);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Hasta diecinueve nombres con los cuatro rangos prendidos: acá va texto
+   corrido, no la versalita del contador. */
+.explorar__sindato {
+  font-size: var(--texto-xs);
+  line-height: 1.5;
+  color: var(--tinta-media);
+}
+
 /* --- grilla de resultados --- */
 .explorar__grilla {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--esp-3);
+}
+
+/* el wrapper de la animación es el ítem de grilla: sin esto la tarjeta no
+   llena su celda y las de una fila quedan de distinto alto */
+.explorar__grilla > .aparecer {
+  display: grid;
 }

@@ -24,6 +24,27 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Cambiado
+
+- **Explorar muestra el doble de especies.** Las tarjetas van de a dos por
+  fila: el nombre arriba y, debajo, el año como anillo con el estado, los
+  íconos y las variedades al lado. Antes cada tarjeta ocupaba el ancho entero
+  para dejar la mitad vacía.
+
+- **Los filtros entran en una sola fila.** Ahora, Grupo, Suelo, Luz y Temp.,
+  siempre con el mismo nombre y en el mismo lugar: elegir uno ya no corre a
+  los de al lado. Qué elegiste se lee debajo, junto a la cuenta de especies,
+  que también se quedó con «Limpiar».
+
+- **La temperatura se filtra por grados, no por tres cajones.** El chip
+  «Temp.» abre cuatro rangos que se prenden por separado —ideal y posible para
+  germinar, ideal y posible para crecer— y cada uno se mueve con sus dos
+  puntas. Una especie aparece si su rango se cruza con el que pediste. Antes
+  solo se podía elegir entre «fresco», «templado» y «calor», y miraban un
+  único número de los ocho que el catálogo tiene investigados.
+  Las especies a las que les falta ese dato quedan afuera y se las nombra,
+  como siempre: no se completa lo que no se investigó.
+
 ## [2.0.0] — 2026-09-07
 
 ### Cambiado

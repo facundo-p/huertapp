@@ -1,10 +1,14 @@
 /* Sí es tarjeta: la especie es una unidad separable y navegable, que es lo
    que la regla «reglado antes que tarjeta» reserva para la tarjeta. */
 .especie-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3);
-  padding: var(--esp-3) var(--esp-4) var(--esp-4);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  /* centrado y no arriba: cuando una vecina parte el nombre en dos líneas, el
+     alto de más se reparte alrededor en vez de caer como hueco al pie */
+  align-content: center;
+  gap: var(--esp-2) var(--esp-2);
+  height: 100%;
+  padding: var(--esp-3) var(--esp-3) var(--esp-4);
   border-radius: var(--radio-tarjeta);
   background: var(--papel-alto);
   border: 1px solid var(--linea);
@@ -18,37 +22,46 @@
   box-shadow: var(--sombra-2);
 }
 
-.especie-card__cabeza {
-  display: flex;
-  align-items: baseline;
-  gap: var(--esp-2);
+/* Media tarjeta parte los nombres largos («Radicchio / Achicoria»), así que
+   envuelve en dos líneas equilibradas en vez de recortarse. */
+.especie-card__nombre {
+  grid-column: 1 / -1;
+  font-family: var(--font-cuerpo);
+  font-size: var(--texto-m);
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-wrap: balance;
 }
 
-.especie-card__nombre {
-  font-family: var(--font-cuerpo);
-  font-weight: 800;
-  flex: 1;
-  font-size: var(--texto-l);
-  font-weight: 700;
+/* El anillo ocupa la columna izquierda entera; a su lado, lo que se lee. */
+.especie-card__datos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--esp-2);
   min-width: 0;
+}
+
+.especie-card__iconos {
+  display: flex;
+  gap: var(--esp-2);
 }
 
 /* Informa, no compite con el chip de "ahora": se distingue por tamaño y peso,
    nunca aclarando el color. */
 .especie-card__variedades {
-  flex: none;
   font-size: 11px;
   font-weight: 600;
   color: var(--tinta-media);
-  white-space: nowrap;
 }
 
 .especie-card__ahora {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  flex: none;
-  padding: 3px 9px;
+  padding: 3px 8px;
   border-radius: var(--radio-chip);
   background: var(--ideal-fondo);
   color: var(--verde-prof);
@@ -56,6 +69,7 @@
   font-family: var(--font-display);
   font-size: 11px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .especie-card__ahora.es-cierra {
@@ -68,18 +82,4 @@
   background: var(--posible-fondo);
   color: var(--sol-texto);
   border: 1.5px dashed var(--posible);
-}
-
-.especie-card__iconos {
-  display: flex;
-  gap: var(--esp-3);
-}
-
-/* El anillo va al lado de los íconos de categoría, no debajo: a 56 px queda
-   a la misma altura que la fila de tres y la tarjeta no crece. */
-.especie-card__pie {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--esp-3);
 }

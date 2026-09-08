@@ -5,7 +5,6 @@ import { AJUSTE_SUELO, LABORES, PALABRAS, SUSTRATO, type Termino } from '../lib/
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import {
-  BANDAS_GERMINACION,
   CIELOS,
   GRUPOS,
   LUCES,
@@ -18,6 +17,9 @@ import {
   IconoGota,
   IconoInstalar,
   IconoProtegido,
+  IconoTempCalida,
+  IconoTempFria,
+  IconoTempTemplada,
   IconoPuntos,
   IconoCompost,
   IconoTacho,
@@ -279,25 +281,25 @@ export function Glosario() {
         </Seccion>
 
         <Seccion titulo="Qué temperatura le gusta" retraso={0.16}>
-          {/* la altura del mercurio dice la banda; el corte exacto va en cada chip */}
+          {/* el mercurio marca las puntas del riel del filtro de Explorar */}
           <ul className="glosario__lista">
             <Fila
-              Icono={BANDAS_GERMINACION.frio.Icono}
-              nombre="Con fresco le alcanza"
-              desc="Su rango ideal arranca abajo: germina con el suelo todavía fresco o crece a gusto en clima fresco. Las de estación fría."
-              color={BANDAS_GERMINACION.frio.color}
+              Icono={IconoTempFria}
+              nombre="La punta fría"
+              desc="El extremo izquierdo del riel de temperatura, en Explorar. Ahí arrancan las de estación fría: germinan con el suelo todavía fresco y crecen a gusto sin calor."
+              color="var(--temp-frio)"
             />
             <Fila
-              Icono={BANDAS_GERMINACION.templado.Icono}
-              nombre="Templado"
-              desc="Ni fría ni calurosa: su ideal arranca en el medio de la escala. La mayoría del catálogo vive acá."
-              color={BANDAS_GERMINACION.templado.color}
+              Icono={IconoTempTemplada}
+              nombre="El medio del riel"
+              desc="Ni frío ni calor. Es donde vive la mayoría del catálogo, así que un rango angosto por acá te deja casi todo adentro."
+              color="var(--temp-templado)"
             />
             <Fila
-              Icono={BANDAS_GERMINACION.calor.Icono}
-              nombre="Necesita calor"
-              desc="Su ideal arranca alto: sin calor no germina o no avanza. Las de verano — tomate, pimiento, sandía y compañía."
-              color={BANDAS_GERMINACION.calor.color}
+              Icono={IconoTempCalida}
+              nombre="La punta cálida"
+              desc="El extremo derecho. Las de verano: sin calor no germinan ni avanzan. Tomate, pimiento, sandía y compañía."
+              color="var(--temp-calor)"
             />
           </ul>
         </Seccion>
