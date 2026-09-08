@@ -22,7 +22,7 @@ Qué significa cada parte en este proyecto:
 > `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
 > versión nueva con su fecha.
 
-## [Sin publicar]
+## [2.0.0] — 2026-09-07
 
 ### Cambiado
 
