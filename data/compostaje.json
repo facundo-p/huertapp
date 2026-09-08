@@ -50,6 +50,14 @@
         "anio": 2013,
         "nota": "Román, Martínez y Pantoja. Escala de finca; se cita para el proceso (fases, C/N, humedad, madurez), no para volúmenes de balcón.",
         "corto": "FAO"
+      },
+      "unlu": {
+        "organizacion": "Universidad Nacional de Luján, Departamento de Tecnología (López y Scibona)",
+        "corto": "UNLu",
+        "titulo": "Hoja informativa de horticultura N.º 5: Lombricultura, producción de abono orgánico",
+        "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Hoja%20informativa%205%20-%20Lombricultura.pdf",
+        "anio": 2001,
+        "nota": "Escala comercial (pilas de 20 a 30 m). Se cita solo por las dos fases del proceso y el papel de las lombrices."
       }
     }
   },
@@ -207,9 +215,8 @@
       ],
       "girar": {
         "cuando": {
-          "valor": "Cada 2 o 3 días mientras cargás, según INTI-INTA y la Ciudad; 1 o 2 veces por semana según la Provincia. Cuando madura, con menos alcanza.",
+          "valor": "Cada 2 o 3 días según la Ciudad; 1 o 2 veces por semana según la Provincia. Cuál te corresponde depende de cómo esté la mezcla: abajo, caso por caso.",
           "fuentes": [
-            "inti-inta",
             "gcba",
             "opds"
           ],
@@ -237,6 +244,15 @@
           "fuentes": [],
           "confianza": null
         }
+      },
+      "listo_desde": {
+        "valor": "A los 4 meses de que dejó de recibir restos vale revisarlo: la Provincia cuenta 4 a 6 meses; la Ciudad, 3 a 5.",
+        "dias": 120,
+        "fuentes": [
+          "opds",
+          "gcba"
+        ],
+        "confianza": 8
       }
     },
     "suelo": {
@@ -323,7 +339,7 @@
       ],
       "girar": {
         "cuando": {
-          "valor": "1 o 2 veces por semana según la Provincia; una por semana según Santa Fe. FAO: semanal las primeras 3 o 4 semanas y quincenal después.",
+          "valor": "1 o 2 veces por semana según la Provincia; una por semana según Santa Fe. FAO: semanal las primeras 3 o 4 semanas y quincenal después. Abajo, caso por caso.",
           "fuentes": [
             "opds",
             "santafe",
@@ -354,6 +370,16 @@
           ],
           "confianza": 6
         }
+      },
+      "listo_desde": {
+        "valor": "A los 3 meses de que dejó de recibir restos vale revisarlo: Santa Fe cuenta 3 en clima cálido y 6 en frío; FAO, 3 a 6.",
+        "dias": 90,
+        "fuentes": [
+          "santafe",
+          "fao",
+          "opds"
+        ],
+        "confianza": 8
       }
     }
   },
@@ -709,6 +735,76 @@
         "gcba"
       ],
       "confianza": 7
+    },
+    "ritmos": [
+      {
+        "clave": "tacho-cargando",
+        "cuando": "Tacho cerrado mientras lo cargás",
+        "dias": 3,
+        "porque": "Lo fresco es pesado y húmedo, se apelmaza, y en un tacho el aire no entra solo: la Ciudad pide mezclar con pala cada 2 o 3 días para que queden intersticios por donde circule. Es la frecuencia más alta de todas las guías, y la única que la da.",
+        "fuentes": [
+          "gcba"
+        ],
+        "confianza": 7
+      },
+      {
+        "clave": "semanal",
+        "cuando": "Compostera común, con secos en proporción",
+        "dias": 7,
+        "porque": "Con secos de sobra la mezcla tiene estructura y el aire pasa: revolver 1 o 2 veces por semana alcanza para que no ganen las bacterias que pudren. Es lo que piden la Provincia y Santa Fe, y lo que FAO hace las primeras 3 o 4 semanas de una pila.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "fao"
+        ],
+        "confianza": 8
+      },
+      {
+        "clave": "quincenal",
+        "cuando": "Pila grande, pasadas las primeras semanas",
+        "dias": 14,
+        "porque": "Cuando la fase caliente pasó y la temperatura ya no sube, FAO pasa a un volteo quincenal: se voltea para emparejar humedad y temperatura, no para reactivar. Antes de voltear mira aspecto, olor y temperatura; el ritmo depende del clima y de cómo esté el material.",
+        "fuentes": [
+          "fao"
+        ],
+        "confianza": 7
+      },
+      {
+        "clave": "lombrices",
+        "cuando": "Con lombrices instaladas",
+        "dias": null,
+        "porque": "Airean y fragmentan ellas: las cuatro guías argentinas las nombran como aliadas de la aireación. En la UNLu el volteo con horquilla es de la fase previa, antes de sembrarlas; con las lombrices adentro, 3 a 5 meses, no se remueve. Ninguna guía casera da un ritmo con lombrices: mezclá solo si huele o se apelmaza.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "inti-inta",
+          "unlu"
+        ],
+        "confianza": 6
+      },
+      {
+        "clave": "falla",
+        "cuando": "Cuando algo falla, sin esperar al turno",
+        "dias": null,
+        "porque": "Olor, mosquitas o material apelmazado se arreglan revolviendo y sumando secos en el momento, no en el próximo giro que tenías anotado.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "inti-inta",
+          "gcba"
+        ],
+        "confianza": 9
+      }
+    ],
+    "con_lombrices": {
+      "valor": "No son necesarias: la transformación la hacen hongos y bacterias que ya están. Si las sumás a un tacho, que sea cuando el material ya esté oscuro y semiprocesado, si no se mueren o se escapan (la Ciudad dice unas semanas después de arrancar). No van en composteras giratorias. Piden más humedad (70 a 90 %), sombra y tapa. A suelo llegan solas.",
+      "fuentes": [
+        "opds",
+        "gcba",
+        "santafe",
+        "fao"
+      ],
+      "confianza": 8
     }
   }
 }

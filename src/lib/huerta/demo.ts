@@ -1,5 +1,6 @@
 import * as db from './db'
 import {
+  agregarCompostera,
   agregarEntrada,
   agregarPlanta,
   agregarUbicacion,
@@ -166,6 +167,30 @@ export async function sembrarDemo(): Promise<void> {
 
   // y el conteo que cambia: la rúcula quedó raleada, con su nota automática
   await cambiarCantidad(rucula, 18, 'Raleé las más débiles.')
+
+  // Dos composteras: el tacho con el giro atrasado (la tarea que hay que ver
+  // en Esta semana) y el corralito madurando, con la revisión ya vencida.
+  await agregarCompostera({
+    nombre: 'Tacho del balcón',
+    sistema: 'tachos',
+    material: 'cocina',
+    estado: 'llenando',
+    estadoDesde: sumarDias(hoy, -12),
+    ritmoDias: 7,
+    girada: sumarDias(hoy, -9),
+  })
+  await agregarCompostera({
+    nombre: 'Corralito del fondo',
+    sistema: 'suelo',
+    material: 'jardin',
+    estado: 'madurando',
+    estadoDesde: sumarDias(hoy, -40),
+    cerrada: sumarDias(hoy, -95),
+    ritmoDias: 14,
+    girada: sumarDias(hoy, -3),
+    conLombrices: true,
+    notas: 'Llegaron lombrices solas en otoño.',
+  })
 
   await recargar()
 }

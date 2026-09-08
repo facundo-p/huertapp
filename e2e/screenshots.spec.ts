@@ -282,6 +282,55 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // la sección Compost al pie de Mi huerta: dos composteras, una con giro atrasado
+    nombre: 'huerta-compost',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    // el tacho de la demo: giro atrasado, «Hoy la giré» primaria
+    nombre: 'compostera-detalle',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('link', { name: /Tacho del balcón/ }).click()
+      await page.waitForTimeout(600)
+    },
+  },
+  {
+    // el corralito madurando: la revisión de «¿ya está?» vencida
+    nombre: 'compostera-madurando',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('link', { name: /Corralito del fondo/ }).click()
+      await page.waitForTimeout(600)
+    },
+  },
+  {
+    nombre: 'compostera-nueva',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: /Sumar otra compostera/ }).click()
+      await page.locator('dialog.hoja[open]').waitFor()
+    },
+  },
+  {
     nombre: 'alta-planta',
     ruta: '/#/explorar/rucula',
     antes: async (page) => {

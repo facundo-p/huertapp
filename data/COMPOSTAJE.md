@@ -19,11 +19,15 @@ que corresponda; ante el prototipo, gana la fuente.
 | `gcba` | Ciudad de Buenos Aires, Higiene Urbana | *Guía de compostaje domiciliario* | 2022 |
 | `santafe` | Ministerio de Ambiente de Santa Fe | *Guía para compostaje domiciliario* | 2024 |
 | `fao` | FAO RLC (Román, Martínez, Pantoja) | *Manual de compostaje del agricultor* | 2013 |
+| `unlu` | UNLu, Depto. de Tecnología (López, Scibona) | *Hoja informativa de horticultura N.º 5: Lombricultura* | 2001 |
 
 Las tres primeras son del AMBA o de Argentina y hablan de tachos y balcones.
 Santa Fe es de otro clima: se cita solo en lo que no depende de él. FAO es
 escala de finca: se cita para el proceso (fases, carbono/nitrógeno, humedad,
 madurez) y no para volúmenes de balcón.
+
+UNLu es escala comercial (pilas de 20 a 30 m): se cita solo por las dos fases
+del proceso y el papel de las lombrices.
 
 Se buscó y no se consiguió: material de la FAUBA sobre compostaje domiciliario
 (no apareció una guía citable); la nota de INTA Informa «Cómo armar una
@@ -46,10 +50,41 @@ produce un goteo de agua entre los dedos» la humedad es cercana al 40 % y es
 correcta. Se tomó la versión de las otras tres, que coinciden entre sí y con
 el rango numérico de FAO. Anotado en el JSON con confianza 9 y acá.
 
-**Aire y volteo.** INTI-INTA y GCBA: mezclar cada 2 o 3 días, sobre todo
-mientras se carga. OPDS: 1 o 2 veces por semana. Santa Fe: semanalmente.
-FAO: semanal las primeras 3 o 4 semanas, después quincenal. → Se dan los dos
-extremos con quién dice cada uno. Confianza 8.
+**Aire y volteo.** GCBA: mezclar con pala cada 2 o 3 días. OPDS: 1 o 2 veces
+por semana. Santa Fe: semanalmente. FAO: semanal las primeras 3 o 4 semanas,
+después quincenal; «depende de las condiciones climáticas y de la humedad y
+aspecto del material», y se mira aspecto, olor y temperatura antes de
+voltear. **INTI-INTA no da ninguna frecuencia**: dice qué hace el volteo
+(sube la actividad microbiana, saca agua y calor) y cuándo voltear (olor,
+material denso). La primera versión de este archivo le atribuía el «cada 2 o
+3 días»; venía de la copia de la UNLp, donde esa frase habla del tachito de
+la cocina. Corregido el 2026-09-07. → Se dan los dos extremos con quién dice
+cada uno. Confianza 8.
+
+**Cada cuánto, según el caso** (`comun.ritmos`, para el capítulo y para el
+alta de «mi compostera»). Las guías no se contradicen: hablan de casos
+distintos. Tacho cerrado mientras se carga: 2 o 3 días (solo GCBA, confianza
+7). Compostera con secos en proporción: semanal (OPDS, Santa Fe, FAO las
+primeras semanas; 8). Pila grande pasada la fase caliente: quincenal (FAO; 7).
+Con lombrices: las cuatro guías argentinas las nombran como aliadas de la
+aireación, y en la UNLu el volteo con horquilla es de la fase previa (30 a 40
+días) y la fase con lombrices (3 a 5 meses) no se remueve; **ninguna guía
+casera da un ritmo con lombrices** → `dias: null`, confianza 6. Cuando algo
+falla se revuelve en el momento (todas; 9).
+
+**El ritmo de la compostera de cada persona no sale de acá.** Lo elige en el
+alta (3, 7, 14 o 30 días, o sin aviso): es su manejo, no un dato de la guía, y
+por eso no lleva fuente. La tarea cita igual lo que dice la guía.
+
+**Lombrices** (`comun.con_lombrices`). OPDS: no son necesarias; en
+contenedores, incorporarlas con la pila ya semiprocesada y oscura, si no
+mueren o huyen; a suelo llegan solas. GCBA: colocarlas algunas semanas después
+de arrancar; no resisten calor ni luz; humedad 70 a 90 %; no en giratorias.
+FAO: humedad 70 a 80 %, 20 a 30 °C, fotosensibles. Confianza 8.
+
+**Plazo para revisar si está** (`sistemas.*.listo_desde`, para el aviso de
+«mi compostera»). Tachos: 4 meses (mínimo de OPDS; GCBA da 3 a 5). A suelo: 3
+meses (Santa Fe en clima cálido; FAO 3 a 6). Confianza 8.
 
 **¿Se puede no girar?** OPDS: los secos aportan estructura y porosidad, y
 reducen el apelmazamiento. FAO documenta la «pila sin volteo» (estudio de
@@ -128,6 +163,15 @@ no aparece. Confianza 7.
 | «Si falla una sola, dejalo madurar dos semanas más. El compost inmaduro quema raíces y roba nitrógeno» | FAO: pH ácido, afecta germinación | Reescrito con lo que dice FAO |
 
 ## Huecos
+
+- **Ritmo de giro con lombrices** (`comun.ritmos[lombrices].dias`): ninguna
+  guía casera lo da.
+- **INTA, repositorio y cursos** (`repositorio.inta.gob.ar`,
+  `procadisaplicativos.inta.gob.ar`): el 2026-09-07 no respondían (conexión
+  cortada y DNS). Había tres documentos que valdría leer: *Guía para la
+  elaboración de compost y lombricompuesto* (EEA Mendoza, 2021),
+  *Lombricultura* (ProHuerta Ushuaia) y *Compostaje de residuos orgánicos*
+  (EEA Cerro Azul). Quedan para la próxima pasada.
 
 - **Tiempo sin girar en tacho** (`sistemas.tachos.girar.sin_girar_tiempo`).
 - **Prueba de germinación** (`comun.listo.prueba_germinacion`).

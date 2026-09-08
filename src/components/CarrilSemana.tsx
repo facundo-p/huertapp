@@ -4,11 +4,13 @@ import {
   CIELOS,
   IconoAlerta,
   IconoCalor,
+  IconoCompost,
   IconoCosechar,
   IconoEscarcha,
   IconoLluvia,
   IconoPuntos,
   IconoSembrar,
+  IconoTacho,
   IconoTrasplantar,
   type IconProps,
 } from '../icons'
@@ -24,6 +26,8 @@ const ICONO_TAREA: Record<Tarea['tipo'], ComponentType<IconProps>> = {
   revisar_germinacion: IconoSembrar,
   cosechar: IconoCosechar,
   sembrar: IconoSembrar,
+  girar_compost: IconoCompost,
+  compost_listo: IconoTacho,
 }
 
 const ICONO_AVISO: Record<TipoAviso, ComponentType<IconProps>> = {
@@ -213,8 +217,11 @@ function Item({
   )
   return (
     <div className={`carril__item es-${t.tipo} ${festejando ? 'es-festejando' : ''}`}>
-      {t.plantaId ? (
-        <Link to={`/huerta/${t.plantaId}`} className="carril__cuerpo">
+      {t.plantaId || t.composteraId ? (
+        <Link
+          to={t.plantaId ? `/huerta/${t.plantaId}` : `/huerta/compostera/${t.composteraId}`}
+          className="carril__cuerpo"
+        >
           {cuerpo}
         </Link>
       ) : (

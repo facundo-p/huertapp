@@ -1,9 +1,11 @@
 import type { ClimaDecada, EspecieEnriquecida, Zona } from '../data/types'
 import { estadoSiembra, metodoDelMes } from '../data/especies'
 import { decadaDe, mesDeDecada, nombreDecada, siguienteDecada } from '../fechas'
-import { diasEntre, hoyISO, type Planta } from '../huerta/tipos'
+import { diasEntre, hoyISO, type Compostera, type Planta } from '../huerta/tipos'
 import { estimar, sumarDias } from '../huerta/estimar'
 import { germinacion, germinacionPendiente } from '../huerta/germinacion'
+import { tareasDeCompost } from './compost'
+import type { Guia } from '../compostaje'
 
 /**
  * Motor de tareas: función pura de (plantas, especies, zona, hoy) a lista de
@@ -22,12 +24,20 @@ import { germinacion, germinacionPendiente } from '../huerta/germinacion'
  *    dice qué hacer sin decir por qué es una app en la que no se puede confiar.
  */
 
-export type TipoTarea = 'trasplantar' | 'revisar_germinacion' | 'cosechar' | 'helada' | 'sembrar'
+export type TipoTarea =
+  | 'trasplantar'
+  | 'revisar_germinacion'
+  | 'cosechar'
+  | 'helada'
+  | 'sembrar'
+  | 'girar_compost'
+  | 'compost_listo'
 
 export interface Tarea {
   id: string
   tipo: TipoTarea
   plantaId?: string
+  composteraId?: string
   slug?: string
   titulo: string
   detalle: string
@@ -70,6 +80,9 @@ export interface EntradaMotor {
   porSlug: Map<string, EspecieEnriquecida>
   /** la zona ya viene resuelta acá: son sus 36 décadas */
   clima: ClimaDecada[]
+  composteras?: Compostera[]
+  /** la guía de compostaje, para fuentes y plazos; sin ella, «girar» sale igual */
+  guia?: Guia | null
   hoy?: string
   /** último día de la ventana (inclusive); sin él, solo hoy */
   hasta?: string
@@ -94,8 +107,8 @@ export function derivarTareas({ hasta, ...entrada }: EntradaMotor): Tarea[] {
   )
 }
 
-function tareasDelDia({ plantas, porSlug, clima }: EntradaMotor, hoy: string): Tarea[] {
-  const tareas: Tarea[] = []
+function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMotor, hoy: string): Tarea[] {
+  const tareas: Tarea[] = tareasDeCompost(composteras ?? [], guia, hoy)
   const decada = decadaDe(new Date(`${hoy}T12:00:00`))
   const activas = plantas.filter((p) => !p.archivada && p.etapa !== 'terminada')
 

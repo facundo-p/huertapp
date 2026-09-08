@@ -6,6 +6,7 @@ import { useEstadoTareas, podar } from '../lib/tareas/estado'
 import { construirAgenda } from '../lib/tareas/agenda'
 import { guardarAgenda } from '../lib/avisos'
 import { hoyISO } from '../lib/huerta/tipos'
+import { useCompostaje } from '../lib/compostaje'
 
 /**
  * No dibuja nada: mantiene escrita la agenda de avisos para que el service
@@ -18,19 +19,20 @@ import { hoyISO } from '../lib/huerta/tipos'
 export function MantenerAgenda() {
   const { indice } = useEspecies()
   const zona = useZona()
-  const { plantas, cargado } = useHuerta()
+  const { plantas, composteras, cargado } = useHuerta()
+  const guia = useCompostaje()
   const estado = useEstadoTareas()
 
   useEffect(() => {
     if (!indice || !cargado) return
     const clima = indice.db.meta.enriquecido.clima[zona]
     const agenda = construirAgenda(
-      { plantas, porSlug: indice.porSlug, clima },
+      { plantas, porSlug: indice.porSlug, clima, composteras, guia },
       estado,
       hoyISO(),
     )
     void guardarAgenda(agenda)
-  }, [indice, cargado, plantas, zona, estado])
+  }, [indice, cargado, plantas, composteras, guia, zona, estado])
 
   useEffect(() => {
     void podar()

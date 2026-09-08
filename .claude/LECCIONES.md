@@ -332,3 +332,21 @@ está esperando. Cuando un test falle de forma intermitente, **verificá primero
 que su condición de espera sea real** —hacela devolver `false` a propósito y
 mirá si el test se queja— antes de teorizar sobre el navegador. Dos teorías
 elegantes se fueron a la basura por no hacer eso primero.
+
+### Un merge puede dejar dos `## [Sin publicar]` en el changelog
+
+**Síntoma:** al ir a anotar un cambio, `CHANGELOG.md` tenía la sección
+«Sin publicar» dos veces: una reescrita para el rediseño y, más abajo, la
+vieja entera, con entradas ya superadas («la barra de abajo flota»). Además el
+encabezado de la primera se había perdido: el merge lo pegó dentro de la cita
+de la introducción y dejó un backtick sin cerrar.
+
+**Causa:** el epic reescribió la sección en su rama mientras `staging` seguía
+sumando entradas a la suya. Git resolvió el merge sin conflicto porque las
+líneas no se pisaban, y nadie miró el resultado: los tests no leen el
+changelog.
+
+**Qué hacer:** después de mergear `staging` en una rama larga, `grep -n "^## "
+CHANGELOG.md` y comprobar que «Sin publicar» aparezca una sola vez. Y al
+reescribir la sección, revisar qué entradas de la otra rama quedaron sin
+cubrir (acá, dos «Arreglado» que no estaban en la reescritura).

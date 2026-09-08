@@ -1,0 +1,9 @@
+.compostera__ahora {
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta);
+}
+
+.compostera__ahora strong {
+  color: var(--tinta-alta);
+}

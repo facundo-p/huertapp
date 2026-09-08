@@ -84,6 +84,29 @@ describe('data/compostaje.json', () => {
     }
   })
 
+  it('cada ritmo de giro dice en qué caso, cada cuántos días (o que no hay ritmo) y por qué', () => {
+    expect(g.comun.ritmos.length).toBeGreaterThanOrEqual(4)
+    for (const r of g.comun.ritmos as { clave: string; cuando: string; dias: number | null; porque: string }[]) {
+      expect(r.clave).toBeTruthy()
+      expect(r.cuando).toBeTruthy()
+      expect(r.dias === null || (Number.isInteger(r.dias) && r.dias > 0), r.clave).toBe(true)
+      expect(r.porque.length, r.clave).toBeGreaterThan(40)
+    }
+    // el único que da 2 o 3 días es la Ciudad: INTI-INTA no da frecuencia
+    const tacho = g.comun.ritmos.find((r: { clave: string }) => r.clave === 'tacho-cargando')
+    expect(tacho.fuentes).toEqual(['gcba'])
+    expect(g.sistemas.tachos.girar.cuando.fuentes).not.toContain('inti-inta')
+  })
+
+  it('cada sistema tiene un plazo en días para revisar si está, con fuente', () => {
+    for (const s of Object.values(g.sistemas) as { listo_desde: { dias: number; valor: string; fuentes: string[] } }[]) {
+      expect(s.listo_desde.dias).toBeGreaterThanOrEqual(60)
+      expect(s.listo_desde.valor).toBeTruthy()
+    }
+    expect(g.comun.con_lombrices.valor).toBeTruthy()
+    expect(ids.has('unlu')).toBe(true)
+  })
+
   it('cada exclusión dice por qué', () => {
     for (const m of Object.values(g.por_material) as { nunca: { que: string; porque: string }[]; poco: { que: string; porque: string }[] }[]) {
       for (const x of [...m.nunca, ...m.poco]) {

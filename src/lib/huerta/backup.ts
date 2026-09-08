@@ -1,5 +1,5 @@
 import * as db from './db'
-import { hoyISO, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
+import { hoyISO, type Compostera, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
 import { resumenHuerta } from './tanda'
 import { zonaActual, elegirZona } from '../zona'
 import { CLAVE_UBICACION, elegirUbicacion, sacarUbicacion } from '../pronostico/store'
@@ -32,6 +32,8 @@ export interface Backup {
   diario: EntradaDiario[]
   ubicaciones: Ubicacion[]
   fotos: Array<{ id: string; tipo: string; ancho: number; alto: number; creada: string; datos: string }>
+  /** opcional a propósito: los backups anteriores a las composteras importan igual */
+  composteras?: Compostera[]
 }
 
 const aDataURL = (blob: Blob): Promise<string> =>
@@ -45,11 +47,12 @@ const aDataURL = (blob: Blob): Promise<string> =>
 const desdeDataURL = async (datos: string): Promise<Blob> => (await fetch(datos)).blob()
 
 export async function armarBackup(): Promise<Backup> {
-  const [plantas, diario, ubicaciones, fotos, ubicacionClima] = await Promise.all([
+  const [plantas, diario, ubicaciones, fotos, composteras, ubicacionClima] = await Promise.all([
     db.listarPlantas(),
     db.listarTodoElDiario(),
     db.listarUbicaciones(),
     db.listarFotos(),
+    db.listarComposteras(),
     db.leerAjuste<UbicacionClima>(CLAVE_UBICACION),
   ])
   return {
@@ -71,6 +74,7 @@ export async function armarBackup(): Promise<Backup> {
         datos: await aDataURL(f.blob),
       })),
     ),
+    composteras,
   }
 }
 
@@ -123,6 +127,9 @@ export function validar(dato: unknown): Backup {
   for (const campo of ['plantas', 'diario', 'ubicaciones', 'fotos'] as const) {
     if (!Array.isArray(b[campo])) throw new BackupInvalido(`Al backup le falta "${campo}".`)
   }
+  if (b.composteras !== undefined && !Array.isArray(b.composteras)) {
+    throw new BackupInvalido('Al backup se le rompió "composteras".')
+  }
   return b as Backup
 }
 
@@ -132,6 +139,7 @@ export interface ResumenBackup {
   huerta: string
   entradas: number
   fotos: number
+  composteras: number
   exportado: string
   zona: Zona
 }
@@ -141,6 +149,7 @@ export const resumir = (b: Backup): ResumenBackup => ({
   huerta: resumenHuerta(b.plantas),
   entradas: b.diario.length,
   fotos: b.fotos.length,
+  composteras: b.composteras?.length ?? 0,
   exportado: b.exportado,
   zona: b.zona,
 })
@@ -178,6 +187,7 @@ export async function importar(b: Backup): Promise<void> {
     diario: b.diario,
     ubicaciones: b.ubicaciones,
     fotos,
+    composteras: b.composteras ?? [],
   })
   if (b.zona) elegirZona(b.zona)
   // el import reemplaza todo: también la ubicación del pronóstico
