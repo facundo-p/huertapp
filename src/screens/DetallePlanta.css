@@ -1,52 +1,46 @@
-.planta__resumen {
+/* Reglado, no tarjeta: cada bloque se separa del siguiente con una hairline
+   de borde a borde. */
+.planta__bloque {
   display: flex;
   flex-direction: column;
-  gap: var(--esp-4);
+  gap: var(--esp-3);
+  margin: 0 calc(-1 * var(--esp-4));
   padding: var(--esp-4);
-  padding-top: var(--esp-5);
+  border-bottom: 1px solid var(--linea);
 }
 
+/* la acción primaria: 52 px en --sol, como pide el rediseño */
 .planta__avanzar {
-  min-height: var(--tap-min);
-  border-radius: var(--radio-chip);
-  background: var(--salvia-suave);
-  border: 1.5px solid var(--salvia);
-  color: var(--verde-prof);
+  min-height: 52px;
+  border-radius: var(--radio-m);
+  background: var(--sol);
+  color: var(--sobre-sol);
   font-family: var(--font-display);
-  font-size: var(--texto-s);
+  font-size: var(--texto-m);
   font-weight: 700;
 }
 
-/* la mudanza es acción secundaria: mismo cuerpo que avanzar, sin el relleno */
-.planta__mover {
+/* las secundarias, de contorno */
+.planta__secundario {
   min-height: var(--tap-min);
-  border-radius: var(--radio-chip);
-  background: var(--papel-alto);
-  border: 1.5px solid var(--linea);
-  color: var(--verde-prof);
-  font-family: var(--font-display);
-  font-size: var(--texto-s);
-  font-weight: 700;
-}
-
-.planta__datos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--esp-2);
-  margin: 0;
-  padding-top: var(--esp-3);
-  border-top: 1.5px dashed var(--linea-suave);
-}
-
-/* el borde punteado dice "esto se completa": es la cuenta a ojo */
-.planta__cantidad {
-  min-height: var(--tap-min);
-  border-radius: var(--radio-s);
-  background: var(--papel-hundido);
-  border: 1.5px dashed var(--linea);
-  font-size: var(--texto-s);
-  font-weight: 600;
+  border-radius: var(--radio-m);
+  border: 1.5px solid var(--linea-fuerte);
   color: var(--tinta-media);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
+
+.planta__secundario:active,
+.planta__avanzar:active {
+  opacity: 0.85;
+}
+
+/* los datos de la siembra: filas regladas de etiqueta y valor */
+.planta__datos {
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: var(--esp-1) var(--esp-4);
+  border-bottom: 1px solid var(--linea);
 }
 
 .planta__partes {
@@ -83,27 +77,29 @@
 
 .planta__dato {
   display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: var(--esp-2);
-  border-radius: var(--radio-s);
-  background: var(--papel-hundido);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  min-height: 36px;
+  padding: var(--esp-2) 0;
+}
+
+.planta__dato + .planta__dato {
+  border-top: 1px solid var(--linea-suave);
 }
 
 .planta__dato dt {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  font-size: var(--texto-s);
   color: var(--tinta-suave);
 }
 
 .planta__dato dd {
   margin: 0;
-  font-family: var(--font-display);
-  font-size: var(--texto-s);
-  font-weight: 700;
-  color: var(--tinta);
+  font-family: var(--font-cuerpo);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tinta-alta);
+  text-align: right;
 }
 
 .planta__hito {
@@ -128,7 +124,6 @@
   display: flex;
   align-items: flex-start;
   gap: var(--esp-2);
-  margin-top: calc(var(--esp-2) * -1);
   font-size: var(--texto-xs);
   line-height: 1.5;
   color: var(--tinta-media);
@@ -175,24 +170,50 @@
   color: var(--tinta-suave);
 }
 
+/* Línea de tiempo: una línea vertical a la izquierda y un punto del color
+   del tipo de entrada por cada una. La entrada sigue siendo tarjeta (es una
+   unidad separable); la línea es lo que las hilvana. */
 .diario {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--esp-3);
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 22px;
+}
+
+.diario::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 5px;
+  width: 2px;
+  background: var(--linea);
 }
 
 .diario__item {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--esp-2);
   padding: var(--esp-3);
-  border-radius: var(--radio-m);
+  border-radius: var(--radio-tarjeta);
   background: var(--papel-alto);
-  border: 1.5px solid var(--linea);
-  box-shadow: var(--sombra-1);
+  border: 1px solid var(--linea);
+}
+
+.diario__item::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: -22px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--tipo);
+  border: 2px solid var(--papel);
 }
 
 .diario__meta {

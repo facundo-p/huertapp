@@ -1,5 +1,5 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
-import type { EntradaDiario, Foto, Planta, Ubicacion } from './tipos'
+import type { Compostera, EntradaDiario, Foto, Planta, Ubicacion } from './tipos'
 import { anotar, nombreError } from './bitacora'
 import { unaVez } from './reintento'
 
@@ -8,17 +8,19 @@ import { unaVez } from './reintento'
 // existe desde el primer día y en Ajustes se dice sin vueltas.
 
 const NOMBRE = 'huerta-gba'
-const VERSION = 1
+// 2 sumó `composteras`; el upgrade corre `crearStores`, que solo agrega lo que falta
+const VERSION = 2
 
 interface Esquema extends DBSchema {
   plantas: { key: string; value: Planta; indexes: { slug: string } }
   diario: { key: string; value: EntradaDiario; indexes: { plantaId: string } }
   fotos: { key: string; value: Foto }
   ubicaciones: { key: string; value: Ubicacion }
+  composteras: { key: string; value: Compostera }
   ajustes: { key: string; value: unknown }
 }
 
-const STORES = ['plantas', 'diario', 'fotos', 'ubicaciones', 'ajustes'] as const
+const STORES = ['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras', 'ajustes'] as const
 
 /** Idempotente a propósito: también corre para reparar una base incompleta. */
 function crearStores(d: IDBPDatabase<Esquema>) {
@@ -30,6 +32,7 @@ function crearStores(d: IDBPDatabase<Esquema>) {
   }
   if (!d.objectStoreNames.contains('fotos')) d.createObjectStore('fotos', { keyPath: 'id' })
   if (!d.objectStoreNames.contains('ubicaciones')) d.createObjectStore('ubicaciones', { keyPath: 'id' })
+  if (!d.objectStoreNames.contains('composteras')) d.createObjectStore('composteras', { keyPath: 'id' })
   if (!d.objectStoreNames.contains('ajustes')) d.createObjectStore('ajustes')
 }
 
@@ -200,6 +203,15 @@ export const borrarUbicacion = async (id: string) => {
   await (await abrir()).delete('ubicaciones', id)
 }
 
+// ── Composteras ──────────────────────────────────────────────────────────────
+export const listarComposteras = async () => (await abrir()).getAll('composteras')
+export const guardarCompostera = async (c: Compostera) => {
+  await (await abrir()).put('composteras', c)
+}
+export const borrarCompostera = async (id: string) => {
+  await (await abrir()).delete('composteras', id)
+}
+
 // ── Ajustes sueltos ──────────────────────────────────────────────────────────
 export const leerAjuste = async <T>(clave: string) => (await abrir()).get('ajustes', clave) as Promise<T | undefined>
 export const guardarAjuste = async (clave: string, valor: unknown) => {
@@ -231,14 +243,16 @@ export async function reemplazarTodo(datos: {
   diario: EntradaDiario[]
   ubicaciones: Ubicacion[]
   fotos: Foto[]
+  composteras: Compostera[]
 }) {
   const d = await abrir()
-  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones'], 'readwrite')
+  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'], 'readwrite')
   try {
-    for (const s of ['plantas', 'diario', 'fotos', 'ubicaciones'] as const) {
+    for (const s of ['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'] as const) {
       tx.objectStore(s).clear()
     }
     for (const u of datos.ubicaciones) tx.objectStore('ubicaciones').put(u)
+    for (const c of datos.composteras) tx.objectStore('composteras').put(c)
     for (const p of datos.plantas) tx.objectStore('plantas').put(p)
     for (const e of datos.diario) tx.objectStore('diario').put(e)
     for (const f of datos.fotos) tx.objectStore('fotos').put(f)
@@ -260,12 +274,13 @@ export async function reemplazarTodo(datos: {
 export async function vaciarTodo() {
   const d = await abrir()
   anotar('vaciado', { plantas: (await d.getAll('plantas')).length })
-  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones'], 'readwrite')
+  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'], 'readwrite')
   await Promise.all([
     tx.objectStore('plantas').clear(),
     tx.objectStore('diario').clear(),
     tx.objectStore('fotos').clear(),
     tx.objectStore('ubicaciones').clear(),
+    tx.objectStore('composteras').clear(),
   ])
   await tx.done
 }

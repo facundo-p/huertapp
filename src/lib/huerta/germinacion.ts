@@ -42,6 +42,15 @@ export function esperaGerminacion(p: Planta): boolean {
   return p.etapa === 'almacigo' || p.etapa === 'creciendo'
 }
 
+/**
+ * Mientras se espera la germinación, ése es EL dato: los demás hitos se
+ * callan. La regla vive acá y solo acá — el motor de tareas y las pantallas
+ * deciden con la misma función, que no vuelvan a contradecirse.
+ */
+export function germinacionPendiente(g: Germinacion | null): g is Germinacion {
+  return !!g && g.estado !== 'germino' && g.estado !== 'no_aplica'
+}
+
 export function germinacion(
   p: Planta,
   e: EspecieEnriquecida,
@@ -196,4 +205,25 @@ export function causasDeDemora(
   causas.push(...genericas.filter((c) => !cubiertos.has(c.titulo)))
 
   return causas
+}
+
+/** La clase del hito de germinación, compartida por la fila y el detalle. */
+export function claseGerminacion(estado: string) {
+  return estado === 'demorada' ? 'es-demorada' : estado === 'en_ventana' ? 'es-lista' : ''
+}
+
+/**
+ * "Ya podría estar asomando" · "Hace 12 días que debería haber asomado".
+ *
+ * Vive acá y no en la pantalla porque lo usan Mi huerta y el detalle: la misma
+ * frase dicha en dos lados se despega enseguida.
+ */
+export function textoGerminacion(g: { estado: string; faltan: number; diasDeMas: number }): string {
+  if (g.estado === 'temprano') {
+    return g.faltan === 1 ? 'Debería asomar mañana' : `Debería asomar en ${g.faltan} días`
+  }
+  if (g.estado === 'en_ventana') return 'Ya podría estar asomando'
+  return g.diasDeMas === 1
+    ? 'Hace 1 día que debería haber asomado'
+    : `Hace ${g.diasDeMas} días que debería haber asomado`
 }

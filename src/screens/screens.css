@@ -2,7 +2,8 @@
 .pantalla {
   max-width: var(--max-ancho);
   margin: 0 auto;
-  padding-bottom: calc(var(--tab-alto) + env(safe-area-inset-bottom) + var(--esp-5));
+  /* la nav es fija: hay que despejar su alto más la zona segura */
+  padding-bottom: calc(var(--tab-alto) + var(--tab-zona-segura) + var(--esp-4));
   min-height: 100dvh;
 }
 

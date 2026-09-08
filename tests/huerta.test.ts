@@ -154,6 +154,13 @@ describe('validación del backup', () => {
     }
   })
 
+  it('las composteras son opcionales: un backup de antes importa igual', () => {
+    expect(validar(valido).composteras).toBeUndefined()
+    const c = { id: 'c1', nombre: 'Tacho', sistema: 'tachos', material: 'cocina', estado: 'llenando', estadoDesde: '2026-08-01', ritmoDias: 7, creada: '2026-08-01T10:00:00.000Z' }
+    expect(validar({ ...valido, composteras: [c] }).composteras).toEqual([c])
+    expect(() => validar({ ...valido, composteras: 'no' })).toThrow(BackupInvalido)
+  })
+
   it('cantidad y origenId viajan en la versión 1: van y vuelven intactos', () => {
     // Campos aditivos a propósito: un backup nuevo abre en una app vieja
     // (los ignora) y uno viejo abre acá (quedan undefined).

@@ -2,7 +2,7 @@ import type { ComponentType, ReactNode } from 'react'
 import type { Dato } from '../lib/data/types'
 import type { IconProps } from '../icons'
 import { IconoAlerta, IconoFuente } from '../icons'
-import { ConfidenceBadge } from './ConfidenceBadge'
+import { FilaConfianza } from './FilaConfianza'
 import './DatoSection.css'
 
 interface Props {
@@ -41,7 +41,7 @@ export function DatoSection({
             <Icono size={20} />
           </span>
           <h2 className="dato__titulo">{titulo}</h2>
-          <ConfidenceBadge valor={null} />
+          <FilaConfianza valor={null} />
         </header>
         <p className="dato__valor dato__valor--sin">{vacio}</p>
       </section>
@@ -55,7 +55,7 @@ export function DatoSection({
           <Icono size={20} />
         </span>
         <h2 className="dato__titulo">{titulo}</h2>
-        <ConfidenceBadge valor={dato.confianza} />
+        <FilaConfianza valor={dato.confianza} />
       </header>
 
       {bajada && <p className="dato__bajada">{bajada}</p>}
@@ -86,8 +86,10 @@ export function DatoSection({
           {dato.fuentes.map((f) => (
             <li key={f.url}>
               <a href={f.url} target="_blank" rel="noreferrer noopener" className="fuente">
-                <IconoFuente size={14} />
-                <span>{f.organizacion}</span>
+                <span className="fuente__pildora">
+                  <IconoFuente size={12} />
+                  {f.organizacion}
+                </span>
               </a>
             </li>
           ))}

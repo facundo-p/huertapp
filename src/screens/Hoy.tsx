@@ -2,41 +2,41 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
+import { BottomSheet } from '../components/BottomSheet'
 import { NoSePudoLeer } from '../components/AvisoDatos'
 import { AltaPlanta } from '../components/AltaPlanta'
-import { Pronostico } from '../components/Pronostico'
+import { CarrilSemana } from '../components/CarrilSemana'
+import { HojaDia } from '../components/HojaDia'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta } from '../lib/huerta/store'
+import { useHuerta, marcarGerminada, marcarGirada } from '../lib/huerta/store'
+import { useCompostaje } from '../lib/compostaje'
 import { usePronostico } from '../lib/pronostico/store'
-import { derivarAvisos, frescura, suprimirHeladaEstadistica } from '../lib/pronostico/derivar'
+import { proveedor } from '../lib/pronostico/proveedor'
+import {
+  actualizadoHace,
+  derivarAvisos,
+  frescura,
+  recortarPasados,
+  suprimirHeladaEstadistica,
+} from '../lib/pronostico/derivar'
+import type { DiaPronostico } from '../lib/pronostico/tipos'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
 import { hoyISO } from '../lib/huerta/tipos'
-import { fechaLarga, nombreDecada, decadaDe, saludoEstacional } from '../lib/fechas'
-import {
-  IconoAlerta,
-  IconoCosechar,
-  IconoGrupo,
-  IconoHoy,
-  IconoProtegido,
-  IconoSembrar,
-  IconoTrasplantar,
-} from '../icons'
+import { sumarDias } from '../lib/huerta/estimar'
+import { nombreDecada, decadaDe, saludoEstacional } from '../lib/fechas'
+import { IconoEscarcha, IconoGrupo, IconoHoy, IconoProtegido } from '../icons'
 import './Hoy.css'
 
-const ICONO_TAREA = {
-  helada: IconoAlerta,
-  trasplantar: IconoTrasplantar,
-  revisar_germinacion: IconoSembrar,
-  cosechar: IconoCosechar,
-  sembrar: IconoSembrar,
-} as const
+/** el carril: hoy y seis días más */
+const DIAS_CARRIL = 6
 
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, cargado, errorCarga } = useHuerta()
+  const { plantas, composteras, cargado, errorCarga } = useHuerta()
+  const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
   const iso = hoyISO(hoy)
@@ -44,16 +44,26 @@ export function Hoy() {
 
   const [abrirAlta, setAbrirAlta] = useState<string | undefined>()
   const [festejando, setFestejando] = useState<string | null>(null)
+  const [diaAbierto, setDiaAbierto] = useState<DiaPronostico | null>(null)
+  const [menuDe, setMenuDe] = useState<Tarea | null>(null)
 
   const tareas = useMemo(() => {
     if (!indice) return []
     const clima = indice.db.meta.enriquecido.clima[zona]
     return tareasVisibles(
-      derivarTareas({ plantas, porSlug: indice.porSlug, clima, hoy: iso }),
+      derivarTareas({
+        plantas,
+        porSlug: indice.porSlug,
+        clima,
+        composteras,
+        guia,
+        hoy: iso,
+        hasta: sumarDias(iso, DIAS_CARRIL),
+      }),
       estadoTareas,
       iso,
     )
-  }, [indice, plantas, zona, iso, estadoTareas])
+  }, [indice, plantas, composteras, guia, zona, iso, estadoTareas])
 
   const sugerencias = useMemo(
     () => (indice ? paraSembrarAhora(indice.todas, zona, iso) : []),
@@ -62,66 +72,61 @@ export function Hoy() {
 
   const estadoPron = usePronostico()
   const ahoraISO = hoy.toISOString()
+  const pron = estadoPron.pronostico
+  const fresc = pron ? frescura(pron, ahoraISO) : null
+  // sin ubicación o vencido, el carril sigue: solo pierde el cielo
+  const dias = useMemo(
+    () => (estadoPron.ubicacion && pron && fresc !== 'vencido' ? recortarPasados(pron, iso) : []),
+    [estadoPron.ubicacion, pron, fresc, iso],
+  )
+
   const avisos = useMemo(() => {
-    const p = estadoPron.pronostico
-    if (!estadoPron.ubicacion || !p || frescura(p, ahoraISO) === 'vencido') return []
+    if (!pron || dias.length === 0) return []
     const nombres = indice
       ? expuestasAHelada(plantas, indice.porSlug)
           .map((pl) => (pl.apodo || indice.porSlug.get(pl.slug)!.nombre_comun).toLowerCase())
           .slice(0, 3)
       : []
-    return derivarAvisos(p, iso, nombres)
-  }, [estadoPron, indice, plantas, iso, ahoraISO])
+    return derivarAvisos(pron, iso, nombres)
+  }, [pron, dias, indice, plantas, iso])
 
   // con alerta de helada del pronóstico, la tarea estadística se corre sola
   const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
+  const helada = avisos.find((a) => a.tipo === 'helada')
 
+  const plantaDe = (t: Tarea) =>
+    t.tipo === 'revisar_germinacion' ? plantas.find((p) => p.id === t.plantaId) : undefined
+
+  // Girar el compost es como «Asomó»: el dato (la fecha del giro) vive en la
+  // compostera, y el próximo giro se cuenta desde ahí. No pasa por `completadas`.
   async function alCompletar(t: Tarea) {
     setFestejando(t.id)
     setTimeout(() => setFestejando(null), 700)
-    await completar(t.id)
+    const c = t.tipo === 'girar_compost' ? composteras.find((x) => x.id === t.composteraId) : undefined
+    if (c) await marcarGirada(c)
+    else await completar(t.id)
+  }
+
+  // "Asomó" no toca `completadas`: setear `germino` ya apaga el aviso en la
+  // derivación, y esa verdad tiene que vivir en un solo lugar.
+  async function alAsomar(t: Tarea) {
+    const p = plantaDe(t)
+    if (!p) return
+    setFestejando(t.id)
+    setTimeout(() => setFestejando(null), 700)
+    await marcarGerminada(p) // con la fecha de hoy; "ayer/otro día" queda en la ficha
   }
 
   const listo = cargado && !cargando
 
   return (
     <div className="pantalla">
-      <Header titulo={fechaLarga(hoy)} sobretitulo={saludoEstacional(hoy)} />
+      <Header titulo="La semana" sobretitulo={saludoEstacional(hoy)} />
 
       <div className="pantalla__cuerpo">
         {errorCarga && <NoSePudoLeer error={errorCarga} />}
 
-        <Pronostico estado={estadoPron} avisos={avisos} hoy={iso} ahora={ahoraISO} />
-
-        {listo && tareasMostradas.length > 0 && (
-          <section className="hoy__seccion">
-            <h2 className="seccion__titulo subrayado-onda">Para hacer</h2>
-            <ul className="tareas">
-              {tareasMostradas.map((t, i) => (
-                <li
-                  key={t.id}
-                  className={`tarea es-${t.tipo} ${festejando === t.id ? 'es-festejando' : ''} aparecer`}
-                  style={{ '--retraso': `${Math.min(i, 6) * 0.04}s` } as React.CSSProperties}
-                >
-                  <TareaFila
-                    tarea={t}
-                    festejando={festejando === t.id}
-                    onCompletar={() => void alCompletar(t)}
-                    onPosponer={() => void posponer(t.id)}
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {listo && tareasMostradas.length === 0 && plantas.length > 0 && (
-          <p className="hoy__al-dia">
-            🌿 Nada urgente hoy. Aprovechá para mirar cómo van y sacarles una foto.
-          </p>
-        )}
-
-        {listo && plantas.length === 0 && (
+        {listo && plantas.length === 0 && composteras.length === 0 && (
           <EmptyState
             Icono={IconoHoy}
             titulo="Tu huerta está por empezar"
@@ -129,38 +134,84 @@ export function Hoy() {
           />
         )}
 
+        {helada && (
+          <div className="hoy__destacado" role="note">
+            <span className="hoy__destacado-icono" aria-hidden>
+              <IconoEscarcha size={22} />
+            </span>
+            <div>
+              <p className="hoy__destacado-titulo">{helada.titulo}</p>
+              <p className="hoy__destacado-detalle">{helada.detalle}</p>
+              <p className="hoy__destacado-fuente">{helada.fuente}</p>
+            </div>
+          </div>
+        )}
+
+        {listo && (plantas.length > 0 || composteras.length > 0) && (
+          <section className="hoy__seccion">
+            <CarrilSemana
+              hoy={iso}
+              pronostico={dias}
+              tareas={tareasMostradas}
+              avisos={avisos}
+              festejando={festejando}
+              conAsomo={(t) => !!plantaDe(t)}
+              onCompletar={(t) => void alCompletar(t)}
+              onAsomo={(t) => void alAsomar(t)}
+              onMenu={setMenuDe}
+              onAbrirDia={setDiaAbierto}
+            />
+            {estadoPron.ubicacion && (
+              <p className="carril__pie">
+                {dias.length === 0
+                  ? !estadoPron.cargado || estadoPron.actualizando
+                    ? 'Buscando el pronóstico…'
+                    : 'Sin internet no llega el pronóstico. Apenas te conectes, aparece solo.'
+                  : `${fresc === 'viejo' ? 'No pude actualizar: los días que quedan sirven igual de guía. ' : ''}${proveedor.nombre} · ${actualizadoHace(pron!.obtenido, ahoraISO)} · para ${estadoPron.ubicacion.etiqueta}`}
+              </p>
+            )}
+          </section>
+        )}
+
         {sugerencias.length > 0 && (
           <section className="hoy__seccion">
-            <h2 className="seccion__titulo subrayado-onda">Para sembrar ahora</h2>
+            <h2 className="seccion__titulo">Para sembrar ahora</h2>
             <p className="hoy__bajada">
               En {nombreDecada(decadaHoy)}, ordenado por lo que primero se te cierra.
             </p>
-            <ul className="carrusel">
+            <ul className="sembrar">
               {sugerencias.map((s) => (
-                <li key={s.especie.slug}>
-                  <div className="sugerencia etiqueta">
-                    <Link to={`/explorar/${s.especie.slug}`} className="sugerencia__link">
-                      <span className="sugerencia__icono">
-                        <IconoGrupo grupo={s.especie.grupo} size={22} decorativo />
-                      </span>
-                      <span className="sugerencia__nombre">{s.especie.nombre_comun}</span>
-                      <span className={`sugerencia__ventana ${s.seCierra ? 'es-cierra' : ''}`}>
-                        {s.seCierra
-                          ? s.decadasRestantes === 1
-                            ? 'última semana'
-                            : 'se cierra pronto'
-                          : `quedan ${s.decadasRestantes * 10} días`}
-                      </span>
-                      {s.enAlmacigo && (
-                        <span className="sugerencia__metodo">
-                          <IconoProtegido size={13} /> en almácigo
+                <li key={s.especie.slug} className="sembrar__fila">
+                  <Link to={`/explorar/${s.especie.slug}`} className="sembrar__link">
+                    <span className="sembrar__icono">
+                      <IconoGrupo grupo={s.especie.grupo} size={20} decorativo />
+                    </span>
+                    <span className="sembrar__textos">
+                      <span className="sembrar__nombre">{s.especie.nombre_comun}</span>
+                      <span>
+                        <span className={`sembrar__ventana ${s.seCierra ? 'es-cierra' : ''}`}>
+                          {s.seCierra
+                            ? s.decadasRestantes === 1
+                              ? 'última semana'
+                              : 'se cierra pronto'
+                            : `quedan ${s.decadasRestantes * 10} días`}
                         </span>
-                      )}
-                    </Link>
-                    <button className="sugerencia__sumar" onClick={() => setAbrirAlta(s.especie.slug)}>
-                      Sumar
-                    </button>
-                  </div>
+                        {s.enAlmacigo && (
+                          <span className="sembrar__metodo">
+                            <IconoProtegido size={12} /> en almácigo
+                          </span>
+                        )}
+                      </span>
+                    </span>
+                  </Link>
+                  <button
+                    type="button"
+                    className="sembrar__sumar"
+                    onClick={() => setAbrirAlta(s.especie.slug)}
+                    aria-label={`Sumar ${s.especie.nombre_comun} a mi huerta`}
+                  >
+                    <span className="carril__pildora">Sumar</span>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -168,61 +219,32 @@ export function Hoy() {
         )}
       </div>
 
+      <HojaDia dia={diaAbierto} onCerrar={() => setDiaAbierto(null)} />
+
+      {/* «Más tarde» vive acá y no en la fila: dos botones no entran en 340
+          px. Posponer no se elimina: es la válvula de escape de una app que
+          manda. */}
+      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe?.titulo ?? ''}>
+        {menuDe && (
+          <button
+            type="button"
+            className="hoja__opcion"
+            onClick={() => {
+              void posponer(menuDe.id)
+              setMenuDe(null)
+            }}
+          >
+            {plantaDe(menuDe) ? 'Todavía no asomó' : 'Más tarde'}
+            <small>Se esconde tres días y después vuelve sola.</small>
+          </button>
+        )}
+      </BottomSheet>
+
       <AltaPlanta
         abierto={!!abrirAlta}
         slug={abrirAlta}
         onCerrar={() => setAbrirAlta(undefined)}
       />
     </div>
-  )
-}
-
-function TareaFila({
-  tarea: t,
-  festejando,
-  onCompletar,
-  onPosponer,
-}: {
-  tarea: Tarea
-  festejando: boolean
-  onCompletar: () => void
-  onPosponer: () => void
-}) {
-  const Icono = ICONO_TAREA[t.tipo]
-  const cuerpo = (
-    <>
-      <span className="tarea__icono">
-        {festejando ? <span className="brotar">🌱</span> : <Icono size={21} />}
-      </span>
-      <span className="tarea__textos">
-        <span className="tarea__titulo">
-          {t.titulo}
-          {t.atrasada && <span className="tarea__atrasada">atrasada</span>}
-        </span>
-        <span className="tarea__detalle">{t.detalle}</span>
-        {/* de dónde sale: sin esto, es una app que manda sin explicar */}
-        <span className="tarea__fuente">{t.fuente}</span>
-      </span>
-    </>
-  )
-
-  return (
-    <>
-      {t.plantaId ? (
-        <Link to={`/huerta/${t.plantaId}`} className="tarea__cuerpo">
-          {cuerpo}
-        </Link>
-      ) : (
-        <div className="tarea__cuerpo">{cuerpo}</div>
-      )}
-      <div className="tarea__acciones">
-        <button className="tarea__accion es-listo" onClick={onCompletar}>
-          Hecho
-        </button>
-        <button className="tarea__accion" onClick={onPosponer}>
-          Más tarde
-        </button>
-      </div>
-    </>
   )
 }

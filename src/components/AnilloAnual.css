@@ -1,0 +1,122 @@
+/* El año como un reloj. Dos tamaños con la misma geometría: el hueco se hace
+   con una máscara radial, así el relleno es un solo conic-gradient y no hay
+   un disco tapando el centro (que en el tema noche se notaría, porque la
+   tarjeta es semitransparente). */
+
+.anillo {
+  flex: none;
+}
+
+.anillo__disco {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--d);
+  height: var(--d);
+}
+
+.anillo__capa {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  /* el hueco: transparente hasta el radio interno, opaco desde ahí */
+  mask: radial-gradient(circle, transparent 0 calc(var(--hueco) / 2), #000 calc(var(--hueco) / 2));
+}
+
+.anillo--chico {
+  --d: 56px;
+  --hueco: 38px;
+}
+
+.anillo--grande {
+  --d: 146px;
+  --hueco: 110px;
+}
+
+/* El anillo interno del trasplante, concéntrico y más angosto. */
+.anillo--grande .anillo__capa--trasplante {
+  inset: 23px;
+  mask: radial-gradient(circle, transparent 0 34px, #000 34px);
+}
+
+/* ---- Iniciales de mes (solo en el grande) ----
+   Van DENTRO de la banda, a radio 64. El triple text-shadow del color del
+   papel es lo que las hace legibles sobre cualquier tramo —verde, ocre o
+   vacío— en los dos temas: sin eso, la letra desaparece sobre el verde. */
+.anillo__inicial {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font: 800 8.5px/1 var(--font-cuerpo);
+  color: var(--tinta-alta);
+  text-shadow:
+    0 0 2.5px var(--papel),
+    0 0 2.5px var(--papel),
+    0 0 2.5px var(--papel);
+  transform: translate(-50%, -50%) rotate(var(--giro)) translateY(-64px) rotate(calc(var(--giro) * -1));
+}
+
+.anillo__inicial.es-ahora {
+  font-size: 10px;
+}
+
+/* ---- Aguja de hoy ----
+   Un palito con el origen de giro en su base (el centro del disco) y el trazo
+   visible solo en la punta: así marca la banda sin cruzar el hueco. */
+.anillo__aguja {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: calc(var(--d) / 2);
+  transform-origin: 50% 100%;
+  transform: translate(-1px, calc(var(--d) / -2)) rotate(var(--giro));
+}
+
+.anillo__aguja i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--tinta-alta);
+  /* El mismo halo del color del papel que llevan las iniciales. Sin esto, de
+     noche la aguja es una línea clara entre marcas de mes también claras y
+     deja de decir "hoy es acá": se lee como una marca más. */
+  box-shadow: 0 0 0 1.5px var(--papel);
+}
+
+.anillo--chico .anillo__aguja i {
+  height: 11px;
+}
+
+.anillo--grande .anillo__aguja i {
+  height: 17px;
+}
+
+/* ---- Centro ---- */
+.anillo__centro {
+  position: relative;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  text-align: center;
+}
+
+.anillo__centro b {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--tinta-alta);
+}
+
+.anillo--grande .anillo__centro b {
+  color: var(--sol-texto);
+}
+
+.anillo__centro small {
+  font-family: var(--font-cuerpo);
+  font-size: 7px;
+  color: var(--tinta-tenue);
+  margin-top: 2px;
+}

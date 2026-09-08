@@ -259,3 +259,72 @@ export function IconoMaceta(p: IconProps) {
     </Svg>
   )
 }
+
+/** Tres puntos: «más opciones» de una fila. Horizontal, para no leerse como
+ *  arrastrar. */
+export function IconoPuntos(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="5.5" cy="12" r="1.1" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.1" fill="currentColor" />
+      <circle cx="18.5" cy="12" r="1.1" fill="currentColor" />
+    </Svg>
+  )
+}
+
+/* ---- Compost: cinco íconos de la segunda entrega, misma gramática ---- */
+
+/** Compost: dos flechas en círculo y un brote en el medio. */
+export function IconoCompost(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M4.6 12 A7.4 7.4 0 0 1 16.6 6.2" />
+      <path d="M19.4 12 A7.4 7.4 0 0 1 7.4 17.8" />
+      <path d="M15.2 3.4 L17 6.4 L13.7 7" />
+      <path d="M8.8 20.6 L7 17.6 L10.3 17" />
+      <path d="M12 14.6 C10.4 14.6 9.4 13.6 9.2 12 C10.9 12 11.9 13 12 14.6Z" />
+      <path d="M12 14.6 C13.6 14.6 14.6 13.6 14.8 12 C13.1 12 12.1 13 12 14.6Z" />
+      <path d="M12 14.6V16.6" />
+    </Svg>
+  )
+}
+
+/** Tacho con tapa: la compostera cerrada de balcón. */
+export function IconoTacho(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M6 7.5H18L17 19.2 C16.9 20 16.3 20.5 15.5 20.5H8.5 C7.7 20.5 7.1 20 7 19.2Z" />
+      <path d="M5 7.5H19" />
+      <path d="M9.5 7.5V5.5 C9.5 4.7 10.1 4 11 4H13 C13.9 4 14.5 4.7 14.5 5.5V7.5" />
+    </Svg>
+  )
+}
+
+/** Termómetro: la pila que calienta. */
+export function IconoTermo(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M10 14.2V5.5 a2 2 0 0 1 4 0V14.2 a3.2 3.2 0 1 1 -4 0Z" />
+      <path d="M12 9.5V15.5" />
+    </Svg>
+  )
+}
+
+/** Tilde: una señal que se cumple. */
+export function IconoCheck(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M5 12.5 L9.5 17 L19 7.5" />
+    </Svg>
+  )
+}
+
+/** Cruz: lo que no va. */
+export function IconoCruz(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M7 7L17 17" />
+      <path d="M17 7L7 17" />
+    </Svg>
+  )
+}

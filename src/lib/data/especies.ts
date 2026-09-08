@@ -1,6 +1,13 @@
 import type { Decada, EspecieEnriquecida, EspeciesDB, Grupo, Mes, Metodo, Zona } from './types'
 import { ALIAS, normalizar } from './slugs'
-import { decadaDe, decadasDelMes, diasHastaFinDeDecada, siguienteDecada } from '../fechas'
+import {
+  NOMBRES_MES,
+  NOMBRES_TERCIO,
+  decadaDe,
+  decadasDelMes,
+  diasHastaFinDeDecada,
+  siguienteDecada,
+} from '../fechas'
 
 // El JSON no entra al bundle inicial: dynamic import → chunk propio hasheado,
 // precacheado por el service worker. La app abre con el shell y el dato llega aparte.
@@ -76,6 +83,17 @@ export function estado(e: EspecieEnriquecida, decada: Decada, zona: Zona, capa: 
 export const estadoSiembra = (e: EspecieEnriquecida, d: Decada, z: Zona) => estado(e, d, z, 'siembra')
 export const estadoTrasplante = (e: EspecieEnriquecida, d: Decada, z: Zona) => estado(e, d, z, 'trasplante')
 
+/**
+ * El año entero década por década, de la 1 a la 36.
+ *
+ * Es lo que consume el anillo anual: 36 tramos de 10°. Sale de `estado()`
+ * directo y no de `estadosDelMes`, que agrupa de a tres y habría que
+ * desarmar de nuevo.
+ */
+export function decadasDelAnio(e: EspecieEnriquecida, zona: Zona, capa: Capa): EstadoMes[] {
+  return Array.from({ length: 36 }, (_, i) => estado(e, (i + 1) as Decada, zona, capa))
+}
+
 /** Los tres tercios de un mes, para dibujar la celda. */
 export function estadosDelMes(
   e: EspecieEnriquecida,
@@ -141,4 +159,57 @@ export function trasplanteAplica(e: EspecieEnriquecida): boolean {
 export function germinacionAplica(e: EspecieEnriquecida): boolean {
   const metodos = Object.values(e.calendario.metodo_por_mes)
   return metodos.length > 0 && !metodos.every((m) => m === 'plantacion')
+}
+
+// ── Bandas de temperatura para filtrar ──────────────────────────────────────
+
+export type BandaTemp = 'frio' | 'templado' | 'calor'
+
+/**
+ * Clasifica por el `ideal_min` investigado —el umbral para estar a gusto—,
+ * nunca por un dato inventado. Los cortes salen de la distribución real del
+ * catálogo (medida antes de elegirlos): germinación 21/14/17 especies y
+ * crecimiento 12/25/17, con el grupo "calor" calcando los cultivos de verano.
+ */
+export const CORTES_BANDA = {
+  /** °C de suelo: frío ≤15 · templado 16-19 · calor ≥20 */
+  germinacion: { frio: 15, calor: 20 },
+  /** °C de aire: frío ≤13 · templado 14-17 · calor ≥18 */
+  crecimiento: { frio: 13, calor: 18 },
+} as const
+
+function banda(idealMin: number | null, cortes: { frio: number; calor: number }): BandaTemp | null {
+  if (idealMin === null) return null
+  if (idealMin <= cortes.frio) return 'frio'
+  if (idealMin >= cortes.calor) return 'calor'
+  return 'templado'
+}
+
+export function bandaGerminacion(e: EspecieEnriquecida): BandaTemp | null {
+  return banda(e.temperaturas.germinacion.ideal_min, CORTES_BANDA.germinacion)
+}
+
+export function bandaCrecimiento(e: EspecieEnriquecida): BandaTemp | null {
+  return banda(e.temperaturas.crecimiento.ideal_min, CORTES_BANDA.crecimiento)
+}
+
+/**
+ * Lo que lee el lector de pantalla de un mes. Es el único canal no visual del
+ * calendario, así que lo comparten la tira lineal y el anillo: si se
+ * duplicara, una de las dos se quedaría atrás.
+ */
+export function etiquetaMes(
+  mes: Mes,
+  siembra: EstadoMes[],
+  trasplante: EstadoMes[] | null,
+): string {
+  const nombre = NOMBRES_MES[mes - 1]
+  const partes: string[] = []
+  for (let i = 0; i < 3; i++) {
+    const frases: string[] = []
+    if (siembra[i]) frases.push(`siembra ${siembra[i] === 'ideal' ? 'ideal' : 'posible'}`)
+    if (trasplante?.[i]) frases.push(`trasplante ${trasplante[i] === 'ideal' ? 'ideal' : 'posible'}`)
+    if (frases.length) partes.push(`${NOMBRES_TERCIO[i]}: ${frases.join(' y ')}`)
+  }
+  return partes.length ? `${nombre} — ${partes.join('; ')}` : `${nombre}: no se siembra`
 }

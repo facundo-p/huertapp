@@ -9,249 +9,161 @@
   color: var(--tinta-suave);
 }
 
-.hoy__al-dia {
-  padding: var(--esp-4);
-  border-radius: var(--radio-m);
-  background: var(--ideal-fondo);
-  border: 1.5px dashed var(--ideal);
-  font-size: var(--texto-s);
-  line-height: 1.55;
-  color: var(--verde-prof);
-  text-align: center;
-}
-
-/* --- tareas --- */
-.tareas {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.tarea {
-  display: flex;
-  flex-direction: column;
-  border-radius: var(--radio-m);
-  background: var(--papel-alto);
-  border: 1.5px solid var(--linea);
-  border-left: 4px solid var(--salvia);
-  box-shadow: var(--sombra-1);
-  overflow: hidden;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.tarea.es-helada {
-  border-left-color: var(--peligro);
-  background: var(--peligro-fondo);
-}
-.tarea.es-cosechar {
-  border-left-color: var(--verde-hoja);
-}
-.tarea.es-revisar_germinacion {
-  border-left-color: var(--sol);
-}
-.tarea.es-trasplantar {
-  border-left-color: var(--terracota);
-}
-
-/* al completar: la hojita brota y la tarjeta se va */
-.tarea.es-festejando {
-  opacity: 0;
-  transform: translateX(14px) scale(0.98);
-}
-
-.tarea__cuerpo {
+/* La helada de la semana, además de en su día, arriba de todo: tinte a
+   sangre, sin borde ni radio. */
+.hoy__destacado {
   display: flex;
   align-items: flex-start;
   gap: var(--esp-3);
-  padding: var(--esp-4);
-  text-decoration: none;
-  color: inherit;
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: var(--esp-3) var(--esp-4);
+  background: var(--sol-velo);
 }
 
-.tarea__icono {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radio-s);
-  background: var(--papel-hundido);
-  color: var(--tinta-media);
+.hoy__destacado-icono {
   flex: none;
-  font-size: 19px;
+  margin-top: 2px;
+  color: var(--terracota-texto);
 }
 
-.tarea.es-helada .tarea__icono {
-  background: var(--terracota-suave);
-  color: var(--peligro);
-}
-
-.tarea__textos {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.tarea__titulo {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-  flex-wrap: wrap;
+.hoy__destacado-titulo {
+  margin: 0;
   font-family: var(--font-display);
   font-size: var(--texto-m);
   font-weight: 700;
-  color: var(--tinta);
+  color: var(--tinta-alta);
 }
 
-.tarea__atrasada {
-  padding: 1px 8px;
-  border-radius: var(--radio-chip);
-  background: var(--peligro-fondo);
-  color: #7d3a20;
-  font-family: var(--font-cuerpo);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.tarea__detalle {
+.hoy__destacado-detalle {
+  margin: 3px 0 0;
   font-size: var(--texto-s);
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--tinta-media);
 }
 
-.tarea__fuente {
-  margin-top: 2px;
-  font-size: 11px;
+.hoy__destacado-fuente {
+  margin: 3px 0 0;
+  font-size: 10px;
   font-style: italic;
-  line-height: 1.4;
+  /* sobre el tinte, la tinta tenue baja de AA: un escalón más */
   color: var(--tinta-suave);
 }
 
-/* sobre el fondo terracota de la helada, la tinta suave baja de AA */
-.tarea.es-helada .tarea__fuente {
-  color: var(--tinta-media);
-}
-
-.tarea__acciones {
-  display: flex;
-  border-top: 1.5px dashed var(--linea);
-}
-
-.tarea__accion {
-  flex: 1;
-  min-height: var(--tap-min);
-  font-family: var(--font-display);
-  font-size: var(--texto-s);
-  font-weight: 700;
-  color: var(--tinta-media);
-}
-
-.tarea__accion + .tarea__accion {
-  border-left: 1.5px dashed var(--linea);
-}
-
-.tarea__accion.es-listo {
-  color: var(--verde-prof);
-}
-
-.tarea__accion:active {
-  background: var(--papel-hundido);
-}
-
-/* --- carrusel de sugerencias --- */
-.carrusel {
-  display: flex;
-  gap: var(--esp-3);
+/* ---- Sembrá ahora: lista reglada, no carrusel ---- */
+.sembrar {
   list-style: none;
-  /* sangra solo por la derecha: la primera tarjeta alinea con el texto y la
-     última se asoma fuera de pantalla, que es lo que invita a arrastrar */
-  margin-right: calc(var(--esp-4) * -1);
-  padding: var(--esp-1) var(--esp-4) var(--esp-3) 0;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-.carrusel::-webkit-scrollbar {
-  display: none;
+  margin: 0 calc(-1 * var(--esp-4));
+  padding: 0;
 }
 
-.carrusel > li {
-  flex: none;
-  width: 154px;
-  scroll-snap-align: start;
-}
-
-.sugerencia {
+.sembrar__fila {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: 0 var(--esp-4);
+  border-top: 1px solid var(--linea);
 }
 
-.sugerencia__link {
+.sembrar__fila:last-child {
+  border-bottom: 1px solid var(--linea);
+}
+
+.sembrar__link {
   display: flex;
-  flex-direction: column;
-  gap: var(--esp-1);
+  align-items: center;
+  gap: var(--esp-3);
   flex: 1;
-  padding: var(--esp-4) var(--esp-3) var(--esp-3);
-  padding-top: var(--esp-5);
+  min-width: 0;
+  min-height: 56px;
+  padding: var(--esp-2) 0;
   text-decoration: none;
   color: inherit;
 }
 
-.sugerencia__icono {
+.sembrar__icono {
   display: grid;
   place-items: center;
   width: 34px;
   height: 34px;
+  flex: none;
   border-radius: var(--radio-s);
   background: var(--papel-hundido);
 }
 
-.sugerencia__nombre {
-  font-family: var(--font-display);
-  font-size: var(--texto-s);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--tinta);
+.sembrar__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
-.sugerencia__ventana {
+.sembrar__nombre {
+  font-family: var(--font-cuerpo);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tinta-alta);
+}
+
+.sembrar__ventana {
   font-size: 11px;
   color: var(--tinta-suave);
 }
 
-.sugerencia__ventana.es-cierra {
+.sembrar__ventana.es-cierra {
   font-weight: 700;
-  color: var(--terracota);
+  color: var(--terracota-texto);
 }
 
-.sugerencia__metodo {
-  display: flex;
+.sembrar__metodo {
+  display: inline-flex;
   align-items: center;
   gap: 4px;
-  margin-top: 2px;
+  margin-left: var(--esp-2);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--terracota);
+  color: var(--terracota-texto);
 }
 
-.sugerencia__sumar {
+.sembrar__sumar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  min-width: var(--tap-min);
   min-height: var(--tap-min);
-  border-top: 1.5px dashed var(--linea);
-  font-family: var(--font-display);
-  font-size: var(--texto-s);
-  font-weight: 700;
+  font-family: inherit;
+}
+
+.sembrar__sumar .carril__pildora {
+  border-color: var(--verde-prof);
   color: var(--verde-prof);
 }
 
-.sugerencia__sumar:active {
-  background: var(--ideal-fondo);
+/* ---- menú de la fila ---- */
+.hoja__opcion {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--esp-3);
+  border-radius: var(--radio-tarjeta);
+  background: var(--papel-hundido);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta);
+  text-align: left;
+}
+
+.hoja__opcion + .hoja__opcion {
+  margin-top: var(--esp-2);
+}
+
+.hoja__opcion small {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-cuerpo);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--tinta-suave);
 }

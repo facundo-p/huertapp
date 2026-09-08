@@ -9,8 +9,11 @@ import { FichaEspecie } from './screens/FichaEspecie'
 import { Calendario } from './screens/Calendario'
 import { MiHuerta } from './screens/MiHuerta'
 import { DetallePlanta } from './screens/DetallePlanta'
+import { DetalleCompostera } from './screens/DetalleCompostera'
 import { Glosario } from './screens/Glosario'
 import { Ajustes } from './screens/Ajustes'
+import { Compost } from './screens/Compost'
+import { CompostCapitulo } from './screens/CompostCapitulo'
 import './screens/screens.css'
 
 function ConTabs() {
@@ -32,10 +35,13 @@ export default function App() {
           <Route path="/hoy" element={<Hoy />} />
           <Route path="/explorar" element={<Explorar />} />
           <Route path="/calendario" element={<Calendario />} />
+          <Route path="/compost" element={<Compost />} />
           <Route path="/huerta" element={<MiHuerta />} />
         </Route>
         <Route path="/explorar/:slug" element={<FichaEspecie />} />
         <Route path="/huerta/:id" element={<DetallePlanta />} />
+        <Route path="/huerta/compostera/:id" element={<DetalleCompostera />} />
+        <Route path="/compost/:capitulo" element={<CompostCapitulo />} />
         <Route path="/glosario" element={<Glosario />} />
         <Route path="/ajustes" element={<Ajustes />} />
         <Route path="*" element={<Navigate to="/hoy" replace />} />

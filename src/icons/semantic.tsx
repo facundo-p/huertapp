@@ -10,6 +10,8 @@ import {
   IconoSueloRustico,
 } from './suelos'
 import { IconoLuzMedia, IconoLuzParcial, IconoLuzPleno, IconoLuzSombra } from './luz'
+import { IconoTempCalida, IconoTempFria, IconoTempTemplada } from './temperatura'
+import { CORTES_BANDA, type BandaTemp } from '../lib/data/especies'
 
 // Mapas semánticos: código de categoría → ícono + etiqueta + color del sistema.
 // Regla de uso (BRIEF §4): en listas/chips va el ícono solo, SIEMPRE con aria-label.
@@ -42,6 +44,22 @@ export const LUCES: Record<CategoriaLuz, Info> = {
   SOL_PARCIAL: { Icono: IconoLuzParcial, etiqueta: 'Sol parcial: 4 a 6 horas de sol directo', color: 'var(--luz-parcial)' },
   MEDIA_SOMBRA: { Icono: IconoLuzMedia, etiqueta: 'Media sombra: 2 a 4 horas de sol directo', color: 'var(--luz-media)' },
   TOLERA_SOMBRA: { Icono: IconoLuzSombra, etiqueta: 'Tolera sombra: crece con luz indirecta', color: 'var(--luz-sombra)' },
+}
+
+// Las etiquetas dicen el criterio con su número: la banda no es un juicio
+// agronómico nuevo, es el ideal_min investigado puesto en tres cajones.
+const g = CORTES_BANDA.germinacion
+export const BANDAS_GERMINACION: Record<BandaTemp, Info> = {
+  frio: { Icono: IconoTempFria, etiqueta: `Germina fresco: su ideal arranca en ${g.frio} °C o menos`, color: 'var(--temp-frio)' },
+  templado: { Icono: IconoTempTemplada, etiqueta: `Germina templado: su ideal arranca entre ${g.frio + 1} y ${g.calor - 1} °C`, color: 'var(--temp-templado)' },
+  calor: { Icono: IconoTempCalida, etiqueta: `Necesita calor para germinar: su ideal arranca en ${g.calor} °C o más`, color: 'var(--temp-calor)' },
+}
+
+const c = CORTES_BANDA.crecimiento
+export const BANDAS_CRECIMIENTO: Record<BandaTemp, Info> = {
+  frio: { Icono: IconoTempFria, etiqueta: `Crece con fresco: su ideal arranca en ${c.frio} °C o menos`, color: 'var(--temp-frio)' },
+  templado: { Icono: IconoTempTemplada, etiqueta: `Crece templado: su ideal arranca entre ${c.frio + 1} y ${c.calor - 1} °C`, color: 'var(--temp-templado)' },
+  calor: { Icono: IconoTempCalida, etiqueta: `Necesita calor para crecer: su ideal arranca en ${c.calor} °C o más`, color: 'var(--temp-calor)' },
 }
 
 interface SemanticProps extends IconProps {

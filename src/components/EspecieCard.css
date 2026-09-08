@@ -1,8 +1,13 @@
+/* Sí es tarjeta: la especie es una unidad separable y navegable, que es lo
+   que la regla «reglado antes que tarjeta» reserva para la tarjeta. */
 .especie-card {
   display: flex;
   flex-direction: column;
   gap: var(--esp-3);
   padding: var(--esp-3) var(--esp-4) var(--esp-4);
+  border-radius: var(--radio-tarjeta);
+  background: var(--papel-alto);
+  border: 1px solid var(--linea);
   text-decoration: none;
   color: inherit;
   transition: transform 0.15s ease, box-shadow 0.2s ease;
@@ -17,11 +22,11 @@
   display: flex;
   align-items: baseline;
   gap: var(--esp-2);
-  /* deja lugar al ojal de la etiqueta */
-  padding-left: 18px;
 }
 
 .especie-card__nombre {
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   flex: 1;
   font-size: var(--texto-l);
   font-weight: 700;
@@ -55,18 +60,26 @@
 
 .especie-card__ahora.es-cierra {
   background: var(--posible-fondo);
-  color: #8a5a12;
+  color: var(--sol-texto);
   border-color: var(--posible);
 }
 
 .especie-card__ahora.es-posible {
   background: var(--posible-fondo);
-  color: #8a5a12;
+  color: var(--sol-texto);
   border: 1.5px dashed var(--posible);
 }
 
 .especie-card__iconos {
   display: flex;
   gap: var(--esp-3);
-  padding-left: 18px;
+}
+
+/* El anillo va al lado de los íconos de categoría, no debajo: a 56 px queda
+   a la misma altura que la fila de tres y la tarjeta no crece. */
+.especie-card__pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
 }

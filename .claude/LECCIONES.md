@@ -241,6 +241,47 @@ dibujar. Está anotado en `src/lib/data/especies.ts` para que no se
 
 ---
 
+### El test de contraste ignoraba el alpha del color del texto
+
+**Síntoma:** en tema noche, «Agregar a mi huerta» y otros siete botones tenían
+el texto casi invisible. El spec de accesibilidad pasaba en verde.
+
+**Causa:** el texto iba en `--papel-alto`, que de noche es `#26332270`
+(alpha 0,44). El test leía `rgb()` del color y descartaba el cuarto valor:
+medía el color opaco, no el que se veía.
+
+**Qué hacer:** componer el alpha del texto sobre el fondo antes de medir (ya
+está). Y como color de texto sobre relleno, `--papel`, que es opaco en los dos
+temas. Verificado revirtiendo el arreglo: el test falla con 2,06:1.
+
+**La lección general:** un test que mide una propiedad tiene que medirla como
+la ve la persona. Cuando encuentres un bug visual que el test no vio, primero
+preguntale al test por qué no lo vio.
+
+### `origin/cantero` local no es `cantero`
+
+**Síntoma:** una rama nueva salió de `origin/cantero` y no tenía dos PR que ya
+estaban mergeados. Los tests pasaron sobre un estado viejo.
+
+**Causa:** los merges se hacen con `gh pr merge`, que no toca los refs
+locales. `git merge origin/cantero` sin `git fetch` antes es un no-op.
+
+**Qué hacer:** `git fetch origin` antes de crear cada rama y confirmar con
+`git merge-base --is-ancestor`. Y después de un `git stash` / `stash pop`,
+recordar que el índice vuelve vacío: un `git add` por nombre antes del commit,
+si no el commit sale con la mitad.
+
+### `Closes #N` no cierra si el PR no apunta a la rama por defecto
+
+**Síntoma:** todas las sub-issues del epic seguían abiertas con sus PR
+mergeados.
+
+**Causa:** GitHub solo procesa las palabras clave de cierre cuando el PR entra
+a la rama por defecto (`staging`). Los PR del rediseño entran a `cantero`.
+
+**Qué hacer:** cerrar a mano con un comentario que diga por cuál PR entró. El
+`Closes` igual va: vincula la issue con el PR en el tablero.
+
 ## Entorno
 
 ### `pkill -f` no distingue de quién es el proceso
@@ -291,3 +332,21 @@ está esperando. Cuando un test falle de forma intermitente, **verificá primero
 que su condición de espera sea real** —hacela devolver `false` a propósito y
 mirá si el test se queja— antes de teorizar sobre el navegador. Dos teorías
 elegantes se fueron a la basura por no hacer eso primero.
+
+### Un merge puede dejar dos `## [Sin publicar]` en el changelog
+
+**Síntoma:** al ir a anotar un cambio, `CHANGELOG.md` tenía la sección
+«Sin publicar» dos veces: una reescrita para el rediseño y, más abajo, la
+vieja entera, con entradas ya superadas («la barra de abajo flota»). Además el
+encabezado de la primera se había perdido: el merge lo pegó dentro de la cita
+de la introducción y dejó un backtick sin cerrar.
+
+**Causa:** el epic reescribió la sección en su rama mientras `staging` seguía
+sumando entradas a la suya. Git resolvió el merge sin conflicto porque las
+líneas no se pisaban, y nadie miró el resultado: los tests no leen el
+changelog.
+
+**Qué hacer:** después de mergear `staging` en una rama larga, `grep -n "^## "
+CHANGELOG.md` y comprobar que «Sin publicar» aparezca una sola vez. Y al
+reescribir la sección, revisar qué entradas de la otra rama quedaron sin
+cubrir (acá, dos «Arreglado» que no estaban en la reescritura).

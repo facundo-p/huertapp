@@ -22,6 +22,122 @@ Qué significa cada parte en este proyecto:
 > `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
 > versión nueva con su fecha.
 
+## [2.0.0] — 2026-09-07
+
+### Cambiado
+
+- **La app cambió de cara: «Cantero», en dos temas.** El mismo diseño en
+  papel claro para el día y tierra oscura para la noche. Se elige en Ajustes
+  —Día, Noche o Automático— y cambia al toque; si abrís de noche con el tema
+  oscuro, ya no hay destello blanco. Los títulos van en Unbounded y el texto
+  en Manrope, y las dos viajan con la app: siguen sin internet. Las listas
+  dejaron de ser cajitas: filas separadas por una línea fina, de borde a
+  borde, y lo que importa se destaca con un tinte ocre.
+
+- **Hoy ahora se llama «Esta semana», y es un carril de siete días.** En cada
+  fila, el día con su cielo y sus temperaturas a la izquierda y, a la
+  derecha, lo que toca ese día: tareas y avisos del pronóstico. Las tareas que
+  van a entrar en ventana durante la semana aparecen el día que entran, cosa
+  que antes no veías. Un día sin nada muestra un guion. Una helada
+  pronosticada va en su día y, además, arriba de todo. Tocar el día abre el
+  detalle del pronóstico; «Más tarde» vive en el menú ⋯ de cada tarea.
+  «Sembrá ahora» sigue al pie, como lista.
+
+- **Explorar: el año como un reloj, y los filtros a la vista.** Cada especie
+  lleva un anillo con los doce meses y una aguja en la década de hoy. Los
+  filtros son cuatro chips en línea —Grupo, Suelo, Luz, Temperatura— que
+  abren cada uno su hoja; el chip dice lo que elegiste.
+
+- **La ficha de cada especie dice de dónde sale cada cosa, de un vistazo.** La
+  confianza es una fila de diez puntos y el número; las fuentes, chips que
+  enlazan al documento. El anillo es doble (siembra afuera, trasplante
+  adentro) y el aviso de almácigo protegido es una banda ocre arriba de los
+  campos. Y el botón «Agregar a mi huerta» se lee de noche: tenía el texto
+  casi invisible.
+
+- **Mi huerta muestra el ciclo entero de cada planta.** Cada una es una línea
+  de tiempo sobre seis meses —dos atrás y cuatro adelante— con la siembra, lo
+  que va creciendo, la ventana de trasplante y la de cosecha, y la marca de
+  hoy. Las filas ya no se pliegan; los lugares sí, y cerrarlos no esconde lo
+  que pide atención.
+
+- **El detalle de una planta, en orden.** El ciclo de cinco etapas con la
+  actual en ocre, la germinación con el corrimiento explicado en tres
+  números —lo que decía la ficha, lo que tardó, lo que se corrió—, los datos
+  de la siembra, lo que viene con su botón, y el diario como línea de tiempo
+  con un punto del color de cada entrada.
+
+- **El Calendario suma la cosecha y «Solo mi huerta».** Un tercer segmento
+  con la ventana de cosecha, calculada sumando los días a cosecha a cada
+  ventana de siembra (el pie lo dice). Un chip filtra a las especies que
+  tenés plantadas, con un punto ocre en cada una. Tocar un mes ya no hace
+  falta: el panel del mes muestra los tres tercios en palabras, con lo que se
+  cierra primero adelante y «en tu huerta» cuando una de tus plantas cae ahí,
+  y se navega con flechas.
+
+- **La barra de abajo vuelve al borde.** Opaca, de lado a lado, con la
+  sección activa en un bloque ocre. La píldora flotante dejaba ver el
+  contenido por debajo.
+
+### Agregado
+
+- **Compost: una guía de consulta, con fuentes.** Quinta pestaña. Qué vas a
+  compostar (cocina o jardín), en qué sistema (tachos o compostera a suelo),
+  y la receta que vale para todo. Cada capítulo cuenta los tres estados, qué
+  poner y qué no con el porqué, cuándo girar, qué señales dicen que va bien o
+  que algo falla, y cómo saber si está listo. Cada bloque lleva su confianza y
+  sus fuentes —INTI-INTA ProHuerta, la Provincia, la Ciudad, Santa Fe y FAO—
+  y lo que ninguna dice figura como «s/d». La guía no registra nada: tus
+  composteras van en Mi huerta.
+
+- **Mi compostera: tus tachos con estado y avisos de giro.** En Mi huerta hay
+  una sección Compost donde cargás cada compostera —tacho o a suelo, restos de
+  cocina o de jardín, si tiene lombrices— con su estado (llenando, cocinando,
+  madurando) y cada cuánto querés que te avise que toca revolver: cada 3 días,
+  cada semana, cada 15, cada mes o nunca. Es tu ritmo, no el de la guía. El
+  aviso sale en Esta semana como cualquier tarea, el día que toca, contado
+  desde el último giro que anotaste; «Hecho» anota el giro. Cuando pasó el
+  tiempo que dicen las fuentes desde que dejó de recibir restos, te avisa que
+  revises si ya está. El detalle de cada compostera dice qué hacer en ese
+  estado según la guía, con sus fuentes, y el botón grande es «Hoy la giré».
+  En la guía, el capítulo de girar ahora explica cada cuánto según el caso
+  —tacho cerrado mientras cargás, compostera con secos, pila grande, con
+  lombrices— y por qué, con la fuente de cada uno. Las composteras viajan en
+  el backup.
+
+- **El pronóstico ya no te esconde el sol.** El cielo de cada día sale de
+  cuántas horas de sol efectivo trae el pronóstico, no del «peor momento del
+  día»: una mañana nublada pintaba de gris un día de sol. Los íconos ganaron
+  color.
+
+- **Filtrar el catálogo por la temperatura que pide cada especie.** En
+  Explorar → Temperatura, dos filas —para germinar y para crecer— con tres
+  bandas. Los cortes salen del rango ideal investigado de cada ficha. Las
+  especies sin dato no aparecen con el filtro puesto, y la pantalla las nombra.
+
+### Arreglado
+
+- **La guía de Compost ya no le atribuye al INTI-INTA el «cada 2 o 3 días».**
+  Esa frecuencia la da solo la Ciudad; el instructivo del INTI-INTA dice qué
+  hace el volteo y cuándo hace falta, no cada cuánto.
+
+- **La app ya no te apura a trasplantar lo que todavía no asomó.** Si no
+  contaste que germinó, el aviso de trasplante espera: primero te pregunta si
+  asomó — ahora directo desde el aviso de Esta semana, con un botón **"Asomó"** (y
+  **"Todavía no"** si sigue sin señales). Apenas confirmás, las fechas se
+  acomodan a tu planta y recién ahí aparece lo que sigue. Antes podían salir
+  los dos avisos juntos, y el de trasplante encima usaba la fecha de la ficha
+  sin corregir.
+
+- **La barra de temperaturas ahora dice todo lo que sabe — y solo lo que
+  sabe.** Los mínimos y máximos que la planta aguanta se leen alineados a su
+  tramo de la barra, no perdidos en las puntas. Y cuando una fuente no da un
+  extremo, vas a ver "s/d" en su lugar: antes la barra repetía el número del
+  ideal como si fuera el límite, y eso era inventar un dato. De paso, la barra
+  se presenta entera a los lectores de pantalla.
+
+---
+
 ## [1.2.0] — 2026-08-28
 
 Las versiones anteriores hablaban de plantas en general. Ésta se mete con **tu**

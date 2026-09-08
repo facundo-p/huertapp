@@ -1,0 +1,810 @@
+{
+  "meta": {
+    "titulo": "Compostaje casero en el Gran Buenos Aires: la guía, con fuentes",
+    "descripcion": "Contenido de la sección Compost. Cada bloque dice de dónde sale (fuentes por id) y cuánto lo respaldan (confianza 1-10, la misma escala del catálogo). Lo que ninguna fuente dice queda en null y la app lo muestra como «s/d»; no se completa con lo que parezca razonable.",
+    "fecha_investigacion": "2026-09-07",
+    "escala_confianza": {
+      "10": "Varias fuentes oficiales o técnicas independientes concuerdan.",
+      "8-9": "Una fuente oficial clara, o varias serias que concuerdan con matices.",
+      "5-7": "Fuente confiable única, o fuentes que discrepan en el número.",
+      "1-4": "Dato divulgativo o inferido.",
+      "null": "Sin fuente: se muestra como s/d."
+    },
+    "fuentes": {
+      "inti-inta": {
+        "organizacion": "INTI · INTA ProHuerta (Córdoba)",
+        "titulo": "Instructivo para la producción de compost domiciliario. Una oportunidad para convertir residuos del hogar en una enmienda orgánica",
+        "url": "https://www.argentina.gob.ar/sites/default/files/instructivo_para_la_produccion_de_compost_domiciliario.pdf",
+        "anio": null,
+        "nota": "Sin fecha en el documento. Autores: Ing. Agr. Roger A. Benitez (INTA ProHuerta) e Ing. Agr. Violeta Silbert (INTI).",
+        "corto": "INTI-INTA ProHuerta"
+      },
+      "opds": {
+        "organizacion": "OPDS · Provincia de Buenos Aires",
+        "titulo": "Manual de compostaje domiciliario (versión 1.29)",
+        "url": "https://www.ambiente.gba.gob.ar/sites/default/files/029_ManualCompostDomiciliario_AGO20%20(1).pdf",
+        "anio": 2020,
+        "nota": "Dirección Provincial de Residuos. Licencia CC BY-NC-ND 4.0.",
+        "corto": "Provincia (OPDS)"
+      },
+      "gcba": {
+        "organizacion": "Ciudad de Buenos Aires · Ministerio de Espacio Público e Higiene Urbana",
+        "titulo": "Guía de compostaje domiciliario",
+        "url": "https://static.buenosaires.gob.ar/sites/default/files/media/document/2022/06/27/8bdc7b94579399e3d9ea7bfc5c1de94009fb5ed3.pdf",
+        "anio": 2022,
+        "nota": "Subsecretaría de Higiene Urbana.",
+        "corto": "Ciudad de Buenos Aires"
+      },
+      "santafe": {
+        "organizacion": "Gobierno de Santa Fe · Ministerio de Ambiente y Cambio Climático",
+        "titulo": "Guía para compostaje domiciliario",
+        "url": "https://www.santafe.gov.ar/index.php/web/content/download/276191/1435077/file/Guia%20Compostaje%20A4_.pdf",
+        "anio": 2024,
+        "nota": "Clima distinto al del GBA; se cita solo en lo que no depende del clima.",
+        "corto": "Santa Fe"
+      },
+      "fao": {
+        "organizacion": "FAO · Oficina Regional para América Latina y el Caribe",
+        "titulo": "Manual de compostaje del agricultor. Experiencias en América Latina",
+        "url": "https://www.fao.org/4/i3388s/i3388s.pdf",
+        "anio": 2013,
+        "nota": "Román, Martínez y Pantoja. Escala de finca; se cita para el proceso (fases, C/N, humedad, madurez), no para volúmenes de balcón.",
+        "corto": "FAO"
+      },
+      "unlu": {
+        "organizacion": "Universidad Nacional de Luján, Departamento de Tecnología (López y Scibona)",
+        "corto": "UNLu",
+        "titulo": "Hoja informativa de horticultura N.º 5: Lombricultura, producción de abono orgánico",
+        "url": "https://www.hort.unlu.edu.ar/sites/www.hort.unlu.edu.ar/files/site/Hoja%20informativa%205%20-%20Lombricultura.pdf",
+        "anio": 2001,
+        "nota": "Escala comercial (pilas de 20 a 30 m). Se cita solo por las dos fases del proceso y el papel de las lombrices."
+      }
+    }
+  },
+  "receta": {
+    "proporcion": {
+      "valor": "Por cada parte de restos verdes (los húmedos: cocina, pasto), de 1 a 3 partes de secos. Lo más repetido es dos de secos por una de verdes.",
+      "fuentes": [
+        "inti-inta",
+        "opds",
+        "santafe",
+        "gcba",
+        "fao"
+      ],
+      "confianza": 9
+    },
+    "proporcion_detalle": {
+      "valor": "INTI-INTA y Santa Fe dicen 2 secos por 1 verde; la Provincia, 1 o 2; la Ciudad, 3 por 1. FAO lo mide en carbono y nitrógeno: entre 25 y 35 de carbono por cada 1 de nitrógeno al arrancar, y los restos de cocina solos están en 14.",
+      "fuentes": [
+        "inti-inta",
+        "opds",
+        "santafe",
+        "gcba",
+        "fao"
+      ],
+      "confianza": 9
+    },
+    "humedad": {
+      "valor": "Como una esponja recién exprimida: al apretar un puñado tiene que quedar compacto y no gotear. Si gotea, secos y mezclar; si se desarma, agua o restos frescos.",
+      "fuentes": [
+        "opds",
+        "gcba",
+        "fao"
+      ],
+      "confianza": 9
+    },
+    "humedad_detalle": {
+      "valor": "FAO pone el rango entre 45 y 60 % de agua. Los restos de cocina son 70 % agua, así que mezclados con secos rara vez hay que regar; en días de mucho calor o con exceso de secos, sí.",
+      "fuentes": [
+        "fao",
+        "opds"
+      ],
+      "confianza": 8
+    },
+    "aire": {
+      "valor": "Girar o voltear para que entre aire. Sin oxígeno ganan las bacterias que pudren, y eso es el olor.",
+      "fuentes": [
+        "opds",
+        "inti-inta",
+        "gcba",
+        "santafe"
+      ],
+      "confianza": 9
+    },
+    "tamano": {
+      "valor": "Todo picado: los restos de cocina en pedazos de 5 cm o menos (la Ciudad dice hasta 3), los de jardín un poco más grandes para que quede aire entre medio.",
+      "fuentes": [
+        "inti-inta",
+        "gcba"
+      ],
+      "confianza": 8
+    }
+  },
+  "materiales": {
+    "cocina": {
+      "nombre": "Restos de cocina",
+      "descripcion": "Cáscaras, yerba, café, lo que sobra al cocinar. Húmedos y con nitrógeno: necesitan secos al lado."
+    },
+    "jardin": {
+      "nombre": "Restos del jardín",
+      "descripcion": "Pasto, hojas, poda. Los verdes aportan nitrógeno; los secos, carbono y estructura."
+    }
+  },
+  "sistemas": {
+    "tachos": {
+      "nombre": "Tachos rotativos o apilables",
+      "descripcion": {
+        "valor": "Para balcón, patio de baldosas o terraza. Al menos dos, para que uno se llene mientras el otro composta; con agujeros abajo para el líquido, tapa que deje pasar aire y no la lluvia, y a la sombra.",
+        "fuentes": [
+          "opds",
+          "gcba",
+          "inti-inta"
+        ],
+        "confianza": 9
+      },
+      "volumen": {
+        "valor": "Un tacho de pintura de 20 litros alcanza para arrancar. INTI-INTA calcula 50 litros por persona, a razón de unos 325 gramos de restos de cocina por día.",
+        "fuentes": [
+          "opds",
+          "inti-inta"
+        ],
+        "confianza": 8
+      },
+      "estados": [
+        {
+          "clave": "llenando",
+          "nombre": "Llenando",
+          "duracion": {
+            "valor": "Hasta que el tacho se llena. Lo de abajo ya se va compostando mientras cargás arriba.",
+            "fuentes": [
+              "opds"
+            ],
+            "confianza": 8
+          },
+          "que_hacer": {
+            "valor": "Capa de secos en el fondo. Cada vez que agregás, mezclá con lo viejo y tapá con secos: así no llegan las mosquitas. No dejes los restos más de 2 o 3 días en el tachito de la cocina.",
+            "fuentes": [
+              "opds",
+              "gcba",
+              "santafe"
+            ],
+            "confianza": 9
+          }
+        },
+        {
+          "clave": "cocinando",
+          "nombre": "Cocinando",
+          "duracion": {
+            "valor": "Semanas. En un bidón, FAO ve la maduración entre las 6 y las 10 semanas; en casa, la Provincia cuenta 4 a 6 meses desde que dejaste de cargar.",
+            "fuentes": [
+              "fao",
+              "opds"
+            ],
+            "confianza": 7
+          },
+          "que_hacer": {
+            "valor": "Dejá de agregar y arrancá el segundo tacho. Girá o mezclá y controlá la humedad. Si no calienta, no pasa nada: un tacho tiene poca masa y casi nunca llega a los 45 °C; tarda un poco más, nada más.",
+            "fuentes": [
+              "opds",
+              "gcba"
+            ],
+            "confianza": 8
+          }
+        },
+        {
+          "clave": "madurando",
+          "nombre": "Madurando",
+          "duracion": {
+            "valor": "Hasta los 4 a 6 meses desde que dejó de recibir restos (3 a 5 según la Ciudad). Más rápido en verano, más lento en invierno.",
+            "fuentes": [
+              "opds",
+              "gcba",
+              "santafe"
+            ],
+            "confianza": 8
+          },
+          "que_hacer": {
+            "valor": "Casi nada: humedad de esponja y esperar. Después, tamizar y devolver lo grueso al tacho en uso.",
+            "fuentes": [
+              "opds",
+              "santafe"
+            ],
+            "confianza": 9
+          }
+        }
+      ],
+      "girar": {
+        "cuando": {
+          "valor": "Cada 2 o 3 días según la Ciudad; 1 o 2 veces por semana según la Provincia. Cuál te corresponde depende de cómo esté la mezcla: abajo, caso por caso.",
+          "fuentes": [
+            "gcba",
+            "opds"
+          ],
+          "confianza": 8
+        },
+        "por_que": {
+          "valor": "Girar mete aire: las bacterias que compostan lo necesitan, y sin aire ganan las que pudren, que huelen. También empareja la humedad y rompe los grumos. En un tacho cerrado la aireación es lo que más cuesta.",
+          "fuentes": [
+            "inti-inta",
+            "opds",
+            "gcba"
+          ],
+          "confianza": 9
+        },
+        "sin_girar": {
+          "valor": "Con estructura —ramitas, cartón arrugado, secos de sobra— el aire entra solo y se puede girar menos; en un tacho cerrado, el riesgo de que pudra es mayor.",
+          "fuentes": [
+            "opds",
+            "inti-inta"
+          ],
+          "confianza": 5
+        },
+        "sin_girar_tiempo": {
+          "valor": null,
+          "fuentes": [],
+          "confianza": null
+        }
+      },
+      "listo_desde": {
+        "valor": "A los 4 meses de que dejó de recibir restos vale revisarlo: la Provincia cuenta 4 a 6 meses; la Ciudad, 3 a 5.",
+        "dias": 120,
+        "fuentes": [
+          "opds",
+          "gcba"
+        ],
+        "confianza": 8
+      }
+    },
+    "suelo": {
+      "nombre": "Compostera a suelo: corralito, pila o pozo",
+      "descripcion": {
+        "valor": "Apoyada en la tierra: el líquido se infiltra y llegan solas las lombrices y los bichos bolita. Corralito de hasta 1 m³, con dos compartimentos, tapa contra la lluvia y a la sombra. El pozo no conviene donde llueve mucho: se anega.",
+        "fuentes": [
+          "opds",
+          "inti-inta"
+        ],
+        "confianza": 9
+      },
+      "volumen": {
+        "valor": "INTI-INTA: 0,7 × 0,8 × 0,5 m para hasta 3 personas; 0,7 × 1,2 m para 5; 0,7 × 1,5 m para 7. La Provincia: no más de 1 m³, para poder mezclar y cosechar.",
+        "fuentes": [
+          "inti-inta",
+          "opds"
+        ],
+        "confianza": 9
+      },
+      "estados": [
+        {
+          "clave": "llenando",
+          "nombre": "Llenando",
+          "duracion": {
+            "valor": "Hasta llenar el compartimento.",
+            "fuentes": [
+              "opds",
+              "santafe"
+            ],
+            "confianza": 8
+          },
+          "que_hacer": {
+            "valor": "Capa de secos abajo, mezclar cada tanda nueva con la anterior y tapar con secos. Cubrila de la lluvia.",
+            "fuentes": [
+              "opds",
+              "santafe",
+              "inti-inta"
+            ],
+            "confianza": 9
+          }
+        },
+        {
+          "clave": "cocinando",
+          "nombre": "Cocinando",
+          "duracion": {
+            "valor": "Semanas a meses. Con volumen sube la temperatura: FAO describe la fase caliente, por encima de 45 °C, de días a meses según el material y el clima.",
+            "fuentes": [
+              "fao",
+              "opds"
+            ],
+            "confianza": 7
+          },
+          "que_hacer": {
+            "valor": "Voltear con horquilla 1 o 2 veces por semana. Si está seca, regar: cada 7 días en verano y cada 15 en invierno, dice INTI-INTA.",
+            "fuentes": [
+              "opds",
+              "inti-inta"
+            ],
+            "confianza": 8
+          }
+        },
+        {
+          "clave": "madurando",
+          "nombre": "Madurando",
+          "duracion": {
+            "valor": "3 a 6 meses en total: 3 en clima cálido, 6 en frío. FAO cuenta 3 a 6 meses para el compost maduro.",
+            "fuentes": [
+              "santafe",
+              "opds",
+              "fao"
+            ],
+            "confianza": 8
+          },
+          "que_hacer": {
+            "valor": "Esperar, tamizar, y lo grueso vuelve al compartimento en uso.",
+            "fuentes": [
+              "opds",
+              "santafe"
+            ],
+            "confianza": 9
+          }
+        }
+      ],
+      "girar": {
+        "cuando": {
+          "valor": "1 o 2 veces por semana según la Provincia; una por semana según Santa Fe. FAO: semanal las primeras 3 o 4 semanas y quincenal después. Abajo, caso por caso.",
+          "fuentes": [
+            "opds",
+            "santafe",
+            "fao"
+          ],
+          "confianza": 8
+        },
+        "por_que": {
+          "valor": "Girar mete aire y empareja humedad y calor. Sin oxígeno ganan las bacterias que pudren, que huelen. En pila grande, además, reparte el calor que el centro acumula.",
+          "fuentes": [
+            "inti-inta",
+            "opds",
+            "fao"
+          ],
+          "confianza": 9
+        },
+        "sin_girar": {
+          "valor": "Sí: FAO documenta una pila sin volteo, con una chimenea de aire en el centro y capas alternadas de secos y verdes, lista en 4 a 6 meses a escala de campo.",
+          "fuentes": [
+            "fao"
+          ],
+          "confianza": 6
+        },
+        "sin_girar_tiempo": {
+          "valor": "4 a 6 meses, en una pila de campo con chimenea de aire.",
+          "fuentes": [
+            "fao"
+          ],
+          "confianza": 6
+        }
+      },
+      "listo_desde": {
+        "valor": "A los 3 meses de que dejó de recibir restos vale revisarlo: Santa Fe cuenta 3 en clima cálido y 6 en frío; FAO, 3 a 6.",
+        "dias": 90,
+        "fuentes": [
+          "santafe",
+          "fao",
+          "opds"
+        ],
+        "confianza": 8
+      }
+    }
+  },
+  "por_material": {
+    "cocina": {
+      "verdes": {
+        "items": [
+          "Cáscaras y restos de frutas y verduras crudas",
+          "Yerba, borra de café, saquitos de té e infusiones, con el papel del filtro",
+          "Restos de plantas y flores de la casa"
+        ],
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "gcba",
+          "santafe"
+        ],
+        "confianza": 9
+      },
+      "secos": {
+        "items": [
+          "Cáscaras de huevo, trituradas",
+          "Servilletas y rollos de papel de cocina manchados con comida",
+          "Cartón sucio y bolsas de papel madera, en pedazos",
+          "Cáscaras de frutos secos",
+          "Aserrín y viruta de madera sin pintar ni barnizar"
+        ],
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "gcba",
+          "santafe"
+        ],
+        "confianza": 8
+      },
+      "poco": [
+        {
+          "que": "Cítricos",
+          "porque": "Tardan en descomponerse, traen sustancias bactericidas y atraen mosquitas: trozados y en poca cantidad. La Ciudad acepta hasta un 20 % del total.",
+          "fuentes": [
+            "opds",
+            "gcba",
+            "santafe"
+          ],
+          "confianza": 8
+        },
+        {
+          "que": "Pan y comida cocida de origen vegetal",
+          "porque": "Muy poco y en pedazos: en cantidad atrae animales y da olor. INTI-INTA y Santa Fe directamente lo dejan afuera, por las sales que aporta.",
+          "fuentes": [
+            "opds",
+            "gcba",
+            "inti-inta",
+            "santafe"
+          ],
+          "confianza": 6
+        },
+        {
+          "que": "Carozos y cáscaras de frutos secos",
+          "porque": "Se descomponen tan lento que aparecen enteros meses después. Se tamizan y vuelven al tacho.",
+          "fuentes": [
+            "gcba",
+            "opds"
+          ],
+          "confianza": 8
+        },
+        {
+          "que": "Papel y cartón limpios",
+          "porque": "Compostan, pero si están limpios conviene reciclarlos. Van a la compostera solo si son el único seco que tenés.",
+          "fuentes": [
+            "opds",
+            "gcba"
+          ],
+          "confianza": 8
+        }
+      ],
+      "nunca": [
+        {
+          "que": "Carnes, huesos, pescado y mariscos",
+          "porque": "Se degradan lento, atraen moscas, ratas y otros bichos, y una compostera casera no llega a la temperatura que mataría sus patógenos.",
+          "fuentes": [
+            "inti-inta",
+            "opds",
+            "gcba",
+            "santafe"
+          ],
+          "confianza": 10
+        },
+        {
+          "que": "Lácteos, grasas y aceites",
+          "porque": "Igual que la carne: lentos y atraen vectores.",
+          "fuentes": [
+            "inti-inta",
+            "opds",
+            "gcba",
+            "santafe"
+          ],
+          "confianza": 10
+        },
+        {
+          "que": "Heces de perros y gatos",
+          "porque": "Pueden traer patógenos que sobreviven al compostaje casero.",
+          "fuentes": [
+            "inti-inta",
+            "opds",
+            "gcba",
+            "santafe"
+          ],
+          "confianza": 10
+        },
+        {
+          "que": "Pañales, papel higiénico, toallitas y paños de limpieza",
+          "porque": "Residuos sanitarios y restos de desinfectantes: no van.",
+          "fuentes": [
+            "inti-inta",
+            "opds",
+            "santafe"
+          ],
+          "confianza": 9
+        },
+        {
+          "que": "Cenizas",
+          "porque": "Ya están «descompuestas» y su alcalinidad altera el proceso.",
+          "fuentes": [
+            "opds"
+          ],
+          "confianza": 7
+        },
+        {
+          "que": "Colillas y tabaco",
+          "porque": "La nicotina es un biocida: mata a los microorganismos que compostan.",
+          "fuentes": [
+            "gcba",
+            "opds"
+          ],
+          "confianza": 8
+        },
+        {
+          "que": "Medicamentos, pilas, químicos, lavandina, insecticidas",
+          "porque": "Matan la vida de la compostera o la contaminan.",
+          "fuentes": [
+            "opds",
+            "santafe",
+            "gcba"
+          ],
+          "confianza": 9
+        }
+      ]
+    },
+    "jardin": {
+      "verdes": {
+        "items": [
+          "Pasto recién cortado",
+          "Restos de plantas verdes: raleos, trasplantes, fin de temporada",
+          "Hojas verdes",
+          "Flores"
+        ],
+        "fuentes": [
+          "inti-inta",
+          "santafe",
+          "gcba"
+        ],
+        "confianza": 9
+      },
+      "secos": {
+        "items": [
+          "Hojas secas",
+          "Ramitas y poda picada",
+          "Pasto seco",
+          "Aserrín, viruta y madera chipeada sin tratar"
+        ],
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "santafe",
+          "gcba"
+        ],
+        "confianza": 9
+      },
+      "poco": [
+        {
+          "que": "Guano de animales de granja (caballo, vaca, cabra, oveja, conejo)",
+          "porque": "Aporta nitrógeno y microorganismos. INTI-INTA excluye el de cerdo y gallina por patógenos; Santa Fe los admite si los animales no están confinados.",
+          "fuentes": [
+            "inti-inta",
+            "santafe"
+          ],
+          "confianza": 6
+        },
+        {
+          "que": "Ramas gruesas",
+          "porque": "Tardan mucho: picadas o trituradas, y las que quedan enteras se tamizan y vuelven.",
+          "fuentes": [
+            "inti-inta",
+            "opds"
+          ],
+          "confianza": 8
+        }
+      ],
+      "nunca": [
+        {
+          "que": "Malezas con semilla",
+          "porque": "La semilla sobrevive al compostaje casero y vuelve al cantero con el compost.",
+          "fuentes": [
+            "inti-inta"
+          ],
+          "confianza": 8
+        },
+        {
+          "que": "Plantas y maderas tratadas con químicos, pintadas o barnizadas",
+          "porque": "Dañan a los microorganismos.",
+          "fuentes": [
+            "inti-inta",
+            "gcba"
+          ],
+          "confianza": 9
+        },
+        {
+          "que": "Excrementos de perros y gatos",
+          "porque": "Pueden traer patógenos que sobreviven al compostaje casero.",
+          "fuentes": [
+            "inti-inta",
+            "opds"
+          ],
+          "confianza": 10
+        },
+        {
+          "que": "Restos de barrido y de aspiradora",
+          "porque": "Traen de todo menos materia orgánica limpia.",
+          "fuentes": [
+            "opds",
+            "santafe"
+          ],
+          "confianza": 8
+        }
+      ]
+    }
+  },
+  "comun": {
+    "senales": [
+      {
+        "bien": "Huele a tierra, no a podrido; en una pila grande, calienta al tacto",
+        "sintoma": "Olor a podrido o a amoníaco",
+        "correccion": "Está muy húmedo o sin aire: agregá secos y mezclá. Si está apelmazado, volcalo, dejalo ventilar un rato y volvé a cargarlo con secos.",
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "santafe",
+          "gcba"
+        ],
+        "confianza": 9
+      },
+      {
+        "bien": "Bichos blancos chiquitos, lombrices y bichos bolita en una compostera a suelo",
+        "sintoma": "Mosquitas de la fruta",
+        "correccion": "Demasiado húmedo. Mezclá, sumá secos y dejá siempre la capa de arriba seca. Sirve una trampa: una botella con dos dedos de vinagre de manzana y agujeritos arriba.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "gcba"
+        ],
+        "confianza": 9
+      },
+      {
+        "bien": "Filamentos blancos aterciopelados: son hongos, y es buena señal",
+        "sintoma": "Hormigas",
+        "correccion": "Está muy seco. Regá y mezclá para que el agua llegue a todo.",
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "santafe"
+        ],
+        "confianza": 9
+      },
+      {
+        "bien": "Baja de volumen: se reduce a la mitad o menos",
+        "sintoma": "No pasa nada: no calienta, tarda",
+        "correccion": "Falta de humedad, frío o exceso de secos: regá o sumá restos de cocina, y tapala. Si es poca masa no calienta y está bien; tarda más, nada más.",
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "santafe",
+          "gcba"
+        ],
+        "confianza": 8
+      },
+      {
+        "bien": "Larvas grandes de mosca soldado negra, de 1 a 3 cm: comen restos y el adulto no molesta",
+        "sintoma": "Roedores",
+        "correccion": "Entró carne, lácteos o comida elaborada. Sacalos, tapá con cartón, volteá seguido y ponele malla.",
+        "fuentes": [
+          "santafe",
+          "inti-inta",
+          "opds"
+        ],
+        "confianza": 9
+      }
+    ],
+    "listo": {
+      "senales": {
+        "items": [
+          "No reconocés lo que entró",
+          "Está a temperatura ambiente y no vuelve a calentar aunque lo mezcles",
+          "Color oscuro y aspecto parejo, con textura granulada",
+          "Huele a tierra mojada",
+          "Pasaron al menos 4 a 6 meses desde que dejó de recibir restos"
+        ],
+        "fuentes": [
+          "inti-inta",
+          "opds",
+          "santafe",
+          "fao"
+        ],
+        "confianza": 9
+      },
+      "pruebas": [
+        {
+          "que": "Prueba de la bolsa",
+          "como": "Un puñado en una bolsa cerrada, dos días en un lugar fresco y seco: si se hincha y suda, todavía no está.",
+          "fuentes": [
+            "fao"
+          ],
+          "confianza": 7
+        },
+        {
+          "que": "Prueba de la barra",
+          "como": "Una barra de metal al centro de la pila, diez minutos: si sale caliente, sigue trabajando.",
+          "fuentes": [
+            "fao"
+          ],
+          "confianza": 7
+        }
+      ],
+      "prueba_germinacion": {
+        "valor": null,
+        "fuentes": [],
+        "confianza": null
+      },
+      "nota": {
+        "valor": "Un compost sin madurar tiene el pH todavía ácido y afecta la germinación: no lo uses para semillas ni plantas delicadas. Si dudás, dejalo unas semanas más y tamizalo; lo grueso vuelve a la compostera.",
+        "fuentes": [
+          "fao",
+          "opds"
+        ],
+        "confianza": 8
+      }
+    },
+    "lixiviado": {
+      "valor": "El líquido que sale por abajo no es «té de compost»: puede ser ácido o tóxico para las plantas. La Provincia no lo recomienda en macetas; Santa Fe lo usa en el jardín diluido 1 en 10; la Ciudad dice que si el proceso va bien casi no debería aparecer.",
+      "fuentes": [
+        "opds",
+        "santafe",
+        "gcba"
+      ],
+      "confianza": 7
+    },
+    "ritmos": [
+      {
+        "clave": "tacho-cargando",
+        "cuando": "Tacho cerrado mientras lo cargás",
+        "dias": 3,
+        "porque": "Lo fresco es pesado y húmedo, se apelmaza, y en un tacho el aire no entra solo: la Ciudad pide mezclar con pala cada 2 o 3 días para que queden intersticios por donde circule. Es la frecuencia más alta de todas las guías, y la única que la da.",
+        "fuentes": [
+          "gcba"
+        ],
+        "confianza": 7
+      },
+      {
+        "clave": "semanal",
+        "cuando": "Compostera común, con secos en proporción",
+        "dias": 7,
+        "porque": "Con secos de sobra la mezcla tiene estructura y el aire pasa: revolver 1 o 2 veces por semana alcanza para que no ganen las bacterias que pudren. Es lo que piden la Provincia y Santa Fe, y lo que FAO hace las primeras 3 o 4 semanas de una pila.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "fao"
+        ],
+        "confianza": 8
+      },
+      {
+        "clave": "quincenal",
+        "cuando": "Pila grande, pasadas las primeras semanas",
+        "dias": 14,
+        "porque": "Cuando la fase caliente pasó y la temperatura ya no sube, FAO pasa a un volteo quincenal: se voltea para emparejar humedad y temperatura, no para reactivar. Antes de voltear mira aspecto, olor y temperatura; el ritmo depende del clima y de cómo esté el material.",
+        "fuentes": [
+          "fao"
+        ],
+        "confianza": 7
+      },
+      {
+        "clave": "lombrices",
+        "cuando": "Con lombrices instaladas",
+        "dias": null,
+        "porque": "Airean y fragmentan ellas: las cuatro guías argentinas las nombran como aliadas de la aireación. En la UNLu el volteo con horquilla es de la fase previa, antes de sembrarlas; con las lombrices adentro, 3 a 5 meses, no se remueve. Ninguna guía casera da un ritmo con lombrices: mezclá solo si huele o se apelmaza.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "inti-inta",
+          "unlu"
+        ],
+        "confianza": 6
+      },
+      {
+        "clave": "falla",
+        "cuando": "Cuando algo falla, sin esperar al turno",
+        "dias": null,
+        "porque": "Olor, mosquitas o material apelmazado se arreglan revolviendo y sumando secos en el momento, no en el próximo giro que tenías anotado.",
+        "fuentes": [
+          "opds",
+          "santafe",
+          "inti-inta",
+          "gcba"
+        ],
+        "confianza": 9
+      }
+    ],
+    "con_lombrices": {
+      "valor": "No son necesarias: la transformación la hacen hongos y bacterias que ya están. Si las sumás a un tacho, que sea cuando el material ya esté oscuro y semiprocesado, si no se mueren o se escapan (la Ciudad dice unas semanas después de arrancar). No van en composteras giratorias. Piden más humedad (70 a 90 %), sombra y tapa. A suelo llegan solas.",
+      "fuentes": [
+        "opds",
+        "gcba",
+        "santafe",
+        "fao"
+      ],
+      "confianza": 8
+    }
+  }
+}

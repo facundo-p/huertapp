@@ -8,6 +8,13 @@ import { conHelada, fixtureDesdeHoy } from './apoyo-pronostico'
 
 const FASE = process.env.FASE ?? 'fase-6'
 const DIR = `e2e/shots/${FASE}`
+/**
+ * El tema de las capturas. `TEMA=noche npm run shots` saca el juego oscuro:
+ * son el mismo diseño y hay que poder compararlas de a pares.
+ * Se fija antes del primer script, que es como lo lee el bootstrap de
+ * index.html.
+ */
+const TEMA = process.env.TEMA ?? 'dia'
 const SW = 'dist/sw.js'
 
 interface Toma {
@@ -47,8 +54,16 @@ const TOMAS: Toma[] = [
     ruta: '/#/explorar',
     antes: async (page) => {
       await page.getByRole('button', { name: 'Se siembra ahora' }).click()
-      await page.getByRole("button", { name: /^Filtros/ }).click()
-      await page.getByRole("button", { name: /Aromática/ }).click()
+      await page.getByRole('button', { name: /^Grupo/ }).click()
+      await page.getByRole('radio', { name: /Aromática/ }).click()
+    },
+  },
+  {
+    nombre: 'explorar-filtro-temperatura',
+    ruta: '/#/explorar',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Temperatura/ }).click()
+      await page.getByRole('radio', { name: /Necesita calor para germinar/ }).click()
     },
   },
   {
@@ -98,7 +113,34 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: /^Tomate:/ }).click()
     },
   },
+  {
+    nombre: 'calendario-cosecha',
+    ruta: '/#/calendario',
+    antes: async (page) => {
+      await page.getByRole('button', { name: 'Cosecha' }).click()
+    },
+  },
+  {
+    // el panel de otro mes: el actual arranca abierto, este se toca
+    nombre: 'calendario-mes',
+    ruta: '/#/calendario',
+    antes: async (page) => {
+      await page.getByRole('button', { name: 'mes siguiente' }).click()
+    },
+  },
+  {
+    nombre: 'calendario-solo-mia',
+    ruta: '/#/calendario',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/calendario')
+      await page.getByRole('button', { name: 'Solo mi huerta' }).click()
+    },
+  },
   { nombre: 'calendario-completo', ruta: '/#/calendario', fullPage: true },
+  { nombre: 'compost', ruta: '/#/compost', fullPage: true },
+  { nombre: 'compost-capitulo', ruta: '/#/compost/cocina-tachos', fullPage: true },
+  { nombre: 'compost-capitulo-suelo', ruta: '/#/compost/jardin-suelo', fullPage: true },
   { nombre: 'ajustes-zona', ruta: '/#/ajustes' },
   {
     nombre: 'calendario-zona-periurbano',
@@ -134,15 +176,15 @@ const TOMAS: Toma[] = [
     },
   },
   {
-    // los dos estados nuevos en la misma toma: una tarjeta abierta y un lugar
-    // cerrado que igual muestra que algo pide atención
+    // un lugar cerrado que igual muestra que algo pide atención. Las plantas
+    // ya no se pliegan —la fila de gantt no tiene nada que esconder—, pero el
+    // lugar sí, y plegarlo no puede tapar los pendientes.
     nombre: 'huerta-plegada',
     ruta: '/#/ajustes',
     antes: async (page) => {
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('button', { name: /Ver el detalle de Albahaca/ }).click()
       await page.getByRole('button', { name: /^Bancal del fondo/ }).click()
       await page.waitForTimeout(400)
     },
@@ -197,7 +239,7 @@ const TOMAS: Toma[] = [
       await page.waitForLoadState('networkidle')
       await linkEnSeccion(page, /Bancal del fondo/, /Rúcula/).click()
       await page.waitForTimeout(400)
-      await page.getByRole('button', { name: /cambiar la cuenta/ }).click()
+      await page.getByRole('button', { name: /cambiar la cuenta/i }).click()
       await page.waitForTimeout(300)
     },
   },
@@ -237,6 +279,55 @@ const TOMAS: Toma[] = [
       await page.waitForTimeout(400)
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
       await page.waitForTimeout(300)
+    },
+  },
+  {
+    // la sección Compost al pie de Mi huerta: dos composteras, una con giro atrasado
+    nombre: 'huerta-compost',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    // el tacho de la demo: giro atrasado, «Hoy la giré» primaria
+    nombre: 'compostera-detalle',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('link', { name: /Tacho del balcón/ }).click()
+      await page.waitForTimeout(600)
+    },
+  },
+  {
+    // el corralito madurando: la revisión de «¿ya está?» vencida
+    nombre: 'compostera-madurando',
+    ruta: '/#/huerta',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('link', { name: /Corralito del fondo/ }).click()
+      await page.waitForTimeout(600)
+    },
+  },
+  {
+    nombre: 'compostera-nueva',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: /Sumar otra compostera/ }).click()
+      await page.locator('dialog.hoja[open]').waitFor()
     },
   },
   {
@@ -315,19 +406,21 @@ const TOMAS: Toma[] = [
     },
   },
   {
-    nombre: 'hoy-pronostico',
+    nombre: 'hoy-carril',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__dia').first().waitFor()
+      await page.locator('.carril__cielo').first().waitFor()
     },
   },
   {
-    nombre: 'hoy-pronostico-alerta',
+    nombre: 'hoy-carril-helada',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       // helada mañana + la lluvia que el fixture trae de fábrica: dos alertas
       await page.route('https://api.open-meteo.com/**', (r) =>
         r.fulfill({
@@ -341,28 +434,30 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__aviso').first().waitFor()
+      await page.locator('.carril__aviso').first().waitFor()
     },
   },
   {
-    nombre: 'hoy-pronostico-sheet',
+    nombre: 'hoy-carril-hoja',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__dia').first().click()
+      await page.locator('button.carril__dia').first().click()
       await page.locator('dialog.hoja[open]').waitFor()
     },
   },
   {
-    nombre: 'hoy-pronostico-viejo',
+    nombre: 'hoy-carril-viejo',
     ruta: '/#/ajustes',
     antes: async (page) => {
+      await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.pronostico__dia').first().waitFor()
+      await page.locator('.carril__cielo').first().waitFor()
       // se envejece el caché a mano y se corta la red: el estado "viejo" real
       await page.evaluate(async () => {
         const pedido = indexedDB.open('huerta-gba')
@@ -384,7 +479,7 @@ const TOMAS: Toma[] = [
       await page.unroute('https://api.open-meteo.com/**')
       await page.route('https://api.open-meteo.com/**', (r) => r.abort())
       await page.reload()
-      await page.locator('.pronostico__estado.es-viejo').waitFor()
+      await page.getByText(/No pude actualizar/).waitFor()
     },
   },
   {
@@ -439,6 +534,13 @@ test.beforeAll(() => {
 
 for (const { nombre, ruta, fullPage, antes } of TOMAS) {
   test(`captura ${nombre}`, async ({ page }) => {
+    await page.addInitScript((t) => {
+      try {
+        localStorage.setItem('huerta-gba:tema', t)
+      } catch {
+        /* storage bloqueado: sale en el tema por defecto */
+      }
+    }, TEMA)
     await page.goto(ruta)
     await page.waitForLoadState('networkidle')
     await page.evaluate(() => document.fonts.ready)

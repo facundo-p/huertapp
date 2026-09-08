@@ -18,22 +18,29 @@ import {
   ETAPA_INFO,
   TIPOS_ENTRADA,
   desdeISO,
+  diasEntre,
   hoyISO,
   type EntradaDiario,
   type TipoEntrada,
 } from '../lib/huerta/tipos'
 import { estimar, siguienteEtapa, textoHito } from '../lib/huerta/estimar'
+import { germinacion, germinacionPendiente } from '../lib/huerta/germinacion'
 import { METODOS } from '../lib/calendario'
 import { IconoFoto, IconoHuerta, IconoNota, IconoReloj, IconoSembrar } from '../icons'
 import './DetallePlanta.css'
 
-/** El ciclo arranca cuando la semilla asoma, no cuando la enterrás. */
-function textoCorrimiento(dias: number): string {
-  const n = Math.abs(dias)
-  const cuantos = `${n} ${n === 1 ? 'día' : 'días'}`
-  return dias > 0
-    ? `Corrido ${cuantos}: asomó más tarde de lo que decía la ficha y el ciclo se cuenta desde que asoma.`
-    : `Adelantado ${cuantos}: asomó antes de lo que decía la ficha.`
+const dias = (n: number) => `${n} ${n === 1 ? 'día' : 'días'}`
+
+/**
+ * El ciclo arranca cuando la semilla asoma, no cuando la enterrás. Los tres
+ * números —lo que decía la ficha, lo que tardó, lo que se corrió— para los
+ * dos signos: `corrimiento()` es negativo cuando asomó antes.
+ */
+function textoCorrimiento(corrido: number, ficha: { min: number; max: number }, tardo: number): string {
+  const rango = ficha.min === ficha.max ? dias(ficha.min) : `${ficha.min}–${ficha.max} días`
+  return corrido > 0
+    ? `La ficha decía ${rango} y asomó a los ${tardo}: el ciclo se corrió ${dias(corrido)}, porque se cuenta desde que asoma.`
+    : `La ficha decía ${rango} y asomó a los ${tardo}: el ciclo se adelantó ${dias(-corrido)}.`
 }
 
 export function DetallePlanta() {
@@ -87,6 +94,7 @@ export function DetallePlanta() {
   const clima = indice?.db.meta.enriquecido.clima[zona]
   const ubicacion = ubicaciones.find((u) => u.id === planta.ubicacionId)
   const est = especie ? estimar(planta, especie) : null
+  const germ = especie ? germinacion(planta, especie) : null
   const sigue = siguienteEtapa(planta)
   const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
   const nombre = planta.apodo || especie?.nombre_comun || 'Planta'
@@ -118,11 +126,56 @@ export function DetallePlanta() {
       />
 
       <div className="pantalla__cuerpo">
-        <div className="planta__resumen etiqueta">
+        {/* 1. el ciclo, con la etapa actual en --sol */}
+        <section className="planta__bloque">
           <CycleProgress etapa={planta.etapa} directa={directa} />
+        </section>
 
-          {especie && clima && (
+        {/* 2. la germinación, con el corrimiento explicado en tres números */}
+        {especie && clima && (
+          <section className="planta__bloque">
             <BloqueGerminacion planta={planta} especie={especie} clima={clima} />
+            {/* Por qué esa fecha no es la que sale de la ficha: se corrió con TU
+                planta, y sin decirlo parece que el catálogo se contradice. */}
+            {!!est?.corrimiento && planta.germino && especie.dias_germinacion && (
+              <p className="planta__corrimiento">
+                <IconoSembrar size={15} />
+                <span>
+                  {textoCorrimiento(
+                    est.corrimiento,
+                    especie.dias_germinacion,
+                    diasEntre(planta.sembrada, planta.germino),
+                  )}
+                </span>
+              </p>
+            )}
+          </section>
+        )}
+
+        {/* 3. los datos de la siembra, reglados */}
+        <dl className="planta__datos">
+          <Dato titulo="Sembrada" valor={fechaCorta(planta.sembrada)} />
+          {planta.metodo && <Dato titulo="Cómo" valor={METODOS[planta.metodo]} />}
+          {cantidad && <Dato titulo="Cuántas" valor={cantidad} />}
+          {ubicacion && <Dato titulo="Dónde" valor={ubicacion.nombre} />}
+          {est && (
+            <Dato
+              titulo="Lleva"
+              valor={est.diasDesdeSiembra === 1 ? '1 día' : `${est.diasDesdeSiembra} días`}
+            />
+          )}
+        </dl>
+
+        {/* 4. lo que viene, con la acción primaria y la secundaria */}
+        <section className="planta__bloque">
+          {!germinacionPendiente(germ) && est?.proximo && (
+            <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
+              <IconoReloj size={15} />
+              <span>
+                <strong>{est.proximo.titulo}</strong> estimado entre el {fechaCorta(est.proximo.desde)} y
+                el {fechaCorta(est.proximo.hasta)} — {textoHito(est.proximo)}.
+              </span>
+            </p>
           )}
 
           {planta.etapa === 'almacigo' ? (
@@ -137,78 +190,47 @@ export function DetallePlanta() {
             )
           )}
 
+          {planta.etapa !== 'terminada' && (
+            <button className="planta__secundario" onClick={() => setAbrirCantidad(true)}>
+              {cantidad ? 'Cambiar la cuenta' : 'Anotar cuántas hay'}
+            </button>
+          )}
+
           {planta.etapa !== 'almacigo' && planta.etapa !== 'terminada' && (
-            <button className="planta__mover" onClick={() => setAbrirTrasplante(true)}>
+            <button className="planta__secundario" onClick={() => setAbrirTrasplante(true)}>
               Mover o separar una parte…
             </button>
           )}
+        </section>
 
-          <dl className="planta__datos">
-            <Dato titulo="Sembrada" valor={fechaCorta(planta.sembrada)} />
-            {planta.metodo && <Dato titulo="Cómo" valor={METODOS[planta.metodo]} />}
-            {ubicacion && <Dato titulo="Dónde" valor={ubicacion.nombre} />}
-            {est && (
-              <Dato
-                titulo="Lleva"
-                valor={est.diasDesdeSiembra === 1 ? '1 día' : `${est.diasDesdeSiembra} días`}
-              />
-            )}
-          </dl>
+        {partes.length > 0 && (
+          <div className="planta__partes">
+            <p className="planta__partes-titulo">Esta siembra también está en:</p>
+            <ul className="planta__partes-lista">
+              {partes.map((p) => {
+                const lugar = ubicaciones.find((u) => u.id === p.ubicacionId)?.nombre
+                const cant = textoCantidad(p)
+                const donde = lugar ? (cant ? `${cant} en ${lugar}` : `En ${lugar}`) : cant ? `${cant} sin lugar asignado` : 'Sin lugar asignado'
+                return (
+                  <li key={p.id}>
+                    <Link to={`/huerta/${p.id}`}>
+                      {donde} · {ETAPA_INFO[p.etapa].etiqueta}
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
+        )}
 
-          {planta.etapa !== 'terminada' && (
-            <button className="planta__cantidad" onClick={() => setAbrirCantidad(true)}>
-              {cantidad ? `${cantidad} — cambiar la cuenta` : 'Anotar cuántas hay'}
-            </button>
-          )}
-
-          {partes.length > 0 && (
-            <div className="planta__partes">
-              <p className="planta__partes-titulo">Esta siembra también está en:</p>
-              <ul className="planta__partes-lista">
-                {partes.map((p) => {
-                  const lugar = ubicaciones.find((u) => u.id === p.ubicacionId)?.nombre
-                  const cant = textoCantidad(p)
-                  const donde = lugar ? (cant ? `${cant} en ${lugar}` : `En ${lugar}`) : cant ? `${cant} sin lugar asignado` : 'Sin lugar asignado'
-                  return (
-                    <li key={p.id}>
-                      <Link to={`/huerta/${p.id}`}>
-                        {donde} · {ETAPA_INFO[p.etapa].etiqueta}
-                      </Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          )}
-
-          {est?.proximo && (
-            <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
-              <IconoReloj size={15} />
-              <span>
-                <strong>{est.proximo.titulo}</strong> estimado entre el {fechaCorta(est.proximo.desde)} y
-                el {fechaCorta(est.proximo.hasta)} — {textoHito(est.proximo)}.
-              </span>
-            </p>
-          )}
-
-          {/* Por qué esa fecha no es la que sale de la ficha: se corrió con TU
-              planta, y sin decirlo parece que el catálogo se contradice. */}
-          {!!est?.corrimiento && (
-            <p className="planta__corrimiento">
-              <IconoSembrar size={15} />
-              <span>{textoCorrimiento(est.corrimiento)}</span>
-            </p>
-          )}
-
-          {especie && (
-            <Link to={`/explorar/${especie.slug}`} className="planta__ficha-link">
-              Ver la ficha de {especie.nombre_comun.toLowerCase()} →
-            </Link>
-          )}
-        </div>
+        {especie && (
+          <Link to={`/explorar/${especie.slug}`} className="planta__ficha-link">
+            Ver la ficha de {especie.nombre_comun.toLowerCase()} →
+          </Link>
+        )}
 
         <div className="diario__cabeza">
-          <h2 className="seccion__titulo subrayado-onda">Diario</h2>
+          <h2 className="seccion__titulo">Diario</h2>
           <button className="diario__agregar" onClick={() => setAbrirDiario(true)}>
             ＋ Anotar
           </button>
@@ -222,11 +244,13 @@ export function DetallePlanta() {
 
         <ul className="diario">
           {entradas?.map((e) => (
-            <li key={e.id} className={`diario__item es-${e.tipo}`}>
+            <li
+              key={e.id}
+              className={`diario__item es-${e.tipo}`}
+              style={{ '--tipo': TIPOS_ENTRADA[e.tipo].color } as React.CSSProperties}
+            >
               <div className="diario__meta">
-                <span className="diario__tipo" style={{ '--tipo': TIPOS_ENTRADA[e.tipo].color } as React.CSSProperties}>
-                  {TIPOS_ENTRADA[e.tipo].etiqueta}
-                </span>
+                <span className="diario__tipo">{TIPOS_ENTRADA[e.tipo].etiqueta}</span>
                 <span className="diario__fecha">{fechaCorta(e.fecha)}</span>
               </div>
               {e.texto && <p className="diario__texto">{e.texto}</p>}
