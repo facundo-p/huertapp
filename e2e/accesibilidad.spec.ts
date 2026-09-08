@@ -14,6 +14,16 @@ const PANTALLAS = [
   { ruta: '/#/hoy', nombre: 'Esta semana' },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
+  // la hoja de temperatura con un rango prendido: cuatro interruptores y ocho
+  // pulgares que hay que medir con la hoja abierta
+  {
+    ruta: '/#/explorar',
+    nombre: 'Filtro de temperatura',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: /^Temperatura/ }).click()
+      await page.getByRole('button', { name: /^Ideal para germinar/ }).click()
+    },
+  },
   { ruta: '/#/calendario', nombre: 'Calendario' },
   { ruta: '/#/huerta', nombre: 'Mi huerta' },
   { ruta: '/#/compost', nombre: 'Compost' },

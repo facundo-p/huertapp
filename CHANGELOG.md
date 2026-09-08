@@ -19,8 +19,39 @@ Qué significa cada parte en este proyecto:
 ---
 
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
-> `## [Sin publicar]` acá arriba. Al hacer un release, esa sección pasa a ser la
-> versión nueva con su fecha.
+> `## [Sin publicar]
+
+## [2.1.0] — 2026-09-08
+
+### Agregado
+
+- **La temperatura se filtra por grados, no por tres cajones.** El chip
+  «Temp.» de Explorar abre cuatro rangos que se prenden por separado —ideal y
+  posible para germinar, en la tierra; ideal y posible para crecer, en el
+  aire— y cada uno se mueve con sus dos puntas. Una especie aparece si su
+  rango se cruza con el que pediste. Antes solo se podía elegir entre
+  «fresco», «templado» y «calor», que miraban un único número de los ocho que
+  el catálogo tiene investigados.
+  A las que les falta ese dato quedan afuera y se las nombra, como siempre:
+  no se completa lo que no se investigó.
+
+### Cambiado
+
+- **Explorar muestra el doble de especies.** Las tarjetas van de a dos por
+  fila: el nombre arriba y, debajo, el año como anillo con el estado y las
+  tres categorías al lado. Antes cada tarjeta ocupaba el ancho entero para
+  dejar la mitad vacía. El contador de variedades se lee ahora en la ficha de
+  cada especie.
+
+- **Los filtros entran en una sola fila.** Ahora, Grupo, Suelo, Luz y Temp.,
+  siempre con el mismo nombre y en el mismo lugar: elegir uno ya no corre a
+  los de al lado. Qué elegiste se lee debajo, junto a la cuenta de especies,
+  que también se quedó con «Limpiar».
+
+### Arreglado
+
+- **El botón para borrar la búsqueda vuelve a tener su cruz.** Se veía como un
+  círculo lleno, sin nada adentro, y encima era chico de tocar.
 
 ## [2.0.0] — 2026-09-07
 

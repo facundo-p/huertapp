@@ -1,0 +1,208 @@
+.rango {
+  /* el dedo mide 44 aunque el disco pintado sea de 26 */
+  --pulgar: 44px;
+  position: relative;
+  display: grid;
+  padding-bottom: 20px;
+}
+
+/* El riel va metido media unidad de pulgar a cada lado: el recorrido va de
+   pulgar/2 a ancho − pulgar/2, y si arranca en 0 el relleno queda corrido
+   respecto del disco. Es LA trampa de este control. */
+.rango__pista,
+.rango__marcas {
+  position: absolute;
+  left: calc(var(--pulgar) / 2);
+  right: calc(var(--pulgar) / 2);
+}
+
+.rango__pista {
+  /* el riel es absoluto y los inputs estáticos: sin esto se pintaba encima del
+     pulgar que no lleva es-encima, y se veía mordido */
+  z-index: 0;
+  top: calc(var(--pulgar) / 2);
+  transform: translateY(-50%);
+  height: 12px;
+}
+
+.rango__riel {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radio-chip);
+  background: var(--papel-hundido);
+  border: 1.5px solid var(--linea-fuerte);
+}
+
+.rango__tramo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--radio-chip);
+  background: var(--sol);
+}
+
+.rango.es-apagado .rango__tramo {
+  background: var(--linea-fuerte);
+}
+
+/* el 0 °C, la referencia de la helada, como en la escala de la ficha; sin el
+   rótulo la rayita sola se leía como suciedad */
+.rango__cero {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--tinta-suave);
+}
+
+.rango__cero-rotulo {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--tinta-suave);
+}
+
+.rango__input {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: var(--pulgar);
+  margin: 0;
+  background: none;
+  -webkit-appearance: none;
+  appearance: none;
+  /* el input no captura el click: solo su pulgar */
+  pointer-events: none;
+  /* arrastrar el pulgar no puede scrollear la hoja */
+  touch-action: none;
+  /* el foco se dibuja en el pulgar, no en la caja de ancho completo */
+  outline: none;
+}
+
+.rango__input.es-encima {
+  z-index: 2;
+}
+
+/* Webkit y Firefox van en reglas SEPARADAS: un pseudo desconocido en la lista
+   invalida la regla entera y el control queda nativo. */
+.rango__input::-webkit-slider-runnable-track {
+  height: var(--pulgar);
+  background: none;
+  border: none;
+}
+
+.rango__input::-moz-range-track {
+  height: var(--pulgar);
+  background: none;
+  border: none;
+}
+
+.rango__input::-moz-range-progress {
+  background: none;
+}
+
+.rango__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: var(--pulgar);
+  height: var(--pulgar);
+  border: none;
+  border-radius: 50%;
+  cursor: grab;
+  /* relleno opaco: --papel-alto de noche es semitransparente y el riel se
+     colaba por adentro del pulgar */
+  background: radial-gradient(
+    circle at center,
+    var(--papel) 0 9px,
+    var(--tinta-media) 9px 13px,
+    transparent 13px
+  );
+}
+
+.rango__input::-moz-range-thumb {
+  pointer-events: auto;
+  width: var(--pulgar);
+  height: var(--pulgar);
+  border: none;
+  border-radius: 50%;
+  cursor: grab;
+  background: radial-gradient(
+    circle at center,
+    var(--papel) 0 9px,
+    var(--tinta-media) 9px 13px,
+    transparent 13px
+  );
+}
+
+.rango__input:disabled::-webkit-slider-thumb {
+  background: radial-gradient(
+    circle at center,
+    var(--papel) 0 9px,
+    var(--linea-fuerte) 9px 13px,
+    transparent 13px
+  );
+}
+
+.rango__input:disabled::-moz-range-thumb {
+  background: radial-gradient(
+    circle at center,
+    var(--papel) 0 9px,
+    var(--linea-fuerte) 9px 13px,
+    transparent 13px
+  );
+}
+
+.rango__input:focus-visible::-webkit-slider-thumb {
+  outline: 3px solid var(--foco);
+  outline-offset: -8px;
+}
+
+.rango__input:focus-visible::-moz-range-thumb {
+  outline: 3px solid var(--foco);
+  outline-offset: -8px;
+}
+
+.rango__marcas {
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  color: var(--tinta-suave);
+  pointer-events: none;
+}
+
+.rango__marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* clavada al 50 % del riel y no al centro del flex: con etiquetas de distinto
+   largo en las puntas, space-between la corría del punto que dice nombrar */
+.rango__marca.es-templada {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.rango__marca svg {
+  flex: none;
+}
+
+.rango__marca.es-fria svg {
+  color: var(--temp-frio);
+}
+
+.rango__marca.es-templada svg {
+  color: var(--temp-templado);
+}
+
+.rango__marca.es-calida svg {
+  color: var(--temp-calor);
+}

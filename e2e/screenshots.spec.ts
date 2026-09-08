@@ -63,7 +63,21 @@ const TOMAS: Toma[] = [
     ruta: '/#/explorar',
     antes: async (page) => {
       await page.getByRole('button', { name: /^Temperatura/ }).click()
-      await page.getByRole('radio', { name: /Necesita calor para germinar/ }).click()
+      await page.getByRole('button', { name: /^Ideal para germinar/ }).click()
+      // con teclado y no arrastrando: es determinístico y de paso prueba el
+      // camino accesible del pulgar
+      await page.getByRole('slider', { name: 'Ideal para germinar, mínimo' }).focus()
+      for (let i = 0; i < 8; i++) await page.keyboard.press('ArrowRight')
+    },
+  },
+  {
+    // el chip relleno con su contador y los nombres de las que quedan afuera
+    nombre: 'explorar-temperatura-aplicada',
+    ruta: '/#/explorar',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Temperatura/ }).click()
+      await page.getByRole('button', { name: /^Posible para germinar/ }).click()
+      await page.getByRole('button', { name: /^Ver \d+ especie/ }).click()
     },
   },
   {

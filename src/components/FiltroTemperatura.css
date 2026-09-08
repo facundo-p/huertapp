@@ -1,0 +1,107 @@
+/* --esp-5 y no --esp-4: con 16 cada riel quedaba más cerca de la casilla de
+   abajo que de la suya, y la proximidad agrupaba mal. */
+.filtro-temp {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-5);
+}
+
+.filtro-temp__bloque {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Casilla y no radio: cada rango se prende y se apaga por su cuenta. La fila
+   entera es el target. */
+.interruptor {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  width: 100%;
+  min-height: var(--tap-min);
+  padding: var(--esp-2) var(--esp-3);
+  border-radius: var(--radio-s);
+  border: 1.5px solid transparent;
+  background: none;
+  text-align: left;
+}
+
+.interruptor.es-activo {
+  border-color: var(--ideal);
+  background: var(--ideal-fondo);
+}
+
+/* cuadrada y con tilde: se distingue del círculo de las opciones excluyentes */
+.interruptor__marca {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid var(--tinta-suave);
+  background: var(--papel);
+}
+
+.interruptor.es-activo .interruptor__marca {
+  border-color: var(--verde-prof);
+  background: var(--verde-prof);
+  color: var(--papel);
+}
+
+.interruptor__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.interruptor__nombre {
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta);
+}
+
+.interruptor__nombre em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--tinta-media);
+}
+
+.interruptor__valor {
+  font-size: var(--texto-s);
+  color: var(--tinta-media);
+}
+
+.interruptor.es-activo .interruptor__nombre,
+.interruptor.es-activo .interruptor__valor {
+  color: var(--verde-prof);
+}
+
+.filtro-temp__pie {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+}
+
+.filtro-temp__sacar {
+  min-height: var(--tap-min);
+  padding: 0 var(--esp-2);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--terracota);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.filtro-temp__listo {
+  flex: 1;
+  min-height: var(--tap-min);
+  border-radius: var(--radio-chip);
+  background: var(--sol);
+  color: var(--sobre-sol);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}
