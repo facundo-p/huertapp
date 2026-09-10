@@ -10,6 +10,9 @@ import './MedidorLugar.css'
  *
  * Decorativo: el texto de al lado dice lo mismo con palabras.
  */
+/** Cuántos pips entran en la ficha antes de que dejen de contarse de un vistazo. */
+const TOPE_PIPS = 24
+
 export function MedidorLugar({ ocupacion }: { ocupacion: Ocupacion }) {
   if (ocupacion.continuo) {
     return (
@@ -19,10 +22,12 @@ export function MedidorLugar({ ocupacion }: { ocupacion: Ocupacion }) {
     )
   }
 
-  // una bandeja de 60 celdas no entra en la ficha: pasado el tope se mide
-  if (ocupacion.capacidad > 24) {
+  // Una bandeja de 60 celdas no entra en la ficha. Pasado el tope el medidor se
+  // vuelve barra, pero MUESCADA y no rayada: sigue diciendo que hay posiciones,
+  // que es justo lo que la barra del bancal libre dice que no hay.
+  if (ocupacion.capacidad > TOPE_PIPS) {
     return (
-      <span className="medidor medidor--continuo" aria-hidden>
+      <span className="medidor medidor--muchas" aria-hidden>
         <i style={{ width: `${Math.round(ocupacion.fraccion * 100)}%` }} />
       </span>
     )

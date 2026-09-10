@@ -117,7 +117,12 @@ export function TarjetaLugar({
               className="aparecer"
               style={{ '--retraso': `${Math.min(i, 8) * 0.03}s` } as React.CSSProperties}
             >
-              <GanttPlanta planta={p} especie={e} pendientes={pendientes.get(p.id) ?? 0} />
+              <GanttPlanta
+                planta={p}
+                especie={e}
+                pendientes={pendientes.get(p.id) ?? 0}
+                conNota={lugar.continuo}
+              />
             </div>
           )
         })}

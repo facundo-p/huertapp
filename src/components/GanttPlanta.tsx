@@ -4,13 +4,15 @@ import { ETAPA_INFO, type Planta } from '../lib/huerta/tipos'
 import { hitoDePlanta } from '../lib/huerta/hito'
 import { pct, ventanas, visible } from '../lib/huerta/gantt'
 import { cantidadCorta } from '../lib/huerta/tanda'
-import { IconoAlerta, IconoGrupo, IconoReloj, IconoSembrar } from '../icons'
+import { IconoAlerta, IconoGrupo, IconoReloj } from '../icons'
 import './GanttPlanta.css'
 
 interface Props {
   planta: Planta
   especie: EspecieEnriquecida
   pendientes: number
+  /** solo en plantación libre: en surcos o en macetas no hay nota que dar */
+  conNota?: boolean
 }
 
 /** El estado del hito manda color, peso e ícono. El color nunca va solo. */
@@ -24,7 +26,7 @@ const CLASE_HITO = { demorado: 'es-demorada', listo: 'es-lista', neutro: '' } as
  * que la tarjeta cerrada más su detalle, así que plegarla no ahorraba nada y
  * escondía justo lo que se viene a mirar.
  */
-export function GanttPlanta({ planta, especie, pendientes }: Props) {
+export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
   const v = ventanas(planta, especie)
   const hito = hitoDePlanta(planta, especie)
   const nombre = planta.apodo || especie.nombre_comun
@@ -38,9 +40,9 @@ export function GanttPlanta({ planta, especie, pendientes }: Props) {
   // hasta la cosecha. Los tres tramos son etapas seguidas, no capas: pintar el
   // trasplante encima del verde lo dejaba como un manchón adentro de otra cosa.
   const finCrecer = visible(v.trasplante) ? v.trasplante![0] : (v.cosecha?.[0] ?? 120)
-  // el ícono repite lo que dice el color: atrasado avisa, lo que falta espera
-  const IconoDelHito =
-    hito?.estado === 'demorado' ? IconoAlerta : hito?.germinando ? IconoSembrar : IconoReloj
+  // el ícono repite lo que dice el color: atrasado avisa, lo que falta espera.
+  // Reloj y no el brote: a 12 px el brote es una mancha que no se identifica.
+  const IconoDelHito = hito?.estado === 'demorado' ? IconoAlerta : IconoReloj
 
   return (
     <Link to={`/huerta/${planta.id}`} className="gantt">
@@ -89,7 +91,7 @@ export function GanttPlanta({ planta, especie, pendientes }: Props) {
 
         {/* Cómo está puesta: solo tiene sentido donde no hay una celda por
             planta, que es justo donde la persona lo escribió. */}
-        {planta.comoEsta && <span className="gantt__nota">{planta.comoEsta}</span>}
+        {conNota && planta.comoEsta && <span className="gantt__nota">{planta.comoEsta}</span>}
       </span>
 
       <span className={`gantt__etapa es-${planta.etapa}`}>{ETAPA_INFO[planta.etapa].etiqueta}</span>

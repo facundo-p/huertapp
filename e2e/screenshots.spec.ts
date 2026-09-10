@@ -249,14 +249,19 @@ const TOMAS: Toma[] = [
     // nada) y con la línea de estado vacío
     nombre: 'huerta-lugar-vacio',
     ruta: '/#/ajustes',
-    fullPage: true,
     antes: async (page) => {
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      for (const lugar of [/^Almaciguera del balcón/, /^Bancal del fondo/]) {
+      for (const lugar of [
+        /^Almaciguera del balcón/,
+        /^Macetas del balcón/,
+        /^Bancal del fondo/,
+      ]) {
         await page.getByRole('button', { name: lugar }).click()
       }
+      // click() scrollea el botón a la vista: la toma tiene que arrancar arriba
+      await page.evaluate(() => window.scrollTo(0, 0))
       await page.waitForTimeout(400)
     },
   },

@@ -63,10 +63,14 @@ export function MiHuerta() {
       ubicacion: u,
       plantas: porId.get(u.id) ?? [],
     }))
+    // El desempate tiene que ser total: con solo la fecha, dos lugares cargados
+    // en el mismo milisegundo quedaban al orden de clave de la base, que es un
+    // UUID, y la lista se reordenaba sola entre corridas.
     lista.sort(
       (a, b) =>
         ordenDeLugar(a.ubicacion) - ordenDeLugar(b.ubicacion) ||
-        (a.ubicacion?.creada ?? '').localeCompare(b.ubicacion?.creada ?? ''),
+        Number(a.plantas.length === 0) - Number(b.plantas.length === 0) ||
+        (a.ubicacion?.nombre ?? '').localeCompare(b.ubicacion?.nombre ?? '', 'es'),
     )
     const huerfanas = porId.get('') ?? []
     if (huerfanas.length) lista.push({ plantas: huerfanas })

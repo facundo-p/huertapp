@@ -34,3 +34,24 @@
     repeating-linear-gradient(115deg, transparent 0 4px, var(--trama) 4px 8px),
     var(--acento);
 }
+
+/* Muchas unidades: barra con muescas. La diferencia con la del bancal libre es
+   deliberada — muescas verticales dicen "hay posiciones", el rayado a 115° dice
+   "no las hay". */
+.medidor--muchas {
+  display: block;
+  width: 52px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--linea-fuerte);
+  overflow: hidden;
+}
+
+.medidor--muchas i {
+  display: block;
+  height: 10px;
+  border-radius: 5px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 3px, var(--papel-alto) 3px 4px),
+    var(--acento);
+}

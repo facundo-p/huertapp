@@ -49,10 +49,8 @@
   color: var(--tinta-tenue);
 }
 
-/* empuja las alertas al borde derecho sin obligar al subtítulo a truncarse */
-.gantt__cabeza .gantt__alertas {
-  margin-left: auto;
-}
+/* pegado al subtítulo y no al borde: contra el borde quedaba al lado de la
+   pill de etapa y los dos se leían como un par, siendo cosas distintas */
 
 /* En los tokens de peligro y no en el ocre: el ocre es "acá estás" —hoy, la
    pestaña activa, la acción primaria— y esto es "algo pide atención". */
@@ -89,6 +87,8 @@
   left: 33.33%;
   width: 1.5px;
   background: var(--sol);
+  /* el halo la despega del rayado de cosecha, que alterna su mismo ocre */
+  box-shadow: 0 0 0 0.5px var(--papel-alto);
 }
 
 /* ---- Barras ----
@@ -182,7 +182,7 @@
   justify-content: space-between;
   padding: 0 0 5px;
   font-family: var(--font-display);
-  font-size: 9.5px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.05em;
   color: var(--tinta-tenue);
