@@ -260,8 +260,13 @@ const TOMAS: Toma[] = [
       ]) {
         await page.getByRole('button', { name: lugar }).click()
       }
-      // click() scrollea el botón a la vista: la toma tiene que arrancar arriba
-      await page.evaluate(() => window.scrollTo(0, 0))
+      // la ficha vacía es la última: se la trae entera a la vista, con la línea
+      // de estado vacío Y el botón de sumar, que es su salida
+      // `scrollIntoViewIfNeeded` la da por visible con la mitad asomando: acá
+      // hace falta que entre entera, con su botón
+      await page
+        .getByRole('button', { name: /Sumar planta acá/ })
+        .evaluate((el) => el.scrollIntoView({ block: 'center' }))
       await page.waitForTimeout(400)
     },
   },

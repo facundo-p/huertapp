@@ -67,6 +67,9 @@ export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
               </span>
             </span>
           )}
+          <span className={`gantt__etapa es-${planta.etapa}`}>
+            {ETAPA_INFO[planta.etapa].etiqueta}
+          </span>
         </span>
 
         {/* La aguja de hoy es lo ÚNICO vertical del track: es la referencia que
@@ -93,8 +96,6 @@ export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
             planta, que es justo donde la persona lo escribió. */}
         {conNota && planta.comoEsta && <span className="gantt__nota">{planta.comoEsta}</span>}
       </span>
-
-      <span className={`gantt__etapa es-${planta.etapa}`}>{ETAPA_INFO[planta.etapa].etiqueta}</span>
     </Link>
   )
 }

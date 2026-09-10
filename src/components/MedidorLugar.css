@@ -11,7 +11,7 @@
   width: 5px;
   height: 10px;
   border-radius: 1.5px;
-  background: var(--linea-fuerte);
+  background: var(--linea);
 }
 .medidor--pips i.es-ocupada {
   background: var(--acento);
@@ -22,7 +22,7 @@
   width: 52px;
   height: 10px;
   border-radius: 5px;
-  background: var(--linea-fuerte);
+  background: var(--linea);
   overflow: hidden;
 }
 /* rayado y no relleno plano: lo plantado a mano no tiene un borde exacto */
@@ -43,7 +43,7 @@
   width: 52px;
   height: 10px;
   border-radius: 5px;
-  background: var(--linea-fuerte);
+  background: var(--linea);
   overflow: hidden;
 }
 

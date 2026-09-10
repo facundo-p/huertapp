@@ -87,8 +87,10 @@
   left: 33.33%;
   width: 1.5px;
   background: var(--sol);
-  /* el halo la despega del rayado de cosecha, que alterna su mismo ocre */
-  box-shadow: 0 0 0 0.5px var(--papel-alto);
+  /* El halo la despega del rayado de cosecha, que alterna su mismo ocre. Va en
+     --papel, que es opaco en los dos temas: --papel-alto de noche es
+     semitransparente y el halo no se dibujaba. */
+  box-shadow: 0 0 0 1px var(--papel);
 }
 
 /* ---- Barras ----
@@ -151,9 +153,12 @@
   color: var(--tinta-suave);
 }
 
-/* ---- Pill de etapa ---- */
+/* ---- Pill de etapa ----
+   Al final de la fila del nombre y no como hermana del cuerpo: como hermana le
+   comía ancho al track, y el eje de 180 días quedaba distinto en cada fila. */
 .gantt__etapa {
   flex: none;
+  margin-left: auto;
   display: flex;
   align-items: center;
   height: 22px;
