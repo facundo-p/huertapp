@@ -21,7 +21,7 @@ Qué significa cada parte en este proyecto:
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
 > `## [Sin publicar]
 
-## [Sin publicar]
+## [2.2.0] — 2026-09-10
 
 ### Agregado
 
