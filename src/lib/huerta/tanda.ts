@@ -12,10 +12,17 @@ export function partesDe(plantas: Planta[], p: Planta): Planta[] {
   return plantas.filter((x) => x.id !== p.id && !x.archivada && raizDe(x) === raizDe(p))
 }
 
-export interface OpcionesDividir {
+/** Lo que se dice del lugar de destino. Cuánto ocupa es del lugar, no de la planta. */
+export interface OpcionesLugar {
+  ubicacionId?: string
+  ocupa?: number
+  superficie?: number
+  comoEsta?: string
+}
+
+export interface OpcionesDividir extends OpcionesLugar {
   /** ISO corta: cuándo fue el trasplante */
   fecha: string
-  ubicacionId?: string
   cuantas?: number
   /** inyectables para tests */
   idHija?: string
@@ -36,6 +43,9 @@ export function dividirTanda(madre: Planta, o: OpcionesDividir): { madre: Planta
     etapaDesde: cambiaEtapa ? o.fecha : madre.etapaDesde,
     germino: madre.germino,
     cantidad: o.cuantas,
+    ocupa: o.ocupa,
+    superficie: o.superficie,
+    comoEsta: o.comoEsta?.trim() || undefined,
     origenId: raizDe(madre),
     creada: o.creadaHija ?? new Date().toISOString(),
   }
@@ -46,12 +56,22 @@ export function dividirTanda(madre: Planta, o: OpcionesDividir): { madre: Planta
   }
 }
 
-/** Trasplante o mudanza de la tarjeta entera: avanza de etapa solo si estaba en almácigo. */
-export function moverTanda(p: Planta, o: { fecha: string; ubicacionId?: string }): Planta {
+/**
+ * Trasplante o mudanza de la tarjeta entera: avanza de etapa solo si estaba en
+ * almácigo.
+ *
+ * La ocupación es del lugar, no de la planta: al mudarse se reemplaza por lo
+ * que se haya dicho del destino. Arrastrar "ocupa 4" de una almaciguera a un
+ * bancal convertiría cuatro celdas en cuatro surcos.
+ */
+export function moverTanda(p: Planta, o: OpcionesLugar & { fecha: string }): Planta {
   const cambiaEtapa = p.etapa === 'almacigo'
   return {
     ...p,
     ubicacionId: o.ubicacionId,
+    ocupa: o.ocupa,
+    superficie: o.superficie,
+    comoEsta: o.comoEsta?.trim() || undefined,
     etapa: cambiaEtapa ? 'trasplantada' : p.etapa,
     etapaDesde: cambiaEtapa ? o.fecha : p.etapaDesde,
   }

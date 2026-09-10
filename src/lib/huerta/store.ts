@@ -15,6 +15,7 @@ import { avanzar } from './compostera'
 import {
   dividirTanda,
   moverTanda,
+  type OpcionesLugar,
   textoConteo,
   textosTrasplanteParcial,
   textoTrasplanteEntero,
@@ -133,6 +134,9 @@ export interface AltaPlanta {
   sembrada?: string
   metodo: Metodo | null
   cantidad?: number
+  ocupa?: number
+  superficie?: number
+  comoEsta?: string
   notas?: string
 }
 
@@ -154,6 +158,9 @@ export async function agregarPlanta(alta: AltaPlanta): Promise<Planta> {
     etapa: etapaInicial(alta.metodo),
     etapaDesde: sembrada,
     cantidad: alta.cantidad,
+    ocupa: alta.ocupa,
+    superficie: alta.superficie,
+    comoEsta: alta.comoEsta?.trim() || undefined,
     notas: alta.notas?.trim() || undefined,
     creada: new Date().toISOString(),
   }
@@ -201,16 +208,15 @@ const entradaDe = (plantaId: string, fecha: string, tipo: EntradaDiario['tipo'],
   creada: new Date().toISOString(),
 })
 
-export interface OpcionesTrasplante {
+export interface OpcionesTrasplante extends OpcionesLugar {
   fecha?: string
-  ubicacionId?: string
   cuantas?: number
 }
 
 /** Trasplanta una parte: la parte pasa a su propia tarjeta, la madre queda con el resto. */
 export async function trasplantarParte(madre: Planta, o: OpcionesTrasplante = {}): Promise<Planta> {
   const fecha = o.fecha ?? hoyISO()
-  const dividida = dividirTanda(madre, { fecha, ubicacionId: o.ubicacionId, cuantas: o.cuantas })
+  const dividida = dividirTanda(madre, { ...o, fecha, cuantas: o.cuantas })
   const textos = textosTrasplanteParcial({
     cuantas: o.cuantas,
     nombreDestino: nombreUbicacion(o.ubicacionId),
@@ -232,7 +238,7 @@ export async function trasplantarParte(madre: Planta, o: OpcionesTrasplante = {}
 /** Trasplanta o muda la tarjeta entera, con fecha y lugar elegibles. */
 export async function trasplantarTanda(p: Planta, o: Omit<OpcionesTrasplante, 'cuantas'> = {}) {
   const fecha = o.fecha ?? hoyISO()
-  const movida = moverTanda(p, { fecha, ubicacionId: o.ubicacionId })
+  const movida = moverTanda(p, { ...o, fecha })
   const texto = textoTrasplanteEntero({
     cambioEtapa: movida.etapa !== p.etapa,
     nombreDestino: nombreUbicacion(o.ubicacionId),

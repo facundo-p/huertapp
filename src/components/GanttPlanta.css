@@ -1,59 +1,69 @@
-/* Una planta como fila de gantt. Alto fijo: la lectura que se busca es
-   comparar filas entre sí, y para eso todas tienen que medir lo mismo.
-   Reglada, no tarjeta: una lista homogénea se separa con hairlines de borde
-   a borde. La fila sangra el padding de la pantalla y la caja de adentro lo
-   devuelve, así la línea llega al borde y el contenido queda alineado con
-   el eje de arriba. */
-/* La fila ENTERA es el enlace al detalle. Con el enlace solo en el nombre el
-   target medía 20 px de alto; así son los 74 de la fila. */
+/* Una planta como fila de gantt.
+   Reglada, no tarjeta: una lista homogénea se separa con hairlines. Acá la
+   hairline NO va de borde a borde: la fila vive adentro de la ficha del lugar,
+   y la línea marca la separación entre plantas, no un corte de la pantalla.
+   La fila ENTERA es el enlace al detalle: con el enlace solo en el nombre el
+   target medía 20 px de alto. */
 .gantt {
-  display: block;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 11px 0;
   text-decoration: none;
-  position: relative;
-  height: 74px;
-  margin-inline: calc(-1 * var(--esp-4));
-  border-top: 1px solid var(--linea);
-  overflow: hidden;
+  border-top: 1px solid var(--linea-suave);
 }
 
-.gantt:last-child {
-  border-bottom: 1px solid var(--linea);
+.gantt__icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 9px;
+  background: var(--papel-plano);
 }
 
 .gantt__caja {
-  position: absolute;
-  inset: 0 var(--esp-4);
+  flex: 1;
+  min-width: 0;
 }
 
+/* La pill queda fija arriba a la derecha y lo que envuelve es el nombre con su
+   subtítulo: al revés, en una fila larga la pill se iba sola a otra línea. */
 .gantt__cabeza {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  right: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
-  color: var(--verde-prof);
+}
+
+.gantt__titulos {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 6px;
 }
 
 .gantt__nombre {
   font-family: var(--font-cuerpo);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
+  letter-spacing: -0.01em;
   color: var(--tinta-alta);
   white-space: nowrap;
 }
 
 .gantt__sub {
-  flex: 1;
-  min-width: 0;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--tinta-tenue);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
+/* pegado al subtítulo y no al borde: contra el borde quedaba al lado de la
+   pill de etapa y los dos se leían como un par, siendo cosas distintas */
+
+/* En los tokens de peligro y no en el ocre: el ocre es "acá estás" —hoy, la
+   pestaña activa, la acción primaria— y esto es "algo pide atención". */
 .gantt__alertas {
   display: inline-flex;
   align-items: center;
@@ -61,54 +71,48 @@
   flex: none;
   padding: 1px 7px;
   border-radius: var(--radio-chip);
-  background: var(--sol);
-  color: var(--sobre-sol);
+  background: var(--peligro-fondo);
+  color: var(--peligro);
   font-size: 10px;
   font-weight: 700;
 }
 
-/* ---- Banda de tiempo ---- */
+/* ---- La línea del año ----
+   El track es la ventana de 180 días: 60 atrás y 120 adelante, con hoy fijo
+   en el 33,33 %. La aguja sobresale 4 px del track para que se lea como marca
+   del eje y no como parte de una barra. */
 .gantt__banda {
-  position: absolute;
-  top: 29px;
-  left: 0;
-  right: 0;
-  height: 24px;
-  /* una línea cada 30 días */
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0 calc(100% / 6 - 1px),
-    var(--grilla-mes) calc(100% / 6 - 1px) calc(100% / 6)
-  );
+  display: block;
+  position: relative;
+  height: 9px;
+  margin: 9px 0 7px;
+  border-radius: 5px;
+  background: var(--papel-hundido);
 }
 
 .gantt__hoy {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: -4px;
+  bottom: -4px;
   left: 33.33%;
   width: 1.5px;
   background: var(--sol);
+  /* El halo la despega del rayado de cosecha, que alterna su mismo ocre. Va en
+     --papel, que es opaco en los dos temas: --papel-alto de noche es
+     semitransparente y el halo no se dibujaba. */
+  box-shadow: 0 0 0 1px var(--papel);
 }
 
-/* ---- Barras ---- */
-.gantt__barras {
-  position: absolute;
-  top: 36px;
-  left: 0;
-  right: 0;
-  height: 10px;
-}
-
+/* ---- Barras ----
+   Tres familias de color distintas, no tres verdes: con dos tonos del mismo
+   la fila no se lee, y el rayado solo tampoco alcanza. */
 .gantt__barra {
   position: absolute;
   top: 0;
-  height: 10px;
+  height: 9px;
   border-radius: 5px;
 }
 
-/* Tres familias de color distintas, no tres verdes: con dos tonos del mismo
-   la fila no se lee, y el rayado solo tampoco alcanza. */
 .gantt__barra.es-crece {
   background: var(--gantt-crece);
 }
@@ -125,93 +129,63 @@
   );
 }
 
-.gantt__siembra {
-  position: absolute;
-  top: -3px;
-  display: grid;
-  place-items: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--papel);
-  border: 2.5px solid var(--verde-hoja);
-  color: var(--verde-prof);
-  transform: translateX(-8px);
-}
-
-/* ---- Hito ---- */
+/* ---- Hito y nota ---- */
 .gantt__hito {
-  position: absolute;
-  top: 52px;
-  left: 0;
-  margin: 0;
-  /* el fondo tapa la grilla que le pasa por detrás */
-  background: var(--papel);
-  padding: 0 4px;
-  font-size: 10px;
-  font-weight: 700;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--tinta-tenue);
 }
 
+/* en ventana o pasado de plazo pesan más: el color no puede ser el único canal */
 .gantt__hito.es-lista {
+  font-weight: 700;
   color: var(--verde-prof);
 }
 
 .gantt__hito.es-demorada {
-  color: var(--sol-texto);
+  font-weight: 700;
+  color: var(--peligro);
 }
 
-/* ---- Eje, una sola vez por lugar ---- */
-.gantt-eje {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 2px var(--esp-1);
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--tinta-tenue);
+/* el ícono no se achica cuando el texto ocupa dos líneas */
+.gantt__hito svg {
+  flex: none;
+  margin-top: 1px;
 }
 
-.gantt-eje span.es-actual {
-  color: var(--sol-texto);
-}
-
-.gantt-leyenda {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  padding-top: var(--esp-2);
+.gantt__nota {
+  display: block;
+  margin-top: 5px;
   font-size: 11px;
   color: var(--tinta-suave);
 }
 
-/* muestra y palabra juntas: si el wrap las separa, la leyenda no dice nada */
-.gantt-leyenda > span {
-  display: inline-flex;
+/* ---- Pill de etapa ----
+   Al final de la fila del nombre y no como hermana del cuerpo: como hermana le
+   comía ancho al track, y el eje de 180 días quedaba distinto en cada fila. */
+.gantt__etapa {
+  flex: none;
+  display: flex;
   align-items: center;
-  gap: 5px;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: var(--radio-chip);
+  background: var(--papel-hundido);
+  color: var(--tinta-media);
+  font-size: 10.5px;
+  font-weight: 800;
   white-space: nowrap;
 }
 
-.gantt-leyenda i {
-  width: 18px;
-  height: 8px;
-  border-radius: 4px;
+.gantt__etapa.es-almacigo {
+  background: var(--sol-suave);
+  color: var(--sol-texto);
 }
 
-.gantt-leyenda i.es-crece {
-  background: var(--gantt-crece);
-}
-
-.gantt-leyenda i.es-trasplante {
-  background: var(--gantt-trasplante);
-}
-
-.gantt-leyenda i.es-cosecha {
-  background: repeating-linear-gradient(
-    90deg,
-    var(--gantt-cosecha-a) 0 4px,
-    var(--gantt-cosecha-b) 4px 8px
-  );
+.gantt__etapa.es-cosechando {
+  background: var(--salvia-suave);
+  color: var(--verde-prof);
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { corrimiento, estimar, sumarDias } from '../src/lib/huerta/estimar'
+import { corrimiento, estadoHito, estimar, sumarDias } from '../src/lib/huerta/estimar'
 import type { Planta } from '../src/lib/huerta/tipos'
 import type { EspecieEnriquecida } from '../src/lib/data/types'
 import db from '../data/huerta_gba_enriquecido.json'
@@ -107,5 +107,28 @@ describe('hitos corridos por la germinación real', () => {
 describe('sumarDias', () => {
   it('cruza el fin de mes', () => {
     expect(sumarDias('2026-08-25', 10)).toBe('2026-09-04')
+  })
+})
+
+describe('estadoHito', () => {
+  const hito = (faltan: number, enVentana: boolean) => ({
+    titulo: 'Cosecha',
+    desde: '2026-09-01',
+    hasta: '2026-09-20',
+    faltan,
+    enVentana,
+  })
+
+  it('adentro de la ventana está listo', () => {
+    expect(estadoHito(hito(-3, true))).toBe('listo')
+  })
+
+  it('pasada la ventana entera está demorado', () => {
+    expect(estadoHito(hito(-12, false))).toBe('demorado')
+  })
+
+  it('lo que todavía falta es neutro', () => {
+    expect(estadoHito(hito(0, false))).toBe('neutro')
+    expect(estadoHito(hito(68, false))).toBe('neutro')
   })
 })

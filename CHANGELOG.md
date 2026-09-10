@@ -21,6 +21,32 @@ Qué significa cada parte en este proyecto:
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
 > `## [Sin publicar]
 
+## [2.2.0] — 2026-09-10
+
+### Agregado
+
+- **Cada lugar de tu huerta ahora cuenta de qué se trata.** En Mi huerta, la
+  almaciguera, las macetas y los bancales se distinguen de un vistazo: cada uno
+  con su dibujo, su color y su etiqueta. Y si le decís cuántas celdas, macetas o
+  surcos tiene, te muestra cuán lleno está. Un bancal plantado en asociación se
+  mide en metros cuadrados, que es como se mide de verdad cuando las plantas van
+  intercaladas.
+- **Plegar un lugar ya no lo hace desaparecer.** Cerrado deja ver qué hay
+  adentro y qué te está esperando ahí.
+- **Cuánto ocupa cada planta y cómo está puesta.** Al sumar una planta a un
+  lugar con capacidad podés decir cuántas unidades toma; en un bancal de
+  plantación libre, cuántos m² y dónde quedó («intercalada entre las lechugas»).
+  Todo opcional: sin el dato, la ficha muestra el lugar y no inventa el resto.
+
+### Cambiado
+
+- **La línea del año de cada planta se lee mejor.** Crecer, trasplante y cosecha
+  son ahora tres tramos seguidos y no capas encimadas, y la aguja de hoy se
+  distingue aunque caiga sobre la ventana de cosecha.
+- Arriba de la lista hay una referencia que explica qué significa cada color de
+  la línea, en vez de estar al pie.
+- El botón para sumar una planta pasó al encabezado, en ocre.
+
 ## [2.1.0] — 2026-09-08
 
 ### Agregado
