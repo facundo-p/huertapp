@@ -1,7 +1,6 @@
 import type { EspecieEnriquecida } from '../lib/data/types'
 import type { Planta, Ubicacion } from '../lib/huerta/tipos'
 import { lugarDe, ocupacionDe, type ProximaTarea } from '../lib/huerta/lugar'
-import { hitoDelLugar } from '../lib/huerta/hito'
 import { mesesDelEje } from '../lib/huerta/gantt'
 import { MES_CORTO } from '../lib/fechas'
 import { GanttPlanta } from './GanttPlanta'
@@ -16,7 +15,8 @@ interface Props {
   plantas: Planta[]
   porSlug: Map<string, EspecieEnriquecida>
   pendientes: Map<string, number>
-  proxima: ProximaTarea | null
+  /** lo que dice la ficha plegada: la tarea del motor, o el hito más urgente */
+  pie: ProximaTarea | null
   abierta: boolean
   onAlternar: () => void
   onEditar: () => void
@@ -37,7 +37,7 @@ export function TarjetaLugar({
   plantas,
   porSlug,
   pendientes,
-  proxima,
+  pie,
   abierta,
   onAlternar,
   onEditar,
@@ -48,11 +48,6 @@ export function TarjetaLugar({
   const panel = `lugar-${ubicacion?.id ?? 'sin'}`
   const nombre = ubicacion?.nombre ?? 'Sin lugar asignado'
 
-  // Sin tarea del motor, lo que se muestra plegado es el hito más urgente de
-  // las plantas de acá: plegar tiene que ahorrar espacio, no información.
-  const hito = proxima ? null : hitoDelLugar(plantas, porSlug)
-  const pie = proxima ?? (hito && { texto: hito.texto, urgente: hito.estado === 'demorado' })
-
   return (
     <section className={`lugar lugar--${lugar.clase}`}>
       {/* el h2 con el botón adentro: la pantalla se navega por encabezados y
@@ -62,7 +57,7 @@ export function TarjetaLugar({
           <SelloLugar clase={lugar.clase} />
           <span className="lugar__textos">
             <span className="lugar__nombre">{nombre}</span>
-            <span className="lugar__etiqueta">{lugar.etiqueta}</span>
+            {lugar.etiqueta && <span className="lugar__etiqueta">{lugar.etiqueta}</span>}
             {ocupacion && (
               <span className="lugar__ocupacion">
                 <MedidorLugar ocupacion={ocupacion} />
@@ -99,7 +94,7 @@ export function TarjetaLugar({
       <div id={panel} className="lugar__cuerpo" hidden={!abierta}>
         {/* sin plantas la escala no etiquetaría nada */}
         {plantas.length > 0 && (
-          <p className="gantt-eje" aria-hidden>
+          <p className="lugar__eje" aria-hidden>
             {mesesDelEje().map((m, i) => (
               <span key={i} className={m.esActual ? 'es-actual' : ''}>
                 {MES_CORTO[m.mes - 1]}

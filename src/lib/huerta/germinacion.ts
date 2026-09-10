@@ -207,11 +207,6 @@ export function causasDeDemora(
   return causas
 }
 
-/** La clase del hito de germinación, compartida por la fila y el detalle. */
-export function claseGerminacion(estado: string) {
-  return estado === 'demorada' ? 'es-demorada' : estado === 'en_ventana' ? 'es-lista' : ''
-}
-
 /**
  * "Ya podría estar asomando" · "Hace 12 días que debería haber asomado".
  *

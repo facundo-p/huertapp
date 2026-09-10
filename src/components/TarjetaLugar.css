@@ -137,10 +137,6 @@
   padding: 0 14px;
 }
 
-.lugar__cuerpo[hidden] {
-  display: none;
-}
-
 .lugar__vacio {
   padding: 13px 0 3px;
   border-top: 1px solid var(--linea-suave);
@@ -178,6 +174,7 @@
 }
 
 .lugar__editar {
+  position: relative;
   flex: none;
   width: var(--tap-min);
   height: var(--tap-min);
@@ -196,6 +193,18 @@
   border-radius: 12px;
 }
 
-.lugar__editar {
-  position: relative;
+/* ---- Escala de meses, una sola vez por lugar ---- */
+.lugar__eje {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 5px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--tinta-tenue);
+}
+
+.lugar__eje span.es-actual {
+  color: var(--sol-texto);
 }

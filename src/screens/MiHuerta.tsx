@@ -14,9 +14,10 @@ import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
-import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Planta, type Ubicacion } from '../lib/huerta/tipos'
+import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Ubicacion } from '../lib/huerta/tipos'
+import type { EspecieEnriquecida } from '../lib/data/types'
 import { resumenHuerta } from '../lib/huerta/tanda'
-import { ordenDeLugar, proximaTareaDe } from '../lib/huerta/lugar'
+import { agruparPorLugar, pieDelLugar } from '../lib/huerta/lugar'
 import {
   alternarUbicacion,
   guardarPlegado,
@@ -26,6 +27,9 @@ import {
 } from '../lib/huerta/plegado'
 import { IconoAlerta, IconoCompost, IconoHuerta, IconoTacho } from '../icons'
 import './MiHuerta.css'
+
+/** Mientras el catálogo carga. A nivel de módulo: si no, es un Map por render. */
+const SIN_ESPECIES = new Map<string, EspecieEnriquecida>()
 
 export function MiHuerta() {
   const { indice, cargando } = useEspecies()
@@ -47,35 +51,7 @@ export function MiHuerta() {
     [plantas],
   )
 
-  /**
-   * Un grupo por lugar, incluidos los lugares vacíos: un bancal recién cargado
-   * tiene que aparecer para poder sembrarlo. El orden va por clase —primero
-   * donde nacen las plantas, después donde crecen— y lo que no tiene lugar
-   * queda al final.
-   */
-  const grupos = useMemo(() => {
-    const porId = new Map<string, Planta[]>()
-    for (const p of activas) {
-      const clave = p.ubicacionId ?? ''
-      porId.set(clave, [...(porId.get(clave) ?? []), p])
-    }
-    const lista: { ubicacion?: Ubicacion; plantas: Planta[] }[] = ubicaciones.map((u) => ({
-      ubicacion: u,
-      plantas: porId.get(u.id) ?? [],
-    }))
-    // El desempate tiene que ser total: con solo la fecha, dos lugares cargados
-    // en el mismo milisegundo quedaban al orden de clave de la base, que es un
-    // UUID, y la lista se reordenaba sola entre corridas.
-    lista.sort(
-      (a, b) =>
-        ordenDeLugar(a.ubicacion) - ordenDeLugar(b.ubicacion) ||
-        Number(a.plantas.length === 0) - Number(b.plantas.length === 0) ||
-        (a.ubicacion?.nombre ?? '').localeCompare(b.ubicacion?.nombre ?? '', 'es'),
-    )
-    const huerfanas = porId.get('') ?? []
-    if (huerfanas.length) lista.push({ plantas: huerfanas })
-    return lista
-  }, [activas, ubicaciones])
+  const grupos = useMemo(() => agruparPorLugar(activas, ubicaciones), [activas, ubicaciones])
 
   /**
    * Las tareas visibles, del **mismo motor** que alimenta a Esta semana: si Mi
@@ -205,9 +181,9 @@ export function MiHuerta() {
                   key={id || 'sin'}
                   ubicacion={ubicacion}
                   plantas={lista}
-                  porSlug={indice?.porSlug ?? new Map()}
+                  porSlug={indice?.porSlug ?? SIN_ESPECIES}
                   pendientes={pendientes}
-                  proxima={proximaTareaDe(tareas, lista)}
+                  pie={pieDelLugar(tareas, lista, indice?.porSlug ?? SIN_ESPECIES)}
                   abierta={!plegado.ubicacionesCerradas.includes(id)}
                   onAlternar={() => guardar(alternarUbicacion(plegado, id))}
                   onEditar={() => ubicacion && setEditando(ubicacion)}

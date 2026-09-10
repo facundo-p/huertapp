@@ -17,27 +17,10 @@
   background: var(--acento);
 }
 
-.medidor--continuo {
-  display: block;
-  width: 52px;
-  height: 10px;
-  border-radius: 5px;
-  background: var(--linea);
-  overflow: hidden;
-}
-/* rayado y no relleno plano: lo plantado a mano no tiene un borde exacto */
-.medidor--continuo i {
-  display: block;
-  height: 10px;
-  border-radius: 5px;
-  background:
-    repeating-linear-gradient(115deg, transparent 0 4px, var(--trama) 4px 8px),
-    var(--acento);
-}
-
-/* Muchas unidades: barra con muescas. La diferencia con la del bancal libre es
-   deliberada — muescas verticales dicen "hay posiciones", el rayado a 115° dice
-   "no las hay". */
+/* Las dos barras comparten caja; lo que cambia es la trama del relleno, y la
+   diferencia es deliberada: las muescas verticales dicen "hay posiciones", el
+   rayado diagonal dice que no las hay. */
+.medidor--continuo,
 .medidor--muchas {
   display: block;
   width: 52px;
@@ -47,11 +30,22 @@
   overflow: hidden;
 }
 
+.medidor--continuo i,
 .medidor--muchas i {
   display: block;
   height: 10px;
   border-radius: 5px;
+}
+
+/* rayado y no relleno plano: lo plantado a mano no tiene un borde exacto */
+.medidor--continuo i {
   background:
-    repeating-linear-gradient(90deg, transparent 0 3px, var(--papel-alto) 3px 4px),
+    repeating-linear-gradient(115deg, transparent 0 4px, var(--trama) 4px 8px),
+    var(--acento);
+}
+
+.medidor--muchas i {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 3px, var(--trama) 3px 4px),
     var(--acento);
 }

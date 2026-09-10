@@ -14,6 +14,7 @@ import {
   volumenCalculado,
   type CampoMedida,
 } from '../lib/huerta/ubicacion'
+import { lugarDe } from '../lib/huerta/lugar'
 import { IconoLuzMedia, IconoLuzPleno, IconoLuzSombra } from '../icons'
 import type {
   Disposicion,
@@ -28,15 +29,6 @@ import './FichaUbicacion.css'
 
 // La ficha del lugar: crea y edita con los mismos campos. Todo salvo el nombre
 // es opcional — un lugar sin datos sigue siendo un lugar.
-
-/** El sustantivo de lo que entra. Los tipos que no lo tienen no se miden. */
-const UNIDAD: Partial<Record<TipoUbicacion, string>> = {
-  almacigo: 'celdas',
-  maceta: 'macetas',
-  bancal: 'surcos',
-  bancal_elevado: 'surcos',
-  bancal_tierra: 'surcos',
-}
 
 const ICONO_LUZ: Record<LuzUbicacion, typeof IconoLuzPleno> = {
   pleno_sol: IconoLuzPleno,
@@ -90,10 +82,13 @@ export function FichaUbicacion({ abierto, onCerrar, ubicacion, onListo }: Props)
   const volumen = volumenCalculado(tipo, leerMedidas(campos, medidas))
   const eraBancalASecas = ubicacion?.tipo === 'bancal' && tipo === 'bancal'
   const conDisposicion = admiteDisposicion(tipo)
-  // en plantación libre los m² salen de las medidas: preguntar la capacidad
-  // sería pedir dos veces el mismo dato
-  const unidad = UNIDAD[tipo]
-  const pideCapacidad = !!unidad && !(conDisposicion && disposicion === 'libre')
+  // La unidad la decide `lugarDe` y nadie más: con un mapa propio acá, la hoja
+  // preguntaba "¿cuántos surcos entran?" para un bancal sin disposición y la
+  // ficha después no mostraba ese número, porque para ella ese bancal todavía
+  // no se mide. En plantación libre los m² salen de las medidas, así que
+  // preguntar la capacidad sería pedir dos veces el mismo dato.
+  const { unidad, continuo } = lugarDe({ tipo, disposicion: disposicion ?? undefined })
+  const pideCapacidad = !!unidad && !continuo
 
   async function guardar() {
     if (!nombre.trim() || guardando) return

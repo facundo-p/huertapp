@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { BottomSheet } from './BottomSheet'
 import { SelectorUbicacion } from './SelectorUbicacion'
 import { trasplantarParte, trasplantarTanda, sinRomper, useHuerta } from '../lib/huerta/store'
-import { lugarDe } from '../lib/huerta/lugar'
-import { aMedida } from '../lib/huerta/ubicacion'
+import { lugarPorId, medidaDeOcupacion } from '../lib/huerta/lugar'
+import { CamposOcupacion } from './CamposOcupacion'
 import { aCantidad, textoCantidad } from '../lib/huerta/tanda'
 import { hoyISO, type Planta } from '../lib/huerta/tipos'
 import { IconoAlerta } from '../icons'
@@ -33,7 +33,7 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
 
   // el lugar de destino decide si la ocupación se cuenta o se mide
   const { ubicaciones } = useHuerta()
-  const lugar = lugarDe(ubicaciones.find((u) => u.id === ubicacionId))
+  const lugar = lugarPorId(ubicaciones, ubicacionId)
 
   const desdeAlmacigo = planta.etapa === 'almacigo'
   const n = aCantidad(cuantas)
@@ -56,8 +56,7 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
       const destino = {
         fecha,
         ubicacionId: ubicacionId || undefined,
-        ocupa: lugar.continuo ? undefined : aMedida(ocupa),
-        superficie: lugar.continuo ? aMedida(ocupa) : undefined,
+        ...medidaDeOcupacion(lugar, ocupa),
         comoEsta: comoEsta.trim() || undefined,
       }
       if (parte) await trasplantarParte(planta, { ...destino, cuantas: n })
@@ -146,37 +145,15 @@ export function Trasplantar({ abierto, planta, nombre, onCerrar, onListo }: Prop
         <SelectorUbicacion id="tras-ubi" valor={ubicacionId} onValor={setUbicacionId} />
       </div>
 
-      {lugar.unidad && (
-        <div className="alta__campo">
-          <label className="alta__label" htmlFor="tras-ocupa">
-            {lugar.continuo ? '¿Cuántos m² ocupa?' : `¿Cuántas ${lugar.unidad} ocupa?`}{' '}
-            <span className="alta__opcional">(opcional)</span>
-          </label>
-          <input
-            id="tras-ocupa"
-            className="alta__input"
-            inputMode="decimal"
-            placeholder={lugar.continuo ? '0,5' : '1'}
-            value={ocupa}
-            onChange={(ev) => setOcupa(ev.target.value)}
-          />
-        </div>
-      )}
-
-      {lugar.continuo && (
-        <div className="alta__campo">
-          <label className="alta__label" htmlFor="tras-como">
-            ¿Cómo queda puesta? <span className="alta__opcional">(opcional)</span>
-          </label>
-          <input
-            id="tras-como"
-            className="alta__input"
-            placeholder="Intercalada entre las lechugas…"
-            value={comoEsta}
-            onChange={(ev) => setComoEsta(ev.target.value)}
-          />
-        </div>
-      )}
+      <CamposOcupacion
+        prefijo="tras"
+        lugar={lugar}
+        ocupa={ocupa}
+        onOcupa={setOcupa}
+        comoEsta={comoEsta}
+        onComoEsta={setComoEsta}
+        verbo="queda"
+      />
 
       <div className="alta__campo">
         <label className="alta__label" htmlFor="tras-fecha">

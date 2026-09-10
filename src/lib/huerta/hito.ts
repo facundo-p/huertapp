@@ -1,6 +1,11 @@
 import type { EspecieEnriquecida } from '../data/types'
 import { estadoHito, estimar, textoHito, type EstadoHito } from './estimar'
-import { germinacion, germinacionPendiente, textoGerminacion } from './germinacion'
+import {
+  germinacion,
+  germinacionPendiente,
+  textoGerminacion,
+  type EstadoGerminacion,
+} from './germinacion'
 import { hoyISO, type Planta } from './tipos'
 
 /**
@@ -17,11 +22,10 @@ import { hoyISO, type Planta } from './tipos'
 export interface Linea {
   texto: string
   estado: EstadoHito
-  /** el hito es "todavía no asomó" y no un paso del ciclo */
-  germinando: boolean
 }
 
-const DE_GERMINACION: Record<string, EstadoHito> = {
+/** Los que no están acá —temprano, germinó, no aplica— no urgen. */
+const DE_GERMINACION: Partial<Record<EstadoGerminacion, EstadoHito>> = {
   demorada: 'demorado',
   en_ventana: 'listo',
 }
@@ -32,7 +36,6 @@ export function hitoDePlanta(p: Planta, e: EspecieEnriquecida, hoy = hoyISO()): 
     return {
       texto: textoGerminacion(germ),
       estado: DE_GERMINACION[germ.estado] ?? 'neutro',
-      germinando: true,
     }
   }
   const proximo = estimar(p, e, hoy).proximo
@@ -40,7 +43,6 @@ export function hitoDePlanta(p: Planta, e: EspecieEnriquecida, hoy = hoyISO()): 
   return {
     texto: `${proximo.titulo}: ${textoHito(proximo)}`,
     estado: estadoHito(proximo),
-    germinando: false,
   }
 }
 

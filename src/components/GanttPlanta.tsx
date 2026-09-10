@@ -2,7 +2,8 @@ import { Link } from 'react-router'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import { ETAPA_INFO, type Planta } from '../lib/huerta/tipos'
 import { hitoDePlanta } from '../lib/huerta/hito'
-import { pct, ventanas, visible } from '../lib/huerta/gantt'
+import type { EstadoHito } from '../lib/huerta/estimar'
+import { DIAS_ADELANTE, pct, ventanas, visible } from '../lib/huerta/gantt'
 import { cantidadCorta } from '../lib/huerta/tanda'
 import { IconoAlerta, IconoGrupo, IconoReloj } from '../icons'
 import './GanttPlanta.css'
@@ -16,7 +17,11 @@ interface Props {
 }
 
 /** El estado del hito manda color, peso e ícono. El color nunca va solo. */
-const CLASE_HITO = { demorado: 'es-demorada', listo: 'es-lista', neutro: '' } as const
+const CLASE_HITO: Record<EstadoHito, string> = {
+  demorado: 'es-demorada',
+  listo: 'es-lista',
+  neutro: '',
+}
 
 /**
  * Una planta como una fila de gantt: el ciclo proyectado sobre 180 días, con
@@ -30,6 +35,7 @@ export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
   const v = ventanas(planta, especie)
   const hito = hitoDePlanta(planta, especie)
   const nombre = planta.apodo || especie.nombre_comun
+  const cuantas = cantidadCorta(planta)
 
   const tramo = (t: [number, number]) => ({
     left: `${pct(t[0])}%`,
@@ -39,7 +45,7 @@ export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
   // Crecer va de la siembra hasta que arranca el trasplante; sin trasplante,
   // hasta la cosecha. Los tres tramos son etapas seguidas, no capas: pintar el
   // trasplante encima del verde lo dejaba como un manchón adentro de otra cosa.
-  const finCrecer = visible(v.trasplante) ? v.trasplante![0] : (v.cosecha?.[0] ?? 120)
+  const finCrecer = visible(v.trasplante) ? v.trasplante[0] : (v.cosecha?.[0] ?? DIAS_ADELANTE)
   // el ícono repite lo que dice el color: atrasado avisa, lo que falta espera.
   // Reloj y no el brote: a 12 px el brote es una mancha que no se identifica.
   const IconoDelHito = hito?.estado === 'demorado' ? IconoAlerta : IconoReloj
@@ -52,21 +58,23 @@ export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
 
       <span className="gantt__caja">
         <span className="gantt__cabeza">
-          <span className="gantt__nombre">{nombre}</span>
-          <span className="gantt__sub">
-            {planta.apodo ? `${especie.nombre_comun} · ` : ''}
-            {cantidadCorta(planta) ? `${cantidadCorta(planta)} · ` : ''}
-            {v.siembra === 0 ? 'sembrada hoy' : `hace ${-v.siembra} días`}
-          </span>
-          {pendientes > 0 && (
-            <span className="gantt__alertas pulso">
-              <IconoAlerta size={11} />
-              {pendientes}
-              <span className="sr-solo">
-                {pendientes === 1 ? ' cosa para atender' : ' cosas para atender'}
-              </span>
+          <span className="gantt__titulos">
+            <span className="gantt__nombre">{nombre}</span>
+            <span className="gantt__sub">
+              {planta.apodo ? `${especie.nombre_comun} · ` : ''}
+              {cuantas ? `${cuantas} · ` : ''}
+              {v.siembra === 0 ? 'sembrada hoy' : `hace ${-v.siembra} días`}
             </span>
-          )}
+            {pendientes > 0 && (
+              <span className="gantt__alertas pulso">
+                <IconoAlerta size={11} />
+                {pendientes}
+                <span className="sr-solo">
+                  {pendientes === 1 ? ' cosa para atender' : ' cosas para atender'}
+                </span>
+              </span>
+            )}
+          </span>
           <span className={`gantt__etapa es-${planta.etapa}`}>
             {ETAPA_INFO[planta.etapa].etiqueta}
           </span>
@@ -77,10 +85,10 @@ export function GanttPlanta({ planta, especie, pendientes, conNota }: Props) {
         <span className="gantt__banda" aria-hidden>
           <span className="gantt__barra es-crece" style={tramo([v.siembra, finCrecer])} />
           {visible(v.trasplante) && (
-            <span className="gantt__barra es-trasplante" style={tramo(v.trasplante!)} />
+            <span className="gantt__barra es-trasplante" style={tramo(v.trasplante)} />
           )}
           {visible(v.cosecha) && (
-            <span className="gantt__barra es-cosecha" style={tramo(v.cosecha!)} />
+            <span className="gantt__barra es-cosecha" style={tramo(v.cosecha)} />
           )}
           <span className="gantt__hoy" />
         </span>

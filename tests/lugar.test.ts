@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { lugarDe, ocupacionDe, ordenDeLugar, proximaTareaDe } from '../src/lib/huerta/lugar'
+import {
+  agruparPorLugar,
+  lugarDe,
+  medidaDeOcupacion,
+  ocupacionDe,
+  pieDelLugar,
+  proximaTareaDe,
+} from '../src/lib/huerta/lugar'
 import type { Planta, Ubicacion } from '../src/lib/huerta/tipos'
 import type { Tarea } from '../src/lib/tareas/engine'
 
@@ -61,8 +68,8 @@ describe('lugarDe', () => {
     expect(l.unidad).toBeNull()
   })
 
-  it('sin ubicación es "sin lugar asignado"', () => {
-    expect(lugarDe(undefined)).toMatchObject({ clase: 'otro', etiqueta: 'Sin lugar asignado' })
+  it('sin ubicación no inventa etiqueta: el nombre de la tarjeta ya lo dice', () => {
+    expect(lugarDe(undefined)).toMatchObject({ clase: 'otro', etiqueta: '', unidad: null })
   })
 })
 
@@ -130,17 +137,76 @@ describe('proximaTareaDe', () => {
   })
 })
 
-describe('ordenDeLugar', () => {
-  it('primero donde nacen las plantas, después donde crecen, y sin lugar al final', () => {
-    const orden = [
-      ubi({ tipo: 'bancal_tierra' }),
-      undefined,
-      ubi({ tipo: 'almacigo' }),
-      ubi({ tipo: 'otro' }),
-      ubi({ tipo: 'maceta' }),
-    ]
-      .map((u) => ordenDeLugar(u))
-      .join('')
-    expect(orden).toBe('24031')
+describe('medidaDeOcupacion', () => {
+  it('donde se cuenta, el número va a `ocupa`; donde se mide, a `superficie`', () => {
+    expect(medidaDeOcupacion(lugarDe(ubi({ tipo: 'almacigo' })), '4')).toEqual({ ocupa: 4 })
+    expect(
+      medidaDeOcupacion(lugarDe(ubi({ tipo: 'bancal_elevado', disposicion: 'libre' })), '1,2'),
+    ).toEqual({ superficie: 1.2 })
+  })
+
+  it('un lugar que no se mide no guarda nada, aunque haya quedado un número escrito', () => {
+    expect(medidaDeOcupacion(lugarDe(ubi({ tipo: 'otro' })), '3')).toEqual({})
+    expect(medidaDeOcupacion(lugarDe(ubi({ tipo: 'bancal_tierra' })), '3')).toEqual({})
+  })
+})
+
+describe('pieDelLugar', () => {
+  const porSlug = new Map()
+
+  it('la tarea del motor manda sobre el hito', () => {
+    const t = [tarea({ plantaId: 'a', titulo: 'Cosechar la lechuga' })]
+    expect(pieDelLugar(t, [planta({ id: 'a' })], porSlug)).toEqual({
+      texto: 'Cosechar la lechuga',
+      urgente: false,
+    })
+  })
+
+  it('un lugar vacío se ofrece para sembrar', () => {
+    expect(pieDelLugar([], [], porSlug)).toEqual({ texto: 'Vacío: listo para sembrar', urgente: false })
+  })
+
+  it('sin tarea y sin especie conocida, no dice nada en vez de mentir', () => {
+    expect(pieDelLugar([], [planta({ id: 'a', slug: 'no-existe' })], porSlug)).toBeNull()
+  })
+})
+
+describe('agruparPorLugar', () => {
+  const lugares: Ubicacion[] = [
+    ubi({ id: 'b2', nombre: 'Bancal de la medianera', tipo: 'bancal_tierra', creada: '2026-01-04' }),
+    ubi({ id: 'b1', nombre: 'Bancal del fondo', tipo: 'bancal_elevado', creada: '2026-01-03' }),
+    ubi({ id: 'm', nombre: 'Macetas del balcón', tipo: 'maceta', creada: '2026-01-02' }),
+    ubi({ id: 'a', nombre: 'Almaciguera del balcón', tipo: 'almacigo', creada: '2026-01-01' }),
+  ]
+  const nombres = (g: ReturnType<typeof agruparPorLugar>) =>
+    g.map((x) => x.ubicacion?.nombre ?? 'sin lugar')
+
+  it('primero donde nacen las plantas, después donde crecen', () => {
+    expect(nombres(agruparPorLugar([], lugares))).toEqual([
+      'Almaciguera del balcón',
+      'Macetas del balcón',
+      'Bancal de la medianera',
+      'Bancal del fondo',
+    ])
+  })
+
+  it('entre lugares de la misma clase, primero el que tiene algo plantado', () => {
+    const g = agruparPorLugar([planta({ id: 'p', ubicacionId: 'b1' })], lugares)
+    expect(nombres(g).slice(2)).toEqual(['Bancal del fondo', 'Bancal de la medianera'])
+  })
+
+  it('un lugar vacío igual aparece: hay que poder sembrarlo', () => {
+    expect(agruparPorLugar([], lugares)).toHaveLength(4)
+  })
+
+  it('las plantas sin lugar van al final, en un grupo sin ubicación', () => {
+    const g = agruparPorLugar([planta({ id: 'p' })], lugares)
+    expect(nombres(g).at(-1)).toBe('sin lugar')
+    expect(g.at(-1)!.ubicacion).toBeUndefined()
+  })
+
+  it('el orden no depende del orden en que la base devuelva los lugares', () => {
+    const alReves = [...lugares].reverse()
+    expect(nombres(agruparPorLugar([], lugares))).toEqual(nombres(agruparPorLugar([], alReves)))
   })
 })

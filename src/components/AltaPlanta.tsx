@@ -3,8 +3,8 @@ import { BottomSheet } from './BottomSheet'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, agregarPlanta, sinRomper } from '../lib/huerta/store'
-import { lugarDe } from '../lib/huerta/lugar'
-import { aMedida } from '../lib/huerta/ubicacion'
+import { lugarPorId, medidaDeOcupacion } from '../lib/huerta/lugar'
+import { CamposOcupacion } from './CamposOcupacion'
 import { SelectorUbicacion } from './SelectorUbicacion'
 import { compatibilidad } from '../lib/huerta/compat'
 import { aCantidad } from '../lib/huerta/tanda'
@@ -70,7 +70,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, ubicacionId: lugarInicial,
   const { plantas, ubicaciones } = useHuerta()
 
   // el lugar elegido decide si la ocupación se cuenta o se mide
-  const lugar = lugarDe(ubicaciones.find((u) => u.id === ubicacionId))
+  const lugar = lugarPorId(ubicaciones, ubicacionId)
   const compat = useMemo(() => {
     if (!especie || !indice || !ubicacionId) return null
     const vecinas = plantas
@@ -112,8 +112,7 @@ export function AltaPlanta({ abierto, onCerrar, slug, ubicacionId: lugarInicial,
         sembrada,
         metodo: metodoFinal ?? null,
         cantidad: aCantidad(cuantas),
-        ocupa: lugar.continuo ? undefined : aMedida(ocupa),
-        superficie: lugar.continuo ? aMedida(ocupa) : undefined,
+        ...medidaDeOcupacion(lugar, ocupa),
         comoEsta: comoEsta.trim() || undefined,
       })
       // sin catch a propósito: si el guardado falló, la hoja queda abierta con
@@ -272,41 +271,15 @@ export function AltaPlanta({ abierto, onCerrar, slug, ubicacionId: lugarInicial,
             <SelectorUbicacion id="alta-ubi" valor={ubicacionId} onValor={setUbicacionId} />
           </div>
 
-          {/* Cuánto le va a ocupar del lugar. Solo aparece cuando el lugar sabe
-              cuánto entra: sin capacidad cargada, el número no diría nada. */}
-          {lugar.unidad && (
-            <div className="alta__campo">
-              <label className="alta__label" htmlFor="alta-ocupa">
-                {lugar.continuo ? '¿Cuántos m² ocupa?' : `¿Cuántas ${lugar.unidad} ocupa?`}{' '}
-                <span className="alta__opcional">(opcional)</span>
-              </label>
-              <input
-                id="alta-ocupa"
-                className="alta__input"
-                inputMode="decimal"
-                placeholder={lugar.continuo ? '0,5' : '1'}
-                value={ocupa}
-                onChange={(ev) => setOcupa(ev.target.value)}
-              />
-            </div>
-          )}
-
-          {/* En plantación libre no hay una celda por planta: cómo está puesta
-              es lo único que ubica a esta entre las demás. */}
-          {lugar.continuo && (
-            <div className="alta__campo">
-              <label className="alta__label" htmlFor="alta-como">
-                ¿Cómo está puesta? <span className="alta__opcional">(opcional)</span>
-              </label>
-              <input
-                id="alta-como"
-                className="alta__input"
-                placeholder="Intercalada entre las lechugas…"
-                value={comoEsta}
-                onChange={(ev) => setComoEsta(ev.target.value)}
-              />
-            </div>
-          )}
+          <CamposOcupacion
+            prefijo="alta"
+            lugar={lugar}
+            ocupa={ocupa}
+            onOcupa={setOcupa}
+            comoEsta={comoEsta}
+            onComoEsta={setComoEsta}
+            verbo="está"
+          />
 
           {compat && (
             <div className={`alta__aviso ${compat.malas.length ? 'es-mala' : 'es-buena'}`}>

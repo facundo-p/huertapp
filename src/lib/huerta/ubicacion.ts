@@ -28,9 +28,9 @@ export const LUZ_INFO: Record<LuzUbicacion, { etiqueta: string }> = {
 }
 
 /** Sólo se pregunta en bancales: en una maceta o una bandeja no hay surco posible. */
-export const DISPOSICION_INFO: Record<Disposicion, { etiqueta: string; ayuda: string }> = {
-  surcos: { etiqueta: 'En surcos', ayuda: 'Se cuenta por surcos' },
-  libre: { etiqueta: 'Plantación libre', ayuda: 'Se mide por superficie' },
+export const DISPOSICION_INFO: Record<Disposicion, { etiqueta: string }> = {
+  surcos: { etiqueta: 'En surcos' },
+  libre: { etiqueta: 'Plantación libre' },
 }
 
 export const admiteDisposicion = (tipo: TipoUbicacion): boolean =>

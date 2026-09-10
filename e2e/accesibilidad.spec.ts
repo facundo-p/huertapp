@@ -64,7 +64,8 @@ const PANTALLAS = [
         /^Bancal del fondo/,
         /^Bancal de la medianera/,
       ]) {
-        await page.getByRole('button', { name: lugar }).click()
+        // `expanded: true` la hace idempotente: si ya estaba plegada, no la abre
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
     },
   },

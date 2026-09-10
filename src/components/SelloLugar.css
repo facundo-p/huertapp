@@ -62,6 +62,9 @@
 }
 .sello__macetas i:nth-child(3) {
   height: 9px;
+}
+
+.sello__macetas i.es-tenue {
   opacity: 0.45;
 }
 

@@ -29,7 +29,7 @@ describe('hitoDePlanta', () => {
   it('mientras no asomó, ése es EL dato: el próximo hito se calla', () => {
     // rúcula sembrada hace 40 días, germina en 4-8: pasada de plazo
     const l = hitoDePlanta(planta({ slug: 'rucula', sembrada: '2026-08-01' }), get('rucula'), HOY)
-    expect(l).toMatchObject({ germinando: true, estado: 'demorado' })
+    expect(l?.estado).toBe('demorado')
     expect(l!.texto).toMatch(/debería haber asomado/)
   })
 
@@ -39,7 +39,6 @@ describe('hitoDePlanta', () => {
       get('lechuga'),
       HOY,
     )
-    expect(l?.germinando).toBe(false)
     expect(l?.texto).toMatch(/^Cosecha:/)
   })
 

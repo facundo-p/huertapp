@@ -1,6 +1,8 @@
 import type { Tarea } from '../tareas/engine'
-import type { Planta, Ubicacion } from './tipos'
-import { TIPO_UBICACION_INFO } from './ubicacion'
+import type { EspecieEnriquecida } from '../data/types'
+import { hitoDelLugar } from './hito'
+import { hoyISO, type Disposicion, type Planta, type TipoUbicacion, type Ubicacion } from './tipos'
+import { admiteDisposicion, aMedida, TIPO_UBICACION_INFO } from './ubicacion'
 
 /**
  * El lugar como ficha: de qué tipo es, cómo se mide lo que tiene adentro y qué
@@ -23,32 +25,40 @@ export interface Lugar {
   continuo: boolean
 }
 
-const SIN_LUGAR: Lugar = { clase: 'otro', etiqueta: 'Sin lugar asignado', unidad: null, continuo: false }
+/** Sin etiqueta: el nombre de la tarjeta ya dice "Sin lugar asignado". */
+const SIN_LUGAR: Lugar = { clase: 'otro', etiqueta: '', unidad: null, continuo: false }
+
+/** Lo único que mira `lugarDe`. Una `Ubicacion` entera lo cumple. */
+interface Clasificable {
+  tipo: TipoUbicacion
+  disposicion?: Disposicion
+}
 
 /**
  * Un bancal sin disposición cargada —todos los que ya existían— NO se da por
  * "en surcos": lleva la etiqueta genérica del tipo y no promete unidades que
  * nadie declaró.
  */
-export function lugarDe(u: Ubicacion | undefined): Lugar {
+export function lugarDe(u: Clasificable | undefined): Lugar {
   if (!u) return SIN_LUGAR
   switch (u.tipo) {
     case 'almacigo':
       return { clase: 'almaciguera', etiqueta: 'Almaciguera', unidad: 'celdas', continuo: false }
     case 'maceta':
       return { clase: 'macetas', etiqueta: 'Macetas sueltas', unidad: 'macetas', continuo: false }
-    case 'bancal':
-    case 'bancal_elevado':
-    case 'bancal_tierra':
+    default:
+      if (!admiteDisposicion(u.tipo))
+        return { clase: 'otro', etiqueta: TIPO_UBICACION_INFO[u.tipo].etiqueta, unidad: null, continuo: false }
       if (u.disposicion === 'libre')
         return { clase: 'bancal_libre', etiqueta: 'Bancal · plantación libre', unidad: 'm²', continuo: true }
       if (u.disposicion === 'surcos')
         return { clase: 'bancal', etiqueta: 'Bancal en surcos', unidad: 'surcos', continuo: false }
       return { clase: 'bancal', etiqueta: TIPO_UBICACION_INFO[u.tipo].etiqueta, unidad: null, continuo: false }
-    default:
-      return { clase: 'otro', etiqueta: TIPO_UBICACION_INFO[u.tipo].etiqueta, unidad: null, continuo: false }
   }
 }
+
+export const lugarPorId = (ubicaciones: Ubicacion[], id: string | undefined): Lugar =>
+  lugarDe(ubicaciones.find((u) => u.id === id))
 
 export interface Ocupacion {
   /** "6 de 12 celdas" · "~6 de 12 celdas" · "2 de 2,9 m² plantados" */
@@ -107,6 +117,23 @@ export function ocupacionDe(u: Ubicacion, plantas: Planta[]): Ocupacion | null {
   }
 }
 
+/**
+ * Dónde va el número que la persona escribió: el lugar decide si se cuenta en
+ * unidades o se mide en superficie. Vivía escrito igual en las dos hojas que
+ * lo preguntan, que es justo el par que se separa con el tiempo.
+ *
+ * Un lugar que no se mide devuelve los dos campos vacíos: si no, un número
+ * escrito antes de cambiar de lugar se guardaba igual.
+ */
+export function medidaDeOcupacion(
+  lugar: Lugar,
+  texto: string,
+): { ocupa?: number; superficie?: number } {
+  if (!lugar.unidad) return {}
+  const n = aMedida(texto)
+  return lugar.continuo ? { superficie: n } : { ocupa: n }
+}
+
 export interface ProximaTarea {
   texto: string
   urgente: boolean
@@ -129,6 +156,23 @@ export function proximaTareaDe(tareas: Tarea[], plantas: Planta[]): ProximaTarea
   return { texto: elegida.titulo, urgente: !!elegida.atrasada }
 }
 
+/**
+ * Lo que dice la ficha cuando está plegada. La tarea del motor manda; si no
+ * emitió ninguna, cae al hito más urgente de las plantas de acá. Plegar tiene
+ * que ahorrar espacio, no información.
+ */
+export function pieDelLugar(
+  tareas: Tarea[],
+  plantas: Planta[],
+  porSlug: Map<string, EspecieEnriquecida>,
+  hoy = hoyISO(),
+): ProximaTarea | null {
+  const tarea = proximaTareaDe(tareas, plantas)
+  if (tarea) return tarea
+  const hito = hitoDelLugar(plantas, porSlug, hoy)
+  return hito && { texto: hito.texto, urgente: hito.estado === 'demorado' }
+}
+
 /** Orden de la lista: primero donde nacen las plantas, después donde crecen. */
 const ORDEN: Record<ClaseLugar, number> = {
   almaciguera: 0,
@@ -138,6 +182,37 @@ const ORDEN: Record<ClaseLugar, number> = {
   otro: 3,
 }
 
-export function ordenDeLugar(u: Ubicacion | undefined): number {
-  return u ? ORDEN[lugarDe(u).clase] : 4
+const ordenDeLugar = (u: Ubicacion): number => ORDEN[lugarDe(u).clase]
+
+export interface Grupo {
+  /** sin ubicación es el grupo de las plantas que no tienen lugar asignado */
+  ubicacion?: Ubicacion
+  plantas: Planta[]
+}
+
+/**
+ * Un grupo por lugar, incluidos los vacíos: un bancal recién cargado tiene que
+ * aparecer para poder sembrarlo.
+ *
+ * El desempate tiene que ser total. Con solo la fecha, dos lugares cargados en
+ * el mismo milisegundo quedaban al orden de clave de la base, que es un UUID, y
+ * la lista se reordenaba sola entre corridas.
+ */
+export function agruparPorLugar(plantas: Planta[], ubicaciones: Ubicacion[]): Grupo[] {
+  const porId = new Map<string, Planta[]>()
+  for (const p of plantas) {
+    const clave = p.ubicacionId ?? ''
+    porId.set(clave, [...(porId.get(clave) ?? []), p])
+  }
+  const grupos: Grupo[] = ubicaciones
+    .map((u) => ({ ubicacion: u, plantas: porId.get(u.id) ?? [] }))
+    .sort(
+      (a, b) =>
+        ordenDeLugar(a.ubicacion) - ordenDeLugar(b.ubicacion) ||
+        Number(a.plantas.length === 0) - Number(b.plantas.length === 0) ||
+        a.ubicacion.nombre.localeCompare(b.ubicacion.nombre, 'es'),
+    )
+  const huerfanas = porId.get('') ?? []
+  if (huerfanas.length) grupos.push({ plantas: huerfanas })
+  return grupos
 }

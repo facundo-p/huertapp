@@ -72,7 +72,7 @@ export function pct(dia: number): number {
 }
 
 /** ¿Queda algo de este tramo dentro de la ventana que se dibuja? */
-export function visible(tramo: [number, number] | null): boolean {
+export function visible(tramo: [number, number] | null): tramo is [number, number] {
   if (!tramo) return false
   return tramo[1] >= -DIAS_ATRAS && tramo[0] <= DIAS_ADELANTE
 }
