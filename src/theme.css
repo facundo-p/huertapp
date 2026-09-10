@@ -112,6 +112,8 @@
   /* superficie teñida DETRÁS de texto terracota (el sello de germinación).
      De día coincide con el relleno; de noche no, y por eso son dos tokens. */
   --terracota-fondo: #e8c4b3;
+  /* más claro que --terracota-fondo: es fondo de un dibujo, no de un texto */
+  --terracota-tinte: #f3e2d8;
   --terracota-texto: #7d3a20;
   --sol: #c98718;
   /* el tinte a sangre de un aviso o del mes en curso: --sol al 13 % */
@@ -174,6 +176,10 @@
   --marca-mes-grande: #2b332480;
   --marca-tercio: #2b332426;
 
+  /* rayado del medidor de superficie: velo y no un segundo verde, para que la
+     trama se vea igual en los dos temas */
+  --trama: rgba(28, 38, 23, 0.3);
+
   /* ---- Gantt del ciclo ---- */
   --grilla-mes: #22301c26;
   --gantt-crece: #4d7440;
@@ -226,6 +232,7 @@
   --terracota: #d4917a;
   --terracota-suave: #7a4f3e;
   --terracota-fondo: #48322a;
+  --terracota-tinte: #3a2a24;
   --terracota-texto: #d4917a;
   --sol: #e3a52f;
   /* el tinte a sangre de un aviso o del mes en curso: --sol al 13 % */
@@ -278,6 +285,8 @@
   --marca-mes: #f3eeddcc;
   --marca-mes-grande: #f3eeddb3;
   --marca-tercio: #f3eedd40;
+
+  --trama: rgba(0, 0, 0, 0.34);
 
   --grilla-mes: #f3eedd26;
   --gantt-crece: #6d9a52;

@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { BottomSheet } from './BottomSheet'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, agregarPlanta, sinRomper } from '../lib/huerta/store'
+import { lugarPorId, medidaDeOcupacion } from '../lib/huerta/lugar'
+import { CamposOcupacion } from './CamposOcupacion'
 import { SelectorUbicacion } from './SelectorUbicacion'
 import { compatibilidad } from '../lib/huerta/compat'
 import { aCantidad } from '../lib/huerta/tanda'
@@ -22,10 +24,12 @@ interface Props {
   onCerrar: () => void
   /** si viene de una ficha, la especie ya está decidida */
   slug?: string
+  /** si viene de la ficha de un lugar, el lugar ya está decidido */
+  ubicacionId?: string
   onListo?: (id: string) => void
 }
 
-export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
+export function AltaPlanta({ abierto, onCerrar, slug, ubicacionId: lugarInicial, onListo }: Props) {
   const { indice } = useEspecies()
   const zona = useZona()
   const hoy = new Date()
@@ -36,9 +40,11 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   const [apodo, setApodo] = useState('')
   const [variedad, setVariedad] = useState('')
   const [sembrada, setSembrada] = useState(hoyISO())
-  const [ubicacionId, setUbicacionId] = useState<string>('')
+  const [ubicacionId, setUbicacionId] = useState<string>(lugarInicial ?? '')
   const [metodo, setMetodo] = useState<Metodo | null>(null)
   const [cuantas, setCuantas] = useState('')
+  const [ocupa, setOcupa] = useState('')
+  const [comoEsta, setComoEsta] = useState('')
   const [guardando, setGuardando] = useState(false)
 
   // `elegida` primero y no `slug`: viniendo de una ficha, elegir una variedad
@@ -61,7 +67,10 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   }, [indice, busqueda, especieSlug, decadaHoy, zona])
 
   // vecinas: lo que ya hay en la ubicación elegida
-  const { plantas } = useHuerta()
+  const { plantas, ubicaciones } = useHuerta()
+
+  // el lugar elegido decide si la ocupación se cuenta o se mide
+  const lugar = lugarPorId(ubicaciones, ubicacionId)
   const compat = useMemo(() => {
     if (!especie || !indice || !ubicacionId) return null
     const vecinas = plantas
@@ -72,15 +81,23 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
     return c.malas.length || c.buenas.length ? c : null
   }, [especie, indice, ubicacionId, plantas])
 
+  // abrirla desde la ficha de un lugar tiene que traer ese lugar puesto, y no
+  // el de la vez anterior
+  useEffect(() => {
+    if (abierto) setUbicacionId(lugarInicial ?? '')
+  }, [abierto, lugarInicial])
+
   function limpiar() {
     setElegida(slug)
     setBusqueda('')
     setApodo('')
     setVariedad('')
     setSembrada(hoyISO())
-    setUbicacionId('')
+    setUbicacionId(lugarInicial ?? '')
     setMetodo(null)
     setCuantas('')
+    setOcupa('')
+    setComoEsta('')
   }
 
   async function guardar() {
@@ -95,6 +112,8 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
         sembrada,
         metodo: metodoFinal ?? null,
         cantidad: aCantidad(cuantas),
+        ...medidaDeOcupacion(lugar, ocupa),
+        comoEsta: comoEsta.trim() || undefined,
       })
       // sin catch a propósito: si el guardado falló, la hoja queda abierta con
       // lo que escribiste y el aviso de "no se pudo guardar" a la vista
@@ -251,6 +270,16 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
             </label>
             <SelectorUbicacion id="alta-ubi" valor={ubicacionId} onValor={setUbicacionId} />
           </div>
+
+          <CamposOcupacion
+            prefijo="alta"
+            lugar={lugar}
+            ocupa={ocupa}
+            onOcupa={setOcupa}
+            comoEsta={comoEsta}
+            onComoEsta={setComoEsta}
+            verbo="está"
+          />
 
           {compat && (
             <div className={`alta__aviso ${compat.malas.length ? 'es-mala' : 'es-buena'}`}>

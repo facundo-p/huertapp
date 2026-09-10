@@ -21,8 +21,10 @@ export function Header({ titulo, sobretitulo, volver, children }: Props) {
           <IconoVolver size={22} />
         </button>
       )}
+      {/* fuera del bloque del título y con la fila para él solo: si comparte
+          ancho con los botones, un contador largo se parte en dos líneas */}
+      {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
       <div className="encabezado__textos">
-        {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
         <h1 className="encabezado__titulo">{titulo}</h1>
       </div>
       {!volver && (
