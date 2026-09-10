@@ -50,6 +50,24 @@ const PANTALLAS = [
   },
   { ruta: '/#/glosario', nombre: 'Glosario' },
   { ruta: '/#/ajustes', nombre: 'Ajustes' },
+  // Con los lugares plegados aparecen los chips, los medidores y la próxima
+  // tarea de cada uno: es el estado con más texto chico de la pantalla.
+  // Va ÚLTIMA porque el plegado se guarda: dejarla antes esconde las plantas
+  // que las pantallas de más arriba necesitan clickear.
+  {
+    ruta: '/#/huerta',
+    nombre: 'Mi huerta plegada',
+    entrar: async (page: Page) => {
+      for (const lugar of [
+        /^Almaciguera del balcón/,
+        /^Macetas del balcón/,
+        /^Bancal del fondo/,
+        /^Bancal de la medianera/,
+      ]) {
+        await page.getByRole('button', { name: lugar }).click()
+      }
+    },
+  },
 ]
 
 /**

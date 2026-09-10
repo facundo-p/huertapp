@@ -1,106 +1,132 @@
+/* Botón de la acción primaria, en el encabezado. La píldora de 40 va adentro
+   de un target de 44: el diseño manda la caja, no el pulgar. */
+.huerta__sumar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: 50%;
+  background: var(--sol);
+  color: var(--sobre-sol);
+  border: 1.5px solid var(--sol);
+  box-shadow: var(--sombra-1);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.huerta__sumar:active {
+  transform: scale(0.92);
+}
+
+/* ── Referencia de la línea del año ──
+   Panel hundido y no reglado: es una nota de lectura, no un ítem de la lista.
+   Cada muestra con su palabra: si el wrap las separa, la leyenda deja de decir
+   qué es cada color. */
+.referencia {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 15px;
+  margin-top: var(--esp-1);
+  padding: 11px 13px;
+  border-radius: var(--radio-tarjeta);
+  background: var(--papel-plano);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--tinta-suave);
+}
+
+/* El handoff lo pone en la tinta decorativa, pero es texto que se lee: acá la
+   jerarquía se hace con tamaño y peso, nunca bajando el contraste. */
+.referencia__rotulo {
+  width: 100%;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+.referencia > span:not(.referencia__rotulo) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.referencia i {
+  width: 16px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.referencia i.es-crece {
+  background: var(--gantt-crece);
+}
+
+.referencia i.es-trasplante {
+  background: var(--gantt-trasplante);
+}
+
+.referencia i.es-cosecha {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gantt-cosecha-a) 0 4px,
+    var(--gantt-cosecha-b) 4px 8px
+  );
+}
+
+/* la aguja de hoy, con la forma que tiene en la línea */
+.referencia i.es-hoy {
+  width: 2px;
+  height: 13px;
+  border-radius: 1px;
+  background: var(--sol);
+}
+
+/* ── La lista de lugares ── */
+.huerta__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+  margin-top: var(--esp-4);
+}
+
 .huerta__seccion {
   display: flex;
   flex-direction: column;
   gap: var(--esp-2);
 }
 
-/* El h2 queda como encabezado y el botón adentro se lleva casi toda la fila:
-   así la pantalla se sigue navegando por encabezados y el target táctil es la
-   línea entera, no una flechita. El lápiz comparte la fila desde afuera. */
-.huerta__fila {
-  display: flex;
-  align-items: center;
-  margin-top: var(--esp-2);
-}
-
-.huerta__ubicacion {
-  flex: 1;
-  min-width: 0;
-}
-
-.huerta__editar {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap-min);
-  min-height: var(--tap-min);
-  color: var(--tinta-suave);
-}
-
-.huerta__plegar {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-  width: 100%;
-  min-height: var(--tap-min);
-  padding: 0 var(--esp-1);
-  font-family: inherit;
-  font-size: var(--texto-s);
-  font-weight: 700;
-  color: var(--tinta-media);
-  text-align: left;
-}
-
-.huerta__lugar {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .huerta__cuenta {
-  min-width: 20px;
-  padding: 1px 7px;
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
   border-radius: var(--radio-chip);
   background: var(--papel-hundido);
   font-family: var(--font-cuerpo);
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--tinta-suave);
-  text-align: center;
-  flex: none;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--tinta-media);
 }
 
-/* El galón apunta a lo que se va a abrir y gira cuando ya está abierto: el
-   ícono dice el estado, no solo la acción. */
-.galon {
-  flex: none;
-  transition: transform 0.18s ease;
-}
-
-.galon.es-abierto {
-  transform: rotate(180deg);
-}
-
-/* Aviso de que algo pide atención. El número va como texto: un puntito de
-   color no distingue una tarea de cinco, y el color no puede ser el único
-   canal. */
 .huerta__alertas {
   display: inline-flex;
   align-items: center;
   gap: 3px;
   flex: none;
-  padding: 2px 8px 2px 6px;
+  padding: 2px 8px;
   border-radius: var(--radio-chip);
   background: var(--peligro-fondo);
+  color: var(--peligro);
   font-family: var(--font-cuerpo);
   font-size: var(--texto-xs);
   font-weight: 700;
-  color: var(--peligro);
-}
-
-.huerta__grilla {
-  display: flex;
-  flex-direction: column;
-  /* las filas de gantt se comparan entre sí: van pegadas, las separa la
-     hairline de cada una */
-  gap: 0;
-}
-
-/* `hidden` solo esconde si nadie le puso display encima. Acá se lo puso el
-   flex de arriba, así que hay que decirlo. */
-.huerta__grilla[hidden] {
-  display: none;
 }
 
 .huerta__cta {

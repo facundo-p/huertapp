@@ -1,0 +1,137 @@
+/* El acento de cada clase entra por `color`: los dibujos son todos currentColor. */
+.sello {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+}
+
+.sello--almaciguera {
+  background: var(--sol-suave);
+  color: var(--sol-texto);
+}
+.sello--macetas {
+  background: var(--terracota-tinte);
+  color: var(--terracota);
+}
+.sello--bancal,
+.sello--bancal_libre {
+  background: var(--salvia-suave);
+  color: var(--verde-hoja);
+}
+.sello--otro {
+  background: var(--papel-hundido);
+  color: var(--tinta-tenue);
+}
+
+/* almaciguera: la bandeja, con dos celdas todavía sin sembrar */
+.sello__celdas {
+  display: grid;
+  grid-template-columns: repeat(3, 6px);
+  grid-auto-rows: 6px;
+  gap: 2.5px;
+}
+.sello__celdas i {
+  background: currentColor;
+  border-radius: 1.5px;
+}
+.sello__celdas i.es-vacia {
+  background: none;
+  border: 1.2px solid currentColor;
+  opacity: 0.45;
+}
+
+/* macetas: tres, de distinto porte */
+.sello__macetas {
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+}
+.sello__macetas i {
+  width: 9px;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 22% 100%);
+}
+.sello__macetas i:nth-child(1) {
+  height: 11px;
+}
+.sello__macetas i:nth-child(2) {
+  height: 15px;
+}
+.sello__macetas i:nth-child(3) {
+  height: 9px;
+  opacity: 0.45;
+}
+
+/* los dos bancales: mismo marco */
+.sello__marco {
+  width: 25px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+}
+
+/* en surcos: líneas paralelas */
+.sello__surcos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2.5px;
+  padding: 2px 3px;
+}
+.sello__surcos i {
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+.sello__surcos i.es-tenue {
+  opacity: 0.35;
+}
+
+/* plantación libre: las mismas plantas, sin línea que las ordene */
+.sello__libre {
+  position: relative;
+}
+.sello__libre i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.sello__libre i.es-tenue {
+  opacity: 0.5;
+}
+.sello__libre i:nth-child(1) {
+  left: 3px;
+  top: 3.5px;
+}
+.sello__libre i:nth-child(2) {
+  left: 10.5px;
+  top: 9px;
+}
+.sello__libre i:nth-child(3) {
+  right: 3px;
+  top: 2.5px;
+}
+.sello__libre i:nth-child(4) {
+  left: 4.5px;
+  bottom: 2.5px;
+  width: 3px;
+  height: 3px;
+}
+.sello__libre i:nth-child(5) {
+  right: 4px;
+  bottom: 3px;
+}
+
+/* sin tipo declarado: el marco solo, sin prometer una disposición */
+.sello__otro {
+  width: 25px;
+  height: 18px;
+  border: 1.5px dashed currentColor;
+  border-radius: 3px;
+  opacity: 0.7;
+}

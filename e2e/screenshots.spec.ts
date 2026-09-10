@@ -190,6 +190,77 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // los cuatro lugares cerrados: es el estado que hay que mirar contra el
+    // render, porque es donde se ven juntos los cuatro sellos, los medidores,
+    // los chips y la próxima tarea de cada uno.
+    nombre: 'huerta-lugares-plegados',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      for (const lugar of [
+        /^Almaciguera del balcón/,
+        /^Macetas del balcón/,
+        /^Bancal del fondo/,
+        /^Bancal de la medianera/,
+      ]) {
+        await page.getByRole('button', { name: lugar }).click()
+      }
+      // click() scrollea el botón a la vista: la toma tiene que arrancar arriba
+      await page.evaluate(() => window.scrollTo(0, 0))
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    // la almaciguera abierta: la escala de meses y la línea del año de cada
+    // planta, con las dos pills de "En almácigo"
+    nombre: 'huerta-almaciguera',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      for (const lugar of [/^Macetas del balcón/, /^Bancal del fondo/, /^Bancal de la medianera/]) {
+        await page.getByRole('button', { name: lugar }).click()
+      }
+      await page.evaluate(() => window.scrollTo(0, 0))
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    // el bancal de plantación libre: medidor continuo por superficie y la nota
+    // de cómo está puesta cada planta debajo de su hito
+    nombre: 'huerta-bancal-libre',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      for (const lugar of [/^Almaciguera del balcón/, /^Macetas del balcón/]) {
+        await page.getByRole('button', { name: lugar }).click()
+      }
+      await page.evaluate(() => window.scrollTo(0, 0))
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    // el bancal en surcos, vacío y abierto: sin escala de meses (no etiquetaría
+    // nada) y con la línea de estado vacío
+    nombre: 'huerta-lugar-vacio',
+    ruta: '/#/ajustes',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      for (const lugar of [/^Almaciguera del balcón/, /^Bancal del fondo/]) {
+        await page.getByRole('button', { name: lugar }).click()
+      }
+      await page.waitForTimeout(400)
+    },
+  },
+  {
     // un lugar cerrado que igual muestra que algo pide atención. Las plantas
     // ya no se pliegan —la fila de gantt no tiene nada que esconder—, pero el
     // lugar sí, y plegarlo no puede tapar los pendientes.
@@ -211,12 +282,12 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
+      await linkEnSeccion(page, /Almaciguera del balcón/, /Los del cajón/).click()
       await page.waitForTimeout(600)
     },
   },
   {
-    // la otra punta de la tanda dividida: la parte que ya está en el bancal,
+    // la otra punta de la tanda dividida: la parte que ya está en las macetas,
     // con su "Vienen de..." en el diario y el link de vuelta al almácigo
     nombre: 'detalle-parte-trasplantada',
     ruta: '/#/huerta',
@@ -225,7 +296,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await linkEnSeccion(page, /Bancal del fondo/, /Los del cajón/).click()
+      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
       await page.waitForTimeout(600)
     },
   },
@@ -236,7 +307,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
+      await linkEnSeccion(page, /Almaciguera del balcón/, /Los del cajón/).click()
       await page.waitForTimeout(400)
       await page.getByRole('button', { name: /La trasplanté/ }).click()
       await page.waitForTimeout(300)
@@ -379,7 +450,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await linkEnSeccion(page, /Macetas del balcón/, /Los del cajón/).click()
+      await linkEnSeccion(page, /Almaciguera del balcón/, /Los del cajón/).click()
       await page.waitForTimeout(400)
       await page.getByRole('button', { name: /Anotar/ }).click()
       await page.waitForTimeout(400)

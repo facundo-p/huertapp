@@ -1,0 +1,181 @@
+/* La ficha del lugar. Tarjeta y no reglado: cada lugar es separable y
+   navegable —se abre, se cierra, se edita— y no una fila más de una lista
+   homogénea. Radio 18, el de la tarjeta grande. */
+.lugar {
+  background: var(--papel-alto);
+  border: 1.5px solid var(--linea);
+  border-radius: var(--radio-grande);
+  overflow: hidden;
+}
+
+/* El acento de la clase, una sola vez: de acá lo toman la etiqueta y el
+   medidor. Un lugar sin tipo declarado no inventa un color propio. */
+.lugar--almaciguera {
+  --acento: var(--sol-texto);
+}
+.lugar--macetas {
+  --acento: var(--terracota);
+}
+.lugar--bancal,
+.lugar--bancal_libre {
+  --acento: var(--verde-hoja);
+}
+.lugar--otro {
+  --acento: var(--tinta-tenue);
+}
+
+.lugar__titulo {
+  margin: 0;
+}
+
+/* El encabezado entero es el botón: 44 px de target sobrados y nada de
+   apuntarle al galón. */
+.lugar__plegar {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.lugar__textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.lugar__nombre {
+  display: block;
+  font-family: var(--font-cuerpo);
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--tinta-alta);
+}
+
+.lugar__etiqueta {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--acento);
+}
+
+.lugar__ocupacion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--tinta-tenue);
+}
+
+/* El estado abierto/cerrado lo dice aria-expanded, pero el galón es la única
+   pista visual de que la ficha se pliega: no baja de la tinta tenue. */
+.lugar__galon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--tinta-tenue);
+  transition: transform 0.18s;
+}
+
+.lugar__galon.es-abierto {
+  transform: rotate(180deg);
+}
+
+/* ---- Plegada ---- */
+.lugar__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px 13px;
+}
+
+.lugar__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 27px;
+  padding: 0 10px;
+  border-radius: var(--radio-chip);
+  background: var(--papel-plano);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--tinta-media);
+}
+
+.lugar__proxima {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 27px;
+  padding: 0 2px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--tinta-tenue);
+}
+
+/* lo atrasado se distingue también por el ícono de alerta: el color no va solo */
+.lugar__proxima.es-urgente {
+  color: var(--peligro);
+}
+
+/* ---- Desplegada ---- */
+.lugar__cuerpo {
+  padding: 0 14px;
+}
+
+.lugar__cuerpo[hidden] {
+  display: none;
+}
+
+.lugar__vacio {
+  padding: 13px 0 3px;
+  border-top: 1px solid var(--linea-suave);
+  font-size: 12px;
+  color: var(--tinta-suave);
+}
+
+.lugar__acciones {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 4px 0 12px;
+}
+
+/* Botón de 44 con la píldora de 40 adentro: el target no baja aunque la caja
+   dibujada sea la del diseño. */
+.lugar__sumar {
+  flex: 1;
+  min-width: 0;
+  height: var(--tap-min);
+  display: grid;
+  place-items: center;
+}
+
+.lugar__sumar span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 40px;
+  border: 1.5px dashed var(--linea);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tinta-tenue);
+}
+
+.lugar__editar {
+  flex: none;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  display: grid;
+  place-items: center;
+  color: var(--tinta-tenue);
+}

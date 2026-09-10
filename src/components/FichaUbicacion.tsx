@@ -3,7 +3,9 @@ import { BottomSheet } from './BottomSheet'
 import { actualizarUbicacion, agregarUbicacion, borrarUbicacion, sinRomper, useHuerta } from '../lib/huerta/store'
 import {
   aMedida,
+  admiteDisposicion,
   CAMPO_MEDIDA_INFO,
+  DISPOSICION_INFO,
   LUZ_INFO,
   medidasQueAplican,
   PROTECCION_INFO,
@@ -14,6 +16,7 @@ import {
 } from '../lib/huerta/ubicacion'
 import { IconoLuzMedia, IconoLuzPleno, IconoLuzSombra } from '../icons'
 import type {
+  Disposicion,
   LuzUbicacion,
   MedidasUbicacion,
   ProteccionUbicacion,
@@ -25,6 +28,15 @@ import './FichaUbicacion.css'
 
 // La ficha del lugar: crea y edita con los mismos campos. Todo salvo el nombre
 // es opcional — un lugar sin datos sigue siendo un lugar.
+
+/** El sustantivo de lo que entra. Los tipos que no lo tienen no se miden. */
+const UNIDAD: Partial<Record<TipoUbicacion, string>> = {
+  almacigo: 'celdas',
+  maceta: 'macetas',
+  bancal: 'surcos',
+  bancal_elevado: 'surcos',
+  bancal_tierra: 'surcos',
+}
 
 const ICONO_LUZ: Record<LuzUbicacion, typeof IconoLuzPleno> = {
   pleno_sol: IconoLuzPleno,
@@ -48,6 +60,8 @@ export function FichaUbicacion({ abierto, onCerrar, ubicacion, onListo }: Props)
   const { plantas } = useHuerta()
   const [nombre, setNombre] = useState('')
   const [tipo, setTipo] = useState<TipoUbicacion>('otro')
+  const [disposicion, setDisposicion] = useState<Disposicion | null>(null)
+  const [capacidad, setCapacidad] = useState('')
   const [luz, setLuz] = useState<LuzUbicacion | null>(null)
   const [proteccion, setProteccion] = useState<ProteccionUbicacion | null>(null)
   const [medidas, setMedidas] = useState<TextosMedidas>(SIN_MEDIDAS)
@@ -59,6 +73,8 @@ export function FichaUbicacion({ abierto, onCerrar, ubicacion, onListo }: Props)
     if (!abierto) return
     setNombre(ubicacion?.nombre ?? '')
     setTipo(ubicacion?.tipo ?? 'otro')
+    setDisposicion(ubicacion?.disposicion ?? null)
+    setCapacidad(ubicacion?.capacidad == null ? '' : String(ubicacion.capacidad))
     setLuz(ubicacion?.luz ?? null)
     setProteccion(ubicacion?.proteccion ?? null)
     setMedidas({
@@ -73,6 +89,11 @@ export function FichaUbicacion({ abierto, onCerrar, ubicacion, onListo }: Props)
   const campos = medidasQueAplican(tipo)
   const volumen = volumenCalculado(tipo, leerMedidas(campos, medidas))
   const eraBancalASecas = ubicacion?.tipo === 'bancal' && tipo === 'bancal'
+  const conDisposicion = admiteDisposicion(tipo)
+  // en plantación libre los m² salen de las medidas: preguntar la capacidad
+  // sería pedir dos veces el mismo dato
+  const unidad = UNIDAD[tipo]
+  const pideCapacidad = !!unidad && !(conDisposicion && disposicion === 'libre')
 
   async function guardar() {
     if (!nombre.trim() || guardando) return
@@ -81,6 +102,8 @@ export function FichaUbicacion({ abierto, onCerrar, ubicacion, onListo }: Props)
       const datos = {
         nombre,
         tipo,
+        disposicion: (conDisposicion ? disposicion : null) ?? undefined,
+        capacidad: pideCapacidad ? aMedida(capacidad) : undefined,
         luz: luz ?? undefined,
         proteccion: proteccion ?? undefined,
         medidas: leerMedidas(campos, medidas),
@@ -158,6 +181,47 @@ export function FichaUbicacion({ abierto, onCerrar, ubicacion, onListo }: Props)
           </p>
         )}
       </div>
+
+      {conDisposicion && (
+        <div className="alta__campo">
+          <span className="alta__label">
+            ¿Cómo está plantado? <span className="alta__opcional">(opcional)</span>
+          </span>
+          <div className="alta__metodos">
+            {(Object.keys(DISPOSICION_INFO) as Disposicion[]).map((d) => (
+              <button
+                key={d}
+                className={`alta__metodo ${disposicion === d ? 'es-activo' : ''}`}
+                onClick={() => setDisposicion(disposicion === d ? null : d)}
+                aria-pressed={disposicion === d}
+              >
+                {DISPOSICION_INFO[d].etiqueta}
+              </button>
+            ))}
+          </div>
+          <p className="alta__ayuda">
+            En surcos se cuenta por surcos. A plantación libre las plantas van
+            intercaladas y lo que se mide es cuánta superficie ocupan.
+          </p>
+        </div>
+      )}
+
+      {pideCapacidad && (
+        <div className="alta__campo">
+          <label className="alta__label" htmlFor="ubi-capacidad">
+            ¿Cuántas {unidad} entran? <span className="alta__opcional">(opcional)</span>
+          </label>
+          <input
+            id="ubi-capacidad"
+            className="alta__input"
+            inputMode="numeric"
+            placeholder="12"
+            value={capacidad}
+            onChange={(ev) => setCapacidad(ev.target.value)}
+          />
+          <p className="alta__ayuda">Sin este dato la ficha muestra el lugar, pero no cuán lleno está.</p>
+        </div>
+      )}
 
       {campos.length > 0 && (
         <div className="alta__campo">

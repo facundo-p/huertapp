@@ -17,6 +17,8 @@ export const ETAPA_INFO: Record<Etapa, { etiqueta: string; verbo: string }> = {
 /** 'bancal' es legado: los datos viejos lo traen; el alta ofrece los dos específicos. */
 export type TipoUbicacion = 'maceta' | 'bancal' | 'bancal_elevado' | 'bancal_tierra' | 'almacigo' | 'otro'
 export type LuzUbicacion = 'pleno_sol' | 'media_sombra' | 'sombra'
+/** Sólo en bancales: decide si la ocupación se cuenta en unidades o se mide en m². */
+export type Disposicion = 'surcos' | 'libre'
 export type ProteccionUbicacion = 'expuesta' | 'resguardada' | 'invernadero'
 
 /** Todo en centímetros; el volumen en litros. Qué campo aplica lo decide el tipo. */
@@ -37,6 +39,9 @@ export interface Ubicacion {
   luz?: LuzUbicacion
   proteccion?: ProteccionUbicacion
   medidas?: MedidasUbicacion
+  /** cuántas unidades entran: celdas, macetas, surcos. Sin dato no hay medidor. */
+  capacidad?: number
+  disposicion?: Disposicion
   notas?: string
 }
 
@@ -63,6 +68,12 @@ export interface Planta {
   germino?: string
   /** cuántas hay ahora, a ojo. Nunca obligatorio; se muestra como "~8" */
   cantidad?: number
+  /** cuántas unidades del lugar toma. Sólo donde se cuentan (celdas, macetas, surcos) */
+  ocupa?: number
+  /** m² que toma. Sólo en plantación libre, donde no hay unidad que contar */
+  superficie?: number
+  /** cómo está puesta: "intercalada entre las lechugas". Sólo en plantación libre */
+  comoEsta?: string
   /** raíz de la siembra de la que se separó esta tarjeta. Sin él, esta tarjeta ES la siembra */
   origenId?: string
   notas?: string

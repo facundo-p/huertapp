@@ -76,6 +76,18 @@ export function estimar(p: Planta, e: EspecieEnriquecida, hoy = hoyISO()): Estim
   }
 }
 
+/**
+ * Los tres estados del hito: se pasó la ventana entera, estamos adentro, o
+ * todavía falta. El mismo tri-estado que ya tenía la germinación, que es lo que
+ * decide color, peso e ícono de la línea.
+ */
+export type EstadoHito = 'demorado' | 'listo' | 'neutro'
+
+export function estadoHito(h: Hito): EstadoHito {
+  if (h.enVentana) return 'listo'
+  return h.faltan < 0 ? 'demorado' : 'neutro'
+}
+
 /** "faltan 12 días" · "ya se puede" · "hace 5 días que se pasó" */
 export function textoHito(h: Hito): string {
   if (h.enVentana) return 'ya se puede'

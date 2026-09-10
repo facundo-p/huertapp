@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { BottomSheet } from './BottomSheet'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, agregarPlanta, sinRomper } from '../lib/huerta/store'
+import { lugarDe } from '../lib/huerta/lugar'
+import { aMedida } from '../lib/huerta/ubicacion'
 import { SelectorUbicacion } from './SelectorUbicacion'
 import { compatibilidad } from '../lib/huerta/compat'
 import { aCantidad } from '../lib/huerta/tanda'
@@ -22,10 +24,12 @@ interface Props {
   onCerrar: () => void
   /** si viene de una ficha, la especie ya está decidida */
   slug?: string
+  /** si viene de la ficha de un lugar, el lugar ya está decidido */
+  ubicacionId?: string
   onListo?: (id: string) => void
 }
 
-export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
+export function AltaPlanta({ abierto, onCerrar, slug, ubicacionId: lugarInicial, onListo }: Props) {
   const { indice } = useEspecies()
   const zona = useZona()
   const hoy = new Date()
@@ -36,9 +40,11 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   const [apodo, setApodo] = useState('')
   const [variedad, setVariedad] = useState('')
   const [sembrada, setSembrada] = useState(hoyISO())
-  const [ubicacionId, setUbicacionId] = useState<string>('')
+  const [ubicacionId, setUbicacionId] = useState<string>(lugarInicial ?? '')
   const [metodo, setMetodo] = useState<Metodo | null>(null)
   const [cuantas, setCuantas] = useState('')
+  const [ocupa, setOcupa] = useState('')
+  const [comoEsta, setComoEsta] = useState('')
   const [guardando, setGuardando] = useState(false)
 
   // `elegida` primero y no `slug`: viniendo de una ficha, elegir una variedad
@@ -61,7 +67,10 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
   }, [indice, busqueda, especieSlug, decadaHoy, zona])
 
   // vecinas: lo que ya hay en la ubicación elegida
-  const { plantas } = useHuerta()
+  const { plantas, ubicaciones } = useHuerta()
+
+  // el lugar elegido decide si la ocupación se cuenta o se mide
+  const lugar = lugarDe(ubicaciones.find((u) => u.id === ubicacionId))
   const compat = useMemo(() => {
     if (!especie || !indice || !ubicacionId) return null
     const vecinas = plantas
@@ -72,15 +81,23 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
     return c.malas.length || c.buenas.length ? c : null
   }, [especie, indice, ubicacionId, plantas])
 
+  // abrirla desde la ficha de un lugar tiene que traer ese lugar puesto, y no
+  // el de la vez anterior
+  useEffect(() => {
+    if (abierto) setUbicacionId(lugarInicial ?? '')
+  }, [abierto, lugarInicial])
+
   function limpiar() {
     setElegida(slug)
     setBusqueda('')
     setApodo('')
     setVariedad('')
     setSembrada(hoyISO())
-    setUbicacionId('')
+    setUbicacionId(lugarInicial ?? '')
     setMetodo(null)
     setCuantas('')
+    setOcupa('')
+    setComoEsta('')
   }
 
   async function guardar() {
@@ -95,6 +112,9 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
         sembrada,
         metodo: metodoFinal ?? null,
         cantidad: aCantidad(cuantas),
+        ocupa: lugar.continuo ? undefined : aMedida(ocupa),
+        superficie: lugar.continuo ? aMedida(ocupa) : undefined,
+        comoEsta: comoEsta.trim() || undefined,
       })
       // sin catch a propósito: si el guardado falló, la hoja queda abierta con
       // lo que escribiste y el aviso de "no se pudo guardar" a la vista
@@ -251,6 +271,42 @@ export function AltaPlanta({ abierto, onCerrar, slug, onListo }: Props) {
             </label>
             <SelectorUbicacion id="alta-ubi" valor={ubicacionId} onValor={setUbicacionId} />
           </div>
+
+          {/* Cuánto le va a ocupar del lugar. Solo aparece cuando el lugar sabe
+              cuánto entra: sin capacidad cargada, el número no diría nada. */}
+          {lugar.unidad && (
+            <div className="alta__campo">
+              <label className="alta__label" htmlFor="alta-ocupa">
+                {lugar.continuo ? '¿Cuántos m² ocupa?' : `¿Cuántas ${lugar.unidad} ocupa?`}{' '}
+                <span className="alta__opcional">(opcional)</span>
+              </label>
+              <input
+                id="alta-ocupa"
+                className="alta__input"
+                inputMode="decimal"
+                placeholder={lugar.continuo ? '0,5' : '1'}
+                value={ocupa}
+                onChange={(ev) => setOcupa(ev.target.value)}
+              />
+            </div>
+          )}
+
+          {/* En plantación libre no hay una celda por planta: cómo está puesta
+              es lo único que ubica a esta entre las demás. */}
+          {lugar.continuo && (
+            <div className="alta__campo">
+              <label className="alta__label" htmlFor="alta-como">
+                ¿Cómo está puesta? <span className="alta__opcional">(opcional)</span>
+              </label>
+              <input
+                id="alta-como"
+                className="alta__input"
+                placeholder="Intercalada entre las lechugas…"
+                value={comoEsta}
+                onChange={(ev) => setComoEsta(ev.target.value)}
+              />
+            </div>
+          )}
 
           {compat && (
             <div className={`alta__aviso ${compat.malas.length ? 'es-mala' : 'es-buena'}`}>

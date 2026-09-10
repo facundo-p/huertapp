@@ -1,0 +1,36 @@
+/* El acento lo hereda del sello de la ficha, vía --acento. */
+.medidor {
+  flex: none;
+}
+
+.medidor--pips {
+  display: flex;
+  gap: 2px;
+}
+.medidor--pips i {
+  width: 5px;
+  height: 10px;
+  border-radius: 1.5px;
+  background: var(--linea-fuerte);
+}
+.medidor--pips i.es-ocupada {
+  background: var(--acento);
+}
+
+.medidor--continuo {
+  display: block;
+  width: 52px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--linea-fuerte);
+  overflow: hidden;
+}
+/* rayado y no relleno plano: lo plantado a mano no tiene un borde exacto */
+.medidor--continuo i {
+  display: block;
+  height: 10px;
+  border-radius: 5px;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 4px, var(--trama) 4px 8px),
+    var(--acento);
+}

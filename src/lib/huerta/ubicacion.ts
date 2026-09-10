@@ -1,4 +1,10 @@
-import type { MedidasUbicacion, TipoUbicacion, LuzUbicacion, ProteccionUbicacion } from './tipos'
+import type {
+  Disposicion,
+  LuzUbicacion,
+  MedidasUbicacion,
+  ProteccionUbicacion,
+  TipoUbicacion,
+} from './tipos'
 
 // El lugar como entidad: qué se puede decir de él y qué medidas tienen sentido
 // según el tipo. Lógica pura; la ficha (UI) solo dibuja lo que acá se decide.
@@ -20,6 +26,15 @@ export const LUZ_INFO: Record<LuzUbicacion, { etiqueta: string }> = {
   media_sombra: { etiqueta: 'Media sombra' },
   sombra: { etiqueta: 'Sombra' },
 }
+
+/** Sólo se pregunta en bancales: en una maceta o una bandeja no hay surco posible. */
+export const DISPOSICION_INFO: Record<Disposicion, { etiqueta: string; ayuda: string }> = {
+  surcos: { etiqueta: 'En surcos', ayuda: 'Se cuenta por surcos' },
+  libre: { etiqueta: 'Plantación libre', ayuda: 'Se mide por superficie' },
+}
+
+export const admiteDisposicion = (tipo: TipoUbicacion): boolean =>
+  tipo === 'bancal' || tipo === 'bancal_elevado' || tipo === 'bancal_tierra'
 
 export const PROTECCION_INFO: Record<ProteccionUbicacion, { etiqueta: string }> = {
   expuesta: { etiqueta: 'A cielo abierto' },

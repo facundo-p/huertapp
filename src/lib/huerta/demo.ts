@@ -53,9 +53,19 @@ async function fotoDeMentira(tono: number): Promise<Foto> {
 
 export async function sembrarDemo(): Promise<void> {
   const hoy = hoyISO()
+  // Cuatro lugares, uno de cada clase: la bandeja donde nacen, las macetas, el
+  // bancal plantado en asociación y uno todavía vacío.
+  const almaciguera = await agregarUbicacion({
+    nombre: 'Almaciguera del balcón',
+    tipo: 'almacigo',
+    capacidad: 12,
+    luz: 'media_sombra',
+    proteccion: 'resguardada',
+  })
   const balcon = await agregarUbicacion({
     nombre: 'Macetas del balcón',
     tipo: 'maceta',
+    capacidad: 5,
     luz: 'media_sombra',
     proteccion: 'resguardada',
     medidas: { profundidad: 25, volumen: 20 },
@@ -63,19 +73,30 @@ export async function sembrarDemo(): Promise<void> {
   const bancal = await agregarUbicacion({
     nombre: 'Bancal del fondo',
     tipo: 'bancal_elevado',
+    disposicion: 'libre',
     luz: 'pleno_sol',
     proteccion: 'expuesta',
     medidas: { ancho: 120, largo: 240, profundidad: 30 },
+  })
+  await agregarUbicacion({
+    nombre: 'Bancal de la medianera',
+    tipo: 'bancal_tierra',
+    disposicion: 'surcos',
+    capacidad: 3,
+    luz: 'media_sombra',
+    proteccion: 'expuesta',
+    medidas: { largo: 180, ancho: 80 },
   })
 
   // la nota de abajo cuenta la historia: sembró 10, germinaron 7
   const tomate = await agregarPlanta({
     slug: 'tomate',
     apodo: 'Los del cajón',
-    ubicacionId: balcon.id,
+    ubicacionId: almaciguera.id,
     sembrada: sumarDias(hoy, -22),
     metodo: 'almacigo_protegido',
     cantidad: 7,
+    ocupa: 4,
   })
 
   const lechuga = await agregarPlanta({
@@ -83,13 +104,16 @@ export async function sembrarDemo(): Promise<void> {
     ubicacionId: bancal.id,
     sembrada: sumarDias(hoy, -48),
     metodo: 'directa',
+    superficie: 0.8,
+    comoEsta: 'en el borde soleado, junto a la rúcula',
   })
 
   await agregarPlanta({
     slug: 'albahaca',
-    ubicacionId: balcon.id,
+    ubicacionId: almaciguera.id,
     sembrada: sumarDias(hoy, -9),
     metodo: 'almacigo_protegido',
+    ocupa: 2,
   })
 
   const rucula = await agregarPlanta({
@@ -98,6 +122,8 @@ export async function sembrarDemo(): Promise<void> {
     sembrada: sumarDias(hoy, -31),
     metodo: 'directa',
     cantidad: 25,
+    superficie: 0.6,
+    comoEsta: 'intercalada entre las lechugas',
   })
 
   // sembrada hace 32 días y germina en 10-20: pasada de plazo, para ver el aviso
@@ -106,6 +132,8 @@ export async function sembrarDemo(): Promise<void> {
     ubicacionId: bancal.id,
     sembrada: sumarDias(hoy, -32),
     metodo: 'directa',
+    superficie: 0.6,
+    comoEsta: 'en manchones sueltos, entre medio',
   })
 
   // las que ya asomaron quedan marcadas; la albahaca (7-14 días, sembrada hace
@@ -162,7 +190,7 @@ export async function sembrarDemo(): Promise<void> {
   // sigue en el almácigo — es la pantalla que muestra la feature
   await trasplantarParte(
     { ...tomate, germino: sumarDias(hoy, -14) },
-    { ubicacionId: bancal.id, cuantas: 3 },
+    { ubicacionId: balcon.id, cuantas: 3, ocupa: 3 },
   )
 
   // y el conteo que cambia: la rúcula quedó raleada, con su nota automática
