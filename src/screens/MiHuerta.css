@@ -30,7 +30,6 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 15px;
-  margin-top: var(--esp-1);
   padding: 11px 13px;
   border-radius: var(--radio-tarjeta);
   background: var(--papel-plano);
@@ -92,7 +91,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--esp-3);
-  margin-top: var(--esp-4);
 }
 
 .huerta__seccion {

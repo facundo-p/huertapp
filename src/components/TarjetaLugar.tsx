@@ -1,6 +1,7 @@
 import type { EspecieEnriquecida } from '../lib/data/types'
 import type { Planta, Ubicacion } from '../lib/huerta/tipos'
 import { lugarDe, ocupacionDe, type ProximaTarea } from '../lib/huerta/lugar'
+import { hitoDelLugar } from '../lib/huerta/hito'
 import { mesesDelEje } from '../lib/huerta/gantt'
 import { MES_CORTO } from '../lib/fechas'
 import { GanttPlanta } from './GanttPlanta'
@@ -47,6 +48,11 @@ export function TarjetaLugar({
   const panel = `lugar-${ubicacion?.id ?? 'sin'}`
   const nombre = ubicacion?.nombre ?? 'Sin lugar asignado'
 
+  // Sin tarea del motor, lo que se muestra plegado es el hito más urgente de
+  // las plantas de acá: plegar tiene que ahorrar espacio, no información.
+  const hito = proxima ? null : hitoDelLugar(plantas, porSlug)
+  const pie = proxima ?? (hito && { texto: hito.texto, urgente: hito.estado === 'demorado' })
+
   return (
     <section className={`lugar lugar--${lugar.clase}`}>
       {/* el h2 con el botón adentro: la pantalla se navega por encabezados y
@@ -81,10 +87,10 @@ export function TarjetaLugar({
               </span>
             )
           })}
-          {proxima && (
-            <span className={`lugar__proxima ${proxima.urgente ? 'es-urgente' : ''}`}>
-              {proxima.urgente ? <IconoAlerta size={12} /> : <IconoReloj size={12} />}
-              {proxima.texto}
+          {pie && (
+            <span className={`lugar__proxima ${pie.urgente ? 'es-urgente' : ''}`}>
+              {pie.urgente ? <IconoAlerta size={12} /> : <IconoReloj size={12} />}
+              {pie.texto}
             </span>
           )}
         </p>

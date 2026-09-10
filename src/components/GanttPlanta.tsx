@@ -1,13 +1,7 @@
 import { Link } from 'react-router'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import { ETAPA_INFO, type Planta } from '../lib/huerta/tipos'
-import { estadoHito, estimar, textoHito } from '../lib/huerta/estimar'
-import {
-  claseGerminacion,
-  germinacion,
-  germinacionPendiente,
-  textoGerminacion,
-} from '../lib/huerta/germinacion'
+import { hitoDePlanta } from '../lib/huerta/hito'
 import { pct, ventanas, visible } from '../lib/huerta/gantt'
 import { cantidadCorta } from '../lib/huerta/tanda'
 import { IconoAlerta, IconoGrupo, IconoReloj, IconoSembrar } from '../icons'
@@ -32,24 +26,21 @@ const CLASE_HITO = { demorado: 'es-demorada', listo: 'es-lista', neutro: '' } as
  */
 export function GanttPlanta({ planta, especie, pendientes }: Props) {
   const v = ventanas(planta, especie)
-  const est = estimar(planta, especie)
-  const germ = germinacion(planta, especie)
+  const hito = hitoDePlanta(planta, especie)
   const nombre = planta.apodo || especie.nombre_comun
-  const esperando = germinacionPendiente(germ)
 
   const tramo = (t: [number, number]) => ({
     left: `${pct(t[0])}%`,
     width: `${pct(t[1]) - pct(t[0])}%`,
   })
 
-  // La barra de crecer va de la siembra hasta donde empieza la cosecha; si la
-  // ficha no dice cuándo se cosecha, hasta el borde de la ventana.
-  const finCrecer = v.cosecha ? v.cosecha[0] : 120
-  // esperar a que asome silencia el próximo hito: es lo que está pasando ahora
-  const proximo = esperando ? null : est.proximo
-  const claseHito = esperando ? claseGerminacion(germ.estado) : proximo ? CLASE_HITO[estadoHito(proximo)] : ''
+  // Crecer va de la siembra hasta que arranca el trasplante; sin trasplante,
+  // hasta la cosecha. Los tres tramos son etapas seguidas, no capas: pintar el
+  // trasplante encima del verde lo dejaba como un manchón adentro de otra cosa.
+  const finCrecer = visible(v.trasplante) ? v.trasplante![0] : (v.cosecha?.[0] ?? 120)
   // el ícono repite lo que dice el color: atrasado avisa, lo que falta espera
-  const IconoDelHito = claseHito === 'es-demorada' ? IconoAlerta : esperando ? IconoSembrar : IconoReloj
+  const IconoDelHito =
+    hito?.estado === 'demorado' ? IconoAlerta : hito?.germinando ? IconoSembrar : IconoReloj
 
   return (
     <Link to={`/huerta/${planta.id}`} className="gantt">
@@ -76,9 +67,8 @@ export function GanttPlanta({ planta, especie, pendientes }: Props) {
           )}
         </span>
 
-        {/* La grilla de meses y la línea de hoy quedan ACOTADAS a esta banda a
-            propósito: cruzando la fila entera pasaban por encima del nombre y
-            del hito y ensuciaban la lectura. */}
+        {/* La aguja de hoy es lo ÚNICO vertical del track: es la referencia que
+            explica la escala de meses de arriba. */}
         <span className="gantt__banda" aria-hidden>
           <span className="gantt__barra es-crece" style={tramo([v.siembra, finCrecer])} />
           {visible(v.trasplante) && (
@@ -87,16 +77,13 @@ export function GanttPlanta({ planta, especie, pendientes }: Props) {
           {visible(v.cosecha) && (
             <span className="gantt__barra es-cosecha" style={tramo(v.cosecha!)} />
           )}
-          <span className="gantt__siembra" style={{ left: `${pct(v.siembra)}%` }}>
-            <IconoSembrar size={9} />
-          </span>
           <span className="gantt__hoy" />
         </span>
 
-        {(esperando || proximo) && (
-          <span className={`gantt__hito ${claseHito}`}>
+        {hito && (
+          <span className={`gantt__hito ${CLASE_HITO[hito.estado]}`}>
             <IconoDelHito size={12} />
-            {esperando ? textoGerminacion(germ) : `${proximo!.titulo}: ${textoHito(proximo!)}`}
+            {hito.texto}
           </span>
         )}
 

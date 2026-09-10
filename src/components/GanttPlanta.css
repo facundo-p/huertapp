@@ -54,6 +54,8 @@
   margin-left: auto;
 }
 
+/* En los tokens de peligro y no en el ocre: el ocre es "acá estás" —hoy, la
+   pestaña activa, la acción primaria— y esto es "algo pide atención". */
 .gantt__alertas {
   display: inline-flex;
   align-items: center;
@@ -61,16 +63,16 @@
   flex: none;
   padding: 1px 7px;
   border-radius: var(--radio-chip);
-  background: var(--sol);
-  color: var(--sobre-sol);
+  background: var(--peligro-fondo);
+  color: var(--peligro);
   font-size: 10px;
   font-weight: 700;
 }
 
 /* ---- La línea del año ----
    El track es la ventana de 180 días: 60 atrás y 120 adelante, con hoy fijo
-   en el 33,33 %. La grilla de meses y la aguja sobresalen 4 px del track para
-   que se lean como marcas del eje y no como parte de una barra. */
+   en el 33,33 %. La aguja sobresale 4 px del track para que se lea como marca
+   del eje y no como parte de una barra. */
 .gantt__banda {
   display: block;
   position: relative;
@@ -78,21 +80,6 @@
   margin: 9px 0 7px;
   border-radius: 5px;
   background: var(--papel-hundido);
-}
-
-.gantt__banda::before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  /* una línea cada 30 días */
-  background: repeating-linear-gradient(
-    90deg,
-    transparent 0 calc(100% / 6 - 1px),
-    var(--grilla-mes) calc(100% / 6 - 1px) calc(100% / 6)
-  );
 }
 
 .gantt__hoy {
@@ -128,20 +115,6 @@
     var(--gantt-cosecha-a) 0 4px,
     var(--gantt-cosecha-b) 4px 8px
   );
-}
-
-.gantt__siembra {
-  position: absolute;
-  top: -3.5px;
-  display: grid;
-  place-items: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--papel-alto);
-  border: 2.5px solid var(--verde-hoja);
-  color: var(--verde-prof);
-  transform: translateX(-8px);
 }
 
 /* ---- Hito y nota ---- */
