@@ -192,7 +192,15 @@
      papel es --tinta-tenue, 4,64:1, y aguanta 1,3 % de negro encima antes de
      bajar de AA. La mota más opaca del tile tiene alpha 0,62, así que la
      fuerza tope es 0,021: con 0,025 el contraste da 4,49 y
-     `e2e/textura.spec.ts` —que lo mide sobre el píxel dibujado— falla. */
+     `e2e/textura.spec.ts` —que lo mide sobre el píxel dibujado— falla.
+
+     Y sí, de día casi no se ve. Ya se probó: al triple, corriendo
+     --tinta-tenue a #626d59 para pagarlo, TAMPOCO se ve. Comprar textura
+     invisible con la delicadeza del metadato de toda la app es mal negocio;
+     el grano se queda en su techo y de día es un gesto. El que se ve es el de
+     noche. (Si algún día se insiste: variar el TONO a luminancia constante
+     —#fff3c4 y #e8f6f2 miden igual que --papel— no gasta contraste, porque la
+     fórmula de WCAG sólo mira luminancia. Es la única vía sin techo.) */
   --grano-fuerza: 0.02;
 
   /* ---- Sombras suaves y cálidas ---- */
