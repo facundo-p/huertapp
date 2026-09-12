@@ -35,6 +35,9 @@ Qué significa cada parte en este proyecto:
   todavía no cargaste nada, una zaranda cuando la búsqueda no trae nada, y una
   etiqueta sin nombre cuando el link quedó viejo.
 - **Una viñeta al lado del título de La semana que cambia con la estación.**
+- **Los tres estados del compost se ven, además de leerse.** En cada capítulo de
+  la guía, el mismo tacho aparece tres veces: cargándose, humeando y con un
+  brote. Se entiende la secuencia sin leer los tiempos.
 
 ## [2.2.0] — 2026-09-10
 

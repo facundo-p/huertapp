@@ -7,7 +7,7 @@ import { CAPITULOS, clave, useCompostaje, type Bloque, type Guia, type Material,
 import { IconoCheck, IconoCompost, IconoCruz, IconoGota, IconoHoja, IconoTermo } from '../icons'
 import '../components/DatoSection.css'
 import './Compost.css'
-import { DibujoEtiquetaVacia } from '../dibujos'
+import { DibujoEstado, DibujoEtiquetaVacia } from '../dibujos'
 
 const ICONO_SENAL = [IconoTermo, IconoCompost, IconoHoja, IconoGota, IconoCompost]
 
@@ -89,7 +89,10 @@ export function CompostCapitulo() {
           <div className="compost__estados">
             {sis.estados.map((e) => (
               <div key={e.clave} className={`compost__estado es-${e.clave}`}>
-                <p className="compost__estado-rotulo">{e.nombre}</p>
+                <div className="compost__estado-marca">
+                  <DibujoEstado estado={e.clave} size={52} />
+                  <p className="compost__estado-rotulo">{e.nombre}</p>
+                </div>
                 <p className="compost__estado-duracion">{sd(e.duracion)}</p>
                 <p className="compost__estado-hacer">{sd(e.que_hacer)}</p>
               </div>

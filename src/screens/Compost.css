@@ -232,9 +232,16 @@
   color: var(--tinta-media);
 }
 
-.compost__estado-rotulo {
+/* El dibujo y el rótulo son una sola marca: ocupan juntos la columna que antes
+   era sólo del rótulo. El dibujo hereda el color del estado. */
+.compost__estado-marca {
   grid-row: 1 / 3;
   align-self: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-1);
+  text-align: center;
 }
 
 .compost__estado-rotulo {
@@ -245,13 +252,13 @@
   text-transform: uppercase;
 }
 
-.es-llenando .compost__estado-rotulo {
+.es-llenando .compost__estado-marca {
   color: var(--verde-prof);
 }
-.es-cocinando .compost__estado-rotulo {
+.es-cocinando .compost__estado-marca {
   color: var(--sol-texto);
 }
-.es-madurando .compost__estado-rotulo {
+.es-madurando .compost__estado-marca {
   color: var(--terracota-texto);
 }
 
