@@ -29,9 +29,12 @@ Qué significa cada parte en este proyecto:
   todo, distinta en cada tema: apenas insinuada en el tema día —más no entra
   sin comerse el contraste del texto chico— y con algo más de cuerpo en el de
   noche. Con «más contraste» activado en el sistema, el fondo vuelve a ser liso.
-- **Dibujos en vez de íconos sueltos donde la pantalla está vacía.** La semana
-  estrena un bancal recién sembrado cuando todavía no cargaste nada, y una
-  viñeta al lado del título que cambia con la estación.
+- **Dibujos en vez de íconos sueltos donde la pantalla está vacía.** Las ocho
+  pantallas que antes mostraban un ícono adentro de un círculo punteado ahora
+  tienen su dibujo: un bancal recién sembrado y una maceta con tierra cuando
+  todavía no cargaste nada, una zaranda cuando la búsqueda no trae nada, y una
+  etiqueta sin nombre cuando el link quedó viejo.
+- **Una viñeta al lado del título de La semana que cambia con la estación.**
 
 ## [2.2.0] — 2026-09-10
 

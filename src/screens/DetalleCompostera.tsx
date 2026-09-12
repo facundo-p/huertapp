@@ -20,6 +20,7 @@ import '../components/DatoSection.css'
 import '../components/CycleProgress.css'
 import './DetallePlanta.css'
 import './DetalleCompostera.css'
+import { DibujoEtiquetaVacia } from '../dibujos'
 
 const ICONO: Record<EstadoCompost, React.ComponentType<{ size?: number }>> = {
   llenando: IconoTacho,
@@ -58,7 +59,7 @@ export function DetalleCompostera() {
       <div className="pantalla pantalla--detalle">
         <Header titulo="No encontramos esa compostera" volver />
         <div className="pantalla__cuerpo">
-          <EmptyState Icono={IconoCompost} titulo="Acá no hay compostera" texto="Puede que la hayas borrado. Volvé a Mi huerta y fijate." />
+          <EmptyState Dibujo={DibujoEtiquetaVacia} titulo="Acá no hay compostera" texto="Puede que la hayas borrado. Volvé a Mi huerta y fijate." />
         </div>
       </div>
     )

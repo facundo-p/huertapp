@@ -32,7 +32,6 @@ import {
 } from '../lib/fechas'
 import {
   GRUPOS,
-  IconoCalendario,
   IconoCosechar,
   IconoDesplegar,
   IconoGrupo,
@@ -42,6 +41,7 @@ import {
 import type { Decada, EspecieEnriquecida, Grupo, Mes, Zona } from '../lib/data/types'
 import type { Planta } from '../lib/huerta/tipos'
 import './Calendario.css'
+import { DibujoZaranda } from '../dibujos'
 
 const MESES = Array.from({ length: 12 }, (_, i) => (i + 1) as Mes)
 const ORDEN_GRUPOS = Object.keys(GRUPOS) as Grupo[]
@@ -177,7 +177,7 @@ export function Calendario() {
 
         {!cargando && total === 0 && (
           <EmptyState
-            Icono={IconoCalendario}
+            Dibujo={DibujoZaranda}
             titulo="Nada para mostrar acá"
             texto="Ese grupo se siembra siempre de forma directa, así que no tiene trasplante. Probá con la capa de siembra."
           />
