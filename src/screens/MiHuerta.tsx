@@ -27,6 +27,7 @@ import {
 } from '../lib/huerta/plegado'
 import { IconoAlerta, IconoCompost, IconoHuerta, IconoTacho } from '../icons'
 import './MiHuerta.css'
+import { DibujoMaceta } from '../dibujos'
 
 /** Mientras el catálogo carga. A nivel de módulo: si no, es un Map por render. */
 const SIN_ESPECIES = new Map<string, EspecieEnriquecida>()
@@ -141,7 +142,7 @@ export function MiHuerta() {
 
         {listo && grupos.length === 0 && (
           <EmptyState
-            Icono={IconoHuerta}
+            Dibujo={DibujoMaceta}
             titulo="Todavía no plantaste nada"
             texto="O sí, pero no me contaste. Sumá lo que tengas y te voy siguiendo el ciclo."
             accion={
