@@ -9,10 +9,12 @@ interface Props {
   sobretitulo?: ReactNode
   /** pantalla de detalle: muestra flecha de volver y oculta accesos */
   volver?: boolean
+  /** dibujo decorativo al lado del título (ver `src/dibujos`) */
+  vineta?: ReactNode
   children?: ReactNode
 }
 
-export function Header({ titulo, sobretitulo, volver, children }: Props) {
+export function Header({ titulo, sobretitulo, volver, vineta, children }: Props) {
   const navegar = useNavigate()
   return (
     <header className="encabezado">
@@ -27,6 +29,7 @@ export function Header({ titulo, sobretitulo, volver, children }: Props) {
       <div className="encabezado__textos">
         <h1 className="encabezado__titulo">{titulo}</h1>
       </div>
+      {vineta && <span className="encabezado__vineta">{vineta}</span>}
       {!volver && (
         <div className="encabezado__acciones">
           <Link to="/glosario" className="encabezado__boton" aria-label="Glosario de íconos">

@@ -21,6 +21,24 @@ Qué significa cada parte en este proyecto:
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
 > `## [Sin publicar]
 
+## [2.3.0] — 2026-09-12
+
+### Agregado
+
+- **El fondo de la app tiene grano de papel.** Una textura muy suave abajo de
+  todo, distinta en cada tema: apenas insinuada en el tema día —más no entra
+  sin comerse el contraste del texto chico— y con algo más de cuerpo en el de
+  noche. Con «más contraste» activado en el sistema, el fondo vuelve a ser liso.
+- **Dibujos en vez de íconos sueltos donde la pantalla está vacía.** Las ocho
+  pantallas que antes mostraban un ícono adentro de un círculo punteado ahora
+  tienen su dibujo: un bancal recién sembrado y una maceta con tierra cuando
+  todavía no cargaste nada, una zaranda cuando la búsqueda no trae nada, y una
+  etiqueta sin nombre cuando el link quedó viejo.
+- **Una viñeta al lado del título de La semana que cambia con la estación.**
+- **Los tres estados del compost se ven, además de leerse.** En cada capítulo de
+  la guía, el mismo tacho aparece tres veces: cargándose, humeando y con un
+  brote. Se entiende la secuencia sin leer los tiempos.
+
 ## [2.2.0] — 2026-09-10
 
 ### Agregado

@@ -23,6 +23,7 @@ import { decadaDe, nombreDecada } from '../lib/fechas'
 import { GRUPOS, LUCES, SUELOS, IconoExplorar } from '../icons'
 import type { CategoriaLuz, CategoriaSuelo, Grupo } from '../lib/data/types'
 import './Explorar.css'
+import { DibujoZaranda } from '../dibujos'
 
 type FiltroGrupo = Grupo | null
 type FiltroSuelo = CategoriaSuelo | null
@@ -174,7 +175,7 @@ export function Explorar() {
       <div className="pantalla__cuerpo">
         {!cargando && resultados.length === 0 && (
           <EmptyState
-            Icono={IconoExplorar}
+            Dibujo={DibujoZaranda}
             titulo="No encontramos nada"
             texto={
               hayFiltros

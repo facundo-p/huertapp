@@ -26,8 +26,9 @@ import {
 import { estimar, siguienteEtapa, textoHito } from '../lib/huerta/estimar'
 import { germinacion, germinacionPendiente } from '../lib/huerta/germinacion'
 import { METODOS } from '../lib/calendario'
-import { IconoFoto, IconoHuerta, IconoNota, IconoReloj, IconoSembrar } from '../icons'
+import { IconoFoto, IconoNota, IconoReloj, IconoSembrar } from '../icons'
 import './DetallePlanta.css'
+import { DibujoEtiquetaVacia } from '../dibujos'
 
 const dias = (n: number) => `${n} ${n === 1 ? 'día' : 'días'}`
 
@@ -81,7 +82,7 @@ export function DetallePlanta() {
         <Header titulo="No encontramos esa planta" volver />
         <div className="pantalla__cuerpo">
           <EmptyState
-            Icono={IconoHuerta}
+            Dibujo={DibujoEtiquetaVacia}
             titulo="Acá no hay nada plantado"
             texto="Puede que la hayas borrado. Volvé a Mi huerta y fijate."
           />

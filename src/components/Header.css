@@ -33,6 +33,20 @@
   letter-spacing: -0.01em;
 }
 
+/* Adorno: es lo primero que cede si el título crece. --tinta-apagada es el
+   token decorativo del sistema, el mismo de los ejes del anillo.
+
+   El encabezado no tiene lugar de sobra: «La semana» mide 201 px y los dos
+   botones 92, así que la viñeta entra en 44 y sobran seis. Con 52 el título
+   se parte en dos renglones. Un título más largo que este no lleva viñeta. */
+.encabezado__vineta {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--tinta-apagada);
+}
+
 .encabezado__acciones {
   display: flex;
   gap: var(--esp-1);

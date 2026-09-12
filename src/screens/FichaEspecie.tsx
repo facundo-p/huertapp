@@ -28,7 +28,6 @@ import {
   IconoAlerta,
   IconoCalendario,
   IconoCosechar,
-  IconoExplorar,
   IconoFlor,
   IconoGrupo,
   IconoLuz,
@@ -49,6 +48,7 @@ import type {
   Zona,
 } from '../lib/data/types'
 import './FichaEspecie.css'
+import { DibujoEtiquetaVacia } from '../dibujos'
 
 export function FichaEspecie() {
   const { slug } = useParams()
@@ -73,7 +73,7 @@ export function FichaEspecie() {
         <Header titulo="No encontramos esa especie" volver />
         <div className="pantalla__cuerpo">
           <EmptyState
-            Icono={IconoExplorar}
+            Dibujo={DibujoEtiquetaVacia}
             titulo="Se nos perdió esta planta"
             texto="Puede que el link esté viejo. Volvé a Explorar y buscala de nuevo."
           />
