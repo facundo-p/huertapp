@@ -23,6 +23,16 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **El fondo de la app tiene grano de papel.** Una textura muy suave abajo de
+  todo, distinta en cada tema: apenas insinuada en el tema día —más no entra
+  sin comerse el contraste del texto chico— y con algo más de cuerpo en el de
+  noche. Con «más contraste» activado en el sistema, el fondo vuelve a ser liso.
+- **Dibujos en vez de íconos sueltos donde la pantalla está vacía.** La semana
+  estrena un bancal recién sembrado cuando todavía no cargaste nada, y una
+  viñeta al lado del título que cambia con la estación.
+
 ## [2.2.0] — 2026-09-10
 
 ### Agregado

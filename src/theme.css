@@ -187,6 +187,14 @@
   --gantt-cosecha-a: #c98718;
   --gantt-cosecha-b: #a86a10;
 
+  /* Fuerza del grano del suelo (el tile está más abajo, en `body::before`).
+     De día el techo no lo pone el gusto: el par más justo que vive sobre el
+     papel es --tinta-tenue, 4,64:1, y aguanta 1,3 % de negro encima antes de
+     bajar de AA. La mota más opaca del tile tiene alpha 0,62, así que la
+     fuerza tope es 0,021: con 0,025 el contraste da 4,49 y
+     `e2e/textura.spec.ts` —que lo mide sobre el píxel dibujado— falla. */
+  --grano-fuerza: 0.02;
+
   /* ---- Sombras suaves y cálidas ---- */
   --sombra-1: 0 1px 2px rgba(74, 60, 28, 0.07), 0 2px 8px rgba(74, 60, 28, 0.06);
   --sombra-2: 0 2px 4px rgba(74, 60, 28, 0.08), 0 8px 22px rgba(74, 60, 28, 0.1);
@@ -294,6 +302,13 @@
   --gantt-cosecha-a: #e3a52f;
   --gantt-cosecha-b: #b8801a;
 
+  /* Catorce veces la fuerza de día, y no es un error: oscurecer sobre tierra
+     ALEJA del texto, que acá es claro (el contraste sube de 4,7 a 5,9). El
+     techo de noche lo pone el ojo, no la aritmética —y la tarjeta, que es
+     semitransparente a propósito y deja pasar el 56 % del grano: pasada de
+     fuerza se embarra, que es por lo que la textura se cayó en el rediseño. */
+  --grano-fuerza: 0.35;
+
   --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.22);
   --sombra-2: 0 2px 4px rgba(0, 0, 0, 0.22), 0 8px 22px rgba(0, 0, 0, 0.3);
 
@@ -322,6 +337,46 @@ body {
   background-color: var(--papel);
   -webkit-font-smoothing: antialiased;
   overscroll-behavior-y: none;
+  /* Sin esto el grano no se ve y no hay error en ningún lado: el body no crea
+     contexto de apilamiento, así que `body::before { z-index: -1 }` cae en el
+     del root y se pinta ANTES que el fondo del body, que es opaco y lo tapa
+     entero. `isolate` no cambia nada del layout ni de los `fixed` de adentro. */
+  isolation: isolate;
+}
+
+/* ---- El suelo tiene grano ----
+   Motas negras sueltas sobre el papel del tema: un solo tile, y cada tema le
+   pone su fuerza (--grano-fuerza). Negro y no un color propio porque al 1 %
+   el tono no se ve; lo que se ve es la mota.
+
+   Vive en `body::before` y no en `body`: pintado como capa aparte queda
+   DEBAJO de todo lo que tenga fondo propio, y eso es justo lo que hace falta.
+   Las superficies de dato ya se pintan solas —la tarjeta con --papel-alto, el
+   gantt con --papel-plano, las celdas del calendario con --papel-hundido—, así
+   que el grano nunca cae abajo de una grilla: la otra razón por la que la
+   textura se había caído del rediseño.
+
+   `fixed` para que no repinte al scrollear (el tile queda quieto y el
+   compositor lo reusa), y `z-index: -1` para pasar arriba del fondo del body
+   pero abajo del contenido. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--grano-fuerza);
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 -.35'/></filter><rect width='120' height='120' filter='url(%23g)'/></svg>");
+}
+
+/* Con más contraste pedido, el suelo se aplana: el grano es adorno y el
+   adorno no se queda con puntos de contraste. */
+@media (prefers-contrast: more) {
+  :root,
+  [data-tema='dia'],
+  [data-tema='noche'] {
+    --grano-fuerza: 0;
+  }
 }
 
 h1,

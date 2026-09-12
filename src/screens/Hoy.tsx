@@ -25,8 +25,9 @@ import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
 import { hoyISO } from '../lib/huerta/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
-import { nombreDecada, decadaDe, saludoEstacional } from '../lib/fechas'
-import { IconoEscarcha, IconoGrupo, IconoHoy, IconoProtegido } from '../icons'
+import { nombreDecada, decadaDe, saludoEstacional, estacionDe, mesDe } from '../lib/fechas'
+import { IconoEscarcha, IconoGrupo, IconoProtegido } from '../icons'
+import { DibujoCantero, DibujoEstacion } from '../dibujos'
 import './Hoy.css'
 
 /** el carril: hoy y seis días más */
@@ -121,14 +122,18 @@ export function Hoy() {
 
   return (
     <div className="pantalla">
-      <Header titulo="La semana" sobretitulo={saludoEstacional(hoy)} />
+      <Header
+        titulo="La semana"
+        sobretitulo={saludoEstacional(hoy)}
+        vineta={<DibujoEstacion estacion={estacionDe(mesDe(hoy))} size={44} />}
+      />
 
       <div className="pantalla__cuerpo">
         {errorCarga && <NoSePudoLeer error={errorCarga} />}
 
         {listo && plantas.length === 0 && composteras.length === 0 && (
           <EmptyState
-            Icono={IconoHoy}
+            Dibujo={DibujoCantero}
             titulo="Tu huerta está por empezar"
             texto="Cuando cargues lo que plantaste, acá te voy a decir qué toca cada día y por qué."
           />

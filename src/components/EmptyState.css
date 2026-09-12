@@ -21,6 +21,12 @@
   box-shadow: var(--sombra-1);
 }
 
+/* El dibujo va sin marco y en salvia: es una escena, no una estampilla. */
+.estado-vacio__dibujo {
+  display: flex;
+  color: var(--salvia);
+}
+
 .estado-vacio__titulo {
   font-size: var(--texto-l);
   font-weight: 700;
