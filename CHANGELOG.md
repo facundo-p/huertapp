@@ -29,6 +29,9 @@ Qué significa cada parte en este proyecto:
   huerta que propone es agroecológica, y eso también ordena cómo intervenir
   cuando algo anda mal —primero prevenir, después favorecer al bicho que trabaja
   a favor, y recién ahí aplicar algo.
+- **Índice de secciones en el Glosario.** Una fila de chips debajo del título
+  salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
+  Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
 
 ## [2.3.0] — 2026-09-12
 
