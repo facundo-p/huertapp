@@ -138,6 +138,7 @@ sesión:
 | `Explore` | Reconocimiento amplio (issues y convenciones) | 103.855 | 23 | 3m 28s |
 | `claude-code-guide` | Pregunta acotada (esquema de frontmatter) | 23.547 | 4 | 55s |
 | investigador (emulado) | Búsqueda web con verificación | 70.120 | 33 | 4m 10s |
+| dev (emulado, opus) | Issue #118, seis archivos, docs y un párrafo | 93.614 | 34 | 4m 02s |
 
 **Al plugin.** Un reconocimiento amplio ronda los 100 k; una consulta acotada, los
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
@@ -179,12 +180,63 @@ tiempo, pero fue suerte, no diseño.
 antes de cerrar una tanda. Si falta un parte, se relanza o se dice que falta:
 nunca se sigue como si hubiera llegado.
 
+### Un "barrí y no encontré nada" es una afirmación, no una ausencia
+
+**Síntoma.** El dev de #118 cerró su parte diciendo que había barrido `data/`
+buscando agroquímicos y calendario lunar, que el resultado era **cero**, y que
+por lo tanto #132 arrancaba sin hallazgos. Son tres casos y están ahí:
+
+```
+$ grep -c "caldo bordel" data/huerta_gba.json
+3
+```
+
+Acelga, arveja y rabanito. Arveja además menciona oxicloruro de cobre.
+
+**Causa.** No sé qué patrón usó y no importa: lo que importa es que un negativo
+**se lee como diligencia**. "Busqué y no hay" suena a trabajo hecho, mientras que
+un positivo trae su evidencia adjunta y se verifica solo. El negativo no trae
+nada que verificar, y ahí está la trampa.
+
+Lo agarré de casualidad: había corrido ese mismo barrido antes y tenía los tres
+casos en la cabeza. Sin eso, #132 arrancaba con un dato falso de base.
+
+**Qué hacemos.** Todo negativo que vaya a apoyar una decisión se vuelve a correr,
+y el comando se pide en el parte. Un negativo sin comando reproducible no entra
+en ningún lado.
+
+**Al plugin.** Va al prompt de todos los roles: **cuando reportes que no
+encontraste algo, escribí el comando exacto con el que buscaste.** Para el
+orquestador, la regla de oro: los positivos traen su prueba, los negativos hay
+que ir a buscarla.
+
+### Un dev que se le va del alcance, y uno que pregunta
+
+**Síntoma.** El mismo dev encontró que `README.md` también tenía el conteo viejo
+de tests. No lo tocó: lo preguntó en el parte, porque yo le había pedido el de
+`CLAUDE.md`.
+
+**Causa.** El prompt del rol dice "leé la issue entera, sobre todo *lo que no va
+acá*, y no amplíes el alcance". Hizo exactamente eso.
+
+**Qué hacemos.** Nada: así queremos que se comporte. Lo anoto porque es el
+contraejemplo de la entrada de arriba y se lee junto. **El mismo agente que
+inventó un negativo respetó el alcance con disciplina.** No se trata de confiar o
+desconfiar de un agente entero, sino de saber qué tipo de afirmación verificar:
+el juicio de alcance salió bien, el resultado de búsqueda salió mal.
+
 ---
 
 ## Reparto y modelo
 
-Todavía sin entradas: se llena cuando corran las primeras tandas y se pueda
-decir si Sonnet alcanzó donde lo pusimos y si Opus quedó grande.
+Primera medición, Tanda A. El dev de #118 corrió en **Opus** y la elección se
+sostiene: la tarea era prosa de doctrina —redactar la regla que las otras diez
+issues van a seguir, en el tono de las otras cuatro— y el resultado entró sin
+retoques. Lo mecánico del mismo PR (corregir un número) no justificaba bajar a
+Sonnet: era una línea dentro de una tarea de criterio.
+
+Falta la comparación real, que es el dev de #128 en Sonnet sobre una tarea
+mecánica. Se completa cuando reporte.
 
 ---
 
@@ -209,3 +261,5 @@ La lista corta, para no releer todo:
 8. **Antes de abrir una issue de investigación**, buscar si el repo ya contestó
    esa pregunta en un comentario.
 9. **`.claude/worktrees/` al `.gitignore`** al instalar, antes del primer dev.
+10. **Todo negativo se reporta con el comando exacto** y el orquestador lo
+    vuelve a correr antes de apoyar una decisión en él.
