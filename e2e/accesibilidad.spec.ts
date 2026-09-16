@@ -11,7 +11,22 @@ import { conHelada } from './apoyo-pronostico'
  */
 
 const PANTALLAS = [
-  { ruta: '/#/hoy', nombre: 'Esta semana' },
+  // El detalle y la fuente de cada día viven en un panel plegado. Sin abrirlo
+  // no se miden, y son el texto más chico de la pantalla: el test pasaría por
+  // no estar mirando nada.
+  {
+    ruta: '/#/hoy',
+    nombre: 'Esta semana',
+    entrar: async (page: Page) => {
+      // siempre el primero que queda cerrado: al abrirse pasa a llamarse
+      // «ocultar» y sale del conjunto, así que los índices se corren solos.
+      // Tope en 7 —los días de la semana— para no colgarse si eso cambiara.
+      const cerrados = page.getByRole('button', { name: /^por qué y de dónde sal/ })
+      for (let i = 0; i < 7 && (await cerrados.count()) > 0; i++) {
+        await cerrados.first().click()
+      }
+    },
+  },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
   // la hoja de temperatura con un rango prendido: cuatro interruptores y ocho
