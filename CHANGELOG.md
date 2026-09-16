@@ -23,6 +23,13 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **El Glosario ahora dice desde dónde te habla la app.** Un párrafo al pie: la
+  huerta que propone es agroecológica, y eso también ordena cómo intervenir
+  cuando algo anda mal —primero prevenir, después favorecer al bicho que trabaja
+  a favor, y recién ahí aplicar algo.
+
 ## [2.3.0] — 2026-09-12
 
 ### Agregado

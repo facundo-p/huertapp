@@ -7,7 +7,7 @@ Open-Meteo (CC BY 4.0) — encapsulado tras `src/lib/pronostico/proveedor.ts`.
 Sin eso, cero red. Leé `README.md` para qué es y `BRIEF.md` para el encargo
 original.
 
-## Las cuatro reglas que no se negocian
+## Las cinco reglas que no se negocian
 
 Si una de estas se rompe, el producto está roto aunque los tests pasen.
 
@@ -32,6 +32,14 @@ peso, **nunca** bajando el contraste.
 **4. Todo texto de UI en español rioplatense, con vos.** "Fijate", "sembrá",
 "tenés". Cálido y breve. Cuando algo no funciona en cierta plataforma, se dice
 antes de que la persona lo intente, no después.
+
+**5. La huerta es agroecológica.** Ante dos manejos que tienen fuente, gana el
+agroecológico. Ningún producto de síntesis entra al catálogo, aunque se consiga
+en el vivero de la esquina y aunque lo recomiende una fuente citable. El orden
+de intervención es prevenir → favorecer al benéfico → recién ahí aplicar algo:
+ahí está la diferencia entre una app agroecológica y una que traduce recetas. Y
+casero no es sinónimo de inofensivo (el purín de tabaco es nicotina) ni de
+cierto (el calendario lunar).
 
 ## El pipeline de datos
 
@@ -100,7 +108,7 @@ para eso está el historial de git.
 
 ```bash
 npx tsc -b        # tipos
-npm test          # 537 unitarios + chequeo de que el JSON generado esté al día
+npm test          # 1014 unitarios + chequeo de que el JSON generado esté al día
 npm run e2e       # 12 e2e: backup, offline, actualización, accesibilidad
 npm run shots     # 27 capturas en 390×844 → e2e/shots/fase-N/
 ```

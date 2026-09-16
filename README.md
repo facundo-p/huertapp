@@ -141,7 +141,7 @@ npm run preview      # sirve dist/ en :4173 — necesario para los e2e
 
 | Comando | Qué hace |
 |---|---|
-| `npm test` | 537 tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
+| `npm test` | 1014 tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
 | `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en las 7 pantallas. |
 | `npm run shots` | 27 screenshots en 390×844 para revisión visual (`e2e/shots/`). |
 | `npm run data:build` | Regenera `data/huerta_gba_enriquecido.json` desde el JSON base + el enriquecimiento + el modelo climático. |
@@ -173,7 +173,7 @@ teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
 ### Cómo se publica
 
 Cada push a `main` dispara `.github/workflows/publicar.yml`, que en una máquina
-limpia corre `npm ci`, **los 537 tests unitarios + el chequeo de que el JSON
+limpia corre `npm ci`, **los 1014 tests unitarios + el chequeo de que el JSON
 generado esté al día**, **los 12 e2e** (offline y actualización incluidos), y
 recién ahí buildea y publica en GitHub Pages.
 
@@ -223,3 +223,9 @@ Dicho de frente, porque son decisiones y no pendientes:
 - **No hay notificaciones en iPhone** con la app cerrada. Ver la tabla de arriba.
 - **No pide la hora del aviso**, porque sin un servidor de push no se puede
   cumplir.
+- **No recomienda productos de síntesis, ni el calendario lunar.** La huerta
+  que propone la app es agroecológica, y eso ordena lo que dice: primero
+  prevenir, después favorecer al bicho que trabaja a favor, y recién ahí
+  aplicar algo. Ante dos manejos que tienen fuente, entra el agroecológico.
+  Y casero no es sinónimo de inofensivo: cuando un preparado es tóxico, se
+  dice.
