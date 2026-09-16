@@ -139,6 +139,7 @@ sesión:
 | `claude-code-guide` | Pregunta acotada (esquema de frontmatter) | 23.547 | 4 | 55s |
 | investigador (emulado) | Búsqueda web con verificación | 70.120 | 33 | 4m 10s |
 | dev (emulado, opus) | Issue #118, seis archivos, docs y un párrafo | 93.614 | 34 | 4m 02s |
+| dev (emulado, **sonnet**) | Issue #128, tarea "mecánica" de UI | **144.695** | **84** | **9m 09s** |
 
 **Al plugin.** Un reconocimiento amplio ronda los 100 k; una consulta acotada, los
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
@@ -247,14 +248,36 @@ orquestador dice que con worktrees vivos se commitea por archivo.
 
 ## Reparto y modelo
 
-Primera medición, Tanda A. El dev de #118 corrió en **Opus** y la elección se
-sostiene: la tarea era prosa de doctrina —redactar la regla que las otras diez
-issues van a seguir, en el tono de las otras cuatro— y el resultado entró sin
-retoques. Lo mecánico del mismo PR (corregir un número) no justificaba bajar a
-Sonnet: era una línea dentro de una tarea de criterio.
+Primera medición, Tanda A, y **el resultado va en contra de la política de modelo
+que escribimos**.
 
-Falta la comparación real, que es el dev de #128 en Sonnet sobre una tarea
-mecánica. Se completa cuando reporte.
+| Issue | Modelo | Por qué se eligió | Tokens | Llamadas | Duración |
+|---|---|---|---|---|---|
+| #118 | Opus | Prosa de doctrina: criterio | 93.614 | 34 | 4m 02s |
+| #128 | Sonnet | `id`s y chips: mecánico | **144.695** | **84** | **9m 09s** |
+
+**Sonnet en la tarea mecánica salió 55 % más caro en tokens, con 2,5 veces las
+llamadas y más del doble de tiempo que Opus en la de criterio.**
+
+Los dos entregaron bien: #118 entró sin retoques, y #128 además detectó dos
+errores de la issue —que eran doce secciones y no once, y que `descSuelo` no se
+podía unificar porque `SUELOS` no tiene `desc`—. O sea que no es un problema de
+calidad: es que llegar al mismo lugar le llevó muchos más pasos.
+
+**La hipótesis, sin confirmar:** la tarea de #128 era mecánica *de describir* y no
+*de ejecutar*. Tocaba doce secciones, un componente compartido con otro dev, CSS
+pegajoso con accesibilidad medida, y dos constantes a unificar de las cuales una
+no se podía. Eso es exploración, no tipeo. La etiqueta "mecánico" la puse yo
+mirando el enunciado, no la forma real del trabajo.
+
+**Qué hacemos.** No cambiar la política todavía con una sola medición, pero dejar
+de clasificar por el enunciado. La pregunta no es "¿esto es mecánico?" sino
+**"¿cuántos archivos tiene que entender antes de tocar el primero?"**. Si son
+muchos, es exploración aunque el cambio final sean tres líneas.
+
+**Al plugin.** El criterio de modelo se mide, no se declara. Y la tabla de consumo
+por rol es lo que permite descubrir esto: sin los números, "Sonnet para lo
+mecánico" habría quedado como una verdad del proyecto.
 
 ---
 
@@ -283,3 +306,7 @@ La lista corta, para no releer todo:
     vuelve a correr antes de apoyar una decisión en él.
 11. **El ignore de los worktrees va al tronco**, y con agentes corriendo se
     commitea por archivo y nunca con `git add -A`.
+12. **Elegir modelo por cuántos archivos hay que entender**, no por si el cambio
+    final parece mecánico.
+13. **Las issues que escribe el orquestador también se verifican.** Dos de tres
+    en esta tanda tenían un dato mal contado.
