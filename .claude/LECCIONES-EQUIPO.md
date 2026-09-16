@@ -143,6 +143,21 @@ sesión:
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
 los 100 k, el prompt está mal delimitado y hay que mirarlo, no aceptarlo.
 
+### Los worktrees de los agentes ensucian el repo que aíslan
+
+**Síntoma.** Con dos devs corriendo en paralelo, el hook de cierre avisó que
+había archivos sin trackear. Era `.claude/worktrees/`.
+
+**Causa.** `isolation: worktree` crea los checkouts **adentro del repo**. Cada uno
+es un árbol completo y, apenas corre `npm ci`, pesa unos 100 MB. Aislan al
+agente del árbol principal y al mismo tiempo aparecen en su `git status`.
+
+**Qué hacemos.** `.claude/worktrees/` al `.gitignore`. Una línea, y hay que
+ponerla **antes** de lanzar el primer dev, no cuando el hook se queja.
+
+**Al plugin.** El plugin agrega esa línea al `.gitignore` al instalarse. Es la
+clase de detalle que no rompe nada y aparece siempre.
+
 ---
 
 ## Coordinación entre agentes
@@ -193,3 +208,4 @@ La lista corta, para no releer todo:
    para que la dé.
 8. **Antes de abrir una issue de investigación**, buscar si el repo ya contestó
    esa pregunta en un comentario.
+9. **`.claude/worktrees/` al `.gitignore`** al instalar, antes del primer dev.
