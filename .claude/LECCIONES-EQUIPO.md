@@ -37,6 +37,72 @@ Desde la sesión siguiente, los nombres resuelven solos.
 sesión. Vale la pena que su README lo diga en la primera línea: instalarlo a
 mitad de una sesión no rompe nada, pero tampoco hace nada hasta reiniciar.
 
+### El entorno bloquea la red saliente, así que no hay cita textual
+
+**Síntoma.** El investigador salió a buscar proporciones de sustrato y volvió sin
+una sola cita. No por falta de material: `WebFetch` y `curl` dieron 403 contra
+`inta.gob.ar`, `repositorio.inta.gob.ar`, `argentina.gob.ar` y
+`aulavirtual.agro.unlp.edu.ar`, entre otros.
+
+**Causa.** La política de red de este entorno. Confirmado en
+`curl -sS "$HTTPS_PROXY/__agentproxy/status"`:
+
+```
+"kind": "connect_rejected",
+"detail": "gateway answered 403 to CONNECT (policy denial or upstream failure)",
+"host": "www.argentina.gob.ar:443"
+```
+
+Lo único que llega es `WebSearch`, que devuelve links **más un resumen
+parafraseado por un modelo**. Y una paráfrasis no es una cita.
+
+**Qué hacemos.** Separar el lote en dos: lo que no necesita fuente nueva —UI,
+navegación, densidad, doctrina— corre normal; lo que necesita leer un PDF para
+citarlo, **no se puede hacer en este entorno**. No es que salga mal: sale sin el
+respaldo que la regla 1 exige, que es peor, porque el dato entra igual y parece
+verificado.
+
+**Al plugin.** El rol investigador arranca **chequeando el estado del proxy** y lo
+dice en su primer parte. Si el egreso está cerrado, avisa antes de gastar once
+búsquedas, no después. Y el orquestador no agenda tandas de datos en un entorno
+sin red abierta.
+
+### El investigador hizo bien su trabajo devolviendo nada
+
+**Síntoma.** Cuatro minutos, 70.120 tokens, 33 llamadas, y el entregable fue "no
+encontré fuente".
+
+**Causa.** Ninguna: así tiene que ser. Encontró mezclas con proporciones —UGA,
+Clemson, INTA Floricultura, un par de diarios— y **descartó todas** porque ninguna
+decía el dato que se le pedía. Tenía material suficiente para entregar algo que
+sonara bien.
+
+**Qué hacemos.** Tratarlo como el resultado exitoso que es, y quedarnos con el
+mapa de lo buscado, que evita repetir la búsqueda dentro de un año.
+
+**Al plugin.** Que el prompt del rol diga explícitamente que "no encontré" es una
+respuesta buena **es lo que hizo que la diera**. Un rol de investigación sin esa
+línea entrega la mezcla de Clemson y nadie se entera.
+
+### El repo ya sabía lo que la issue pedía averiguar
+
+**Síntoma.** Escribí la issue #129 pidiendo recetas de suelo para las cinco
+categorías. `src/lib/glosario.ts:223-230` ya decía, textual: *"Ojo con la
+tentación de dar cinco recetas exactas, una por categoría de suelo: **ninguna
+fuente da eso**"*.
+
+**Causa.** Escribí la issue mirando el `AJUSTE_SUELO` de abajo sin leer el
+comentario de arriba. El comentario registraba una decisión ya tomada, que es
+justo para lo que sirven los comentarios de este repo.
+
+**Qué hacemos.** Corregir la issue. Y antes de escribir una issue que pida
+averiguar algo, leer los comentarios del módulo que toca: acá registran
+decisiones, no explican el código.
+
+**Al plugin.** Paso obligatorio del planner y del orquestador antes de abrir una
+issue de investigación: buscar si el repo ya se hizo esa pregunta. Un
+`grep -rn "ninguna fuente\|no hay fuente\|no existe" src/` cuesta segundos.
+
 ---
 
 ## Consumo y contexto
@@ -71,6 +137,7 @@ sesión:
 | `Explore` | Reconocimiento amplio (glosario y fichas) | 97.869 | 27 | 2m 40s |
 | `Explore` | Reconocimiento amplio (issues y convenciones) | 103.855 | 23 | 3m 28s |
 | `claude-code-guide` | Pregunta acotada (esquema de frontmatter) | 23.547 | 4 | 55s |
+| investigador (emulado) | Búsqueda web con verificación | 70.120 | 33 | 4m 10s |
 
 **Al plugin.** Un reconocimiento amplio ronda los 100 k; una consulta acotada, los
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
@@ -120,3 +187,9 @@ La lista corta, para no releer todo:
    sostener diecisiete issues sin llenarse de contexto inútil.
 5. **Medir cada corrida** (tokens, llamadas, duración) contra la línea de base de
    su tipo.
+6. **El investigador chequea el proxy antes de buscar**, y el orquestador no
+   agenda tandas de datos si el egreso está cerrado.
+7. **"No encontré fuente" es una respuesta buena, y hay que decírselo al rol**
+   para que la dé.
+8. **Antes de abrir una issue de investigación**, buscar si el repo ya contestó
+   esa pregunta en un comentario.
