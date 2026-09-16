@@ -19,7 +19,7 @@ Qué significa cada parte en este proyecto:
 ---
 
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
-> `## [Sin publicar]
+> `## [Sin publicar]`.
 
 ## [Sin publicar]
 
