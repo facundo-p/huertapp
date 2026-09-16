@@ -119,14 +119,6 @@ button.carril__dia:active {
   color: var(--tinta-tenue);
 }
 
-/* Las tareas que dicen lo mismo van juntas y con un solo pie. */
-.carril__grupo {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 0;
-}
-
 /* El item no es una tarjeta: ícono, textos y las acciones a la derecha. */
 .carril__item {
   display: flex;
@@ -141,13 +133,17 @@ button.carril__dia:active {
   transform: translateX(14px);
 }
 
+/* `flex-start` y padding en vez de centrar: con el título en dos renglones,
+   centrado el ícono se iba al medio de los dos. El padding lo deja parejo
+   cuando es uno solo. */
 .carril__cuerpo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--esp-2);
   flex: 1;
   min-width: 0;
   min-height: var(--tap-min);
+  padding: 13px 0;
   text-decoration: none;
   color: inherit;
 }
@@ -228,8 +224,9 @@ button.carril__dia:active {
 }
 
 /* ---- el pie plegado ---- */
-/* Fila propia y a lo ancho: adentro de la fila competía con las acciones, y el
-   porqué es prosa, no un rótulo. Anidar un botón en el link tampoco es válido. */
+/* Uno por día y no uno por tarea: en un día con cuatro tareas eran cuatro
+   botones iguales de 44 px. Va en fila propia porque adentro del item competía
+   con las acciones, y anidar un botón en el link tampoco es válido. */
 .carril__porque {
   display: flex;
   align-items: center;
@@ -237,8 +234,7 @@ button.carril__dia:active {
   width: 100%;
   min-height: var(--tap-min);
   margin-top: -6px;
-  font-family: inherit;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--tinta-media);
   text-align: left;
@@ -257,17 +253,32 @@ button.carril__dia:active {
   transform: rotate(180deg);
 }
 
-.carril__pie-grupo {
+.carril__pie-dia {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 10px;
   margin-top: -4px;
   padding-bottom: 4px;
 }
 
 /* `display` le gana a `[hidden]`: sin esto el pie queda siempre a la vista. */
-.carril__pie-grupo[hidden] {
+.carril__pie-dia[hidden] {
   display: none;
+}
+
+.carril__pie-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* De qué tareas habla este pie. Va en negrita y no en chico: es el encabezado
+   del bloque, y la jerarquía se hace con peso. */
+.carril__pie-de {
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--tinta-media);
 }
 
 /* Aviso de clima: el mismo molde con un tinte a sangre por la derecha. */

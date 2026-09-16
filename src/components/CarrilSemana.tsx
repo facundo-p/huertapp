@@ -105,6 +105,7 @@ export function CarrilSemana({
       {semana.map(({ fecha, dia, avisos: avs, tareas: ts }) => {
         const esHoy = fecha === hoy
         const conCosas = avs.length + ts.length > 0
+        const grupos = agruparPorPie(ts)
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
         const cabecera = (
           <>
@@ -141,20 +142,26 @@ export function CarrilSemana({
               {avs.map((a) => (
                 <Aviso key={a.id} aviso={a} />
               ))}
-              {agruparPorPie(ts).map((g, i) => (
-                <Grupo
-                  key={g.clave}
-                  grupo={g}
-                  panel={`porque-${fecha}-${i}`}
-                  abierto={abiertos.includes(g.clave)}
-                  onAlternar={() => setAbiertos((v) => alternar(v, g.clave))}
-                  festejando={festejando}
-                  conAsomo={conAsomo}
-                  onCompletar={onCompletar}
-                  onAsomo={onAsomo}
-                  onMenu={onMenu}
+              {grupos.flatMap((g) => g.tareas).map((t) => (
+                <Item
+                  key={t.id}
+                  tarea={t}
+                  festejando={festejando === t.id}
+                  asomo={conAsomo(t)}
+                  onCompletar={() => onCompletar(t)}
+                  onAsomo={() => onAsomo(t)}
+                  onMenu={() => onMenu(t)}
                 />
               ))}
+              {grupos.length > 0 && (
+                <PieDelDia
+                  fecha={fecha}
+                  esHoy={esHoy}
+                  grupos={grupos}
+                  abierto={abiertos.includes(fecha)}
+                  onAlternar={() => setAbiertos((v) => alternar(v, fecha))}
+                />
+              )}
             </div>
           </li>
         )
@@ -182,6 +189,11 @@ function Cielo({ dia, helada }: { dia: DiaPronostico; helada: boolean }) {
   )
 }
 
+/**
+ * El aviso de clima no pliega, a diferencia de las tareas: su detalle es la
+ * instrucción («cubrí de noche X»), no la explicación, y son a lo sumo tres en
+ * toda la semana.
+ */
 function Aviso({ aviso: a }: { aviso: AvisoClima }) {
   const Icono = ICONO_AVISO[a.tipo]
   return (
@@ -199,45 +211,31 @@ function Aviso({ aviso: a }: { aviso: AvisoClima }) {
 }
 
 /**
- * Las tareas que dicen lo mismo, con un solo pie. El botón que lo abre queda
- * abajo del grupo: es de las N filas, no de la primera.
+ * Un solo «por qué» por día, no uno por tarea: uno por tarea eran cuatro
+ * botones iguales en un día cargado, y cada botón se come 44 px. Adentro, un
+ * pie por grupo, encabezado por las tareas de las que habla.
+ *
+ * La clave del estado es la fecha, que es única en la semana. Con la clave del
+ * grupo —que no lleva el día— dos grupos con el mismo pie en días distintos
+ * compartían estado: abrir el del martes abría el del viernes.
  */
-function Grupo({
-  grupo,
-  panel,
+function PieDelDia({
+  fecha,
+  esHoy,
+  grupos,
   abierto,
   onAlternar,
-  festejando,
-  conAsomo,
-  onCompletar,
-  onAsomo,
-  onMenu,
 }: {
-  grupo: GrupoTareas
-  panel: string
+  fecha: string
+  esHoy: boolean
+  grupos: GrupoTareas[]
   abierto: boolean
   onAlternar: () => void
-  festejando: string | null
-  conAsomo: (t: Tarea) => boolean
-  onCompletar: (t: Tarea) => void
-  onAsomo: (t: Tarea) => void
-  onMenu: (t: Tarea) => void
 }) {
-  const { tareas } = grupo
-  const otras = tareas.length - 1
+  const panel = `porque-${fecha}`
+  const varias = grupos.reduce((n, g) => n + g.tareas.length, 0) > 1
   return (
-    <div className="carril__grupo">
-      {tareas.map((t) => (
-        <Item
-          key={t.id}
-          tarea={t}
-          festejando={festejando === t.id}
-          asomo={conAsomo(t)}
-          onCompletar={() => onCompletar(t)}
-          onAsomo={() => onAsomo(t)}
-          onMenu={() => onMenu(t)}
-        />
-      ))}
+    <>
       <button
         type="button"
         className="carril__porque"
@@ -246,19 +244,24 @@ function Grupo({
         onClick={onAlternar}
       >
         <IconoDesplegar size={13} className={`carril__galon ${abierto ? 'es-abierto' : ''}`} />
-        {abierto ? 'ocultar' : otras > 0 ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
-        {/* con varios grupos en el día, «por qué» solo no dice de cuál */}
-        <span className="sr-solo">
-          : {tareas[0].titulo}
-          {otras > 0 && ` y ${otras} más`}
-        </span>
+        {abierto ? 'ocultar' : varias ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
+        {/* siete botones iguales en la pantalla: hay que decir de qué día es */}
+        <span className="sr-solo">, {esHoy ? 'hoy' : fechaDiaLarga(fecha)}</span>
       </button>
-      <div id={panel} className="carril__pie-grupo" hidden={!abierto}>
-        <span className="carril__detalle">{grupo.detalle}</span>
-        {/* de dónde sale: sin esto, es una app que manda sin explicar */}
-        <span className="carril__fuente">{grupo.fuente}</span>
+      <div id={panel} className="carril__pie-dia" hidden={!abierto}>
+        {grupos.map((g) => (
+          <div key={g.clave} className="carril__pie-grupo">
+            {/* de cuál habla: el pie es de las N tareas que dicen lo mismo */}
+            <span className="carril__pie-de">
+              {[...new Set(g.tareas.map((t) => t.titulo))].join(' · ')}
+            </span>
+            <span className="carril__detalle">{g.detalle}</span>
+            {/* de dónde sale: sin esto, es una app que manda sin explicar */}
+            <span className="carril__fuente">{g.fuente}</span>
+          </div>
+        ))}
       </div>
-    </div>
+    </>
   )
 }
 
