@@ -140,6 +140,7 @@ sesión:
 | investigador (emulado) | Búsqueda web con verificación | 70.120 | 33 | 4m 10s |
 | dev (emulado, opus) | Issue #118, seis archivos, docs y un párrafo | 93.614 | 34 | 4m 02s |
 | dev (emulado, **sonnet**) | Issue #128, tarea "mecánica" de UI | **144.695** | **84** | **9m 09s** |
+| tester (emulado, sonnet) | 3 baterías completas + merge de prueba | 156.002 | 109 | 33m 28s |
 
 **Al plugin.** Un reconocimiento amplio ronda los 100 k; una consulta acotada, los
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
@@ -244,6 +245,41 @@ agentes corriendo, `git add <archivo>`, nunca `-A`.
 al instalarse, o sea en el tronco, y no en la rama de turno. Y el prompt del
 orquestador dice que con worktrees vivos se commitea por archivo.
 
+### Dos ramas escriben sus capturas en el mismo lugar
+
+**Síntoma.** El tester corrió la batería sobre una rama, cambió a la otra y
+volvió a correr. Las capturas de la primera **se sobrescribieron**: mismo
+`FASE=cantero-dia`, mismo directorio destino.
+
+**Causa.** El destino de `npm run shots` depende de `FASE`, no de la rama. Con un
+solo agente en un solo checkout eso nunca molestó; con un tester que compara dos
+ramas, sí.
+
+**Qué hacemos.** El tester copia las capturas a una carpeta por rama antes de
+cambiar, o corre cada rama en su propio worktree. Lo agarró él solo y lo dijo en
+el parte, que es lo que corresponde.
+
+**Al plugin.** El prompt del tester lleva el paso de guardar las capturas por
+rama antes de cambiar de checkout. Y el orquestador, cuando pida comparar dos
+ramas, pide explícitamente las dos tandas de capturas.
+
+### Playwright no puede bajarse el browser, y el que hay sirve
+
+**Síntoma.** En el worktree, `playwright install` dio 403 contra
+`cdn.playwright.dev` — la misma política de egreso que bloquea INTA.
+
+**Causa.** El entorno trae Chromium preinstalado en `/opt/pw-browsers`, pero
+`@playwright/test` 1.62 busca un nombre de revisión propio.
+
+**Qué hacemos.** Símlinks locales con los nombres que espera, y
+`PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. No se toca código de la app. El tester
+lo resolvió solo y aclaró que era del entorno y no algo que el dev tuviera que
+arreglar, que es la distinción correcta.
+
+**Al plugin.** Pertenece al setup del entorno, no al rol. Pero el prompt del
+tester conviene que diga que si `playwright install` falla, mire
+`/opt/pw-browsers` antes de darse por vencido.
+
 ---
 
 ## Reparto y modelo
@@ -310,3 +346,6 @@ La lista corta, para no releer todo:
     final parece mecánico.
 13. **Las issues que escribe el orquestador también se verifican.** Dos de tres
     en esta tanda tenían un dato mal contado.
+14. **Las capturas se guardan por rama** antes de cambiar de checkout.
+15. **Un tester que compara ramas necesita su propio worktree**, o pisa su
+    propio trabajo.
