@@ -268,8 +268,8 @@ export function Glosario() {
               </li>
             </ul>
 
-            <p className="glosario__nombre">Por qué las recetas no coinciden</p>
-            <p className="glosario__desc">{SUSTRATO.advertencia.texto}</p>
+            <p className="glosario__nombre">{SUSTRATO.advertencia.titulo}</p>
+            <p className="glosario__desc">{conNegritas(SUSTRATO.advertencia.texto)}</p>
             <p className="glosario__desc glosario__quien">
               <ConfidenceBadge valor={SUSTRATO.advertencia.confianza} compacto />
             </p>

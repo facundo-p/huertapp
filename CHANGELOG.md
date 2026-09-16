@@ -35,14 +35,14 @@ Qué significa cada parte en este proyecto:
 
 ### Cambiado
 
-- **"Cómo se arma la tierra" ahora te dice qué llevarte del vivero en los cinco
-  casos.** Las direcciones de suelo profundo y de suelo rústico explicaban el
-  problema pero no qué mezcla preparar: ahora dicen que la base sirve tal cual y
-  hacia dónde correrla.
+- **Suelo profundo y suelo rústico ahora te dicen qué llevarte del vivero.** Las
+  dos direcciones explicaban el problema —la raíz que sale bifurcada, la tierra
+  que conviene pobre— pero no qué preparar: ahora dicen qué cambiar respecto de
+  la mezcla base.
 - **La advertencia sobre las recetas de sustrato ahora tiene de dónde agarrarse.**
-  Lleva su fuente del INTA, como cualquier otro dato de la app, y dice con todas
-  las letras que no existe un sustrato ideal: depende de lo que consigas, de lo
-  que salga y de la especie.
+  Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
+  correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
+  tu zona, de lo que salga y de la especie.
 
 ## [2.3.0] — 2026-09-12
 

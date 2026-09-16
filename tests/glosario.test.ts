@@ -62,10 +62,17 @@ describe('glosario', () => {
     expect(SUSTRATO.advertencia.fuente.organizacion.length).toBeGreaterThan(3)
     expect(SUSTRATO.advertencia.confianza).toBeGreaterThanOrEqual(1)
     expect(SUSTRATO.advertencia.confianza).toBeLessThanOrEqual(10)
-    // la fuente sostiene que no hay sustrato ideal, no que las recetas
-    // coincidan en nada: si el texto vuelve a decir eso, le pone al INTA algo
-    // que el INTA no dijo
-    expect(SUSTRATO.advertencia.texto).not.toMatch(/coinciden todas|todas coinciden/i)
+    // la cita sostiene que la mezcla depende de cuatro cosas: si el texto se
+    // queda sin alguna, le atribuye a la fuente una afirmación más corta y más
+    // categórica que la que hizo
+    const t = SUSTRATO.advertencia.texto
+    expect(t).toMatch(/zona/i)
+    expect(t).toMatch(/salga|costo|cuesta/i)
+    expect(t).toMatch(/especie/i)
+    expect(t).toMatch(/multiplic/i)
+    // "muy difícil hablar de un sustrato ideal" es lo que dice el PDF; afirmar
+    // que no existe sería ir más lejos que la fuente
+    expect(t).toMatch(/difícil hablar de un sustrato ideal/i)
   })
 
   it('las cinco categorías de suelo dicen hacia dónde correr la mezcla', () => {
