@@ -225,6 +225,24 @@ inventó un negativo respetó el alcance con disciplina.** No se trata de confia
 desconfiar de un agente entero, sino de saber qué tipo de afirmación verificar:
 el juicio de alcance salió bien, el resultado de búsqueda salió mal.
 
+### El `.gitignore` tiene que estar en la rama donde vas a commitear
+
+**Síntoma.** Puse `.claude/worktrees/` en el `.gitignore` de la rama de #134, y
+un rato después un `git add -A` en la rama de la bitácora se llevó los dos
+worktrees como repos embebidos. Commiteado y pusheado antes de darme cuenta.
+
+**Causa.** Dos errores encadenados, los dos míos. El `.gitignore` es **por rama**,
+y la de la bitácora salía de `staging`, que no lo tenía. Y `git add -A` con
+worktrees adentro del repo es una mala idea aunque el ignore esté puesto.
+
+**Qué hacemos.** El ignore de los worktrees va a `staging` **antes** de abrir
+cualquier rama de trabajo, no a la primera rama que lo necesite. Y mientras haya
+agentes corriendo, `git add <archivo>`, nunca `-A`.
+
+**Al plugin.** Refuerza la entrada anterior: el plugin pone la línea en el ignore
+al instalarse, o sea en el tronco, y no en la rama de turno. Y el prompt del
+orquestador dice que con worktrees vivos se commitea por archivo.
+
 ---
 
 ## Reparto y modelo
@@ -263,3 +281,5 @@ La lista corta, para no releer todo:
 9. **`.claude/worktrees/` al `.gitignore`** al instalar, antes del primer dev.
 10. **Todo negativo se reporta con el comando exacto** y el orquestador lo
     vuelve a correr antes de apoyar una decisión en él.
+11. **El ignore de los worktrees va al tronco**, y con agentes corriendo se
+    commitea por archivo y nunca con `git add -A`.
