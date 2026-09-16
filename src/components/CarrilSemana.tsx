@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { useState, type ComponentType } from 'react'
 import { Link } from 'react-router'
 import {
   CIELOS,
@@ -6,6 +6,7 @@ import {
   IconoCalor,
   IconoCompost,
   IconoCosechar,
+  IconoDesplegar,
   IconoEscarcha,
   IconoLluvia,
   IconoPuntos,
@@ -15,6 +16,8 @@ import {
   type IconProps,
 } from '../icons'
 import type { Tarea } from '../lib/tareas/engine'
+import { agruparPorPie, type GrupoTareas } from '../lib/tareas/agrupar'
+import { alternar } from '../lib/huerta/plegado'
 import type { AvisoClima, DiaPronostico, TipoAviso } from '../lib/pronostico/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
 import { fechaDiaLarga, numeroDia, siglaDia } from '../lib/fechas'
@@ -65,6 +68,11 @@ interface Props {
  * con un guion: la lectura que se busca es «cómo viene la semana», y para
  * eso los huecos importan. Sin pronóstico, el carril sigue: la columna del
  * día queda con la sigla y el número.
+ *
+ * De cada tarea se ve el título y nada más. El porqué y la procedencia se
+ * pliegan —no se borran— detrás de un botón que las tareas con el mismo pie
+ * comparten. Se arranca con todo plegado, que es lo que hace que la semana
+ * entre en una pantalla.
  */
 export function CarrilSemana({
   hoy,
@@ -78,6 +86,10 @@ export function CarrilSemana({
   onMenu,
   onAbrirDia,
 }: Props) {
+  // En memoria y no en localStorage: acá el plegado es cómo estás mirando la
+  // semana ahora, no una preferencia que valga la pena recordar mañana.
+  const [abiertos, setAbiertos] = useState<string[]>([])
+
   const semana = Array.from({ length: 7 }, (_, i) => {
     const fecha = sumarDias(hoy, i)
     return {
@@ -129,15 +141,18 @@ export function CarrilSemana({
               {avs.map((a) => (
                 <Aviso key={a.id} aviso={a} />
               ))}
-              {ts.map((t) => (
-                <Item
-                  key={t.id}
-                  tarea={t}
-                  festejando={festejando === t.id}
-                  asomo={conAsomo(t)}
-                  onCompletar={() => onCompletar(t)}
-                  onAsomo={() => onAsomo(t)}
-                  onMenu={() => onMenu(t)}
+              {agruparPorPie(ts).map((g, i) => (
+                <Grupo
+                  key={g.clave}
+                  grupo={g}
+                  panel={`porque-${fecha}-${i}`}
+                  abierto={abiertos.includes(g.clave)}
+                  onAlternar={() => setAbiertos((v) => alternar(v, g.clave))}
+                  festejando={festejando}
+                  conAsomo={conAsomo}
+                  onCompletar={onCompletar}
+                  onAsomo={onAsomo}
+                  onMenu={onMenu}
                 />
               ))}
             </div>
@@ -183,6 +198,70 @@ function Aviso({ aviso: a }: { aviso: AvisoClima }) {
   )
 }
 
+/**
+ * Las tareas que dicen lo mismo, con un solo pie. El botón que lo abre queda
+ * abajo del grupo: es de las N filas, no de la primera.
+ */
+function Grupo({
+  grupo,
+  panel,
+  abierto,
+  onAlternar,
+  festejando,
+  conAsomo,
+  onCompletar,
+  onAsomo,
+  onMenu,
+}: {
+  grupo: GrupoTareas
+  panel: string
+  abierto: boolean
+  onAlternar: () => void
+  festejando: string | null
+  conAsomo: (t: Tarea) => boolean
+  onCompletar: (t: Tarea) => void
+  onAsomo: (t: Tarea) => void
+  onMenu: (t: Tarea) => void
+}) {
+  const { tareas } = grupo
+  const otras = tareas.length - 1
+  return (
+    <div className="carril__grupo">
+      {tareas.map((t) => (
+        <Item
+          key={t.id}
+          tarea={t}
+          festejando={festejando === t.id}
+          asomo={conAsomo(t)}
+          onCompletar={() => onCompletar(t)}
+          onAsomo={() => onAsomo(t)}
+          onMenu={() => onMenu(t)}
+        />
+      ))}
+      <button
+        type="button"
+        className="carril__porque"
+        aria-expanded={abierto}
+        aria-controls={panel}
+        onClick={onAlternar}
+      >
+        <IconoDesplegar size={13} className={`carril__galon ${abierto ? 'es-abierto' : ''}`} />
+        {abierto ? 'ocultar' : otras > 0 ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
+        {/* con varios grupos en el día, «por qué» solo no dice de cuál */}
+        <span className="sr-solo">
+          : {tareas[0].titulo}
+          {otras > 0 && ` y ${otras} más`}
+        </span>
+      </button>
+      <div id={panel} className="carril__pie-grupo" hidden={!abierto}>
+        <span className="carril__detalle">{grupo.detalle}</span>
+        {/* de dónde sale: sin esto, es una app que manda sin explicar */}
+        <span className="carril__fuente">{grupo.fuente}</span>
+      </div>
+    </div>
+  )
+}
+
 function Item({
   tarea: t,
   festejando,
@@ -204,14 +283,9 @@ function Item({
       <span className="carril__icono" aria-hidden>
         {festejando ? <span className="brotar">🌱</span> : <Icono size={19} />}
       </span>
-      <span className="carril__textos">
-        <span className="carril__titulo">
-          {t.titulo}
-          {t.atrasada && <span className="carril__atrasada">atrasada</span>}
-        </span>
-        <span className="carril__detalle">{t.detalle}</span>
-        {/* de dónde sale: sin esto, es una app que manda sin explicar */}
-        <span className="carril__fuente">{t.fuente}</span>
+      <span className="carril__titulo">
+        {t.titulo}
+        {t.atrasada && <span className="carril__atrasada">atrasada</span>}
       </span>
     </>
   )

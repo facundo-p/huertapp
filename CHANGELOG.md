@@ -33,6 +33,17 @@ Qué significa cada parte en este proyecto:
   salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
 
+### Cambiado
+
+- **«La semana» se lee de un vistazo.** De cada tarea se ve el título y nada
+  más: el porqué y de dónde sale el dato quedan a un toque, en «por qué y de
+  dónde sale». No se borró nada —la procedencia sigue estando, plegada—, pero
+  ahora entran muchos más días en la pantalla.
+- **Lo que vale para varias plantas se dice una vez.** Si tenés cinco lechugas
+  para trasplantar, el «según la ficha: 25-35 días…» aparece una sola vez para
+  las cinco y no cinco veces igual. A la planta que le corrió la germinación le
+  sigue quedando su propio pie, porque su dato es otro.
+
 ## [2.3.0] — 2026-09-12
 
 ### Agregado
