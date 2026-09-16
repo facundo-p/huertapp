@@ -255,9 +255,30 @@ export const SUSTRATO = {
       organizacion: 'Penn State Extension',
     } satisfies Fuente,
   },
-  /** Por qué las recetas que circulan no coinciden. */
-  advertencia:
-    'Vas a encontrar otras proporciones dando vueltas: 1-1-1, 3-2-1, mitad y mitad. No coinciden, y no vale la pena pelearse por eso. En lo que sí coinciden todas es en las tres funciones que tiene que cumplir la mezcla, y con eso alcanza para corregir la tuya mirándola.',
+  /**
+   * Cita textual, p. 17 del PDF (el handle abre la ficha del repositorio, no el
+   * texto): "Existen diferentes combinaciones para realizarlos lo que hace muy
+   * difícil poder hablar de un sustrato ideal; la decisión de qué materiales
+   * utilizar está en función de la disponibilidad en cada zona y de su costo,
+   * del tipo de especie a trabajar y de la forma de multiplicación."
+   *
+   * "Muy difícil hablar de", no "no existe": la app no puede ser más categórica
+   * que la fuente. Y las tres funciones son lectura nuestra — la fuente no las
+   * enumera—, así que van dichas como tal y no en boca del INTA.
+   *
+   * Confianza 7 y no más: es una sola fuente, y 8-10 pide varias que concuerden.
+   */
+  advertencia: {
+    titulo: 'No busques la receta correcta',
+    texto:
+      'Vas a encontrar otras proporciones dando vueltas: 1-1-1, 3-2-1, mitad y mitad. No coinciden, y no vale la pena pelearse por eso: para el INTA es **muy difícil hablar de un sustrato ideal**, porque la mezcla depende de lo que consigas en tu zona, de lo que salga, de la especie y de cómo la estés multiplicando. Lo que sí sirve es mirar qué función cumple cada cosa que le ponés: con eso alcanza para corregir la tuya mirándola.',
+    confianza: 7,
+    fuente: {
+      titulo: 'Apuntes técnicos para el vivero familiar: con enfoque agroecológico',
+      url: 'https://repositorio.inta.gob.ar/handle/20.500.12123/15587',
+      organizacion: 'INTA — ProHuerta',
+    } satisfies Fuente,
+  },
   funciones: [
     { nombre: 'Materia orgánica', para_que: 'alimenta y esponja', ejemplos: 'compost, humus de lombriz, tierra abonada' },
     { nombre: 'Tierra', para_que: 'da cuerpo y sostiene la raíz', ejemplos: 'tierra negra de jardín' },
@@ -273,7 +294,7 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
   HUMEDO_RICO:
     'Más materia orgánica y menos árido, para que retenga. Y encima, mulch: es la única forma de que una maceta no se seque todos los días en enero.',
   PROFUNDO_SUELTO:
-    'Acá lo que importa no es la receta sino la profundidad y que no haya nada duro abajo. Zanahoria, remolacha y nabo salen bifurcadas cuando chocan con una piedra, un terrón o el fondo de una maceta baja.',
+    'Lo que cambia acá no es la mezcla sino dónde la ponés: hondo y que no haya nada duro abajo. Zanahoria, remolacha y nabo salen bifurcadas cuando chocan con una piedra, un terrón o el fondo de una maceta baja.',
   RUSTICO_TOLERANTE:
-    'Se arreglan con lo que haya. En la capuchina y en el cosmos, además, **conviene** que la tierra sea pobre: con mucho nitrógeno hacen hojas y no flores.',
+    'Se arreglan con lo que haya, así que no compres nada especial para ellas. En la capuchina y en el cosmos **conviene** incluso correr la base a menos materia orgánica: con mucho nitrógeno hacen hojas y no flores.',
 }
