@@ -511,6 +511,44 @@ const TOMAS: Toma[] = [
       await page.locator('.carril__cielo').first().waitFor()
     },
   },
+  // Dos plantas de la misma especie sembradas el mismo día: sus tareas dicen
+  // exactamente lo mismo, así que comparten un pie en vez de repetirlo. Es lo
+  // único que hay que mirar acá, y con el panel del día abierto.
+  {
+    nombre: 'hoy-carril-pie',
+    ruta: '/#/ajustes',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      // se duplica la rúcula de la demo: misma fecha de siembra y misma
+      // germinación, o sea el mismo «según la ficha» hasta la última coma
+      await page.evaluate(async () => {
+        const pedido = indexedDB.open('huerta-gba')
+        const base = await new Promise<IDBDatabase>((res, rej) => {
+          pedido.onsuccess = () => res(pedido.result)
+          pedido.onerror = () => rej(pedido.error)
+        })
+        const tx = base.transaction('plantas', 'readwrite')
+        const plantas = tx.objectStore('plantas')
+        const todas = await new Promise<Record<string, unknown>[]>((res) => {
+          const g = plantas.getAll()
+          g.onsuccess = () => res(g.result as Record<string, unknown>[])
+        })
+        const rucula = todas.find((p) => p.slug === 'rucula')!
+        plantas.put({ ...rucula, id: `${rucula.id as string}-bis`, apodo: 'La segunda tanda' })
+        await new Promise((res) => (tx.oncomplete = res))
+        base.close()
+      })
+      await page.goto('/#/hoy')
+      // recarga de verdad: ir a otro hash no vuelve a leer la base
+      await page.reload()
+      await page.locator('.carril__cielo').first().waitFor()
+      await page.getByRole('button', { name: /^por qué y de dónde sal/ }).first().click()
+      await page.locator('.carril__pie-grupo').first().waitFor()
+    },
+  },
   {
     nombre: 'hoy-carril-helada',
     ruta: '/#/ajustes',

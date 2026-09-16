@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { useState, type ComponentType } from 'react'
 import { Link } from 'react-router'
 import {
   CIELOS,
@@ -6,6 +6,7 @@ import {
   IconoCalor,
   IconoCompost,
   IconoCosechar,
+  IconoDesplegar,
   IconoEscarcha,
   IconoLluvia,
   IconoPuntos,
@@ -15,6 +16,8 @@ import {
   type IconProps,
 } from '../icons'
 import type { Tarea } from '../lib/tareas/engine'
+import { agruparPorPie, type GrupoTareas } from '../lib/tareas/agrupar'
+import { alternar } from '../lib/huerta/plegado'
 import type { AvisoClima, DiaPronostico, TipoAviso } from '../lib/pronostico/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
 import { fechaDiaLarga, numeroDia, siglaDia } from '../lib/fechas'
@@ -65,6 +68,11 @@ interface Props {
  * con un guion: la lectura que se busca es «cómo viene la semana», y para
  * eso los huecos importan. Sin pronóstico, el carril sigue: la columna del
  * día queda con la sigla y el número.
+ *
+ * De cada tarea se ve el título y nada más. El porqué y la procedencia se
+ * pliegan —no se borran— detrás de un botón que las tareas con el mismo pie
+ * comparten. Se arranca con todo plegado, que es lo que hace que la semana
+ * entre en una pantalla.
  */
 export function CarrilSemana({
   hoy,
@@ -78,6 +86,10 @@ export function CarrilSemana({
   onMenu,
   onAbrirDia,
 }: Props) {
+  // En memoria y no en localStorage: acá el plegado es cómo estás mirando la
+  // semana ahora, no una preferencia que valga la pena recordar mañana.
+  const [abiertos, setAbiertos] = useState<string[]>([])
+
   const semana = Array.from({ length: 7 }, (_, i) => {
     const fecha = sumarDias(hoy, i)
     return {
@@ -93,6 +105,7 @@ export function CarrilSemana({
       {semana.map(({ fecha, dia, avisos: avs, tareas: ts }) => {
         const esHoy = fecha === hoy
         const conCosas = avs.length + ts.length > 0
+        const grupos = agruparPorPie(ts)
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
         const cabecera = (
           <>
@@ -129,7 +142,7 @@ export function CarrilSemana({
               {avs.map((a) => (
                 <Aviso key={a.id} aviso={a} />
               ))}
-              {ts.map((t) => (
+              {grupos.flatMap((g) => g.tareas).map((t) => (
                 <Item
                   key={t.id}
                   tarea={t}
@@ -140,6 +153,15 @@ export function CarrilSemana({
                   onMenu={() => onMenu(t)}
                 />
               ))}
+              {grupos.length > 0 && (
+                <PieDelDia
+                  fecha={fecha}
+                  esHoy={esHoy}
+                  grupos={grupos}
+                  abierto={abiertos.includes(fecha)}
+                  onAlternar={() => setAbiertos((v) => alternar(v, fecha))}
+                />
+              )}
             </div>
           </li>
         )
@@ -167,6 +189,11 @@ function Cielo({ dia, helada }: { dia: DiaPronostico; helada: boolean }) {
   )
 }
 
+/**
+ * El aviso de clima no pliega, a diferencia de las tareas: su detalle es la
+ * instrucción («cubrí de noche X»), no la explicación, y son a lo sumo tres en
+ * toda la semana.
+ */
 function Aviso({ aviso: a }: { aviso: AvisoClima }) {
   const Icono = ICONO_AVISO[a.tipo]
   return (
@@ -180,6 +207,61 @@ function Aviso({ aviso: a }: { aviso: AvisoClima }) {
         <span className="carril__fuente">{a.fuente}</span>
       </span>
     </div>
+  )
+}
+
+/**
+ * Un solo «por qué» por día, no uno por tarea: uno por tarea eran cuatro
+ * botones iguales en un día cargado, y cada botón se come 44 px. Adentro, un
+ * pie por grupo, encabezado por las tareas de las que habla.
+ *
+ * La clave del estado es la fecha, que es única en la semana. Con la clave del
+ * grupo —que no lleva el día— dos grupos con el mismo pie en días distintos
+ * compartían estado: abrir el del martes abría el del viernes.
+ */
+function PieDelDia({
+  fecha,
+  esHoy,
+  grupos,
+  abierto,
+  onAlternar,
+}: {
+  fecha: string
+  esHoy: boolean
+  grupos: GrupoTareas[]
+  abierto: boolean
+  onAlternar: () => void
+}) {
+  const panel = `porque-${fecha}`
+  const varias = grupos.reduce((n, g) => n + g.tareas.length, 0) > 1
+  return (
+    <>
+      <button
+        type="button"
+        className="carril__porque"
+        aria-expanded={abierto}
+        aria-controls={panel}
+        onClick={onAlternar}
+      >
+        <IconoDesplegar size={13} className={`carril__galon ${abierto ? 'es-abierto' : ''}`} />
+        {abierto ? 'ocultar' : varias ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
+        {/* siete botones iguales en la pantalla: hay que decir de qué día es */}
+        <span className="sr-solo">, {esHoy ? 'hoy' : fechaDiaLarga(fecha)}</span>
+      </button>
+      <div id={panel} className="carril__pie-dia" hidden={!abierto}>
+        {grupos.map((g) => (
+          <div key={g.clave} className="carril__pie-grupo">
+            {/* de cuál habla: el pie es de las N tareas que dicen lo mismo */}
+            <span className="carril__pie-de">
+              {[...new Set(g.tareas.map((t) => t.titulo))].join(' · ')}
+            </span>
+            <span className="carril__detalle">{g.detalle}</span>
+            {/* de dónde sale: sin esto, es una app que manda sin explicar */}
+            <span className="carril__fuente">{g.fuente}</span>
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 
@@ -204,14 +286,9 @@ function Item({
       <span className="carril__icono" aria-hidden>
         {festejando ? <span className="brotar">🌱</span> : <Icono size={19} />}
       </span>
-      <span className="carril__textos">
-        <span className="carril__titulo">
-          {t.titulo}
-          {t.atrasada && <span className="carril__atrasada">atrasada</span>}
-        </span>
-        <span className="carril__detalle">{t.detalle}</span>
-        {/* de dónde sale: sin esto, es una app que manda sin explicar */}
-        <span className="carril__fuente">{t.fuente}</span>
+      <span className="carril__titulo">
+        {t.titulo}
+        {t.atrasada && <span className="carril__atrasada">atrasada</span>}
       </span>
     </>
   )
