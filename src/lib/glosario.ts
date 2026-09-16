@@ -255,9 +255,21 @@ export const SUSTRATO = {
       organizacion: 'Penn State Extension',
     } satisfies Fuente,
   },
-  /** Por qué las recetas que circulan no coinciden. */
-  advertencia:
-    'Vas a encontrar otras proporciones dando vueltas: 1-1-1, 3-2-1, mitad y mitad. No coinciden, y no vale la pena pelearse por eso. En lo que sí coinciden todas es en las tres funciones que tiene que cumplir la mezcla, y con eso alcanza para corregir la tuya mirándola.',
+  /**
+   * La fuente respalda que no existe un sustrato ideal. Lo que **no** dice es
+   * que todas las recetas coincidan en tres funciones: esa lectura es nuestra
+   * y va dicha como tal, no puesta en boca del INTA.
+   */
+  advertencia: {
+    texto:
+      'Vas a encontrar otras proporciones dando vueltas: 1-1-1, 3-2-1, mitad y mitad. No coinciden, y no vale la pena pelearse por eso: el INTA lo dice sin vueltas, no hay un sustrato ideal, porque la mezcla depende de lo que consigas en tu zona, de lo que salga, de la especie y de cómo la estés multiplicando. Lo que sí sirve es mirar qué función cumple cada cosa que le ponés: con eso alcanza para corregir la tuya mirándola.',
+    confianza: 9,
+    fuente: {
+      titulo: 'Apuntes técnicos para el vivero familiar: con enfoque agroecológico',
+      url: 'https://repositorio.inta.gob.ar/handle/20.500.12123/15587',
+      organizacion: 'INTA — ProHuerta',
+    } satisfies Fuente,
+  },
   funciones: [
     { nombre: 'Materia orgánica', para_que: 'alimenta y esponja', ejemplos: 'compost, humus de lombriz, tierra abonada' },
     { nombre: 'Tierra', para_que: 'da cuerpo y sostiene la raíz', ejemplos: 'tierra negra de jardín' },

@@ -57,6 +57,17 @@ describe('glosario', () => {
     expect(SUSTRATO.semillero.texto).toMatch(/sin compost/i)
   })
 
+  it('la advertencia de que no hay sustrato ideal también lleva fuente', () => {
+    expect(SUSTRATO.advertencia.fuente.url).toMatch(/^https?:\/\//)
+    expect(SUSTRATO.advertencia.fuente.organizacion.length).toBeGreaterThan(3)
+    expect(SUSTRATO.advertencia.confianza).toBeGreaterThanOrEqual(1)
+    expect(SUSTRATO.advertencia.confianza).toBeLessThanOrEqual(10)
+    // la fuente sostiene que no hay sustrato ideal, no que las recetas
+    // coincidan en nada: si el texto vuelve a decir eso, le pone al INTA algo
+    // que el INTA no dijo
+    expect(SUSTRATO.advertencia.texto).not.toMatch(/coinciden todas|todas coinciden/i)
+  })
+
   it('las cinco categorías de suelo dicen hacia dónde correr la mezcla', () => {
     expect(Object.keys(AJUSTE_SUELO).sort()).toEqual([
       'ARENOSO_DRENANTE',

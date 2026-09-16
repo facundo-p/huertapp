@@ -39,6 +39,10 @@ Qué significa cada parte en este proyecto:
   casos.** Las direcciones de suelo profundo y de suelo rústico explicaban el
   problema pero no qué mezcla preparar: ahora dicen que la base sirve tal cual y
   hacia dónde correrla.
+- **La advertencia sobre las recetas de sustrato ahora tiene de dónde agarrarse.**
+  Lleva su fuente del INTA, como cualquier otro dato de la app, y dice con todas
+  las letras que no existe un sustrato ideal: depende de lo que consigas, de lo
+  que salga y de la especie.
 
 ## [2.3.0] — 2026-09-12
 
