@@ -1,9 +1,10 @@
 import { useEffect, type ComponentType, type ReactNode } from 'react'
-import { useLocation } from 'react-router'
+import { Link, useLocation } from 'react-router'
 import { Header } from '../components/Header'
 import { AJUSTE_SUELO, LABORES, PALABRAS, SUSTRATO, type Termino } from '../lib/glosario'
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
+import '../components/ChipHoja.css'
 import {
   CIELOS,
   GRUPOS,
@@ -89,9 +90,39 @@ const CONFIANZAS = [
   { clase: 'sin', rango: 's/d', desc: 'Sin dato confiable. Preferimos decirlo a inventar.' },
 ]
 
-function Seccion({ titulo, retraso, children }: { titulo: string; retraso: number; children: ReactNode }) {
+/** Una entrada por <Seccion>, en su mismo orden: de acá salen la fila de chips y los `id` que saltan. */
+const INDICE = [
+  { id: 'labores', etiqueta: 'Labores' },
+  { id: 'palabras', etiqueta: 'Palabras' },
+  { id: 'tierra', etiqueta: 'Tierra' },
+  { id: 'grupos', etiqueta: 'Grupos' },
+  { id: 'suelo', etiqueta: 'Suelo' },
+  { id: 'luz', etiqueta: 'Luz' },
+  { id: 'temperatura', etiqueta: 'Temperatura' },
+  { id: 'tiempo', etiqueta: 'Tiempo' },
+  { id: 'calendario', etiqueta: 'Calendario' },
+  { id: 'decadas', etiqueta: 'Décadas' },
+  { id: 'acciones', etiqueta: 'Acciones' },
+  { id: 'confianza', etiqueta: 'Confianza' },
+]
+
+function Seccion({
+  id,
+  titulo,
+  retraso,
+  children,
+}: {
+  id: string
+  titulo: string
+  retraso: number
+  children: ReactNode
+}) {
   return (
-    <section className="glosario__seccion aparecer" style={{ '--retraso': `${retraso}s` } as React.CSSProperties}>
+    <section
+      id={id}
+      className="glosario__seccion aparecer"
+      style={{ '--retraso': `${retraso}s` } as React.CSSProperties}
+    >
       <h2 className="seccion__titulo">{titulo}</h2>
       {children}
     </section>
@@ -152,6 +183,18 @@ export function Glosario() {
   return (
     <div className="pantalla pantalla--detalle">
       <Header titulo="Glosario" sobretitulo="Íconos, palabras y escala" volver />
+
+      {/* Pegada bajo el Header, como los controles de Explorar y Calendario. El
+          Link cambia el hash de la ruta y el useEffect de arriba hace el salto:
+          es el mismo mecanismo que ya trae a alguien desde una ficha. */}
+      <nav className="glosario__indice" aria-label="Secciones del glosario">
+        {INDICE.map(({ id, etiqueta }) => (
+          <Link key={id} to={`/glosario#${id}`} className="chip-hoja glosario__indice-item">
+            <span className="chip-hoja__pildora">{etiqueta}</span>
+          </Link>
+        ))}
+      </nav>
+
       <div className="pantalla__cuerpo">
         <p className="glosario__intro">
           La app habla con íconos y con palabras de huerta. Acá está el diccionario completo de las
@@ -159,8 +202,8 @@ export function Glosario() {
           sepas qué es ralear.
         </p>
 
-        <Seccion titulo="Las labores de la huerta" retraso={0.03}>
-          <p className="glosario__desc" id="labores">
+        <Seccion id="labores" titulo="Las labores de la huerta" retraso={0.03}>
+          <p className="glosario__desc">
             Las catorce cosas que la app te puede pedir en la sección <strong>"Mientras crece"</strong>{' '}
             de una ficha. Qué son y, sobre todo, cómo se hacen.
           </p>
@@ -171,7 +214,7 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="Palabras que vas a leer en las fichas" retraso={0.05}>
+        <Seccion id="palabras" titulo="Palabras que vas a leer en las fichas" retraso={0.05}>
           <ul className="glosario__terminos">
             {PALABRAS.map((t) => (
               <FilaTermino key={t.termino} termino={t} />
@@ -179,7 +222,7 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="Cómo se arma la tierra" retraso={0.07}>
+        <Seccion id="tierra" titulo="Cómo se arma la tierra" retraso={0.07}>
           <div className="tarjeta glosario__tierra">
             <p className="glosario__desc">
               La mezcla base, para maceta o cantero:
@@ -239,24 +282,24 @@ export function Glosario() {
             </ul>
 
             <p className="glosario__nombre">Cómo correrla según lo que pida la planta</p>
-            {Object.entries(AJUSTE_SUELO).map(([c, texto]) => (
-              <div key={c} className="glosario__ajuste">
-                <span className="glosario__tile glosario__tile--chico" style={{ color: SUELOS[c as keyof typeof SUELOS].color }} aria-hidden>
-                  {(() => {
-                    const { Icono } = SUELOS[c as keyof typeof SUELOS]
-                    return <Icono size={20} />
-                  })()}
-                </span>
-                <div>
-                  <p className="glosario__nombre">{nombreSuelo(c)}</p>
-                  <p className="glosario__desc">{conNegritas(texto)}</p>
+            {Object.entries(AJUSTE_SUELO).map(([c, texto]) => {
+              const { Icono, etiqueta, color } = SUELOS[c as keyof typeof SUELOS]
+              return (
+                <div key={c} className="glosario__ajuste">
+                  <span className="glosario__tile glosario__tile--chico" style={{ color }} aria-hidden>
+                    <Icono size={20} />
+                  </span>
+                  <div>
+                    <p className="glosario__nombre">{etiqueta}</p>
+                    <p className="glosario__desc">{conNegritas(texto)}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </Seccion>
 
-        <Seccion titulo="Grupos de especies" retraso={0.05}>
+        <Seccion id="grupos" titulo="Grupos de especies" retraso={0.05}>
           <ul className="glosario__lista">
             {Object.entries(GRUPOS).map(([g, info]) => (
               <Fila key={g} Icono={info.Icono} nombre={g} desc={descGrupo(g)} color={info.color} />
@@ -264,15 +307,15 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="Qué suelo pide" retraso={0.1}>
+        <Seccion id="suelo" titulo="Qué suelo pide" retraso={0.1}>
           <ul className="glosario__lista">
             {Object.entries(SUELOS).map(([c, info]) => (
-              <Fila key={c} Icono={info.Icono} nombre={nombreSuelo(c)} desc={descSuelo(c)} color={info.color} />
+              <Fila key={c} Icono={info.Icono} nombre={info.etiqueta} desc={descSuelo(c)} color={info.color} />
             ))}
           </ul>
         </Seccion>
 
-        <Seccion titulo="Cuánto sol necesita" retraso={0.15}>
+        <Seccion id="luz" titulo="Cuánto sol necesita" retraso={0.15}>
           <ul className="glosario__lista">
             {Object.entries(LUCES).map(([c, info]) => (
               <Fila key={c} Icono={info.Icono} nombre={nombreLuz(c)} desc={descLuz(c)} color={info.color} />
@@ -280,7 +323,7 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="Qué temperatura le gusta" retraso={0.16}>
+        <Seccion id="temperatura" titulo="Qué temperatura le gusta" retraso={0.16}>
           {/* el mercurio marca las puntas del riel del filtro de Explorar */}
           <ul className="glosario__lista">
             <Fila
@@ -304,7 +347,7 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="El tiempo de la semana" retraso={0.17}>
+        <Seccion id="tiempo" titulo="El tiempo de la semana" retraso={0.17}>
           <p className="glosario__intro">
             Si activaste el pronóstico en Ajustes, Hoy muestra la semana con
             estos íconos.
@@ -336,7 +379,7 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="El calendario" retraso={0.2}>
+        <Seccion id="calendario" titulo="El calendario" retraso={0.2}>
           <div className="tarjeta glosario__calendario">
             <div className="glosario__celda-demo">
               <span className="celda celda--ideal" aria-hidden />
@@ -367,7 +410,7 @@ export function Glosario() {
           </div>
         </Seccion>
 
-        <Seccion titulo="Por qué cada mes va partido en tres" retraso={0.22}>
+        <Seccion id="decadas" titulo="Por qué cada mes va partido en tres" retraso={0.22}>
           <div className="tarjeta glosario__calendario">
             <p className="glosario__desc">
               No es lo mismo sembrar a principios de septiembre que a fines: el suelo está varios grados
@@ -407,7 +450,7 @@ export function Glosario() {
           </div>
         </Seccion>
 
-        <Seccion titulo="Ciclo y acciones" retraso={0.25}>
+        <Seccion id="acciones" titulo="Ciclo y acciones" retraso={0.25}>
           <ul className="glosario__lista">
             {ACCIONES.map((item) => (
               <Fila key={item.nombre} {...item} />
@@ -415,7 +458,7 @@ export function Glosario() {
           </ul>
         </Seccion>
 
-        <Seccion titulo="La escala de confianza" retraso={0.3}>
+        <Seccion id="confianza" titulo="La escala de confianza" retraso={0.3}>
           <div className="tarjeta glosario__confianza">
             <p className="glosario__desc">
               Cada dato de una ficha lleva su índice: cuánto lo respaldan las fuentes consultadas.
@@ -461,17 +504,8 @@ function descCielo(c: string): string {
   }[c]!
 }
 
-function nombreSuelo(c: string): string {
-  const d: Record<string, string> = {
-    ARENOSO_DRENANTE: 'Arenoso / drenante',
-    FRANCO_FERTIL: 'Franco fértil',
-    HUMEDO_RICO: 'Húmedo y rico',
-    PROFUNDO_SUELTO: 'Profundo y suelto',
-    RUSTICO_TOLERANTE: 'Rústico / tolerante',
-  }
-  return d[c] ?? c
-}
-
+// El nombre de cada suelo sale de SUELOS (src/icons/semantic.tsx): esta
+// función solo agrega la elaboración que esa etiqueta no trae.
 function descSuelo(c: string): string {
   const d: Record<string, string> = {
     ARENOSO_DRENANTE: 'Suelto y con drenaje libre: nada de charcos.',

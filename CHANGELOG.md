@@ -23,6 +23,12 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **Índice de secciones en el Glosario.** Una fila de chips debajo del título
+  salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
+  Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
+
 ## [2.3.0] — 2026-09-12
 
 ### Agregado
