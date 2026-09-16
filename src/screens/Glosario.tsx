@@ -473,6 +473,14 @@ export function Glosario() {
             </ul>
           </div>
         </Seccion>
+
+        <p className="glosario__postura">
+          <strong>Desde dónde te hablamos.</strong> Esta es una huerta agroecológica: primero
+          prevenir —tierra viva, rotación, buenas compañeras—, después favorecer al bicho que
+          trabaja a tu favor, y recién ahí aplicar algo. Por eso no vas a encontrar acá ni un
+          producto de síntesis, ni el calendario lunar. Y ojo: casero no quiere decir inofensivo,
+          el purín de tabaco es nicotina.
+        </p>
       </div>
     </div>
   )
