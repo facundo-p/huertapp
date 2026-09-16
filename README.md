@@ -223,3 +223,9 @@ Dicho de frente, porque son decisiones y no pendientes:
 - **No hay notificaciones en iPhone** con la app cerrada. Ver la tabla de arriba.
 - **No pide la hora del aviso**, porque sin un servidor de push no se puede
   cumplir.
+- **No recomienda productos de síntesis, ni el calendario lunar.** La huerta
+  que propone la app es agroecológica, y eso ordena lo que dice: primero
+  prevenir, después favorecer al bicho que trabaja a favor, y recién ahí
+  aplicar algo. Ante dos manejos que tienen fuente, entra el agroecológico.
+  Y casero no es sinónimo de inofensivo: cuando un preparado es tóxico, se
+  dice.

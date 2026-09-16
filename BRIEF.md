@@ -6,6 +6,15 @@
 
 ---
 
+> **Corrección al encargo, agosto 2026 (issue #118).** Este brief no nombra
+> nunca la agroecología y la app se construyó igual desde ahí: ningún producto
+> de síntesis en el catálogo, el compost como base, las asociaciones. Faltaba
+> en el §1 y faltaba sobre todo en el §8. El encargo queda como se escribió
+> —es el documento histórico del proyecto—; la regla que rige hoy es la quinta
+> de `CLAUDE.md`.
+
+---
+
 ## 1. Qué estamos construyendo
 
 Una **PWA instalable, mobile-first y offline-first** para planificar y mantener una huerta casera en el Gran Buenos Aires. Es la evolución de un prototipo HTML existente y consume una base de conocimiento ya investigada: `data/huerta_gba.json` (55 especies; cada dato tiene `valor`, `fuentes[]` con URLs, y `confianza` 1–10; incluye categorías estandarizadas de suelo y luz).
