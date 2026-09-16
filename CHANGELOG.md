@@ -33,6 +33,13 @@ Qué significa cada parte en este proyecto:
   salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
 
+### Cambiado
+
+- **"Cómo se arma la tierra" ahora te dice qué llevarte del vivero en los cinco
+  casos.** Las direcciones de suelo profundo y de suelo rústico explicaban el
+  problema pero no qué mezcla preparar: ahora dicen que la base sirve tal cual y
+  hacia dónde correrla.
+
 ## [2.3.0] — 2026-09-12
 
 ### Agregado

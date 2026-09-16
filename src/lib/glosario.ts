@@ -273,7 +273,7 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
   HUMEDO_RICO:
     'Más materia orgánica y menos árido, para que retenga. Y encima, mulch: es la única forma de que una maceta no se seque todos los días en enero.',
   PROFUNDO_SUELTO:
-    'Acá lo que importa no es la receta sino la profundidad y que no haya nada duro abajo. Zanahoria, remolacha y nabo salen bifurcadas cuando chocan con una piedra, un terrón o el fondo de una maceta baja.',
+    'La mezcla base sirve tal cual: acá lo que cambia no es la receta sino dónde la ponés. Zanahoria, remolacha y nabo salen bifurcadas cuando chocan con una piedra, un terrón o el fondo de una maceta baja, así que va en algo hondo y con la tierra deshecha con la mano, sin terrones ni piedras.',
   RUSTICO_TOLERANTE:
-    'Se arreglan con lo que haya. En la capuchina y en el cosmos, además, **conviene** que la tierra sea pobre: con mucho nitrógeno hacen hojas y no flores.',
+    'Se arreglan con lo que haya: la mezcla base tal cual les sobra y no necesitás nada aparte. En la capuchina y en el cosmos, además, **conviene** correrla a menos materia orgánica: con mucho nitrógeno hacen hojas y no flores.',
 }
