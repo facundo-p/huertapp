@@ -32,6 +32,12 @@ Qué significa cada parte en este proyecto:
 - **Índice de secciones en el Glosario.** Una fila de chips debajo del título
   salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
+- **Los términos de la ficha se tocan y se explican.** El grupo, el suelo y la
+  luz de arriba de todo, y el nombre de cada labor de "Mientras crece", ahora
+  van subrayados con puntitos: tocalos y sube una hoja con qué es esa palabra,
+  sin sacarte de la ficha. La del suelo trae además cómo correr la mezcla para
+  esa planta y la receta base con su confianza y su fuente. Al pie de cada hoja,
+  "Verlo en el Glosario" te deja en la sección que corresponde.
 
 ## [2.3.0] — 2026-09-12
 

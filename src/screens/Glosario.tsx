@@ -1,7 +1,18 @@
 import { useEffect, type ComponentType, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router'
 import { Header } from '../components/Header'
-import { AJUSTE_SUELO, LABORES, PALABRAS, SUSTRATO, type Termino } from '../lib/glosario'
+import {
+  AJUSTE_SUELO,
+  DESC_GRUPO,
+  DESC_LUZ,
+  DESC_SUELO,
+  LABORES,
+  NOMBRE_LUZ,
+  PALABRAS,
+  SUSTRATO,
+  type Termino,
+} from '../lib/glosario'
+import { conNegritas } from '../lib/negritas'
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import '../components/ChipHoja.css'
@@ -127,15 +138,6 @@ function Seccion({
       {children}
     </section>
   )
-}
-
-/**
- * Los textos del glosario marcan lo importante con `**`, que es como se leen
- * bien en el archivo de datos. Acá eso se vuelve `<strong>`. No es un parser
- * de markdown ni pretende serlo: es una negrita, y no hace falta más.
- */
-function conNegritas(texto: string): ReactNode[] {
-  return texto.split(/\*\*(.+?)\*\*/g).map((t, i) => (i % 2 ? <strong key={i}>{t}</strong> : t))
 }
 
 function FilaTermino({ termino, id }: { termino: Termino; id?: string }) {
@@ -302,7 +304,7 @@ export function Glosario() {
         <Seccion id="grupos" titulo="Grupos de especies" retraso={0.05}>
           <ul className="glosario__lista">
             {Object.entries(GRUPOS).map(([g, info]) => (
-              <Fila key={g} Icono={info.Icono} nombre={g} desc={descGrupo(g)} color={info.color} />
+              <Fila key={g} Icono={info.Icono} nombre={g} desc={DESC_GRUPO[g as keyof typeof DESC_GRUPO]} color={info.color} />
             ))}
           </ul>
         </Seccion>
@@ -310,7 +312,7 @@ export function Glosario() {
         <Seccion id="suelo" titulo="Qué suelo pide" retraso={0.1}>
           <ul className="glosario__lista">
             {Object.entries(SUELOS).map(([c, info]) => (
-              <Fila key={c} Icono={info.Icono} nombre={info.etiqueta} desc={descSuelo(c)} color={info.color} />
+              <Fila key={c} Icono={info.Icono} nombre={info.etiqueta} desc={DESC_SUELO[c as keyof typeof DESC_SUELO]} color={info.color} />
             ))}
           </ul>
         </Seccion>
@@ -318,7 +320,7 @@ export function Glosario() {
         <Seccion id="luz" titulo="Cuánto sol necesita" retraso={0.15}>
           <ul className="glosario__lista">
             {Object.entries(LUCES).map(([c, info]) => (
-              <Fila key={c} Icono={info.Icono} nombre={nombreLuz(c)} desc={descLuz(c)} color={info.color} />
+              <Fila key={c} Icono={info.Icono} nombre={NOMBRE_LUZ[c as keyof typeof NOMBRE_LUZ]} desc={DESC_LUZ[c as keyof typeof DESC_LUZ]} color={info.color} />
             ))}
           </ul>
         </Seccion>
@@ -486,18 +488,6 @@ export function Glosario() {
   )
 }
 
-function descGrupo(g: string): string {
-  const d: Record<string, string> = {
-    'Hortaliza de hoja': 'Lechuga, acelga, espinaca… se comen sus hojas.',
-    'Hortaliza de raíz/bulbo': 'Zanahoria, cebolla, papa… el tesoro está abajo.',
-    'Hortaliza de fruto': 'Tomate, zapallo, frutilla… frutos de la planta.',
-    Legumbre: 'Chaucha, arveja, haba: vainas que fijan nitrógeno.',
-    Aromática: 'Albahaca, romero, menta… perfume y sabor.',
-    'Flor polinizadora': 'Caléndula, copete… traen abejas y espantan plagas.',
-  }
-  return d[g] ?? ''
-}
-
 function descCielo(c: string): string {
   return {
     sol: 'Día de sol, sin nubes que importen.',
@@ -512,35 +502,3 @@ function descCielo(c: string): string {
   }[c]!
 }
 
-// El nombre de cada suelo sale de SUELOS (src/icons/semantic.tsx): esta
-// función solo agrega la elaboración que esa etiqueta no trae.
-function descSuelo(c: string): string {
-  const d: Record<string, string> = {
-    ARENOSO_DRENANTE: 'Suelto y con drenaje libre: nada de charcos.',
-    FRANCO_FERTIL: 'Equilibrado y con materia orgánica. El comodín.',
-    HUMEDO_RICO: 'Muy rico y siempre húmedo, no se seca.',
-    PROFUNDO_SUELTO: 'Mullido y sin piedras: clave para raíces.',
-    RUSTICO_TOLERANTE: 'Se banca suelos pobres sin quejarse.',
-  }
-  return d[c] ?? ''
-}
-
-function nombreLuz(c: string): string {
-  const d: Record<string, string> = {
-    PLENO_SOL: 'Pleno sol',
-    SOL_PARCIAL: 'Sol parcial',
-    MEDIA_SOMBRA: 'Media sombra',
-    TOLERA_SOMBRA: 'Tolera sombra',
-  }
-  return d[c] ?? c
-}
-
-function descLuz(c: string): string {
-  const d: Record<string, string> = {
-    PLENO_SOL: 'Seis horas o más de sol directo.',
-    SOL_PARCIAL: 'Entre 4 y 6 horas de sol directo.',
-    MEDIA_SOMBRA: 'Con 2 a 4 horas de sol ya está contenta.',
-    TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',
-  }
-  return d[c] ?? ''
-}
