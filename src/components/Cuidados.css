@@ -31,9 +31,10 @@
   gap: var(--esp-2);
 }
 
-/* El nombre de la labor abre su definición, así que el botón mide 44. Los 27
-   que sobran se comen el padding de la tarjeta, que no es tocable: si no, la
-   cabecera abre un boquete arriba de cada cuidado. */
+/* El nombre de la labor abre su definición, así que el botón mide 44 en una
+   cabecera de 17. El margen negativo le devuelve 16 de esos 27 al padding de la
+   tarjeta, que no es tocable; sin esto la cabecera abre un boquete arriba de
+   cada cuidado. */
 .cuidado__tipo {
   margin-block: -8px;
   flex: 1;
