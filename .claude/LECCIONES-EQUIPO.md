@@ -482,6 +482,84 @@ dos juntas. Hasta aclararlo, la tabla los anota tal como llegan.
 
 ---
 
+## Tanda C: #130, la primera corrida del rol QA
+
+### El QA refutó la hipótesis del reviewer rompiendo el código a propósito
+
+**Síntoma.** El reviewer sospechó que el link del pie de la hoja podía dejar el
+`<dialog>` modal colgado al navegar, y pidió verificarlo a mano. El QA lo probó
+en el navegador y funcionó; después **borró el `onClick` que lo cerraba** y los
+tests siguieron pasando: React Router desmonta la ficha entera y el navegador
+limpia el diálogo solo. El riesgo real no estaba ahí. Lo confirmó rompiendo
+otra cosa —el ancla— y ahí sí el test se puso rojo.
+
+**Causa.** Una hipótesis de comportamiento se lee plausible en el diff y no se
+puede resolver leyendo más diff. Se resuelve mutando el código y mirando qué
+test cae.
+
+**Qué hacemos.** El reviewer entrega hipótesis con el pedido concreto de
+verificación; el QA las prueba rompiendo y deja el test que fija lo que sí
+importaba. Tres e2e nuevos salieron de acá, cada uno visto en rojo antes de
+commitear.
+
+**Al plugin.** Es el prompt nuevo del QA funcionando como se escribió: "un test
+que nace verde no probó nada". Y para el reviewer: cuando no puede confirmar,
+que lo diga como hipótesis con su chequeo, no como hallazgo.
+
+### El dev verificó con specs temporales y los borró; el QA los escribió de nuevo
+
+**Síntoma.** El dev de #130 confirmó con dos specs de Playwright que el foco
+volvía al botón y que el pie navegaba al ancla, y los borró antes de commitear
+"para no ensuciar". El QA escribió los mismos dos, más uno, media hora después.
+
+**Causa.** El rol del dev dice que los e2e los corre otro, y el dev lo leyó
+como "no dejes e2e". Lo que sobra es el trabajo repetido, no el spec.
+
+**Qué hacemos.** Un spec que el dev escribió para convencerse se queda en
+`e2e/` y se entrega en el parte con lo que verifica. El QA lo revisa, lo hace
+fallar y lo cablea, en vez de reescribirlo.
+
+**Al plugin.** Al prompt del dev: los specs que escribas para verificar se
+commitean y se nombran en el parte; el QA decide si quedan.
+
+### Un arreglo de una línea con ubicación conocida lo hace el orquestador
+
+**Síntoma.** Del review quedó un comentario de CSS mal contado ("los 27 que
+sobran" cuando el margen absorbe 16). Reanudar al dev por eso cuesta decenas de
+miles de tokens; corregirlo en el worktree del dev, una llamada.
+
+**Qué hacemos.** Si el hallazgo es una línea, está ubicado y no cambia
+comportamiento, lo corrige el orquestador y lo dice. Todo lo demás vuelve al
+dev.
+
+**Al plugin.** Regla del orquestador con su límite escrito: una línea,
+ubicada, sin comportamiento. Si hay que entender algo para arreglarlo, no
+califica.
+
+### Tres errores más en una issue del orquestador
+
+#130 hablaba de "chips de labor con link" en `Cuidados.tsx` que no existen (hay
+una etiqueta de texto y un link en la bajada), nombraba `SUELOS` como si viviera
+en `glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
+mientras "Lo que no va acá" dejaba justamente esos términos para la issue
+siguiente. Ninguno frenó al dev, porque se le avisaron antes. Van a la cuenta de
+la regla 13: son cinco de cuatro issues verificadas.
+
+### Consumo de la Tanda C
+
+| Rol / tipo | Tarea | Tokens | Llamadas | Duración |
+|---|---|---|---|---|
+| dev (emulado, opus) | #130, componente nuevo, 8 archivos, 2 specs | 174.350 | 105 | 16m 28s |
+| reviewer (emulado, opus) | #130, 12 archivos + merge de prueba con #140 | 115.860 | 30 | 7m 58s |
+| QA (emulado, sonnet, rol nuevo) | issue punto por punto + batería + 3 e2e con mutaciones | 165.458 | 77 | 21m 35s |
+
+El QA cuesta el doble que el tester de la tanda anterior (81-104 k): escribe
+tests, los hace fallar y corre la batería dos veces. Esta vez no encontró un
+bug, pero dejó tres comportamientos fijados y una hipótesis descartada con
+evidencia. Es el gasto que reemplaza a "lo probé a mano y andaba".
+
+---
+
 ## Qué llevamos al plugin
 
 La lista corta, para no releer todo:
@@ -527,3 +605,9 @@ La lista corta, para no releer todo:
     medición del tester antes y después, nunca "arreglalo" al dev.
 22. **Un dato que entra al catálogo se coteja aunque venga con prueba.** Es un
     minuto.
+23. **Una hipótesis del reviewer se prueba rompiendo el código**, y el test
+    que la resuelve se queda.
+24. **Los specs que el dev escribe para convencerse se commitean**, no se
+    borran; el QA decide si quedan.
+25. **Una línea, ubicada y sin comportamiento, la arregla el orquestador.**
+    Todo lo demás vuelve al dev.
