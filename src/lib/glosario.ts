@@ -1,4 +1,4 @@
-import type { CategoriaSuelo, Fuente, TipoCuidado } from './data/types'
+import type { CategoriaLuz, CategoriaSuelo, Fuente, Grupo, TipoCuidado } from './data/types'
 
 /**
  * El vocabulario de la huerta, explicado.
@@ -276,4 +276,94 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
     'Acá lo que importa no es la receta sino la profundidad y que no haya nada duro abajo. Zanahoria, remolacha y nabo salen bifurcadas cuando chocan con una piedra, un terrón o el fondo de una maceta baja.',
   RUSTICO_TOLERANTE:
     'Se arreglan con lo que haya. En la capuchina y en el cosmos, además, **conviene** que la tierra sea pobre: con mucho nitrógeno hacen hojas y no flores.',
+}
+
+/* ------------------------------------------------------------------ *
+ * Las categorías del resumen de la ficha.
+ *
+ * El nombre de cada una sale de `GRUPOS`/`SUELOS`/`LUCES`
+ * (src/icons/semantic.tsx); acá va sólo la elaboración que esa etiqueta no
+ * trae. Viven en este módulo y no en la pantalla del Glosario porque la ficha
+ * las muestra también, y el mismo texto en dos lados se desincroniza.
+ * ------------------------------------------------------------------ */
+
+export const DESC_GRUPO: Record<Grupo, string> = {
+  'Hortaliza de hoja': 'Lechuga, acelga, espinaca… se comen sus hojas.',
+  'Hortaliza de raíz/bulbo': 'Zanahoria, cebolla, papa… el tesoro está abajo.',
+  'Hortaliza de fruto': 'Tomate, zapallo, frutilla… frutos de la planta.',
+  Legumbre: 'Chaucha, arveja, haba: vainas que fijan nitrógeno.',
+  Aromática: 'Albahaca, romero, menta… perfume y sabor.',
+  'Flor polinizadora': 'Caléndula, copete… traen abejas y espantan plagas.',
+}
+
+export const DESC_SUELO: Record<CategoriaSuelo, string> = {
+  ARENOSO_DRENANTE: 'Suelto y con drenaje libre: nada de charcos.',
+  FRANCO_FERTIL: 'Equilibrado y con materia orgánica. El comodín.',
+  HUMEDO_RICO: 'Muy rico y siempre húmedo, no se seca.',
+  PROFUNDO_SUELTO: 'Mullido y sin piedras: clave para raíces.',
+  RUSTICO_TOLERANTE: 'Se banca suelos pobres sin quejarse.',
+}
+
+/** La etiqueta de `LUCES` trae las horas pegadas; acá está el nombre solo. */
+export const NOMBRE_LUZ: Record<CategoriaLuz, string> = {
+  PLENO_SOL: 'Pleno sol',
+  SOL_PARCIAL: 'Sol parcial',
+  MEDIA_SOMBRA: 'Media sombra',
+  TOLERA_SOMBRA: 'Tolera sombra',
+}
+
+export const DESC_LUZ: Record<CategoriaLuz, string> = {
+  PLENO_SOL: 'Seis horas o más de sol directo.',
+  SOL_PARCIAL: 'Entre 4 y 6 horas de sol directo.',
+  MEDIA_SOMBRA: 'Con 2 a 4 horas de sol ya está contenta.',
+  TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',
+}
+
+/* ------------------------------------------------------------------ *
+ * Lo que muestra la hoja que sube al tocar un término en la ficha.
+ * ------------------------------------------------------------------ */
+
+export interface ContenidoDefinicion {
+  que_es: string
+  /** el paso a paso, o hacia dónde correr la mezcla: el rótulo lo dice */
+  detalle?: { etiqueta: string; texto: string }
+  /** un dato agronómico, que sí va con cita; una definición no la necesita */
+  receta?: { etiqueta: string; texto: string; confianza: number; fuente: Fuente }
+  /** sección del Glosario donde está lo completo (los `id` de Glosario.tsx) */
+  ancla: string
+}
+
+export function definicionDeLabor(tipo: TipoCuidado): ContenidoDefinicion {
+  const l = LABORES[tipo]
+  return {
+    que_es: l.que_es,
+    detalle: l.como ? { etiqueta: 'Cómo se hace', texto: l.como } : undefined,
+    ancla: 'labores',
+  }
+}
+
+export function definicionDeGrupo(grupo: Grupo): ContenidoDefinicion {
+  return { que_es: DESC_GRUPO[grupo], ancla: 'grupos' }
+}
+
+export function definicionDeLuz(categoria: CategoriaLuz): ContenidoDefinicion {
+  return { que_es: DESC_LUZ[categoria], ancla: 'luz' }
+}
+
+/**
+ * El suelo es el único de los tres que además de definición tiene receta, y
+ * va al ancla `tierra`: ahí está la mezcla entera, no la lista de categorías.
+ */
+export function definicionDeSuelo(categoria: CategoriaSuelo): ContenidoDefinicion {
+  return {
+    que_es: DESC_SUELO[categoria],
+    detalle: { etiqueta: 'Cómo correr la mezcla', texto: AJUSTE_SUELO[categoria] },
+    receta: {
+      etiqueta: 'La mezcla base',
+      texto: SUSTRATO.base,
+      confianza: SUSTRATO.confianza,
+      fuente: SUSTRATO.fuente,
+    },
+    ancla: 'tierra',
+  }
 }
