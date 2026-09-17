@@ -317,6 +317,249 @@ mecánico" habría quedado como una verdad del proyecto.
 
 ---
 
+## Tanda B: #133 y #129, con los roles todavía emulados
+
+### Los agentes del proyecto tampoco cargan en la sesión siguiente
+
+**Síntoma.** Los cinco `.claude/agents/*.md` estaban en `staging` antes de
+iniciar la sesión, `claude plugin validate .claude/agents` pasa, y
+`subagent_type: "planner"` sigue dando *not found*. Los de `~/.claude/agents/`
+(los `gsd-*`) y los de plugins sí aparecen.
+
+**Causa.** No es el archivo ni el momento: es el harness. Esta sesión corre en
+la extensión de VSCode sobre el Agent SDK, y ahí los agentes de usuario y de
+plugin cargan y los del proyecto no. La guía de Claude Code (56 k tokens para
+una pregunta acotada, más del doble de la línea de base) listó las causas
+documentadas —`settingSources` sin `project`, frontmatter roto, directorio
+creado a mitad de sesión— y ninguna aplica.
+
+**Qué hacemos.** Seguir emulando: `general-purpose` con `model:` explícito y
+"leé `.claude/agents/<rol>.md` y adoptalo". Funcionó las diez veces de esta
+tanda. En la próxima sesión, `/agents` primero, para saber en qué harness
+estamos.
+
+**Al plugin.** Es la mejor noticia de la entrada: **los agentes de plugin
+cargan donde los del proyecto no**. El plugin no depende de `.claude/agents/`
+del repo, y es justamente por eso que conviene que exista.
+
+### El tester no pudo tomar la rama porque el worktree del dev la tenía
+
+**Síntoma.** `git checkout docs/129-suelos-direccion` en el worktree del tester
+falló: git no deja la misma rama en dos worktrees. El tester lo resolvió solo
+con `git reset --hard origin/<rama>` sobre su worktree y lo dijo en el parte.
+
+**Causa.** El worktree del dev sigue vivo después del push, y tiene que
+seguir: el review le vuelve por mensaje y la segunda vuelta la hace ahí.
+
+**Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre
+(`reset --hard` o `checkout --detach`). El worktree del dev se borra cuando el
+review cerró y la rama está pusheada, no antes.
+
+**Al plugin.** Va al prompt del tester. Y el orquestador borra worktrees sólo
+después de comprobar que `HEAD` coincide con `origin/<rama>` y que no hay
+cambios sin commitear.
+
+### Las correcciones del review vuelven al mismo dev, no a uno nuevo
+
+**Síntoma.** Dos reviews con tres bloqueantes cada uno. Los dos devs se
+reanudaron por mensaje con su contexto intacto y aplicaron todo en una vuelta:
+el de #129 en 9 llamadas y dos minutos.
+
+**Qué hacemos.** `SendMessage` al dev que escribió el código, con los hallazgos
+ya decididos por el orquestador (qué va, qué no, qué se cambia de diseño). Un
+dev nuevo tendría que releer la issue, la rama y el review.
+
+**Al plugin.** El flujo es dev → reviewer → **mismo dev** → tester. Lo que el
+orquestador decide antes de reenviar el review es lo que le ahorra al dev la
+segunda lectura.
+
+### La métrica de la issue definía la búsqueda y dejaba afuera el peor caso
+
+**Síntoma.** #133 contaba "114 reglas con `--texto-s`/`--texto-xs` en 27
+archivos" y ponía «La semana» como caso ejemplar. `CarrilSemana.css` **no usa
+ningún token**: sus tamaños son 10, 11, 12 y 13 px a mano. El ejemplo de la
+issue no estaba en el recuento de la issue.
+
+**Causa.** El orquestador contó lo fácil de contar. Hay otras ~70-86 reglas en
+píxeles literales (el número depende del regex) que el token no ve, y el
+archivo más cargado de la app, `Compost.css`, tampoco aparecía.
+
+**Qué hacemos.** Cuando una issue cuantifica, verificar **qué deja afuera la
+métrica**, no sólo si el número está bien. 114 contra 115 no importaba; el
+recuento por tokens contra el recuento por tamaño sí.
+
+**Al plugin.** Extiende la regla 13: las issues del orquestador se verifican, y
+en las que traen un número, se verifica la vara antes que la cifra.
+
+### Quien redacta a partir de una cita la endurece
+
+**Síntoma.** La cita dice *"hace muy difícil poder hablar de un sustrato
+ideal"*. El dev escribió *"el INTA lo dice sin vueltas: no hay un sustrato
+ideal"*. Y cargó confianza 9 porque el investigador la propuso, cuando la escala
+que la propia app publica dice que 8-10 son varias fuentes que concuerdan y
+acá había una.
+
+**Causa.** Redactar para que suene bien tira hacia lo categórico, y la
+confianza se tomó del dossier sin cotejarla con la escala del producto. Los
+dos errores son de la misma familia: el texto se alejó de la fuente en el
+último paso, el de escribir.
+
+**Qué hacemos.** El reviewer coteja cada frase que atribuye algo a una fuente
+contra la cita textual, palabra por palabra, y la confianza contra la escala
+publicada en la app. Lo hizo, y fueron dos de sus tres bloqueantes.
+
+**Al plugin.** Va al prompt del reviewer, para diffs que toquen datos. Y al del
+investigador: la confianza que propone se justifica contra la escala del repo,
+no contra su criterio.
+
+### El positivo también se verificó, y costó un minuto
+
+**Síntoma.** El investigador trajo la cita con página y comandos. Antes de
+pasársela al dev, el orquestador bajó el PDF y corrió `grep -n "sustrato
+ideal"`: línea 523, como decía. Un minuto.
+
+**Qué hacemos.** Un dato que va a entrar al catálogo se coteja aunque venga con
+prueba adjunta. No por desconfianza: porque es barato y porque la regla 1 no
+tiene margen.
+
+**Al plugin.** Un dossier trae comandos reproducibles. Correrlos es parte del
+paso de carga, no una opción.
+
+### El reviewer calcula, el tester mide, el orquestador decide
+
+**Síntoma.** El reviewer de #133 hizo la cuenta: con un botón de 44 px debajo
+de cada grupo, un grupo de una tarea quedaba igual o más alto que antes. Tenía
+razón en la dirección. La decisión —un solo botón por día en vez de uno por
+grupo— la tomó el orquestador antes de reenviar el review; el tester midió
+después: de 3-4 filas a las 6 del día en el mismo viewport.
+
+**Causa.** Un hallazgo de layout no se resuelve con aritmética ni se delega al
+dev como "arreglalo": necesita una decisión de diseño y una medición.
+
+**Qué hacemos.** Hallazgo de layout → decisión del orquestador → pedido de
+medición explícito al tester (antes y después, en píxeles o en filas). El
+tester de esta tanda corrió las capturas de `staging` antes de cambiar de
+commit, que es lo que permitió comparar.
+
+**Al plugin.** El prompt del tester acepta un "antes" y un "después" y guarda
+las dos tandas por separado. Y el orquestador no reenvía un hallazgo de layout
+sin decidirlo primero.
+
+### El dev que mira su propio PNG
+
+**Síntoma.** La captura nueva de #133 pasaba en verde sin mostrar la segunda
+planta que el test insertaba: `page.goto('/#/hoy')` desde `/#/ajustes` es
+cambio de hash y no relee la base. El dev lo agarró **mirando el PNG**, no por
+el test, y lo arregló con `page.reload()`. Está en `.claude/LECCIONES.md`.
+
+**Qué hacemos.** "Mirá las capturas" no es sólo del tester. Un dev que agrega
+una captura la abre antes de darla por hecha.
+
+**Al plugin.** Al prompt del dev: si agregás una captura, mirala.
+
+### Consumo de la Tanda B
+
+| Rol / tipo | Tarea | Tokens | Llamadas | Duración |
+|---|---|---|---|---|
+| `claude-code-guide` | Pregunta acotada (por qué no cargan los agentes) | 56.836 | 13 | 1m 57s |
+| investigador (emulado, opus) | Un PDF de 97 páginas, una cita | 52.922 | 13 | 2m 40s |
+| dev (emulado, opus) | #129, textos y una fuente | 75.033 | 31 | 5m 16s |
+| dev #129 reanudado | Nueve puntos del review | 85.498 | 9 | 2m 13s |
+| reviewer (emulado, opus) | #129, 4 archivos | 82.268 | 24 | 5m 09s |
+| dev (emulado, opus) | #133, inventario de 27 archivos + carril | 146.573 | 61 | 13m 36s |
+| dev #133 reanudado | Rediseño a un botón por día + dos specs | 203.131 | 44 | 11m 42s |
+| reviewer (emulado, opus) | #133, 6 archivos | 95.477 | 32 | 5m 56s |
+| tester (emulado, sonnet) | #129, batería + capturas | 81.018 | 39 | 11m 02s |
+| tester (emulado, sonnet) | #133, batería + antes/después | 104.549 | 50 | 13m 11s |
+
+Dos lecturas. **Los reviewers rondan los 90 k** y estuvieron cerca del umbral
+de "prompt mal delimitado" de la entrada anterior; pero fueron el mejor gasto
+de la tanda —seis bloqueantes reales en dos diffs—, así que el umbral no es
+"100 k = mal": es "100 k sin hallazgos = mal". Y **los números de un agente
+reanudado no se sabe si son acumulados**: el harness devuelve un total por
+notificación, y 203 k con 44 llamadas puede ser la segunda vuelta sola o las
+dos juntas. Hasta aclararlo, la tabla los anota tal como llegan.
+
+---
+
+## Tanda C: #130, la primera corrida del rol QA
+
+### El QA refutó la hipótesis del reviewer rompiendo el código a propósito
+
+**Síntoma.** El reviewer sospechó que el link del pie de la hoja podía dejar el
+`<dialog>` modal colgado al navegar, y pidió verificarlo a mano. El QA lo probó
+en el navegador y funcionó; después **borró el `onClick` que lo cerraba** y los
+tests siguieron pasando: React Router desmonta la ficha entera y el navegador
+limpia el diálogo solo. El riesgo real no estaba ahí. Lo confirmó rompiendo
+otra cosa —el ancla— y ahí sí el test se puso rojo.
+
+**Causa.** Una hipótesis de comportamiento se lee plausible en el diff y no se
+puede resolver leyendo más diff. Se resuelve mutando el código y mirando qué
+test cae.
+
+**Qué hacemos.** El reviewer entrega hipótesis con el pedido concreto de
+verificación; el QA las prueba rompiendo y deja el test que fija lo que sí
+importaba. Tres e2e nuevos salieron de acá, cada uno visto en rojo antes de
+commitear.
+
+**Al plugin.** Es el prompt nuevo del QA funcionando como se escribió: "un test
+que nace verde no probó nada". Y para el reviewer: cuando no puede confirmar,
+que lo diga como hipótesis con su chequeo, no como hallazgo.
+
+### El dev verificó con specs temporales y los borró; el QA los escribió de nuevo
+
+**Síntoma.** El dev de #130 confirmó con dos specs de Playwright que el foco
+volvía al botón y que el pie navegaba al ancla, y los borró antes de commitear
+"para no ensuciar". El QA escribió los mismos dos, más uno, media hora después.
+
+**Causa.** El rol del dev dice que los e2e los corre otro, y el dev lo leyó
+como "no dejes e2e". Lo que sobra es el trabajo repetido, no el spec.
+
+**Qué hacemos.** Un spec que el dev escribió para convencerse se queda en
+`e2e/` y se entrega en el parte con lo que verifica. El QA lo revisa, lo hace
+fallar y lo cablea, en vez de reescribirlo.
+
+**Al plugin.** Al prompt del dev: los specs que escribas para verificar se
+commitean y se nombran en el parte; el QA decide si quedan.
+
+### Un arreglo de una línea con ubicación conocida lo hace el orquestador
+
+**Síntoma.** Del review quedó un comentario de CSS mal contado ("los 27 que
+sobran" cuando el margen absorbe 16). Reanudar al dev por eso cuesta decenas de
+miles de tokens; corregirlo en el worktree del dev, una llamada.
+
+**Qué hacemos.** Si el hallazgo es una línea, está ubicado y no cambia
+comportamiento, lo corrige el orquestador y lo dice. Todo lo demás vuelve al
+dev.
+
+**Al plugin.** Regla del orquestador con su límite escrito: una línea,
+ubicada, sin comportamiento. Si hay que entender algo para arreglarlo, no
+califica.
+
+### Tres errores más en una issue del orquestador
+
+#130 hablaba de "chips de labor con link" en `Cuidados.tsx` que no existen (hay
+una etiqueta de texto y un link en la bajada), nombraba `SUELOS` como si viviera
+en `glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
+mientras "Lo que no va acá" dejaba justamente esos términos para la issue
+siguiente. Ninguno frenó al dev, porque se le avisaron antes. Van a la cuenta de
+la regla 13: son cinco de cuatro issues verificadas.
+
+### Consumo de la Tanda C
+
+| Rol / tipo | Tarea | Tokens | Llamadas | Duración |
+|---|---|---|---|---|
+| dev (emulado, opus) | #130, componente nuevo, 8 archivos, 2 specs | 174.350 | 105 | 16m 28s |
+| reviewer (emulado, opus) | #130, 12 archivos + merge de prueba con #140 | 115.860 | 30 | 7m 58s |
+| QA (emulado, sonnet, rol nuevo) | issue punto por punto + batería + 3 e2e con mutaciones | 165.458 | 77 | 21m 35s |
+
+El QA cuesta el doble que el tester de la tanda anterior (81-104 k): escribe
+tests, los hace fallar y corre la batería dos veces. Esta vez no encontró un
+bug, pero dejó tres comportamientos fijados y una hipótesis descartada con
+evidencia. Es el gasto que reemplaza a "lo probé a mano y andaba".
+
+---
+
 ## Qué llevamos al plugin
 
 La lista corta, para no releer todo:
@@ -349,3 +592,22 @@ La lista corta, para no releer todo:
 14. **Las capturas se guardan por rama** antes de cambiar de checkout.
 15. **Un tester que compara ramas necesita su propio worktree**, o pisa su
     propio trabajo.
+16. **Los agentes del proyecto no cargan en todos los harness; los de plugin
+    sí.** Es la razón de que el plugin exista.
+17. **El tester no toma la rama del dev**: trabaja sobre `origin/<rama>` sin
+    checkout del nombre. El worktree del dev vive hasta que cierre el review.
+18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
+    que el orquestador ya decidió.
+19. **En una issue con números, verificar la vara antes que la cifra.**
+20. **El reviewer coteja cada frase atribuida contra la cita textual y la
+    confianza contra la escala que publica la app.**
+21. **Un hallazgo de layout se decide y se mide**: decisión del orquestador,
+    medición del tester antes y después, nunca "arreglalo" al dev.
+22. **Un dato que entra al catálogo se coteja aunque venga con prueba.** Es un
+    minuto.
+23. **Una hipótesis del reviewer se prueba rompiendo el código**, y el test
+    que la resuelve se queda.
+24. **Los specs que el dev escribe para convencerse se commitean**, no se
+    borran; el QA decide si quedan.
+25. **Una línea, ubicada y sin comportamiento, la arregla el orquestador.**
+    Todo lo demás vuelve al dev.

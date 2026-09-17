@@ -282,6 +282,18 @@ a la rama por defecto (`staging`). Los PR del rediseño entran a `cantero`.
 **Qué hacer:** cerrar a mano con un comentario que diga por cuál PR entró. El
 `Closes` igual va: vincula la issue con el PR en el tablero.
 
+### Cambiar el hash no vuelve a leer la base
+
+**Síntoma:** un test de captura insertaba una segunda planta en IndexedDB y
+después hacía `page.goto('/#/hoy')`. La captura salía sin la planta y el test
+pasaba igual.
+
+**Causa:** con `HashRouter`, ir de `/#/ajustes` a `/#/hoy` es un cambio de
+hash: la app no se recarga y el store sigue con lo que leyó al arrancar.
+
+**Qué hacer:** `page.reload()` después de escribir en la base desde un test. Y
+abrir el PNG: fue lo único que lo delató.
+
 ## Entorno
 
 ### `pkill -f` no distingue de quién es el proceso
