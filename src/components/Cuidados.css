@@ -31,7 +31,11 @@
   gap: var(--esp-2);
 }
 
+/* El nombre de la labor abre su definición, así que el botón mide 44. Los 27
+   que sobran se comen el padding de la tarjeta, que no es tocable: si no, la
+   cabecera abre un boquete arriba de cada cuidado. */
 .cuidado__tipo {
+  margin-block: -8px;
   flex: 1;
   font-family: var(--font-display);
   font-size: var(--texto-xs);
