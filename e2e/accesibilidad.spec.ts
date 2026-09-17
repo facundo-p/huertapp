@@ -14,6 +14,16 @@ const PANTALLAS = [
   { ruta: '/#/hoy', nombre: 'Esta semana' },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
+  // el término del resumen con su hoja arriba: es la que trae receta, con la
+  // confianza, la fuente y el link al glosario, y nada de eso se mide cerrada
+  {
+    ruta: '/#/explorar/tomate',
+    nombre: 'Definición de suelo',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
   // la hoja de temperatura con un rango prendido: cuatro interruptores y ocho
   // pulgares que hay que medir con la hoja abierta
   {

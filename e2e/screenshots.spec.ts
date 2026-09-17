@@ -105,6 +105,25 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-coliflor-temprana', ruta: '/#/explorar/coliflor-temprana', fullPage: true },
   // la que se define por lo que NO lleva: sin tutorado ni poda
   { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
+  // la hoja del suelo es la más larga de las cuatro: definición, ajuste de la
+  // mezcla, receta con confianza y fuente, y el link al glosario
+  {
+    nombre: 'ficha-definicion-suelo',
+    ruta: '/#/explorar/tomate',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // y una labor, que es la variante corta: qué es y cómo se hace
+  {
+    nombre: 'ficha-definicion-labor',
+    ruta: '/#/explorar/tomate',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Tutorado/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
   { nombre: 'calendario', ruta: '/#/calendario' },
   {
     nombre: 'calendario-trasplante',
