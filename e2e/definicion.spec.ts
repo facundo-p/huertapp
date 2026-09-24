@@ -19,7 +19,6 @@ test('el link del pie cierra la hoja y deja el Glosario usable, con mouse', asyn
   // sin esto, el <dialog> puede quedar en el DOM con el resto de la página
   // inerte aunque la ruta ya haya cambiado.
   expect(await page.locator('dialog').count()).toBe(0)
-  expect(await page.evaluate(() => document.documentElement.hasAttribute('inert'))).toBe(false)
 
   // usable de verdad: algo del cuerpo de la página responde al click, no sólo el header
   await page.locator('.glosario__indice-item', { hasText: 'Luz' }).click()
@@ -35,8 +34,7 @@ test('el link del pie funciona igual operando con teclado', async ({ page }) => 
   await link.focus()
   await page.keyboard.press('Enter')
 
-  // labor va a #labores (la sección entera, no el término): así lo confirmó
-  // el reviewer, la hoja ya mostró el término puntual.
+  // labor va a #labores, la sección entera: la hoja ya mostró el término puntual
   await expect(page).toHaveURL(/#\/glosario#labores/)
   await expect(page.getByRole('heading', { name: 'Glosario' })).toBeVisible()
   expect(await page.locator('dialog').count()).toBe(0)

@@ -32,11 +32,11 @@
 }
 
 /* El nombre de la labor abre su definición, así que el botón mide 44 en una
-   cabecera de 17. El margen negativo le devuelve 16 de esos 27 al padding de la
-   tarjeta, que no es tocable; sin esto la cabecera abre un boquete arriba de
-   cada cuidado. */
+   cabecera de 17. Arriba el margen negativo se come 8 del padding de la
+   tarjeta, que no es tocable; abajo, sólo los 5 del gap: con 8, el «cuándo» se
+   pintaba encima de los últimos 3 px del botón y se quedaba con el toque. */
 .cuidado__tipo {
-  margin-block: -8px;
+  margin-block: -8px -5px;
   flex: 1;
   font-family: var(--font-display);
   font-size: var(--texto-xs);
