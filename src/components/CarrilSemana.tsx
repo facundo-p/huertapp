@@ -70,9 +70,9 @@ interface Props {
  * día queda con la sigla y el número.
  *
  * De cada tarea se ve el título y nada más. El porqué y la procedencia se
- * pliegan —no se borran— detrás de un botón que las tareas con el mismo pie
- * comparten. Se arranca con todo plegado, que es lo que hace que la semana
- * entre en una pantalla.
+ * pliegan —no se borran— detrás de un botón por día. Se arranca con todo
+ * plegado, que es lo que hace que la semana entre en una pantalla. La
+ * instrucción de una helada o de un trasplante riesgoso no pliega.
  */
 export function CarrilSemana({
   hoy,
@@ -286,9 +286,13 @@ function Item({
       <span className="carril__icono" aria-hidden>
         {festejando ? <span className="brotar">🌱</span> : <Icono size={19} />}
       </span>
-      <span className="carril__titulo">
-        {t.titulo}
-        {t.atrasada && <span className="carril__atrasada">atrasada</span>}
+      <span className="carril__textos">
+        <span className="carril__titulo">
+          {t.titulo}
+          {t.atrasada && <span className="carril__atrasada">atrasada</span>}
+        </span>
+        {/* sin pronóstico, esto es lo único que dice qué tapar o que conviene esperar */}
+        {t.instruccion && <span className="carril__detalle">{t.detalle}</span>}
       </span>
     </>
   )

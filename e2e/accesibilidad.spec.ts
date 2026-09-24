@@ -22,9 +22,13 @@ const PANTALLAS = [
       // «ocultar» y sale del conjunto, así que los índices se corren solos.
       // Tope en 7 —los días de la semana— para no colgarse si eso cambiara.
       const cerrados = page.getByRole('button', { name: /^por qué y de dónde sal/ })
+      // count() no espera: si el catálogo pinta antes que las plantas, el
+      // bucle no abriría nada y el test mediría la pantalla sin la letra chica
+      await cerrados.first().waitFor()
       for (let i = 0; i < 7 && (await cerrados.count()) > 0; i++) {
         await cerrados.first().click()
       }
+      await expect(page.locator('.carril__pie-dia:not([hidden])').first()).toBeVisible()
     },
   },
   { ruta: '/#/explorar', nombre: 'Explorar' },
