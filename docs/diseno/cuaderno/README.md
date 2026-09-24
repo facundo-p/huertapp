@@ -32,18 +32,33 @@ Leído en el código, lo que enfría es:
 
 ## La dirección
 
-**Letra.** Caveat (manuscrita, 600-700, nunca por debajo de 17 px) para
-títulos, fechas y lo que anotás vos; Nunito (redonda) para lo que dice la app y
-la ficha. Tres tamaños por pantalla. Unbounded sale. Nunito ya está en
-`package.json` sin usarse; Caveat se sumaría igual que las otras, self-hosted y
-en subset latin.
+**Letra.** Caveat, la manuscrita, **sólo en títulos y rótulos de pocas
+palabras, de 21 px para arriba**: la fecha de cabecera, los títulos de pantalla
+y de sección, el número del día en la tira, el título del post-it y el nombre
+de cada lugar en el croquis. Todo lo que se lee de corrido va en Nunito, la
+redonda: detalles, fuentes, el diario, las fechas chicas, los nombres de las
+plantas en el croquis y los avisos. La manuscrita chica cuesta leerla, y la
+calidez ya la ponen los títulos. Tres tamaños por pantalla. Unbounded sale.
+Nunito ya está en `package.json` sin usarse; Caveat se sumaría igual que las
+otras, self-hosted y en subset latin.
 
 **Papel.** Renglones cada 28 px sólo en las listas que son «páginas», con el
-texto apoyado sobre la línea, y un margen terracota a la izquierda. El grano de
-día cambia de técnica: en vez de motas negras (que tienen techo en 0,021, ver
-`src/theme.css`) varía el tono a luminancia constante, con `#fff3c4` y
-`#e8f6f2`, que miden igual que el papel y no le cobran contraste a ningún
-texto. De noche sigue el grano de siempre.
+texto apoyado sobre la línea, y un margen terracota a la izquierda.
+
+**Papel reciclado de fondo**, muy leve y sobre todo de día. Una tesela de
+256 × 256 con tres capas: nubes (el papel que no es parejo), fibras cortas y
+motas. Está en `papel-reciclado-dia.svg` y `papel-reciclado-noche.svg`, lista
+para `body::before`, donde hoy vive el grano.
+
+La regla que la hace posible: **de día, ninguna mancha es más oscura que el
+papel.** El grano negro de día tiene techo en 0,021 (`src/theme.css`), porque
+oscurecer el papel le baja el contraste a `--tinta-tenue` y a `--tinta-suave`.
+La textura se ve por tono y por claridad, con colores como `#fffdf6`, `#eef6fb`,
+`#fff2f0` y `#fff4cf`, todos igual de claros o más que el papel: no le cobra
+contraste a ningún texto. De noche es al revés, nada más claro que el papel,
+porque ahí el texto es el claro. El grano negro de siempre sigue, con nubes y
+fibras apenas más oscuras. El armado del render lo chequea color por color y no
+arma si alguno cruza.
 
 **Cosas hechas a mano, con función:**
 
@@ -118,29 +133,55 @@ subir de versión, igual que los otros campos aditivos
 
 ```ts
 // Planta
-celda?: { col: number; fila: number }   // dónde arranca su bloque en la grilla del lugar
+celdas?: { col: number; fila: number }[]   // las celdas que ocupa en la grilla de su lugar
 // Ubicacion
-plano?: { orden: number }               // antes o después en la hoja
+plano?: { orden: number }                  // antes o después en la hoja
 ```
 
-Columna y fila, no un índice plano (se desordena si cambia la capacidad) ni una
-posición libre x/y (no existe en celdas, macetas ni surcos). Una `celda` fuera
-de la grilla se ignora sin borrarse; si dos chocan, pierde la más nueva;
-trasplantar, dividir una tanda o borrar el lugar la limpian. Sin los campos, el
-nivel 0 exacto.
+Por celda, no por bloque. Así el croquis puede decir lo que hoy sólo dice la
+nota de la demo: «rúcula intercalada entre las lechugas», «zanahoria en
+manchones sueltos». En una huerta agroecológica intercalar es lo común.
 
-**«Acomodar» se hace tocando, nunca arrastrando.** Tocás una planta y después
-el lugar libre donde va. Tocás dos plantas y se intercambian. Tocás dos nombres
-de lugar y se cambian de orden en la hoja. Así no pelea con el scroll, anda con
-teclado y lector de pantalla, y es el mismo gesto de «esta va acá» que ya tiene
-«Trasplantar». Pasar una planta a otro lugar sigue siendo «Trasplantar»: cambia
-`ubicacionId`, no es acomodar el dibujo.
+Columna y fila, no un índice plano (se desordena si cambia la capacidad) ni una
+posición libre x/y (no existe en celdas, macetas ni surcos). Cuando los datos no
+cierran, se ordena de izquierda a derecha y de arriba abajo:
+
+- Sobran celdas (porque bajó `ocupa`, la superficie o raleaste): se quedan las
+  primeras.
+- Faltan: se completa con las primeras libres.
+- Una celda que quedó fuera de la grilla se descarta, y se completa igual.
+- Si dos plantas quieren la misma celda, gana la siembra más vieja.
+- Trasplantar, dividir la tanda o borrar el lugar limpian el campo.
+- Sin los campos, el nivel 0 exacto.
+
+**«Acomodar» se hace tocando, nunca arrastrando.**
+
+- Tocás una o varias celdas con plantas y quedan elegidas. Tocar otra vez
+  una elegida la saca.
+- Las celdas libres donde entra lo elegido llevan una marca «+». Tocás una: la
+  primera elegida va ahí y las demás la siguen con la misma forma. Con más de
+  una elegida, la primera lleva un «1».
+- Si no entra, la barra dice por qué («se sale del lugar», «pisa la
+  lechuga»).
+- Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
+  las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
+  cuando no queda lugar libre) y «Soltar».
+- Tocás dos nombres de lugar y se cambian de orden en la hoja.
+
+Elegir una sola celda es mover por celda; elegir toda la planta es mover el
+grupo. Así no pelea con el scroll, y anda con teclado y lector de pantalla:
+cada celda es un botón con `aria-pressed`, y la barra es `aria-live`. Pasar
+plantas a otro lugar sigue siendo «Trasplantar»: cambia `ubicacionId`, no es
+acomodar el dibujo.
 
 ### Marcas
 
-- **Banderita** con el número de `pendientes` (el mismo de `GanttPlanta`), en
-  la última celda de la primera fila del bloque, para no tapar el nombre.
-  Terracota y con `pulso` si hay algo atrasado.
+- **Nombre** centrado abajo de la primera celda de cada manchón (celdas vecinas
+  de la misma planta). Con plantas intercaladas dos hojas se dibujan igual: el
+  nombre es lo que las distingue.
+- **Banderita** con el número de `pendientes` (el mismo de `GanttPlanta`),
+  adentro de la primera celda de la planta, arriba a la derecha, sin asomar
+  sobre la celda de arriba. Terracota y con `pulso` si hay algo atrasado.
 - **Copo** en las plantas de `expuestasAHelada` mientras haya helada en la
   semana (tarea o aviso), en la primera celda.
 - El tipo de tarea va en el nombre accesible, no en el dibujo.
@@ -186,6 +227,7 @@ Todo lo demás sale de `src/theme.css`.
 | `--cinta` | `rgba(222,208,168,.8)` | `rgba(214,202,166,.42)` | cinta de las fotos y del croquis |
 | `--bandera` / `--bandera-atrasada` | `--sol` / `--terracota` | igual | banderita de atención |
 | pestañas | `color-mix(<token> 20 %, --papel)` | igual | una pestaña por sección: sol, verde, agua, terracota, oliva |
+| papel reciclado | `papel-reciclado-dia.svg`, nada más oscuro que `--papel` | `papel-reciclado-noche.svg`, nada más claro | fondo, en lugar del grano |
 
 Contrastes medidos (WCAG, texto):
 
