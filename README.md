@@ -141,9 +141,9 @@ npm run preview      # sirve dist/ en :4173 — necesario para los e2e
 
 | Comando | Qué hace |
 |---|---|
-| `npm test` | 1014 tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
+| `npm test` | Más de mil tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
 | `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en las 7 pantallas. |
-| `npm run shots` | 27 screenshots en 390×844 para revisión visual (`e2e/shots/`). |
+| `npm run shots` | Screenshots en 390×844 para revisión visual (`e2e/shots/`). |
 | `npm run data:build` | Regenera `data/huerta_gba_enriquecido.json` desde el JSON base + el enriquecimiento + el modelo climático. |
 | `npm run data:tabla` | Regenera `data/REVISION_CALENDARIO.md` para revisar el calendario a mano. |
 | `npm run iconos` | Regenera los PNG del ícono desde `scripts/icono-app.mjs`. |
@@ -174,7 +174,7 @@ teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
 
 Cada push a `main` dispara `.github/workflows/publicar.yml`, que en una máquina
 limpia corre `npm ci`, **los más de mil tests unitarios + el chequeo de que el JSON
-generado esté al día**, **los 28 e2e** (offline y actualización incluidos), y
+generado esté al día**, **los e2e** (offline y actualización incluidos), y
 recién ahí buildea y publica en GitHub Pages.
 
 Los e2e antes del deploy no son ceremonia: un service worker roto le deja una

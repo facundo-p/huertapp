@@ -473,7 +473,7 @@ una captura la abre antes de darla por hecha.
 | tester (emulado, sonnet) | #133, batería + antes/después | 104.549 | 50 | 13m 11s |
 
 Dos lecturas. **Los reviewers rondan los 90 k** y estuvieron cerca del umbral
-de "prompt mal delimitado" de la entrada anterior; pero fueron el mejor gasto
+de "prompt mal delimitado" de la línea de base; pero fueron el mejor gasto
 de la tanda —seis bloqueantes reales en dos diffs—, así que el umbral no es
 "100 k = mal": es "100 k sin hallazgos = mal". Y **los números de un agente
 reanudado no se sabe si son acumulados**: el harness devuelve un total por
