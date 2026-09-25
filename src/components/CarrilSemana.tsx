@@ -1,4 +1,4 @@
-import { useState, type ComponentType } from 'react'
+import { useMemo, useState, type ComponentType } from 'react'
 import { Link } from 'react-router'
 import {
   CIELOS,
@@ -98,23 +98,29 @@ export function CarrilSemana({
   // semana ahora, no una preferencia que valga la pena recordar mañana.
   const [abiertos, setAbiertos] = useState<string[]>([])
 
-  const semana = Array.from({ length: 7 }, (_, i) => {
-    const fecha = sumarDias(hoy, i)
-    return {
-      fecha,
-      dia: pronostico.find((d) => d.fecha === fecha) ?? null,
-      avisos: avisos.filter((a) => a.fecha === fecha),
-      tareas: tareas.filter((t) => t.fecha === fecha),
-    }
-  })
+  const semana = useMemo(
+    () =>
+      Array.from({ length: 7 }, (_, i) => {
+        const fecha = sumarDias(hoy, i)
+        const ts = tareas.filter((t) => t.fecha === fecha)
+        const grupos = agruparPorPie(ts)
+        return {
+          fecha,
+          dia: pronostico.find((d) => d.fecha === fecha) ?? null,
+          avisos: avisos.filter((a) => a.fecha === fecha),
+          tareas: ts,
+          grupos,
+          distintos: distinguir(grupos, dondeCrece),
+        }
+      }),
+    [hoy, pronostico, avisos, tareas, dondeCrece],
+  )
 
   return (
     <ol className="carril" aria-label="La semana, día por día">
-      {semana.map(({ fecha, dia, avisos: avs, tareas: ts }) => {
+      {semana.map(({ fecha, dia, avisos: avs, tareas: ts, grupos, distintos }) => {
         const esHoy = fecha === hoy
         const conCosas = avs.length + ts.length > 0
-        const grupos = agruparPorPie(ts)
-        const distintos = distinguir(grupos, dondeCrece)
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
         const cabecera = (
           <>
@@ -151,22 +157,18 @@ export function CarrilSemana({
               {avs.map((a) => (
                 <Aviso key={a.id} aviso={a} />
               ))}
-              {grupos.flatMap((g) =>
-                g.tareas.map((t, i) => (
-                  <Item
-                    key={t.id}
-                    tarea={t}
-                    lugar={distintos.porTarea.get(t.id)}
-                    // cinco tomates con el mismo trasplante riesgoso: la instrucción, una vez
-                    instruccion={!!g.instruccion && i === g.tareas.length - 1}
-                    festejando={festejando === t.id}
-                    asomo={conAsomo(t)}
-                    onCompletar={() => onCompletar(t)}
-                    onAsomo={() => onAsomo(t)}
-                    onMenu={() => onMenu(t)}
-                  />
-                )),
-              )}
+              {grupos.flatMap((g) => g.tareas).map((t) => (
+                <Item
+                  key={t.id}
+                  tarea={t}
+                  lugar={distintos.porTarea.get(t.id)}
+                  festejando={festejando === t.id}
+                  asomo={conAsomo(t)}
+                  onCompletar={() => onCompletar(t)}
+                  onAsomo={() => onAsomo(t)}
+                  onMenu={() => onMenu(t)}
+                />
+              ))}
               {grupos.length > 0 && (
                 <PieDelDia
                   fecha={fecha}
@@ -280,7 +282,6 @@ function PieDelDia({
 function Item({
   tarea: t,
   lugar,
-  instruccion,
   festejando,
   asomo,
   onCompletar,
@@ -290,7 +291,6 @@ function Item({
   tarea: Tarea
   /** sólo si otra tarea del día se llama igual */
   lugar?: string
-  instruccion: boolean
   festejando: boolean
   asomo: boolean
   onCompletar: () => void
@@ -299,6 +299,8 @@ function Item({
 }) {
   const Icono = ICONO_TAREA[t.tipo]
   const atrasada = t.atrasada && <span className="carril__atrasada">atrasada</span>
+  // dos «Hecho» seguidos no dicen de qué tarea es cada uno
+  const deCual = `${t.titulo}${lugar ? `, ${lugar}` : ''}`
   const cuerpo = (
     <>
       <span className="carril__icono" aria-hidden>
@@ -316,8 +318,9 @@ function Item({
             {lugar}
           </span>
         )}
-        {/* sin pronóstico, esto es lo único que dice qué tapar o que conviene esperar */}
-        {instruccion && <span className="carril__detalle">{t.detalle}</span>}
+        {/* qué tapar o que conviene esperar: en cada planta, porque sólo en la
+            última la primera quedaba igual a un trasplante sin riesgo */}
+        {t.instruccion && <span className="carril__detalle">{t.detalle}</span>}
       </span>
     </>
   )
@@ -337,8 +340,9 @@ function Item({
         {/* El botón mide 44 para el dedo; la píldora de adentro, 32 para el ojo. */}
         <button type="button" className="carril__hecho" onClick={asomo ? onAsomo : onCompletar}>
           <span className="carril__pildora">{asomo ? 'Asomó' : 'Hecho'}</span>
+          <span className="sr-solo">: {deCual}</span>
         </button>
-        <button type="button" className="carril__menu" onClick={onMenu} aria-label={`Más opciones: ${t.titulo}${lugar ? `, ${lugar}` : ''}`}>
+        <button type="button" className="carril__menu" onClick={onMenu} aria-label={`Más opciones: ${deCual}`}>
           <IconoPuntos size={20} />
         </button>
       </span>

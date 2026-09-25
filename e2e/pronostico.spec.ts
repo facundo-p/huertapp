@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
 import { conHelada, fixtureDesdeHoy } from './apoyo-pronostico'
+import { duplicarPlanta } from './apoyo-huerta'
 
 /**
  * El pronóstico en Hoy, con la red interceptada. Es el primer mock de red del
@@ -119,4 +120,31 @@ test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ 
   // sin tocar nada, y el pie no la repite
   await expect(page.getByRole('button', { name: /de dónde sal/, expanded: true })).toHaveCount(0)
   await expect(page.locator('.carril__pie-dia').getByText(/Cubrí de noche/)).toHaveCount(0)
+  // con lector, «Hecho» dice de qué tarea es: seguidos, eran todos iguales.
+  // El espacio antes de «:» lo pone Chrome al cruzar al span sr-solo.
+  await expect(helada.getByRole('button', { name: /^Hecho ?: Puede helar$/ })).toBeVisible()
+})
+
+/**
+ * Dos tandas iguales con el trasplante riesgoso comparten pie, pero la
+ * instrucción va en cada fila: donde falte, se lee como un trasplante sin riesgo.
+ */
+test('el trasplante riesgoso dice que conviene esperar en cada planta', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
+  await abrirHoy(page)
+  // en almácigo desde julio: en edad de trasplante con la helada de agosto encima
+  for (const sufijo of ['-a', '-b']) {
+    await duplicarPlanta(page, 'tomate', {
+      sufijo,
+      sembrada: '2026-07-01',
+      germino: '2026-07-08',
+      etapa: 'almacigo',
+      lugar: 'Almaciguera del balcón',
+    })
+  }
+  await page.reload()
+
+  const filas = page.locator('.carril__fila.es-hoy .carril__item', { hasText: 'hora de trasplantar' })
+  await expect(filas).toHaveCount(2)
+  for (const fila of await filas.all()) await expect(fila.getByText(/esperá o cubrila/)).toBeVisible()
 })
