@@ -198,13 +198,29 @@ test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál e
   await expect(hoy.locator('.carril__pie-dia')).toContainText('según la ficha: germina en 10-20 días')
 })
 
+function botonesAbajo(page: Page) {
+  return page.locator('.carril__item').evaluateAll((items) =>
+    items.flatMap((item) => {
+      const cuerpo = item.querySelector('.carril__cuerpo')
+      const acciones = item.querySelector('.carril__acciones')
+      if (!cuerpo || !acciones) return []
+      const a = acciones.getBoundingClientRect()
+      if (a.top < cuerpo.getBoundingClientRect().bottom - 1) return []
+      return [{ titulo: item.querySelector('.carril__titulo')!.textContent!, alto: a.height }]
+    }),
+  )
+}
+
+// 37 letras sin un espacio: no entra ni en la fila entera
+const APODO_LARGO = 'TomatesDeLaAbuelaQueTrajoDeCorrientes'
+
 /**
  * Con los botones al lado, al texto le queda poco: a 320 px se metía abajo de
  * «Asomó» o cortaba «Albahac/a:», y de 341 a 360 px, «indeterminad/o:». 344 es
  * la pantalla de afuera del Z Fold. «Tomate indeterminado» es el nombre del
  * catálogo con la palabra más larga, y va con los dos botones: «Asomó» y «Hecho».
  */
-for (const ancho of [320, 344, 360, 375]) {
+for (const ancho of [300, 320, 344, 360, 375]) {
   test(`en ${ancho} px, ningún título se pisa con sus botones ni se corta al medio`, async ({ page }) => {
     await page.clock.setFixedTime(new Date('2026-10-15T10:00:00'))
     await page.setViewportSize({ width: ancho, height: 844 })
@@ -258,5 +274,48 @@ for (const ancho of [320, 344, 360, 375]) {
       }),
     )
     expect(cortadas).toEqual([])
+
+    // Los botones al lado del texto son la densidad que se busca. «Tomate
+    // indeterminado» no entra a 300 px, ni de 341 a 360: ahí está sin decidir.
+    const conTomate = ancho !== 320 && ancho !== 375
+    const bajaron = await botonesAbajo(page)
+    expect(bajaron.filter((b) => !(conTomate && b.titulo.startsWith('Tomate indeterminado')))).toEqual([])
+
+    // un apodo sin espacios más ancho que la fila se parte, pero ni la fila ni
+    // el pie que lo repite se salen de la pantalla
+    await duplicarPlanta(page, 'tomate', {
+      sufijo: '-largo',
+      apodo: APODO_LARGO,
+      etapa: 'almacigo',
+      sembrada: '2026-10-01',
+      germino: '',
+    })
+    await page.reload()
+    const hoy = page.locator('.carril__fila.es-hoy')
+    await hoy.getByRole('button', { name: /de dónde sal/ }).click()
+    await expect(hoy.locator('.carril__pie-de', { hasText: APODO_LARGO })).toBeVisible()
+    // contra el viewport y no innerWidth: en emulación móvil crece con el desborde y lo esconde
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(ancho)
+
+    // cuando bajan, en fila: apiladas medían 88 px con el renglón entero libre
+    const abajo = await botonesAbajo(page)
+    // el apodo no entra al lado de nada: sin él, esto podría no medir nada
+    expect(abajo.map((b) => b.titulo)).toContainEqual(expect.stringContaining(APODO_LARGO))
+    for (const { titulo, alto } of abajo) expect(alto, titulo).toBeLessThanOrEqual(45)
   })
 }
+
+/** Sin botones, al aviso nada le hace bajar el texto abajo del ícono. */
+test('en 320 px, el texto del aviso va al lado de su ícono', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 })
+  await page.route(API, (r) => r.fulfill({ json: conHelada() }))
+  await activarPorZona(page)
+  await abrirHoy(page)
+
+  const aviso = page.locator('.carril__aviso.es-helada')
+  await expect(aviso).toContainText('Puede helar')
+  const icono = await aviso.locator('.carril__icono').boundingBox()
+  const textos = await aviso.locator('.carril__textos').boundingBox()
+  expect(textos!.x).toBeGreaterThanOrEqual(icono!.x + icono!.width)
+  expect(textos!.y).toBeLessThan(icono!.y + icono!.height)
+})

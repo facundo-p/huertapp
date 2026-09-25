@@ -111,6 +111,10 @@ button.carril__dia:active {
   gap: var(--entre-items);
   min-width: 0;
   padding: 10px var(--esp-4) 14px 0;
+  /* break-word y no anywhere: anywhere achica el ancho mínimo, las acciones no
+     bajan y la palabra se parte. Así sólo se parte lo que no entra ni en la
+     fila entera: un apodo sin espacios, también en el pie que lo repite. */
+  overflow-wrap: break-word;
 }
 
 /* El handoff lo pide en --tinta-apagada, pero es texto que se lee (el día no
@@ -194,10 +198,6 @@ button.carril__dia:active {
   flex-direction: column;
   gap: 3px;
   min-width: 0;
-  /* break-word y no anywhere: anywhere achica el ancho mínimo, las acciones no
-     bajan y la palabra se parte. Así sólo se parte lo que no entra ni en la
-     fila entera: un apodo sin espacios. */
-  overflow-wrap: break-word;
 }
 
 .carril__titulo {
@@ -319,8 +319,7 @@ button.carril__dia:active {
 }
 
 /* ---- acciones ---- */
-/* Al lado: apiladas, un item de un renglón medía 88 px. Hasta 340 px sí van
-   una sobre otra: al lado, a 320 px bajaban en siete de cada diez items. */
+/* En fila: apiladas, un item de un renglón medía 88 px. */
 .carril__acciones {
   display: flex;
   align-items: center;
@@ -329,9 +328,21 @@ button.carril__dia:active {
   margin-left: auto;
 }
 
+/* Hasta 340 px, al lado del texto van una sobre otra: en fila, a 320 px bajaban
+   en siete de cada diez items. Si igual bajan, solas en su renglón crecen hasta
+   entrar en fila: CSS no ve el wrap, pero el reparto del sobrante sí. */
 @media (max-width: 340px) {
+  /* todo el sobrante al cuerpo: con 1000, las acciones se corrían 0,1 px */
+  .carril__cuerpo {
+    flex-grow: 1000000;
+  }
   .carril__acciones {
-    flex-direction: column;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    /* apiladas, el menú va centrado bajo «Hecho», como en columna */
+    justify-content: center;
+    width: min-content;
+    max-width: max-content;
   }
 }
 

@@ -100,25 +100,21 @@ export function CarrilSemana({
   const [abiertos, setAbiertos] = useState<string[]>([])
 
   const { semana, distintos } = useMemo(() => {
-    const dias = Array.from({ length: 7 }, (_, i) => sumarDias(hoy, i)).map((fecha) => {
-      const ts = tareas.filter((t) => t.fecha === fecha)
-      return {
-        fecha,
-        dia: pronostico.find((d) => d.fecha === fecha) ?? null,
-        avisos: avisos.filter((a) => a.fecha === fecha),
-        tareas: ts,
-        grupos: agruparPorPie(ts),
-      }
-    })
+    const dias = Array.from({ length: 7 }, (_, i) => sumarDias(hoy, i)).map((fecha) => ({
+      fecha,
+      dia: pronostico.find((d) => d.fecha === fecha) ?? null,
+      avisos: avisos.filter((a) => a.fecha === fecha),
+      grupos: agruparPorPie(tareas.filter((t) => t.fecha === fecha)),
+    }))
     // una vez para toda la semana: dos iguales en días distintos también chocan
     return { semana: dias, distintos: distinguir(dias.flatMap((d) => d.grupos), dondeCrece, hoy) }
   }, [hoy, pronostico, avisos, tareas, dondeCrece])
 
   return (
     <ol className="carril" aria-label="La semana, día por día">
-      {semana.map(({ fecha, dia, avisos: avs, tareas: ts, grupos }) => {
+      {semana.map(({ fecha, dia, avisos: avs, grupos }) => {
         const esHoy = fecha === hoy
-        const conCosas = avs.length + ts.length > 0
+        const conCosas = avs.length + grupos.length > 0
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
         const cabecera = (
           <>
@@ -262,7 +258,6 @@ function PieDelDia({
       <div id={panel} className="carril__pie-dia" hidden={!abierto}>
         {grupos.map((g) => (
           <div key={g.clave} className="carril__pie-grupo">
-            {/* de cuál habla: el pie es de las N tareas que dicen lo mismo, un renglón por título */}
             {lugares.get(g.clave)!.map((e) => (
               <span key={e.titulo} className="carril__pie-de">
                 {e.titulo}

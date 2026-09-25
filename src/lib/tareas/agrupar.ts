@@ -43,7 +43,6 @@ export function etiquetaPie(grupos: GrupoTareas[]): string {
   return grupos.every((g) => g.instruccion) ? sale : `por qué y ${sale}`
 }
 
-/** Los títulos distintos del grupo, en orden: de qué tareas habla su pie. */
 const titulosDe = (g: GrupoTareas): string[] => [...new Set(g.tareas.map((t) => t.titulo))]
 
 /** Lo que se sabe de cada planta, por id, para separar dos tareas que se llaman igual. */
@@ -84,7 +83,7 @@ export interface Distincion {
 const SIN_LUGAR = 'sin lugar asignado'
 
 /** Con el año sólo si otra de las fechas es de otro. */
-const fechaCorta = (iso: string, otras: (string | undefined)[]) =>
+const fechaParaDistinguir = (iso: string, otras: (string | undefined)[]) =>
   diaYMes(iso, otras.some((o) => o && o.slice(0, 4) !== iso.slice(0, 4)))
 
 /**
@@ -107,7 +106,7 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       clave: (t) => dato(t)?.sembrada,
       texto: (t, es) => {
         const s = dato(t)?.sembrada
-        return s && `sembrada el ${fechaCorta(s, es.map((o) => dato(o)?.sembrada))}`
+        return s && `sembrada el ${fechaParaDistinguir(s, es.map((o) => dato(o)?.sembrada))}`
       },
     },
     { clave: (t) => t.slug, texto: (t) => dato(t)?.especie?.toLocaleLowerCase('es') },
@@ -118,7 +117,7 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       texto: (t, es) => {
         const g = dato(t)?.germino
         // que no lo marcó también es un dato suyo, y separa igual
-        return g ? `asomó el ${fechaCorta(g, es.map((o) => dato(o)?.germino))}` : 'sin marcar cuándo asomó'
+        return g ? `asomó el ${fechaParaDistinguir(g, es.map((o) => dato(o)?.germino))}` : 'sin marcar cuándo asomó'
       },
     },
   ]
