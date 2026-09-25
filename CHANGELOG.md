@@ -40,13 +40,19 @@ Qué significa cada parte en este proyecto:
   el Glosario" te deja en la sección que corresponde —o en la palabra justa,
   si es una labor— y el lector de pantalla te dice adónde llegaste.
 
-### Corregido
+### Arreglado
 
-- **Tres definiciones del Glosario decían de más.** Las flores polinizadoras
-  atraen abejas, pero no hay fuente de que espanten plagas: las fichas de
-  caléndula y capuchina dicen que atraen pulgones, como plantas trampa. Las
-  legumbres fijan nitrógeno en la raíz, no en la vaina. Y las categorías de luz
-  ya no dan horas: están en el chip de cada ficha.
+- **Varias definiciones ya no dicen más de lo que sabemos.** Hablaban como si
+  valieran para todas las plantas, y alguna ficha decía otra cosa. La
+  definición de las flores polinizadoras ya no dice que espantan plagas:
+  algunas las atraen, como la caléndula, que funciona como planta trampa. Las
+  legumbres fijan nitrógeno en la raíz, no en la vaina, y las hortalizas de
+  hoja incluyen las que arman cabeza, como el brócoli. Al tocar una labor en la
+  ficha, la hoja te dice qué es: cómo se hace en esa planta es lo que dice su
+  ficha.
+- **El chip de luz de la ficha dice sólo la categoría.** Las horas eran las de
+  la categoría y no siempre coincidían con las de esa planta, que están en su
+  sección Luz, con su fuente.
 - **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
   no sólo como «diálogo».
 

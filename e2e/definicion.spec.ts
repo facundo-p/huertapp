@@ -99,6 +99,9 @@ test('la hoja de la luz trae lo que pide la especie, con todas sus fuentes', asy
   await page.getByRole('button', { name: /^Sol parcial/ }).click()
   const hoja = page.getByRole('dialog')
   await expect(hoja.getByText('Lo que pide esta planta')).toBeVisible()
+  await expect(hoja.getByText(/tolera sol parcial/)).toBeVisible()
+  // qué pasa si no, en su propio rótulo como en la sección de la ficha
+  await expect(hoja.getByText('Si no se cumple')).toBeVisible()
   await expect(hoja.getByText(/no acogolla bien/)).toBeVisible()
   await expect(hoja.locator('a[href*="lanacion.com.ar"]')).toBeVisible()
   await expect(hoja.locator('a[href*="agro.unlp.edu.ar"]')).toBeVisible()

@@ -97,8 +97,13 @@ describe('definición al toque', () => {
       ] as const) {
         const r = d.receta!
         const quien = `${e.slug} · ${campo}`
-        expect(r.texto, quien).toContain(e[campo].valor.trim())
-        expect(r.texto, quien).toContain(e[campo].que_pasa_si_no.trim())
+        // en dos rótulos, como en la sección de la ficha
+        expect(r.etiqueta, quien).toBe('Lo que pide esta planta')
+        expect(r.texto, quien).toBe(e[campo].valor.trim())
+        expect(r.siNo, quien).toEqual({
+          etiqueta: 'Si no se cumple',
+          texto: e[campo].que_pasa_si_no.trim(),
+        })
         expect(r.confianza, quien).toBe(e[campo].confianza)
         expect(r.fuentes, quien).toEqual(e[campo].fuentes)
       }
@@ -153,10 +158,20 @@ describe('definición al toque', () => {
     )
     const html = dibujar(Definicion, {
       texto: 'Pleno sol',
-      contenido: definicionDeLuz({ ...t.luz, valor: '', que_pasa_si_no: '' }),
+      contenido: definicionDeLuz({ ...t.luz, valor: '' }),
     })
     expect(html).toContain('No encontramos una fuente que lo diga.')
     expect(html).not.toContain(t.luz.fuentes[0].url)
     expect(html).not.toContain('sin fuente')
+    expect(html).not.toContain('Si no se cumple')
+  })
+
+  // la luz de los repollitos viene sin fuente en la base: se dice, no se calla
+  it('un dato sin fuente lo dice en la hoja', () => {
+    const r = especie('repollitos-de-bruselas')
+    expect(r.luz.fuentes).toHaveLength(0)
+    const html = dibujar(Definicion, { texto: 'Pleno sol', contenido: definicionDeLuz(r.luz) })
+    expect(html).toContain(r.luz.valor)
+    expect(html).toContain('sin fuente')
   })
 })

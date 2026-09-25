@@ -333,6 +333,8 @@ export interface Receta {
   etiqueta: string
   /** `null`: la fuente no lo dice, y la hoja muestra el sin dato */
   texto: string | null
+  /** qué pasa si no se cumple, con su rótulo aparte, como en la ficha */
+  siNo?: { etiqueta: string; texto: string }
   confianza: number
   /** todas, como en el resto de la ficha; vacío se muestra como tal */
   fuentes: Fuente[]
@@ -372,13 +374,11 @@ export function definicionDeGrupo(grupo: Grupo): ContenidoDefinicion {
  * tomate", "la lechuga") no está en los datos.
  */
 function loQuePide(dato: Dato & { que_pasa_si_no: string }): Receta {
-  const texto = [dato.valor, dato.que_pasa_si_no]
-    .map((t) => t.trim())
-    .filter(Boolean)
-    .join(' ')
+  const siNo = dato.que_pasa_si_no.trim()
   return {
     etiqueta: 'Lo que pide esta planta',
-    texto: texto || null,
+    texto: dato.valor.trim() || null,
+    siNo: siNo ? { etiqueta: 'Si no se cumple', texto: siNo } : undefined,
     confianza: dato.confianza,
     fuentes: dato.fuentes,
   }
