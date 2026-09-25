@@ -711,8 +711,8 @@ La lista corta, para no releer todo:
     plugin; el orquestador arranca mirando si están entre los `subagent_type`
     y, si no, emula con la receta de «Los agentes del proyecto tampoco cargan
     en la sesión siguiente».
-17. **El tester no toma la rama del dev**: trabaja en `qa/<rama>`, sobre
-    `origin/<rama>`. El orquestador lleva sus tests con `merge --ff-only`, y
+17. **El tester no toma la rama del dev**: el orquestador la pushea, y el
+    tester trabaja en `qa/<rama>`, sobre `origin/<rama>`. El orquestador lleva sus tests con `merge --ff-only`, y
     el worktree del dev vive hasta que cierre el QA: el tester reportó en verde
     y sus tests están en la rama.
 18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
