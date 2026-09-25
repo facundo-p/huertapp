@@ -60,8 +60,8 @@ Qué significa cada parte en este proyecto:
   correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
   tu zona, de lo que salga y de la especie.
 - **«La semana» se lee de un vistazo.** De cada tarea se ve el título: el
-  porqué y de dónde sale el dato quedan a un toque, en «por qué y de dónde
-  sale». Lo que hay que hacer para no perder una planta —taparla de noche si
+  porqué y de dónde sale el dato quedan a un toque, plegados al pie de cada
+  día. Lo que hay que hacer para no perder una planta —taparla de noche si
   puede helar, esperar para trasplantarla— sigue a la vista, en la fila de la
   tarea. No se borró nada —la procedencia sigue estando, plegada—, pero ahora
   entra mucho más de cada día sin tener que bajar.

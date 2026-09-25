@@ -59,6 +59,8 @@ export interface DondeCrece {
   variedad?: string
   /** ISO corta, si ya asomó */
   germino?: string
+  /** la app le pide marcar cuándo asoma: si no, «sin marcar» se lee como un olvido */
+  esperaGerminar?: boolean
 }
 
 /** Un renglón del encabezado del pie: el título y, si se repite en la semana, dónde. */
@@ -101,7 +103,8 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
     clave: (t: Tarea) => string | undefined
     texto: (t: Tarea, empatadas: Tarea[]) => string | undefined
   }[] = [
-    { clave: (t) => dato(t)?.comoEsta, texto: (t) => dato(t)?.comoEsta },
+    // como la variedad: texto libre, se compara sin mayúsculas y se muestra tal cual
+    { clave: (t) => dato(t)?.comoEsta?.toLocaleLowerCase('es'), texto: (t) => dato(t)?.comoEsta },
     {
       clave: (t) => dato(t)?.sembrada,
       texto: (t, es) => {
@@ -116,8 +119,9 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       clave: (t) => dato(t)?.germino,
       texto: (t, es) => {
         const g = dato(t)?.germino
-        // que no lo marcó también es un dato suyo, y separa igual
-        return g ? `asomó el ${fechaParaDistinguir(g, es.map((o) => dato(o)?.germino))}` : 'sin marcar cuándo asomó'
+        if (g) return `asomó el ${fechaParaDistinguir(g, es.map((o) => dato(o)?.germino))}`
+        // que no lo marcó también separa, pero sólo si se le pide: a un diente plantado, no
+        return dato(t)?.esperaGerminar ? 'sin marcar cuándo asomó' : undefined
       },
     },
   ]

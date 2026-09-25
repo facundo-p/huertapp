@@ -24,6 +24,7 @@ import type { DiaPronostico } from '../lib/pronostico/tipos'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
 import { hoyISO } from '../lib/huerta/tipos'
+import { esperaGerminacion } from '../lib/huerta/germinacion'
 import { sumarDias } from '../lib/huerta/estimar'
 import { nombreDecada, decadaDe, saludoEstacional, estacionDe, mesDe } from '../lib/fechas'
 import { IconoEscarcha, IconoGrupo, IconoProtegido } from '../icons'
@@ -107,6 +108,7 @@ export function Hoy() {
           especie: indice?.porSlug.get(p.slug)?.nombre_comun,
           variedad: p.variedad,
           germino: p.germino,
+          esperaGerminar: esperaGerminacion(p),
         },
       ]),
     )

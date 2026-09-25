@@ -253,12 +253,26 @@ describe('dos tareas que se llaman igual', () => {
       agruparPorPie([trasplante('a'), trasplante('b')]),
       donde({
         a: { lugar: FONDO, sembrada: '2026-08-24', germino: '2026-08-30' },
-        b: { lugar: FONDO, sembrada: '2026-08-24' },
+        b: { lugar: FONDO, sembrada: '2026-08-24', esperaGerminar: true },
       }),
       HOY,
     )
     expect(d.porTarea.get('a')).toBe(`${FONDO}, asomó el 30 ago`)
     expect(d.porTarea.get('b')).toBe(`${FONDO}, sin marcar cuándo asomó`)
+  })
+
+  it('a la que la app no le pide marcarlo (plantada, o cargada ya crecida) no se le dice que falta', () => {
+    const trasplante = (id: string) => tarea({ id, plantaId: id, titulo: 'Lechuga: hora de trasplantar' })
+    const d = distinguir(
+      agruparPorPie([trasplante('a'), trasplante('b')]),
+      donde({
+        a: { lugar: FONDO, sembrada: '2026-08-24', germino: '2026-08-30' },
+        b: { lugar: FONDO, sembrada: '2026-08-24', esperaGerminar: false },
+      }),
+      HOY,
+    )
+    expect(d.porTarea.get('a')).toBe(`${FONDO}, asomó el 30 ago`)
+    expect(d.porTarea.get('b')).toBe(FONDO)
   })
 
   it('lo que sigue empatado queda igual: no se inventa una diferencia', () => {
@@ -293,6 +307,19 @@ describe('dos tareas que se llaman igual', () => {
     expect(etiqueta(d, 'a')).toBe(`${FONDO}, intercalada entre las lechugas`)
     // a la otra la separa lo que no tiene: no se le inventa un texto
     expect(etiqueta(d, 'b')).toBe(FONDO)
+  })
+
+  it('«Intercalada» e «intercalada» son lo mismo: sigue desempatando la siembra', () => {
+    const d = distinguir(
+      agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)]),
+      donde({
+        a: { lugar: FONDO, sembrada: '2026-08-01', comoEsta: 'Intercalada' },
+        b: { lugar: FONDO, sembrada: '2026-08-03', comoEsta: 'intercalada' },
+      }),
+      HOY,
+    )
+    expect(etiqueta(d, 'a')).toBe(`${FONDO}, sembrada el 1 ago`)
+    expect(etiqueta(d, 'b')).toBe(`${FONDO}, sembrada el 3 ago`)
   })
 
   it('misma especie, lugar y siembra: desempata la variedad que anotaste', () => {
