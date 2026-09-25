@@ -49,9 +49,8 @@ reinventes: extendela.
 
 `e2e/accesibilidad.spec.ts` recorre todas las pantallas. El contraste lo mide
 **en los dos temas** y con datos cargados; el foco, en los dos temas y sin
-datos, en la primera parada de Tab de cada ruta de partida. Lo que se abre
-tocando, como Planta o Compostera, queda sin medir el foco. Diseñá para esto
-desde el principio:
+datos, con un Tab por ruta de partida. Lo que se abre tocando, como Planta o
+Compostera, queda sin medir el foco. Diseñá para esto desde el principio:
 
 1. **Contraste AA.** 4,5:1 el texto normal, 3:1 el grande. Los tokens están
    calibrados a ~4,6. El test compone las capas con alpha —incluido el alpha
@@ -95,13 +94,14 @@ FASE=dev npm run shots -- -g 'captura <nombre>$'
 FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
 ```
 
-El `$` ancla el nombre: sin él, `-g 'calendario'` corre diez. Con varios
-estados, `-g 'captura (<uno>|<otro>)$'` los saca en la misma corrida. Después
-abrí los PNG de `e2e/shots/dev/` y `e2e/shots/dev-noche/`. Acá las capturas
-encontraron: un ícono que se leía como otra cosa, una lista desarmada en
-palabras sueltas, un botón con texto invisible de noche, una leyenda partida
-del color que nombraba, una aguja que se confundía con las marcas de mes, tres
-columnas de texto que eran tres torres. Ninguna rompía un test.
+El `$` ancla el nombre: sin él, `-g 'calendario'` corre todas las de
+calendario. Con varios estados, `-g 'captura (<uno>|<otro>)$'` los saca en la
+misma corrida. Después abrí los PNG de `e2e/shots/dev/` y
+`e2e/shots/dev-noche/`. Acá las capturas encontraron: un ícono que se leía
+como otra cosa, una lista desarmada en palabras sueltas, un botón con texto
+invisible de noche, una leyenda partida del color que nombraba, una aguja que
+se confundía con las marcas de mes, tres columnas de texto que eran tres
+torres. Ninguna rompía un test.
 
 Y hacé la crítica vos, antes de mostrar: qué se lee mal, qué se toca mal, qué
 promete algo que no cumple.

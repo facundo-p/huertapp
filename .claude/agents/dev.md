@@ -89,11 +89,11 @@ FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
 ```
 
 y abrí el PNG en `e2e/shots/dev/` y en `e2e/shots/dev-noche/`. Sin el `$`,
-`-g 'calendario'` corre diez capturas.
+`-g 'calendario'` corre todas las de calendario.
 
 Si Playwright no encuentra el navegador o el puerto 4173 está ocupado, fijate
-en «Entorno» de `.claude/LECCIONES.md`. El puerto ocupado es la corrida de
-otro: no lo liberes.
+en «Entorno» de `.claude/LECCIONES.md`. Si no lo levantaste vos, es la
+corrida de otro: no lo liberes.
 
 ## Qué devolvés
 

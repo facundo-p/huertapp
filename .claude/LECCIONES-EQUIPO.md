@@ -92,9 +92,9 @@ línea entrega la mezcla de Clemson y nadie se entera.
 ### El repo ya sabía lo que la issue pedía averiguar
 
 **Síntoma.** Escribí la issue #129 pidiendo recetas de suelo para las cinco
-categorías. `src/lib/glosario.ts:223-230` ya decía, textual: *"Ojo con la
-tentación de dar cinco recetas exactas, una por categoría de suelo: **ninguna
-fuente da eso**"*.
+categorías. El comentario de `SUSTRATO` en `src/lib/glosario.ts` ya decía,
+textual: *"Ojo con la tentación de dar cinco recetas exactas, una por categoría
+de suelo: **ninguna fuente da eso**"*.
 
 **Causa.** Escribí la issue mirando el `AJUSTE_SUELO` de abajo sin leer el
 comentario de arriba. El comentario registraba una decisión ya tomada, que es
@@ -367,7 +367,7 @@ vigente, y reemplaza la de la Tanda A:
   y un `git log` sin commits nuevos dicen si editó. En su cwd no se ve:
   `.claude/worktrees/` está ignorado.
 
-Esta tanda corrió sin el límite, y el investigador tuvo Bash (ver «El positivo
+Esta tanda corrió sin el límite, y el investigador usó Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
 corridas y las dos reanudaciones. En la próxima sesión, lo primero es ver si
 cargan: si el rol está entre los `subagent_type` de la herramienta Agent (el
@@ -473,9 +473,9 @@ desconfianza.
 **Al plugin.** El dossier trae dónde cotejar: la URL, la página y una frase
 exacta de la cita. Los comandos los arma y los corre el orquestador, y dice qué
 dio: el investigador no tiene Bash. Acá lo tenía porque lo emulaba
-`general-purpose` sin límite de herramientas; la receta de «Los agentes del
-proyecto tampoco cargan en la sesión siguiente» pide que se limite. Cotejar
-es parte del paso de carga, no una opción.
+`general-purpose`, y emulado lo sigue teniendo aunque el pedido le escriba el
+límite (ver «Los agentes del proyecto tampoco cargan en la sesión siguiente»).
+Cotejar es parte del paso de carga, no una opción.
 
 ### El reviewer calcula, el tester mide, el orquestador decide
 

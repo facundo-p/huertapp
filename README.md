@@ -200,16 +200,16 @@ Notas del hosting:
 
 No es una pasada final: `e2e/accesibilidad.spec.ts` recorre todas las
 pantallas y falla si algo baja. El contraste lo mide en los dos temas y con
-datos cargados; el foco, en los dos temas y sin datos, en la primera parada de
-Tab de cada ruta de partida. Lo que se abre tocando, como Planta o Compostera,
-queda sin medir el foco.
+datos cargados; el foco, en los dos temas y sin datos, con un Tab por ruta de
+partida. Lo que se abre tocando, como Planta o Compostera, queda sin medir el
+foco.
 
 - Contraste **AA** en todo el texto — los tokens de color están calibrados a
   ~4,6:1 para no vivir en el borde. La jerarquía visual se hace con tamaño y
   peso, nunca bajando el contraste.
 - Targets táctiles de **44 px**.
 - El color nunca es el único canal: ideal/posible se distinguen también por
-  forma y relleno.
+  forma y relleno. Esto no lo ve un test: se revisa en las capturas.
 - Foco de teclado visible, jerarquía de encabezados sin saltos, nombre accesible
   en todo lo que se toca.
 

@@ -312,8 +312,8 @@ reusa uno que ya esté vivo (ver `playwright.config.ts`). Con varios worktrees
 en la misma máquina, el que llega segundo no arranca.
 
 **Qué hacer:** una corrida a la vez. Si está ocupado y no lo levantaste vos,
-es la corrida de otro: no lo liberes, que es lo del `pkill`. Hacé lo que no necesite Playwright y, si
-sigue ocupado, decilo.
+es la corrida de otro: no lo liberes, que es lo del `pkill`. Hacé lo que no
+necesite Playwright y, si sigue ocupado, decilo.
 
 ### Playwright no encuentra el navegador
 
