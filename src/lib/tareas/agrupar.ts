@@ -42,7 +42,7 @@ export function etiquetaPie(grupos: GrupoTareas[]): string {
 }
 
 /** Los títulos distintos del grupo, en orden: de qué tareas habla su pie. */
-export const titulosDe = (g: GrupoTareas): string[] => [...new Set(g.tareas.map((t) => t.titulo))]
+const titulosDe = (g: GrupoTareas): string[] => [...new Set(g.tareas.map((t) => t.titulo))]
 
 /** Lo que se sabe de cada planta, por id, para separar dos tareas que se llaman igual. */
 export interface DondeCrece {
@@ -56,37 +56,65 @@ export interface DondeCrece {
   germino?: string
 }
 
+/** Un renglón del encabezado del pie: el título y, si se repite en el día, dónde. */
+export interface Encabezado {
+  titulo: string
+  lugares?: string
+}
+
 export interface Distincion {
   /** id de tarea → «Bancal del fondo» o «Bancal del fondo, sembrada el 3/9» */
   porTarea: Map<string, string>
-  /** clave de grupo → lo mismo, de sus tareas repetidas */
-  porGrupo: Map<string, string>
+  /**
+   * clave de grupo → un renglón por título, con sus lugares. Por título y no
+   * por grupo: si no, en un pie de dos títulos el lugar de uno se leía del otro.
+   */
+  porGrupo: Map<string, Encabezado[]>
 }
 
 export const SIN_LUGAR = 'sin lugar asignado'
 
-const diaMes = (iso: string) => {
-  const [, m, d] = iso.split('-').map(Number)
-  return `${d}/${m}`
+/** «3/9»; con el año sólo si otra de las fechas es de otro: «3/9/25». */
+const fechaCorta = (iso: string, otras: (string | undefined)[]) => {
+  const [a, m, d] = iso.split('-').map(Number)
+  const conAnio = otras.some((o) => o && o.slice(0, 4) !== iso.slice(0, 4))
+  return conAnio ? `${d}/${m}/${String(a).slice(2)}` : `${d}/${m}`
 }
 
 /**
  * Dos tareas del día con el mismo título (dos zanahorias sin apodo) no se
- * distinguen en la fila ni en el pie. Sólo ahí se dice el lugar y, mientras
- * sigan empatadas, lo que las separe: la siembra, la especie, cuándo asomó. Lo
- * que queda empatado después de eso es indistinguible de verdad.
+ * distinguen en la fila ni en el pie. Sólo ahí se dice el lugar, y cada dato
+ * que sigue se suma sólo si la separa de otra todavía empatada: la siembra, la
+ * especie (mismo apodo en dos especies), cuándo asomó o que no se marcó. Lo que
+ * queda empatado después de eso es indistinguible de verdad.
  */
 export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrece>): Distincion {
   const dato = (t: Tarea) => plantas.get(t.plantaId!)
   const lugar = (t: Tarea) => dato(t)?.lugar ?? SIN_LUGAR
-  const desempates: { clave: (t: Tarea) => string | undefined; texto: (t: Tarea) => string | undefined }[] = [
-    { clave: (t) => dato(t)?.sembrada, texto: (t) => dato(t) && `sembrada el ${diaMes(dato(t)!.sembrada)}` },
+  const desempates: {
+    clave: (t: Tarea) => string | undefined
+    texto: (t: Tarea, empatadas: Tarea[]) => string | undefined
+  }[] = [
+    {
+      clave: (t) => dato(t)?.sembrada,
+      texto: (t, es) => {
+        const s = dato(t)?.sembrada
+        return s && `sembrada el ${fechaCorta(s, es.map((o) => dato(o)?.sembrada))}`
+      },
+    },
     { clave: (t) => t.slug, texto: (t) => dato(t)?.especie?.toLocaleLowerCase('es') },
-    { clave: (t) => dato(t)?.germino, texto: (t) => dato(t)?.germino && `asomó el ${diaMes(dato(t)!.germino!)}` },
+    {
+      clave: (t) => dato(t)?.germino,
+      texto: (t, es) => {
+        const g = dato(t)?.germino
+        // que no lo marcó también es un dato suyo, y separa igual
+        return g ? `asomó el ${fechaCorta(g, es.map((o) => dato(o)?.germino))}` : 'sin marcar cuándo asomó'
+      },
+    },
   ]
 
   // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte.
-  // Helada y compost no tienen planta: no hay lugar que decir.
+  // Helada y compost no tienen planta, y a la compostera la nombrás vos.
   const porTitulo = new Map<string, Tarea[]>()
   for (const t of grupos.flatMap((g) => g.tareas)) {
     if (t.plantaId) porTitulo.set(t.titulo, [...(porTitulo.get(t.titulo) ?? []), t])
@@ -100,7 +128,7 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       let empatadas = mismas.filter((o) => o !== t && lugar(o) === lugar(t))
       for (const { clave, texto } of desempates) {
         if (!empatadas.some((o) => clave(o) !== clave(t))) continue
-        const x = texto(t)
+        const x = texto(t, empatadas)
         if (x) partes.push(x)
         empatadas = empatadas.filter((o) => clave(o) === clave(t))
       }
@@ -108,10 +136,17 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
     }
   }
 
-  const porGrupo = new Map<string, string>()
+  const porGrupo = new Map<string, Encabezado[]>()
   for (const g of grupos) {
-    const suyas = g.tareas.filter((t) => porTarea.has(t.id))
-    if (suyas.length) porGrupo.set(g.clave, [...new Set(suyas.map((t) => porTarea.get(t.id)!))].join(' · '))
+    porGrupo.set(
+      g.clave,
+      titulosDe(g).map((titulo) => {
+        const lugares = [
+          ...new Set(g.tareas.filter((t) => t.titulo === titulo && porTarea.has(t.id)).map((t) => porTarea.get(t.id)!)),
+        ]
+        return lugares.length ? { titulo, lugares: lugares.join(' · ') } : { titulo }
+      }),
+    )
   }
   return { porTarea, porGrupo }
 }

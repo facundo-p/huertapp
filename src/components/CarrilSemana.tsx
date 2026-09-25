@@ -20,8 +20,8 @@ import {
   agruparPorPie,
   distinguir,
   etiquetaPie,
-  titulosDe,
   type DondeCrece,
+  type Encabezado,
   type GrupoTareas,
 } from '../lib/tareas/agrupar'
 import { alternar } from '../lib/huerta/plegado'
@@ -67,7 +67,8 @@ interface Props {
   conAsomo: (t: Tarea) => boolean
   onCompletar: (t: Tarea) => void
   onAsomo: (t: Tarea) => void
-  onMenu: (t: Tarea) => void
+  /** con el lugar, si otra tarea del día se llama igual */
+  onMenu: (t: Tarea, lugar?: string) => void
   onAbrirDia: (d: DiaPronostico) => void
 }
 
@@ -166,7 +167,7 @@ export function CarrilSemana({
                   asomo={conAsomo(t)}
                   onCompletar={() => onCompletar(t)}
                   onAsomo={() => onAsomo(t)}
-                  onMenu={() => onMenu(t)}
+                  onMenu={() => onMenu(t, distintos.porTarea.get(t.id))}
                 />
               ))}
               {grupos.length > 0 && (
@@ -241,7 +242,7 @@ function PieDelDia({
   fecha: string
   esHoy: boolean
   grupos: GrupoTareas[]
-  lugares: Map<string, string>
+  lugares: Map<string, Encabezado[]>
   abierto: boolean
   onAlternar: () => void
 }) {
@@ -264,11 +265,13 @@ function PieDelDia({
       <div id={panel} className="carril__pie-dia" hidden={!abierto}>
         {grupos.map((g) => (
           <div key={g.clave} className="carril__pie-grupo">
-            {/* de cuál habla: el pie es de las N tareas que dicen lo mismo */}
-            <span className="carril__pie-de">
-              {titulosDe(g).join(' · ')}
-              {lugares.has(g.clave) && <span className="carril__pie-lugar"> — {lugares.get(g.clave)}</span>}
-            </span>
+            {/* de cuál habla: el pie es de las N tareas que dicen lo mismo, un renglón por título */}
+            {lugares.get(g.clave)!.map((e) => (
+              <span key={e.titulo} className="carril__pie-de">
+                {e.titulo}
+                {e.lugares && <span className="carril__pie-lugar"> — {e.lugares}</span>}
+              </span>
+            ))}
             {!g.instruccion && <span className="carril__detalle">{g.detalle}</span>}
             {/* de dónde sale: sin esto, es una app que manda sin explicar */}
             <span className="carril__fuente">{g.fuente}</span>

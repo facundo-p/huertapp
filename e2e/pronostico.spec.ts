@@ -148,3 +148,25 @@ test('el trasplante riesgoso dice que conviene esperar en cada planta', async ({
   await expect(filas).toHaveCount(2)
   for (const fila of await filas.all()) await expect(fila.getByText(/esperá o cubrila/)).toBeVisible()
 })
+
+/**
+ * El lugar lo arma Hoy con las ubicaciones del store: si dejara de pasarlas,
+ * las dos dirían «sin lugar asignado» y nada más lo notaría.
+ */
+test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál es', async ({ page }) => {
+  await abrirHoy(page)
+  await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera' })
+  await page.reload()
+
+  const hoy = page.locator('.carril__fila.es-hoy')
+  for (const lugar of ['Bancal del fondo', 'Bancal de la medianera']) {
+    await expect(
+      hoy.getByRole('button', { name: new RegExp(`^Asomó ?: Zanahoria: fijate si asomó, ${lugar}$`) }),
+    ).toHaveCount(1)
+  }
+  // y la hoja de «Más opciones» se titula igual que el botón que la abre
+  await hoy.getByRole('button', { name: 'Más opciones: Zanahoria: fijate si asomó, Bancal del fondo' }).click()
+  await expect(page.locator('dialog.hoja[open]').getByRole('heading')).toHaveText(
+    'Zanahoria: fijate si asomó, Bancal del fondo',
+  )
+})

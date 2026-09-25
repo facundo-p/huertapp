@@ -47,6 +47,7 @@ export function Hoy() {
   const [festejando, setFestejando] = useState<string | null>(null)
   const [diaAbierto, setDiaAbierto] = useState<DiaPronostico | null>(null)
   const [menuDe, setMenuDe] = useState<Tarea | null>(null)
+  const [lugarMenu, setLugarMenu] = useState<string>()
 
   const tareas = useMemo(() => {
     if (!indice) return []
@@ -179,7 +180,10 @@ export function Hoy() {
               conAsomo={(t) => !!plantaDe(t)}
               onCompletar={(t) => void alCompletar(t)}
               onAsomo={(t) => void alAsomar(t)}
-              onMenu={setMenuDe}
+              onMenu={(t, lugar) => {
+                setMenuDe(t)
+                setLugarMenu(lugar)
+              }}
               onAbrirDia={setDiaAbierto}
             />
             {estadoPron.ubicacion && (
@@ -245,7 +249,7 @@ export function Hoy() {
       {/* «Más tarde» vive acá y no en la fila: dos botones no entran en 340
           px. Posponer no se elimina: es la válvula de escape de una app que
           manda. */}
-      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe?.titulo ?? ''}>
+      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe ? `${menuDe.titulo}${lugarMenu ? `, ${lugarMenu}` : ''}` : ''}>
         {menuDe && (
           <button
             type="button"

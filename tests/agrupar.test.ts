@@ -104,6 +104,9 @@ describe('dos tareas que se llaman igual', () => {
   const donde = (d: Record<string, DondeCrece>) => new Map(Object.entries(d))
   const FONDO = 'Bancal del fondo'
   const MEDIANERA = 'Bancal de la medianera'
+  const MACETAS = 'Macetas del balcón'
+  const ZANAHORIA = 'Zanahoria: fijate si asomó'
+  const SEGUNDA = 'La segunda tanda: fijate si asomó'
   const etiqueta = (d: ReturnType<typeof distinguir>, id: string) => d.porTarea.get(`revisar_germinacion:${id}`)
 
   it('sembradas el mismo día en dos bancales: un solo pie, y cada fila dice el suyo', () => {
@@ -115,7 +118,26 @@ describe('dos tareas que se llaman igual', () => {
     )
     expect(etiqueta(d, 'a')).toBe(FONDO)
     expect(etiqueta(d, 'b')).toBe(MEDIANERA)
-    expect(d.porGrupo.get(grupos[0].clave)).toBe(`${FONDO} · ${MEDIANERA}`)
+    expect(d.porGrupo.get(grupos[0].clave)).toEqual([{ titulo: ZANAHORIA, lugares: `${FONDO} · ${MEDIANERA}` }])
+  })
+
+  it('en un pie de dos títulos, cada lugar va en el renglón de su título', () => {
+    // la segunda tanda no se repite: su renglón no lleva lugar, y el de las
+    // zanahorias no se le atribuye
+    const grupos = agruparPorPie([zanahoria('a'), zanahoria('b'), zanahoria('c', 12, SEGUNDA)])
+    expect(grupos).toHaveLength(1)
+    const d = distinguir(
+      grupos,
+      donde({
+        a: { lugar: FONDO, sembrada: '2026-08-24' },
+        b: { lugar: MEDIANERA, sembrada: '2026-08-24' },
+        c: { lugar: MACETAS, sembrada: '2026-08-24' },
+      }),
+    )
+    expect(d.porGrupo.get(grupos[0].clave)).toEqual([
+      { titulo: ZANAHORIA, lugares: `${FONDO} · ${MEDIANERA}` },
+      { titulo: SEGUNDA },
+    ])
   })
 
   it('en grupos distintos y lugares distintos, cada pie dice el suyo', () => {
@@ -124,28 +146,30 @@ describe('dos tareas que se llaman igual', () => {
       grupos,
       donde({ a: { lugar: FONDO, sembrada: '2026-08-24' }, b: { lugar: MEDIANERA, sembrada: '2026-08-26' } }),
     )
-    expect(grupos.map((g) => d.porGrupo.get(g.clave))).toEqual([FONDO, MEDIANERA])
+    expect(grupos.map((g) => d.porGrupo.get(g.clave))).toEqual([
+      [{ titulo: ZANAHORIA, lugares: FONDO }],
+      [{ titulo: ZANAHORIA, lugares: MEDIANERA }],
+    ])
   })
 
   it('con grupos que se pisan en parte, igual ve el choque', () => {
     // [Zanahoria, La segunda tanda] y [Zanahoria]: los encabezados no son iguales
-    const grupos = agruparPorPie([
-      zanahoria('a', 12),
-      zanahoria('b', 12, 'La segunda tanda: fijate si asomó'),
-      zanahoria('c', 10),
-    ])
+    const grupos = agruparPorPie([zanahoria('a', 12), zanahoria('b', 12, SEGUNDA), zanahoria('c', 10)])
     expect(grupos).toHaveLength(2)
     const d = distinguir(
       grupos,
       donde({
         a: { lugar: FONDO, sembrada: '2026-08-24' },
-        b: { lugar: FONDO, sembrada: '2026-08-24' },
+        b: { lugar: MACETAS, sembrada: '2026-08-24' },
         c: { lugar: MEDIANERA, sembrada: '2026-08-26' },
       }),
     )
     // la segunda tanda ya se distingue por el título
     expect(etiqueta(d, 'b')).toBeUndefined()
-    expect(grupos.map((g) => d.porGrupo.get(g.clave))).toEqual([FONDO, MEDIANERA])
+    expect(grupos.map((g) => d.porGrupo.get(g.clave))).toEqual([
+      [{ titulo: ZANAHORIA, lugares: FONDO }, { titulo: SEGUNDA }],
+      [{ titulo: ZANAHORIA, lugares: MEDIANERA }],
+    ])
   })
 
   it('en el mismo lugar, suma cuándo se sembró cada una', () => {
@@ -155,6 +179,15 @@ describe('dos tareas que se llaman igual', () => {
     )
     expect(etiqueta(d, 'a')).toBe(`${FONDO}, sembrada el 3/9`)
     expect(etiqueta(d, 'b')).toBe(`${FONDO}, sembrada el 5/9`)
+  })
+
+  it('si las siembras son de años distintos, suma el año', () => {
+    const d = distinguir(
+      agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)]),
+      donde({ a: { lugar: FONDO, sembrada: '2025-09-03' }, b: { lugar: FONDO, sembrada: '2026-09-03' } }),
+    )
+    expect(etiqueta(d, 'a')).toBe(`${FONDO}, sembrada el 3/9/25`)
+    expect(etiqueta(d, 'b')).toBe(`${FONDO}, sembrada el 3/9/26`)
   })
 
   it('la fecha va sólo donde el lugar no alcanza', () => {
@@ -198,6 +231,19 @@ describe('dos tareas que se llaman igual', () => {
     expect(d.porTarea.get('b')).toBe(`${FONDO}, asomó el 2/9`)
   })
 
+  it('a la que no le marcaste cuándo asomó, se le dice así', () => {
+    const trasplante = (id: string) => tarea({ id, plantaId: id, titulo: 'Lechuga: hora de trasplantar' })
+    const d = distinguir(
+      agruparPorPie([trasplante('a'), trasplante('b')]),
+      donde({
+        a: { lugar: FONDO, sembrada: '2026-08-24', germino: '2026-08-30' },
+        b: { lugar: FONDO, sembrada: '2026-08-24' },
+      }),
+    )
+    expect(d.porTarea.get('a')).toBe(`${FONDO}, asomó el 30/8`)
+    expect(d.porTarea.get('b')).toBe(`${FONDO}, sin marcar cuándo asomó`)
+  })
+
   it('lo que sigue empatado queda igual: no se inventa una diferencia', () => {
     const d = distinguir(
       agruparPorPie([zanahoria('a'), zanahoria('b')]),
@@ -209,11 +255,11 @@ describe('dos tareas que se llaman igual', () => {
 
   it('sin títulos repetidos no agrega nada, aunque estén en lugares distintos', () => {
     const d = distinguir(
-      agruparPorPie([zanahoria('a'), zanahoria('b', 12, 'La segunda tanda: fijate si asomó')]),
+      agruparPorPie([zanahoria('a'), zanahoria('b', 12, SEGUNDA)]),
       donde({ a: { lugar: FONDO, sembrada: '2026-08-24' }, b: { lugar: MEDIANERA, sembrada: '2026-08-24' } }),
     )
     expect(d.porTarea.size).toBe(0)
-    expect(d.porGrupo.size).toBe(0)
+    expect([...d.porGrupo.values()].flat().every((e) => !e.lugares)).toBe(true)
   })
 
   it('la planta sin lugar se dice «sin lugar asignado»', () => {
