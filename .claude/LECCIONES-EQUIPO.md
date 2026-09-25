@@ -32,8 +32,9 @@ o `claude` para los que escriben), con `model:` explícito en la llamada y el
 prompt del rol traído desde su archivo —al agente se le pide que lea
 `.claude/agents/<rol>.md` y lo adopte, que además verifica que el archivo sirva—.
 Desde la sesión siguiente deberían resolver solos; en la Tanda B no pasó. La
-receta vigente para emular, que además limita las herramientas a las del rol,
-está en «Los agentes del proyecto tampoco cargan en la sesión siguiente».
+receta vigente para emular, que además escribe en el pedido el límite de
+herramientas del rol, está en «Los agentes del proyecto tampoco cargan en la
+sesión siguiente».
 
 **Al plugin.** El plugin tiene que estar instalado **antes** de arrancar la
 sesión. Vale la pena que su README lo diga en la primera línea: instalarlo a
@@ -285,10 +286,10 @@ ramas, pide explícitamente las dos tandas de capturas.
 **Causa.** El entorno trae Chromium preinstalado en `/opt/pw-browsers`, pero
 `@playwright/test` 1.62 busca un nombre de revisión propio.
 
-**Qué hacemos.** Símlinks locales con los nombres que espera, y
-`PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. No se toca código de la app. El tester
-lo resolvió solo y aclaró que era del entorno y no algo que el dev tuviera que
-arreglar, que es la distinción correcta.
+**Qué hacemos.** La receta está en «Playwright no encuentra el navegador», en
+«Entorno» de `.claude/LECCIONES.md`. El tester lo resolvió solo y aclaró que
+era del entorno y no algo que el dev tuviera que arreglar, que es la distinción
+correcta.
 
 **Al plugin.** Pertenece al setup del entorno, no al rol. Pero el prompt del
 tester conviene que diga que si `playwright install` falla, mire
@@ -340,7 +341,7 @@ iniciar la sesión, `claude plugin validate .claude/agents` pasa, y
 `subagent_type: "planner"` sigue dando *not found*. Los de `~/.claude/agents/`
 (los `gsd-*`) y los de plugins sí aparecen.
 
-**Causa probable.** No es el archivo ni el momento: probablemente, el harness.
+**Causa probable.** No es el archivo ni el momento: el harness.
 La sesión de la Tanda B corrió en la extensión de VSCode sobre el Agent SDK, y
 ahí los agentes de usuario y de plugin cargaron y los del proyecto no. El Agent
 SDK en sí no es: en #142, también sobre el Agent SDK, el reviewer cargó como
@@ -359,8 +360,10 @@ vigente, y reemplaza la de la Tanda A:
   del rol.
 - `model:` explícito en la llamada, e `isolation: worktree` para dev y tester.
 - El pedido dice "leé `.claude/agents/<rol>.md` y adoptalo" y **pone las
-  herramientas de su `tools:` como límite**. Sin eso, el investigador tiene
-  Bash y el reviewer puede editar: dejan de ser el rol.
+  herramientas de su `tools:` como límite**. Es un límite escrito, no una
+  restricción: el agente sigue teniendo Bash y Edit. Sin eso, nada le dice al
+  investigador que no use Bash ni al reviewer que no edite, y dejan de ser el
+  rol. Al terminar el reviewer, `git status` en su cwd dice si editó.
 
 Esta tanda corrió sin el límite, y el investigador tuvo Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
@@ -465,8 +468,8 @@ desconfianza.
 **Al plugin.** El dossier trae dónde cotejar: la URL, la página y una frase
 exacta de la cita. Los comandos los arma y los corre el orquestador, y dice qué
 dio: el investigador no tiene Bash. Acá lo tenía porque lo emulaba
-`general-purpose` sin límite de herramientas, que es lo que corrige la receta
-de «Los agentes del proyecto tampoco cargan en la sesión siguiente». Cotejar
+`general-purpose` sin límite de herramientas; la receta de «Los agentes del
+proyecto tampoco cargan en la sesión siguiente» pide que se limite. Cotejar
 es parte del paso de carga, no una opción.
 
 ### El reviewer calcula, el tester mide, el orquestador decide

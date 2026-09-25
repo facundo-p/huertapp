@@ -34,7 +34,7 @@ Por cada dato:
 - **La cita textual** que lo respalda, copiada, no parafraseada. Si tenés que
   parafrasear para que diga el dato, la fuente no dice el dato.
 - **Dónde cotejarla**: la página y una frase exacta de la cita, para buscarla
-  en el documento de la URL. Los comandos no son tuyos, porque no tenés Bash:
+  en el documento de la URL. Los comandos no son tuyos:
   el orquestador baja el documento y busca la frase antes de pasarle el dato
   al dev.
 - **Confianza 1-10 propuesta**, con la razón, contra la escala que publica

@@ -102,10 +102,11 @@ Y revisá en `REVISION_CALENDARIO.md`, sin saltearte ninguno:
 Y mirá el calendario dibujado, en las tres zonas:
 
 ```bash
-npm run shots
+FASE=dev npm run shots -- -g 'captura calendario-(completo|zona-periurbano)$'
 ```
 
-→ `calendario-completo.png`, `calendario-zona-periurbano.png`.
+→ `e2e/shots/dev/calendario-completo.png` y `calendario-zona-periurbano.png`.
+La tanda entera la corre el tester.
 
 ## Al contarlo
 

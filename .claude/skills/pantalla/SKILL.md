@@ -48,8 +48,10 @@ reinventes: extendela.
 ## Invariantes que un test va a verificar
 
 `e2e/accesibilidad.spec.ts` recorre todas las pantallas. El contraste lo mide
-**en los dos temas** y con datos cargados; el foco, en los dos temas, en la
-primera parada de Tab de cada ruta. Diseñá para esto desde el principio:
+**en los dos temas** y con datos cargados; el foco, en los dos temas y sin
+datos, en la primera parada de Tab de cada ruta de partida. Lo que se abre
+tocando, como Planta o Compostera, queda sin medir el foco. Diseñá para esto
+desde el principio:
 
 1. **Contraste AA.** 4,5:1 el texto normal, 3:1 el grande. Los tokens están
    calibrados a ~4,6. El test compone las capas con alpha —incluido el alpha

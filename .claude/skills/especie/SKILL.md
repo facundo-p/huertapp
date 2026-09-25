@@ -252,10 +252,11 @@ porque tienen su propio ciclo—, revisá:
 Y mirá cómo se ve, que es distinto de que los tests pasen:
 
 ```bash
-npm run shots
+FASE=dev npm run shots -- -g 'captura calendario-completo$'
 ```
 
-→ `e2e/shots/fase-N/calendario-completo.png` y la ficha de la especie.
+→ `e2e/shots/dev/calendario-completo.png`. La ficha de la especie, si tiene
+captura, es `-g 'captura ficha-<id>$'`. La tanda entera la corre el tester.
 
 ## Verificación final
 
