@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { agruparPorPie, distinguir, etiquetaPie, type DondeCrece } from '../src/lib/tareas/agrupar'
+import { agruparPorPie, distinguir, dondeCreceDe, etiquetaPie, type DondeCrece } from '../src/lib/tareas/agrupar'
 import type { Tarea } from '../src/lib/tareas/engine'
+import type { Planta, Ubicacion } from '../src/lib/huerta/tipos'
 
 const FUENTE = 'según la ficha: 25-35 días desde la siembra · confianza 7/10'
 const HOY = '2026-08-15'
@@ -229,8 +230,8 @@ describe('dos tareas que se llaman igual', () => {
       }),
       HOY,
     )
-    expect(d.porTarea.get('t')).toBe(`${FONDO}, tomate`)
-    expect(d.porTarea.get('p')).toBe(`${FONDO}, pimiento / morrón`)
+    expect(d.porTarea.get('t')).toBe(`${FONDO}, Tomate`)
+    expect(d.porTarea.get('p')).toBe(`${FONDO}, Pimiento / Morrón`)
   })
 
   it('y si también son la misma especie, desempata cuándo asomó', () => {
@@ -247,10 +248,13 @@ describe('dos tareas que se llaman igual', () => {
     expect(d.porTarea.get('b')).toBe(`${FONDO}, asomó el 2 sept`)
   })
 
+  // la cosecha: es la única que sale mientras la germinación sigue sin marcar
+  const cosecha = (id: string) =>
+    tarea({ id, plantaId: id, tipo: 'cosechar', titulo: 'Lechuga ya estaría para cosechar' })
+
   it('a la que no le marcaste cuándo asomó, se le dice así', () => {
-    const trasplante = (id: string) => tarea({ id, plantaId: id, titulo: 'Lechuga: hora de trasplantar' })
     const d = distinguir(
-      agruparPorPie([trasplante('a'), trasplante('b')]),
+      agruparPorPie([cosecha('a'), cosecha('b')]),
       donde({
         a: { lugar: FONDO, sembrada: '2026-08-24', germino: '2026-08-30' },
         b: { lugar: FONDO, sembrada: '2026-08-24', esperaGerminar: true },
@@ -262,9 +266,8 @@ describe('dos tareas que se llaman igual', () => {
   })
 
   it('a la que la app no le pide marcarlo (plantada, o cargada ya crecida) no se le dice que falta', () => {
-    const trasplante = (id: string) => tarea({ id, plantaId: id, titulo: 'Lechuga: hora de trasplantar' })
     const d = distinguir(
-      agruparPorPie([trasplante('a'), trasplante('b')]),
+      agruparPorPie([cosecha('a'), cosecha('b')]),
       donde({
         a: { lugar: FONDO, sembrada: '2026-08-24', germino: '2026-08-30' },
         b: { lugar: FONDO, sembrada: '2026-08-24', esperaGerminar: false },
@@ -273,6 +276,26 @@ describe('dos tareas que se llaman igual', () => {
     )
     expect(d.porTarea.get('a')).toBe(`${FONDO}, asomó el 30 ago`)
     expect(d.porTarea.get('b')).toBe(FONDO)
+  })
+
+  it('«Maceta» y «maceta» son el mismo lugar: desempata la siembra', () => {
+    const d = distinguir(
+      agruparPorPie([zanahoria('a'), zanahoria('b')]),
+      donde({ a: { lugar: 'Maceta', sembrada: '2026-08-24' }, b: { lugar: 'maceta', sembrada: '2026-08-26' } }),
+      HOY,
+    )
+    expect(etiqueta(d, 'a')).toBe('Maceta, sembrada el 24 ago')
+    expect(etiqueta(d, 'b')).toBe('maceta, sembrada el 26 ago')
+  })
+
+  it('el apodo «zanahoria» y la «Zanahoria» del catálogo se llaman igual', () => {
+    const d = distinguir(
+      agruparPorPie([zanahoria('a'), zanahoria('b', 12, 'zanahoria: fijate si asomó')]),
+      donde({ a: { lugar: FONDO, sembrada: '2026-08-24' }, b: { lugar: MEDIANERA, sembrada: '2026-08-24' } }),
+      HOY,
+    )
+    expect(etiqueta(d, 'a')).toBe(FONDO)
+    expect(etiqueta(d, 'b')).toBe(MEDIANERA)
   })
 
   it('lo que sigue empatado queda igual: no se inventa una diferencia', () => {
@@ -426,5 +449,54 @@ describe('dos tareas sin planta que se llaman igual', () => {
     const d = distinguir(agruparPorPie([una, otra]), new Map(), HOY)
     expect(d.porTarea.get(una.id)).toBe('hoy')
     expect(d.porTarea.get(otra.id)).toBe('hoy')
+  })
+})
+
+describe('lo que sabe la app de cada planta', () => {
+  const planta = (p: Partial<Planta>): Planta => ({
+    id: 'p',
+    slug: 'lechuga',
+    sembrada: '2026-08-24',
+    metodo: 'directa',
+    etapa: 'creciendo',
+    etapaDesde: '2026-08-24',
+    creada: '2026-08-24',
+    ...p,
+  })
+  const fondo: Ubicacion = { id: 'u1', nombre: 'Bancal del fondo', tipo: 'bancal', creada: '2026-08-01' }
+  const nombres: Record<string, string> = { lechuga: 'Lechuga', ajo: 'Ajo' }
+  const de = (ps: Planta[]) => dondeCreceDe(ps, [fondo], (slug) => nombres[slug])
+
+  it('el lugar por su nombre, y la especie del catálogo', () => {
+    const d = de([planta({ ubicacionId: 'u1', comoEsta: 'intercalada', variedad: 'Morada' })]).get('p')
+    expect(d).toEqual({
+      lugar: 'Bancal del fondo',
+      comoEsta: 'intercalada',
+      sembrada: '2026-08-24',
+      especie: 'Lechuga',
+      variedad: 'Morada',
+      germino: undefined,
+      esperaGerminar: true,
+    })
+  })
+
+  it('sin lugar, o con uno que ya no está, no inventa uno', () => {
+    expect(de([planta({})]).get('p')?.lugar).toBeUndefined()
+    expect(de([planta({ ubicacionId: 'borrada' })]).get('p')?.lugar).toBeUndefined()
+  })
+
+  it('sólo espera que asome la sembrada que no asomó: no la plantada ni la cargada ya crecida', () => {
+    const d = de([
+      planta({ id: 'semilla' }),
+      planta({ id: 'asomo', germino: '2026-08-30' }),
+      planta({ id: 'diente', slug: 'ajo', metodo: 'plantacion' }),
+      planta({ id: 'crecida', etapa: 'cosechando' }),
+    ])
+    expect([...d].map(([id, x]) => [id, x.esperaGerminar])).toEqual([
+      ['semilla', true],
+      ['asomo', false],
+      ['diente', false],
+      ['crecida', false],
+    ])
   })
 })

@@ -454,7 +454,7 @@ a {
   animation-delay: var(--retraso, 0s);
 }
 
-/* El galón de lo que se pliega: girado, está abierto. */
+/* acá y no en cada pantalla: lo comparten Mi huerta, Calendario y La semana */
 .galon {
   flex: none;
   transition: transform 0.15s ease;

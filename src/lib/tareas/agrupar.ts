@@ -1,5 +1,7 @@
 import type { Tarea } from './engine'
 import { diaYMes, fechaDiaLarga } from '../fechas'
+import type { Planta, Ubicacion } from '../huerta/tipos'
+import { esperaGerminacion } from '../huerta/germinacion'
 
 export interface GrupoTareas {
   /** estable entre renders y única en la semana: día, tipo, especie y el pie textual */
@@ -13,8 +15,8 @@ export interface GrupoTareas {
 
 /**
  * Junta las tareas cuyo detalle y fuente dicen exactamente lo mismo, para
- * mostrar el pie una vez y no una por planta. Por texto y no por especie: si a
- * una le corrió la germinación, su fuente cambia y no habla por las otras.
+ * mostrar el pie una vez y no una por planta. Por texto y no sólo por especie:
+ * si a una le corrió la germinación, su fuente cambia y no habla por las otras.
  * Los de un grupo suben al lugar del primero; la prioridad no se altera.
  */
 export function agruparPorPie(tareas: Tarea[]): GrupoTareas[] {
@@ -82,7 +84,33 @@ export interface Distincion {
   porGrupo: Map<string, Encabezado[]>
 }
 
+/** Lo que sabe la app de cada planta, para `distinguir`. `especie` va por slug. */
+export function dondeCreceDe(
+  plantas: Planta[],
+  ubicaciones: Ubicacion[],
+  especie: (slug: string) => string | undefined,
+): Map<string, DondeCrece> {
+  const lugares = new Map(ubicaciones.map((u) => [u.id, u.nombre]))
+  return new Map(
+    plantas.map((p) => [
+      p.id,
+      {
+        lugar: p.ubicacionId ? lugares.get(p.ubicacionId) : undefined,
+        comoEsta: p.comoEsta,
+        sembrada: p.sembrada,
+        especie: especie(p.slug),
+        variedad: p.variedad,
+        germino: p.germino,
+        esperaGerminar: esperaGerminacion(p),
+      },
+    ]),
+  )
+}
+
 const SIN_LUGAR = 'sin lugar asignado'
+
+// lo que escribiste a mano se compara así y se muestra tal cual: el lector lee igual «Maceta» y «maceta»
+const sinMayus = (s: string | undefined) => s?.toLocaleLowerCase('es')
 
 /** Con el año sólo si otra de las fechas es de otro. */
 const fechaParaDistinguir = (iso: string, otras: (string | undefined)[]) =>
@@ -99,12 +127,12 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
   const semana = grupos.flatMap((g) => g.tareas)
   const dato = (t: Tarea) => plantas.get(t.plantaId!)
   const lugar = (t: Tarea) => dato(t)?.lugar ?? SIN_LUGAR
+  const mismoLugar = (a: Tarea, b: Tarea) => sinMayus(lugar(a)) === sinMayus(lugar(b))
   const desempates: {
     clave: (t: Tarea) => string | undefined
     texto: (t: Tarea, empatadas: Tarea[]) => string | undefined
   }[] = [
-    // como la variedad: texto libre, se compara sin mayúsculas y se muestra tal cual
-    { clave: (t) => dato(t)?.comoEsta?.toLocaleLowerCase('es'), texto: (t) => dato(t)?.comoEsta },
+    { clave: (t) => sinMayus(dato(t)?.comoEsta), texto: (t) => dato(t)?.comoEsta },
     {
       clave: (t) => dato(t)?.sembrada,
       texto: (t, es) => {
@@ -112,9 +140,9 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
         return s && `sembrada el ${fechaParaDistinguir(s, es.map((o) => dato(o)?.sembrada))}`
       },
     },
-    { clave: (t) => t.slug, texto: (t) => dato(t)?.especie?.toLocaleLowerCase('es') },
-    // se compara sin mayúsculas y se muestra tal cual: puede ser un nombre propio, «Genovesa»
-    { clave: (t) => dato(t)?.variedad?.toLocaleLowerCase('es'), texto: (t) => dato(t)?.variedad },
+    // tal cual el catálogo: en minúscula saldría «repollitos de bruselas»
+    { clave: (t) => t.slug, texto: (t) => dato(t)?.especie },
+    { clave: (t) => sinMayus(dato(t)?.variedad), texto: (t) => dato(t)?.variedad },
     {
       clave: (t) => dato(t)?.germino,
       texto: (t, es) => {
@@ -126,12 +154,14 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
     },
   ]
 
-  // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte
+  // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte.
+  // El apodo va en el título: «albahaca» y «Albahaca» se llaman igual
   const porTitulo = new Map<string, Tarea[]>()
   for (const t of semana) {
-    const ya = porTitulo.get(t.titulo)
+    const k = sinMayus(t.titulo)!
+    const ya = porTitulo.get(k)
     if (ya) ya.push(t)
-    else porTitulo.set(t.titulo, [t])
+    else porTitulo.set(k, [t])
   }
 
   const porTarea = new Map<string, string>()
@@ -144,7 +174,7 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
         continue
       }
       const partes = [lugar(t)]
-      let empatadas = mismas.filter((o) => o !== t && lugar(o) === lugar(t))
+      let empatadas = mismas.filter((o) => o !== t && mismoLugar(o, t))
       for (const { clave, texto } of desempates) {
         if (!empatadas.some((o) => clave(o) !== clave(t))) continue
         const x = texto(t, empatadas)

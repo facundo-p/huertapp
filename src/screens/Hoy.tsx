@@ -23,8 +23,8 @@ import {
 import type { DiaPronostico } from '../lib/pronostico/tipos'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
+import { dondeCreceDe } from '../lib/tareas/agrupar'
 import { hoyISO } from '../lib/huerta/tipos'
-import { esperaGerminacion } from '../lib/huerta/germinacion'
 import { sumarDias } from '../lib/huerta/estimar'
 import { nombreDecada, decadaDe, saludoEstacional, estacionDe, mesDe } from '../lib/fechas'
 import { IconoEscarcha, IconoGrupo, IconoProtegido } from '../icons'
@@ -96,23 +96,10 @@ export function Hoy() {
   const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
   const helada = avisos.find((a) => a.tipo === 'helada')
 
-  const dondeCrece = useMemo(() => {
-    const lugares = new Map(ubicaciones.map((u) => [u.id, u.nombre]))
-    return new Map(
-      plantas.map((p) => [
-        p.id,
-        {
-          lugar: p.ubicacionId ? lugares.get(p.ubicacionId) : undefined,
-          comoEsta: p.comoEsta,
-          sembrada: p.sembrada,
-          especie: indice?.porSlug.get(p.slug)?.nombre_comun,
-          variedad: p.variedad,
-          germino: p.germino,
-          esperaGerminar: esperaGerminacion(p),
-        },
-      ]),
-    )
-  }, [plantas, ubicaciones, indice])
+  const dondeCrece = useMemo(
+    () => dondeCreceDe(plantas, ubicaciones, (slug) => indice?.porSlug.get(slug)?.nombre_comun),
+    [plantas, ubicaciones, indice],
+  )
 
   const plantaDe = (t: Tarea) =>
     t.tipo === 'revisar_germinacion' ? plantas.find((p) => p.id === t.plantaId) : undefined
