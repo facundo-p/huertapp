@@ -283,7 +283,8 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   una elegida la saca.
 - Las celdas libres donde entra lo elegido llevan una marca «+». Tocás una: la
   primera en orden de lectura (arriba a la izquierda) va ahí y las demás la
-  siguen con la misma forma. Con más de una elegida, ésa lleva un «1».
+  siguen con la misma forma. Con más de una elegida, ésa lleva un «1» montado
+  sobre su esquina de arriba a la izquierda: adentro ya no queda lugar.
 - Si no entra, la barra dice por qué («se sale del lugar», «pisa la
   lechuga»).
 - La primera cae siempre en una libre, así que un bloque no se corre sobre sí
@@ -328,8 +329,9 @@ acomodar el dibujo.
   noche no lleva: el relleno solo da 4,91, y 4,12 el de la atrasada.
 - **Copo** en las plantas de `expuestasAHelada` mientras haya helada en la
   semana (tarea o aviso): adentro de la primera celda, arriba a la izquierda,
-  sin asomar, y la plantita se corre a la derecha. En la maceta no se corre,
-  porque saldría de la tierra: el copo queda sobre el borde.
+  sin asomar, y la plantita se corre a la derecha. Con copo y banderita queda
+  al medio, una marca en cada esquina. En la maceta nunca se corre, porque
+  saldría de la tierra: las marcas quedan sobre el borde.
 - El tipo de tarea y la etapa van en el nombre accesible: la plantita es
   `aria-hidden`.
 - La banderita, la atrasada y el copo van al Glosario, como todo ícono con
@@ -373,10 +375,11 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
   - **El renglón cae debajo de la línea de base**, en el pie de cada fila de
     28 px. Nada puede correr la trama: margen sí, `padding` arriba de la
     página no, y lo que corta la página (la nota al margen, las fotos del
-    diario) ocupa un múltiplo de 28. El título de página ocupa dos filas y
-    se apoya en la segunda: centrado en los 56 px, el primer renglón le
-    cruzaba las mayúsculas. Así el renglón no cruza el cuerpo de ninguna
-    letra; en la manuscrita, algún descendente lo roza.
+    diario, los botones de una tarea también cuando bajan a dos filas) ocupa
+    un múltiplo de 28. El título de página ocupa dos filas y se apoya en la
+    segunda: centrado en los 56 px, el primer renglón le cruzaba las
+    mayúsculas. Así el renglón no cruza el cuerpo de ninguna letra; en la
+    manuscrita, algún descendente lo roza.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
     contrastes) no van en texto de página rayada: `--tinta-tenue`, y de día
     `--verde-hoja` y `--sol-texto`, de noche `--terracota-texto`. «Atrasada»,

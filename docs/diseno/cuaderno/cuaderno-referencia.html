@@ -434,7 +434,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .confianza { display: inline-flex; gap: 3px; vertical-align: 2px; margin-inline: 8px 2px; }
 .confianza i { width: 6px; height: 6px; border-radius: 50%; background: var(--conf-vacio); }
 .confianza i.es-llena { background: var(--conf-alta); }
-.tarea__botones { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; padding-block: 6px; }
+/* una fila de botones ocupa dos renglones, y dos filas, cuatro: si bajan, la trama no se corre */
+.tarea__botones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; padding-block: 6px; }
 .brote-hecho { position: absolute; margin: -6px 0 0 30px; color: var(--verde-hoja); animation: brotar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: bottom center; }
 .sin-nada { padding: 0 16px 0 64px; font-size: 14px; line-height: 28px; color: var(--tinta-suave); }
 .sin-nada strong { font-weight: 800; color: var(--tinta); }
@@ -560,14 +561,15 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .celdas--libre .celda.en-bloque { border-color: var(--verde-hoja); border-style: dashed; border-width: 0; }
 .celda.es-elegida,
 .celdas--macetas .celda.es-elegida { background: color-mix(in srgb, var(--tinta) 12%, transparent); box-shadow: inset 0 0 0 2.5px var(--tinta); }
-.celda.con-bandera .plantita { transform: translateX(-9px); }
-/* en la maceta no: la planta se saldría de la tierra, y el copo cae sobre el borde */
+/* con las dos marcas queda al medio; en la maceta, nunca: se saldría de la tierra */
+.celdas:not(.celdas--macetas) .celda.con-bandera:not(.con-copo) .plantita { transform: translateX(-9px); }
 .celdas:not(.celdas--macetas) .celda.con-copo:not(.con-bandera) .plantita { transform: translateX(9px); }
+/* montado en la esquina de lo elegido: adentro ya están el copo, la banderita, la planta y el nombre */
 .ancla {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  z-index: 4;
+  top: -7px;
+  left: -7px;
+  z-index: 5;
   width: 18px;
   height: 18px;
   display: grid;
@@ -621,6 +623,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .surco-vacio-texto { position: absolute; inset: 0; display: grid; place-items: center; font-size: 14px; color: var(--tinta-suave); pointer-events: none; }
 .surco-vacio-texto span { padding: 0 8px; background: var(--hoja-cuadros); }
 .meta-celda { position: absolute; inset: 7px; border: 2px dashed var(--tinta-media); border-radius: 50%; display: grid; place-items: center; color: var(--tinta); pointer-events: none; }
+/* adentro de la maceta y con su mismo centro: la celda es más alta que ancha */
+.celdas--macetas .meta-celda { inset: auto; top: 7px; left: 50%; width: 42px; height: 42px; transform: translateX(-50%); }
 
 .banderita { position: absolute; top: 3px; right: 3px; z-index: 4; display: flex; align-items: flex-start; pointer-events: none; }
 .banderita::before { content: ''; width: 1.75px; height: 24px; background: var(--tinta-media); border-radius: 1px; }
@@ -865,7 +869,7 @@ html.captura .banderita.es-atrasada { animation: none; }
             <p class="leyenda" id="leyenda"></p>
             <section class="croquis" aria-labelledby="croquis-a-titulo">
               <div class="croquis__cab">
-                <h4 id="croquis-a-titulo"><button type="button" class="croquis__plegar mano" aria-expanded="true" aria-controls="plano-a"><span data-icono="desplegar-20"></span>Croquis</button></h4>
+                <h4 id="croquis-a-titulo"><button type="button" class="croquis__plegar mano" aria-expanded="true" aria-controls="plano-a leyenda"><span data-icono="desplegar-20"></span>Croquis</button></h4>
               </div>
               <div class="plano" id="plano-a"></div>
             </section>
@@ -912,7 +916,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       </div>
       <dl class="porque">
         <div><dt>Resuelve</dt><dd>Que el croquis se parezca a tu huerta, hasta con las plantas intercaladas.</dd></div>
-        <div><dt>Se saca</dt><dd>El arrastre y los bloques fijos. Se elige por celda, una o varias, y se tocan dónde van: no pelea con el scroll y anda con teclado y lector de pantalla.</dd></div>
+        <div><dt>Se saca</dt><dd>El arrastre y los bloques fijos. Se elige por celda, una o varias, y se toca donde van: no pelea con el scroll y anda con teclado y lector de pantalla.</dd></div>
         <div><dt>Se conserva</dt><dd>Todo es opcional. Si nunca acomodás nada, el croquis se arma solo.</dd></div>
       </dl>
     </figure>
@@ -1578,11 +1582,13 @@ html.captura .banderita.es-atrasada { animation: none; }
     '<span>' + banderita(1, true) + 'atrasado</span>' +
     '<span>' + '<span class="copo" aria-hidden="true">' + icono('escarcha', 16) + '</span>tapar si hiela</span>' +
     '<span>' + plantita('hoja', 'semilla', 24) + 'no asomó</span>';
-  document.querySelector('[aria-controls="plano-a"]').addEventListener('click', function (e) {
+  document.querySelector('[aria-controls="plano-a leyenda"]').addEventListener('click', function (e) {
     var b = e.currentTarget;
     var abierto = b.getAttribute('aria-expanded') === 'true';
     b.setAttribute('aria-expanded', String(!abierto));
     document.getElementById('plano-a').hidden = abierto;
+    // sin el croquis, la leyenda describe marcas que no se ven
+    document.getElementById('leyenda').hidden = abierto;
   });
   document.getElementById('plano-a').addEventListener('click', function (e) {
     var otra = e.target.closest('[data-planta-de]');
