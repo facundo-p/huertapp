@@ -312,17 +312,13 @@ export const DESC_SUELO: Record<CategoriaSuelo, string> = {
   RUSTICO_TOLERANTE: 'Tolera suelos pobres.',
 }
 
-/** La etiqueta de `LUCES` trae las horas pegadas; acá está el nombre solo. */
-export const NOMBRE_LUZ: Record<CategoriaLuz, string> = {
-  PLENO_SOL: 'Pleno sol',
-  SOL_PARCIAL: 'Sol parcial',
-  MEDIA_SOMBRA: 'Media sombra',
-  TOLERA_SOMBRA: 'Tolera sombra',
-}
-
-/** Sin horas: ya las dice el chip, y una cifra acá contradecía la citada (berro: 3-6). */
+/**
+ * Sin horas: las de cada especie las dice su fuente, y una cifra genérica la
+ * contradecía (berro: 3 a 6). Y sin pedir más que las citas: el pleno sol de
+ * las fuentes es «al menos 6 horas», no «todo el día».
+ */
 export const DESC_LUZ: Record<CategoriaLuz, string> = {
-  PLENO_SOL: 'Sol directo casi todo el día.',
+  PLENO_SOL: 'Sol directo buena parte del día.',
   SOL_PARCIAL: 'Sol directo una parte del día y sombra el resto.',
   MEDIA_SOMBRA: 'Pocas horas de sol directo; el resto, luz filtrada.',
   TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',

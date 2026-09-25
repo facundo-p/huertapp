@@ -20,7 +20,6 @@ import {
 } from '../lib/data/especies'
 import { METODOS } from '../lib/calendario'
 import {
-  NOMBRE_LUZ,
   definicionDeGrupo,
   definicionDeLuz,
   definicionDeSuelo,
@@ -30,7 +29,7 @@ import { decadaDe, mesDeDecada, nombreDecada } from '../lib/fechas'
 import { useZona, ZONAS_INFO } from '../lib/zona'
 import {
   GRUPOS,
-  LUCES,
+  NOMBRE_LUZ,
   SUELOS,
   IconoAlmacigo,
   IconoAlerta,
@@ -92,7 +91,6 @@ export function FichaEspecie() {
 
   const grupo = GRUPOS[e.grupo]
   const suelo = SUELOS[e.suelo.categoria_suelo]
-  const luz = LUCES[e.luz.categoria_luz]
   const mesHoy = mesDeDecada(decadaHoy)
 
   return (
@@ -133,10 +131,11 @@ export function FichaEspecie() {
               texto={suelo.etiqueta}
               contenido={definicionDeSuelo(e.suelo)}
             />
+            {/* sólo el nombre: las horas genéricas de la categoría no coincidían
+                con las citadas de cada especie (berro: 3 a 6) */}
             <Categoria
               Icono={() => <IconoLuz categoria={e.luz.categoria_luz} size={24} decorativo />}
-              texto={luz.etiqueta}
-              titulo={NOMBRE_LUZ[e.luz.categoria_luz]}
+              texto={NOMBRE_LUZ[e.luz.categoria_luz]}
               contenido={definicionDeLuz(e.luz)}
             />
           </div>
@@ -337,12 +336,10 @@ function AhoraMismo({
 function Categoria({
   Icono,
   texto,
-  titulo,
   contenido,
 }: {
   Icono: React.ComponentType
   texto: string
-  titulo?: string
   contenido: ContenidoDefinicion
 }) {
   return (
@@ -352,7 +349,6 @@ function Categoria({
       </span>
       <Definicion
         texto={texto}
-        titulo={titulo}
         contenido={contenido}
         className="ficha__categoria-texto"
       />

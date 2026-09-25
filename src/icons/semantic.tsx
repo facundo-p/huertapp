@@ -44,6 +44,11 @@ export const LUCES: Record<CategoriaLuz, Info> = {
   TOLERA_SOMBRA: { Icono: IconoLuzSombra, etiqueta: 'Tolera sombra: crece con luz indirecta', color: 'var(--luz-sombra)' },
 }
 
+/** Sin las horas genéricas: en la ficha, las que valen son las que cita cada especie. */
+export const NOMBRE_LUZ = Object.fromEntries(
+  Object.entries(LUCES).map(([c, { etiqueta }]) => [c, etiqueta.split(':')[0]]),
+) as Record<CategoriaLuz, string>
+
 interface SemanticProps extends IconProps {
   /** Si es true, el ícono es decorativo (el texto está al lado). */
   decorativo?: boolean
