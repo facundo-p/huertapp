@@ -38,7 +38,7 @@ Qué significa cada parte en este proyecto:
   variedad es, o cuándo asomó. Vale para toda la semana: dos iguales en días
   distintos también lo dicen. Su porqué lleva lo mismo, así sabés de cuál te
   habla. Y con lector de pantalla, cada «Hecho» y cada «Asomó» dice de qué
-  tarea es.
+  tarea es; si hay dos «Puede helar» en la semana, cada uno dice su día.
 
 ### Cambiado
 

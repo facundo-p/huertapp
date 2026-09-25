@@ -122,11 +122,31 @@ test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ 
   await expect(page.locator('.carril__pie-dia').getByText(/Cubrí de noche/)).toHaveCount(0)
   // con lector, «Hecho» dice de qué tarea es: seguidos, eran todos iguales.
   // El espacio antes de «:» lo pone Chrome al cruzar al span sr-solo.
-  await expect(helada.getByRole('button', { name: /^Hecho ?: Puede helar$/ })).toBeVisible()
+  await expect(helada.getByRole('button', { name: /^Hecho ?: Puede helar, hoy$/ })).toBeVisible()
   // plegado no es borrado: abierto, el pie dice de dónde sale
   const hoy = page.locator('.carril__fila.es-hoy')
   await hoy.getByRole('button', { name: /de dónde sal/ }).click()
   await expect(hoy.locator('.carril__pie-dia')).toContainText('FAUBA')
+})
+
+/** La helada no tiene planta ni lugar: lo único que separa una de otra es el día. */
+test('dos «Puede helar» en la semana: cada uno dice su día', async ({ page }) => {
+  // hoy cierra mediados de agosto y el viernes 21 arranca fines: una helada por década
+  await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
+  await abrirHoy(page)
+
+  const hechos = page.getByRole('button', { name: /^Hecho ?: Puede helar/ })
+  await expect(hechos).toHaveCount(2)
+  const nombres = await Promise.all((await hechos.all()).map((b) => b.ariaSnapshot()))
+  expect(new Set(nombres).size, `con lector, los dos se oían igual: ${nombres.join(' / ')}`).toBe(2)
+  // a la vista no se repite: el día ya está a la izquierda de la fila
+  await expect(page.locator('.carril__item', { hasText: 'Puede helar' }).locator('.carril__lugar')).toHaveCount(0)
+
+  // y la hoja de «Más opciones» dice de cuál es
+  await page.getByRole('button', { name: 'Más opciones: Puede helar, viernes, 21 de agosto' }).click()
+  await expect(page.locator('dialog.hoja[open]').getByRole('heading')).toHaveText(
+    'Puede helar, viernes, 21 de agosto',
+  )
 })
 
 /**
@@ -178,8 +198,11 @@ test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál e
   await expect(hoy.locator('.carril__pie-dia')).toContainText('según la ficha: germina en 10-20 días')
 })
 
-/** A 320 px, con los botones al lado, al texto le quedaban 60 px y se metía abajo de «Asomó». */
-test('en 320 px, ningún título se pisa con sus botones', async ({ page }) => {
+/**
+ * A 320 px, con los botones al lado, al texto le quedan 60 px: se metía abajo
+ * de «Asomó» o, con overflow-wrap, cortaba «Albahac/a:» y «ATRASAD/A».
+ */
+test('en 320 px, ningún título se pisa con sus botones ni se corta al medio', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 })
   await abrirHoy(page)
   // evaluateAll no espera: sin esto, a veces medía la lista vacía y pasaba sin mirar
@@ -197,4 +220,22 @@ test('en 320 px, ningún título se pisa con sus botones', async ({ page }) => {
     }),
   )
   expect(pisados).toEqual([])
+
+  // una palabra partida en dos renglones da dos rectángulos
+  const cortadas = await page.locator('.carril__titulo, .carril__lugar').evaluateAll((cajas) =>
+    cajas.flatMap((caja) => {
+      const partidas: string[] = []
+      const textos = document.createTreeWalker(caja, NodeFilter.SHOW_TEXT)
+      for (let n = textos.nextNode(); n; n = textos.nextNode()) {
+        for (const p of n.textContent!.matchAll(/\S+/g)) {
+          const rango = document.createRange()
+          rango.setStart(n, p.index)
+          rango.setEnd(n, p.index + p[0].length)
+          if (rango.getClientRects().length > 1) partidas.push(p[0])
+        }
+      }
+      return partidas
+    }),
+  )
+  expect(cortadas).toEqual([])
 })

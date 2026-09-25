@@ -67,7 +67,7 @@ interface Props {
   conAsomo: (t: Tarea) => boolean
   onCompletar: (t: Tarea) => void
   onAsomo: (t: Tarea) => void
-  /** con el nombre que la dice: el título y, si otra se llama igual, el lugar */
+  /** con el nombre que la dice: el título y, si otra se llama igual, el lugar o el día */
   onMenu: (t: Tarea, nombre: string) => void
   onAbrirDia: (d: DiaPronostico) => void
 }
@@ -99,26 +99,24 @@ export function CarrilSemana({
   // semana ahora, no una preferencia que valga la pena recordar mañana.
   const [abiertos, setAbiertos] = useState<string[]>([])
 
-  const semana = useMemo(() => {
-    const fechas = Array.from({ length: 7 }, (_, i) => sumarDias(hoy, i))
-    const deLaSemana = tareas.filter((t) => fechas.includes(t.fecha))
-    return fechas.map((fecha) => {
-      const ts = deLaSemana.filter((t) => t.fecha === fecha)
-      const grupos = agruparPorPie(ts)
+  const { semana, distintos } = useMemo(() => {
+    const dias = Array.from({ length: 7 }, (_, i) => sumarDias(hoy, i)).map((fecha) => {
+      const ts = tareas.filter((t) => t.fecha === fecha)
       return {
         fecha,
         dia: pronostico.find((d) => d.fecha === fecha) ?? null,
         avisos: avisos.filter((a) => a.fecha === fecha),
         tareas: ts,
-        grupos,
-        distintos: distinguir(grupos, dondeCrece, deLaSemana),
+        grupos: agruparPorPie(ts),
       }
     })
+    // una vez para toda la semana: dos iguales en días distintos también chocan
+    return { semana: dias, distintos: distinguir(dias.flatMap((d) => d.grupos), dondeCrece, hoy) }
   }, [hoy, pronostico, avisos, tareas, dondeCrece])
 
   return (
     <ol className="carril" aria-label="La semana, día por día">
-      {semana.map(({ fecha, dia, avisos: avs, tareas: ts, grupos, distintos }) => {
+      {semana.map(({ fecha, dia, avisos: avs, tareas: ts, grupos }) => {
         const esHoy = fecha === hoy
         const conCosas = avs.length + ts.length > 0
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
@@ -291,7 +289,7 @@ function Item({
   onMenu,
 }: {
   tarea: Tarea
-  /** sólo si otra tarea de la semana se llama igual */
+  /** sólo si otra tarea de la semana se llama igual: el lugar o, sin planta, el día */
   lugar?: string
   festejando: boolean
   asomo: boolean
@@ -303,6 +301,8 @@ function Item({
   const atrasada = t.atrasada && <span className="carril__atrasada">atrasada</span>
   // dos «Hecho» seguidos no dicen de qué tarea es cada uno
   const deCual = `${t.titulo}${lugar ? `, ${lugar}` : ''}`
+  // sin planta lo que la separa es el día, y a la vista ya está a la izquierda
+  const aLaVista = t.plantaId ? lugar : undefined
   const cuerpo = (
     <>
       <span className="carril__icono" aria-hidden>
@@ -311,13 +311,13 @@ function Item({
       <span className="carril__textos">
         <span className="carril__titulo">
           {t.titulo}
-          {!lugar && atrasada}
+          {!aLaVista && atrasada}
         </span>
         {/* el chip, junto al lugar: bajo el título ocupaba un renglón para él solo */}
-        {lugar && (
+        {aLaVista && (
           <span className="carril__lugar">
             {atrasada && <>{atrasada} </>}
-            {lugar}
+            {aLaVista}
           </span>
         )}
         {/* en cada fila y no en el pie: si no, de dos iguales, la primera se

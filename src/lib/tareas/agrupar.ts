@@ -1,7 +1,8 @@
 import type { Tarea } from './engine'
+import { diaYMes, fechaDiaLarga } from '../fechas'
 
 export interface GrupoTareas {
-  /** estable entre renders: tipo, especie y el pie textual */
+  /** estable entre renders y única en la semana: día, tipo, especie y el pie textual */
   clave: string
   tareas: Tarea[]
   detalle: string
@@ -19,8 +20,9 @@ export interface GrupoTareas {
 export function agruparPorPie(tareas: Tarea[]): GrupoTareas[] {
   const grupos = new Map<string, GrupoTareas>()
   for (const t of tareas) {
-    // sin slug (helada, compost) nunca agrupa: el id la deja sola
-    const clave = [t.tipo, t.slug ?? t.id, t.detalle, t.fuente].join('|')
+    // sin slug (helada, compost) nunca agrupa: el id la deja sola. Con el día,
+    // dos pies iguales de días distintos no se pisan en `porGrupo`.
+    const clave = [t.fecha, t.tipo, t.slug ?? t.id, t.detalle, t.fuente].join('|')
     const ya = grupos.get(clave)
     if (ya) ya.tareas.push(t)
     else
@@ -67,7 +69,10 @@ export interface Encabezado {
 }
 
 export interface Distincion {
-  /** id de tarea → «Bancal del fondo» o «Bancal del fondo, sembrada el 3/9» */
+  /**
+   * id de tarea → «Bancal del fondo» o «Bancal del fondo, sembrada el 3 sept».
+   * Sin planta, el día: «hoy», «viernes, 21 de agosto».
+   */
   porTarea: Map<string, string>
   /**
    * clave de grupo → un renglón por título, con sus lugares. Por título y no
@@ -76,14 +81,11 @@ export interface Distincion {
   porGrupo: Map<string, Encabezado[]>
 }
 
-export const SIN_LUGAR = 'sin lugar asignado'
+const SIN_LUGAR = 'sin lugar asignado'
 
-/** «3/9»; con el año sólo si otra de las fechas es de otro: «3/9/25». */
-const fechaCorta = (iso: string, otras: (string | undefined)[]) => {
-  const [a, m, d] = iso.split('-').map(Number)
-  const conAnio = otras.some((o) => o && o.slice(0, 4) !== iso.slice(0, 4))
-  return conAnio ? `${d}/${m}/${String(a).slice(2)}` : `${d}/${m}`
-}
+/** Con el año sólo si otra de las fechas es de otro. */
+const fechaCorta = (iso: string, otras: (string | undefined)[]) =>
+  diaYMes(iso, otras.some((o) => o && o.slice(0, 4) !== iso.slice(0, 4)))
 
 /**
  * Dos tareas de la semana con el mismo título (dos zanahorias sin apodo) no se
@@ -93,14 +95,13 @@ const fechaCorta = (iso: string, otras: (string | undefined)[]) => {
  * especie (mismo apodo en dos especies), la variedad, cuándo asomó o que no se
  * marcó. Lo que queda empatado después de eso es indistinguible de verdad.
  *
- * `grupos` son los del día que se dibuja; `semana`, todas las tareas entre las
- * que un título tiene que decir cuál es.
+ * Helada y compost no tienen planta: a esas sí las separa el día.
+ *
+ * `grupos` son los de toda la semana: un título tiene que decir cuál es entre
+ * todas.
  */
-export function distinguir(
-  grupos: GrupoTareas[],
-  plantas: Map<string, DondeCrece>,
-  semana: Tarea[] = grupos.flatMap((g) => g.tareas),
-): Distincion {
+export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrece>, hoy: string): Distincion {
+  const semana = grupos.flatMap((g) => g.tareas)
   const dato = (t: Tarea) => plantas.get(t.plantaId!)
   const lugar = (t: Tarea) => dato(t)?.lugar ?? SIN_LUGAR
   const desempates: {
@@ -128,17 +129,19 @@ export function distinguir(
     },
   ]
 
-  // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte.
-  // Helada y compost no tienen planta, y a la compostera la nombrás vos.
+  // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte
   const porTitulo = new Map<string, Tarea[]>()
-  for (const t of semana) {
-    if (t.plantaId) porTitulo.set(t.titulo, [...(porTitulo.get(t.titulo) ?? []), t])
-  }
+  for (const t of semana) porTitulo.set(t.titulo, [...(porTitulo.get(t.titulo) ?? []), t])
 
   const porTarea = new Map<string, string>()
   for (const mismas of porTitulo.values()) {
     if (mismas.length < 2) continue
     for (const t of mismas) {
+      if (!t.plantaId) {
+        // como el sr-solo del botón del pie
+        porTarea.set(t.id, t.fecha === hoy ? 'hoy' : fechaDiaLarga(t.fecha))
+        continue
+      }
       const partes = [lugar(t)]
       let empatadas = mismas.filter((o) => o !== t && lugar(o) === lugar(t))
       for (const { clave, texto } of desempates) {
@@ -156,9 +159,9 @@ export function distinguir(
     porGrupo.set(
       g.clave,
       titulosDe(g).map((titulo) => {
-        const lugares = [
-          ...new Set(g.tareas.filter((t) => t.titulo === titulo && porTarea.has(t.id)).map((t) => porTarea.get(t.id)!)),
-        ]
+        // el pie ya está en la fila de su día: decirlo ahí no separa nada
+        const deCuales = g.tareas.filter((t) => t.titulo === titulo && t.plantaId && porTarea.has(t.id))
+        const lugares = [...new Set(deCuales.map((t) => porTarea.get(t.id)!))]
         return lugares.length ? { titulo, lugares: lugares.join(' · ') } : { titulo }
       }),
     )

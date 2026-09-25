@@ -217,7 +217,7 @@ button.carril__dia:active {
   font-size: var(--texto-xs);
   font-weight: 600;
   line-height: 1.45;
-  color: var(--tinta-suave);
+  color: var(--tinta-media);
 }
 
 .carril__detalle {
@@ -242,6 +242,7 @@ button.carril__dia:active {
   gap: 5px;
   width: 100%;
   min-height: var(--tap-min);
+  /* descuenta parte del gap de 11 px de .carril__items: si cambia, revisalo */
   margin-top: -6px;
   font-size: var(--texto-xs);
   font-weight: 600;
@@ -257,6 +258,7 @@ button.carril__dia:active {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  /* ídem: descuenta parte del gap de 11 px de .carril__items */
   margin-top: -4px;
   padding-bottom: 4px;
 }
@@ -301,7 +303,7 @@ button.carril__dia:active {
 
 /* ---- acciones ---- */
 /* Al lado: con el item en una línea, apiladas dejaban 88 px de alto. Hasta
-   340 px: más angosto, al texto le quedan 60 px y se pisa con «Asomó». */
+   340 px: más angosto, al texto le quedan 60 px y corta palabras al medio. */
 .carril__acciones {
   display: flex;
   align-items: center;
