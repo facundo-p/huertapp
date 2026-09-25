@@ -40,6 +40,15 @@ criterio. Después sumá lo específico de este proyecto.
 Y leé `.claude/LECCIONES.md`: tiene las trampas que ya costaron una tarde, con
 síntoma y causa. Varias vuelven.
 
+Dos más, de la bitácora del equipo:
+
+- **Una frase atribuida a una fuente se coteja contra la cita textual**, y la
+  confianza contra la escala que publica la app (`Glosario.tsx`). Quien
+  redacta a partir de una cita la endurece.
+- **Lo que no podés confirmar va como hipótesis, con el chequeo que la
+  resolvería**, no como hallazgo. El tester la prueba rompiendo el código. Un
+  hallazgo de layout lo decide el orquestador: no lo mandes como "arreglalo".
+
 ## Qué devolvés
 
 Los hallazgos, ordenados del más grave al menos. Por cada uno: **archivo y

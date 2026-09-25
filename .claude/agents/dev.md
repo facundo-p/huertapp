@@ -71,7 +71,8 @@ npm test          # incluye el chequeo de que el JSON generado esté al día
 
 La batería completa de e2e y capturas la corre el tester, no vos. Pero si
 escribiste un spec para convencerte, commitealo y nombralo en el parte: el
-tester decide si queda. Y si agregaste una captura, mirala.
+tester decide si queda. Y si agregaste una captura, mirala: `npm run shots --
+-g '<nombre>'` y abrí el PNG en `e2e/shots/<fase>/`.
 
 ## Qué devolvés
 

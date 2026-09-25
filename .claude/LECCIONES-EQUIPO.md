@@ -335,8 +335,9 @@ documentadas —`settingSources` sin `project`, frontmatter roto, directorio
 creado a mitad de sesión— y ninguna aplica.
 
 **Qué hacemos.** Seguir emulando: `general-purpose` con `model:` explícito y
-"leé `.claude/agents/<rol>.md` y adoptalo". Funcionó en las siete corridas y
-las dos reanudaciones de esta tanda. En la próxima sesión, `/agents` primero,
+"leé `.claude/agents/<rol>.md` y adoptalo", y `isolation: worktree` en la
+llamada para dev y tester: emulado, el frontmatter no se aplica. Funcionó en
+las siete corridas y las dos reanudaciones de esta tanda. En la próxima sesión, `/agents` primero,
 para saber en qué harness estamos.
 
 **Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
@@ -353,8 +354,8 @@ con `git reset --hard origin/<rama>` sobre su worktree y lo dijo en el parte.
 seguir: el review le vuelve por mensaje y la segunda vuelta la hace ahí.
 
 **Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre
-(`reset --hard` o `checkout --detach`). El worktree del dev se borra cuando el
-review cerró y la rama está pusheada, no antes.
+(`reset --hard` o `checkout --detach`). El worktree del dev se borra cuando
+cerró el QA —el tester reportó y sus tests están en la rama—, no antes.
 
 **Al plugin.** Va al prompt del tester. Y el orquestador borra worktrees sólo
 después de comprobar que `HEAD` coincide con `origin/<rama>` y que no hay
@@ -395,7 +396,7 @@ en las que traen un número, se verifica la vara antes que la cifra.
 ### Quien redacta a partir de una cita la endurece
 
 **Síntoma.** La cita dice *"hace muy difícil poder hablar de un sustrato
-ideal"*. El dev escribió *"el INTA lo dice sin vueltas: no hay un sustrato
+ideal"*. El dev escribió *"el INTA lo dice sin vueltas, no hay un sustrato
 ideal"*. Y cargó confianza 9 porque el investigador la propuso, cuando la escala
 que la propia app publica dice que 8-10 son varias fuentes que concuerdan y
 acá había una.
@@ -416,7 +417,8 @@ no contra su criterio.
 ### El positivo también se verificó, y costó un minuto
 
 **Síntoma.** El investigador trajo la cita con página y comandos. Antes de
-pasársela al dev, el orquestador bajó el PDF y corrió `grep -n "sustrato
+pasársela al dev, el orquestador bajó el PDF (esta sesión tenía el egreso
+abierto) y corrió `grep -n "sustrato
 ideal"`: línea 523, como decía. Un minuto.
 
 **Qué hacemos.** Un dato que va a entrar al catálogo se coteja aunque venga con
@@ -516,7 +518,7 @@ volvía al botón y que el pie navegaba al ancla, y los borró antes de commitea
 "para no ensuciar". El tester escribió los mismos dos, más uno, media hora después.
 
 **Causa.** El rol del dev dice que los e2e los corre otro, y el dev lo leyó
-como "no dejes e2e". Lo que sobra es el trabajo repetido, no el spec.
+como "no dejes specs nuevos". Lo que sobra es el trabajo repetido, no el spec.
 
 **Qué hacemos.** Un spec que el dev escribió para convencerse se queda en
 `e2e/` y se entrega en el parte con lo que verifica. El tester lo revisa, lo hace
@@ -537,7 +539,9 @@ dev.
 
 **Al plugin.** Regla del orquestador con su límite escrito: una línea,
 ubicada, sin comportamiento. Si hay que entender algo para arreglarlo, no
-califica.
+califica. Este mismo arreglo no calificaba: el comentario nuevo decía que los
+16 px volvían al padding, y 3 de ellos quedaban encima del «cuándo». Era el bug
+de los 3 px, que después hubo que arreglar.
 
 ### Tres errores más en una issue del orquestador
 
@@ -546,12 +550,16 @@ una etiqueta de texto y un link en la bajada), nombraba `SUELOS` como si viviera
 en `glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
 mientras "Lo que no va acá" dejaba justamente esos términos para la issue
 siguiente. Ninguno frenó al dev, porque se le avisaron antes. Van a la cuenta de
-la regla 13: de las cinco issues verificadas hasta acá, cuatro tenían algo mal.
+la regla 13: de las cinco issues verificadas hasta acá (#118, #128, #129, #133
+y #130), cuatro tenían algo mal.
+
+**Al plugin.** Nada nuevo: es la regla 13, que sigue haciendo falta.
 
 ### Lo que se le escapó al tester
 
 **Síntoma.** Después de su pasada aparecieron dos cosas en el mismo PR, y las
-encontró el orquestador, no la batería. El «cuándo» de cada labor se quedaba con
+encontró el orquestador, no la batería. Se le pasaron también al reviewer y al
+orquestador, que había tocado ese margen. El «cuándo» de cada labor se quedaba con
 los últimos 3 px del botón de la labor: un toque en ese borde no abría nada. Y
 un e2e afirmaba que el documento no tenía el atributo `inert`, que
 `showModal()` no pone nunca: pasaba pasara lo que pasara.
@@ -572,7 +580,7 @@ calificaba para la regla 25 y tendría que haber vuelto al dev.
 
 | Rol / tipo | Tarea | Tokens | Llamadas | Duración |
 |---|---|---|---|---|
-| dev (emulado, opus) | #130, componente nuevo, 8 archivos, 2 specs borrados | 174.350 | 105 | 16m 28s |
+| dev (emulado, opus) | #130, componente nuevo, 12 archivos (8 de código), 2 specs borrados | 174.350 | 105 | 16m 28s |
 | reviewer (emulado, opus) | #130, 12 archivos + merge de prueba con #140 | 115.860 | 30 | 7m 58s |
 | tester como QA (emulado, sonnet) | issue punto por punto + batería + 3 e2e con mutaciones | 165.458 | 77 | 21m 35s |
 
@@ -619,7 +627,7 @@ La lista corta, para no releer todo:
 16. **Los agentes del proyecto no cargan en todos los harness; los de plugin
     sí.** Es la razón de que el plugin exista.
 17. **El tester no toma la rama del dev**: trabaja sobre `origin/<rama>` sin
-    checkout del nombre. El worktree del dev vive hasta que cierre el review.
+    checkout del nombre. El worktree del dev vive hasta que cierre el QA.
 18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
     que el orquestador ya decidió.
 19. **En una issue con números, verificar la vara antes que la cifra.**
@@ -629,10 +637,10 @@ La lista corta, para no releer todo:
     medición del tester antes y después, nunca "arreglalo" al dev.
 22. **Un dato que entra al catálogo se coteja aunque venga con prueba.** Es un
     minuto.
-23. **Una hipótesis del reviewer se prueba rompiendo el código**, y el test
-    que la resuelve se queda.
+23. **El reviewer entrega hipótesis con su chequeo, y se prueban rompiendo el
+    código.** El test que la resuelve se queda.
 24. **Los specs que el dev escribe para convencerse se commitean**, no se
-    borran; el tester decide si quedan.
+    borran, y el tester decide si quedan. **La captura que agrega, la mira.**
 25. **Una línea, ubicada y sin comportamiento, la arregla el orquestador.**
     Todo lo demás vuelve al dev.
 26. **Cada aserción se ve en rojo por separado, y un target se mide por

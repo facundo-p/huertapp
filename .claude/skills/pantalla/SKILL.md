@@ -47,7 +47,7 @@ reinventes: extendela.
 
 ## Invariantes que un test va a verificar
 
-`e2e/accesibilidad.spec.ts` corre sobre 10 pantallas con datos cargados, **en
+`e2e/accesibilidad.spec.ts` corre sobre todas las pantallas con datos cargados, **en
 los dos temas**. Diseñá para esto desde el principio:
 
 1. **Contraste AA.** 4,5:1 el texto normal, 3:1 el grande. Los tokens están

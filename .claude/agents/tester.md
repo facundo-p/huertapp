@@ -30,12 +30,16 @@ FASE=cantero-dia npm run shots
 FASE=cantero-noche TEMA=noche npm run shots
 ```
 
-Si no hay `node_modules`, `npm ci` primero.
+Antes de nada, confirmá con `git worktree list` que estás en un worktree
+propio: si no, pará y avisá. Trabajás sobre `origin/<rama>` sin tomar el nombre,
+en una rama tuya (`git fetch origin <rama> && git switch -c qa/<rama>
+origin/<rama>`): el worktree del dev tiene la rama hasta que cierre el QA. Tus
+tests los commiteás en `qa/<rama>` y **no pusheás**: el orquestador los lleva a
+la rama del dev.
 
-Trabajás sobre `origin/<rama>` sin tomar el nombre (`git checkout --detach
-origin/<rama>`): el worktree del dev tiene la rama hasta que cierre el review.
-Tus tests los commiteás ahí, desprendido, y **no pusheás**: el hash va en el
-parte y el orquestador los lleva a la rama.
+Después, si no hay `node_modules`, `npm ci`: sobre el `package-lock` de la rama.
+
+La issue te llega en el pedido. Si no está, pedila antes de empezar.
 
 ## Probá rompiendo
 
@@ -43,13 +47,15 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 
 - **Un test que nace verde no probó nada.** Cada aserción nueva se ve en rojo
   rompiendo el código que la hace pasar (borrá la línea, cambiá el ancla), **de
-  a una**: que el test entero haya caído no dice nada de cada aserción. Si una
+  a una**: que el test entero haya caído no dice nada de cada aserción. Para
+  ver el rojo, `npm run e2e -- -g '<test>'`, que buildea: un `npx playwright
+  test` suelto corre contra el `dist/` viejo y la mutación no llega. Si una
   no se puede poner en rojo, sobra. En #130 quedó un `hasAttribute('inert')`
   que esperaba `false` sobre un atributo que `showModal()` no pone nunca: no
   podía fallar.
 - **Cada mutación se deshace apenas viste el rojo** (`git checkout --
-  <archivo>`). Antes de correr la batería, de commitear y de reportar, `git diff
-  -- src/` tiene que estar vacío.
+  <archivo>`). Antes de correr la batería, de commitear y de reportar, `git
+  status --short` muestra sólo `e2e/`, `tests/` y `package.json`.
 - **Un target se mide por dónde entra el toque**, no por su caja: una grilla de
   `elementFromPoint` sobre el área, bordes incluidos. En #130 la caja daba
   44 px y el «cuándo» de abajo se quedaba con los últimos 3 px del botón de la

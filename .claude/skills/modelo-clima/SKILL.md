@@ -12,7 +12,7 @@ de 10 días. Todo lo que hace es **defendible o no lo hace**.
 |---|---|
 | `scripts/clima-gba.mjs` | El modelo. Normales SMN 1991-2020 + estadística de heladas FAUBA + fotoperíodo. Cada constante citada en el propio archivo. |
 | `scripts/afinar-calendario.mjs` | Las reglas de recorte, mes → décadas. |
-| `tests/clima.test.ts` | 26 tests: monotonía, rangos plausibles, coincidencia con las normales en los anclajes. |
+| `tests/clima.test.ts` | Monotonía, rangos plausibles, coincidencia con las normales en los anclajes. |
 
 ## La regla de oro
 
@@ -82,7 +82,7 @@ procedimiento:
 
 ```bash
 npm run data:build      # tira si se violó la regla de oro
-npm test                # 26 tests de clima + 441 de estructura
+npm test                # los de clima + los de estructura
 npm run data:tabla      # → data/REVISION_CALENDARIO.md
 ```
 
