@@ -1162,13 +1162,13 @@ html.captura .banderita.es-atrasada { animation: none; }
       { id: 'rucula', ver: 'la rúcula', titulo: 'Rúcula ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 31 días',
         detalle: 'Hojas tiernas de tamaño de consumo (aprox. 8-15 cm), cortadas antes de que la planta emita la vara floral (que amarga las hojas).',
         fuente: 'según la ficha: 20-60 días desde la siembra', conf: 7 },
-      { id: 'tacho', ver: 'el Tacho del balcón', titulo: 'Tacho del balcón: revolvé el compost', atrasada: true, linea: 'el último giro fue hace 9 días',
+      { id: 'tacho', ver: 'el Tacho del balcón', compost: true, titulo: 'Tacho del balcón: revolvé el compost', atrasada: true, linea: 'el último giro fue hace 9 días',
         detalle: 'Hace 9 días. Girar mete aire: las bacterias que compostan lo necesitan, y sin aire ganan las que pudren, que huelen.',
         fuente: 'tu ritmo: cada semana · la guía: cada 2 o 3 días según la Ciudad; 1 o 2 veces por semana según la Provincia', conf: 8 },
       { id: 'zanahoria', ver: 'la zanahoria', titulo: 'Zanahoria: fijate si asomó', atrasada: true, linea: '12 días pasada del plazo', asomo: true,
         detalle: 'Hace 12 días que se pasó del plazo. Si no hay nada, puede que esas semillas no prosperen.',
         fuente: 'según la ficha: germina en 10-20 días', conf: 7 },
-      { id: 'corralito', ver: 'el Corralito del fondo', titulo: 'Corralito del fondo: fijate si el compost ya está', linea: 'dejó de recibir restos hace 95 días',
+      { id: 'corralito', ver: 'el Corralito del fondo', compost: true, titulo: 'Corralito del fondo: fijate si el compost ya está', linea: 'dejó de recibir restos hace 95 días',
         detalle: 'Las señales: no reconocés lo que entró; está a temperatura ambiente y no vuelve a calentar aunque lo mezcles; color oscuro y aspecto parejo, con textura granulada.',
         fuente: 'según la guía: a los 3 meses de que dejó de recibir restos vale revisarlo: Santa Fe cuenta 3 en clima cálido y 6 en frío; FAO, 3 a 6', conf: 8 }
     ],
@@ -1326,8 +1326,9 @@ html.captura .banderita.es-atrasada { animation: none; }
       var linea = (t.atrasada ? '<span class="tarea__atrasada">atrasada</span> · ' : '') + t.linea;
       // como Hoy.tsx: en la de germinación, posponer se dice «Todavía no asomó»
       var botones = t.aviso ? '' : '<button type="button" class="lapiz">' + (t.asomo ? 'Todavía no asomó' : 'Más tarde') + '</button>';
-      // hoy el cuerpo de la tarea lleva a la planta; acá abre el detalle, y el camino sigue desde ahí
-      if (t.ver) botones += '<a class="ver-todas" href="#marco-croquis">Ver ' + t.ver + '</a>';
+      // hoy el cuerpo de la tarea lleva a la planta; acá abre el detalle, y el camino sigue desde ahí.
+      // El render dibuja una sola página de planta y ninguna de compostera: ésa, como la pestaña Compost, se queda
+      if (t.ver) botones += '<a class="ver-todas" href="' + (t.compost ? '#marco-hoy' : '#una-planta') + '">Ver ' + t.ver + '</a>';
       var porque = '<div class="tarea__porque" id="porque-' + t.id + '"' + (abierta ? '' : ' hidden') + '>' +
         '<p class="tarea__detalle">' + t.detalle + '</p>' +
         '<p class="tarea__fuente">' + t.fuente + (t.conf ? ' · confianza ' + t.conf + '/10<span class="confianza" aria-hidden="true">' + confianza(t.conf) + '</span>' : '') + '</p>' +
@@ -1362,8 +1363,9 @@ html.captura .banderita.es-atrasada { animation: none; }
     // la nota corta la trama: su alto se lleva a un múltiplo del renglón
     var nota = document.querySelector('#marco-hoy .nota-margen');
     nota.style.marginBottom = '';
-    var ocupa = nota.offsetHeight + 30;
-    nota.style.marginBottom = (10 + (28 - ocupa % 28) % 28) + 'px';
+    var m = getComputedStyle(nota), abajo = parseFloat(m.marginBottom);
+    var ocupa = nota.offsetHeight + parseFloat(m.marginTop) + abajo;
+    nota.style.marginBottom = (abajo + (28 - ocupa % 28) % 28) + 'px';
     var ultimo = document.getElementById('dia-' + DIAS[DIAS.length - 1].f);
     var resto = hojaHoy.clientHeight - tira - 4 - ultimo.offsetHeight;
     document.getElementById('dias-siguientes').style.paddingBottom = Math.max(20, resto) + 'px';
@@ -1649,8 +1651,10 @@ html.captura .banderita.es-atrasada { animation: none; }
       como.textContent = aviso || (!hayLugar ? 'No hay lugar libre con esa forma: soltá alguna, o intercambiá.'
         : sel.length === 1 ? 'Tocá una marca + para llevarla ahí.'
         : 'Tocá una marca +: ahí va la «1», y ' + (sel.length === 2 ? 'la otra la sigue' : 'las demás la siguen') + ' con la misma forma.');
-      if (ultima && sel.filter(function (i) { return l.celdas[i] === ultima; }).length < cuantas(l, ultima)) {
-        botones += '<button type="button" class="lapiz" data-toda="' + ultima + '">' + (PLANTAS[ultima].art === 'el' ? 'Todo el ' : 'Toda la ') + PLANTAS[ultima].nombre + '</button>';
+      // la última tocada, si sigue elegida: la que se soltó no se ofrece
+      var q = sel.some(function (i) { return l.celdas[i] === ultima; }) ? ultima : l.celdas[sel[sel.length - 1]];
+      if (sel.filter(function (i) { return l.celdas[i] === q; }).length < cuantas(l, q)) {
+        botones += '<button type="button" class="lapiz" data-toda="' + q + '">' + (PLANTAS[q].art === 'el' ? 'Todo el ' : 'Toda la ') + PLANTAS[q].nombre + '</button>';
       }
       if (sel.length === 2 && l.celdas[sel[0]] !== l.celdas[sel[1]]) botones += '<button type="button" class="lapiz" data-intercambiar>Intercambiar</button>';
       botones += '<button type="button" class="lapiz" data-soltar>Soltar</button>';

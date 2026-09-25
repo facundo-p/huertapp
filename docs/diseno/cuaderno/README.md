@@ -89,8 +89,8 @@ unidad de redondeo del suavizado en el borde de alguna fibra.
 
 | Pieza | Qué hace |
 |---|---|
-| Casilla dibujada | Es «Hecho», o «Asomó» en la tarea de germinación, como en `CarrilSemana`, con 44 px de target. Tildada, la tarea se tacha y brota una hojita, y a los 700 ms se va, como hoy en la app: tildar es definitivo, porque girar el compost pisa la fecha anterior y «Asomó» escribe `germino`. En el render se destilda sólo para poder probarla. |
-| Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Tocarlo lleva el scroll a ese día. No se descarta: queda en la cabecera, y vuelve a verse al subir. |
+| Casilla dibujada | Es «Hecho», o «Asomó» en la tarea de germinación, como en `CarrilSemana`, con 44 px de target. Tildada, la tarea se tacha y brota una hojita, y a los 700 ms se va, como hoy en la app: tildar es definitivo, porque girar el compost pisa la fecha anterior y «Asomó» escribe `germino`. En el render no se va, para poder destildarla y probarla de nuevo, y la tira no recuenta. |
+| Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Qué hace al tocarlo, en la lista de abajo; cuántos hay, en «Más de un post-it». |
 | Pestañas de separador | La barra de navegación, con la misma altura que hoy (59 + zona segura). La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
 | Cinta | Pega las fotos del diario. |
@@ -141,7 +141,8 @@ están abajo.
   de decir de dónde sale cada consejo se cumple igual, a un toque.
 - Hoy el cuerpo de la tarea lleva a su planta o compostera. Acá abre el
   detalle, así que el camino pasa ahí: «Ver la zanahoria», «Ver el Corralito
-  del fondo».
+  del fondo». El render dibuja una sola página de planta, la de Los del cajón,
+  y a ésa lleva cualquier «Ver»; la compostera no está dibujada.
 - **Post-it** arriba, con el resumen. Tocarlo lleva el scroll a su día, donde
   está el aviso entero con su fuente. No se descarta: vuelve a verse al subir.
 - **Para sembrar ahora**, como nota al margen después de hoy: cuatro nombres
@@ -181,7 +182,7 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 | almaciguera | 6 columnas a página entera × ⌈N / 6⌉ filas. Con N de 6 o menos, 3 columnas a media página | `ocupa ?? 1` celdas seguidas |
 | macetas | 3 × ⌈N / 3⌉ a media página. Con N de más de 6, 6 columnas a página entera. La maceta arriba y el nombre abajo | `ocupa ?? 1` macetas |
 | bancal en surcos | N surcos, uno por fila, 44 px de alto, a media página. Con más de 4, página entera | `ocupa ?? 1` surcos |
-| bancal libre | 6 columnas a página entera, a lo largo del lado mayor; filas = `Math.round(6 / proporción)`, con proporción = lado mayor / lado menor, acotada entre 1,3 y 2,5. Sin medidas pero con `capacidad` en m², 6 × 3. m² por celda = la superficie del lugar / las celdas, con la misma cuenta que el medidor (`superficieDe`, en `lugar.ts`: primero la capacidad, si no las medidas). Sin ninguna de las dos, como «otro» | ⌈superficie / m² por celda⌉, mínimo 1, redondeando antes a 6 decimales: en coma flotante 1,12 / 0,16 da 7,000…1 y `Math.ceil` devuelve 8 |
+| bancal libre | 6 columnas a página entera, a lo largo del lado mayor; filas = `Math.round(6 / proporción)`, con proporción = lado mayor / lado menor, acotada entre 1,3 y 2,5. Sin medidas pero con `capacidad` en m², 6 × 3. m² por celda = la superficie del lugar / las celdas, con la misma cuenta que el medidor (`superficieDe`, en `lugar.ts`: primero la capacidad, si no las medidas redondeadas a un decimal; hoy no se exporta). Sin ninguna de las dos, como «otro» | ⌈superficie / m² por celda⌉, mínimo 1, redondeando antes a 6 decimales: en coma flotante 1,12 / 0,16 da 7,000…1 y `Math.ceil` devuelve 8 |
 | bancal sin disposición cargada | como «otro»: no promete surcos que nadie declaró (`lugar.ts`) | 1 celda |
 | otro, o sin lugar | 3 columnas, una celda por planta | 1 celda |
 
@@ -218,7 +219,7 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
   Una planta sin `superficie` ocupa 1 celda. Las composteras no van en el
   croquis.
 - En la demo: el Bancal del fondo mide 120 × 240 (2,9 m² para el medidor),
-  son 6 × 3 celdas de ~0,16 m². La lechuga (0,8 m²) ocupa 5, la rúcula y la
+  son 6 × 3 celdas de 2,9 / 18 ≈ 0,161 m². La lechuga (0,8 m²) ocupa 5, la rúcula y la
   zanahoria (0,6 m²) 4 cada una, en bloques y en ese orden, que es el de
   `creada`.
 
@@ -283,6 +284,9 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   una elegida, la primera lleva un «1».
 - Si no entra, la barra dice por qué («se sale del lugar», «pisa la
   lechuga»).
+- La primera cae siempre en una libre, así que un bloque no se corre sobre sí
+  mismo: se lleva la punta de atrás al otro lado, que da lo mismo. Por eso,
+  sin marcas, la barra dice «soltá alguna».
 - Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
   cuando no queda lugar libre) y «Soltar».
