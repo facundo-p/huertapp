@@ -328,7 +328,7 @@ iniciar la sesión, `claude plugin validate .claude/agents` pasa, y
 `subagent_type: "planner"` sigue dando *not found*. Los de `~/.claude/agents/`
 (los `gsd-*`) y los de plugins sí aparecen.
 
-**Causa.** No es el archivo ni el momento: es el harness. Esta sesión corre en
+**Causa probable.** No es el archivo ni el momento: es el harness. Esta sesión corre en
 la extensión de VSCode sobre el Agent SDK, y ahí los agentes de usuario y de
 plugin cargan y los del proyecto no. La guía de Claude Code listó las causas
 documentadas —`settingSources` sin `project`, frontmatter roto, directorio
@@ -337,7 +337,8 @@ creado a mitad de sesión— y ninguna aplica.
 **Qué hacemos.** Seguir emulando: `general-purpose` con `model:` explícito y
 "leé `.claude/agents/<rol>.md` y adoptalo", y `isolation: worktree` en la
 llamada para dev y tester: emulado, el frontmatter no se aplica. Funcionó en
-las siete corridas y las dos reanudaciones de esta tanda. En la próxima sesión, `/agents` primero,
+las siete corridas y las dos reanudaciones de esta tanda. En la próxima sesión,
+`/agents` primero,
 para saber en qué harness estamos.
 
 **Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
@@ -353,9 +354,11 @@ con `git reset --hard origin/<rama>` sobre su worktree y lo dijo en el parte.
 **Causa.** El worktree del dev sigue vivo después del push, y tiene que
 seguir: el review le vuelve por mensaje y la segunda vuelta la hace ahí.
 
-**Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre
-(`reset --hard` o `checkout --detach`). El worktree del dev se borra cuando
-cerró el QA —el tester reportó y sus tests están en la rama—, no antes.
+**Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre,
+en una rama propia, `qa/<rama>`, que no se pushea. El orquestador lleva sus
+tests a la rama del dev con `merge --ff-only`, pushea, y recién ahí borra el
+worktree del tester y `qa/<rama>`. El worktree del dev se borra cuando cerró
+el QA —el tester reportó y sus tests están en la rama—, no antes.
 
 **Al plugin.** Va al prompt del tester. Y el orquestador borra worktrees sólo
 después de comprobar que `HEAD` coincide con `origin/<rama>` y que no hay
@@ -384,7 +387,8 @@ ejemplo de la issue no estaba en el recuento de la issue.
 
 **Causa.** El orquestador contó lo fácil de contar. Hay otras ~70-86 reglas en
 píxeles literales (el número depende del regex) que el token no ve, y el
-archivo más cargado de la app, `Compost.css`, tampoco aparecía.
+`Compost.css`, el que más letra chica tiene en píxeles (21 reglas), entraba al
+recuento con 2.
 
 **Qué hacemos.** Cuando una issue cuantifica, verificar **qué deja afuera la
 métrica**, no sólo si el número está bien. 114 contra 115 no importaba; el
@@ -398,8 +402,8 @@ en las que traen un número, se verifica la vara antes que la cifra.
 **Síntoma.** La cita dice *"hace muy difícil poder hablar de un sustrato
 ideal"*. El dev escribió *"el INTA lo dice sin vueltas, no hay un sustrato
 ideal"*. Y cargó confianza 9 porque el investigador la propuso, cuando la escala
-que la propia app publica dice que 8-10 son varias fuentes que concuerdan y
-acá había una.
+que la propia app publica dice que 8-10 son "Fuentes oficiales o técnicas que
+concuerdan", y acá había una.
 
 **Causa.** Redactar para que suene bien tira hacia lo categórico, y la
 confianza se tomó del dossier sin cotejarla con la escala del producto. Los
@@ -418,8 +422,8 @@ no contra su criterio.
 
 **Síntoma.** El investigador trajo la cita con página y comandos. Antes de
 pasársela al dev, el orquestador bajó el PDF (esta sesión tenía el egreso
-abierto) y corrió `grep -n "sustrato
-ideal"`: línea 523, como decía. Un minuto.
+abierto) y corrió
+`grep -n "sustrato ideal"`: línea 523, como decía. Un minuto.
 
 **Qué hacemos.** Un dato que va a entrar al catálogo se coteja aunque venga con
 prueba adjunta. No por desconfianza: porque es barato y porque la regla 1 de
@@ -502,9 +506,8 @@ test cae.
 
 **Qué hacemos.** El reviewer entrega hipótesis con el pedido concreto de
 verificación; el tester las prueba rompiendo y deja el test que fija lo que
-sí importaba. Dos e2e salieron de acá, y un tercero de la issue. Al menos una
-de sus aserciones, igual, no podía fallar (ver «Lo que se le escapó al
-tester»).
+sí importaba. Dos e2e salieron de acá, y un tercero de la issue. Tres de sus
+aserciones, igual, no podían fallar (ver «Lo que se le escapó al tester»).
 
 **Al plugin.** Es el pedido de probar rompiendo funcionando como se escribió:
 "un test que nace verde no probó nada", que ahora está en el prompt del
@@ -557,16 +560,20 @@ y #130), cuatro tenían algo mal.
 
 ### Lo que se le escapó al tester
 
-**Síntoma.** Después de su pasada aparecieron dos cosas en el mismo PR, y las
-encontró el orquestador, no la batería. Se le pasaron también al reviewer y al
-orquestador, que había tocado ese margen. El «cuándo» de cada labor se quedaba con
-los últimos 3 px del botón de la labor: un toque en ese borde no abría nada. Y
-un e2e afirmaba que el documento no tenía el atributo `inert`, que
-`showModal()` no pone nunca: pasaba pasara lo que pasara.
+**Síntoma.** Después de su pasada aparecieron tres cosas en el mismo PR, y
+ninguna la encontró la batería. El «cuándo» de cada labor se quedaba con los
+últimos 3 px del botón de la labor: un toque en ese borde no abría nada. Un e2e
+afirmaba que el documento no tenía el atributo `inert`, que `showModal()` no
+pone nunca: pasaba pasara lo que pasara. Y las dos aserciones de
+`dialog.count()` tampoco podían fallar: la propia mutación del tester, borrar
+el `onClick`, las había dejado en verde, y quedaron igual. Los 3 px se le
+pasaron también al reviewer y al orquestador en su primera pasada, cuando
+corrigió el comentario del margen (1e7a562).
 
 **Causa.** El target se midió por la caja, que daba 44 px, y no por lo que
 recibe el toque. Y el "cada test visto en rojo" se cumplió por test, no por
-aserción: la del `inert` venía junto a otras que sí caían.
+aserción. Y una mutación que deja el test en verde se leyó como «el riesgo
+no estaba ahí», no como «esta aserción sobra».
 
 **Qué hacemos.** Los targets se miden con `elementFromPoint` sobre toda el
 área, bordes incluidos. Cada aserción nueva se ve en rojo por separado.
@@ -626,8 +633,9 @@ La lista corta, para no releer todo:
     propio trabajo.
 16. **Los agentes del proyecto no cargan en todos los harness; los de plugin
     sí.** Es la razón de que el plugin exista.
-17. **El tester no toma la rama del dev**: trabaja sobre `origin/<rama>` sin
-    checkout del nombre. El worktree del dev vive hasta que cierre el QA.
+17. **El tester no toma la rama del dev**: trabaja en `qa/<rama>`, sobre
+    `origin/<rama>`. El orquestador lleva sus tests con `merge --ff-only`, y
+    el worktree del dev vive hasta que cierre el QA.
 18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
     que el orquestador ya decidió.
 19. **En una issue con números, verificar la vara antes que la cifra.**

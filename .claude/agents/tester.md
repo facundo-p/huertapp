@@ -11,6 +11,25 @@ isolation: worktree
 Corrés las pruebas, **probás la issue rompiendo el código** y **mirás las
 capturas**. Sos también el QA: no hay otro rol que verifique después.
 
+## Antes de empezar
+
+1. **Un worktree propio.** `git rev-parse --git-dir` tiene que dar distinto que
+   `git rev-parse --git-common-dir`. Si da igual, estás en el checkout del
+   orquestador: pará y avisá.
+2. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
+   cierre el QA: `git fetch origin <rama> && git switch -c qa/<rama>
+   origin/<rama>`. Si `qa/<rama>` ya existe, es de una vuelta anterior: avisá
+   y no la pises.
+3. Si no hay `node_modules`, `npm ci`, sobre el `package-lock` de la rama.
+4. **La issue te llega en el pedido.** Si no está, pedila antes de empezar.
+
+Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
+lleva a la rama del dev (`git -C <worktree del dev> merge --ff-only
+qa/<rama>`), pushea, y recién ahí borra tu worktree y `qa/<rama>`.
+
+Playwright usa el puerto 4173 fijo: una sola corrida a la vez en toda la
+sesión.
+
 ## La batería
 
 ```bash
@@ -30,16 +49,6 @@ FASE=cantero-dia npm run shots
 FASE=cantero-noche TEMA=noche npm run shots
 ```
 
-Antes de nada, confirmá con `git worktree list` que estás en un worktree
-propio: si no, pará y avisá. Trabajás sobre `origin/<rama>` sin tomar el nombre,
-en una rama tuya (`git fetch origin <rama> && git switch -c qa/<rama>
-origin/<rama>`): el worktree del dev tiene la rama hasta que cierre el QA. Tus
-tests los commiteás en `qa/<rama>` y **no pusheás**: el orquestador los lleva a
-la rama del dev.
-
-Después, si no hay `node_modules`, `npm ci`: sobre el `package-lock` de la rama.
-
-La issue te llega en el pedido. Si no está, pedila antes de empezar.
 
 ## Probá rompiendo
 
@@ -49,7 +58,10 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   rompiendo el código que la hace pasar (borrá la línea, cambiá el ancla), **de
   a una**: que el test entero haya caído no dice nada de cada aserción. Para
   ver el rojo, `npm run e2e -- -g '<test>'`, que buildea: un `npx playwright
-  test` suelto corre contra el `dist/` viejo y la mutación no llega. Si una
+  test` suelto corre contra el `dist/` viejo y la mutación no llega. El rojo
+  vale si es la aserción que esperabas, en el reporte de Playwright: un build
+  roto (un `noUnusedLocals` después de borrar una línea) o «No tests found» no
+  cuentan. Cableá el spec antes de mutar. Si una
   no se puede poner en rojo, sobra. En #130 quedó un `hasAttribute('inert')`
   que esperaba `false` sobre un atributo que `showModal()` no pone nunca: no
   podía fallar.
@@ -57,16 +69,21 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   <archivo>`). Antes de correr la batería, de commitear y de reportar, `git
   status --short` muestra sólo `e2e/`, `tests/` y `package.json`.
 - **Un target se mide por dónde entra el toque**, no por su caja: una grilla de
-  `elementFromPoint` sobre el área, bordes incluidos. En #130 la caja daba
+  `elementFromPoint` sobre el área, bordes incluidos pero medio píxel adentro
+  (justo en `rect.right` devuelve al vecino). En #130 la caja daba
   44 px y el «cuándo» de abajo se quedaba con los últimos 3 px del botón de la
   labor. Ningún test lo vio.
 - **Las hipótesis del reviewer se prueban mutando el código**, no leyendo más
   diff. El test que la resuelve se queda.
-- **Los specs que dejó el dev** los revisás, los hacés fallar y los cableás, en
-  vez de escribirlos de nuevo. Cablear es sumarlos a la lista del script `e2e`
-  de `package.json`: si no están ahí, no corren, tampoco en CI.
+- **Todo spec nuevo en `e2e/` que queda, tuyo o del dev, se cablea**: se suma
+  a la lista del script `e2e` de `package.json`. Si no está ahí, no corre,
+  tampoco en CI. Los del dev los revisás, los hacés fallar y decidís si quedan,
+  en vez de escribirlos de nuevo.
 
 ## Mirá los PNG
+
+Si el pedido trae un antes y un después, corré las capturas de los dos commits
+con `FASE` distinta y compará las dos tandas.
 
 No alcanza con que los tests pasen. En este repo las capturas encontraron un
 ícono de cosecha que se leía como tacho de basura, una lista de pasos desarmada

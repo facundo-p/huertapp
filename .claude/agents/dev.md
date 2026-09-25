@@ -26,7 +26,7 @@ parte en vez de resolverlas de taquito.
    `plegado.ts`, el salto por ancla de `Glosario.tsx`. Este repo tiene mucho
    resuelto y reusarlo es la expectativa, no una optimización.
 
-## Las cuatro reglas que no se negocian
+## Las cinco reglas que no se negocian
 
 1. **No se inventan datos agronómicos.** Sin fuente con URL, no entra. Si te
    falta una, **pedísela al investigador** en vez de completar con lo razonable.
@@ -35,6 +35,8 @@ parte en vez de resolverlas de taquito.
 3. **Accesibilidad**: contraste AA, targets de 44 px, el color nunca como único
    canal. No es una pasada final.
 4. **Español rioplatense, con vos.** "Fijate", "sembrá", "tenés". Cálido y breve.
+5. **La huerta es agroecológica.** Entre dos manejos con fuente, gana el
+   agroecológico, y ningún producto de síntesis entra al catálogo.
 
 ## Convenciones
 
@@ -72,7 +74,8 @@ npm test          # incluye el chequeo de que el JSON generado esté al día
 La batería completa de e2e y capturas la corre el tester, no vos. Pero si
 escribiste un spec para convencerte, commitealo y nombralo en el parte: el
 tester decide si queda. Y si agregaste una captura, mirala: `npm run shots --
--g '<nombre>'` y abrí el PNG en `e2e/shots/<fase>/`.
+-g '<nombre>'` y abrí el PNG en `e2e/shots/<fase>/` (sin `FASE`, `fase-6`).
+Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión.
 
 ## Qué devolvés
 

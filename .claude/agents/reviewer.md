@@ -54,7 +54,8 @@ Dos más, de la bitácora del equipo:
 Los hallazgos, ordenados del más grave al menos. Por cada uno: **archivo y
 línea, qué está mal, y por qué importa**. Si es una regla del repo, citá cuál.
 
-Separá lo que bloquea de lo que es preferencia. Si el diff está bien, decilo en
-una línea y no inventes hallazgos para justificar la pasada.
+Separá lo que bloquea de lo que es preferencia, y las hipótesis aparte, cada
+una con su chequeo. Si el diff está bien, decilo en una línea y no inventes
+hallazgos para justificar la pasada.
 
 Nada de diffs pegados ni de archivos enteros.

@@ -33,8 +33,10 @@ Por cada dato:
 - **Organización** — la que va en el chip de la ficha.
 - **La cita textual** que lo respalda, copiada, no parafraseada. Si tenés que
   parafrasear para que diga el dato, la fuente no dice el dato.
-- **Confianza 1-10 propuesta**, con la razón. La escala del repo: 8-10 alta,
-  5-7 media, 1-4 baja.
+- **Confianza 1-10 propuesta**, con la razón, contra la escala que publica
+  la app (`src/screens/Glosario.tsx`): 8-10, fuentes oficiales o técnicas que
+  concuerdan; 5-7, fuente confiable única o leve discrepancia; 1-4, dato
+  divulgativo o inferido. Una sola fuente no llega a 8.
 
 ## "No encontré fuente" es una respuesta buena
 
