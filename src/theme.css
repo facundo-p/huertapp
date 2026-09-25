@@ -18,8 +18,7 @@
    semitransparente y como texto no se ve.
 
    Un color de relleno y su versión legible como texto son DOS tokens
-   (--sol / --sol-texto). Antes eso vivía como quince hex sueltos en
-   los CSS de componentes; era la misma decisión tomada quince veces.
+   (--sol / --sol-texto).
 
    Jerarquía y contraste: el texto que porta el DATO nunca baja de
    4.5:1. Lo que sí puede bajar es el metadato accesorio —unidades,

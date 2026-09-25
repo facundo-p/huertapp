@@ -19,7 +19,7 @@ de 10 días. Todo lo que hace es **defendible o no lo hace**.
 **El modelo solo puede recortar lo que dijeron las fuentes, nunca agregar.**
 
 No es un lineamiento: hay un `throw` en runtime si una década cae fuera de los
-meses de origen, y un test que lo verifica sobre 55 especies × 3 zonas. Si lo
+meses de origen, y un test que lo verifica sobre todas las entradas × 3 zonas. Si lo
 que querés hacer necesita agregar una década, **no es trabajo del modelo**: es
 un cambio en `data/enriquecimiento.json`, con fuente. Ver `/especie`.
 

@@ -30,34 +30,18 @@ En este orden:
 6. `npm ci`, siempre: la rama puede traer otro `package-lock`.
 
 Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
-lleva a la rama del dev (`git -C <worktree del dev> merge --ff-only
-qa/<rama>`). Si no es fast-forward, porque la rama del dev se movió, hace
-`git -C <tu worktree> rebase <rama>`, vos volvés a correr tus specs sobre la
-rama nueva, y recién ahí otra vez `--ff-only`, nunca un merge commit. Después
-pushea, y recién ahí borra tu worktree y `qa/<rama>`.
+lleva a la rama del dev con `git -C <worktree del dev> merge --ff-only
+qa/<rama>`, nunca con un merge commit. Después pushea, y recién ahí borra tu
+worktree y `qa/<rama>`.
+
+Si no es fast-forward, porque la rama del dev se movió, el orquestador te
+reanuda por mensaje. Hacés `git rebase <rama>` en tu worktree (si choca, lo
+resolvés vos y lo decís en el parte), `npm ci` si cambió el `package-lock`, y
+volvés a correr tus specs sobre la rama nueva.
 
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
 está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
 Playwright y, si sigue ocupado, decilo en el parte.
-
-## La batería
-
-```bash
-npx tsc -b        # tipos
-npm test          # unitarios + chequeo de que el JSON generado esté al día
-npm run e2e       # backup, offline, actualización, accesibilidad
-npm run shots     # capturas en 390×844 → e2e/shots/fase-N/
-```
-
-`e2e` y `shots` hacen `npm run build` solos: corren contra `dist/` servido por
-`vite preview`, no contra el dev server.
-
-Para las capturas en los dos temas:
-
-```bash
-FASE=cantero-dia npm run shots
-FASE=cantero-noche TEMA=noche npm run shots
-```
 
 ## Probá rompiendo
 
@@ -75,7 +59,9 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. El rojo
   vale si es la aserción que esperabas: un build roto (un `noUnusedLocals`
   después de borrar una línea) o «No tests found» no cuentan. Cableá el spec
-  antes de mutar.
+  antes de mutar. Si mutás `data/` o `scripts/`, `npm run data:build` antes de
+  correr y otra vez después de deshacer: la app y los tests leen el JSON
+  generado.
 - **Cada mutación se deshace apenas viste el rojo** (`git checkout --
   <archivo>`). Antes de correr la batería, de commitear y de reportar, `git
   status --short` muestra sólo `e2e/`, `tests/` y `package.json`.
@@ -91,10 +77,25 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 - **Todo spec nuevo en `e2e/` que queda, tuyo o del dev, se cablea**: se suma
   a la lista del script `e2e` de `package.json`. Si no está ahí, no corre,
   tampoco en CI. Los del dev los revisás, los hacés fallar y decidís si quedan,
-  en vez de escribirlos de nuevo.
+  en vez de escribirlos de nuevo. Los que no quedan, los borrás en `qa/<rama>`.
 - **Si encontrás un bug de verdad**, el test que lo muestra se commitea en rojo
   en `qa/<rama>` y va en el parte: el arreglo es del dev. La rama queda en
   rojo hasta el arreglo, y en rojo no se abre ni se mergea el PR.
+
+## La batería
+
+Va al final, con tus specs ya cableados.
+
+```bash
+npx tsc -b        # tipos
+npm test          # unitarios + chequeo de que el JSON generado esté al día
+npm run e2e       # backup, offline, actualización, accesibilidad
+FASE=despues-dia npm run shots                # capturas en 390×844 → e2e/shots/despues-dia/
+FASE=despues-noche TEMA=noche npm run shots
+```
+
+`e2e` y `shots` hacen `npm run build` solos: corren contra `dist/` servido por
+`vite preview`, no contra el dev server.
 
 ## Mirá los PNG
 
@@ -120,8 +121,10 @@ Antes de reportar, fijate qué tipo de falla es:
   no entorno. Una espera que nunca falla no está esperando.
 - **`npm test` quejándose del JSON generado**: falta `npm run data:build`.
 - **Los e2e pisándose**: `playwright.config.ts` ya usa `workers: 1`.
-- **Playwright no encuentra el navegador y `playwright install` falla**: mirá
-  `/opt/pw-browsers` antes de darte por vencido.
+- **Playwright no encuentra el navegador y `playwright install` falla**: el
+  entorno lo trae en `/opt/pw-browsers`, con otro nombre de revisión. Symlinks
+  con el nombre que espera Playwright en una carpeta tuya, y
+  `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí.
 
 `.claude/LECCIONES.md` tiene varias de estas con síntoma y causa. Vale leerlo
 antes de teorizar.

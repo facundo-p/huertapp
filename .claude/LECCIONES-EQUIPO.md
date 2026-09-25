@@ -328,9 +328,12 @@ iniciar la sesión, `claude plugin validate .claude/agents` pasa, y
 `subagent_type: "planner"` sigue dando *not found*. Los de `~/.claude/agents/`
 (los `gsd-*`) y los de plugins sí aparecen.
 
-**Causa probable.** No es el archivo ni el momento: es el harness. Esta sesión corre en
-la extensión de VSCode sobre el Agent SDK, y ahí los agentes de usuario y de
-plugin cargan y los del proyecto no. La guía de Claude Code listó las causas
+**Causa probable.** No es el archivo ni el momento: probablemente, el harness.
+La sesión de la Tanda B corrió en la extensión de VSCode sobre el Agent SDK, y
+ahí los agentes de usuario y de plugin cargaron y los del proyecto no. El Agent
+SDK en sí no es: en la sesión que revisó este PR, también sobre el Agent SDK,
+el reviewer cargó como agente del proyecto, con su prompt y sus herramientas.
+Queda la configuración de la extensión. La guía de Claude Code listó las causas
 documentadas —`settingSources` sin `project`, frontmatter roto, directorio
 creado a mitad de sesión— y ninguna aplica.
 
@@ -479,10 +482,11 @@ PNG**. "Mirá las capturas" no es sólo del tester.
 Dos lecturas. **Los reviewers rondan los 90 k** y estuvieron cerca del umbral
 de "prompt mal delimitado" de la línea de base; pero fueron el mejor gasto
 de la tanda —seis bloqueantes reales en dos diffs—, así que el umbral no es
-"100 k = mal": es "100 k sin hallazgos = mal". Y **los números de un agente
-reanudado no se sabe si son acumulados**: el harness devuelve un total por
-notificación, y 203 k con 44 llamadas puede ser la segunda vuelta sola o las
-dos juntas. Hasta aclararlo, la tabla los anota tal como llegan.
+"100 k = mal": es "100 k sin hallazgos = mal". Y **en un agente reanudado,
+las llamadas son de la vuelta sola, pero los tokens arrastran el contexto
+anterior**: 44 llamadas no pueden incluir las 61 de la primera, y #129
+reanudado da 85 k con 9 llamadas contra 75 k con 31. La tabla los anota tal
+como llegan.
 
 ---
 
@@ -526,7 +530,7 @@ como "no dejes specs nuevos". Lo que sobra es el trabajo repetido, no el spec.
 
 **Qué hacemos.** Un spec que el dev escribió para convencerse se queda en
 `e2e/` y se entrega en el parte con lo que verifica. El tester lo revisa, lo hace
-fallar y lo cablea, en vez de reescribirlo.
+fallar y decide si queda; si queda, lo cablea, en vez de reescribirlo.
 
 **Al plugin.** Al prompt del dev: los specs que escribas para verificar se
 commitean y se nombran en el parte; el tester decide si quedan.

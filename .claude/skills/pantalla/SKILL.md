@@ -56,10 +56,10 @@ el principio:
    del **color del texto**: `--papel-alto` de noche es semitransparente y como
    texto queda invisible; usá `--papel`. Sobre un tinte (`--sol-velo`) la
    tinta tenue baja de AA: un escalón más.
-2. **Targets de 44 px.** Todo lo tocable. El test mide la caja, y un margen
-   negativo o un vecino encima se comen píxeles sin que la caja cambie: eso se
-   mide aparte, con `elementFromPoint`. Si no hay 44 posibles (las iniciales de
-   mes en doce columnas), el control va en otro lado; no se exime.
+2. **Targets de 44 px.** Todo lo tocable. El test mide la caja: no ve lo que un
+   margen negativo o un vecino encima le sacan. Eso lo medís vos, con
+   `elementFromPoint`. Si no hay 44 posibles (las iniciales de mes en doce
+   columnas), el control va en otro lado; no se exime.
 3. **El color nunca solo.** Ideal/posible, y anillo externo/interno, se
    distinguen también por forma y relleno.
 4. **Nombre accesible en todo lo interactivo.** Ícono solo → `aria-label`.
