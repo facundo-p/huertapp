@@ -137,7 +137,7 @@ export function FichaEspecie() {
               Icono={() => <IconoLuz categoria={e.luz.categoria_luz} size={24} decorativo />}
               texto={luz.etiqueta}
               titulo={NOMBRE_LUZ[e.luz.categoria_luz]}
-              contenido={definicionDeLuz(e.luz.categoria_luz)}
+              contenido={definicionDeLuz(e.luz)}
             />
           </div>
 

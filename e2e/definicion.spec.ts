@@ -1,31 +1,47 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 
-// `Definicion.tsx` cierra la hoja y navega en el mismo click ("Verlo en el
-// Glosario →"): un <dialog> modal que queda montado por el `showModal()` de
-// una ruta que React Router ya desmontó puede dejar el documento inerte. No
-// es teórico: es justo el tipo de cosa que un test que sólo mira "¿cargó la
-// pantalla?" no atrapa, porque la pantalla carga igual.
+// "Verlo en el Glosario →" va a un ancla dentro del HashRouter, donde el
+// navegador no salta solo: lo hace el efecto de `Glosario.tsx`. Acá se fija
+// que el destino quede a la vista, no tapado por el índice pegajoso, y con el
+// foco en su título. Que la hoja no quede colgada no se prueba: al navegar, la
+// ficha se desmonta y el <dialog> se va con ella.
 
-test('el link del pie cierra la hoja y deja el Glosario usable, con mouse', async ({ page }) => {
+/** Que se vea entero y no quede debajo del índice pegajoso del Glosario. */
+async function aLaVista(page: Page, destino: Locator) {
+  await expect(destino).toBeInViewport({ ratio: 1 })
+  const indice = await page.locator('.glosario__indice').boundingBox()
+  const caja = await destino.boundingBox()
+  expect(caja!.y).toBeGreaterThanOrEqual(indice!.y + indice!.height)
+}
+
+test('la hoja del suelo lleva a la tierra del Glosario, a la vista y con el foco', async ({ page }) => {
   await page.goto('/#/explorar/tomate')
   await page.waitForLoadState('networkidle')
 
   await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+  const hoja = page.getByRole('dialog')
+  // la mezcla base y el aviso de que la de almácigos es otra; el ajuste por
+  // categoría no, que no tiene cita
+  await expect(hoja.getByText('La mezcla base, para maceta o cantero')).toBeVisible()
+  await expect(hoja.getByText('La de la bandeja de almácigos es otra: está en el Glosario.')).toBeVisible()
+  await expect(hoja.getByText(/Cómo correr la mezcla/)).toHaveCount(0)
+
   await page.getByRole('link', { name: /Verlo en el Glosario/ }).click()
 
   await expect(page).toHaveURL(/#\/glosario#tierra/)
   await expect(page.getByRole('heading', { name: 'Glosario' })).toBeVisible()
+  // el foco al título de destino, para que el lector de pantalla lo anuncie
+  const titulo = page.getByRole('heading', { name: 'Cómo se arma la tierra' })
+  await expect(titulo).toBeFocused()
+  await aLaVista(page, titulo)
 
-  // sin esto, el <dialog> puede quedar en el DOM con el resto de la página
-  // inerte aunque la ruta ya haya cambiado.
-  expect(await page.locator('dialog').count()).toBe(0)
-
-  // usable de verdad: algo del cuerpo de la página responde al click, no sólo el header
+  // el índice usa el mismo salto, así que también deja el foco en el título
   await page.locator('.glosario__indice-item', { hasText: 'Luz' }).click()
   await expect(page).toHaveURL(/#\/glosario#luz/)
+  await expect(page.getByRole('heading', { name: 'Cuánto sol necesita' })).toBeFocused()
 })
 
-test('el link del pie funciona igual operando con teclado', async ({ page }) => {
+test('con teclado, una labor salta a su término', async ({ page }) => {
   await page.goto('/#/explorar/tomate')
   await page.waitForLoadState('networkidle')
 
@@ -34,19 +50,22 @@ test('el link del pie funciona igual operando con teclado', async ({ page }) => 
   await link.focus()
   await page.keyboard.press('Enter')
 
-  // labor va a #labores, la sección entera: la hoja ya mostró el término puntual
-  await expect(page).toHaveURL(/#\/glosario#labores/)
+  // una labor salta a su término y no a la sección: desde la sección, el
+  // tutorado quedaba fuera de pantalla
+  await expect(page).toHaveURL(/#\/glosario#labor-tutorado/)
   await expect(page.getByRole('heading', { name: 'Glosario' })).toBeVisible()
-  expect(await page.locator('dialog').count()).toBe(0)
+  const termino = page.getByRole('heading', { name: 'Tutorado', level: 3 })
+  await expect(termino).toBeFocused()
+  await aLaVista(page, termino)
 
   await page.getByRole('button', { name: 'Volver' }).click()
   await expect(page).toHaveURL(/#\/explorar\/tomate/)
 })
 
-// El resto de la hoja (Escape, la X, el fondo) usa el `close()` nativo del
-// <dialog>, que por spec devuelve el foco a quien la abrió. El link del pie
-// es la única salida que además navega, así que es la única que hacía falta
-// probar aparte.
+// El link del pie es la única salida de la hoja que navega: lo prueban los
+// dos de arriba. Las otras (Escape, la X, el fondo) cierran con el `close()`
+// nativo del <dialog>, que por spec devuelve el foco a quien la abrió; acá se
+// fija con Escape, que es la de quien va con teclado.
 test('cerrar con Escape devuelve el foco al chip, no al principio de la ficha', async ({ page }) => {
   await page.goto('/#/explorar/tomate')
   await page.waitForLoadState('networkidle')
@@ -58,4 +77,17 @@ test('cerrar con Escape devuelve el foco al chip, no al principio de la ficha', 
   await page.keyboard.press('Escape')
 
   await expect(chip).toBeFocused()
+})
+
+// La lechuga tiene dos fuentes para la luz: van las dos, como en el resto de la ficha.
+test('la hoja de la luz trae lo que pide la especie, con todas sus fuentes', async ({ page }) => {
+  await page.goto('/#/explorar/lechuga')
+  await page.waitForLoadState('networkidle')
+
+  await page.getByRole('button', { name: /^Sol parcial/ }).click()
+  const hoja = page.getByRole('dialog')
+  await expect(hoja.getByText('Lo que pide esta planta')).toBeVisible()
+  await expect(hoja.getByText(/no acogolla bien/)).toBeVisible()
+  await expect(hoja.locator('a[href*="lanacion.com.ar"]')).toBeVisible()
+  await expect(hoja.locator('a[href*="agro.unlp.edu.ar"]')).toBeVisible()
 })

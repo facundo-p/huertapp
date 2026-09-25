@@ -134,7 +134,9 @@ function Seccion({
       className="glosario__seccion aparecer"
       style={{ '--retraso': `${retraso}s` } as React.CSSProperties}
     >
-      <h2 className="seccion__titulo">{titulo}</h2>
+      <h2 className="seccion__titulo" tabIndex={-1}>
+        {titulo}
+      </h2>
       {children}
     </section>
   )
@@ -143,7 +145,9 @@ function Seccion({
 function FilaTermino({ termino, id }: { termino: Termino; id?: string }) {
   return (
     <li className="termino" id={id}>
-      <h3 className="termino__nombre">{termino.termino}</h3>
+      <h3 className="termino__nombre" tabIndex={id ? -1 : undefined}>
+        {termino.termino}
+      </h3>
       <p className="termino__que">{conNegritas(termino.que_es)}</p>
       {termino.como && (
         <p className="termino__como">
@@ -175,11 +179,17 @@ export function Glosario() {
   /**
    * Con HashRouter la URL ya tiene un `#`, así que el navegador no salta solo
    * al ancla: para él `#/glosario#labores` es una ruta entera. Hay que
-   * llevarlo a mano.
+   * llevarlo a mano, y el foco también: si no, queda en el body y el lector de
+   * pantalla no dice adónde llegaste. Va al título y no a la sección, que se
+   * leería entera.
    */
   useEffect(() => {
     if (!hash) return
-    document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' })
+    const destino = document.getElementById(hash.slice(1))
+    if (!destino) return
+    destino.scrollIntoView({ block: 'start' })
+    // preventScroll: el salto ya está hecho, respetando el índice pegajoso
+    destino.querySelector<HTMLElement>('h2, h3')?.focus({ preventScroll: true })
   }, [hash])
 
   return (

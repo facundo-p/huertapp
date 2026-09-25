@@ -35,9 +35,11 @@ Qué significa cada parte en este proyecto:
 - **Los términos de la ficha se tocan y se explican.** El grupo, el suelo y la
   luz de arriba de todo, y el nombre de cada labor de "Mientras crece", ahora
   van subrayados con puntitos: tocalos y sube una hoja con qué es esa palabra,
-  sin sacarte de la ficha. La del suelo trae además cómo correr la mezcla para
-  esa planta y la receta base con su confianza y su fuente. Al pie de cada hoja,
-  "Verlo en el Glosario" te deja en la sección que corresponde.
+  sin sacarte de la ficha. La de la luz suma lo que pide esa planta y qué le
+  pasa si le falta, y la del suelo, la mezcla base para maceta o cantero; las
+  dos, con su confianza y su fuente. Al pie, "Verlo en el Glosario" te deja en
+  la sección que corresponde —o en la palabra justa, si es una labor— y el
+  lector de pantalla te dice adónde llegaste.
 
 ## [2.3.0] — 2026-09-12
 

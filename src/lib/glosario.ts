@@ -1,4 +1,11 @@
-import type { CategoriaLuz, CategoriaSuelo, Fuente, Grupo, TipoCuidado } from './data/types'
+import type {
+  CategoriaLuz,
+  CategoriaSuelo,
+  EspecieEnriquecida,
+  Fuente,
+  Grupo,
+  TipoCuidado,
+} from './data/types'
 
 /**
  * El vocabulario de la huerta, explicado.
@@ -325,20 +332,30 @@ export const DESC_LUZ: Record<CategoriaLuz, string> = {
 
 export interface ContenidoDefinicion {
   que_es: string
-  /** el paso a paso, o hacia dónde correr la mezcla: el rótulo lo dice */
+  /** el paso a paso de una labor */
   detalle?: { etiqueta: string; texto: string }
   /** un dato agronómico, que sí va con cita; una definición no la necesita */
-  receta?: { etiqueta: string; texto: string; confianza: number; fuente: Fuente }
-  /** sección del Glosario donde está lo completo (los `id` de Glosario.tsx) */
+  receta?: {
+    etiqueta: string
+    /** `null`: la fuente no lo dice, y la hoja muestra el sin dato */
+    texto: string | null
+    confianza: number
+    /** todas, como en el resto de la ficha; vacío se muestra como tal */
+    fuentes: Fuente[]
+  }
+  /** una línea tras la receta que manda al Glosario, sin afirmar lo que allá va citado */
+  remite?: string
+  /** sección o término del Glosario donde está lo completo (los `id` de Glosario.tsx) */
   ancla: string
 }
 
+/** Al término y no a la sección: desde la sección, la labor quedaba fuera de pantalla. */
 export function definicionDeLabor(tipo: TipoCuidado): ContenidoDefinicion {
   const l = LABORES[tipo]
   return {
     que_es: l.que_es,
     detalle: l.como ? { etiqueta: 'Cómo se hace', texto: l.como } : undefined,
-    ancla: 'labores',
+    ancla: `labor-${tipo}`,
   }
 }
 
@@ -346,24 +363,45 @@ export function definicionDeGrupo(grupo: Grupo): ContenidoDefinicion {
   return { que_es: DESC_GRUPO[grupo], ancla: 'grupos' }
 }
 
-export function definicionDeLuz(categoria: CategoriaLuz): ContenidoDefinicion {
-  return { que_es: DESC_LUZ[categoria], ancla: 'luz' }
+/**
+ * El chip dice la categoría; la hoja suma lo que dijo la fuente de esta
+ * especie. El rótulo no la nombra: el artículo ("el tomate", "la lechuga") no
+ * está en los datos.
+ */
+export function definicionDeLuz(luz: EspecieEnriquecida['luz']): ContenidoDefinicion {
+  const texto = [luz.valor, luz.que_pasa_si_no]
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .join(' ')
+  return {
+    que_es: DESC_LUZ[luz.categoria_luz],
+    receta: {
+      etiqueta: 'Lo que pide esta planta',
+      texto: texto || null,
+      confianza: luz.confianza,
+      fuentes: luz.fuentes,
+    },
+    ancla: 'luz',
+  }
 }
 
 /**
- * El suelo es el único de los tres que además de definición tiene receta, y
- * va al ancla `tierra`: ahí está la mezcla entera, no la lista de categorías.
+ * Va al ancla `tierra`, donde está la mezcla entera. `AJUSTE_SUELO` no entra:
+ * no tiene cita, y en varias especies contradice el suelo citado de su propia
+ * ficha (en el melón, INTA pide materia orgánica y el ajuste, menos).
  */
 export function definicionDeSuelo(categoria: CategoriaSuelo): ContenidoDefinicion {
   return {
     que_es: DESC_SUELO[categoria],
-    detalle: { etiqueta: 'Cómo correr la mezcla', texto: AJUSTE_SUELO[categoria] },
     receta: {
-      etiqueta: 'La mezcla base',
+      etiqueta: 'La mezcla base, para maceta o cantero',
       texto: SUSTRATO.base,
       confianza: SUSTRATO.confianza,
-      fuente: SUSTRATO.fuente,
+      fuentes: [SUSTRATO.fuente],
     },
+    // la receta lleva compost y en la bandeja juega en contra: se avisa que
+    // es otra, y el porqué queda en el Glosario, con su cita
+    remite: 'La de la bandeja de almácigos es otra: está en el Glosario.',
     ancla: 'tierra',
   }
 }

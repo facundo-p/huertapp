@@ -105,8 +105,8 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-coliflor-temprana', ruta: '/#/explorar/coliflor-temprana', fullPage: true },
   // la que se define por lo que NO lleva: sin tutorado ni poda
   { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
-  // la hoja del suelo es la más larga de las cuatro: definición, ajuste de la
-  // mezcla, receta con confianza y fuente, y el link al glosario
+  // la hoja del suelo: definición, la mezcla base con confianza y fuente, la
+  // línea que manda a la de almácigos y el link al glosario
   {
     nombre: 'ficha-definicion-suelo',
     ruta: '/#/explorar/tomate',
@@ -121,6 +121,15 @@ const TOMAS: Toma[] = [
     ruta: '/#/explorar/tomate',
     antes: async (page) => {
       await page.getByRole('button', { name: /^Tutorado/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // la luz con el dato de la especie; la lechuga, que trae dos fuentes
+  {
+    nombre: 'ficha-definicion-luz',
+    ruta: '/#/explorar/lechuga',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Sol parcial/ }).click()
       await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
     },
   },

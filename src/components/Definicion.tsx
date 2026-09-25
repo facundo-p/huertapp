@@ -69,29 +69,48 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
           </div>
         )}
 
-        {contenido.receta && (
-          <div>
-            <p className="definicion__rotulo">{contenido.receta.etiqueta}</p>
-            <p className="definicion__que">{conNegritas(contenido.receta.texto)}</p>
-            {/* div y no p: dentro de un párrafo el test de 44 px exime al
-                link, y esta fuente no es texto corrido */}
-            <div className="definicion__cita">
-              <ConfidenceBadge valor={contenido.receta.confianza} compacto />
-              <a
-                href={contenido.receta.fuente.url}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="fuente"
-              >
-                <span className="fuente__pildora">
-                  <IconoFuente size={12} />
-                  {contenido.receta.fuente.organizacion}
-                </span>
-              </a>
-            </div>
-          </div>
-        )}
+        {contenido.receta && <Receta {...contenido.receta} />}
+
+        {contenido.remite && <p className="definicion__que">{contenido.remite}</p>}
       </BottomSheet>
     </>
+  )
+}
+
+/** Un dato con su cita. Lo que falta se dice, como en el resto de la ficha. */
+function Receta({ etiqueta, texto, confianza, fuentes }: NonNullable<ContenidoDefinicion['receta']>) {
+  return (
+    <div>
+      <p className="definicion__rotulo">{etiqueta}</p>
+      {texto ? (
+        <p className="definicion__que">{conNegritas(texto)}</p>
+      ) : (
+        <p className="definicion__que es-sin-dato">No encontramos una fuente que lo diga.</p>
+      )}
+      {/* div y no p: dentro de un párrafo el test de 44 px exime a los links,
+          y estas fuentes no son texto corrido */}
+      <div className="definicion__cita">
+        <span className="definicion__confianza">
+          <ConfidenceBadge valor={texto ? confianza : null} compacto />
+        </span>
+        {texto && fuentes.length === 0 && (
+          <span className="definicion__sin-fuente">sin fuente</span>
+        )}
+        {fuentes.map((f) => (
+          <a
+            key={f.url}
+            href={f.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="fuente"
+          >
+            <span className="fuente__pildora">
+              <IconoFuente size={12} />
+              {f.organizacion}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
   )
 }

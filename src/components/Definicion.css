@@ -29,6 +29,11 @@
   color: var(--tinta);
 }
 
+/* Como el sin dato de un campo de la ficha: cambia el tono, no se apaga. */
+.definicion__que.es-sin-dato {
+  color: var(--tinta-media);
+}
+
 .definicion__rotulo {
   margin-bottom: 3px;
   font-family: var(--font-display);
@@ -44,6 +49,27 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0 var(--esp-2);
+}
+
+/* Alta como el link de una fuente: si las fuentes bajan de renglón, la
+   confianza queda sola en el suyo y sin esto se pegaba al texto de arriba. */
+.definicion__confianza {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
+
+/* La pastilla de una fuente, punteada y sin relleno: lo que falta es la fuente. */
+.definicion__sin-fuente {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--linea);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tinta-media);
 }
 
 .definicion__glosario {
