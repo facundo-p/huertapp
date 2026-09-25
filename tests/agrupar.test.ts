@@ -288,14 +288,16 @@ describe('dos tareas que se llaman igual', () => {
     expect(etiqueta(d, 'b')).toBe('maceta, sembrada el 26 ago')
   })
 
-  it('el apodo «zanahoria» y la «Zanahoria» del catálogo se llaman igual', () => {
+  it('el apodo «zanahoria» y la «Zanahoria» del catálogo se llaman igual, también en el pie', () => {
+    const grupos = agruparPorPie([zanahoria('a'), zanahoria('b', 12, 'zanahoria: fijate si asomó')])
     const d = distinguir(
-      agruparPorPie([zanahoria('a'), zanahoria('b', 12, 'zanahoria: fijate si asomó')]),
+      grupos,
       donde({ a: { lugar: FONDO, sembrada: '2026-08-24' }, b: { lugar: MEDIANERA, sembrada: '2026-08-24' } }),
       HOY,
     )
     expect(etiqueta(d, 'a')).toBe(FONDO)
     expect(etiqueta(d, 'b')).toBe(MEDIANERA)
+    expect(d.porGrupo.get(grupos[0].clave)).toEqual([{ titulo: ZANAHORIA, lugares: `${FONDO} · ${MEDIANERA}` }])
   })
 
   it('lo que sigue empatado queda igual: no se inventa una diferencia', () => {
@@ -318,16 +320,16 @@ describe('dos tareas que se llaman igual', () => {
     expect([...d.porGrupo.values()].flat().every((e) => !e.lugares)).toBe(true)
   })
 
-  it('en el mismo lugar, antes que la siembra, dice cómo está puesta', () => {
+  it('en el mismo lugar, antes que la siembra, dice cómo está puesta, tal cual la escribiste', () => {
     const d = distinguir(
       agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)]),
       donde({
-        a: { lugar: FONDO, sembrada: '2026-08-24', comoEsta: 'intercalada entre las lechugas' },
+        a: { lugar: FONDO, sembrada: '2026-08-24', comoEsta: 'Intercalada entre las lechugas' },
         b: { lugar: FONDO, sembrada: '2026-08-26' },
       }),
       HOY,
     )
-    expect(etiqueta(d, 'a')).toBe(`${FONDO}, intercalada entre las lechugas`)
+    expect(etiqueta(d, 'a')).toBe(`${FONDO}, Intercalada entre las lechugas`)
     // a la otra la separa lo que no tiene: no se le inventa un texto
     expect(etiqueta(d, 'b')).toBe(FONDO)
   })

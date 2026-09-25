@@ -45,7 +45,12 @@ export function etiquetaPie(grupos: GrupoTareas[]): string {
   return grupos.every((g) => g.instruccion) ? sale : `por qué y ${sale}`
 }
 
-const titulosDe = (g: GrupoTareas): string[] => [...new Set(g.tareas.map((t) => t.titulo))]
+// lo que escribiste a mano se compara así y se muestra tal cual: el lector lee igual «Maceta» y «maceta»
+const sinMayus = (s: string | undefined) => s?.toLocaleLowerCase('es')
+
+/** Con la letra del primero: «zanahoria» y «Zanahoria» van en un renglón, como en las filas. */
+const titulosDe = (g: GrupoTareas): string[] =>
+  g.tareas.map((t) => t.titulo).filter((x, i, xs) => xs.findIndex((y) => sinMayus(y) === sinMayus(x)) === i)
 
 /** Lo que se sabe de cada planta, por id, para separar dos tareas que se llaman igual. */
 export interface DondeCrece {
@@ -108,9 +113,6 @@ export function dondeCreceDe(
 }
 
 const SIN_LUGAR = 'sin lugar asignado'
-
-// lo que escribiste a mano se compara así y se muestra tal cual: el lector lee igual «Maceta» y «maceta»
-const sinMayus = (s: string | undefined) => s?.toLocaleLowerCase('es')
 
 /** Con el año sólo si otra de las fechas es de otro. */
 const fechaParaDistinguir = (iso: string, otras: (string | undefined)[]) =>
@@ -191,7 +193,7 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       g.clave,
       titulosDe(g).map((titulo) => {
         // el pie ya está en la fila de su día: decirlo ahí no separa nada
-        const deCuales = g.tareas.filter((t) => t.titulo === titulo && t.plantaId && porTarea.has(t.id))
+        const deCuales = g.tareas.filter((t) => sinMayus(t.titulo) === sinMayus(titulo) && t.plantaId && porTarea.has(t.id))
         const lugares = [...new Set(deCuales.map((t) => porTarea.get(t.id)!))]
         return lugares.length ? { titulo, lugares: lugares.join(' · ') } : { titulo }
       }),
