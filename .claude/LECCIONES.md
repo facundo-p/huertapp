@@ -321,12 +321,17 @@ necesite Playwright y, si sigue ocupado, decilo.
 contra `cdn.playwright.dev`.
 
 **Causa:** con el egreso cerrado no se puede bajar, pero Chromium viene en
-`/opt/pw-browsers`, con otro número de revisión que el que busca
-`@playwright/test`.
+`/opt/pw-browsers`. `@playwright/test` lo busca con otra revisión (la que dice
+el error) y, en linux-x64, con otra carpeta y otro ejecutable:
+`chrome-linux64/chrome` y `chrome-headless-shell-linux64/chrome-headless-shell`,
+donde el entorno tiene `chrome-linux/chrome` y `chrome-linux/headless_shell`.
 
-**Qué hacer:** symlinks con el nombre que espera, en una carpeta fuera del
-worktree (el scratchpad), y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Adentro
-del worktree, `git status` los muestra. No se toca código de la app.
+**Qué hacer:** en una carpeta fuera del worktree (el scratchpad), dos symlinks:
+`chromium-<rev>/chrome-linux64` a la carpeta `chrome-linux`, y
+`chromium_headless_shell-<rev>/chrome-headless-shell-linux64/chrome-headless-shell`
+al `headless_shell`. Después, `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí.
+Enlazar sólo la carpeta de la revisión vuelve a dar `Executable doesn't exist`.
+Adentro del worktree, `git status` los muestra. No se toca código de la app.
 
 ### `controller` no significa que el service worker vaya a responder
 

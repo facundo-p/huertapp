@@ -284,7 +284,7 @@ ramas, pide explícitamente las dos tandas de capturas.
 `cdn.playwright.dev` — la misma política de egreso que bloquea INTA.
 
 **Causa.** El entorno trae Chromium preinstalado en `/opt/pw-browsers`, pero
-`@playwright/test` 1.62 busca un nombre de revisión propio.
+`@playwright/test` 1.62 lo busca con otra revisión y otras rutas.
 
 **Qué hacemos.** La receta está en «Playwright no encuentra el navegador», en
 «Entorno» de `.claude/LECCIONES.md`. El tester lo resolvió solo y aclaró que
@@ -394,9 +394,9 @@ hace ahí.
 tester, y el tester trabaja sobre `origin/<rama>` sin tomar el nombre, en una
 rama propia, `qa/<rama>`, que no se pushea. El orquestador mira que
 `git diff --name-only <rama>...qa/<rama>` traiga sólo `e2e/`, `tests/` y
-`package.json` (con tres puntos, que muestra sólo los commits del tester): el
-tester muta la app, y una mutación sin deshacer entraría
-con sus tests. Después los lleva a la rama del dev con `merge --ff-only`,
+`package.json` (tres puntos: con dos, si el dev avanzó, salen también sus
+cambios): el tester muta la app, y una mutación sin deshacer entraría con sus
+tests. Después los lleva a la rama del dev con `merge --ff-only`,
 pushea, y recién ahí borra el worktree del tester y `qa/<rama>`. El worktree
 del dev se borra cuando cerró el QA —el tester reportó en verde y sus tests
 están en la rama—, no antes.
