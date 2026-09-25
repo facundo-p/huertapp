@@ -4,10 +4,10 @@ import { conHelada } from './apoyo-pronostico'
 /**
  * Accesibilidad, como test y no como revisión de una sola vez.
  *
- * El brief la pone como no negociable: el color nunca es el único canal, los
- * targets táctiles ≥ 44 px y contraste AA. Las tres cosas se rompen solas al
- * agregar pantallas, así que se miden acá, en todas las pantallas, con datos
- * cargados —que es cuando aparecen los casos difíciles.
+ * El brief la pone como no negociable. El contraste AA y los targets de 44 px
+ * se rompen solos al agregar pantallas, así que se miden acá, en todas, con
+ * datos cargados —que es cuando aparecen los casos difíciles—. Que el color
+ * no sea el único canal no lo ve un test: se revisa en las capturas.
  */
 
 const PANTALLAS = [

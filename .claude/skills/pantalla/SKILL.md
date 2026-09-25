@@ -63,7 +63,8 @@ desde el principio:
    `elementFromPoint`. Si no hay 44 posibles (las iniciales de mes en doce
    columnas), el control va en otro lado; no se exime.
 3. **El color nunca solo.** Ideal/posible, y anillo externo/interno, se
-   distinguen también por forma y relleno.
+   distinguen también por forma y relleno. Esto no lo mide un test: se ve en
+   las capturas.
 4. **Nombre accesible en todo lo interactivo.** Ícono solo → `aria-label`.
    Un chip con opción elegida dice «Grupo: Aromática».
 5. **Jerarquía de encabezados sin saltos.** Un `h1` por pantalla.
@@ -112,7 +113,8 @@ no desaparece. Cuando algo no funciona en cierta plataforma, se dice **antes**.
 
 ## Verificación final
 
-Las cuatro de `CLAUDE.md`, con las capturas en los dos temas:
+Las cuatro de `CLAUDE.md`, con las capturas en los dos temas. En el equipo las
+corre el tester (ver `dev.md`); si trabajás solo, vos:
 
 ```bash
 npx tsc -b && npm test && npm run e2e

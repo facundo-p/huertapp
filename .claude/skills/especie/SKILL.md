@@ -256,13 +256,16 @@ FASE=dev npm run shots -- -g 'captura calendario-completo$'
 ```
 
 → `e2e/shots/dev/calendario-completo.png`. La ficha de la especie, si tiene
-captura, es `-g 'captura ficha-<id>$'`. La tanda entera la corre el tester.
+captura, es `-g 'captura ficha-<slug>$'`. En el equipo, la tanda entera la
+corre el tester.
 
 ## Verificación final
 
 ```bash
 npx tsc -b && npm test && npm run e2e
 ```
+
+En el equipo, `npm run e2e` lo corre el tester (ver `dev.md`).
 
 Y en el resumen al usuario, decile **qué fuente respalda cada cambio** y con qué
 confianza. Es el contrato del producto: nada entra sin decir de dónde salió.

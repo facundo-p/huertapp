@@ -367,13 +367,16 @@ vigente, y reemplaza la de la Tanda A:
 
 Esta tanda corrió sin el límite, y el investigador tuvo Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
-corridas y las dos reanudaciones. En la próxima sesión, `/agents` primero,
-para saber en qué harness estamos.
+corridas y las dos reanudaciones. En la próxima sesión, lo primero es ver si
+cargan: si el rol está entre los `subagent_type` de la herramienta Agent (el
+*not found* trae la lista de los que sí). `/agents` es del CLI: lo corre la
+persona, no el orquestador.
 
 **Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
 plugin no depende de `.claude/agents/` del repo, y es justamente por eso que
 conviene que exista. Los roles van como agentes del plugin; el orquestador
-arranca con `/agents` y, si no aparecen, emula con la receta de arriba.
+arranca mirando si están entre los `subagent_type` y, si no, emula con la
+receta de arriba.
 
 ### El tester no pudo tomar la rama porque el worktree del dev la tenía
 
@@ -693,10 +696,10 @@ La lista corta, para no releer todo:
 15. **Un tester que compara ramas necesita su propio worktree**, o pisa su
     propio trabajo.
 16. **Los agentes del proyecto no cargan en todos los harness; los de plugin
-    sí.** Es la razón de que el plugin exista. Los roles van como agentes del
-    plugin; el orquestador arranca con `/agents` y, si no aparecen, emula con
-    la receta de «Los agentes del proyecto tampoco cargan en la sesión
-    siguiente».
+    sí.** Es una razón más para el plugin. Los roles van como agentes del
+    plugin; el orquestador arranca mirando si están entre los `subagent_type`
+    y, si no, emula con la receta de «Los agentes del proyecto tampoco cargan
+    en la sesión siguiente».
 17. **El tester no toma la rama del dev**: trabaja en `qa/<rama>`, sobre
     `origin/<rama>`. El orquestador lleva sus tests con `merge --ff-only`, y
     el worktree del dev vive hasta que cierre el QA: el tester reportó en verde

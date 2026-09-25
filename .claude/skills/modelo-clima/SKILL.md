@@ -99,14 +99,15 @@ Y revisá en `REVISION_CALENDARIO.md`, sin saltearte ninguno:
   (perennes leñosas, y las gobernadas por fotoperíodo). Un "sin afinar" honesto
   es mejor que una precisión falsa.
 
-Y mirá el calendario dibujado, en las tres zonas:
+Y mirá el calendario dibujado. Hay captura de conurbano (la zona por defecto)
+y de periurbano; urbano no tiene:
 
 ```bash
 FASE=dev npm run shots -- -g 'captura calendario-(completo|zona-periurbano)$'
 ```
 
 → `e2e/shots/dev/calendario-completo.png` y `calendario-zona-periurbano.png`.
-La tanda entera la corre el tester.
+En el equipo, la tanda entera la corre el tester.
 
 ## Al contarlo
 
