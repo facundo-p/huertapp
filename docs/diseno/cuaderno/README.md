@@ -148,9 +148,10 @@ están abajo.
   está el aviso entero con su fuente. No se descarta: vuelve a verse al subir.
 - **Para sembrar ahora**, como nota al margen después de hoy: cuatro nombres
   con «+» y «Ver todas en Explorar». Cada nombre lleva a su ficha, como en
-  `Hoy.tsx`. No lleva número porque cada lugar cuenta distinto: hoy la app lista 12 (el tope por defecto de `paraSembrarAhora`),
-  sin tope son 31 contando variedades, y el filtro «Ahora» de Explorar muestra
-  37 especies, 29 ideales y 8 posibles.
+  `Hoy.tsx`. No lleva número porque cada lugar cuenta distinto: hoy la app
+  lista 12 (el tope por defecto de `paraSembrarAhora`), sin tope son 31
+  contando variedades, y el filtro «Ahora» de Explorar muestra 37 especies, 29
+  ideales y 8 posibles.
 
 ### Más de un post-it
 
@@ -190,8 +191,9 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 - N es la capacidad del lugar. Sin capacidad, la suma de `ocupa ?? 1` de sus
   plantas.
 - Paso de celda: `clamp(ancho / columnas, 44, 56)` px, salvo dos: el surco es
-  una fila de media página (entera con más de 4) por 44 de alto, y la maceta va a 70 de alto, para
-  que entre el nombre abajo. Ningún target baja de 44 ni se solapa.
+  una fila de media página (entera con más de 4) por 44 de alto, y la maceta
+  va a 70 de alto, para que entre el nombre abajo. Ningún target baja de 44 ni
+  se solapa.
 - Si lo sembrado pide más celdas que las que hay, primero cada planta recibe
   una y después se reparten las que quedan, en orden. Si ni una por planta
   alcanza (30 plantas en un bancal de 6 × 3), la grilla suma filas: el croquis
@@ -280,11 +282,13 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 **«Acomodar» se hace tocando, nunca arrastrando.**
 
 - Tocás una o varias celdas con plantas y quedan elegidas. Tocar otra vez
-  una elegida la saca.
+  una elegida la saca. Lo elegido se tiñe, y el trazo lo rodea como grupo:
+  entre dos vecinas de la misma planta no va, porque ahí pasa el nombre.
 - Las celdas libres donde entra lo elegido llevan una marca «+». Tocás una: la
   primera en orden de lectura (arriba a la izquierda) va ahí y las demás la
   siguen con la misma forma. Con más de una elegida, ésa lleva un «1» montado
-  sobre su esquina de arriba a la izquierda: adentro ya no queda lugar.
+  sobre su esquina de arriba a la izquierda, debajo del copo si lo hay:
+  adentro ya no queda lugar.
 - Si no entra, la barra dice por qué («se sale del lugar», «pisa la
   lechuga»).
 - La primera cae siempre en una libre, así que un bloque no se corre sobre sí
@@ -413,7 +417,7 @@ Lo que no está en esta tabla sale de `src/theme.css`.
 | `--sobre-bandera` / `--sobre-bandera-atrasada` | `#2a2110` / `#fffdf5` | `#2a2110` / `#2a2110` | el número de la banderita |
 | `--bandera-borde` | `--tinta-media` | `transparent` | contorno de la banderita: de día el relleno no llega a 3:1 |
 | `--papel-opaco` | `#fffdf5` | `#222e1f` | lo que no puede transparentar: la barra de Acomodar, la almaciguera, el copo, los botones a lápiz, la nota al margen |
-| `--sobre-salvia` | `#fffdf5` | `#1f2a1c` | texto del botón lleno («Asomó»). Con `--papel` de día da 4,87; con éste, 5,3 |
+| `--sobre-salvia` | `#fffdf5` | `#1f2a1c` | texto del botón lleno («Listo» de Acomodar). Con `--papel` de día da 4,87; con éste, 5,3 |
 | `--foto-borde` | `#fbfaf4` | `#e7e2d2` | el borde blanco de las fotos del diario |
 | pestañas | `color-mix(<token> 20 %, --papel)` | igual | una pestaña por sección: sol, verde, agua, terracota, oliva |
 | papel reciclado | `papel-reciclado-dia.svg`, nada más oscuro que `--papel` | `papel-reciclado-noche.svg`, nada más claro | fondo, en lugar del grano |

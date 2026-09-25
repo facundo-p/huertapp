@@ -507,7 +507,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 
 .plano { display: grid; grid-template-columns: 168px 168px; column-gap: 28px; row-gap: 12px; grid-auto-flow: row; justify-content: center; }
 /* sin esto, display:grid le gana a [hidden] y el croquis no se pliega */
-.plano[hidden] { display: none; }
+.plano[hidden], .leyenda[hidden] { display: none; }
 .lugar { display: grid; gap: 2px; align-content: start; }
 .lugar--entera { grid-column: 1 / -1; justify-self: center; }
 .lugar__cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 2px; min-height: 44px; }
@@ -559,17 +559,19 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .celda--vacia-surco { place-items: center; }
 .celda.en-bloque { background: color-mix(in srgb, var(--verde-hoja) 13%, transparent); }
 .celdas--libre .celda.en-bloque { border-color: var(--verde-hoja); border-style: dashed; border-width: 0; }
+/* el contorno de lo elegido lo arma pintarPlano, lado por lado: entre dos vecinas partía el nombre */
 .celda.es-elegida,
-.celdas--macetas .celda.es-elegida { background: color-mix(in srgb, var(--tinta) 12%, transparent); box-shadow: inset 0 0 0 2.5px var(--tinta); }
+.celdas--macetas .celda.es-elegida { background: color-mix(in srgb, var(--tinta) 12%, transparent); }
 /* con las dos marcas queda al medio; en la maceta, nunca: se saldría de la tierra */
 .celdas:not(.celdas--macetas) .celda.con-bandera:not(.con-copo) .plantita { transform: translateX(-9px); }
 .celdas:not(.celdas--macetas) .celda.con-copo:not(.con-bandera) .plantita { transform: translateX(9px); }
-/* montado en la esquina de lo elegido: adentro ya están el copo, la banderita, la planta y el nombre */
+/* montado en la esquina de lo elegido: adentro ya están el copo, la banderita, la planta y el nombre.
+   Debajo del copo: si se tocan, el aviso de helada queda entero y el «1» igual se lee */
 .ancla {
   position: absolute;
   top: -7px;
   left: -7px;
-  z-index: 5;
+  z-index: 3;
   width: 18px;
   height: 18px;
   display: grid;
@@ -721,7 +723,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   transform: rotate(-4deg);
   text-align: center;
 }
-.sello b { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.2; }
+.sello b { font-size: 12px; font-weight: 900; line-height: 1.2; }
 .sello span { font-size: 12px; font-weight: 700; line-height: 1.2; }
 .pagina--diario { margin-top: 14px; padding-bottom: 12px; }
 .entrada { display: grid; grid-template-columns: 64px 1fr; padding-right: 16px; }
@@ -1525,6 +1527,15 @@ html.captura .banderita.es-atrasada { animation: none; }
           var arr = misma(l, i, i - l.cols), aba = misma(l, i, i + l.cols);
           var r = 9;
           estilo += 'border-radius:' + (!arr && !izq ? r : 0) + 'px ' + (!arr && !der ? r : 0) + 'px ' + (!aba && !der ? r : 0) + 'px ' + (!aba && !izq ? r : 0) + 'px;';
+          if (elegida) {
+            // sin trazo entre dos elegidas del mismo manchón: el nombre las cruza a las dos
+            var lados = [];
+            if (!(arr && sel.indexOf(i - l.cols) >= 0)) lados.push('inset 0 2.5px var(--tinta)');
+            if (!(aba && sel.indexOf(i + l.cols) >= 0)) lados.push('inset 0 -2.5px var(--tinta)');
+            if (!(izq && sel.indexOf(i - 1) >= 0)) lados.push('inset 2.5px 0 var(--tinta)');
+            if (!(der && sel.indexOf(i + 1) >= 0)) lados.push('inset -2.5px 0 var(--tinta)');
+            estilo += 'box-shadow:' + (lados.join(',') || 'none') + ';';
+          }
           if (l.clase === 'libre') {
             estilo += 'border-top-width:' + (arr ? 0 : 1.75) + 'px;border-right-width:' + (der ? 0 : 1.75) + 'px;border-bottom-width:' + (aba ? 0 : 1.75) + 'px;border-left-width:' + (izq ? 0 : 1.75) + 'px;';
           }
