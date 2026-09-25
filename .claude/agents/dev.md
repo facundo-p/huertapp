@@ -76,8 +76,8 @@ npm test          # incluye el chequeo de que el JSON generado esté al día
 **Esto manda sobre la skill y sobre `CLAUDE.md`.** Si piden `npm run e2e` o
 `npm run shots` enteros, eso lo corre el tester, no vos: el 4173 es uno solo,
 así que va una corrida de Playwright a la vez en toda la máquina, y repetir la
-batería la ocupa el doble. Vos corrés lo de arriba, tus specs y tus capturas con
-`-g`.
+batería la ocupa el doble. Vos corrés lo de arriba, los specs que escribiste o
+tocaste y tus capturas con `-g`.
 
 Si escribiste un spec para convencerte, commitealo y nombralo en el parte con
 lo que verifica: el tester decide si queda. Correlo con

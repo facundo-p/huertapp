@@ -38,12 +38,11 @@ Por cada dato:
   el orquestador baja el documento y busca la frase antes de pasarle el dato
   al dev.
 - **Confianza 1-10 propuesta**, con la razón, contra la escala con que se
-  cargaron los datos: `meta.escala_confianza` en `data/huerta_gba.json`. El
-  Glosario la agrupa distinto y no coincide en dos tramos: una fuente oficial
-  sola (8-9 en los datos, 5-7 en el Glosario) y el 5 (en los datos, fuente
-  divulgativa, de otro clima o con discrepancia notable; en el Glosario,
-  «fuente confiable única»). Si tu puntaje cae en uno de los dos, decilo, que
-  eso lo decide #154.
+  cargaron los datos: `meta.escala_confianza` en `data/huerta_gba.json`. La
+  del Glosario (`CONFIANZAS` en `src/screens/Glosario.tsx`) agrupa distinto, y
+  hay puntajes que cumplen una y no la otra: una sola fuente oficial es 8-9 en
+  los datos y 5-7 en el Glosario. Si el tuyo es uno, decilo, que eso lo decide
+  #154.
 
 ## "No encontré fuente" es una respuesta buena
 

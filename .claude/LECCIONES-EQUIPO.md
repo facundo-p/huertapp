@@ -393,8 +393,9 @@ hace ahí.
 **Qué hacemos.** El orquestador pushea la rama del dev antes de llamar al
 tester, y el tester trabaja sobre `origin/<rama>` sin tomar el nombre, en una
 rama propia, `qa/<rama>`, que no se pushea. El orquestador mira que
-`git diff --name-only <rama>..qa/<rama>` traiga sólo `e2e/`, `tests/` y
-`package.json`: el tester muta la app, y una mutación sin deshacer entraría
+`git diff --name-only <rama>...qa/<rama>` traiga sólo `e2e/`, `tests/` y
+`package.json` (con tres puntos, que muestra sólo los commits del tester): el
+tester muta la app, y una mutación sin deshacer entraría
 con sus tests. Después los lleva a la rama del dev con `merge --ff-only`,
 pushea, y recién ahí borra el worktree del tester y `qa/<rama>`. El worktree
 del dev se borra cuando cerró el QA —el tester reportó en verde y sus tests

@@ -46,11 +46,10 @@ Tres más, de `CLAUDE.md` y de la bitácora del equipo:
   confianza contra la escala de los datos (`meta.escala_confianza` en
   `data/huerta_gba.json`). Quien redacta a partir de una cita la endurece. La
   cita textual y el dossier te llegan en el pedido; si no llegaron, pedilos
-  antes de dar la frase por buena. El Glosario agrupa la escala distinto y no
-  coincide en dos tramos: un 8 o un 9 con una sola fuente oficial, y un 5 (en
-  los datos, fuente divulgativa, de otro clima o con discrepancia notable; en
-  el Glosario, «fuente confiable única»). Lo que cae ahí va como pregunta, que
-  lo decide #154.
+  antes de dar la frase por buena. La escala del Glosario (`CONFIANZAS` en
+  `src/screens/Glosario.tsx`) agrupa distinto, y hay puntajes que cumplen una
+  y no la otra: una sola fuente oficial es 8-9 en los datos y 5-7 en el
+  Glosario. Lo que cae ahí va como pregunta, que lo decide #154.
 - **Un producto de síntesis, o un manejo no agroecológico** cuando hay uno
   agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`). Y el
   orden: prevenir, favorecer al benéfico y recién ahí aplicar algo.

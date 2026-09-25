@@ -38,8 +38,9 @@ En este orden:
    `git diff --quiet origin/staging...HEAD -- package-lock.json || npm ci`.
 
 Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador mira
-que `git diff --name-only <rama>..qa/<rama>` traiga sólo `e2e/`, `tests/` y
-`package.json`, y los lleva a la rama del dev con
+que `git diff --name-only <rama>...qa/<rama>` traiga sólo `e2e/`, `tests/` y
+`package.json` (tres puntos: con dos, si el dev avanzó, salen también sus
+cambios), y los lleva a la rama del dev con
 `git -C <worktree del dev> merge --ff-only qa/<rama>`, nunca con un merge
 commit. Después pushea, y recién ahí borra tu worktree y `qa/<rama>`.
 
@@ -47,7 +48,8 @@ Si no es fast-forward, porque la rama del dev se movió, el orquestador te
 reanuda por mensaje. Hacés `git rebase <rama>` en tu worktree (si choca, lo
 resolvés vos y lo decís en el parte),
 `git diff --quiet ORIG_HEAD HEAD -- package-lock.json || npm ci`, y volvés a
-correr tus specs y la batería.
+correr tus specs y la batería. El orquestador repite el chequeo del diff antes
+del fast-forward.
 
 ## Probá rompiendo
 
