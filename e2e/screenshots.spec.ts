@@ -2,6 +2,7 @@ import { test } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { conHelada, fixtureDesdeHoy } from './apoyo-pronostico'
+import { duplicarPlanta } from './apoyo-huerta'
 
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
@@ -31,46 +32,6 @@ async function conDemo(page: import('@playwright/test').Page) {
   await page.waitForLoadState('networkidle')
   await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
   await page.waitForTimeout(800)
-}
-
-/**
- * Suma una copia de una planta de la demo, con otro apodo, otro lugar o
- * sembrada unos días después. La pantalla la ve recién al recargar.
- */
-async function duplicarPlanta(
-  page: import('@playwright/test').Page,
-  slug: string,
-  cambios: { apodo?: string; lugar?: string; diasDespues?: number },
-) {
-  await page.evaluate(
-    async ({ slug, cambios }) => {
-      const pedido = indexedDB.open('huerta-gba')
-      const base = await new Promise<IDBDatabase>((res, rej) => {
-        pedido.onsuccess = () => res(pedido.result)
-        pedido.onerror = () => rej(pedido.error)
-      })
-      const tx = base.transaction(['plantas', 'ubicaciones'], 'readwrite')
-      const todas = (almacen: string) =>
-        new Promise<Record<string, string>[]>((res) => {
-          const g = tx.objectStore(almacen).getAll()
-          g.onsuccess = () => res(g.result as Record<string, string>[])
-        })
-      const p = (await todas('plantas')).find((x) => x.slug === slug)!
-      const lugares = await todas('ubicaciones')
-      const copia: Record<string, string> = { ...p, id: `${p.id}-bis` }
-      if (cambios.apodo) copia.apodo = cambios.apodo
-      if (cambios.lugar) copia.ubicacionId = lugares.find((u) => u.nombre === cambios.lugar)!.id
-      if (cambios.diasDespues) {
-        const f = new Date(`${p.sembrada}T12:00:00`)
-        f.setDate(f.getDate() + cambios.diasDespues)
-        copia.sembrada = `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, '0')}-${String(f.getDate()).padStart(2, '0')}`
-      }
-      tx.objectStore('plantas').put(copia)
-      await new Promise((res) => (tx.oncomplete = res))
-      base.close()
-    },
-    { slug, cambios },
-  )
 }
 
 /**
@@ -573,9 +534,9 @@ const TOMAS: Toma[] = [
       await page.locator('.carril__pie-grupo').first().waitFor()
     },
   },
-  // Dos zanahorias sin apodo, una por bancal y sembradas con dos días de
-  // diferencia: mismo título, otro pie. Cada fila y cada pie dicen el lugar, y
-  // «atrasada» va en esa misma línea.
+  // Dos zanahorias sin apodo sembradas el mismo día, una por bancal: el caso
+  // común. Mismo título y mismo pie; cada fila dice su lugar, con «atrasada» en
+  // esa misma línea, y el pie los junta.
   {
     nombre: 'hoy-carril-lugar',
     ruta: '/#/ajustes',
@@ -584,7 +545,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
-      await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera', diasDespues: 2 })
+      await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera' })
       await page.goto('/#/hoy')
       await page.reload()
       await page.locator('.carril__lugar').first().waitFor()

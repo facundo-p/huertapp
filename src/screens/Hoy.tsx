@@ -95,16 +95,20 @@ export function Hoy() {
   const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
   const helada = avisos.find((a) => a.tipo === 'helada')
 
-  const dondeCrece = useMemo(
-    () =>
-      new Map(
-        plantas.map((p) => [
-          p.id,
-          { lugar: ubicaciones.find((u) => u.id === p.ubicacionId)?.nombre, sembrada: p.sembrada },
-        ]),
-      ),
-    [plantas, ubicaciones],
-  )
+  const dondeCrece = useMemo(() => {
+    const lugares = new Map(ubicaciones.map((u) => [u.id, u.nombre]))
+    return new Map(
+      plantas.map((p) => [
+        p.id,
+        {
+          lugar: p.ubicacionId ? lugares.get(p.ubicacionId) : undefined,
+          sembrada: p.sembrada,
+          especie: indice?.porSlug.get(p.slug)?.nombre_comun,
+          germino: p.germino,
+        },
+      ]),
+    )
+  }, [plantas, ubicaciones, indice])
 
   const plantaDe = (t: Tarea) =>
     t.tipo === 'revisar_germinacion' ? plantas.find((p) => p.id === t.plantaId) : undefined
