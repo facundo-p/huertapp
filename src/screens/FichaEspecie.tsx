@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { DatoSection } from '../components/DatoSection'
 import { Cuidados } from '../components/Cuidados'
+import { Definicion } from '../components/Definicion'
 import { Variedades } from '../components/Variedades'
 import { EscalaRiego } from '../components/EscalaRiego'
 import { TemperaturaBloque } from '../components/TemperaturaBloque'
@@ -18,11 +19,18 @@ import {
   trasplanteAplica,
 } from '../lib/data/especies'
 import { METODOS } from '../lib/calendario'
+import {
+  definicionDeGrupo,
+  definicionDeLuz,
+  definicionDeSuelo,
+  type ContenidoDefinicion,
+} from '../lib/glosario'
 import { decadaDe, mesDeDecada, nombreDecada } from '../lib/fechas'
 import { useZona, ZONAS_INFO } from '../lib/zona'
 import {
   GRUPOS,
-  LUCES,
+  NOMBRE_LUZ,
+  NOMBRE_SUELO,
   SUELOS,
   IconoAlmacigo,
   IconoAlerta,
@@ -84,7 +92,6 @@ export function FichaEspecie() {
 
   const grupo = GRUPOS[e.grupo]
   const suelo = SUELOS[e.suelo.categoria_suelo]
-  const luz = LUCES[e.luz.categoria_luz]
   const mesHoy = mesDeDecada(decadaHoy)
 
   return (
@@ -115,14 +122,21 @@ export function FichaEspecie() {
         {/* --- resumen visual: los tres íconos con su nombre --- */}
         <div className="ficha__resumen">
           <div className="ficha__categorias">
-            <Categoria Icono={() => <IconoGrupo grupo={e.grupo} size={24} decorativo />} texto={grupo.etiqueta} />
+            <Categoria
+              Icono={() => <IconoGrupo grupo={e.grupo} size={24} decorativo />}
+              texto={grupo.etiqueta}
+              contenido={definicionDeGrupo(e.grupo)}
+            />
             <Categoria
               Icono={() => <IconoSuelo categoria={e.suelo.categoria_suelo} size={24} decorativo />}
               texto={suelo.etiqueta}
+              titulo={NOMBRE_SUELO[e.suelo.categoria_suelo]}
+              contenido={definicionDeSuelo(e.suelo)}
             />
             <Categoria
               Icono={() => <IconoLuz categoria={e.luz.categoria_luz} size={24} decorativo />}
-              texto={luz.etiqueta}
+              texto={NOMBRE_LUZ[e.luz.categoria_luz]}
+              contenido={definicionDeLuz(e.luz)}
             />
           </div>
 
@@ -319,13 +333,28 @@ function AhoraMismo({
   )
 }
 
-function Categoria({ Icono, texto }: { Icono: React.ComponentType; texto: string }) {
+function Categoria({
+  Icono,
+  texto,
+  titulo,
+  contenido,
+}: {
+  Icono: React.ComponentType
+  texto: string
+  titulo?: string
+  contenido: ContenidoDefinicion
+}) {
   return (
     <div className="ficha__categoria">
       <span className="ficha__categoria-icono">
         <Icono />
       </span>
-      <span className="ficha__categoria-texto">{texto}</span>
+      <Definicion
+        texto={texto}
+        titulo={titulo}
+        contenido={contenido}
+        className="ficha__categoria-texto"
+      />
     </div>
   )
 }

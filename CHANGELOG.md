@@ -32,6 +32,15 @@ Qué significa cada parte en este proyecto:
 - **Índice de secciones en el Glosario.** Una fila de chips debajo del título
   salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
+- **Los términos de la ficha se tocan y se explican.** El grupo, el suelo y la
+  luz de arriba de todo, y el nombre de cada labor de «Mientras crece», ahora
+  van subrayados con puntitos: tocalos y sube una hoja con qué es esa palabra,
+  sin sacarte de la ficha. Las del suelo y la luz suman lo que pide esa planta
+  y qué le pasa si no lo tiene, con su confianza y sus fuentes, o «sin fuente»
+  si no la tiene. La de una labor te dice qué es, y para cómo se hace en esa
+  planta vale lo que dice su ficha. Al pie, «Verlo en el Glosario» te deja en la
+  sección que corresponde —o en la palabra justa, si es una labor— y el lector
+  de pantalla te dice adónde llegaste.
 
 ### Cambiado
 
@@ -43,6 +52,20 @@ Qué significa cada parte en este proyecto:
   Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
   correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
   tu zona, de lo que salga y de la especie.
+
+### Arreglado
+
+- **Varias definiciones ya no dicen más de lo que sabemos.** Hablaban como si
+  valieran para todas las plantas, y alguna ficha decía otra cosa. La
+  definición de las flores polinizadoras ya no dice de todas lo que hacen
+  algunas: no todas espantan plagas, y la caléndula, por ejemplo, las atrae
+  como planta trampa. Las legumbres fijan nitrógeno en la raíz, no en la vaina,
+  y las hortalizas de hoja incluyen las que arman cabeza, como el brócoli.
+- **El chip de luz de la ficha dice sólo la categoría.** Mostraba las horas
+  generales de la categoría, que no siempre coincidían con las que cita cada
+  planta. Las de cada categoría siguen en el Glosario.
+- **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
+  no sólo como «diálogo».
 
 ## [2.3.0] — 2026-09-12
 

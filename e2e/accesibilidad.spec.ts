@@ -1,5 +1,8 @@
+import { readFileSync } from 'node:fs'
 import { test, expect, type Page } from '@playwright/test'
 import { conHelada } from './apoyo-pronostico'
+import { NOMBRE_LUZ } from '../src/icons/semantic'
+import type { EspecieEnriquecida } from '../src/lib/data/types'
 
 /**
  * Accesibilidad, como test y no como revisión de una sola vez.
@@ -10,10 +13,42 @@ import { conHelada } from './apoyo-pronostico'
  * cargados —que es cuando aparecen los casos difíciles.
  */
 
+/** Buscada y no fijada: el hueco que hay hoy en la base se va a llenar (#152). */
+const LUZ_SIN_FUENTE = (
+  JSON.parse(readFileSync('data/huerta_gba_enriquecido.json', 'utf8')).especies as EspecieEnriquecida[]
+).find((e) => e.luz.fuentes.length === 0)
+
 const PANTALLAS = [
   { ruta: '/#/hoy', nombre: 'Esta semana' },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
+  // un término del resumen con su hoja arriba: el dato de la especie, su
+  // confianza, sus fuentes y el link al glosario, que no se miden cerrada
+  {
+    ruta: '/#/explorar/tomate',
+    nombre: 'Definición de suelo',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // la de luz de una especie sin fuente: se dice con una pastilla propia que
+  // ninguna otra pantalla tiene
+  {
+    ruta: `/#/explorar/${LUZ_SIN_FUENTE?.slug ?? ''}`,
+    nombre: 'Definición de luz sin fuente',
+    entrar: async (page: Page) => {
+      if (!LUZ_SIN_FUENTE) {
+        throw new Error(
+          'Ninguna especie tiene la luz sin fuente: la pastilla «sin fuente» se quedó sin pantalla que la mida. Armale un caso o sacá esta entrada.',
+        )
+      }
+      await page
+        .getByRole('button', { name: new RegExp(`^${NOMBRE_LUZ[LUZ_SIN_FUENTE.luz.categoria_luz]}`) })
+        .click()
+      await page.getByText('sin fuente', { exact: true }).waitFor()
+    },
+  },
   // la hoja de temperatura con un rango prendido: cuatro interruptores y ocho
   // pulgares que hay que medir con la hoja abierta
   {
@@ -176,6 +211,34 @@ test('los targets táctiles llegan a 44 px', async ({ page }) => {
 
     const malos = await page.evaluate(() => {
       const MIN = 44
+      const modal = document.querySelector(':modal')
+
+      /**
+       * Cuando la caja no llega, el área puede crecer por fuera con un
+       * ::before (el nombre de una labor, en su cabecera de 17 px). Ahí se
+       * mide lo que recibe el dedo, punto por punto desde el centro: eso
+       * atrapa también a un vecino pintado encima, que la caja no ve.
+       */
+      const alcance = (el: HTMLElement) => {
+        el.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' })
+        const r = el.getBoundingClientRect()
+        const [cx, cy] = [r.left + r.width / 2, r.top + r.height / 2]
+        const toca = (x: number, y: number) => {
+          const h = document.elementFromPoint(x, y)
+          return !!h && el.contains(h)
+        }
+        const tramo = (sigue: (d: number) => boolean) => {
+          let d = 0
+          while (d < MIN && sigue(d + 1)) d++
+          return d
+        }
+        if (!toca(cx, cy)) return { ancho: 0, alto: 0 }
+        return {
+          ancho: tramo((d) => toca(cx - d, cy)) + tramo((d) => toca(cx + d, cy)) + 1,
+          alto: tramo((d) => toca(cx, cy - d)) + tramo((d) => toca(cx, cy + d)) + 1,
+        }
+      }
+
       return (
         [...document.querySelectorAll<HTMLElement>('button, a[href], [role="radio"]')]
           .filter((el) => el.offsetParent !== null && !el.classList.contains('sr-solo'))
@@ -185,9 +248,13 @@ test('los targets táctiles llegan a 44 px', async ({ page }) => {
           // corrido: agrandarlos rompería la línea. WCAG los exime por eso mismo.
           .filter(({ el }) => !el.closest('p, .dato__texto, .glosario__texto'))
           .filter(({ r }) => r.height < MIN || r.width < MIN)
+          // detrás de una hoja abierta no se toca nada; se mide con la hoja cerrada
+          .filter(({ el }) => !modal || modal.contains(el))
+          .map(({ el }) => ({ el, a: alcance(el) }))
+          .filter(({ a }) => a.alto < MIN || a.ancho < MIN)
           .map(
-            ({ el, r }) =>
-              `${el.tagName.toLowerCase()}.${el.className} ${Math.round(r.width)}×${Math.round(r.height)}`,
+            ({ el, a }) =>
+              `${el.tagName.toLowerCase()}.${el.className} ${Math.round(a.ancho)}×${Math.round(a.alto)}`,
           )
       )
     })

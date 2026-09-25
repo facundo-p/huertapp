@@ -9,7 +9,9 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "strict": true
+    "strict": true,
+    // hay tests que dibujan una pantalla para mirar lo que de verdad sale
+    "jsx": "react-jsx"
   },
   // vite-env.d.ts: los tests alcanzan código de src/ que usa __VERSION_APP__,
   // el global que inyecta Vite en el build
