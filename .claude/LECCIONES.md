@@ -320,8 +320,8 @@ necesite Playwright y, si sigue ocupado, decilo.
 **Síntoma:** `Executable doesn't exist`, y `npx playwright install` da 403
 contra `cdn.playwright.dev`.
 
-**Causa:** en el entorno de los agentes el egreso está cerrado, pero Chromium
-viene en `/opt/pw-browsers`, con otro número de revisión que el que busca
+**Causa:** con el egreso cerrado no se puede bajar, pero Chromium viene en
+`/opt/pw-browsers`, con otro número de revisión que el que busca
 `@playwright/test`.
 
 **Qué hacer:** symlinks con el nombre que espera, en una carpeta fuera del

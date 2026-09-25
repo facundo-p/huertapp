@@ -265,7 +265,7 @@ corre el tester.
 npx tsc -b && npm test && npm run e2e
 ```
 
-En el equipo, `npm run e2e` lo corre el tester (ver `dev.md`).
+En el equipo, `npm run e2e` lo corre el tester (ver `.claude/agents/dev.md`).
 
 Y en el resumen al usuario, decile **qué fuente respalda cada cambio** y con qué
 confianza. Es el contrato del producto: nada entra sin decir de dónde salió.

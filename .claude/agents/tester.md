@@ -128,10 +128,11 @@ Antes de reportar, fijate qué tipo de falla es:
 - **Un test que falla sólo en CI o a veces**: la diferencia suele ser **tiempo**,
   no entorno. Una espera que nunca falla no está esperando.
 - **`npm test` quejándose del JSON generado**: falta `npm run data:build`.
-- **Los e2e pisándose**: `playwright.config.ts` ya usa `workers: 1`.
+- **Los e2e pisándose**: `playwright.config.ts` ya usa `workers: 1`, y el
+  4173 es uno solo: una corrida de Playwright a la vez en toda la máquina.
 - **Playwright no encuentra el navegador, o el puerto 4173 está ocupado**:
-  fijate en «Entorno» de `.claude/LECCIONES.md`. Si no lo levantaste vos, es
-  la corrida de otro: no lo liberes.
+  fijate en «Entorno» de `.claude/LECCIONES.md`. Un 4173 que no levantaste
+  vos es la corrida de otro: no lo liberes.
 
 `.claude/LECCIONES.md` tiene varias de estas con síntoma y causa. Vale leerlo
 antes de teorizar.

@@ -45,7 +45,7 @@ reinventes: extendela.
   interno dibuja la píldora (`.carril__hecho`, `.chip-hoja`, `.fuente`).
 - **Sin librerías de UI.** Es un requisito explícito del brief.
 
-## Invariantes que un test va a verificar
+## Invariantes de accesibilidad
 
 `e2e/accesibilidad.spec.ts` recorre todas las pantallas. El contraste lo mide
 **en los dos temas** y con datos cargados; el foco, en los dos temas y sin
@@ -114,8 +114,8 @@ no desaparece. Cuando algo no funciona en cierta plataforma, se dice **antes**.
 ## Verificación final
 
 Las cuatro de `CLAUDE.md`, con las capturas en los dos temas. En el equipo,
-`e2e` y `shots` los corre el tester y `tsc` y `npm test`, vos (ver `dev.md`);
-si trabajás solo, todas vos:
+`e2e` y `shots` los corre el tester y `tsc` y `npm test`, vos (ver
+`.claude/agents/dev.md`); si trabajás solo, todas vos:
 
 ```bash
 npx tsc -b && npm test && npm run e2e

@@ -361,11 +361,11 @@ vigente, y reemplaza la de la Tanda A:
 - `model:` explícito en la llamada, e `isolation: worktree` para dev y tester.
 - El pedido dice "leé `.claude/agents/<rol>.md` y adoptalo" y **pone las
   herramientas de su `tools:` como límite**. Es un límite escrito, no una
-  restricción: el agente sigue teniendo Bash y Edit. Sin eso, nada le dice al
-  investigador que no use Bash ni al reviewer que no edite, y dejan de ser el
-  rol. Al terminar el reviewer, `git -C <worktree que revisó> status --short`
-  y un `git log` sin commits nuevos dicen si editó. En su cwd no se ve:
-  `.claude/worktrees/` está ignorado.
+  restricción: el agente sigue teniendo Bash y Edit. Sin eso queda sólo la
+  frase del prompt del rol, sin el `tools:` que la hacía cumplir. Al terminar
+  el reviewer, `git -C <worktree que revisó> status --short` y un `git log`
+  sin commits nuevos dicen si editó. En su cwd no se ve: `.claude/worktrees/`
+  está ignorado.
 
 Esta tanda corrió sin el límite, y el investigador usó Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
