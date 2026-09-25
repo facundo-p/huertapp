@@ -569,7 +569,7 @@ const TOMAS: Toma[] = [
       // recarga de verdad: ir a otro hash no vuelve a leer la base
       await page.reload()
       await page.locator('.carril__cielo').first().waitFor()
-      await page.getByRole('button', { name: /^por qué y de dónde sal/ }).first().click()
+      await page.getByRole('button', { name: /de dónde sal/ }).first().click()
       await page.locator('.carril__pie-grupo').first().waitFor()
     },
   },
@@ -588,7 +588,7 @@ const TOMAS: Toma[] = [
       await page.goto('/#/hoy')
       await page.reload()
       await page.locator('.carril__lugar').first().waitFor()
-      await page.getByRole('button', { name: /^por qué y de dónde sal/ }).first().click()
+      await page.getByRole('button', { name: /de dónde sal/ }).first().click()
       await page.locator('.carril__pie-lugar').first().waitFor()
     },
   },

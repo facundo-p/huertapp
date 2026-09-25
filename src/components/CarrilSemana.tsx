@@ -16,7 +16,14 @@ import {
   type IconProps,
 } from '../icons'
 import type { Tarea } from '../lib/tareas/engine'
-import { agruparPorPie, distinguir, titulosDe, type DondeCrece, type GrupoTareas } from '../lib/tareas/agrupar'
+import {
+  agruparPorPie,
+  distinguir,
+  etiquetaPie,
+  titulosDe,
+  type DondeCrece,
+  type GrupoTareas,
+} from '../lib/tareas/agrupar'
 import { alternar } from '../lib/huerta/plegado'
 import type { AvisoClima, DiaPronostico, TipoAviso } from '../lib/pronostico/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
@@ -166,7 +173,6 @@ export function CarrilSemana({
                   esHoy={esHoy}
                   grupos={grupos}
                   lugares={distintos.porGrupo}
-                  varias={ts.length > 1}
                   abierto={abiertos.includes(fecha)}
                   onAlternar={() => setAbiertos((v) => alternar(v, fecha))}
                 />
@@ -227,7 +233,6 @@ function PieDelDia({
   esHoy,
   grupos,
   lugares,
-  varias,
   abierto,
   onAlternar,
 }: {
@@ -235,7 +240,6 @@ function PieDelDia({
   esHoy: boolean
   grupos: GrupoTareas[]
   lugares: Map<string, string>
-  varias: boolean
   abierto: boolean
   onAlternar: () => void
 }) {
@@ -251,7 +255,7 @@ function PieDelDia({
       >
         {/* no cambia a «ocultar»: el galón y aria-expanded ya dicen el estado */}
         <IconoDesplegar size={13} className={`galon ${abierto ? 'es-abierto' : ''}`} />
-        {varias ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
+        {etiquetaPie(grupos)}
         {/* siete botones iguales en la pantalla: hay que decir de qué día es */}
         <span className="sr-solo">, {esHoy ? 'hoy' : fechaDiaLarga(fecha)}</span>
       </button>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { agruparPorPie, distinguir, type DondeCrece } from '../src/lib/tareas/agrupar'
+import { agruparPorPie, distinguir, etiquetaPie, type DondeCrece } from '../src/lib/tareas/agrupar'
 import type { Tarea } from '../src/lib/tareas/engine'
 
 const FUENTE = 'según la ficha: 25-35 días desde la siembra · confianza 7/10'
@@ -70,6 +70,21 @@ describe('el pie compartido del carril', () => {
     const [g] = agruparPorPie([tarea({ id: 't1', instruccion: true }), tarea({ id: 't2', instruccion: true })])
     expect(g.instruccion).toBe(true)
     expect(agruparPorPie([tarea({})])[0].instruccion).toBeUndefined()
+  })
+})
+
+describe('el botón del pie', () => {
+  const helada = tarea({ id: 'helada:1', tipo: 'helada', slug: undefined, instruccion: true })
+
+  it('con algún porqué plegado, lo anuncia', () => {
+    expect(etiquetaPie(agruparPorPie([tarea({})]))).toBe('por qué y de dónde sale')
+    expect(etiquetaPie(agruparPorPie([helada, tarea({})]))).toBe('por qué y de dónde salen')
+  })
+
+  it('si todo el día es instrucción, adentro sólo queda la fuente', () => {
+    expect(etiquetaPie(agruparPorPie([helada]))).toBe('de dónde sale')
+    const riesgosas = [1, 2].map((n) => tarea({ id: `t${n}`, instruccion: true }))
+    expect(etiquetaPie(agruparPorPie([helada, ...riesgosas]))).toBe('de dónde salen')
   })
 })
 

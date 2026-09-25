@@ -35,6 +35,12 @@ export function agruparPorPie(tareas: Tarea[]): GrupoTareas[] {
   return [...grupos.values()]
 }
 
+/** El botón del pie. Si todo el día es instrucción, adentro sólo queda la fuente. */
+export function etiquetaPie(grupos: GrupoTareas[]): string {
+  const sale = grupos.flatMap((g) => g.tareas).length > 1 ? 'de dónde salen' : 'de dónde sale'
+  return grupos.every((g) => g.instruccion) ? sale : `por qué y ${sale}`
+}
+
 /** Los títulos distintos del grupo, en orden: de qué tareas habla su pie. */
 export const titulosDe = (g: GrupoTareas): string[] => [...new Set(g.tareas.map((t) => t.titulo))]
 

@@ -20,7 +20,7 @@ const PANTALLAS = [
     entrar: async (page: Page) => {
       // siempre el primero que queda cerrado: al abrirse sale del conjunto, así
       // que los índices se corren solos. Tope en 7, los días de la semana.
-      const cerrados = page.getByRole('button', { name: /^por qué y de dónde sal/, expanded: false })
+      const cerrados = page.getByRole('button', { name: /de dónde sal/, expanded: false })
       // count() no espera: si el catálogo pinta antes que las plantas, el
       // bucle no abriría nada y el test mediría la pantalla sin la letra chica
       await cerrados.first().waitFor()
