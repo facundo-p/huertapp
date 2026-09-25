@@ -346,26 +346,25 @@ La sesión de la Tanda B corrió en la extensión de VSCode sobre el Agent SDK, 
 ahí los agentes de usuario y de plugin cargaron y los del proyecto no. El Agent
 SDK en sí no es: en #142, también sobre el Agent SDK, el reviewer cargó como
 agente del proyecto, con su prompt y sus herramientas.
-Queda la configuración de la extensión. La guía de Claude Code listó las causas
-documentadas —`settingSources` sin `project`, frontmatter roto, directorio
-creado a mitad de sesión— y ninguna aplica.
+Queda algo de la extensión que no está documentado: la guía de Claude Code
+listó las causas conocidas —`settingSources` sin `project`, frontmatter roto,
+directorio creado a mitad de sesión— y ninguna aplica.
 
 **Qué hacemos.** Seguir emulando. Emulado, el frontmatter del rol no se
 aplica: lo que ponía va en la llamada y en el pedido. Ésta es la receta
 vigente, y reemplaza la de la Tanda A:
 
-- El tipo incorporado da igual mientras tenga las herramientas del rol. En la
-  Tanda A fueron `Explore` para leer y `general-purpose` o `claude` para
-  escribir; en ésta, `general-purpose` para todos. Ninguno las limita a las
-  del rol.
+- `general-purpose` para todos. `Explore` y `Plan` sacan Edit y Write, pero
+  corren sin `CLAUDE.md`, y los roles lo necesitan: el reviewer revisa sus
+  cinco reglas. Por eso ya no se usa `Explore` para leer, como en la Tanda A.
 - `model:` explícito en la llamada, e `isolation: worktree` para dev y tester.
 - El pedido dice "leé `.claude/agents/<rol>.md` y adoptalo" y **pone las
   herramientas de su `tools:` como límite**. Es un límite escrito, no una
-  restricción: el agente sigue teniendo Bash y Edit. Sin eso queda sólo la
-  frase del prompt del rol, sin el `tools:` que la hacía cumplir. Al terminar
-  el reviewer, `git -C <worktree que revisó> status --short` y un `git log`
-  sin commits nuevos dicen si editó. En su cwd no se ve: `.claude/worktrees/`
-  está ignorado.
+  restricción: `general-purpose` sigue teniendo Bash y Edit. Sin eso queda
+  sólo la frase del prompt del rol, sin el `tools:` que la hacía cumplir. Al
+  terminar el reviewer, `git -C <worktree que revisó> status --short` y un
+  `git log` sin commits nuevos dicen si editó. En su cwd no se ve:
+  `.claude/worktrees/` está ignorado.
 
 Esta tanda corrió sin el límite, y el investigador usó Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
@@ -660,6 +659,11 @@ Como QA, el tester cuesta entre 1,6 y 2 veces lo de la tanda anterior
 los tres problemas de la entrada anterior, pero dejó tres comportamientos
 fijados y una hipótesis descartada con evidencia. Es el gasto que reemplaza a
 "lo probé a mano y andaba".
+
+El reviewer pasó los 100 k con un hallazgo de una línea y una hipótesis que no
+se sostuvo, y se le pasaron los 3 px. Lo que suma el merge de prueba con #140
+no está medido aparte: es la señal que pide el umbral de la línea de base, y
+queda para su prompt.
 
 ---
 

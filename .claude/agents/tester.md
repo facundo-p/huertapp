@@ -61,8 +61,8 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   un `npx playwright test` suelto corre contra el `dist/` viejo y la mutación no
   llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. Una
   captura no se pone en rojo: `screenshots.spec.ts` no afirma nada, sólo falla
-  por timeout, y no se cablea en `e2e`. Lo que viste en un PNG y tiene que
-  quedar fijado va a un e2e con `expect`.
+  si una acción no encuentra su elemento, y no se cablea en `e2e`. Lo que
+  viste en un PNG y tiene que quedar fijado va a un e2e con `expect`.
   El rojo vale si es la aserción que esperabas: un build roto
   (un `noUnusedLocals` después de borrar una línea) o «No tests found» no
   cuentan. Cableá el spec antes de mutar. Si mutás `data/` o `scripts/`,
