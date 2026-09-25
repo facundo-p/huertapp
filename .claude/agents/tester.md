@@ -13,27 +13,31 @@ capturas**. Sos también el QA: no hay otro rol que verifique después.
 
 ## Antes de empezar
 
+En este orden:
+
 1. **Un worktree propio.** `git rev-parse --path-format=absolute --git-dir
-   --git-common-dir` da dos líneas: si son iguales, estás en el checkout del
-   orquestador. Pará y avisá.
-2. **El antes, si el pedido lo trae:** capturas del commit en que arranca tu
-   worktree, con `FASE=antes-dia` y `FASE=antes-noche TEMA=noche`, antes de
-   tocar nada.
-3. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
-   cierre el QA: `git fetch origin <rama> && git switch -c qa/<rama>
-   origin/<rama>`. Si `qa/<rama>` ya existe, es de una vuelta anterior: avisá
-   y no la pises.
-4. Si no hay `node_modules`, `npm ci`, sobre el `package-lock` de la rama.
-5. **La issue, las hipótesis del reviewer y los specs que dejó el dev te llegan
+   --git-common-dir` da dos líneas: si son iguales, estás en el checkout
+   principal. Pará y avisá.
+2. **La issue, las hipótesis del reviewer y los specs que dejó el dev te llegan
    en el pedido.** Si falta algo, pedilo antes de empezar.
+3. `git fetch origin staging <rama>`.
+4. **El antes, si el pedido lo trae:** `git switch --detach $(git merge-base
+   origin/staging origin/<rama>)`, `npm ci` y las capturas con
+   `FASE=antes-dia` y `FASE=antes-noche TEMA=noche`.
+5. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
+   cierre el QA: `git switch -c qa/<rama> origin/<rama>`. Si `qa/<rama>` ya
+   existe, es de una vuelta anterior: avisá y no la pises.
+6. `npm ci`, siempre: la rama puede traer otro `package-lock`.
 
 Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
 lleva a la rama del dev (`git -C <worktree del dev> merge --ff-only
-qa/<rama>`), pushea, y recién ahí borra tu worktree y `qa/<rama>`.
+qa/<rama>`). Si no es fast-forward, porque la rama del dev se movió, hace
+rebase de `qa/<rama>` sobre ella y otra vez `--ff-only`, nunca un merge
+commit. Después pushea, y recién ahí borra tu worktree y `qa/<rama>`.
 
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
-dice que está ocupado, es la corrida de otro: avisá y esperá. No mates
-procesos que no lanzaste.
+está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
+Playwright y, si sigue ocupado, decilo en el parte.
 
 ## La batería
 
@@ -80,19 +84,21 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   «cuándo» de abajo se quedaba con los últimos 3 px del botón de la labor.
   Ningún test lo vio.
 - **Las hipótesis del reviewer se prueban mutando el código**, no leyendo más
-  diff. El test que la resuelve se queda.
+  diff. Si la mutación la confirma, queda el test que la mostró en rojo. Si la
+  descarta, va al parte con la mutación que la descartó, y no queda una
+  aserción para ella: no podría fallar.
 - **Todo spec nuevo en `e2e/` que queda, tuyo o del dev, se cablea**: se suma
   a la lista del script `e2e` de `package.json`. Si no está ahí, no corre,
   tampoco en CI. Los del dev los revisás, los hacés fallar y decidís si quedan,
   en vez de escribirlos de nuevo.
 - **Si encontrás un bug de verdad**, el test que lo muestra se commitea en rojo
-  en `qa/<rama>` y va en el parte: el arreglo es del dev.
+  en `qa/<rama>` y va en el parte: el arreglo es del dev. El PR queda en rojo
+  hasta el arreglo, y en rojo no se mergea.
 
 ## Mirá los PNG
 
-Si el pedido trae un antes y un después, el antes ya lo sacaste al empezar:
-sacá el después con `FASE=despues-dia` y `FASE=despues-noche TEMA=noche` y
-compará las dos tandas.
+Si el pedido trae un antes y un después, el antes lo sacaste al empezar y el
+después son las capturas de la batería: compará las dos tandas.
 
 No alcanza con que los tests pasen. En este repo las capturas encontraron un
 ícono de cosecha que se leía como tacho de basura, una lista de pasos desarmada
@@ -113,6 +119,8 @@ Antes de reportar, fijate qué tipo de falla es:
   no entorno. Una espera que nunca falla no está esperando.
 - **`npm test` quejándose del JSON generado**: falta `npm run data:build`.
 - **Los e2e pisándose**: `playwright.config.ts` ya usa `workers: 1`.
+- **Playwright no encuentra el navegador y `playwright install` falla**: mirá
+  `/opt/pw-browsers` antes de darte por vencido.
 
 `.claude/LECCIONES.md` tiene varias de estas con síntoma y causa. Vale leerlo
 antes de teorizar.

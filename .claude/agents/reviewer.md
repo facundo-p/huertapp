@@ -40,11 +40,13 @@ criterio. Después sumá lo específico de este proyecto.
 Y leé `.claude/LECCIONES.md`: tiene las trampas que ya costaron una tarde, con
 síntoma y causa. Varias vuelven.
 
-Dos más, de la bitácora del equipo:
+Tres más, de la regla 5 y de la bitácora del equipo:
 
 - **Una frase atribuida a una fuente se coteja contra la cita textual**, y la
   confianza contra la escala que publica la app (`Glosario.tsx`). Quien
   redacta a partir de una cita la endurece.
+- **Un producto de síntesis, o un manejo no agroecológico** cuando hay uno
+  agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`).
 - **Lo que no podés confirmar va como hipótesis, con el chequeo que la
   resolvería**, no como hallazgo. El tester la prueba rompiendo el código. Un
   hallazgo de layout lo decide el orquestador: no lo mandes como "arreglalo".

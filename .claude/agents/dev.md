@@ -76,6 +76,8 @@ escribiste un spec para convencerte, commitealo y nombralo en el parte: el
 tester decide si queda. Y si agregaste una captura, mirala: `npm run shots --
 -g '<nombre>'` y abrí el PNG en `e2e/shots/<fase>/` (sin `FASE`, `fase-6`).
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión.
+Si está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
+Playwright y, si sigue ocupado, decilo en el parte.
 
 ## Qué devolvés
 

@@ -56,7 +56,9 @@ el principio:
    del **color del texto**: `--papel-alto` de noche es semitransparente y como
    texto queda invisible; usá `--papel`. Sobre un tinte (`--sol-velo`) la
    tinta tenue baja de AA: un escalón más.
-2. **Targets de 44 px.** Todo lo tocable. Si no hay 44 posibles (las iniciales
+2. **Targets de 44 px**, medidos por dónde entra el toque (`elementFromPoint`),
+   no por la caja: un margen negativo o un vecino encima se comen píxeles. Todo
+   lo tocable. Si no hay 44 posibles (las iniciales
    de mes en doce columnas), el control va en otro lado; no se exime.
 3. **El color nunca solo.** Ideal/posible, y anillo externo/interno, se
    distinguen también por forma y relleno.

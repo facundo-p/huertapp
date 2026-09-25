@@ -380,12 +380,13 @@ segunda lectura.
 ### La métrica de la issue definía la búsqueda y dejaba afuera el peor caso
 
 **Síntoma.** #133 contaba "114 reglas de CSS usando `--texto-s` o
-`--texto-xs` repartidas en 27 archivos" y ponía «La semana» como caso ejemplar. `CarrilSemana.css` **no usa
-ningún token**: sus tamaños de letra chica son 10, 11, 12 y 13 px a mano. El
-ejemplo de la issue no estaba en el recuento de la issue.
+`--texto-xs` repartidas en 27 archivos" y ponía «La semana» como caso
+ejemplar. `CarrilSemana.css` **no usa ningún token**: sus tamaños de letra
+chica son 10, 11, 12 y 13 px a mano. El ejemplo de la issue no estaba en el
+recuento de la issue.
 
-**Causa.** El orquestador contó lo fácil de contar. Hay otras ~70-86 reglas en
-píxeles literales (el número depende del regex) que el token no ve, y el
+**Causa.** El orquestador contó lo fácil de contar. Hay otras 86 a 89 reglas
+en píxeles literales (según el tope que se tome) que el token no ve, y el
 `Compost.css`, el que más letra chica tiene en píxeles (21 reglas), entraba al
 recuento con 2.
 
@@ -437,7 +438,7 @@ paso de carga, no una opción.
 de cada grupo, un grupo de una tarea quedaba igual o más alto que antes. Tenía
 razón en la dirección. La decisión —un solo botón por día en vez de uno por
 grupo— la tomó el orquestador antes de reenviar el review; el tester midió
-después: de 3-4 filas a las 6 del día en el mismo viewport.
+después: de 3-4 filas a las 6 que tenía el día, en el mismo viewport.
 
 **Causa.** Un hallazgo de layout no se resuelve con aritmética ni se delega al
 dev como "arreglalo": necesita una decisión de diseño y una medición.
@@ -566,7 +567,7 @@ ninguna la encontró la batería. El «cuándo» de cada labor se quedaba con lo
 afirmaba que el documento no tenía el atributo `inert`, que `showModal()` no
 pone nunca: pasaba pasara lo que pasara. Y las dos aserciones de
 `dialog.count()` tampoco podían fallar: la propia mutación del tester, borrar
-el `onClick`, las había dejado en verde, y quedaron igual. Los 3 px se le
+el `onClick`, las había dejado en verde, y el tester las dejó igual. Los 3 px se le
 pasaron también al reviewer y al orquestador en su primera pasada, cuando
 corrigió el comentario del margen (1e7a562).
 
@@ -647,10 +648,11 @@ La lista corta, para no releer todo:
 22. **Un dato que entra al catálogo se coteja aunque venga con prueba.** Es un
     minuto.
 23. **El reviewer entrega hipótesis con su chequeo, y se prueban rompiendo el
-    código.** El test que la resuelve se queda.
+    código.** Si la mutación la confirma, queda el test que la mostró en rojo;
+    si la descarta, no queda una aserción para ella.
 24. **Los specs que el dev escribe para convencerse se commitean**, no se
     borran, y el tester decide si quedan. **La captura que agrega, la mira.**
-25. **Una línea, ubicada y sin comportamiento, la arregla el orquestador.**
-    Todo lo demás vuelve al dev.
+25. **Una línea, ubicada, sin comportamiento y sin nada que entender para
+    arreglarla, la arregla el orquestador.** Todo lo demás vuelve al dev.
 26. **Cada aserción se ve en rojo por separado, y un target se mide por
     dónde entra el toque** (`elementFromPoint`), no por su caja.
