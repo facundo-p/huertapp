@@ -167,8 +167,14 @@ describe('definición al toque', () => {
     })
     expect(html).toContain('No encontramos una fuente que lo diga.')
     expect(html).not.toContain(t.luz.fuentes[0].url)
-    expect(html).not.toContain('sin fuente')
     expect(html).not.toContain('Si no se cumple')
+    // sin fuentes también, o la píldora no tiene por qué salir y esto no mide nada
+    const sinNada = dibujar(Definicion, {
+      texto: 'Pleno sol',
+      contenido: definicionDeLuz({ ...t.luz, valor: '', fuentes: [] }),
+    })
+    expect(sinNada).toContain('No encontramos una fuente que lo diga.')
+    expect(sinNada).not.toContain('sin fuente')
   })
 
   // armado acá y no tomado de la base: el hueco que hay hoy se va a llenar

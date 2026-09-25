@@ -58,7 +58,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   poda: {
     termino: 'Poda',
     que_es:
-      'Cortarle partes a la planta: brotes, puntas, ramas o flores. Tiene nombres según qué se saca: **desbrote** son los chupones del tomate, **despunte** es cortarle la punta a una guía o a una rama, **pinzado** es hacerlo con los dedos en algo tierno, como la albahaca. Para qué se hace cambia con cada especie.',
+      'Cortarle partes a la planta: brotes, puntas, ramas, hojas o flores. Tiene nombres según qué se saca: **desbrote** son los chupones del tomate, **despunte** es cortarle la punta a una guía o a una rama, **pinzado** es hacerlo con los dedos en algo tierno, como la albahaca. Para qué se hace cambia con cada especie.',
     como: 'Cuanto más chico el brote, mejor: sale con los dedos y la herida cierra sola. Si ya está grueso, tijera limpia y en día seco.',
   },
   mulch: {
