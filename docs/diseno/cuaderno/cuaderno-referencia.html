@@ -1468,15 +1468,15 @@ html.captura .banderita.es-atrasada { animation: none; }
   function enLista(xs) { return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' y ' + xs[xs.length - 1]; }
   function mayus(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
   function conArticulo(p) { return PLANTAS[p].art + ' ' + PLANTAS[p].nombre; }
-  function etiquetaPlanta(pl) {
-    var n = mayus(pl.nombre) + (pl.apodo ? ', ' + pl.apodo : '');
-    var extra = [];
-    // la etapa va en el nombre: la plantita que la dibuja es aria-hidden
-    extra.push({ semilla: 'todavía no asomó', brote: 'brote', creciendo: 'creciendo', dando: 'dando cosecha' }[pl.etapa]);
-    if (pl.pend) extra.push(pl.pend + ' para atender' + (pl.atrasada ? ', atrasada' : '') + ': ' + pl.que);
-    if (pl.helada) extra.push((pl.los ? 'tapalos' : 'tapala') + ' si hiela el martes');
-    return n + (extra.length ? ' · ' + extra.join(' · ') : '');
+  function nombrePlanta(pl) { return mayus(pl.nombre) + (pl.apodo ? ', ' + pl.apodo : ''); }
+  // la etapa va en el nombre: la plantita que la dibuja es aria-hidden. Banderita y copo, sólo donde se dibujan
+  function marcasPlanta(pl, conAvisos) {
+    var extra = [{ semilla: 'todavía no asomó', brote: 'brote', creciendo: 'creciendo', dando: 'dando cosecha' }[pl.etapa]];
+    if (conAvisos && pl.pend) extra.push(pl.pend + ' para atender' + (pl.atrasada ? ', atrasada' : '') + ': ' + pl.que);
+    if (conAvisos && pl.helada) extra.push((pl.los ? 'tapalos' : 'tapala') + ' si hiela el martes');
+    return ' · ' + extra.join(' · ');
   }
+  function etiquetaPlanta(pl) { return nombrePlanta(pl) + marcasPlanta(pl, true); }
   // Adónde irían las celdas elegidas si la primera va a `t`: misma forma, corrida.
   function destinoDe(l, sel, t) {
     var a = sel[0], ac = a % l.cols, af = Math.floor(a / l.cols);
@@ -1535,7 +1535,7 @@ html.captura .banderita.es-atrasada { animation: none; }
           // con una sola elegida no hace falta decir cuál va primero
           if (elegida && i === sel[0] && sel.length > 1) dentro += '<span class="ancla" aria-hidden="true">1</span>';
           if (acomodar) {
-            dentro += '<button type="button" class="celda__boton" data-lugar="' + l.id + '" data-celda="' + i + '" aria-pressed="' + elegida + '" aria-label="' + mayus(pl.nombre) + ', ' + donde + (elegida && i === sel[0] && sel.length > 1 ? ', la primera' : '') + '"></button>';
+            dentro += '<button type="button" class="celda__boton" data-lugar="' + l.id + '" data-celda="' + i + '" aria-pressed="' + elegida + '" aria-label="' + nombrePlanta(pl) + ', ' + donde + (elegida && i === sel[0] && sel.length > 1 ? ', la primera' : '') + marcasPlanta(pl, primeraDePlanta) + '"></button>';
           } else if (primeraDePlanta) {
             dentro += '<a class="celda__boton" data-planta="' + p + '" href="' + (p === 'tomAlm' ? '#una-planta' : '#marco-croquis') + '" aria-label="' + etiquetaPlanta(pl) + '"></a>';
           } else {
@@ -1647,8 +1647,11 @@ html.captura .banderita.es-atrasada { animation: none; }
     } else {
       var l = lugarPorId(elegidas.lugar), sel = elegidas.celdas;
       var hayLugar = l.celdas.some(function (x, i) { return !x && !destinoDe(l, sel, i).motivo; });
+      var intercambiables = sel.length === 2 && l.celdas[sel[0]] !== l.celdas[sel[1]];
       que.textContent = describir(l, sel);
-      como.textContent = aviso || (!hayLugar ? 'No hay lugar libre con esa forma: soltá alguna, o intercambiá.'
+      como.textContent = aviso || (!hayLugar ? (intercambiables ? 'No hay lugar libre con esa forma: soltá alguna, o intercambiá.'
+          : sel.length > 1 ? 'No hay lugar libre con esa forma: soltá alguna.'
+          : 'No hay lugar libre: tocá también una celda de otra planta para intercambiarlas.')
         : sel.length === 1 ? 'Tocá una marca + para llevarla ahí.'
         : 'Tocá una marca +: ahí va la «1», y ' + (sel.length === 2 ? 'la otra la sigue' : 'las demás la siguen') + ' con la misma forma.');
       // la última tocada, si sigue elegida: la que se soltó no se ofrece
@@ -1656,7 +1659,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       if (sel.filter(function (i) { return l.celdas[i] === q; }).length < cuantas(l, q)) {
         botones += '<button type="button" class="lapiz" data-toda="' + q + '">' + (PLANTAS[q].art === 'el' ? 'Todo el ' : 'Toda la ') + PLANTAS[q].nombre + '</button>';
       }
-      if (sel.length === 2 && l.celdas[sel[0]] !== l.celdas[sel[1]]) botones += '<button type="button" class="lapiz" data-intercambiar>Intercambiar</button>';
+      if (intercambiables) botones += '<button type="button" class="lapiz" data-intercambiar>Intercambiar</button>';
       botones += '<button type="button" class="lapiz" data-soltar>Soltar</button>';
     }
     document.getElementById('barra-botones').innerHTML = botones;

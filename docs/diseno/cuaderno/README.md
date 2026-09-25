@@ -142,7 +142,8 @@ están abajo.
 - Hoy el cuerpo de la tarea lleva a su planta o compostera. Acá abre el
   detalle, así que el camino pasa ahí: «Ver la zanahoria», «Ver el Corralito
   del fondo». El render dibuja una sola página de planta, la de Los del cajón,
-  y a ésa lleva cualquier «Ver»; la compostera no está dibujada.
+  y a ésa lleva cualquier «Ver» de planta; el de compostera se queda en Esta
+  semana, porque no está dibujada.
 - **Post-it** arriba, con el resumen. Tocarlo lleva el scroll a su día, donde
   está el aviso entero con su fuente. No se descarta: vuelve a verse al subir.
 - **Para sembrar ahora**, como nota al margen después de hoy: cuatro nombres
@@ -215,7 +216,8 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
   base es el de `agruparPorLugar` (o `plano.orden`), y la lista de abajo usa
   el mismo empaquetado: el orden a la vista, el del foco y el de la lista son
   uno solo.
-- Sin capacidad no se dibujan celdas vacías (la misma regla que el medidor).
+- Sin capacidad (ni medidas, en un bancal) no se dibujan celdas vacías: la
+  misma regla que el medidor.
   Una planta sin `superficie` ocupa 1 celda. Las composteras no van en el
   croquis.
 - En la demo: el Bancal del fondo mide 120 × 240 (2,9 m² para el medidor),
@@ -280,13 +282,14 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 - Tocás una o varias celdas con plantas y quedan elegidas. Tocar otra vez
   una elegida la saca.
 - Las celdas libres donde entra lo elegido llevan una marca «+». Tocás una: la
-  primera elegida va ahí y las demás la siguen con la misma forma. Con más de
-  una elegida, la primera lleva un «1».
+  primera en orden de lectura (arriba a la izquierda) va ahí y las demás la
+  siguen con la misma forma. Con más de una elegida, ésa lleva un «1».
 - Si no entra, la barra dice por qué («se sale del lugar», «pisa la
   lechuga»).
 - La primera cae siempre en una libre, así que un bloque no se corre sobre sí
   mismo: se lleva la punta de atrás al otro lado, que da lo mismo. Por eso,
-  sin marcas, la barra dice «soltá alguna».
+  sin marcas, la barra dice «soltá alguna»; con una sola, que toques otra
+  para intercambiarlas.
 - Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
   cuando no queda lugar libre) y «Soltar».
