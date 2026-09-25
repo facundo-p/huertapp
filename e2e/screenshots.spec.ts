@@ -559,7 +559,7 @@ const TOMAS: Toma[] = [
       await page.reload()
       await page.locator('.carril__cielo').first().waitFor()
       await page.getByRole('button', { name: /de dónde sal/ }).first().click()
-      await page.locator('.carril__pie-grupo').first().waitFor()
+      await page.locator('.carril__porque-grupo').first().waitFor()
     },
   },
   // Dos zanahorias sin apodo sembradas el mismo día, una por bancal: el caso
@@ -578,7 +578,7 @@ const TOMAS: Toma[] = [
       await page.reload()
       await page.locator('.carril__lugar').first().waitFor()
       await page.getByRole('button', { name: /de dónde sal/ }).first().click()
-      await page.locator('.carril__pie-lugar').first().waitFor()
+      await page.locator('.carril__porque-lugar').first().waitFor()
     },
   },
   {

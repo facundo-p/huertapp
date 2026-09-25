@@ -272,7 +272,7 @@ button.carril__dia:active {
   background: var(--papel-hundido);
 }
 
-.carril__pie-dia {
+.carril__porque-dia {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -281,11 +281,11 @@ button.carril__dia:active {
 }
 
 /* `display` le gana a `[hidden]`: sin esto el pie queda siempre a la vista. */
-.carril__pie-dia[hidden] {
+.carril__porque-dia[hidden] {
   display: none;
 }
 
-.carril__pie-grupo {
+.carril__porque-grupo {
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -293,7 +293,7 @@ button.carril__dia:active {
 
 /* De qué tareas habla este pie. Del detalle lo separa el peso, no el tamaño:
    es el encabezado del bloque. */
-.carril__pie-de {
+.carril__porque-de {
   font-size: var(--texto-xs);
   font-weight: 800;
   line-height: 1.3;
@@ -301,7 +301,7 @@ button.carril__dia:active {
 }
 
 /* el lugar se separa del título por el peso, no bajando el contraste */
-.carril__pie-lugar {
+.carril__porque-lugar {
   font-weight: 600;
 }
 

@@ -119,14 +119,14 @@ test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ 
   await expect(helada.getByText(/Cubrí de noche/)).toBeVisible()
   // sin tocar nada, y el pie no la repite
   await expect(page.getByRole('button', { name: /de dónde sal/, expanded: true })).toHaveCount(0)
-  await expect(page.locator('.carril__pie-dia').getByText(/Cubrí de noche/)).toHaveCount(0)
+  await expect(page.locator('.carril__porque-dia').getByText(/Cubrí de noche/)).toHaveCount(0)
   // con lector, «Hecho» dice de qué tarea es: seguidos, eran todos iguales.
   // El espacio antes de «:» lo pone Chrome al cruzar al span sr-solo.
   await expect(helada.getByRole('button', { name: /^Hecho ?: Puede helar, hoy$/ })).toBeVisible()
   // plegado no es borrado: abierto, el pie dice de dónde sale
   const hoy = page.locator('.carril__fila.es-hoy')
   await hoy.getByRole('button', { name: /de dónde sal/ }).click()
-  await expect(hoy.locator('.carril__pie-dia')).toContainText('FAUBA')
+  await expect(hoy.locator('.carril__porque-dia')).toContainText('FAUBA')
 })
 
 /** La helada no tiene planta ni lugar: lo único que separa una de otra es el día. */
@@ -195,7 +195,7 @@ test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál e
   )
   await page.keyboard.press('Escape')
   await hoy.getByRole('button', { name: /de dónde sal/ }).click()
-  await expect(hoy.locator('.carril__pie-dia')).toContainText('según la ficha: germina en 10-20 días')
+  await expect(hoy.locator('.carril__porque-dia')).toContainText('según la ficha: germina en 10-20 días')
 })
 
 function botonesAbajo(page: Page) {
@@ -293,7 +293,7 @@ for (const ancho of [300, 320, 344, 360, 375]) {
     await page.reload()
     const hoy = page.locator('.carril__fila.es-hoy')
     await hoy.getByRole('button', { name: /de dónde sal/ }).click()
-    await expect(hoy.locator('.carril__pie-de', { hasText: APODO_LARGO })).toBeVisible()
+    await expect(hoy.locator('.carril__porque-de', { hasText: APODO_LARGO })).toBeVisible()
     // contra el viewport y no innerWidth: en emulación móvil crece con el desborde y lo esconde
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(ancho)
 

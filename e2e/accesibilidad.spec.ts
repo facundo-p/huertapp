@@ -35,7 +35,7 @@ const PANTALLAS = [
       for (let i = 0; i < 7 && (await cerrados.count()) > 0; i++) {
         await cerrados.first().click()
       }
-      await expect(page.locator('.carril__pie-dia:not([hidden])').first()).toBeVisible()
+      await expect(page.locator('.carril__porque-dia:not([hidden])').first()).toBeVisible()
     },
   },
   { ruta: '/#/explorar', nombre: 'Explorar' },

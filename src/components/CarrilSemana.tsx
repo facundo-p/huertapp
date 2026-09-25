@@ -255,13 +255,13 @@ function PieDelDia({
         {/* siete botones iguales en la pantalla: hay que decir de qué día es */}
         <span className="sr-solo">, {esHoy ? 'hoy' : fechaDiaLarga(fecha)}</span>
       </button>
-      <div id={panel} className="carril__pie-dia" hidden={!abierto}>
+      <div id={panel} className="carril__porque-dia" hidden={!abierto}>
         {grupos.map((g) => (
-          <div key={g.clave} className="carril__pie-grupo">
+          <div key={g.clave} className="carril__porque-grupo">
             {lugares.get(g.clave)!.map((e) => (
-              <span key={e.titulo} className="carril__pie-de">
+              <span key={e.titulo} className="carril__porque-de">
                 {e.titulo}
-                {e.lugares && <span className="carril__pie-lugar"> — {e.lugares}</span>}
+                {e.lugares && <span className="carril__porque-lugar"> — {e.lugares}</span>}
               </span>
             ))}
             {!g.instruccion && <span className="carril__detalle">{g.detalle}</span>}

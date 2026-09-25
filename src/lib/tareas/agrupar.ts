@@ -91,7 +91,7 @@ const fechaParaDistinguir = (iso: string, otras: (string | undefined)[]) =>
  * por el día: que una sea del jueves no dice cuál de las dos zanahorias es. Va
  * el lugar y, mientras siga empatada con otra, se suma en este orden: cómo está
  * puesta, la siembra, la especie, la variedad y cuándo asomó. Si empatan en
- * todo eso, dicen lo mismo. Sin planta (helada, compost), las separa el día.
+ * todo eso, dicen lo mismo. Sin planta (helada, compost), las separa sólo el día.
  */
 export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrece>, hoy: string): Distincion {
   const semana = grupos.flatMap((g) => g.tareas)
