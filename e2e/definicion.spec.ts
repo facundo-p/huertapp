@@ -107,6 +107,18 @@ test('la hoja de la luz trae lo que pide la especie, con todas sus fuentes', asy
   await expect(hoja.locator('a[href*="agro.unlp.edu.ar"]')).toBeVisible()
 })
 
+// El título era la etiqueta entera, «Suelo rústico: tolera suelos pobres», y la
+// definición de abajo lo volvía a decir.
+test('la hoja del suelo rústico no repite en el título lo que dice abajo', async ({ page }) => {
+  await page.goto('/#/explorar/capuchina')
+  await page.waitForLoadState('networkidle')
+
+  await page.getByRole('button', { name: /^Suelo rústico/ }).click()
+  const hoja = page.getByRole('dialog', { name: 'Suelo rústico', exact: true })
+  await expect(hoja).toBeVisible()
+  await expect(hoja.getByText(/tolera suelos pobres/i)).toHaveCount(1)
+})
+
 // React reusa la ficha al cambiar de slug si no se la remonta, y la hoja que
 // estaba arriba seguía abierta en la especie a la que se volvía.
 test('volver con el historial a otra ficha no deja la hoja abierta', async ({ page }) => {

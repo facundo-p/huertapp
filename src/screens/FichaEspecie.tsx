@@ -126,9 +126,11 @@ export function FichaEspecie() {
               texto={grupo.etiqueta}
               contenido={definicionDeGrupo(e.grupo)}
             />
+            {/* la hoja de rústico ya dice «Tolera suelos pobres.»: el título lo repetía */}
             <Categoria
               Icono={() => <IconoSuelo categoria={e.suelo.categoria_suelo} size={24} decorativo />}
               texto={suelo.etiqueta}
+              titulo={suelo.etiqueta.split(':')[0]}
               contenido={definicionDeSuelo(e.suelo)}
             />
             {/* sólo el nombre: las horas genéricas de la categoría no coincidían
@@ -336,10 +338,12 @@ function AhoraMismo({
 function Categoria({
   Icono,
   texto,
+  titulo,
   contenido,
 }: {
   Icono: React.ComponentType
   texto: string
+  titulo?: string
   contenido: ContenidoDefinicion
 }) {
   return (
@@ -349,6 +353,7 @@ function Categoria({
       </span>
       <Definicion
         texto={texto}
+        titulo={titulo}
         contenido={contenido}
         className="ficha__categoria-texto"
       />
