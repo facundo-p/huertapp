@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useId, useRef, type ReactNode } from 'react'
 import './BottomSheet.css'
 
 interface Props {
@@ -17,6 +17,8 @@ interface Props {
  */
 export function BottomSheet({ abierto, onCerrar, titulo, sobretitulo, pie, children }: Props) {
   const ref = useRef<HTMLDialogElement>(null)
+  // con nombre, el lector anuncia el título y no sólo «diálogo, Cerrar»
+  const idTitulo = useId()
 
   useEffect(() => {
     const d = ref.current
@@ -28,6 +30,7 @@ export function BottomSheet({ abierto, onCerrar, titulo, sobretitulo, pie, child
   return (
     <dialog
       ref={ref}
+      aria-labelledby={idTitulo}
       className="hoja"
       onClose={onCerrar}
       // click en el fondo (el target es el propio dialog, no su contenido)
@@ -40,7 +43,9 @@ export function BottomSheet({ abierto, onCerrar, titulo, sobretitulo, pie, child
         <div className="hoja__cabeza">
           <div className="hoja__textos">
             {sobretitulo && <p className="hoja__sobre">{sobretitulo}</p>}
-            <h2 className="hoja__titulo">{titulo}</h2>
+            <h2 className="hoja__titulo" id={idTitulo}>
+              {titulo}
+            </h2>
           </div>
           <button className="hoja__cerrar" onClick={onCerrar} aria-label="Cerrar">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden>

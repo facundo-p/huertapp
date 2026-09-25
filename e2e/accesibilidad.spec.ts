@@ -24,6 +24,16 @@ const PANTALLAS = [
       await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
     },
   },
+  // la de luz en los repollitos, que no tienen fuente: se dice con una
+  // pastilla propia que ninguna otra pantalla tiene
+  {
+    ruta: '/#/explorar/repollitos-de-bruselas',
+    nombre: 'Definición de luz',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: /^Pleno sol/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
   // la hoja de temperatura con un rango prendido: cuatro interruptores y ocho
   // pulgares que hay que medir con la hoja abierta
   {
@@ -32,18 +42,6 @@ const PANTALLAS = [
     entrar: async (page: Page) => {
       await page.getByRole('button', { name: /^Temperatura/ }).click()
       await page.getByRole('button', { name: /^Ideal para germinar/ }).click()
-    },
-  },
-  // la luz trae el dato de la especie; los repollitos, sin fuente, que se
-  // dice con una pastilla propia que ninguna otra pantalla tiene. No va pegada
-  // a la del suelo: de ficha a ficha el goto sólo cambia el hash, la pantalla
-  // no se desmonta y la hoja anterior sigue abierta.
-  {
-    ruta: '/#/explorar/repollitos-de-bruselas',
-    nombre: 'Definición de luz',
-    entrar: async (page: Page) => {
-      await page.getByRole('button', { name: /^Pleno sol/ }).click()
-      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
     },
   },
   { ruta: '/#/calendario', nombre: 'Calendario' },

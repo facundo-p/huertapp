@@ -47,6 +47,8 @@ Qué significa cada parte en este proyecto:
   caléndula y capuchina dicen que atraen pulgones, como plantas trampa. Las
   legumbres fijan nitrógeno en la raíz, no en la vaina. Y las categorías de luz
   ya no dan horas: están en el chip de cada ficha.
+- **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
+  no sólo como «diálogo».
 
 ## [2.3.0] — 2026-09-12
 

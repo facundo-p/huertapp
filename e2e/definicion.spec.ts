@@ -19,7 +19,9 @@ test('la hoja del suelo lleva a la tierra del Glosario, a la vista y con el foco
   await page.waitForLoadState('networkidle')
 
   await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
-  const hoja = page.getByRole('dialog')
+  // el diálogo se llama como su título: sin eso, el lector dice «diálogo, Cerrar»
+  const hoja = page.getByRole('dialog', { name: 'Suelo franco fértil' })
+  await expect(hoja).toBeVisible()
   // lo que pide el tomate según su fuente; ninguna mezcla, que al lado de la
   // especie se leía como consejo para ella: quedan en el Glosario
   await expect(hoja.getByText('Lo que pide esta planta')).toBeVisible()
@@ -49,7 +51,8 @@ test('con teclado, una labor salta a su término', async ({ page }) => {
   await page.goto('/#/explorar/tomate')
   await page.waitForLoadState('networkidle')
 
-  await page.getByRole('button', { name: /^Tutorado/ }).click()
+  await page.getByRole('button', { name: /^Tutorado/ }).focus()
+  await page.keyboard.press('Enter')
   const link = page.getByRole('link', { name: /Verlo en el Glosario/ })
   await link.focus()
   await page.keyboard.press('Enter')
@@ -94,4 +97,20 @@ test('la hoja de la luz trae lo que pide la especie, con todas sus fuentes', asy
   await expect(hoja.getByText(/no acogolla bien/)).toBeVisible()
   await expect(hoja.locator('a[href*="lanacion.com.ar"]')).toBeVisible()
   await expect(hoja.locator('a[href*="agro.unlp.edu.ar"]')).toBeVisible()
+})
+
+// React reusa la ficha al cambiar de slug si no se la remonta, y la hoja que
+// estaba arriba seguía abierta en la especie a la que se volvía.
+test('volver con el historial a otra ficha no deja la hoja abierta', async ({ page }) => {
+  await page.goto('/#/explorar/lechuga')
+  await page.waitForLoadState('networkidle')
+  await page.goto('/#/explorar/tomate')
+  await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+
+  await page.goBack()
+
+  await expect(page).toHaveURL(/#\/explorar\/lechuga$/)
+  await expect(page.getByRole('heading', { name: 'Lechuga', level: 1 })).toBeVisible()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
 })
