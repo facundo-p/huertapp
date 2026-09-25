@@ -261,7 +261,8 @@ body.titulos-redondos .telefono { --f-mano: var(--redonda); --w-mano: 800; --k: 
 .mano { font-family: var(--f-mano); font-weight: var(--w-mano); letter-spacing: 0; }
 body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 
-/* ---- Pestañas de separador: misma altura que la TabBar (59 + zona segura) ---- */
+/* ---- Pestañas de separador: misma altura que la TabBar. El 72 es 59 + 13 sin
+   zona segura; en la app va calc(var(--tab-alto) + var(--tab-zona-segura)) ---- */
 .pestanas {
   position: relative;
   z-index: 2;
@@ -675,7 +676,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 }
 
 .lista-lugares { margin-top: 4px; padding: 0 0 24px; }
-.fila-lugar { display: grid; grid-template-columns: 1fr 26px; align-items: center; min-height: 56px; padding: 0 16px 0 64px; width: 100%; text-align: left; }
+/* la lista de hoy, abreviada: no se despliega en el render, así que no es botón */
+.fila-lugar { min-height: 56px; padding: 0 16px 0 64px; }
 .fila-lugar__nombre { display: block; font-weight: 800; font-size: 16px; line-height: 28px; }
 .fila-lugar__meta { display: block; font-size: 14px; line-height: 28px; color: var(--tinta-suave); }
 
@@ -801,7 +803,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   <header class="cabecera">
     <p class="cabecera__marca">Huerta GBA · propuesta de diseño</p>
     <h1>Cuaderno de huerta</h1>
-    <p class="cabecera__bajada">La app como un cuaderno de anotaciones, y Mi huerta como un croquis de tu huerta visto desde arriba. Los datos son los de la huerta de ejemplo de la app, y las tareas son las que el motor le da hoy, jueves 24 de septiembre. Tocá las casillas, los días de la semana y el croquis: responden.</p>
+    <p class="cabecera__bajada">La app como un cuaderno de anotaciones, y Mi huerta como un croquis de tu huerta visto desde arriba. Los datos son los de la huerta de ejemplo de la app, y las tareas son las que el motor le da hoy, jueves 24 de septiembre, salvo el tomate y la rúcula, que siguen lo que la demo quiere contar (#151). El pronóstico es inventado, para mostrar los avisos. Tocá las casillas, los días de la semana y el croquis: responden.</p>
     <div class="controles">
       <div class="control" role="group" aria-labelledby="rotulo-tema">
         <span class="control__rotulo" id="rotulo-tema">Tema</span>
@@ -1585,7 +1587,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     document.getElementById('filas-lugares').innerHTML = lugaresA.map(function (l) {
       var hay = [];
       l.celdas.forEach(function (p) { if (p && hay.indexOf(PLANTAS[p].nombre) < 0) hay.push(PLANTAS[p].nombre); });
-      return '<button type="button" class="fila-lugar" id="fila-' + l.id + '"><span><span class="fila-lugar__nombre">' + l.nombre + '</span><span class="fila-lugar__meta">' + (hay.join(', ') || 'todavía no hay nada plantado') + '</span></span>' + icono('desplegar', 22) + '</button>';
+      return '<div class="fila-lugar" id="fila-' + l.id + '" tabindex="-1"><span class="fila-lugar__nombre">' + l.nombre + '</span><span class="fila-lugar__meta">' + (hay.join(', ') || 'todavía no hay nada plantado') + '</span></div>';
     }).join('');
   }
   pintarVista();
