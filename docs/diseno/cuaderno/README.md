@@ -26,8 +26,8 @@ Leído en el código, lo que enfría es:
   espaciadas y etiquetas de navegación de 9 px: se lee como panel de control.
 - Nada hecho a mano. Los dibujos aparecen sólo cuando no hay datos.
 - **«Esta semana» está saturada por construcción**: siete filas siempre
-  visibles (los días vacíos con «—»), hasta siete elementos por tarea, nueve
-  tamaños de letra en la misma pantalla y la helada dos veces.
+  visibles (los días vacíos con «—»), hasta siete elementos por tarea y nueve
+  tamaños de letra en la misma pantalla.
 - **Mi huerta** es un gantt: responde «cuándo», nunca «dónde».
 
 ## La dirección
@@ -67,7 +67,7 @@ armar el render.
 | Pieza | Qué hace |
 |---|---|
 | Casilla dibujada | Es «Hecho», con 44 px de target. Tildada, la tarea se tacha. |
-| Post-it | Lo único que se destaca en la pantalla: la helada, una vez. Tocarlo lleva a ese día. |
+| Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Tocarlo lleva el scroll a ese día, y el post-it se queda donde está. |
 | Pestañas de separador | La barra de navegación, con la misma altura que hoy (59 + zona segura). La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
 | Cinta | Pega las fotos del diario. |
@@ -81,15 +81,35 @@ Cambia el uso: menos tinte a sangre, más papel, el ocre vuelve a ser sólo
 
 - Cabecera manuscrita con la fecha y el tiempo de hoy en una línea.
 - **Tira de la semana** en vez de siete filas: sigla, número, cielo, y un
-  puntito por tarea (el aviso va con su propio ícono: copo, gota). Tocar un
-  día pasa la página a ese día.
+  puntito por tarea (el aviso va con su propio ícono: copo, gota). Hoy dice
+  «hoy» en lugar de la sigla.
+- **La semana entera se lee scrolleando.** Cada día es una sección de la misma
+  página («Para hoy», «Viernes 25»…). Un día sin nada ocupa un renglón: «Nada
+  anotado · 21° · 9° · despejado». Después del último día la página sigue con
+  renglones vacíos, para que el último también pueda llegar arriba.
+- **La tira queda pegada arriba y el día redondeado es el que estás
+  leyendo**: cambia solo al scrollear. Tocar un día lleva el scroll ahí y el
+  foco a su título, para que el lector de pantalla lo anuncie; mientras dura
+  el scroll suave, el seguimiento no le discute el día. El día leído va con
+  `aria-current`.
 - **La lista del día**: casilla, título y una línea corta. La línea dice dónde
   (el lugar) o cuánto (lo atrasado). El detalle y la fuente, con su confianza,
   se abren al tocar la tarea, y ahí también están «Más tarde» y «Asomó». La
   regla de decir de dónde sale cada consejo se cumple igual, a un toque.
-- **Post-it** con la helada, una sola vez.
-- **Para sembrar ahora**, como nota al margen: cuatro nombres con «+» y «ver
-  las 31».
+- **Post-it** arriba, con el resumen. Tocarlo lleva el scroll a su día, donde
+  está el aviso entero con su fuente, y el post-it no desaparece.
+- **Para sembrar ahora**, como nota al margen después de hoy: cuatro nombres
+  con «+» y «ver las 31».
+
+### Más de un post-it
+
+- Post-it sólo para lo que pide proteger algo: helada y calor. La lluvia es
+  un ahorro, no un peligro: va en su día y en la tira, con su gota.
+- Uno por tipo, no por día. Dos heladas en la semana son un solo post-it,
+  «Puede helar el martes y el miércoles», y lleva al primero.
+- Si coinciden helada y calor, se apilan en el orden de gravedad de
+  `derivarAvisos` (la helada arriba). El de abajo asoma con su título, y cada
+  uno lleva a su día. Como son dos tipos, nunca hay más de dos.
 
 ## Mi huerta como croquis
 

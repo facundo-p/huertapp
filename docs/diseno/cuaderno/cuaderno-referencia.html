@@ -370,7 +370,20 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .postit__titulo svg { flex: none; margin-top: -1px; color: var(--sobre-postit-suave); }
 .postit__texto { font-size: 14px; line-height: 1.35; color: var(--sobre-postit-suave); font-weight: 600; }
 
-.semana { display: grid; grid-template-columns: repeat(7, 1fr); margin: 14px 10px 0; border-bottom: 1.5px solid var(--linea-fuerte); }
+.semana {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 14px;
+  padding-inline: 10px;
+  background-color: var(--papel);
+  border-bottom: 1.5px solid var(--linea-fuerte);
+}
+/* pegada arriba tapa la textura de la app: la repite */
+.semana::before { content: ''; position: absolute; inset: 0; z-index: -1; opacity: var(--grano); background-image: var(--grano-img); pointer-events: none; }
 .dia {
   position: relative;
   min-height: 92px;
@@ -382,23 +395,17 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 }
 .dia + .dia { border-left: 1px solid var(--linea); }
 .dia__sigla { font-size: 12px; font-weight: 700; color: var(--tinta-suave); }
+.dia__sigla--hoy { font-weight: 900; color: var(--tinta); }
 .dia__num { position: relative; font-family: var(--f-mano); font-weight: var(--w-mano); font-size: calc(28px * var(--k)); line-height: 1.1; min-width: 36px; text-align: center; }
 .dia__cielo { width: 20px; height: 20px; }
 .dia__marcas { display: flex; gap: 3px; align-items: center; height: 14px; }
 .punto { width: 6px; height: 6px; border-radius: 50%; background: var(--tinta-media); }
 .dia__circulo { position: absolute; left: 50%; top: 50%; width: 46px; height: 38px; transform: translate(-50%, -52%); color: var(--sol); pointer-events: none; }
-.dia[aria-pressed='true']:not(.es-hoy) .dia__num::after {
-  content: '';
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  bottom: 0;
-  height: 2.5px;
-  border-radius: 2px;
-  background: var(--tinta-media);
-}
 
-.pagina--hoy { margin-top: 12px; padding-bottom: 20px; }
+.pagina--hoy { padding-top: 12px; }
+.dia-bloque { scroll-margin-top: var(--alto-tira, 110px); }
+.dia-bloque .pagina__titulo:focus { outline: none; }
+.dia-bloque .pagina__titulo:focus-visible { outline: 2.5px solid var(--foco, var(--tinta)); outline-offset: -4px; border-radius: 6px; }
 .tareas { padding-right: 14px; }
 .tarea { display: grid; grid-template-columns: 64px 1fr; align-items: start; }
 .tarea > .casilla, .tarea > .tarea__icono { margin: 6px 0 6px 4px; }
@@ -423,7 +430,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .tarea__botones { display: flex; gap: 10px; padding-block: 6px; }
 .brote-hecho { position: absolute; margin: -6px 0 0 30px; color: var(--verde-hoja); animation: brotar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: bottom center; }
 .sin-nada { padding: 0 16px 0 64px; font-size: 14px; line-height: 28px; color: var(--tinta-suave); }
-.sin-nada strong { font-size: 16px; font-weight: 800; color: var(--tinta); }
+.sin-nada strong { font-weight: 800; color: var(--tinta); }
 
 .nota-margen {
   margin: 20px 18px 10px 64px;
@@ -733,6 +740,9 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .pieza-chica { display: grid; justify-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--tinta-suave); text-align: center; }
 .pieza-chica .banderita, .pieza-chica .copo { position: relative; top: auto; left: auto; right: auto; }
 .pieza-chica .postit { width: 118px; margin: 0; transform: rotate(-2deg); }
+/* el de abajo asoma con su título: sigue siendo un botón de 44 px o más */
+.pila { display: grid; isolation: isolate; }
+.pila .postit + .postit { z-index: -1; margin-top: -24px; padding-top: 32px; transform: rotate(3deg); }
 .pieza-chica .sello { margin: 0; }
 .target-44 { position: relative; width: 44px; height: 44px; display: grid; place-items: center; outline: 1.5px dashed var(--sol-texto); outline-offset: 0; border-radius: 4px; color: var(--tinta-media); }
 
@@ -796,28 +806,28 @@ html.captura .banderita.es-atrasada { animation: none; }
                 <h3 class="hoy-cab__fecha mano"><span class="hoy-cab__dia">Jueves 24</span><span class="hoy-cab__mes">de septiembre</span></h3>
                 <p class="clima" id="clima-hoy"></p>
               </div>
-              <button type="button" class="postit" id="postit-helada" aria-label="Puede helar el martes: dan 2 °C de mínima. Tapá de noche los del cajón. Ver el martes.">
+              <button type="button" class="postit" id="postit-helada" data-ir-dia="29" aria-label="Puede helar el martes: dan 2 °C de mínima. Tapá de noche los del cajón. Ir al martes.">
                 <span class="postit__titulo">Puede helar el martes</span>
                 <span class="postit__texto">Dan 2 °C. Tapá de noche los del cajón.</span>
               </button>
             </header>
             <nav class="semana" id="semana" aria-label="Los días de la semana"></nav>
-            <section class="pagina pagina--hoy" aria-labelledby="titulo-dia">
-              <h4 class="pagina__titulo mano" id="titulo-dia">Para hoy</h4>
-              <ul class="tareas" id="tareas"></ul>
+            <div class="pagina pagina--hoy" id="pagina-hoy">
+              <div id="dia-hoy"></div>
               <aside class="nota-margen" aria-labelledby="titulo-sembrar">
                 <h4 class="nota-margen__titulo mano" id="titulo-sembrar">Para sembrar ahora</h4>
                 <ul class="sembrar" id="sembrar"></ul>
                 <a class="ver-todas" href="#marco-hoy">Ver las 31 en Explorar</a>
               </aside>
-            </section>
+              <div id="dias-siguientes"></div>
+            </div>
           </div>
           <nav class="pestanas" aria-label="Secciones" data-activa="0"></nav>
         </div>
       </div>
       <dl class="porque">
-        <div><dt>Resuelve</dt><dd>La semana se lee de un vistazo, y lo de hoy entra entero en la pantalla.</dd></div>
-        <div><dt>Se saca</dt><dd>Las siete filas fijas, los días vacíos con «—», la helada repetida dos veces y la fuente siempre abierta.</dd></div>
+        <div><dt>Resuelve</dt><dd>La semana se ve de un vistazo en la tira y se lee entera scrolleando. La tira marca el día que estás leyendo.</dd></div>
+        <div><dt>Se saca</dt><dd>Las siete filas fijas, los días vacíos con «—» y la fuente siempre abierta.</dd></div>
         <div><dt>Se conserva</dt><dd>Todas las tareas del motor, «Hecho» (la casilla), «Más tarde» y de dónde sale cada consejo, a un toque.</dd></div>
       </dl>
     </figure>
@@ -976,6 +986,12 @@ html.captura .banderita.es-atrasada { animation: none; }
               <section aria-labelledby="p-hechas">
                 <h4 class="pieza__titulo mano" id="p-hechas">Hechas a mano, con función</h4>
                 <div class="fila-piezas" id="fila-hechas"></div>
+              </section>
+
+              <section aria-labelledby="p-avisos">
+                <h4 class="pieza__titulo mano" id="p-avisos">Más de un aviso</h4>
+                <div class="fila-piezas" id="fila-avisos"></div>
+                <p class="pieza__nota">Post-it sólo para lo que pide proteger algo: helada y calor. La lluvia va en su día y en la tira. Uno por tipo: dos heladas son un post-it con los dos días, y lleva al primero. Si coinciden helada y calor, se apilan con la helada arriba, y cada uno lleva a su día.</p>
               </section>
             </div>
           </div>
@@ -1236,6 +1252,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     var el = document.getElementById('clima-hoy');
     el.innerHTML = '<span style="color:' + CIELO_COLOR[d.cielo] + '">' + icono(d.cielo, 20) + '</span>' + d.max + '° · ' + d.min + '° · ' + d.txt;
   }
+  // `diaVisto` es el día que se está leyendo: lo mueve el scroll, no un toque
   function pintarSemana() {
     var nav = document.getElementById('semana');
     nav.innerHTML = DIAS.map(function (d) {
@@ -1249,24 +1266,20 @@ html.captura .banderita.es-atrasada { animation: none; }
       var que = [];
       if (tareas) que.push(tareas === 1 ? '1 cosa para hacer' : tareas + ' cosas para hacer');
       items.filter(function (t) { return t.aviso; }).forEach(function (t) { que.push(t.titulo.toLowerCase()); });
-      var etiqueta = (d.hoy ? 'Hoy, ' : '') + d.nombre + ': ' + d.txt + ', ' + d.max + '° y ' + d.min + '°' + (que.length ? '. ' + que.join(', ') : '. Nada anotado');
-      return '<button type="button" class="dia' + (d.hoy ? ' es-hoy' : '') + '" data-dia="' + d.f + '" aria-pressed="' + (d.f === diaVisto) + '" aria-label="' + etiqueta + '">' +
-        '<span class="dia__sigla" aria-hidden="true">' + d.sigla + '</span>' +
-        '<span class="dia__num" aria-hidden="true">' + d.f + (d.hoy ? CIRCULO_HOY : '') + '</span>' +
+      var etiqueta = 'Ir a ' + (d.hoy ? 'hoy, ' : '') + d.nombre + ': ' + d.txt + ', ' + d.max + '° y ' + d.min + '°' + (que.length ? '. ' + que.join(', ') : '. Nada anotado');
+      var leyendo = d.f === diaVisto;
+      return '<button type="button" class="dia' + (d.hoy ? ' es-hoy' : '') + '" data-dia="' + d.f + '"' + (leyendo ? ' aria-current="true"' : '') + ' aria-label="' + etiqueta + '">' +
+        '<span class="dia__sigla' + (d.hoy ? ' dia__sigla--hoy' : '') + '" aria-hidden="true">' + (d.hoy ? 'hoy' : d.sigla) + '</span>' +
+        '<span class="dia__num" aria-hidden="true">' + d.f + (leyendo ? CIRCULO_HOY : '') + '</span>' +
         '<span class="dia__cielo" aria-hidden="true" style="color:' + CIELO_COLOR[d.cielo] + '">' + icono(d.cielo, 20) + '</span>' +
         '<span class="dia__marcas" aria-hidden="true">' + marcas + '</span></button>';
     }).join('');
   }
-  function pintarTareas() {
-    var ul = document.getElementById('tareas');
-    var d = DIAS.filter(function (x) { return x.f === diaVisto; })[0];
-    document.getElementById('titulo-dia').textContent = d.hoy ? 'Para hoy' : 'Para el ' + d.nombre;
-    var items = TAREAS[diaVisto] || [];
-    if (!items.length) {
-      ul.innerHTML = '<li class="sin-nada"><strong>Nada anotado para este día.</strong><br>' + d.max + '° · ' + d.min + '° · ' + d.txt + '</li>';
-      return;
-    }
-    ul.innerHTML = items.map(function (t) {
+  function lista(f) {
+    var d = DIAS.filter(function (x) { return x.f === f; })[0];
+    var items = TAREAS[f] || [];
+    if (!items.length) return '<p class="sin-nada"><strong>Nada anotado</strong> · ' + d.max + '° · ' + d.min + '° · ' + d.txt + '</p>';
+    return '<ul class="tareas">' + items.map(function (t) {
       var abierta = !!abiertas[t.id];
       var hecha = !!hechas[t.id];
       var marca = t.aviso
@@ -1283,8 +1296,53 @@ html.captura .banderita.es-atrasada { animation: none; }
         '<div><button type="button" class="tarea__abrir" aria-expanded="' + abierta + '" aria-controls="porque-' + t.id + '" data-abrir="' + t.id + '">' +
         '<span><span class="tarea__titulo">' + t.titulo + '</span><span class="tarea__linea">' + linea + '</span></span>' +
         '<span class="tarea__galon">' + icono('desplegar', 22) + '</span></button></div>' + porque + '</li>';
-    }).join('');
+    }).join('') + '</ul>';
   }
+  function bloque(d) {
+    return '<section class="dia-bloque" id="dia-' + d.f + '" data-bloque="' + d.f + '" aria-labelledby="titulo-' + d.f + '">' +
+      '<h4 class="pagina__titulo mano" id="titulo-' + d.f + '" tabindex="-1">' + (d.hoy ? 'Para hoy' : mayus(d.nombre)) + '</h4>' +
+      '<div class="dia-lista">' + lista(d.f) + '</div></section>';
+  }
+  function pintarDias() {
+    document.getElementById('dia-hoy').innerHTML = bloque(DIAS[0]);
+    document.getElementById('dias-siguientes').innerHTML = DIAS.slice(1).map(bloque).join('');
+    medirHoja();
+  }
+  function pintarLista(f) {
+    document.querySelector('#dia-' + f + ' .dia-lista').innerHTML = lista(f);
+    medirHoja();
+  }
+  var hojaHoy = document.querySelector('#marco-hoy .hoja');
+  // la tira pegada tapa el principio de cada día: el scroll para debajo de ella,
+  // y la página sigue con renglones hasta que el último día también llegue arriba
+  function medirHoja() {
+    var tira = document.getElementById('semana').offsetHeight;
+    hojaHoy.style.setProperty('--alto-tira', (tira + 4) + 'px');
+    var ultimo = document.getElementById('dia-' + DIAS[DIAS.length - 1].f);
+    var resto = hojaHoy.clientHeight - tira - ultimo.offsetHeight - 8;
+    document.getElementById('dias-siguientes').style.paddingBottom = Math.max(20, resto) + 'px';
+  }
+  var siguiendo = true, soltarSeguimiento = 0;
+  function irAlDia(f) {
+    diaVisto = f;
+    pintarSemana();
+    // mientras dura el scroll suave, el seguimiento no le discute el día
+    siguiendo = false;
+    clearTimeout(soltarSeguimiento);
+    soltarSeguimiento = setTimeout(function () { siguiendo = true; }, 900);
+    var destino = document.getElementById('dia-' + f);
+    destino.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    document.getElementById('titulo-' + f).focus({ preventScroll: true });
+  }
+  hojaHoy.addEventListener('scroll', function () {
+    if (!siguiendo) return;
+    var linea = document.getElementById('semana').getBoundingClientRect().bottom + 12;
+    var leido = DIAS[0].f;
+    DIAS.forEach(function (d) {
+      if (document.getElementById('dia-' + d.f).getBoundingClientRect().top <= linea) leido = d.f;
+    });
+    if (leido !== diaVisto) { diaVisto = leido; pintarSemana(); }
+  }, { passive: true });
   function pintarSembrar() {
     document.getElementById('sembrar').innerHTML = SEMBRAR.map(function (s) {
       return '<li><span><span class="sembrar__nombre">' + s.nombre + '</span><span class="sembrar__meta">' + s.meta + '</span></span>' +
@@ -1293,23 +1351,22 @@ html.captura .banderita.es-atrasada { animation: none; }
   }
   document.getElementById('semana').addEventListener('click', function (e) {
     var b = e.target.closest('[data-dia]');
-    if (!b) return;
-    diaVisto = b.getAttribute('data-dia');
-    pintarSemana();
-    pintarTareas();
-    document.querySelector('#semana [data-dia="' + diaVisto + '"]').focus();
+    if (b) irAlDia(b.getAttribute('data-dia'));
   });
-  document.getElementById('postit-helada').addEventListener('click', function () {
-    diaVisto = '29';
-    pintarSemana();
-    pintarTareas();
+  // el post-it lleva a su día y se queda: es el resumen, el aviso entero está abajo
+  document.querySelector('#marco-hoy .hoy-cab').addEventListener('click', function (e) {
+    var p = e.target.closest('[data-ir-dia]');
+    if (p) irAlDia(p.getAttribute('data-ir-dia'));
   });
-  document.getElementById('tareas').addEventListener('click', function (e) {
+  function diaDeTarea(id) {
+    return Object.keys(TAREAS).filter(function (f) { return TAREAS[f].some(function (t) { return t.id === id; }); })[0];
+  }
+  document.getElementById('pagina-hoy').addEventListener('click', function (e) {
     var c = e.target.closest('[data-hecha]');
     if (c) {
       var id = c.getAttribute('data-hecha');
       hechas[id] = !hechas[id];
-      pintarTareas();
+      pintarLista(diaDeTarea(id));
       var casilla = document.querySelector('[data-hecha="' + id + '"]');
       if (hechas[id]) casilla.insertAdjacentHTML('afterend', '<span class="brote-hecho" aria-hidden="true">' + icono('hoja', 16) + '</span>');
       casilla.focus();
@@ -1319,7 +1376,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     if (a) {
       var t = a.getAttribute('data-abrir');
       abiertas[t] = !abiertas[t];
-      pintarTareas();
+      pintarLista(diaDeTarea(t));
       document.querySelector('[data-abrir="' + t + '"]').focus();
     }
   });
@@ -1647,9 +1704,14 @@ html.captura .banderita.es-atrasada { animation: none; }
     '<span class="pieza-chica"><span style="padding-top:12px;display:block">' + banderita(2, true) + '</span>atrasada</span>' +
     '<span class="pieza-chica"><span style="display:block;padding-top:6px">' + copo() + '</span>tapar si hiela</span>';
   document.getElementById('fila-hechas').innerHTML =
-    '<span class="pieza-chica"><span class="postit" style="transform:rotate(-2deg)"><span class="postit__titulo">Puede helar</span><span class="postit__texto">Una vez, no dos.</span></span>post-it: lo único destacado</span>' +
+    '<span class="pieza-chica"><span class="postit" style="transform:rotate(-2deg)"><span class="postit__titulo">Puede helar</span><span class="postit__texto">Tocalo y te lleva al día.</span></span>post-it: lo único destacado</span>' +
     '<span class="pieza-chica"><span class="sello"><b>Cosechada</b><span>2 / 11</span></span>sello: un hito cumplido</span>' +
     '<span class="pieza-chica"><span class="foto foto--a" style="width:96px;margin:6px 0 0">' + foto(true) + '</span>cinta: las fotos del diario</span>';
+
+  document.getElementById('fila-avisos').innerHTML =
+    '<span class="pieza-chica"><span class="postit"><span class="postit__titulo">Puede helar el martes y el miércoles</span><span class="postit__texto">Dan 2 °C y 1 °C.</span></span>dos heladas: un post-it</span>' +
+    '<span class="pieza-chica"><span class="pila"><span class="postit"><span class="postit__titulo">Puede helar el martes</span><span class="postit__texto">Dan 2 °C.</span></span>' +
+    '<span class="postit"><span class="postit__titulo">Mucho calor el sábado</span></span></span>helada y calor: se apilan</span>';
 
   // ── Íconos y plantitas marcados en el HTML ───────────────────────────────
   document.querySelectorAll('[data-icono]').forEach(function (el) {
@@ -1684,8 +1746,11 @@ html.captura .banderita.es-atrasada { animation: none; }
 
   pintarClima();
   pintarSemana();
-  pintarTareas();
+  pintarDias();
   pintarSembrar();
+  // las alturas cambian cuando cargan las fuentes o se cambia la letra
+  document.fonts.ready.then(medirHoja);
+  window.addEventListener('resize', medirHoja);
 
   // ── Conmutadores: tema de los teléfonos y letra de los títulos ───────────
   var raiz = document.documentElement;
@@ -1703,6 +1768,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     document.body.classList.toggle('titulos-redondos', t === 'redondos');
     document.getElementById('titulos-mano').setAttribute('aria-pressed', String(t === 'mano'));
     document.getElementById('titulos-redondos').setAttribute('aria-pressed', String(t === 'redondos'));
+    medirHoja();
   }
   document.querySelectorAll('[data-tema]').forEach(function (b) {
     if (b.tagName === 'BUTTON') b.addEventListener('click', function () { ponerTema(b.getAttribute('data-tema')); });
