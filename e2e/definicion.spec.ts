@@ -14,7 +14,7 @@ async function aLaVista(page: Page, destino: Locator) {
   expect(caja!.y).toBeGreaterThanOrEqual(indice!.y + indice!.height)
 }
 
-test('la hoja del suelo lleva a la tierra del Glosario, a la vista y con el foco', async ({ page }) => {
+test('la hoja del suelo lleva a su categoría en el Glosario, a la vista y con el foco', async ({ page }) => {
   await page.goto('/#/explorar/tomate')
   await page.waitForLoadState('networkidle')
 
@@ -28,16 +28,18 @@ test('la hoja del suelo lleva a la tierra del Glosario, a la vista y con el foco
   await expect(hoja.getByText(/buen nivel de materia orgánica/)).toBeVisible()
   await expect(hoja.locator('a[href*="hort.unlu.edu.ar"]')).toBeVisible()
   await expect(
-    hoja.getByText('La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario.'),
+    hoja.getByText(
+      'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario, en «Cómo se arma la tierra».',
+    ),
   ).toBeVisible()
   await expect(hoja.getByText(/partes de compost|Cómo correr la mezcla/)).toHaveCount(0)
 
   await page.getByRole('link', { name: /Verlo en el Glosario/ }).click()
 
-  await expect(page).toHaveURL(/#\/glosario#tierra/)
+  await expect(page).toHaveURL(/#\/glosario#suelo/)
   await expect(page.getByRole('heading', { name: 'Glosario' })).toBeVisible()
   // el foco al título de destino, para que el lector de pantalla lo anuncie
-  const titulo = page.getByRole('heading', { name: 'Cómo se arma la tierra' })
+  const titulo = page.getByRole('heading', { name: 'Qué suelo pide' })
   await expect(titulo).toBeFocused()
   await aLaVista(page, titulo)
 

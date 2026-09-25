@@ -136,9 +136,13 @@ describe('definición al toque', () => {
     expect(escrito).not.toContain(SUSTRATO.base)
     expect(escrito).not.toContain(AJUSTE_SUELO[tomillo.suelo.categoria_suelo])
     expect(d.remite).toBe(
-      'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario.',
+      'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario, en «Cómo se arma la tierra».',
     )
-    expect(d.ancla).toBe('tierra')
+  })
+
+  // la hoja define la categoría: el link lleva a esa lista, no a las mezclas
+  it('el link del suelo va a la categoría', () => {
+    expect(definicionDeSuelo(especie('tomillo').suelo).ancla).toBe('suelo')
   })
 
   it('sin texto, la hoja no lista fuentes: parecería que respaldan algo', () => {

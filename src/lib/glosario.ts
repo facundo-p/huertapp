@@ -296,7 +296,7 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
  * ------------------------------------------------------------------ */
 
 export const DESC_GRUPO: Record<Grupo, string> = {
-  'Hortaliza de hoja': 'Lechuga, acelga, espinaca… se comen sus hojas.',
+  'Hortaliza de hoja': 'Lechuga, acelga, espinaca, repollo… se cosechan sus hojas, o la cabeza que arman.',
   'Hortaliza de raíz/bulbo': 'Zanahoria, cebolla, papa… el tesoro está abajo.',
   'Hortaliza de fruto': 'Tomate, zapallo, frutilla… frutos de la planta.',
   Legumbre: 'Chaucha, arveja, haba: plantas de vaina que fijan nitrógeno en la raíz.',
@@ -309,7 +309,7 @@ export const DESC_SUELO: Record<CategoriaSuelo, string> = {
   FRANCO_FERTIL: 'Equilibrado y con materia orgánica. El comodín.',
   HUMEDO_RICO: 'Muy rico y siempre húmedo, no se seca.',
   PROFUNDO_SUELTO: 'Mullido y sin piedras: clave para raíces.',
-  RUSTICO_TOLERANTE: 'Se banca suelos pobres sin quejarse.',
+  RUSTICO_TOLERANTE: 'Tolera suelos pobres.',
 }
 
 /** La etiqueta de `LUCES` trae las horas pegadas; acá está el nombre solo. */
@@ -395,13 +395,15 @@ export function definicionDeLuz(luz: EspecieEnriquecida['luz']): ContenidoDefini
 /**
  * Ni la mezcla base ni `AJUSTE_SUELO`: sin la especie al lado, se leían como
  * consejo para esa planta, y la base lleva compost donde el tomillo o el
- * cosmos piden suelo pobre. Las dos mezclas quedan en el Glosario, con su cita.
+ * cosmos piden suelo pobre. Las mezclas quedan en el Glosario, con su cita, y
+ * el link va a la categoría, que es lo que la hoja define.
  */
 export function definicionDeSuelo(suelo: EspecieEnriquecida['suelo']): ContenidoDefinicion {
   return {
     que_es: DESC_SUELO[suelo.categoria_suelo],
     receta: loQuePide(suelo),
-    remite: 'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario.',
-    ancla: 'tierra',
+    remite:
+      'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario, en «Cómo se arma la tierra».',
+    ancla: 'suelo',
   }
 }
