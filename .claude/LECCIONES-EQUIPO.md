@@ -723,9 +723,10 @@ La lista corta, para no releer todo:
     en la sesión siguiente».
 17. **El tester no toma la rama del dev**: el orquestador la pushea, y el
     tester trabaja en `qa/<rama>`, sobre `origin/<rama>`. El orquestador lleva
-    sus tests con `merge --ff-only`, después de ver que el diff toca sólo
-    `e2e/`, `tests/` y `package.json`, y el worktree del dev vive hasta que
-    cierre el QA: el tester reportó en verde y sus tests están en la rama.
+    sus tests con `merge --ff-only`, después de ver que
+    `<rama>...qa/<rama>` (tres puntos) toca sólo `e2e/`, `tests/` y
+    `package.json`, y el worktree del dev vive hasta que cierre el QA: el
+    tester reportó en verde y sus tests están en la rama.
 18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
     que el orquestador ya decidió.
 19. **En una issue con números, verificar la vara antes que la cifra.**
