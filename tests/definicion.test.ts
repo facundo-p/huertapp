@@ -1,12 +1,11 @@
 import { describe, it, expect } from 'vitest'
-import { createElement } from 'react'
+import { createElement, type ComponentType } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router'
 import enriquecido from '../data/huerta_gba_enriquecido.json'
 import {
   AJUSTE_SUELO,
   DESC_GRUPO,
-  DESC_SUELO,
   SUSTRATO,
   definicionDeGrupo,
   definicionDeLabor,
@@ -16,9 +15,15 @@ import {
 } from '../src/lib/glosario'
 import { ORDEN_CUIDADOS } from '../src/lib/data/cuidados'
 import type { EspecieEnriquecida } from '../src/lib/data/types'
+import { Definicion } from '../src/components/Definicion'
 import { Glosario } from '../src/screens/Glosario'
 
 const ESPECIES = (enriquecido as unknown as { especies: EspecieEnriquecida[] }).especies
+const especie = (slug: string) => ESPECIES.find((e) => e.slug === slug)!
+
+/** Lo que de verdad sale en pantalla: los `id` armados con template no están escritos en el código. */
+const dibujar = <P extends object>(el: ComponentType<P>, props: P) =>
+  renderToStaticMarkup(createElement(MemoryRouter, null, createElement(el, props)))
 
 /**
  * La hoja que sube al tocar un término de la ficha. No trae texto propio: si
@@ -30,10 +35,10 @@ describe('definición al toque', () => {
     ...Object.keys(DESC_GRUPO).map(
       (g) => [g, definicionDeGrupo(g as keyof typeof DESC_GRUPO)] as [string, ContenidoDefinicion],
     ),
-    ...Object.keys(DESC_SUELO).map(
-      (c) => [c, definicionDeSuelo(c as keyof typeof DESC_SUELO)] as [string, ContenidoDefinicion],
-    ),
-    ...ESPECIES.map((e) => [`luz de ${e.slug}`, definicionDeLuz(e.luz)] as [string, ContenidoDefinicion]),
+    ...ESPECIES.flatMap((e) => [
+      [`suelo de ${e.slug}`, definicionDeSuelo(e.suelo)] as [string, ContenidoDefinicion],
+      [`luz de ${e.slug}`, definicionDeLuz(e.luz)] as [string, ContenidoDefinicion],
+    ]),
     ...ORDEN_CUIDADOS.map((t) => [t, definicionDeLabor(t)] as [string, ContenidoDefinicion]),
   ]
 
@@ -47,12 +52,10 @@ describe('definición al toque', () => {
   /**
    * "Verlo en el Glosario →" con un ancla que no existe no rompe nada: la
    * pantalla abre arriba de todo y la persona se queda buscando. Por eso el
-   * ancla se compara contra los `id` de la pantalla dibujada, que es donde
-   * aparecen también los que se arman con el tipo de labor.
+   * ancla se compara contra los `id` de la pantalla dibujada.
    */
   it('el link al glosario apunta a una sección o término que existe', () => {
-    const html = renderToStaticMarkup(createElement(MemoryRouter, null, createElement(Glosario)))
-    const ids = new Set([...html.matchAll(/ id="([^"]+)"/g)].map((m) => m[1]))
+    const ids = new Set([...dibujar(Glosario, {}).matchAll(/ id="([^"]+)"/g)].map((m) => m[1]))
     expect(ids.size).toBeGreaterThan(5)
     for (const [quien, d] of todas) expect(ids, quien).toContain(d.ancla)
   })
@@ -66,55 +69,70 @@ describe('definición al toque', () => {
     expect(definicionDeLabor('raleo').receta).toBeUndefined()
   })
 
-  it('la luz trae lo que dijo la fuente de esa especie, con todas sus fuentes', () => {
-    const tomate = ESPECIES.find((e) => e.slug === 'tomate')!
-    const r = definicionDeLuz(tomate.luz).receta!
-    expect(r.texto).toContain(tomate.luz.valor)
-    expect(r.texto).toContain(tomate.luz.que_pasa_si_no)
-    expect(r.confianza).toBe(tomate.luz.confianza)
-    expect(r.fuentes).toEqual(tomate.luz.fuentes)
-
-    // si hay dos, van las dos, como en el resto de la ficha
-    const lechuga = ESPECIES.find((e) => e.slug === 'lechuga')!
-    expect(lechuga.luz.fuentes.length).toBeGreaterThan(1)
-    expect(definicionDeLuz(lechuga.luz).receta!.fuentes).toEqual(lechuga.luz.fuentes)
+  it('suelo y luz traen lo que dijo la fuente de esa especie, con todas sus fuentes', () => {
+    for (const e of ESPECIES) {
+      for (const [campo, d] of [
+        ['suelo', definicionDeSuelo(e.suelo)],
+        ['luz', definicionDeLuz(e.luz)],
+      ] as const) {
+        const r = d.receta!
+        const quien = `${e.slug} · ${campo}`
+        expect(r.texto, quien).toContain(e[campo].valor.trim())
+        expect(r.texto, quien).toContain(e[campo].que_pasa_si_no.trim())
+        expect(r.confianza, quien).toBe(e[campo].confianza)
+        expect(r.fuentes, quien).toEqual(e[campo].fuentes)
+      }
+    }
+    // hay especies con dos: van las dos, como en el resto de la ficha
+    expect(especie('lechuga').luz.fuentes.length).toBeGreaterThan(1)
   })
 
   // el artículo no está en los datos: "lo que pide el lechuga" no
-  it('el rótulo de la luz no nombra a la especie', () => {
+  it('el rótulo no nombra a la especie', () => {
     for (const e of ESPECIES) {
-      const { etiqueta } = definicionDeLuz(e.luz).receta!
-      expect(etiqueta.toLowerCase(), e.slug).not.toContain(e.nombre_comun.toLowerCase())
+      for (const d of [definicionDeSuelo(e.suelo), definicionDeLuz(e.luz)]) {
+        expect(d.receta!.etiqueta.toLowerCase(), e.slug).not.toContain(e.nombre_comun.toLowerCase())
+      }
     }
   })
 
-  it('sin texto de la fuente, la luz queda sin dato y no se rellena', () => {
-    const tomate = ESPECIES.find((e) => e.slug === 'tomate')!
-    const vacia = { ...tomate.luz, valor: '', que_pasa_si_no: ' ' }
-    expect(definicionDeLuz(vacia).receta!.texto).toBeNull()
+  it('sin texto de la fuente, queda sin dato y no se rellena', () => {
+    const t = especie('tomate')
+    expect(definicionDeLuz({ ...t.luz, valor: '', que_pasa_si_no: ' ' }).receta!.texto).toBeNull()
+    expect(definicionDeSuelo({ ...t.suelo, valor: '', que_pasa_si_no: '' }).receta!.texto).toBeNull()
   })
 
   /**
-   * El ajuste por categoría no tiene cita, y en varias especies contradice el
-   * suelo citado de su propia ficha: en la hoja se leía como consejo para esa
-   * planta. Queda sólo en el Glosario.
+   * La mezcla base lleva compost y el ajuste por categoría no tiene cita: al
+   * lado de la especie se leían como consejo para esa planta, y chocaban con
+   * el suelo citado de las que piden tierra pobre. Quedan sólo en el Glosario.
    */
-  it('el suelo muestra la mezcla base con su fuente, sin el ajuste', () => {
-    for (const c of Object.keys(DESC_SUELO) as (keyof typeof DESC_SUELO)[]) {
-      const d = definicionDeSuelo(c)
-      expect(d.detalle, c).toBeUndefined()
-      expect(JSON.stringify(d), c).not.toContain(AJUSTE_SUELO[c])
-      expect(d.receta!.etiqueta, c).toBe('La mezcla base, para maceta o cantero')
-      expect(d.receta!.texto, c).toBe(SUSTRATO.base)
-      expect(d.receta!.fuentes, c).toEqual([SUSTRATO.fuente])
-      expect(d.receta!.confianza, c).toBe(SUSTRATO.confianza)
-    }
+  it('el suelo no trae ninguna mezcla, sólo remite al Glosario', () => {
+    const tomillo = especie('tomillo')
+    const d = definicionDeSuelo(tomillo.suelo)
+    const escrito = JSON.stringify(d)
+    // nada escrito de nuestra mano más allá de la definición y el remite
+    expect(Object.keys(d).sort()).toEqual(['ancla', 'que_es', 'receta', 'remite'])
+    expect(escrito).not.toContain(SUSTRATO.base)
+    expect(escrito).not.toContain(AJUSTE_SUELO[tomillo.suelo.categoria_suelo])
+    expect(d.remite).toBe(
+      'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario.',
+    )
+    expect(d.ancla).toBe('tierra')
   })
 
-  // la receta lleva compost, y en la bandeja germinadora juega en contra; lo
-  // que va en la bandeja tiene su propia cita y se lee en el Glosario
-  it('el suelo avisa que la mezcla de almácigos es otra, sin decir cuál', () => {
-    const d = definicionDeSuelo('FRANCO_FERTIL')
-    expect(d.remite).toBe('La de la bandeja de almácigos es otra: está en el Glosario.')
+  it('sin texto, la hoja no lista fuentes: parecería que respaldan algo', () => {
+    const t = especie('tomate')
+    // con texto sí están: sin este control, el de abajo podría pasar por no dibujar nada
+    expect(dibujar(Definicion, { texto: 'Pleno sol', contenido: definicionDeLuz(t.luz) })).toContain(
+      t.luz.fuentes[0].url,
+    )
+    const html = dibujar(Definicion, {
+      texto: 'Pleno sol',
+      contenido: definicionDeLuz({ ...t.luz, valor: '', que_pasa_si_no: '' }),
+    })
+    expect(html).toContain('No encontramos una fuente que lo diga.')
+    expect(html).not.toContain(t.luz.fuentes[0].url)
+    expect(html).not.toContain('sin fuente')
   })
 })

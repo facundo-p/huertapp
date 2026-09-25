@@ -14,8 +14,8 @@ const PANTALLAS = [
   { ruta: '/#/hoy', nombre: 'Esta semana' },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
-  // el término del resumen con su hoja arriba: es la que trae receta, con la
-  // confianza, la fuente y el link al glosario, y nada de eso se mide cerrada
+  // un término del resumen con su hoja arriba: el dato de la especie, su
+  // confianza, sus fuentes y el link al glosario, que no se miden cerrada
   {
     ruta: '/#/explorar/tomate',
     nombre: 'Definición de suelo',

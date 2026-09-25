@@ -105,8 +105,8 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-coliflor-temprana', ruta: '/#/explorar/coliflor-temprana', fullPage: true },
   // la que se define por lo que NO lleva: sin tutorado ni poda
   { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
-  // la hoja del suelo: definición, la mezcla base con confianza y fuente, la
-  // línea que manda a la de almácigos y el link al glosario
+  // la hoja del suelo: definición, lo que pide el tomate con su confianza y su
+  // fuente, la línea que remite a las mezclas del glosario y el link
   {
     nombre: 'ficha-definicion-suelo',
     ruta: '/#/explorar/tomate',

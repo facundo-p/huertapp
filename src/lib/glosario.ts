@@ -1,6 +1,7 @@
 import type {
   CategoriaLuz,
   CategoriaSuelo,
+  Dato,
   EspecieEnriquecida,
   Fuente,
   Grupo,
@@ -330,19 +331,21 @@ export const DESC_LUZ: Record<CategoriaLuz, string> = {
  * Lo que muestra la hoja que sube al tocar un término en la ficha.
  * ------------------------------------------------------------------ */
 
+/** Un dato agronómico, que sí va con cita; una definición no la necesita. */
+export interface Receta {
+  etiqueta: string
+  /** `null`: la fuente no lo dice, y la hoja muestra el sin dato */
+  texto: string | null
+  confianza: number
+  /** todas, como en el resto de la ficha; vacío se muestra como tal */
+  fuentes: Fuente[]
+}
+
 export interface ContenidoDefinicion {
   que_es: string
   /** el paso a paso de una labor */
   detalle?: { etiqueta: string; texto: string }
-  /** un dato agronómico, que sí va con cita; una definición no la necesita */
-  receta?: {
-    etiqueta: string
-    /** `null`: la fuente no lo dice, y la hoja muestra el sin dato */
-    texto: string | null
-    confianza: number
-    /** todas, como en el resto de la ficha; vacío se muestra como tal */
-    fuentes: Fuente[]
-  }
+  receta?: Receta
   /** una línea tras la receta que manda al Glosario, sin afirmar lo que allá va citado */
   remite?: string
   /** sección o término del Glosario donde está lo completo (los `id` de Glosario.tsx) */
@@ -364,44 +367,38 @@ export function definicionDeGrupo(grupo: Grupo): ContenidoDefinicion {
 }
 
 /**
- * El chip dice la categoría; la hoja suma lo que dijo la fuente de esta
- * especie. El rótulo no la nombra: el artículo ("el tomate", "la lechuga") no
- * está en los datos.
+ * Suelo y luz suman a la definición lo que dijo la fuente de esta especie: el
+ * chip dice la categoría, y la categoría sola se lee como consejo aunque la
+ * ficha diga otra cosa. El rótulo no nombra a la especie: el artículo ("el
+ * tomate", "la lechuga") no está en los datos.
  */
-export function definicionDeLuz(luz: EspecieEnriquecida['luz']): ContenidoDefinicion {
-  const texto = [luz.valor, luz.que_pasa_si_no]
+function loQuePide(dato: Dato & { que_pasa_si_no: string }): Receta {
+  const texto = [dato.valor, dato.que_pasa_si_no]
     .map((t) => t.trim())
     .filter(Boolean)
     .join(' ')
   return {
-    que_es: DESC_LUZ[luz.categoria_luz],
-    receta: {
-      etiqueta: 'Lo que pide esta planta',
-      texto: texto || null,
-      confianza: luz.confianza,
-      fuentes: luz.fuentes,
-    },
-    ancla: 'luz',
+    etiqueta: 'Lo que pide esta planta',
+    texto: texto || null,
+    confianza: dato.confianza,
+    fuentes: dato.fuentes,
   }
 }
 
+export function definicionDeLuz(luz: EspecieEnriquecida['luz']): ContenidoDefinicion {
+  return { que_es: DESC_LUZ[luz.categoria_luz], receta: loQuePide(luz), ancla: 'luz' }
+}
+
 /**
- * Va al ancla `tierra`, donde está la mezcla entera. `AJUSTE_SUELO` no entra:
- * no tiene cita, y en varias especies contradice el suelo citado de su propia
- * ficha (en el melón, INTA pide materia orgánica y el ajuste, menos).
+ * Ni la mezcla base ni `AJUSTE_SUELO`: sin la especie al lado, se leían como
+ * consejo para esa planta, y la base lleva compost donde el tomillo o el
+ * cosmos piden suelo pobre. Las dos mezclas quedan en el Glosario, con su cita.
  */
-export function definicionDeSuelo(categoria: CategoriaSuelo): ContenidoDefinicion {
+export function definicionDeSuelo(suelo: EspecieEnriquecida['suelo']): ContenidoDefinicion {
   return {
-    que_es: DESC_SUELO[categoria],
-    receta: {
-      etiqueta: 'La mezcla base, para maceta o cantero',
-      texto: SUSTRATO.base,
-      confianza: SUSTRATO.confianza,
-      fuentes: [SUSTRATO.fuente],
-    },
-    // la receta lleva compost y en la bandeja juega en contra: se avisa que
-    // es otra, y el porqué queda en el Glosario, con su cita
-    remite: 'La de la bandeja de almácigos es otra: está en el Glosario.',
+    que_es: DESC_SUELO[suelo.categoria_suelo],
+    receta: loQuePide(suelo),
+    remite: 'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario.',
     ancla: 'tierra',
   }
 }

@@ -131,7 +131,7 @@ export function FichaEspecie() {
             <Categoria
               Icono={() => <IconoSuelo categoria={e.suelo.categoria_suelo} size={24} decorativo />}
               texto={suelo.etiqueta}
-              contenido={definicionDeSuelo(e.suelo.categoria_suelo)}
+              contenido={definicionDeSuelo(e.suelo)}
             />
             <Categoria
               Icono={() => <IconoLuz categoria={e.luz.categoria_luz} size={24} decorativo />}

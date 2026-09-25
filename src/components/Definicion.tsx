@@ -4,7 +4,7 @@ import { BottomSheet } from './BottomSheet'
 import { ConfidenceBadge } from './ConfidenceBadge'
 import { IconoFuente } from '../icons'
 import { conNegritas } from '../lib/negritas'
-import type { ContenidoDefinicion } from '../lib/glosario'
+import type { ContenidoDefinicion, Receta } from '../lib/glosario'
 import './Definicion.css'
 
 interface Props {
@@ -69,7 +69,7 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
           </div>
         )}
 
-        {contenido.receta && <Receta {...contenido.receta} />}
+        {contenido.receta && <DatoConCita {...contenido.receta} />}
 
         {contenido.remite && <p className="definicion__que">{contenido.remite}</p>}
       </BottomSheet>
@@ -78,7 +78,7 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
 }
 
 /** Un dato con su cita. Lo que falta se dice, como en el resto de la ficha. */
-function Receta({ etiqueta, texto, confianza, fuentes }: NonNullable<ContenidoDefinicion['receta']>) {
+function DatoConCita({ etiqueta, texto, confianza, fuentes }: Receta) {
   return (
     <div>
       <p className="definicion__rotulo">{etiqueta}</p>
@@ -93,10 +93,11 @@ function Receta({ etiqueta, texto, confianza, fuentes }: NonNullable<ContenidoDe
         <span className="definicion__confianza">
           <ConfidenceBadge valor={texto ? confianza : null} compacto />
         </span>
+        {/* sin texto no hay nada que citar: listar fuentes parecería respaldarlo */}
         {texto && fuentes.length === 0 && (
           <span className="definicion__sin-fuente">sin fuente</span>
         )}
-        {fuentes.map((f) => (
+        {texto && fuentes.map((f) => (
           <a
             key={f.url}
             href={f.url}

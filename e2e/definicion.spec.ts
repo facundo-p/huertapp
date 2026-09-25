@@ -20,11 +20,15 @@ test('la hoja del suelo lleva a la tierra del Glosario, a la vista y con el foco
 
   await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
   const hoja = page.getByRole('dialog')
-  // la mezcla base y el aviso de que la de almácigos es otra; el ajuste por
-  // categoría no, que no tiene cita
-  await expect(hoja.getByText('La mezcla base, para maceta o cantero')).toBeVisible()
-  await expect(hoja.getByText('La de la bandeja de almácigos es otra: está en el Glosario.')).toBeVisible()
-  await expect(hoja.getByText(/Cómo correr la mezcla/)).toHaveCount(0)
+  // lo que pide el tomate según su fuente; ninguna mezcla, que al lado de la
+  // especie se leía como consejo para ella: quedan en el Glosario
+  await expect(hoja.getByText('Lo que pide esta planta')).toBeVisible()
+  await expect(hoja.getByText(/buen nivel de materia orgánica/)).toBeVisible()
+  await expect(hoja.locator('a[href*="hort.unlu.edu.ar"]')).toBeVisible()
+  await expect(
+    hoja.getByText('La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario.'),
+  ).toBeVisible()
+  await expect(hoja.getByText(/partes de compost|Cómo correr la mezcla/)).toHaveCount(0)
 
   await page.getByRole('link', { name: /Verlo en el Glosario/ }).click()
 
