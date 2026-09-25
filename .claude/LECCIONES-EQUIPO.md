@@ -389,8 +389,9 @@ con `git reset --hard origin/<rama>` sobre su worktree y lo dijo en el parte.
 seguir: si el tester encuentra un bug, el arreglo vuelve al mismo dev y lo
 hace ahí.
 
-**Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre,
-en una rama propia, `qa/<rama>`, que no se pushea. El orquestador lleva sus
+**Qué hacemos.** El orquestador pushea la rama del dev antes de llamar al
+tester, y el tester trabaja sobre `origin/<rama>` sin tomar el nombre, en una
+rama propia, `qa/<rama>`, que no se pushea. El orquestador lleva sus
 tests a la rama del dev con `merge --ff-only`, pushea, y recién ahí borra el
 worktree del tester y `qa/<rama>`. El worktree del dev se borra cuando cerró
 el QA —el tester reportó en verde y sus tests están en la rama—, no antes.
@@ -662,8 +663,11 @@ fijados y una hipótesis descartada con evidencia. Es el gasto que reemplaza a
 
 El reviewer pasó los 100 k con un hallazgo de una línea y una hipótesis que no
 se sostuvo, y se le pasaron los 3 px. Lo que suma el merge de prueba con #140
-no está medido aparte: es la señal que pide el umbral de la línea de base, y
-queda para su prompt.
+no está medido aparte, así que no se sabe si es el prompt mal delimitado que
+dice la línea de base o el merge.
+
+**Al plugin.** El merge de prueba se le pide al reviewer como tarea aparte, con
+su propia medición.
 
 ---
 
@@ -680,7 +684,8 @@ La lista corta, para no releer todo:
 4. **Cada rol devuelve un parte, nunca diffs ni logs.** Es lo que permite
    sostener diecisiete issues sin llenarse de contexto inútil.
 5. **Medir cada corrida** (tokens, llamadas, duración) contra la línea de base de
-   su tipo.
+   su tipo. Un paso que se suma a un rol, como el merge de prueba del reviewer,
+   se pide y se mide aparte.
 6. **El orquestador chequea el proxy antes de lanzar al investigador**, que no
    tiene Bash y pega tal cual el error que le dé un `WebFetch`. Si el egreso
    está cerrado, no se agendan tandas de datos.

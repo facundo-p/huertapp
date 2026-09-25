@@ -24,7 +24,9 @@ En este orden:
    avisá:
    - `git rev-parse --verify --quiet qa/<rama>` no da nada. Si da un hash,
      esa rama es de una vuelta anterior.
-   - `git rev-parse <rama> origin/<rama>` da dos veces el mismo hash.
+   - `git rev-parse <rama> origin/<rama>` da dos veces el mismo hash. Si
+     falta `origin/<rama>`, no se pusheó: la pushea el orquestador antes de
+     llamarte.
 4. **El antes, si el pedido lo trae:**
    `git switch --detach $(git merge-base origin/staging origin/<rama>)`,
    `npm ci` y las capturas: `FASE=antes-dia npm run shots` y
