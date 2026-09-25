@@ -212,7 +212,7 @@ button.carril__dia:active {
 /* Sólo cuando dos tareas del día se llaman igual: dice cuál es cuál. En línea
    y no flex: el lugar arranca en el renglón del chip en vez de bajar entero. */
 .carril__lugar {
-  font-size: 12px;
+  font-size: var(--texto-xs);
   font-weight: 600;
   line-height: 1.45;
   color: var(--tinta-suave);
@@ -245,7 +245,7 @@ button.carril__dia:active {
   width: 100%;
   min-height: var(--tap-min);
   margin-top: -6px;
-  font-size: 12px;
+  font-size: var(--texto-xs);
   font-weight: 600;
   color: var(--tinta-media);
   text-align: left;
@@ -277,7 +277,7 @@ button.carril__dia:active {
 /* De qué tareas habla este pie. Va en negrita y no en chico: es el encabezado
    del bloque, y la jerarquía se hace con peso. */
 .carril__pie-de {
-  font-size: 12px;
+  font-size: var(--texto-xs);
   font-weight: 800;
   line-height: 1.3;
   color: var(--tinta-media);

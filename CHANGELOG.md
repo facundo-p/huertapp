@@ -32,6 +32,11 @@ Qué significa cada parte en este proyecto:
 - **Índice de secciones en el Glosario.** Una fila de chips debajo del título
   salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
+- **Si dos plantas tienen una tarea con el mismo nombre, te dice cuál es
+  cuál.** Con dos zanahorias sin apodo, cada una muestra en qué lugar está y,
+  si con eso no alcanza, cuándo la sembraste, de qué especie es o cuándo asomó.
+  Su porqué lleva lo mismo, así sabés de cuál te habla. Y con lector de
+  pantalla, cada «Hecho» y cada «Asomó» dice de qué tarea es.
 
 ### Cambiado
 
@@ -53,11 +58,6 @@ Qué significa cada parte en este proyecto:
   para trasplantar, el «según la ficha: 25-35 días…» aparece una sola vez para
   las cinco y no cinco veces igual. A la planta que le corrió la germinación le
   sigue quedando su propio pie, porque su dato es otro.
-- **Si dos tareas se llaman igual, te dice cuál es cuál.** Con dos zanahorias
-  sin apodo, cada una muestra en qué lugar está y, si con eso no alcanza,
-  cuándo la sembraste, de qué especie es o cuándo asomó. Su porqué lleva lo
-  mismo, así sabés de cuál te habla. Y con lector de pantalla, cada «Hecho» y
-  cada «Asomó» dice de qué tarea es.
 
 ## [2.3.0] — 2026-09-12
 

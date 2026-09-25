@@ -51,8 +51,7 @@ export function guardarPlegado(p: Plegado): void {
   }
 }
 
-/** Prende o apaga un id en una lista. Exportada porque «La semana» pliega igual,
- *  pero en memoria: ahí el plegado no se recuerda entre sesiones. */
+/** Prende o apaga un id en una lista. «La semana» la usa también. */
 export function alternar(lista: string[], id: string): string[] {
   return lista.includes(id) ? lista.filter((x) => x !== id) : [...lista, id]
 }
