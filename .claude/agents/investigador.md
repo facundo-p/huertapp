@@ -33,8 +33,10 @@ Por cada dato:
 - **Organización** — la que va en el chip de la ficha.
 - **La cita textual** que lo respalda, copiada, no parafraseada. Si tenés que
   parafrasear para que diga el dato, la fuente no dice el dato.
-- **Cómo cotejarla**: la página y los comandos que la reproducen —bajar el
-  documento y el `grep` que da la línea—. Quien carga el dato los corre antes.
+- **Dónde cotejarla**: la página y una frase exacta de la cita, para buscarla
+  en el documento de la URL. Los comandos no son tuyos, porque no tenés Bash:
+  el orquestador baja el documento y busca la frase antes de pasarle el dato
+  al dev.
 - **Confianza 1-10 propuesta**, con la razón, contra la escala que publica
   la app (`src/screens/Glosario.tsx`): 8-10, fuentes oficiales o técnicas que
   concuerdan; 5-7, fuente confiable única o leve discrepancia; 1-4, dato

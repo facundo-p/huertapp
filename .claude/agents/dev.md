@@ -76,11 +76,19 @@ La batería completa de e2e y capturas la corre el tester, no vos. Pero si
 escribiste un spec para convencerte, commitealo y nombralo en el parte con lo
 que verifica: el tester decide si queda. Correlo con
 `npm run build && npx playwright test e2e/<spec>`: sin el build, va contra el
-`dist/` viejo. Y si agregaste una captura, mirala:
-`FASE=dev npm run shots -- -g '<nombre>'` y abrí `e2e/shots/dev/<nombre>.png`.
+`dist/` viejo. Y si agregaste una captura, mirala en los dos temas:
+
+```
+FASE=dev npm run shots -- -g 'captura <nombre>$'
+FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
+```
+
+y abrí el PNG en `e2e/shots/dev/` y en `e2e/shots/dev-noche/`. Sin el `$`,
+`-g 'calendario'` corre diez capturas.
 Si Playwright no encuentra el navegador, está en `/opt/pw-browsers` con otro
-nombre de revisión: symlinks con el que espera, y `PLAYWRIGHT_BROWSERS_PATH`
-apuntando ahí.
+nombre de revisión: symlinks con el que espera, en una carpeta fuera del
+worktree (el scratchpad), y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Adentro,
+`git status` los muestra.
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión.
 Si está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
 Playwright y, si sigue ocupado, decilo en el parte.

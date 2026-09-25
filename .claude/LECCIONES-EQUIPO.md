@@ -63,9 +63,11 @@ citarlo, **no se puede hacer en este entorno**. No es que salga mal: sale sin el
 respaldo que la regla 1 exige, que es peor, porque el dato entra igual y parece
 verificado.
 
-**Al plugin.** El rol investigador arranca **chequeando el estado del proxy** y lo
-dice en su primer parte. Si el egreso está cerrado, avisa antes de gastar once
-búsquedas, no después. Y el orquestador no agenda tandas de datos en un entorno
+**Al plugin.** El proxy lo chequea **el orquestador, antes de lanzar al
+investigador**, que no tiene Bash. Si el egreso está cerrado, mejor saberlo
+antes de gastar once búsquedas que después. Si igual un `WebFetch` da 403, el
+investigador pega el error tal cual en el parte, host incluido, y el
+orquestador vuelve a chequear. Y no se agendan tandas de datos en un entorno
 sin red abierta.
 
 ### El investigador hizo bien su trabajo devolviendo nada
@@ -129,6 +131,10 @@ transcript de un subagente para enterarse de cómo le fue.
 ### Línea de base de consumo por tipo de consulta
 
 **Síntoma.** No hay con qué comparar cuando algo "consumió mucho".
+
+**Causa.** Cada corrida devuelve tokens, llamadas y duración, pero hasta esta
+sesión no se anotaban: la tabla de abajo es la primera medición. Sin registro,
+"mucho" no tiene contra qué medirse.
 
 **Qué hacemos.** Anotar los números que devuelve cada corrida. Los de esta
 sesión:
@@ -228,6 +234,11 @@ contraejemplo de la entrada de arriba y se lee junto. **El mismo agente que
 inventó un negativo respetó el alcance con disciplina.** No se trata de confiar o
 desconfiar de un agente entero, sino de saber qué tipo de afirmación verificar:
 el juicio de alcance salió bien, el resultado de búsqueda salió mal.
+
+**Al plugin.** El orquestador verifica por tipo de afirmación, no por agente:
+un negativo se vuelve a correr aunque el mismo dev haya cuidado el alcance. Y
+el prompt del dev conserva lo de *lo que no va acá*, que es lo que hizo que
+preguntara por `README.md` en vez de tocarlo.
 
 ### El `.gitignore` tiene que estar en la rama donde vas a commitear
 
@@ -434,11 +445,14 @@ abierto) y corrió
 
 **Causa.** La regla 1 de CLAUDE.md no tiene margen, y cotejar cuesta un minuto.
 
-**Qué hacemos.** Un dato que va a entrar al catálogo se coteja aunque venga con
-prueba adjunta, y no por desconfianza.
+**Qué hacemos.** Un dato que va a entrar al catálogo lo coteja el orquestador
+antes de pasárselo al dev, aunque venga con prueba adjunta, y no por
+desconfianza.
 
-**Al plugin.** Un dossier trae comandos reproducibles. Correrlos es parte del
-paso de carga, no una opción.
+**Al plugin.** El dossier trae dónde cotejar: la URL, la página y una frase
+exacta de la cita. Los comandos los arma y los corre el orquestador, y dice qué
+dio: el investigador no tiene Bash. Acá lo tenía porque lo emulaba
+`general-purpose`. Cotejar es parte del paso de carga, no una opción.
 
 ### El reviewer calcula, el tester mide, el orquestador decide
 
@@ -639,8 +653,9 @@ La lista corta, para no releer todo:
    sostener diecisiete issues sin llenarse de contexto inútil.
 5. **Medir cada corrida** (tokens, llamadas, duración) contra la línea de base de
    su tipo.
-6. **El investigador chequea el proxy antes de buscar**, y el orquestador no
-   agenda tandas de datos si el egreso está cerrado.
+6. **El orquestador chequea el proxy antes de lanzar al investigador**, que no
+   tiene Bash y pega tal cual el error que le dé un `WebFetch`. Si el egreso
+   está cerrado, no se agendan tandas de datos.
 7. **"No encontré fuente" es una respuesta buena, y hay que decírselo al rol**
    para que la dé.
 8. **Antes de abrir una issue de investigación**, buscar si el repo ya contestó
@@ -673,8 +688,9 @@ La lista corta, para no releer todo:
     confianza contra la escala que publica la app.**
 21. **Un hallazgo de layout se decide y se mide**: decisión del orquestador,
     medición del tester antes y después, nunca "arreglalo" al dev.
-22. **Un dato que entra al catálogo se coteja aunque venga con prueba.** Es un
-    minuto.
+22. **Un dato que entra al catálogo lo coteja el orquestador aunque venga con
+    prueba**: con la URL, la página y la frase del dossier, baja el documento,
+    la busca y dice qué dio antes de pasárselo al dev. Es un minuto.
 23. **El reviewer entrega hipótesis con su chequeo, y se prueban rompiendo el
     código.** Si la mutación la confirma, queda el test que la mostró en rojo;
     si la descarta, no queda una aserción para ella.

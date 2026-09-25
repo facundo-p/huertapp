@@ -29,8 +29,8 @@ En este orden:
    `git switch --detach $(git merge-base origin/staging origin/<rama>)`,
    `npm ci` y las capturas: `FASE=antes-dia npm run shots` y
    `FASE=antes-noche TEMA=noche npm run shots`.
-5. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
-   cierre el QA: que reportes en verde y tus tests estén en su rama.
+5. **Una rama tuya**: la del dev la tiene su worktree hasta que cierre el QA
+   —que reportes en verde y tus tests estén en su rama—.
    `git switch -c qa/<rama> origin/<rama>`.
 6. `npm ci`. Si ya lo corriste en el paso 4, sólo si la rama cambió el lock:
    `git diff --quiet origin/staging...HEAD -- package-lock.json || npm ci`.
@@ -42,8 +42,9 @@ nunca con un merge commit. Después pushea, y recién ahí borra tu worktree y
 
 Si no es fast-forward, porque la rama del dev se movió, el orquestador te
 reanuda por mensaje. Hacés `git rebase <rama>` en tu worktree (si choca, lo
-resolvés vos y lo decís en el parte), `npm ci` si cambió el `package-lock`, y
-volvés a correr tus specs y la batería.
+resolvés vos y lo decís en el parte),
+`git diff --quiet ORIG_HEAD HEAD -- package-lock.json || npm ci`, y volvés a
+correr tus specs y la batería.
 
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
 está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
@@ -63,8 +64,9 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 - **Cómo ver el rojo.** Un e2e, con `npm run e2e -- -g '<test>'`, que buildea:
   un `npx playwright test` suelto corre contra el `dist/` viejo y la mutación no
   llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. Una
-  captura, con `npm run shots -- -g '<nombre>'`; `screenshots.spec.ts` no se
-  cablea en `e2e`. El rojo vale si es la aserción que esperabas: un build roto
+  captura, con `npm run shots -- -g 'captura <nombre>$'`: sin anclar,
+  `-g 'calendario'` corre diez. `screenshots.spec.ts` no se cablea en `e2e`.
+  El rojo vale si es la aserción que esperabas: un build roto
   (un `noUnusedLocals` después de borrar una línea) o «No tests found» no
   cuentan. Cableá el spec antes de mutar. Si mutás `data/` o `scripts/`,
   `npm run data:build` antes de correr y otra vez después de deshacer: la app y
@@ -85,7 +87,8 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 - **Todo spec nuevo en `e2e/` que queda, tuyo o del dev, se cablea**: se suma
   a la lista del script `e2e` de `package.json`. Si no está ahí, no corre,
   tampoco en CI. Los del dev los revisás, los hacés fallar y decidís si quedan,
-  en vez de escribirlos de nuevo. Los que no quedan, los borrás en `qa/<rama>`.
+  en vez de escribirlos de nuevo. Los que no quedan, los borrás en `qa/<rama>`,
+  y su entrada del script `e2e` de `package.json`.
 - **Si encontrás un bug de verdad**, el test que lo muestra se commitea en rojo
   en `qa/<rama>` y va en el parte: el arreglo es del dev. La rama queda en
   rojo hasta el arreglo, y en rojo no se abre ni se mergea el PR.
@@ -131,8 +134,10 @@ Antes de reportar, fijate qué tipo de falla es:
 - **Los e2e pisándose**: `playwright.config.ts` ya usa `workers: 1`.
 - **Playwright no encuentra el navegador y `playwright install` falla**: el
   entorno lo trae en `/opt/pw-browsers`, con otro nombre de revisión. Symlinks
-  con el nombre que espera Playwright en una carpeta tuya, y
-  `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí.
+  con el nombre que espera Playwright en una carpeta fuera del worktree (el
+  scratchpad), y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Adentro,
+  `git status --short` los muestra y ya no da sólo `e2e/`, `tests/` y
+  `package.json`.
 
 `.claude/LECCIONES.md` tiene varias de estas con síntoma y causa. Vale leerlo
 antes de teorizar.
@@ -145,9 +150,12 @@ dev. Los tests sí los escribís vos.
 - Qué corriste y qué dio: verde o rojo, por suite.
 - Qué tests dejaste, qué fijan y **con qué mutación viste en rojo cada
   aserción**.
+- **`qa/<rama>` y su hash**, que es lo que el orquestador mergea.
 - Si algo falló: **el error, corto**, y tu diagnóstico de por qué.
-- **Qué viste en las capturas**, en prosa. Y la ruta de las que convenga que mire
-  una persona.
+- **Qué viste en las capturas**, en prosa. Las que convenga que mire una
+  persona, copialas al scratchpad de la sesión, fuera de tu worktree, y da esa
+  ruta: `e2e/shots/` está ignorado y el orquestador borra tu worktree apenas
+  pushea.
 - Si hubo antes y después, **la medición de las dos tandas**, en píxeles o en
   filas: «antes entraban 3-4 filas del día en 390×844, y ahora las 6».
 

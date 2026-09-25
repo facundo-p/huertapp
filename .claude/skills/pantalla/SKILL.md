@@ -80,16 +80,20 @@ el principio:
 
 ## El bucle de verificación
 
-No termina cuando compila. Termina cuando mirás las capturas **en los dos
-temas**:
-
-```bash
-FASE=cantero-dia npm run shots
-FASE=cantero-noche TEMA=noche npm run shots
-```
+No termina cuando compila. Termina cuando mirás tus capturas **en los dos
+temas**.
 
 Agregá tu pantalla a `e2e/screenshots.spec.ts` con sus estados y a
-`PANTALLAS` de `accesibilidad.spec.ts`. Después abrí los PNG. Acá las capturas
+`PANTALLAS` de `accesibilidad.spec.ts`. Sacá sólo las tuyas, una corrida por
+nombre y por tema:
+
+```bash
+FASE=dev npm run shots -- -g 'captura <nombre>$'
+FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
+```
+
+El `$` ancla el nombre: sin él, `-g 'calendario'` corre diez. Después abrí
+los PNG de `e2e/shots/dev/` y `e2e/shots/dev-noche/`. Acá las capturas
 encontraron: un ícono que se leía como otra cosa, una lista desarmada en
 palabras sueltas, un botón con texto invisible de noche, una leyenda partida
 del color que nombraba, una aguja que se confundía con las marcas de mes, tres
@@ -106,5 +110,9 @@ no desaparece. Cuando algo no funciona en cierta plataforma, se dice **antes**.
 ## Verificación final
 
 ```bash
-npx tsc -b && npm test && npm run e2e && FASE=cantero-dia npm run shots && FASE=cantero-noche TEMA=noche npm run shots
+npx tsc -b && npm test
 ```
+
+Más tus capturas en los dos temas, como en el bucle de arriba. La batería
+completa —`npm run e2e` y todas las capturas— la corre el tester: repetirla
+ocupa el puerto 4173, que es uno solo para toda la sesión.
