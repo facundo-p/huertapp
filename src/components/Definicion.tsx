@@ -62,13 +62,6 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
       >
         <p className="definicion__que">{conNegritas(contenido.que_es)}</p>
 
-        {contenido.detalle && (
-          <div>
-            <p className="definicion__rotulo">{contenido.detalle.etiqueta}</p>
-            <p className="definicion__que">{conNegritas(contenido.detalle.texto)}</p>
-          </div>
-        )}
-
         {contenido.receta && <DatoConCita {...contenido.receta} />}
 
         {contenido.remite && <p className="definicion__que">{contenido.remite}</p>}

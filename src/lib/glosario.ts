@@ -34,7 +34,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   riego: {
     termino: 'Riego',
     que_es:
-      'Regar "parejo" no es regar mucho: es que el sustrato no pase de charco a polvo y de vuelta. Casi todo lo que se raja, se pudre o amarga viene de ese vaivén, no de la cantidad total de agua.',
+      'Darle agua a la planta cuando la lluvia no alcanza. Cuánto y cada cuánto depende de la especie.',
     como: 'Meté un dedo en la tierra: si sale seco, regá. Mejor temprano o al atardecer, al pie de la planta y no sobre las hojas —el agua sobre la hoja al sol es la puerta de entrada de los hongos.',
   },
   raleo: {
@@ -46,25 +46,25 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   aporque: {
     termino: 'Aporque',
     que_es:
-      'Arrimarle tierra a la base de la planta. Según el cultivo hace tres cosas distintas: le da sostén para que no se tumbe, tapa lo que no tiene que ver la luz (la papa), o blanquea lo que se come tierno (el puerro).',
+      'Arrimarle tierra a la base de la planta, en un montoncito o un lomo. Según el cultivo, sirve para cosas distintas.',
     como: 'Con la mano o con una azadita, juntá tierra alrededor del tallo formando un montoncito. De a poco y varias veces, no todo junto.',
   },
   tutorado: {
     termino: 'Tutorado',
     que_es:
-      'Darle a la planta algo a qué agarrarse: una caña, un hilo tenso, una espaldera, unas ramas. Lo piden las que trepan y las que se cargan de fruta.',
+      'Darle a la planta algo en qué apoyarse o por dónde trepar: una caña, un hilo tenso, una espaldera, unas ramas.',
     como: 'Clavá el tutor **al plantar** y no después, para no cortarle raíces ya hechas. Atá flojo y en forma de ocho, con el cruce entre el tallo y la caña: así el tallo puede engordar sin que el hilo lo estrangule.',
   },
   poda: {
     termino: 'Poda',
     que_es:
-      'Sacarle partes vivas a la planta para que la energía vaya a otro lado. Tiene nombres según qué se saca: **desbrote** son los chupones del tomate, **despunte** es cortarle la punta a una guía o a una rama, **pinzado** es hacerlo con los dedos en algo tierno, como la albahaca.',
+      'Cortarle partes a la planta: brotes, puntas, ramas o flores. Tiene nombres según qué se saca: **desbrote** son los chupones del tomate, **despunte** es cortarle la punta a una guía o a una rama, **pinzado** es hacerlo con los dedos en algo tierno, como la albahaca. Para qué se hace cambia con cada especie.',
     como: 'Cuanto más chico el brote, mejor: sale con los dedos y la herida cierra sola. Si ya está grueso, tijera limpia y en día seco.',
   },
   mulch: {
     termino: 'Mulch (acolchado o cobertura)',
     que_es:
-      'Taparle la tierra con algo: paja, hojas secas, cartón, chips de poda, plástico negro. Un suelo tapado retiene la humedad, no deja crecer yuyos, amortigua el golpe de calor y evita que la lluvia salpique tierra —y hongos— sobre las hojas de abajo.',
+      'Taparle la tierra con algo: paja, hojas secas, cartón, chips de poda, plástico negro. Qué se busca con eso depende del cultivo.',
     como: 'Cubrí toda la superficie dejando libre un anillo alrededor del tallo, para que el cuello de la planta no quede en contacto con material húmedo.',
   },
   blanqueo: {
@@ -82,7 +82,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   abonado: {
     termino: 'Abonado',
     que_es:
-      'Reponerle al suelo lo que las plantas se llevan. En una huerta que produce todo el año no alcanza con la tierra que había.',
+      'Sumarle nutrientes a la tierra con compost u otro abono orgánico. Si conviene, y cuánto, depende de la especie.',
     como: 'Compost o humus de lombriz bien hechos, incorporados antes de plantar o esparcidos alrededor de la planta. **Nunca estiércol fresco**: quema las raíces y deforma las de zanahoria y remolacha.',
   },
   desmalezar: {
@@ -100,7 +100,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   contener: {
     termino: 'Contención',
     que_es:
-      'Ponerle un límite físico a las que se expanden solas. La menta y la melisa avanzan por debajo de la tierra con rizomas y, si las dejás sueltas en un bancal, en dos temporadas es un bancal de menta.',
+      'Ponerle un límite a una planta que se expande sola, por debajo de la tierra o resembrándose. Cómo, depende de la especie.',
     como: 'Maceta —incluso enterrada— o una barrera hundida en el suelo alrededor del cantero. Y a las que se expanden por semilla, como la borraja, cortarles las flores antes de que semillen.',
   },
   dividir: {
@@ -112,7 +112,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   rotacion: {
     termino: 'Rotación',
     que_es:
-      'No repetir la misma familia de plantas en el mismo lugar temporada tras temporada. Las enfermedades y las plagas del suelo son bastante específicas de cada familia: si les dejás el mismo cantero, se acumulan.',
+      'No repetir en el mismo lugar, temporada tras temporada, plantas que comparten enfermedades del suelo: si les dejás el mismo cantero, se acumulan. Cuáles las comparten lo dice la ficha de cada una.',
     como: 'Anotá qué familia hubo en cada cantero y hacelas girar. Las cinco que más aparecen en esta app: **solanáceas** (tomate, papa, pimiento, ají, berenjena), **crucíferas** (repollo, brócoli, coliflor, kale, rúcula, rabanito, nabo), **cucurbitáceas** (zapallo, zapallito, pepino, melón, sandía), **aliáceas** (ajo, cebolla, puerro, ciboulette) y **leguminosas** (chaucha, arveja, haba). Después de una leguminosa el suelo queda mejor que antes: fijan nitrógeno.',
   },
 }
@@ -344,8 +344,6 @@ export interface Receta {
 
 export interface ContenidoDefinicion {
   que_es: string
-  /** el paso a paso de una labor */
-  detalle?: { etiqueta: string; texto: string }
   receta?: Receta
   /** una línea tras la receta que manda al Glosario, sin afirmar lo que allá va citado */
   remite?: string
@@ -353,12 +351,16 @@ export interface ContenidoDefinicion {
   ancla: string
 }
 
-/** Al término y no a la sección: desde la sección, la labor quedaba fuera de pantalla. */
+/**
+ * Define y no prescribe: al lado del cuidado citado de la especie, el paso a
+ * paso general lo contradecía (regar si está seco, en la cebolla; abonar, en
+ * la capuchina). El ancla va al término y no a la sección, que lo dejaba
+ * fuera de pantalla.
+ */
 export function definicionDeLabor(tipo: TipoCuidado): ContenidoDefinicion {
-  const l = LABORES[tipo]
   return {
-    que_es: l.que_es,
-    detalle: l.como ? { etiqueta: 'Cómo se hace', texto: l.como } : undefined,
+    que_es: LABORES[tipo].que_es,
+    remite: 'El paso a paso general está en el Glosario. Para esta planta, vale lo que dice su ficha.',
     ancla: `labor-${tipo}`,
   }
 }

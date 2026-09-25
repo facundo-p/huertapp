@@ -32,7 +32,7 @@ export function Cuidados({ cuidados }: { cuidados: Cuidado[] }) {
 
       <p className="cuidados__bajada">
         Lo que hay que ir haciendo entre la siembra y la cosecha. Si alguna de estas palabras no te
-        dice nada, tocala: te decimos qué es y cómo se hace.
+        dice nada, tocala: te decimos qué es.
       </p>
 
       <ul className="cuidados__lista">

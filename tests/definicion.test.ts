@@ -6,6 +6,7 @@ import enriquecido from '../data/huerta_gba_enriquecido.json'
 import {
   AJUSTE_SUELO,
   DESC_GRUPO,
+  LABORES,
   SUSTRATO,
   definicionDeGrupo,
   definicionDeLabor,
@@ -45,7 +46,6 @@ describe('definición al toque', () => {
   it('todo término tocable abre con algo escrito', () => {
     for (const [quien, d] of todas) {
       expect(d.que_es.length, quien).toBeGreaterThan(20)
-      if (d.detalle) expect(d.detalle.texto.length, quien).toBeGreaterThan(20)
     }
   })
 
@@ -67,6 +67,21 @@ describe('definición al toque', () => {
 
   it('la labor salta a su término, no al principio de la sección', () => {
     expect(definicionDeLabor('tutorado').ancla).toBe('labor-tutorado')
+  })
+
+  /**
+   * Al lado del cuidado citado, el paso a paso general lo contradecía: regar
+   * si está seco (cebolla, romero), abonar (capuchina), tutorar al plantar
+   * (pimiento), polinizar a mano (choclo). La hoja define; el cómo es de la ficha.
+   */
+  it('la hoja de una labor no trae el paso a paso general', () => {
+    for (const t of ORDEN_CUIDADOS) {
+      const d = definicionDeLabor(t)
+      expect(d, t).not.toHaveProperty('detalle')
+      const escrito = Object.values(d).filter((v) => typeof v === 'string').join('\n')
+      if (LABORES[t].como) expect(escrito, t).not.toContain(LABORES[t].como)
+      expect(d.remite, t).toMatch(/Glosario/)
+    }
   })
 
   it('grupo y labor definen, y nada más', () => {
