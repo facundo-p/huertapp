@@ -315,7 +315,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
     linear-gradient(90deg, transparent 52px, var(--margen) 52px, var(--margen) 53.5px, transparent 53.5px),
     repeating-linear-gradient(180deg, transparent 0 27px, var(--renglon) 27px 28px);
 }
-.pagina__titulo { font-size: calc(30px * var(--k)); line-height: 56px; height: 56px; padding: 6px 16px 0 64px; }
+.pagina__titulo { font-size: calc(28px * var(--k)); line-height: 56px; height: 56px; padding: 6px 16px 0 64px; }
 
 /* ---- Botones a lápiz ---- */
 .lapiz {
@@ -366,7 +366,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   transform: translateX(-50%) rotate(-4deg);
   background: var(--cinta);
 }
-.postit__titulo { font-family: var(--f-mano); font-weight: var(--w-mano); font-size: calc(25px * var(--k)); line-height: 1; display: flex; gap: 6px; align-items: flex-start; }
+.postit__titulo { font-family: var(--f-mano); font-weight: var(--w-mano); font-size: calc(24px * var(--k)); line-height: 1; display: flex; gap: 6px; align-items: flex-start; }
 .postit__titulo svg { flex: none; margin-top: -1px; color: var(--sobre-postit-suave); }
 .postit__texto { font-size: 14px; line-height: 1.35; color: var(--sobre-postit-suave); font-weight: 600; }
 
@@ -433,7 +433,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   background: var(--papel-alto);
   transform: rotate(-0.7deg);
 }
-.nota-margen__titulo { font-size: calc(26px * var(--k)); line-height: 1.1; }
+.nota-margen__titulo { font-size: calc(24px * var(--k)); line-height: 1.1; }
 .sembrar li { display: grid; grid-template-columns: 1fr 44px; align-items: center; min-height: 48px; }
 .sembrar__nombre { display: block; font-size: 16px; font-weight: 800; line-height: 1.3; }
 .sembrar__meta { display: block; font-size: 14px; line-height: 1.3; color: var(--tinta-suave); }
@@ -487,12 +487,14 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 }
 .croquis::before { left: 24px; transform: rotate(-6deg); }
 .croquis::after { right: 24px; transform: rotate(5deg); }
-.croquis__cab { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 22px; margin-bottom: -10px; }
+.croquis__cab { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 22px; }
 .croquis__plegar { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: calc(24px * var(--k)); }
 .croquis__plegar svg { color: var(--tinta-tenue); }
 .croquis__plegar[aria-expanded='false'] svg { transform: rotate(-90deg); }
 
-.plano { display: grid; grid-template-columns: 168px 168px; column-gap: 28px; row-gap: 12px; grid-auto-flow: row dense; justify-content: center; }
+.plano { display: grid; grid-template-columns: 168px 168px; column-gap: 28px; row-gap: 12px; grid-auto-flow: row; justify-content: center; }
+/* sin esto, display:grid le gana a [hidden] y el croquis no se pliega */
+.plano[hidden] { display: none; }
 .lugar { display: grid; gap: 2px; align-content: start; }
 .lugar--entera { grid-column: 1 / -1; justify-self: center; }
 .lugar__cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 2px; min-height: 44px; }
@@ -511,7 +513,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   border-top: 1.5px solid var(--linea-fuerte);
   box-shadow: 0 -10px 18px -14px rgba(30, 20, 0, 0.4);
 }
-.barra__que { font-size: 15px; font-weight: 800; line-height: 1.3; }
+.barra__que { font-size: 16px; font-weight: 800; line-height: 1.3; }
 .barra__como { font-size: 14px; line-height: 1.35; color: var(--tinta-suave); }
 .barra__botones { display: flex; flex-wrap: wrap; gap: 8px; }
 .barra__botones:empty { display: none; }
@@ -569,10 +571,13 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .celda__boton { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; z-index: 3; }
 .celda__nombre {
   position: absolute;
-  left: 50%;
+  left: 2px;
   bottom: 4px;
   z-index: 2;
-  transform: translateX(-50%);
+  width: calc(var(--corrida, 1) * var(--paso) - 4px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
   font-size: 12px;
   font-weight: 800;
   line-height: 1;
@@ -598,7 +603,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .maceta.es-vacia { opacity: 0.55; }
 .celdas--macetas .celda { place-items: start center; padding-top: 0; }
 .celdas--macetas .plantita { position: relative; z-index: 1; margin-top: 12px; }
-.celdas--macetas .celda.en-bloque { background: none; }
+.celdas--macetas .celda.en-bloque:not(.es-elegida) { background: none; }
 .surco { position: absolute; left: 8px; right: 8px; top: 50%; height: 12px; transform: translateY(-50%); color: var(--tinta-tenue); }
 .surco-vacio-texto { position: absolute; inset: 0; display: grid; place-items: center; font-size: 14px; color: var(--tinta-suave); pointer-events: none; }
 .surco-vacio-texto span { padding: 0 8px; background: var(--hoja-cuadros); }
@@ -620,6 +625,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%);
 }
 .banderita.es-atrasada b { background: var(--bandera-atrasada); color: var(--sobre-bandera-atrasada); }
+.banderita.es-atrasada b { grid-auto-flow: column; }
+.banderita i { font-style: normal; margin-left: 1px; }
 .banderita.es-atrasada { animation: pulso 2s ease-in-out infinite; transform-origin: left bottom; }
 .copo {
   position: absolute;
@@ -686,11 +693,11 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   transform: rotate(-4deg);
   text-align: center;
 }
-.sello b { font-size: 13px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.2; }
+.sello b { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.2; }
 .sello span { font-size: 12px; font-weight: 700; line-height: 1.2; }
 .pagina--diario { margin-top: 14px; padding-bottom: 12px; }
 .entrada { display: grid; grid-template-columns: 64px 1fr; padding-right: 16px; }
-.entrada__fecha { padding-right: 14px; text-align: right; font-size: 13px; font-weight: 800; line-height: 28px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.entrada__fecha { padding-right: 14px; text-align: right; font-size: 12px; font-weight: 800; line-height: 28px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
 .entrada__texto { font-size: 16px; line-height: 28px; text-wrap: pretty; }
 .entrada__tipo { display: inline-flex; vertical-align: -3px; margin-right: 4px; color: var(--agua); }
 .foto { position: relative; display: block; width: 150px; margin: 10px 0 16px 4px; padding: 5px 5px 16px; background: var(--foto-borde); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 10px 16px -12px rgba(0, 0, 0, 0.5); }
@@ -706,8 +713,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
    5 · Piezas del cuaderno
    ============================================================ */
 .piezas { padding: 20px 18px 24px 22px; display: grid; gap: 18px; }
-.piezas__titulo { font-size: calc(44px * var(--k)); line-height: 1; }
-.pieza__titulo { font-size: calc(26px * var(--k)); line-height: 1.1; margin-bottom: 6px; }
+.piezas__titulo { font-size: calc(46px * var(--k)); line-height: 1; }
+.pieza__titulo { font-size: calc(24px * var(--k)); line-height: 1.1; margin-bottom: 6px; }
 .pieza__nota { font-size: 14px; color: var(--tinta-suave); line-height: 1.4; }
 .muestra-letra { display: grid; gap: 4px; padding: 10px 12px; border-left: 3px solid var(--margen); }
 .muestra-letra .grande { font-size: calc(40px * var(--k)); line-height: 1; }
@@ -893,7 +900,7 @@ html.captura .banderita.es-atrasada { animation: none; }
                 <h3 class="planta-cab__titulo mano">Los del cajón</h3>
                 <p class="planta-cab__sub">Tomate · 4 plantines en la Almaciguera del balcón. Los otros 3 ya están en las Macetas del balcón.</p>
               </div>
-              <span data-plantita="fruto-creciendo-76"></span>
+              <span data-plantita="fruto-brote-76"></span>
             </header>
             <section class="ciclo" aria-labelledby="ciclo-titulo">
               <h4 class="ciclo__titulo mano" id="ciclo-titulo">El ciclo</h4>
@@ -906,11 +913,11 @@ html.captura .banderita.es-atrasada { animation: none; }
               </ol>
               <p class="ciclo__fuente">Trasplante según la ficha: 30-60 días desde la siembra · confianza 8/10<span class="confianza" aria-hidden="true" data-confianza="8"></span> · corrido 6 días porque asomó tarde</p>
             </section>
-            <p class="sello" aria-label="Hito: 3 pasaron al balcón, el 24 de septiembre"><b>3 al balcón</b><span>24 / 9</span></p>
+            <p class="sello"><span class="sr-solo">Hito: 3 pasaron al balcón, el 24 de septiembre</span><b aria-hidden="true">3 al balcón</b><span aria-hidden="true">24 / 9</span></p>
             <section class="pagina pagina--diario" aria-labelledby="diario-titulo">
               <h4 class="pagina__titulo mano" id="diario-titulo">Diario</h4>
               <ol>
-                <li class="entrada"><span class="entrada__fecha">20/9</span><p class="entrada__texto"><span class="entrada__tipo" data-icono="gota-18" aria-label="Riego"></span>Se secó rápido con el viento. Riego cada dos días.</p></li>
+                <li class="entrada"><span class="entrada__fecha">20/9</span><p class="entrada__texto"><span class="entrada__tipo" data-icono="gota-18"></span><span class="sr-solo">Riego: </span>Se secó rápido con el viento. Riego cada dos días.</p></li>
                 <li class="entrada"><span class="entrada__fecha">18/9</span><div><p class="entrada__texto">Germinaron 7 de 10, seis días tarde. Los tengo contra la ventana que da al norte.</p><span class="foto foto--b" data-foto="con-brotes"></span></div></li>
                 <li class="entrada"><span class="entrada__fecha">12/9</span><div><p class="entrada__texto">Se cumplió el plazo y no asomó ninguna. Hizo frío toda la semana.</p><span class="foto foto--a" data-foto="sin-brotes"></span></div></li>
               </ol>
@@ -949,7 +956,7 @@ html.captura .banderita.es-atrasada { animation: none; }
               <section aria-labelledby="p-plantitas">
                 <h4 class="pieza__titulo mano" id="p-plantitas">Plantitas: grupo × etapa</h4>
                 <div class="tabla-plantitas" id="tabla-plantitas"></div>
-                <p class="pieza__nota">19 dibujos: 6 grupos × 3 etapas, más la semilla que todavía no asomó. No porta datos: la especie va en el nombre.</p>
+                <p class="pieza__nota">19 dibujos: 6 grupos × 3 etapas, más la semilla que todavía no asomó. La etapa y la semilla dicen algo, así que van al Glosario; el grupo no, porque la especie va siempre en el nombre.</p>
               </section>
 
               <section aria-labelledby="p-marcas">
@@ -984,7 +991,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   </main>
 
   <footer class="pie">
-    <p><strong>Qué cambia en los datos:</strong> dos campos opcionales, <code>Planta.celda</code> (dónde arranca en la grilla de su lugar) y <code>Ubicacion.plano</code> (su orden en la hoja). Sin ellos el croquis se arma solo.</p>
+    <p><strong>Qué cambia en los datos:</strong> dos campos opcionales, <code>Planta.celdas</code> (las celdas que ocupa en la grilla de su lugar) y <code>Ubicacion.plano</code> (su orden en la hoja y las columnas de su grilla). Sin ellos el croquis se arma solo.</p>
     <p><strong>Qué no cambia:</strong> el motor de tareas, el backup (los campos nuevos viajan sin subir de versión) y el catálogo.</p>
     <p>El detalle, con la grilla de cada clase de lugar, está en <code>docs/diseno/cuaderno/README.md</code>.</p>
   </footer>
@@ -1074,8 +1081,8 @@ html.captura .banderita.es-atrasada { animation: none; }
   }
 
   // Casilla dibujada a mano (24) y su tilde, que se pasa un poco de la caja
-  var CASILLA = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 4.3 C 8.2 3.7, 14.8 3.9, 20.2 4 C 20.5 9.2, 20.4 14.8, 20.1 20.1 C 14 20.5, 8.3 20.3, 3.9 20 C 3.5 14.6, 3.3 9.2, 3.6 4.3 Z"/><g class="tilde"><path d="M6.8 12.2 L 10.6 16.4 L 21.5 3.8" stroke-width="2.4"/></g></svg>';
-  var CIRCULO_HOY = '<svg class="dia__circulo" viewBox="0 0 46 38" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M8 11 C 13 4.5, 30 2.8, 39 9 C 46 14.5, 42.5 29, 30 33.5 C 18 37.5, 5.5 32.5, 3.6 23 C 2.4 16.5, 6.5 10.5, 14.5 7.2"/></svg>';
+  var CASILLA = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 4.3 C 8.2 3.7, 14.8 3.9, 20.2 4 C 20.5 9.2, 20.4 14.8, 20.1 20.1 C 14 20.5, 8.3 20.3, 3.9 20 C 3.5 14.6, 3.3 9.2, 3.6 4.3 Z"/><g class="tilde"><path d="M6.8 12.2 L 10.6 16.4 L 21.5 3.8"/></g></svg>';
+  var CIRCULO_HOY = '<svg class="dia__circulo" viewBox="0 0 46 38" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M8 11 C 13 4.5, 30 2.8, 39 9 C 46 14.5, 42.5 29, 30 33.5 C 18 37.5, 5.5 32.5, 3.6 23 C 2.4 16.5, 6.5 10.5, 14.5 7.2"/></svg>';
   function maceta(vacia) {
     return '<svg class="maceta' + (vacia ? ' es-vacia' : '') + '" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false"><circle cx="25" cy="25" r="22"' + (vacia ? ' stroke-dasharray="4 4"' : '') + '/><circle class="tierra" cx="25" cy="25" r="16.5"/></svg>';
   }
@@ -1090,7 +1097,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     return s;
   }
   function banderita(n, atrasada) {
-    return '<span class="banderita' + (atrasada ? ' es-atrasada' : '') + '" aria-hidden="true"><b>' + n + '</b></span>';
+    // el «!» es para que atrasada no se distinga sólo por el color
+    return '<span class="banderita' + (atrasada ? ' es-atrasada' : '') + '" aria-hidden="true"><b>' + n + (atrasada ? '<i>!</i>' : '') + '</b></span>';
   }
   function copo() {
     return '<span class="copo" aria-hidden="true">' + icono('escarcha', 16) + '</span>';
@@ -1139,6 +1147,11 @@ html.captura .banderita.es-atrasada { animation: none; }
       { id: 'helada', aviso: 'escarcha', titulo: 'Puede helar el martes', linea: 'dan 2 °C de mínima', abierta: true,
         detalle: 'Dan 2 °C de mínima. Tapá de noche los del cajón: la helada las mata.',
         fuente: 'pronóstico de los próximos días · umbral de helada de 3 °C (FAUBA)' }
+    ],
+    '30': [
+      { id: 'albahaca', titulo: 'Albahaca: fijate si asomó', atrasada: true, linea: 'un día pasada del plazo',
+        detalle: 'Se pasó por un día del plazo de germinación.',
+        fuente: 'según la ficha: germina en 7-14 días', conf: 4 }
     ]
   };
   var hechas = {};
@@ -1156,7 +1169,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   var PLANTAS = {
     tomAlm: { nombre: 'tomate', art: 'el', apodo: 'Los del cajón', grupo: 'fruto', etapa: 'brote', pend: 0 },
     albahaca: { nombre: 'albahaca', art: 'la', grupo: 'aromatica', etapa: 'semilla', pend: 0 },
-    tomBal: { nombre: 'tomate', art: 'el', apodo: 'Los del cajón', grupo: 'fruto', etapa: 'creciendo', pend: 0, helada: true },
+    tomBal: { nombre: 'tomate', art: 'el', apodo: 'Los del cajón', los: true, grupo: 'fruto', etapa: 'creciendo', pend: 0, helada: true },
     lechuga: { nombre: 'lechuga', art: 'la', grupo: 'hoja', etapa: 'creciendo', pend: 0 },
     rucula: { nombre: 'rúcula', art: 'la', grupo: 'hoja', etapa: 'creciendo', pend: 1, que: 'ya estaría para cosechar' },
     zanahoria: { nombre: 'zanahoria', art: 'la', grupo: 'raiz', etapa: 'semilla', pend: 1, atrasada: true, que: 'fijate si asomó' }
@@ -1166,6 +1179,22 @@ html.captura .banderita.es-atrasada { animation: none; }
   // («rúcula intercalada entre las lechugas», «zanahoria en manchones
   // sueltos»), que es Planta.celdas, y subido al principio de la hoja, que es
   // Ubicacion.plano.
+  // Los de media página van de a dos: si a uno le sigue uno de página entera,
+  // sube el próximo de media a completar el hueco. En el dato y no con
+  // grid-auto-flow: dense, que deja el foco saltando de abajo para arriba.
+  function empaquetar(ls) {
+    var r = ls.slice(), izq = true;
+    for (var i = 0; i < r.length; i++) {
+      if (r[i].ancho === 'entera') { izq = true; continue; }
+      if (izq && r[i + 1] && r[i + 1].ancho === 'entera') {
+        for (var j = i + 2; j < r.length; j++) {
+          if (r[j].ancho === 'media') { r.splice(i + 1, 0, r.splice(j, 1)[0]); break; }
+        }
+      }
+      izq = !izq;
+    }
+    return r;
+  }
   function lugaresIniciales(intercalado) {
     var ls = lugaresEnBloques();
     ls.forEach(function (l) {
@@ -1179,7 +1208,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       ls[2].celdas = [L, R, L, R, L, _, R, L, R, L, _, _, Z, Z, _, Z, Z, _];
       ls = [ls[2], ls[0], ls[1], ls[3]];
     }
-    return ls;
+    return empaquetar(ls);
   }
   function lugaresEnBloques() {
     return [
@@ -1188,7 +1217,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       { id: 'mac', nombre: 'Macetas del balcón', clase: 'macetas', ancho: 'media', cols: 3, filas: 2, cap: 5, paso: 56, alto: 70,
         bloques: [{ p: 'tomBal', desde: 0, ocupa: 3 }] },
       { id: 'fondo', nombre: 'Bancal del fondo', clase: 'libre', ancho: 'entera', cols: 6, filas: 3, cap: 18, paso: 56, alto: 56,
-        bloques: [{ p: 'lechuga', desde: 0, ocupa: 5 }, { p: 'rucula', desde: 6, ocupa: 4 }, { p: 'zanahoria', desde: 12, ocupa: 4 }] },
+        bloques: [{ p: 'lechuga', desde: 0, ocupa: 5 }, { p: 'zanahoria', desde: 6, ocupa: 4 }, { p: 'rucula', desde: 12, ocupa: 4 }] },
       { id: 'med', nombre: 'Bancal de la medianera', clase: 'surcos', ancho: 'media', cols: 1, filas: 3, cap: 3, paso: 168, alto: 44,
         bloques: [] }
     ];
@@ -1268,6 +1297,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     diaVisto = b.getAttribute('data-dia');
     pintarSemana();
     pintarTareas();
+    document.querySelector('#semana [data-dia="' + diaVisto + '"]').focus();
   });
   document.getElementById('postit-helada').addEventListener('click', function () {
     diaVisto = '29';
@@ -1280,11 +1310,9 @@ html.captura .banderita.es-atrasada { animation: none; }
       var id = c.getAttribute('data-hecha');
       hechas[id] = !hechas[id];
       pintarTareas();
-      if (hechas[id]) {
-        var casilla = document.querySelector('[data-hecha="' + id + '"]');
-        casilla.insertAdjacentHTML('afterend', '<span class="brote-hecho" aria-hidden="true">' + icono('hoja', 16) + '</span>');
-        casilla.focus();
-      }
+      var casilla = document.querySelector('[data-hecha="' + id + '"]');
+      if (hechas[id]) casilla.insertAdjacentHTML('afterend', '<span class="brote-hecho" aria-hidden="true">' + icono('hoja', 16) + '</span>');
+      casilla.focus();
       return;
     }
     var a = e.target.closest('[data-abrir]');
@@ -1323,6 +1351,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     }
     return comp;
   }
+  // como enLista de derivar.ts: «a, b y c»
+  function enLista(xs) { return xs.length < 2 ? xs.join('') : xs.slice(0, -1).join(', ') + ' y ' + xs[xs.length - 1]; }
   function mayus(t) { return t.charAt(0).toUpperCase() + t.slice(1); }
   function conArticulo(p) { return PLANTAS[p].art + ' ' + PLANTAS[p].nombre; }
   function etiquetaPlanta(pl) {
@@ -1330,7 +1360,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     var extra = [];
     if (pl.etapa === 'semilla') extra.push('todavía no asomó');
     if (pl.pend) extra.push(pl.pend + ' para atender' + (pl.atrasada ? ', atrasada' : '') + ': ' + pl.que);
-    if (pl.helada) extra.push('tapala si hiela el martes');
+    if (pl.helada) extra.push((pl.los ? 'tapalos' : 'tapala') + ' si hiela el martes');
     return n + (extra.length ? ' · ' + extra.join(' · ') : '');
   }
   // Adónde irían las celdas elegidas si la primera va a `t`: misma forma, corrida.
@@ -1381,7 +1411,11 @@ html.captura .banderita.es-atrasada { animation: none; }
             estilo += 'border-top-width:' + (arr ? 0 : 1.75) + 'px;border-right-width:' + (der ? 0 : 1.75) + 'px;border-bottom-width:' + (aba ? 0 : 1.75) + 'px;border-left-width:' + (izq ? 0 : 1.75) + 'px;';
           }
           dentro += plantita(pl.grupo, pl.etapa, 32);
-          if (primeraDeManchon) dentro += '<span class="celda__nombre" aria-hidden="true">' + pl.nombre + '</span>';
+          if (primeraDeManchon) {
+            var corrida = 1;
+            while (col + corrida < l.cols && i + corrida < l.cap && comp[i + corrida] === comp[i]) corrida++;
+            dentro += '<span class="celda__nombre" aria-hidden="true" style="--corrida:' + corrida + '">' + pl.nombre + '</span>';
+          }
           if (primeraDePlanta && pl.pend) dentro += banderita(pl.pend, pl.atrasada);
           if (primeraDePlanta && pl.helada) dentro += copo();
           // con una sola elegida no hace falta decir cuál va primero
@@ -1423,7 +1457,8 @@ html.captura .banderita.es-atrasada { animation: none; }
   }
   pintarVista();
   document.getElementById('leyenda').innerHTML =
-    '<span>' + '<span class="banderita" aria-hidden="true"><b>1</b></span>algo para hacer</span>' +
+    '<span>' + banderita(1, false) + 'algo para hacer</span>' +
+    '<span>' + banderita(1, true) + 'atrasado</span>' +
     '<span>' + '<span class="copo" aria-hidden="true">' + icono('escarcha', 16) + '</span>tapar si hiela</span>' +
     '<span>' + plantita('hoja', 'semilla', 24) + 'no asomó</span>';
   document.querySelector('[aria-controls="plano-a"]').addEventListener('click', function (e) {
@@ -1449,7 +1484,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   function describir(l, sel) {
     var ps = [];
     sel.forEach(function (i) { if (ps.indexOf(l.celdas[i]) < 0) ps.push(l.celdas[i]); });
-    if (ps.length > 1) return sel.length + ' celdas: ' + ps.map(function (p) { return PLANTAS[p].nombre; }).join(' y ');
+    if (ps.length > 1) return sel.length + ' celdas: ' + enLista(ps.map(function (p) { return PLANTAS[p].nombre; }));
     var p = ps[0], total = cuantas(l, p), n = sel.length, nombre = PLANTAS[p].nombre;
     if (n === total) return total === 1 ? 'La única celda de ' + nombre : 'Las ' + n + ' celdas de ' + nombre;
     return n === 1 ? '1 celda de ' + nombre + ', de ' + total : n + ' de las ' + total + ' celdas de ' + nombre;
@@ -1492,11 +1527,12 @@ html.captura .banderita.es-atrasada { animation: none; }
         var j = lugaresB.map(function (x) { return x.id; }).indexOf(lugarElegido);
         var otro = lugaresB[j];
         lugaresB[j] = l0; lugaresB[i0] = otro;
+        lugaresB = empaquetar(lugaresB);
         aviso = 'Cambiaste de orden ' + otro.nombre + ' y ' + l0.nombre + '.';
         lugarElegido = null;
       }
       pintarAcomodar();
-      var fo = document.querySelector('#plano-b [data-orden="' + i0 + '"]');
+      var fo = document.querySelector('#plano-b [data-orden="' + lugaresB.indexOf(l0) + '"]');
       if (fo) fo.focus();
       return;
     }
@@ -1539,6 +1575,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     var b = e.target.closest('button');
     if (!b || !elegidas) return;
     var l = lugarPorId(elegidas.lugar);
+    // el botón puede no volver a estar: el foco va a la primera celda elegida
+    var antes = elegidas.celdas[0];
     aviso = '';
     if (b.hasAttribute('data-toda')) {
       var p = b.getAttribute('data-toda');
@@ -1555,6 +1593,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       elegidas = null;
     }
     pintarAcomodar();
+    document.querySelector('#plano-b [data-lugar="' + l.id + '"][data-celda="' + antes + '"]').focus();
   });
   document.getElementById('listo-acomodar').addEventListener('click', function () {
     // el croquis acomodado pasa a la pantalla de mirar
