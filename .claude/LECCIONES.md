@@ -322,16 +322,21 @@ contra `cdn.playwright.dev`.
 
 **Causa:** con el egreso cerrado no se puede bajar, pero Chromium viene en
 `/opt/pw-browsers`. `@playwright/test` lo busca con otra revisión (la que dice
-el error) y, en linux-x64, con otra carpeta y otro ejecutable:
-`chrome-linux64/chrome` y `chrome-headless-shell-linux64/chrome-headless-shell`,
-donde el entorno tiene `chrome-linux/chrome` y `chrome-linux/headless_shell`.
+el error) y, en linux-x64, con otra carpeta y otro nombre de ejecutable.
 
-**Qué hacer:** en una carpeta fuera del worktree (el scratchpad), dos symlinks:
-`chromium-<rev>/chrome-linux64` a la carpeta `chrome-linux`, y
-`chromium_headless_shell-<rev>/chrome-headless-shell-linux64/chrome-headless-shell`
-al `headless_shell`. Después, `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí.
-Enlazar sólo la carpeta de la revisión vuelve a dar `Executable doesn't exist`.
-Adentro del worktree, `git status` los muestra. No se toca código de la app.
+**Qué hacer:** en una carpeta fuera del worktree (el scratchpad), con `<pide>`
+la revisión del error y `<hay>` la de `/opt/pw-browsers`:
+
+```bash
+mkdir -p chromium-<pide> chromium_headless_shell-<pide>/chrome-headless-shell-linux64
+ln -s /opt/pw-browsers/chromium-<hay>/chrome-linux chromium-<pide>/chrome-linux64
+ln -s /opt/pw-browsers/chromium_headless_shell-<hay>/chrome-linux/headless_shell \
+  chromium_headless_shell-<pide>/chrome-headless-shell-linux64/chrome-headless-shell
+```
+
+y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Enlazar sólo la carpeta de la
+revisión vuelve a dar `Executable doesn't exist`. Adentro del worktree,
+`git status` los muestra. No se toca código de la app.
 
 ### `controller` no significa que el service worker vaya a responder
 
