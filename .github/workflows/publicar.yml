@@ -100,7 +100,7 @@ jobs:
             npx playwright install chromium
           }
 
-      # Los 12 e2e, incluidos offline y actualización. Esto es lo que protege a
+      # Los e2e, incluidos offline y actualización. Esto es lo que protege a
       # quien ya tiene la app instalada: un service worker roto le deja una
       # pantalla en blanco que NO puede arreglar desde su lado.
       - name: End-to-end

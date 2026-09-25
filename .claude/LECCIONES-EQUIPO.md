@@ -31,7 +31,8 @@ incorporado más parecido (`Explore` para los de sólo lectura, `general-purpose
 o `claude` para los que escriben), con `model:` explícito en la llamada y el
 prompt del rol traído desde su archivo —al agente se le pide que lea
 `.claude/agents/<rol>.md` y lo adopte, que además verifica que el archivo sirva—.
-Desde la sesión siguiente, los nombres resuelven solos.
+Desde la sesión siguiente deberían resolver solos; en la Tanda B no pasó (ver
+«Los agentes del proyecto tampoco cargan en la sesión siguiente»).
 
 **Al plugin.** El plugin tiene que estar instalado **antes** de arrancar la
 sesión. Vale la pena que su README lo diga en la primera línea: instalarlo a
@@ -144,7 +145,7 @@ sesión:
 
 **Al plugin.** Un reconocimiento amplio ronda los 100 k; una consulta acotada, los
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
-los 100 k, el prompt está mal delimitado y hay que mirarlo, no aceptarlo.
+los 100 k sin hallazgos que lo justifiquen, el prompt está mal delimitado y hay que mirarlo, no aceptarlo.
 
 ### Los worktrees de los agentes ensucian el repo que aíslan
 
@@ -328,18 +329,16 @@ iniciar la sesión, `claude plugin validate .claude/agents` pasa, y
 
 **Causa.** No es el archivo ni el momento: es el harness. Esta sesión corre en
 la extensión de VSCode sobre el Agent SDK, y ahí los agentes de usuario y de
-plugin cargan y los del proyecto no. La guía de Claude Code (56 k tokens para
-una pregunta acotada, más del doble de la línea de base) listó las causas
+plugin cargan y los del proyecto no. La guía de Claude Code listó las causas
 documentadas —`settingSources` sin `project`, frontmatter roto, directorio
 creado a mitad de sesión— y ninguna aplica.
 
 **Qué hacemos.** Seguir emulando: `general-purpose` con `model:` explícito y
-"leé `.claude/agents/<rol>.md` y adoptalo". Funcionó las diez veces de esta
+"leé `.claude/agents/<rol>.md` y adoptalo". Funcionó las nueve veces de esta
 tanda. En la próxima sesión, `/agents` primero, para saber en qué harness
 estamos.
 
-**Al plugin.** Es la mejor noticia de la entrada: **los agentes de plugin
-cargan donde los del proyecto no**. El plugin no depende de `.claude/agents/`
+**Al plugin.** **Los agentes de plugin cargan donde los del proyecto no.** El plugin no depende de `.claude/agents/`
 del repo, y es justamente por eso que conviene que exista.
 
 ### El tester no pudo tomar la rama porque el worktree del dev la tenía
@@ -419,8 +418,8 @@ pasársela al dev, el orquestador bajó el PDF y corrió `grep -n "sustrato
 ideal"`: línea 523, como decía. Un minuto.
 
 **Qué hacemos.** Un dato que va a entrar al catálogo se coteja aunque venga con
-prueba adjunta. No por desconfianza: porque es barato y porque la regla 1 no
-tiene margen.
+prueba adjunta. No por desconfianza: porque es barato y porque la regla 1 de
+CLAUDE.md no tiene margen.
 
 **Al plugin.** Un dossier trae comandos reproducibles. Correrlos es parte del
 paso de carga, no una opción.
@@ -447,13 +446,9 @@ sin decidirlo primero.
 
 ### El dev que mira su propio PNG
 
-**Síntoma.** La captura nueva de #133 pasaba en verde sin mostrar la segunda
-planta que el test insertaba: `page.goto('/#/hoy')` desde `/#/ajustes` es
-cambio de hash y no relee la base. El dev lo agarró **mirando el PNG**, no por
-el test, y lo arregló con `page.reload()`. Está en `.claude/LECCIONES.md`.
-
-**Qué hacemos.** "Mirá las capturas" no es sólo del tester. Un dev que agrega
-una captura la abre antes de darla por hecha.
+La captura nueva de #133 pasaba en verde sin la planta que el test insertaba
+(la trampa del hash, en `.claude/LECCIONES.md`), y el dev la agarró **mirando el
+PNG**. "Mirá las capturas" no es sólo del tester.
 
 **Al plugin.** Al prompt del dev: si agregás una captura, mirala.
 
@@ -482,12 +477,16 @@ dos juntas. Hasta aclararlo, la tabla los anota tal como llegan.
 
 ---
 
-## Tanda C: #130, la primera corrida del rol QA
+## Tanda C: #130, la primera corrida del tester como QA
 
-### El QA refutó la hipótesis del reviewer rompiendo el código a propósito
+QA y tester son el mismo rol. En esta tanda el tester, además de correr la
+batería, probó la issue punto por punto rompiendo el código. Ese pedido ahora
+está en `.claude/agents/tester.md`.
+
+### El tester refutó la hipótesis del reviewer rompiendo el código a propósito
 
 **Síntoma.** El reviewer sospechó que el link del pie de la hoja podía dejar el
-`<dialog>` modal colgado al navegar, y pidió verificarlo a mano. El QA lo probó
+`<dialog>` modal colgado al navegar, y pidió verificarlo a mano. El tester lo probó
 en el navegador y funcionó; después **borró el `onClick` que lo cerraba** y los
 tests siguieron pasando: React Router desmonta la ficha entera y el navegador
 limpia el diálogo solo. El riesgo real no estaba ahí. Lo confirmó rompiendo
@@ -498,29 +497,29 @@ puede resolver leyendo más diff. Se resuelve mutando el código y mirando qué
 test cae.
 
 **Qué hacemos.** El reviewer entrega hipótesis con el pedido concreto de
-verificación; el QA las prueba rompiendo y deja el test que fija lo que sí
-importaba. Tres e2e nuevos salieron de acá, cada uno visto en rojo antes de
-commitear.
+verificación; el tester las prueba rompiendo y deja el test que fija lo que
+sí importaba. Tres e2e nuevos salieron de acá. Una de sus aserciones, igual,
+no podía fallar (ver «Lo que se le escapó al tester»).
 
-**Al plugin.** Es el prompt nuevo del QA funcionando como se escribió: "un test
-que nace verde no probó nada". Y para el reviewer: cuando no puede confirmar,
+**Al plugin.** Es el pedido de probar rompiendo funcionando como se escribió:
+"un test que nace verde no probó nada", que ahora está en el prompt del tester. Y para el reviewer: cuando no puede confirmar,
 que lo diga como hipótesis con su chequeo, no como hallazgo.
 
-### El dev verificó con specs temporales y los borró; el QA los escribió de nuevo
+### El dev verificó con specs temporales y los borró; el tester los escribió de nuevo
 
 **Síntoma.** El dev de #130 confirmó con dos specs de Playwright que el foco
 volvía al botón y que el pie navegaba al ancla, y los borró antes de commitear
-"para no ensuciar". El QA escribió los mismos dos, más uno, media hora después.
+"para no ensuciar". El tester escribió los mismos dos, más uno, media hora después.
 
 **Causa.** El rol del dev dice que los e2e los corre otro, y el dev lo leyó
 como "no dejes e2e". Lo que sobra es el trabajo repetido, no el spec.
 
 **Qué hacemos.** Un spec que el dev escribió para convencerse se queda en
-`e2e/` y se entrega en el parte con lo que verifica. El QA lo revisa, lo hace
+`e2e/` y se entrega en el parte con lo que verifica. El tester lo revisa, lo hace
 fallar y lo cablea, en vez de reescribirlo.
 
 **Al plugin.** Al prompt del dev: los specs que escribas para verificar se
-commitean y se nombran en el parte; el QA decide si quedan.
+commitean y se nombran en el parte; el tester decide si quedan.
 
 ### Un arreglo de una línea con ubicación conocida lo hace el orquestador
 
@@ -543,7 +542,24 @@ una etiqueta de texto y un link en la bajada), nombraba `SUELOS` como si viviera
 en `glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
 mientras "Lo que no va acá" dejaba justamente esos términos para la issue
 siguiente. Ninguno frenó al dev, porque se le avisaron antes. Van a la cuenta de
-la regla 13: son cinco de cuatro issues verificadas.
+la regla 13: de las cinco issues verificadas hasta acá, cuatro tenían algo mal.
+
+### Lo que se le escapó al tester
+
+**Síntoma.** Después de su pasada aparecieron dos cosas en el mismo PR, y las
+encontró el orquestador, no la batería. El «cuándo» de cada labor se quedaba con
+los últimos 3 px del botón de la labor: un toque en el borde abría otra cosa. Y
+un e2e afirmaba `hasAttribute('inert')` sobre algo que era inerte siempre,
+pasara lo que pasara.
+
+**Causa.** El target se midió por la caja, que daba 44 px, y no por lo que
+recibe el toque. Y el "cada test visto en rojo" se cumplió por test, no por
+aserción: la del `inert` venía junto a otras que sí caían.
+
+**Qué hacemos.** Los targets se miden con `elementFromPoint` sobre toda el
+área, bordes incluidos. Cada aserción nueva se ve en rojo por separado.
+
+**Al plugin.** Las dos van al prompt del tester, con estos casos como ejemplo.
 
 ### Consumo de la Tanda C
 
@@ -551,12 +567,12 @@ la regla 13: son cinco de cuatro issues verificadas.
 |---|---|---|---|---|
 | dev (emulado, opus) | #130, componente nuevo, 8 archivos, 2 specs | 174.350 | 105 | 16m 28s |
 | reviewer (emulado, opus) | #130, 12 archivos + merge de prueba con #140 | 115.860 | 30 | 7m 58s |
-| QA (emulado, sonnet, rol nuevo) | issue punto por punto + batería + 3 e2e con mutaciones | 165.458 | 77 | 21m 35s |
+| tester como QA (emulado, sonnet) | issue punto por punto + batería + 3 e2e con mutaciones | 165.458 | 77 | 21m 35s |
 
-El QA cuesta el doble que el tester de la tanda anterior (81-104 k): escribe
-tests, los hace fallar y corre la batería dos veces. Esta vez no encontró un
-bug, pero dejó tres comportamientos fijados y una hipótesis descartada con
-evidencia. Es el gasto que reemplaza a "lo probé a mano y andaba".
+Como QA, el tester cuesta entre 1,6 y 2 veces lo de la tanda anterior
+(81-104 k): escribe tests, los hace fallar y corre la batería dos veces. No vio
+los dos problemas de la entrada anterior, pero dejó tres comportamientos
+fijados y una hipótesis descartada con evidencia. Es el gasto que reemplaza a "lo probé a mano y andaba".
 
 ---
 
@@ -587,8 +603,8 @@ La lista corta, para no releer todo:
     commitea por archivo y nunca con `git add -A`.
 12. **Elegir modelo por cuántos archivos hay que entender**, no por si el cambio
     final parece mecánico.
-13. **Las issues que escribe el orquestador también se verifican.** Dos de tres
-    en esta tanda tenían un dato mal contado.
+13. **Las issues que escribe el orquestador también se verifican.** Cuatro de
+    las cinco verificadas hasta ahora tenían algo mal.
 14. **Las capturas se guardan por rama** antes de cambiar de checkout.
 15. **Un tester que compara ramas necesita su propio worktree**, o pisa su
     propio trabajo.
@@ -608,6 +624,8 @@ La lista corta, para no releer todo:
 23. **Una hipótesis del reviewer se prueba rompiendo el código**, y el test
     que la resuelve se queda.
 24. **Los specs que el dev escribe para convencerse se commitean**, no se
-    borran; el QA decide si quedan.
+    borran; el tester decide si quedan.
 25. **Una línea, ubicada y sin comportamiento, la arregla el orquestador.**
     Todo lo demás vuelve al dev.
+26. **Cada aserción se ve en rojo por separado, y un target se mide por
+    dónde entra el toque** (`elementFromPoint`), no por su caja.

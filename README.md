@@ -142,7 +142,7 @@ npm run preview      # sirve dist/ en :4173 — necesario para los e2e
 | Comando | Qué hace |
 |---|---|
 | `npm test` | Más de mil tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
-| `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en las 7 pantallas. |
+| `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en todas las pantallas. |
 | `npm run shots` | Screenshots en 390×844 para revisión visual (`e2e/shots/`). |
 | `npm run data:build` | Regenera `data/huerta_gba_enriquecido.json` desde el JSON base + el enriquecimiento + el modelo climático. |
 | `npm run data:tabla` | Regenera `data/REVISION_CALENDARIO.md` para revisar el calendario a mano. |
@@ -198,7 +198,7 @@ Notas del hosting:
 
 ### Accesibilidad
 
-No es una pasada final: son cinco tests que corren en las 7 pantallas con datos
+No es una pasada final: son cinco tests que corren en todas las pantallas con datos
 cargados (`e2e/accesibilidad.spec.ts`) y fallan si algo baja.
 
 - Contraste **AA** en todo el texto — los tokens de color están calibrados a

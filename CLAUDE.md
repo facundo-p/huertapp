@@ -25,8 +25,8 @@ cinco el modelo estaba mal. Ver `.claude/LECCIONES.md`.
 
 **3. Accesibilidad.** Contraste AA en todo el texto, targets táctiles de 44 px,
 el color nunca como único canal (ideal/posible se distinguen también por forma
-y relleno). No es una pasada final: `e2e/accesibilidad.spec.ts` lo mide en las
-7 pantallas y falla si algo baja. La jerarquía visual se hace con tamaño y
+y relleno). No es una pasada final: `e2e/accesibilidad.spec.ts` lo mide en todas
+las pantallas y falla si algo baja. La jerarquía visual se hace con tamaño y
 peso, **nunca** bajando el contraste.
 
 **4. Todo texto de UI en español rioplatense, con vos.** "Fijate", "sembrá",
