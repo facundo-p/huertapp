@@ -101,7 +101,8 @@ Cambia el uso: menos tinte a sangre, más papel, y el ocre vuelve a ser, sobre
 todo, atención: «acá estás» (el día que leés, el hoy del ciclo, el subrayado de
 la pestaña activa), la banderita de algo para hacer y el termómetro del calor,
 como en el carril de hoy. Fuera de eso sólo tiñe la pestaña de «Esta semana»
-(cada sección tiene la suya) y detalles de los dibujos, como raíces y pétalos.
+(cada sección tiene la suya), el sol del pronóstico (`--cielo-sol`, como hoy
+en `src/icons/clima.tsx`) y detalles de los dibujos, como raíces y pétalos.
 Lo que se cierra («última semana») no es atención sino urgencia: va en
 terracota, como `.es-cierra` en `Hoy.css`. El post-it no es ocre: es papel
 amarillo, con su token. Lo elegido en «Acomodar» va en tinta. Los tokens nuevos
@@ -291,10 +292,12 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   adentro ya no queda lugar.
 - Si no entra, la barra dice por qué («se sale del lugar», «pisa la
   lechuga»).
-- La primera cae siempre en una libre, así que un bloque no se corre sobre sí
-  mismo: se lleva la punta de atrás al otro lado, que da lo mismo. Por eso,
-  sin marcas, la barra dice «soltá alguna»; con una sola, que toques otra
-  para intercambiarlas.
+- La primera cae siempre en una libre. Así, un bloque se corre sobre sí mismo
+  hacia atrás (a la izquierda o arriba), pero no hacia adelante, donde la
+  primera caería sobre otra elegida: ahí se lleva la punta de atrás al otro
+  lado, que da lo mismo. Si no queda ninguna libre donde entre, no hay marcas,
+  y la barra dice «soltá alguna»; con una sola, que toques otra para
+  intercambiarlas.
 - Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
   cuando no queda lugar libre) y «Soltar».
