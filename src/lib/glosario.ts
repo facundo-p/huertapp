@@ -352,11 +352,11 @@ export const DESC_LUZ: Record<CategoriaLuz, string> = {
   TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',
 }
 
-/** En el Glosario sí van las horas de `categorias_luz`: son lo que separa una categoría de otra. */
+/** En el Glosario sí van las horas: las de `categorias_luz` de la base, lo único que separa una categoría de otra (#153). */
 export const DESC_LUZ_GLOSARIO: Record<CategoriaLuz, string> = {
   PLENO_SOL: 'Seis horas o más de sol directo.',
   SOL_PARCIAL: 'Entre 4 y 6 horas de sol directo.',
-  MEDIA_SOMBRA: 'Con 2 a 4 horas de sol ya está contenta.',
+  MEDIA_SOMBRA: 'Entre 2 y 4 horas de sol directo.',
   TOLERA_SOMBRA: DESC_LUZ.TOLERA_SOMBRA,
 }
 
