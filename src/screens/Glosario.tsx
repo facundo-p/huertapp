@@ -280,8 +280,26 @@ export function Glosario() {
               </li>
             </ul>
 
-            <p className="glosario__nombre">Por qué las recetas no coinciden</p>
-            <p className="glosario__desc">{SUSTRATO.advertencia}</p>
+            <p className="glosario__nombre">{SUSTRATO.advertencia.titulo}</p>
+            <p className="glosario__desc">{conNegritas(SUSTRATO.advertencia.texto)}</p>
+            <p className="glosario__desc glosario__quien">
+              <ConfidenceBadge valor={SUSTRATO.advertencia.confianza} compacto />
+            </p>
+            <ul className="dato__fuentes">
+              <li>
+                <a
+                  href={SUSTRATO.advertencia.fuente.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="fuente"
+                >
+                  <span className="fuente__pildora">
+                    <IconoFuente size={12} />
+                    {SUSTRATO.advertencia.fuente.organizacion}
+                  </span>
+                </a>
+              </li>
+            </ul>
             <ul className="glosario__funciones">
               {SUSTRATO.funciones.map((f) => (
                 <li key={f.nombre}>

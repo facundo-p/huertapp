@@ -19,7 +19,7 @@ Qué significa cada parte en este proyecto:
 ---
 
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
-> `## [Sin publicar]
+> `## [Sin publicar]`.
 
 ## [Sin publicar]
 
@@ -55,6 +55,17 @@ Qué significa cada parte en este proyecto:
   sección Luz, con su fuente.
 - **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
   no sólo como «diálogo».
+
+### Cambiado
+
+- **Suelo profundo y suelo rústico ahora te dicen qué llevarte del vivero.** Las
+  dos direcciones explicaban el problema —la raíz que sale bifurcada, la tierra
+  que conviene pobre— pero no qué preparar: ahora dicen qué cambiar respecto de
+  la mezcla base.
+- **La advertencia sobre las recetas de sustrato ahora tiene de dónde agarrarse.**
+  Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
+  correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
+  tu zona, de lo que salga y de la especie.
 
 ## [2.3.0] — 2026-09-12
 
