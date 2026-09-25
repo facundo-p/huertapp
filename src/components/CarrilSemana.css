@@ -104,9 +104,11 @@ button.carril__dia:active {
 
 /* ---- columna de items ---- */
 .carril__items {
+  /* el pie la descuenta para arrimarse a las tareas */
+  --entre-items: 11px;
   display: flex;
   flex-direction: column;
-  gap: 11px;
+  gap: var(--entre-items);
   min-width: 0;
   padding: 10px var(--esp-4) 14px 0;
 }
@@ -123,8 +125,15 @@ button.carril__dia:active {
 .carril__item {
   display: flex;
   align-items: flex-start;
-  gap: var(--esp-2);
+  gap: 0 var(--esp-2);
   transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Si la palabra más larga no entra al lado de las acciones, las acciones bajan:
+   partirla era peor («indeterminad/o», de 341 a 360 px). El aviso no tiene
+   acciones, y con wrap su texto bajaba abajo del ícono. */
+.carril__item:not(.carril__aviso) {
+  flex-wrap: wrap;
 }
 
 /* al completar: la hojita brota y la fila se va */
@@ -140,7 +149,9 @@ button.carril__dia:active {
   display: flex;
   align-items: flex-start;
   gap: var(--esp-2);
-  flex: 1;
+  /* con base en su palabra más larga y no en 0: así el wrap sabe cuándo no entra */
+  flex: 1 1 auto;
+  width: min-content;
   min-width: 0;
   min-height: var(--tap-min);
   padding: 13px 0;
@@ -183,6 +194,10 @@ button.carril__dia:active {
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  /* break-word y no anywhere: anywhere achica el ancho mínimo, las acciones no
+     bajan y la palabra se parte. Así sólo se parte lo que no entra ni en la
+     fila entera: un apodo sin espacios. */
+  overflow-wrap: break-word;
 }
 
 .carril__titulo {
@@ -195,8 +210,12 @@ button.carril__dia:active {
   font-weight: 800;
   line-height: 1.25;
   color: var(--tinta-alta);
-  /* un apodo largo sin espacios corta antes que meterse abajo de los botones */
-  overflow-wrap: anywhere;
+}
+
+/* Suelto, el texto era un item anónimo del flex: no bajaba de su palabra más
+   larga y un apodo sin espacios se salía de la fila. */
+.carril__titulo-texto {
+  min-width: 0;
 }
 
 .carril__atrasada {
@@ -242,8 +261,7 @@ button.carril__dia:active {
   gap: 5px;
   width: 100%;
   min-height: var(--tap-min);
-  /* descuenta parte del gap de 11 px de .carril__items: si cambia, revisalo */
-  margin-top: -6px;
+  margin-top: calc(5px - var(--entre-items));
   font-size: var(--texto-xs);
   font-weight: 600;
   color: var(--tinta-media);
@@ -258,8 +276,7 @@ button.carril__dia:active {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* ídem: descuenta parte del gap de 11 px de .carril__items */
-  margin-top: -4px;
+  margin-top: calc(7px - var(--entre-items));
   padding-bottom: 4px;
 }
 
@@ -302,12 +319,14 @@ button.carril__dia:active {
 }
 
 /* ---- acciones ---- */
-/* Al lado: con el item en una línea, apiladas dejaban 88 px de alto. Hasta
-   340 px: más angosto, al texto le quedan 60 px y corta palabras al medio. */
+/* Al lado: apiladas, un item de un renglón medía 88 px. Hasta 340 px sí van
+   una sobre otra: al lado, a 320 px bajaban en siete de cada diez items. */
 .carril__acciones {
   display: flex;
   align-items: center;
   flex: none;
+  /* si bajan, siguen en la columna de las demás */
+  margin-left: auto;
 }
 
 @media (max-width: 340px) {

@@ -88,17 +88,11 @@ const fechaCorta = (iso: string, otras: (string | undefined)[]) =>
   diaYMes(iso, otras.some((o) => o && o.slice(0, 4) !== iso.slice(0, 4)))
 
 /**
- * Dos tareas de la semana con el mismo título (dos zanahorias sin apodo) no se
- * distinguen en la fila ni en el pie: en días distintos tampoco, porque el día
- * no dice cuál es. Sólo ahí se dice el lugar, y cada dato que sigue se suma
- * sólo si la separa de otra todavía empatada: cómo está puesta, la siembra, la
- * especie (mismo apodo en dos especies), la variedad, cuándo asomó o que no se
- * marcó. Lo que queda empatado después de eso es indistinguible de verdad.
- *
- * Helada y compost no tienen planta: a esas sí las separa el día.
- *
- * `grupos` son los de toda la semana: un título tiene que decir cuál es entre
- * todas.
+ * Dos tareas de la semana con el mismo título se separan por su planta y no
+ * por el día: que una sea del jueves no dice cuál de las dos zanahorias es. Va
+ * el lugar y, mientras siga empatada con otra, se suma en este orden: cómo está
+ * puesta, la siembra, la especie, la variedad y cuándo asomó. Si empatan en
+ * todo eso, dicen lo mismo. Sin planta (helada, compost), las separa el día.
  */
 export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrece>, hoy: string): Distincion {
   const semana = grupos.flatMap((g) => g.tareas)
@@ -117,8 +111,8 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       },
     },
     { clave: (t) => t.slug, texto: (t) => dato(t)?.especie?.toLocaleLowerCase('es') },
-    // texto tuyo tal cual: puede ser un nombre propio, «Genovesa»
-    { clave: (t) => dato(t)?.variedad, texto: (t) => dato(t)?.variedad },
+    // se compara sin mayúsculas y se muestra tal cual: puede ser un nombre propio, «Genovesa»
+    { clave: (t) => dato(t)?.variedad?.toLocaleLowerCase('es'), texto: (t) => dato(t)?.variedad },
     {
       clave: (t) => dato(t)?.germino,
       texto: (t, es) => {
@@ -131,7 +125,11 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
 
   // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte
   const porTitulo = new Map<string, Tarea[]>()
-  for (const t of semana) porTitulo.set(t.titulo, [...(porTitulo.get(t.titulo) ?? []), t])
+  for (const t of semana) {
+    const ya = porTitulo.get(t.titulo)
+    if (ya) ya.push(t)
+    else porTitulo.set(t.titulo, [t])
+  }
 
   const porTarea = new Map<string, string>()
   for (const mismas of porTitulo.values()) {

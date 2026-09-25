@@ -51,7 +51,6 @@ export function guardarPlegado(p: Plegado): void {
   }
 }
 
-/** «La semana» la usa también. */
 export function alternar(lista: string[], id: string): string[] {
   return lista.includes(id) ? lista.filter((x) => x !== id) : [...lista, id]
 }

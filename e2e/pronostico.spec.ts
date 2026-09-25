@@ -199,43 +199,64 @@ test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál e
 })
 
 /**
- * A 320 px, con los botones al lado, al texto le quedan 60 px: se metía abajo
- * de «Asomó» o, con overflow-wrap, cortaba «Albahac/a:» y «ATRASAD/A».
+ * Con los botones al lado, al texto le queda poco: a 320 px se metía abajo de
+ * «Asomó» o cortaba «Albahac/a:», y de 341 a 360 px, «indeterminad/o:». 344 es
+ * la pantalla de afuera del Z Fold. «Tomate indeterminado» es el nombre del
+ * catálogo con la palabra más larga, y va con los dos botones: «Asomó» y «Hecho».
  */
-test('en 320 px, ningún título se pisa con sus botones ni se corta al medio', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 844 })
-  await abrirHoy(page)
-  // evaluateAll no espera: sin esto, a veces medía la lista vacía y pasaba sin mirar
-  await expect(page.locator('.carril__item').first()).toBeVisible()
-  const pisados = await page.locator('.carril__item').evaluateAll((items) =>
-    items.flatMap((item) => {
-      const titulo = item.querySelector('.carril__titulo')
-      const acciones = item.querySelector('.carril__acciones')
-      if (!titulo || !acciones) return []
-      // el rango mide el texto, que desborda su caja; la caja sola no lo ve
-      const rango = document.createRange()
-      rango.selectNodeContents(titulo)
-      const texto = rango.getBoundingClientRect()
-      return texto.right > acciones.getBoundingClientRect().left ? [titulo.textContent] : []
-    }),
-  )
-  expect(pisados).toEqual([])
+for (const ancho of [320, 344, 360, 375]) {
+  test(`en ${ancho} px, ningún título se pisa con sus botones ni se corta al medio`, async ({ page }) => {
+    await page.clock.setFixedTime(new Date('2026-10-15T10:00:00'))
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await abrirHoy(page)
+    const indeterminado = { slug: 'tomate-indeterminado', apodo: '', etapa: 'almacigo' }
+    // pasada de plazo para germinar
+    await duplicarPlanta(page, 'tomate', { ...indeterminado, sufijo: '-asomo', sembrada: '2026-10-01', germino: '' })
+    // en edad de trasplante
+    await duplicarPlanta(page, 'tomate', {
+      ...indeterminado,
+      sufijo: '-hecho',
+      sembrada: '2026-09-05',
+      germino: '2026-09-12',
+    })
+    await page.reload()
+    // evaluateAll no espera, y sin los tomates pasaría sin mirar lo que importa
+    await expect(page.getByRole('button', { name: /^Asomó ?: Tomate indeterminado/ })).toBeVisible()
+    await expect(page.getByRole('button', { name: /^Hecho ?: Tomate indeterminado/ })).toBeVisible()
 
-  // una palabra partida en dos renglones da dos rectángulos
-  const cortadas = await page.locator('.carril__titulo, .carril__lugar').evaluateAll((cajas) =>
-    cajas.flatMap((caja) => {
-      const partidas: string[] = []
-      const textos = document.createTreeWalker(caja, NodeFilter.SHOW_TEXT)
-      for (let n = textos.nextNode(); n; n = textos.nextNode()) {
-        for (const p of n.textContent!.matchAll(/\S+/g)) {
-          const rango = document.createRange()
-          rango.setStart(n, p.index)
-          rango.setEnd(n, p.index + p[0].length)
-          if (rango.getClientRects().length > 1) partidas.push(p[0])
+    const pisados = await page.locator('.carril__item').evaluateAll((items) =>
+      items.flatMap((item) => {
+        const titulo = item.querySelector('.carril__titulo')
+        const acciones = item.querySelector('.carril__acciones')
+        if (!titulo || !acciones) return []
+        // el rango mide el texto, que desborda su caja; la caja sola no lo ve
+        const rango = document.createRange()
+        rango.selectNodeContents(titulo)
+        const t = rango.getBoundingClientRect()
+        const a = acciones.getBoundingClientRect()
+        // en alto también: los botones pueden bajar abajo del texto
+        const seTocan = t.right > a.left && t.left < a.right && t.bottom > a.top && t.top < a.bottom
+        return seTocan ? [titulo.textContent] : []
+      }),
+    )
+    expect(pisados).toEqual([])
+
+    // una palabra partida en dos renglones da dos rectángulos
+    const cortadas = await page.locator('.carril__titulo, .carril__lugar').evaluateAll((cajas) =>
+      cajas.flatMap((caja) => {
+        const partidas: string[] = []
+        const textos = document.createTreeWalker(caja, NodeFilter.SHOW_TEXT)
+        for (let n = textos.nextNode(); n; n = textos.nextNode()) {
+          for (const p of n.textContent!.matchAll(/\S+/g)) {
+            const rango = document.createRange()
+            rango.setStart(n, p.index)
+            rango.setEnd(n, p.index + p[0].length)
+            if (rango.getClientRects().length > 1) partidas.push(`${p[0]} (${caja.textContent})`)
+          }
         }
-      }
-      return partidas
-    }),
-  )
-  expect(cortadas).toEqual([])
-})
+        return partidas
+      }),
+    )
+    expect(cortadas).toEqual([])
+  })
+}

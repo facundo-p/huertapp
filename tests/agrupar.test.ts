@@ -310,6 +310,24 @@ describe('dos tareas que se llaman igual', () => {
     expect(d.porTarea.get('v')).toBe(FONDO)
   })
 
+  it('«Genovesa» y «genovesa» son la misma variedad, y cada una se dice como la escribiste', () => {
+    const trasplante = (id: string) =>
+      tarea({ id, plantaId: id, slug: 'albahaca', titulo: 'Albahaca: hora de trasplantar' })
+    const d = distinguir(
+      agruparPorPie([trasplante('g'), trasplante('m'), trasplante('n')]),
+      donde({
+        g: { lugar: FONDO, sembrada: '2026-08-24', variedad: 'Genovesa', germino: '2026-08-30' },
+        m: { lugar: FONDO, sembrada: '2026-08-24', variedad: 'genovesa', germino: '2026-09-02' },
+        n: { lugar: FONDO, sembrada: '2026-08-24', variedad: 'Morada' },
+      }),
+      HOY,
+    )
+    // la variedad las separa de la morada, pero entre ellas desempata cuándo asomó
+    expect(d.porTarea.get('g')).toBe(`${FONDO}, Genovesa, asomó el 30 ago`)
+    expect(d.porTarea.get('m')).toBe(`${FONDO}, genovesa, asomó el 2 sept`)
+    expect(d.porTarea.get('n')).toBe(`${FONDO}, Morada`)
+  })
+
   it('en días distintos también: el día no dice cuál es', () => {
     const hoy = zanahoria('a')
     const jueves = { ...zanahoria('b'), fecha: '2026-08-20' }
@@ -365,5 +383,21 @@ describe('dos tareas sin planta que se llaman igual', () => {
 
   it('una sola en la semana no suma nada', () => {
     expect(distinguir(agruparPorPie([sabado]), new Map(), HOY).porTarea.size).toBe(0)
+  })
+
+  // Fija lo que pasa hoy, no lo que debería: cómo separarlas está por decidirse.
+  it('límite conocido: dos composteras con el mismo nombre el mismo día dicen lo mismo', () => {
+    const girar = (id: string) =>
+      tarea({
+        id: `girar_compost:${id}:${HOY}`,
+        tipo: 'girar_compost',
+        slug: undefined,
+        composteraId: id,
+        titulo: 'Compostera: revolvé el compost',
+      })
+    const [una, otra] = [girar('c1'), girar('c2')]
+    const d = distinguir(agruparPorPie([una, otra]), new Map(), HOY)
+    expect(d.porTarea.get(una.id)).toBe('hoy')
+    expect(d.porTarea.get(otra.id)).toBe('hoy')
   })
 })

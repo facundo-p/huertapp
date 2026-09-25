@@ -310,7 +310,7 @@ function Item({
       </span>
       <span className="carril__textos">
         <span className="carril__titulo">
-          {t.titulo}
+          <span className="carril__titulo-texto">{t.titulo}</span>
           {!aLaVista && atrasada}
         </span>
         {/* el chip, junto al lugar: bajo el título ocupaba un renglón para él solo */}
