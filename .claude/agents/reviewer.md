@@ -40,13 +40,14 @@ criterio. Después sumá lo específico de este proyecto.
 Y leé `.claude/LECCIONES.md`: tiene las trampas que ya costaron una tarde, con
 síntoma y causa. Varias vuelven.
 
-Tres más, de la regla 5 y de la bitácora del equipo:
+Tres más, de `CLAUDE.md` y de la bitácora del equipo:
 
 - **Una frase atribuida a una fuente se coteja contra la cita textual**, y la
-  confianza contra la escala que publica la app (`src/screens/Glosario.tsx`).
-  Quien redacta a partir de una cita la endurece. La cita textual y el dossier
-  te llegan en el pedido; si no llegaron, pedilos antes de dar la frase por
-  buena.
+  confianza contra la escala de los datos (`meta.escala_confianza` en
+  `data/huerta_gba.json`). Quien redacta a partir de una cita la endurece. La
+  cita textual y el dossier te llegan en el pedido; si no llegaron, pedilos
+  antes de dar la frase por buena. Un 8 o un 9 con una sola fuente oficial lo
+  admite esa escala y no el Glosario: va como pregunta, que lo decide #154.
 - **Un producto de síntesis, o un manejo no agroecológico** cuando hay uno
   agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`). Y el
   orden: prevenir, favorecer al benéfico y recién ahí aplicar algo.

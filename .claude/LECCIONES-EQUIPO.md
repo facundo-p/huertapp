@@ -440,22 +440,26 @@ vara antes que la cifra.
 
 **Síntoma.** La cita dice *"hace muy difícil poder hablar de un sustrato
 ideal"*. El dev escribió *"el INTA lo dice sin vueltas, no hay un sustrato
-ideal"*. Y cargó confianza 9 porque el investigador la propuso, cuando la escala
-que la propia app publica dice que 8-10 son "Fuentes oficiales o técnicas que
-concuerdan", y acá había una.
+ideal"*. Y cargó confianza 9 porque el investigador la propuso. Se bajó a 7
+por la escala del Glosario, que pide para 8-10 "fuentes oficiales o técnicas
+que concuerdan", y acá había una. La de los datos (`meta.escala_confianza`)
+admite 8-9 con "una fuente oficial clara": cuál manda lo decide #154.
 
 **Causa.** Redactar para que suene bien tira hacia lo categórico, y la
-confianza se tomó del dossier sin cotejarla con la escala del producto. Los
-dos errores son de la misma familia: el texto se alejó de la fuente en el
-último paso, el de escribir.
+confianza se tomó del dossier sin cotejarla con ninguna escala. Los dos errores
+son de la misma familia: el texto se alejó de la fuente en el último paso, el
+de escribir.
 
 **Qué hacemos.** El reviewer coteja cada frase que atribuye algo a una fuente
-contra la cita textual, palabra por palabra, y la confianza contra la escala
-publicada en la app. Lo hizo, y fueron dos de sus tres bloqueantes.
+contra la cita textual, palabra por palabra, y la confianza contra la escala de
+los datos. Lo hizo, y fueron dos de sus tres bloqueantes. Cotejó contra la del
+Glosario sin ver que los datos tienen otra: lo que cae entre las dos se
+pregunta.
 
 **Al plugin.** Va al prompt del reviewer, para diffs que toquen datos. Y al del
-investigador: la confianza que propone se justifica contra la escala del repo,
-no contra su criterio.
+investigador: la confianza que propone se justifica contra la escala con que se
+cargaron los datos, no contra su criterio. Si el repo publica dos escalas que
+no coinciden, eso es una issue, no una regla del prompt.
 
 ### El positivo también se verificó, y costó un minuto
 
@@ -719,7 +723,8 @@ La lista corta, para no releer todo:
     que el orquestador ya decidió.
 19. **En una issue con números, verificar la vara antes que la cifra.**
 20. **El reviewer coteja cada frase atribuida contra la cita textual y la
-    confianza contra la escala que publica la app.**
+    confianza contra la escala de los datos**; si el repo tiene dos que no
+    coinciden, lo que cae entre ellas va como pregunta.
 21. **Un hallazgo de layout se decide y se mide**: decisión del orquestador,
     medición del tester antes y después, nunca "arreglalo" al dev.
 22. **Un dato que entra al catálogo lo coteja el orquestador aunque venga con

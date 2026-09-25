@@ -37,10 +37,10 @@ Por cada dato:
   en el documento de la URL. Los comandos no son tuyos:
   el orquestador baja el documento y busca la frase antes de pasarle el dato
   al dev.
-- **Confianza 1-10 propuesta**, con la razón, contra la escala que publica
-  la app (`src/screens/Glosario.tsx`): 8-10, fuentes oficiales o técnicas que
-  concuerdan; 5-7, fuente confiable única o leve discrepancia; 1-4, dato
-  divulgativo o inferido.
+- **Confianza 1-10 propuesta**, con la razón, contra la escala con que se
+  cargaron los datos: `meta.escala_confianza` en `data/huerta_gba.json`. El
+  Glosario la resume distinto para una fuente oficial sola (8-9 en los datos,
+  5-7 en el Glosario): si tu puntaje cae ahí, decilo, que eso lo decide #154.
 
 ## "No encontré fuente" es una respuesta buena
 
