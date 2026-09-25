@@ -299,8 +299,8 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   y la barra dice «soltá alguna»; con una sola, que toques otra para
   intercambiarlas.
 - Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
-  las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
-  cuando no queda lugar libre) y «Soltar».
+  las de esa planta), «Intercambiar» (con dos celdas de plantas distintas;
+  sirve sobre todo cuando no queda lugar libre) y «Soltar».
 - Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
   va a quedar después, o «Al final de la hoja», que aparece en la barra. Como
   los lugares chicos van de a dos, el empaquetado puede correrlo, dejarlo
@@ -385,7 +385,9 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
     diario, los botones de una tarea también cuando bajan a dos filas) ocupa
     un múltiplo de 28. El título de página ocupa dos filas y se apoya en la
     segunda: centrado en los 56 px, el primer renglón le cruzaba las
-    mayúsculas. Así el renglón no cruza el cuerpo de ninguna letra; en la
+    mayúsculas. Y el «Ver la …» de una tarea va abajo en sus 44 px: no es
+    opaco como el botón de al lado, y centrado el renglón le pasaba por el
+    medio. Así el renglón no cruza el cuerpo de ninguna letra; en la
     manuscrita, algún descendente lo roza.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
     contrastes) no van en texto de página rayada: `--tinta-tenue`, y de día

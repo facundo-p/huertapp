@@ -437,6 +437,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .confianza i.es-llena { background: var(--conf-alta); }
 /* una fila de botones ocupa dos renglones, y dos filas, cuatro: si bajan, la trama no se corre */
 .tarea__botones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; padding-block: 6px; }
+/* el link no es opaco como «Más tarde»: centrado, el renglón le pasaba por el medio; abajo, se apoya en él */
+.tarea__botones .ver-todas { align-items: flex-end; }
 .brote-hecho { position: absolute; margin: -6px 0 0 30px; color: var(--verde-hoja); animation: brotar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: bottom center; }
 .sin-nada { padding: 0 16px 0 64px; font-size: 14px; line-height: 28px; color: var(--tinta-suave); }
 .sin-nada strong { font-weight: 800; color: var(--tinta); }
