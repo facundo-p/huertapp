@@ -60,6 +60,11 @@ describe('definición al toque', () => {
     for (const [quien, d] of todas) expect(ids, quien).toContain(d.ancla)
   })
 
+  // las horas van en el chip; repetidas acá, contradecían la cifra citada de la especie
+  it('las definiciones de luz no dan cifras', () => {
+    for (const e of ESPECIES) expect(definicionDeLuz(e.luz).que_es, e.slug).not.toMatch(/\d/)
+  })
+
   it('la labor salta a su término, no al principio de la sección', () => {
     expect(definicionDeLabor('tutorado').ancla).toBe('labor-tutorado')
   })

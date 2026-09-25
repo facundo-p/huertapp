@@ -40,6 +40,14 @@ Qué significa cada parte en este proyecto:
   el Glosario" te deja en la sección que corresponde —o en la palabra justa,
   si es una labor— y el lector de pantalla te dice adónde llegaste.
 
+### Corregido
+
+- **Tres definiciones del Glosario decían de más.** Las flores polinizadoras
+  atraen abejas, pero no hay fuente de que espanten plagas: las fichas de
+  caléndula y capuchina dicen que atraen pulgones, como plantas trampa. Las
+  legumbres fijan nitrógeno en la raíz, no en la vaina. Y las categorías de luz
+  ya no dan horas: están en el chip de cada ficha.
+
 ## [2.3.0] — 2026-09-12
 
 ### Agregado

@@ -299,9 +299,9 @@ export const DESC_GRUPO: Record<Grupo, string> = {
   'Hortaliza de hoja': 'Lechuga, acelga, espinaca… se comen sus hojas.',
   'Hortaliza de raíz/bulbo': 'Zanahoria, cebolla, papa… el tesoro está abajo.',
   'Hortaliza de fruto': 'Tomate, zapallo, frutilla… frutos de la planta.',
-  Legumbre: 'Chaucha, arveja, haba: vainas que fijan nitrógeno.',
+  Legumbre: 'Chaucha, arveja, haba: plantas de vaina que fijan nitrógeno en la raíz.',
   Aromática: 'Albahaca, romero, menta… perfume y sabor.',
-  'Flor polinizadora': 'Caléndula, copete… traen abejas y espantan plagas.',
+  'Flor polinizadora': 'Caléndula, copete, borraja… flores que atraen abejas y otros polinizadores.',
 }
 
 export const DESC_SUELO: Record<CategoriaSuelo, string> = {
@@ -320,10 +320,11 @@ export const NOMBRE_LUZ: Record<CategoriaLuz, string> = {
   TOLERA_SOMBRA: 'Tolera sombra',
 }
 
+/** Sin horas: ya las dice el chip, y una cifra acá contradecía la citada (berro: 3-6). */
 export const DESC_LUZ: Record<CategoriaLuz, string> = {
-  PLENO_SOL: 'Seis horas o más de sol directo.',
-  SOL_PARCIAL: 'Entre 4 y 6 horas de sol directo.',
-  MEDIA_SOMBRA: 'Con 2 a 4 horas de sol ya está contenta.',
+  PLENO_SOL: 'Sol directo casi todo el día.',
+  SOL_PARCIAL: 'Sol directo una parte del día y sombra el resto.',
+  MEDIA_SOMBRA: 'Pocas horas de sol directo; el resto, luz filtrada.',
   TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',
 }
 
