@@ -163,6 +163,8 @@ a { color: inherit; }
   --cinta: rgba(222, 208, 168, 0.8);
   --foto-borde: #fbfaf4;
   --bandera: var(--sol);
+  /* el relleno da 2,96:1 contra la hoja: el contorno le da la forma */
+  --bandera-borde: var(--tinta-media);
   --sobre-bandera: #2a2110;
   --bandera-atrasada: #a1583d;
   --sobre-bandera-atrasada: #fffdf5;
@@ -219,6 +221,7 @@ a { color: inherit; }
   --cinta: rgba(214, 202, 166, 0.42);
   --foto-borde: #e7e2d2;
   --bandera: #e3a52f;
+  --bandera-borde: transparent;
   --bandera-atrasada: #d4917a;
   --sobre-bandera-atrasada: #2a2110;
   /* de noche, al revés: nada más claro que el papel, porque el texto es el claro */
@@ -326,7 +329,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   padding-inline: 16px;
   border: 1.75px solid var(--tinta-media);
   border-radius: 20px 24px 18px 26px / 24px 18px 26px 20px;
-  background: var(--papel-alto);
+  background: var(--papel-opaco);
   font-size: 14px;
   font-weight: 800;
   color: var(--tinta);
@@ -376,7 +379,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   z-index: 5;
   isolation: isolate;
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   margin-top: 14px;
   padding-inline: 10px;
   background-color: var(--papel);
@@ -398,11 +401,11 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .dia__sigla--hoy { font-weight: 900; color: var(--tinta); }
 .dia__num { position: relative; font-family: var(--f-mano); font-weight: var(--w-mano); font-size: calc(28px * var(--k)); line-height: 1.1; min-width: 36px; text-align: center; }
 .dia__cielo { width: 20px; height: 20px; }
-.dia__marcas { display: flex; gap: 3px; align-items: center; height: 14px; }
+.dia__marcas { display: flex; gap: 2px; align-items: center; height: 14px; }
 .punto { width: 6px; height: 6px; border-radius: 50%; background: var(--tinta-media); }
 .punto-mas { font-size: 12px; font-weight: 800; line-height: 1; color: var(--tinta-suave); }
 /* --sol-texto y no --sol: de día --sol da 2,7:1 y es la única marca del día leído */
-.dia__circulo { position: absolute; left: 50%; top: 50%; width: 46px; height: 38px; transform: translate(-50%, -52%); color: var(--sol-texto); pointer-events: none; }
+.dia__circulo { position: absolute; left: 50%; top: 50%; width: 50px; height: 40px; transform: translate(-50%, -52%); color: var(--sol-texto); pointer-events: none; }
 
 /* margin y no padding: el padding corre la trama y el renglón cruza las letras */
 .pagina--hoy { margin-top: 12px; }
@@ -439,7 +442,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   padding: 10px 6px 6px 14px;
   border: 1.75px dashed var(--linea-fuerte);
   border-radius: 6px;
-  background: var(--papel-alto);
+  background: var(--papel-opaco);
   transform: rotate(-0.7deg);
 }
 .nota-margen__titulo { font-size: calc(24px * var(--k)); line-height: 1.1; }
@@ -454,10 +457,6 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   0% { opacity: 0; transform: scale(0.3) rotate(-30deg); }
   60% { opacity: 1; transform: scale(1.15) rotate(8deg); }
   100% { opacity: 1; transform: scale(1) rotate(0); }
-}
-@keyframes pulso {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.08); opacity: 0.82; }
 }
 
 /* ============================================================
@@ -578,6 +577,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 }
 .celdas--libre .celda.es-elegida { border-color: var(--tinta); }
 .celda__boton { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; z-index: 3; }
+.celda__boton--dedo { cursor: pointer; }
 .celda__nombre {
   position: absolute;
   left: 2px;
@@ -619,6 +619,11 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 
 .banderita { position: absolute; top: 3px; right: 3px; z-index: 4; display: flex; align-items: flex-start; pointer-events: none; }
 .banderita::before { content: ''; width: 1.75px; height: 24px; background: var(--tinta-media); border-radius: 1px; }
+/* el contorno va en la tela y no en <b>: clip-path recorta también su filter */
+.banderita__tela {
+  filter: drop-shadow(1.25px 0 0 var(--bandera-borde)) drop-shadow(-1.25px 0 0 var(--bandera-borde))
+    drop-shadow(0 1.25px 0 var(--bandera-borde)) drop-shadow(0 -1.25px 0 var(--bandera-borde));
+}
 .banderita b {
   display: grid;
   place-items: center;
@@ -690,6 +695,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .casillero__fecha { font-size: 16px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
 .casillero__nota { font-size: 12px; line-height: 1.2; color: var(--tinta-suave); }
 .casillero__tilde { position: absolute; right: 4px; bottom: 4px; color: var(--verde-hoja); }
+.casillero__tilde ~ .casillero__nota { padding-right: 16px; }
 .aca-estas { position: absolute; top: -19px; left: -16px; font-size: 12px; font-weight: 900; line-height: 1; color: var(--sol-texto); white-space: nowrap; }
 .aca-estas::after { content: ''; display: block; width: 2.5px; height: 92px; margin: 3px 0 0 15px; border-radius: 2px; background: var(--sol); }
 .ciclo__fuente { margin-top: 10px; font-size: 14px; font-weight: 600; line-height: 1.45; color: var(--tinta-suave); }
@@ -972,7 +978,7 @@ html.captura .banderita.es-atrasada { animation: none; }
               <section aria-labelledby="p-plantitas">
                 <h4 class="pieza__titulo mano" id="p-plantitas">Plantitas: grupo × etapa</h4>
                 <div class="tabla-plantitas" id="tabla-plantitas"></div>
-                <p class="pieza__nota">19 dibujos: 6 grupos × 3 etapas, más la semilla que todavía no asomó. Son dibujos, con su propia gramática (viewBox 32, trazo de 1,75 en pantalla), y suman sus entradas al Glosario. IconoGrupo sigue igual. La especie va siempre en el nombre.</p>
+                <p class="pieza__nota">19 dibujos: 6 grupos × 3 etapas, más la semilla que todavía no asomó. La especie y la etapa van siempre en el nombre accesible. Está por decidir si la etapa pasa a ícono, con su entrada en el Glosario, o queda como dibujo decorativo: ver «Marcas» en el README.</p>
               </section>
 
               <section aria-labelledby="p-marcas">
@@ -1036,6 +1042,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     lluvia: '<path d="M7.6 14.3 H 16.3 A 2.9 2.9 0 0 0 16.3 8.5 A 4 4 0 0 0 8.6 8 A 3.1 3.1 0 0 0 7.6 14.3 Z"/><path d="M9.8 16.6 l -1.1 3.2"/><path d="M13.2 16.6 l -1.1 3.2"/><path d="M16.6 16.6 l -1.1 3.2"/>',
     escarcha: '<path d="M12 4.4 V 19.6"/><path d="M12 4.4 V 19.6" transform="rotate(60 12 12)"/><path d="M12 4.4 V 19.6" transform="rotate(120 12 12)"/><path d="M10.4 6.6 L 12 8.2 L 13.6 6.6"/><path d="M10.4 17.4 L 12 15.8 L 13.6 17.4"/>',
     gota: '<path d="M12 4.5 C 12 4.5 6.8 10.6 6.8 14.2 A 5.2 5.2 0 0 0 17.2 14.2 C 17.2 10.6 12 4.5 12 4.5 Z"/>',
+    // IconoCalor de src/icons/clima.tsx, tal cual
+    calor: '<path d="M8.7 14.6 V 5.6 a 1.9 1.9 0 0 1 3.8 0 V 14.6 a 3.1 3.1 0 1 1 -3.8 0 Z"/><path d="M10.6 8.2 V 16.4"/><path d="M16 7.2 c 1.1 1, 1.1 2.4, 0 3.4"/><path d="M18.6 5.6 c 1.9 1.9, 1.9 4.7, 0 6.6"/>',
     alerta: '<path d="M10.5 4.8 C 11.2 3.6, 12.8 3.6, 13.5 4.8 L 20.6 17.3 C 21.3 18.5, 20.4 20, 19.1 20 H 4.9 C 3.6 20, 2.7 18.5, 3.4 17.3 Z"/><path d="M12 9.5 V 13.7"/><circle cx="12" cy="16.6" r="0.6" fill="currentColor" stroke="none"/>',
     nota: '<path d="M5 19.3 L 5.9 15.7 L 15.7 5.9 C 16.7 4.9, 18.3 4.9, 19.3 5.9 C 20.3 6.9, 20.3 8.5, 19.3 9.5 L 9.5 19.3 L 5 19.3 Z"/><path d="M14.3 7.3 L 17.9 10.9"/>',
     check: '<path d="M5 12.5 L9.5 17 L19 7.5"/>',
@@ -1104,7 +1112,7 @@ html.captura .banderita.es-atrasada { animation: none; }
 
   // Casilla dibujada a mano (24) y su tilde, que se pasa un poco de la caja
   var CASILLA = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.6 4.3 C 8.2 3.7, 14.8 3.9, 20.2 4 C 20.5 9.2, 20.4 14.8, 20.1 20.1 C 14 20.5, 8.3 20.3, 3.9 20 C 3.5 14.6, 3.3 9.2, 3.6 4.3 Z"/><g class="tilde"><path d="M6.8 12.2 L 10.6 16.4 L 21.5 3.8"/></g></svg>';
-  var CIRCULO_HOY = '<svg class="dia__circulo" viewBox="0 0 46 38" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M8 11 C 13 4.5, 30 2.8, 39 9 C 46 14.5, 42.5 29, 30 33.5 C 18 37.5, 5.5 32.5, 3.6 23 C 2.4 16.5, 6.5 10.5, 14.5 7.2"/></svg>';
+  var CIRCULO_HOY = '<svg class="dia__circulo" viewBox="0 0 46 38" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true" focusable="false"><path vector-effect="non-scaling-stroke" d="M8 11 C 13 4.5, 30 2.8, 39 9 C 46 14.5, 42.5 29, 30 33.5 C 18 37.5, 5.5 32.5, 3.6 23 C 2.4 16.5, 6.5 10.5, 14.5 7.2"/></svg>';
   function maceta(vacia) {
     return '<svg class="maceta' + (vacia ? ' es-vacia' : '') + '" viewBox="0 0 50 50" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" focusable="false"><circle cx="25" cy="25" r="22"' + (vacia ? ' stroke-dasharray="4 4"' : '') + '/><circle class="tierra" cx="25" cy="25" r="16.5"/></svg>';
   }
@@ -1120,7 +1128,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   }
   function banderita(n, atrasada) {
     // el «!» es para que atrasada no se distinga sólo por el color
-    return '<span class="banderita' + (atrasada ? ' es-atrasada' : '') + '" aria-hidden="true"><b>' + n + (atrasada ? '<i>!</i>' : '') + '</b></span>';
+    return '<span class="banderita' + (atrasada ? ' es-atrasada' : '') + '" aria-hidden="true"><span class="banderita__tela"><b>' + n + (atrasada ? '<i>!</i>' : '') + '</b></span></span>';
   }
   function copo() {
     return '<span class="copo" aria-hidden="true">' + icono('escarcha', 16) + '</span>';
@@ -1136,6 +1144,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     { f: '29', sigla: 'mar', nombre: 'martes 29', cielo: 'sol', txt: 'despejado', max: 15, min: 2 },
     { f: '30', sigla: 'mié', nombre: 'miércoles 30', cielo: 'sol', txt: 'despejado', max: 18, min: 5 }
   ];
+  // el calor, como en el carril de hoy: IconoCalor en --sol-texto
+  var COLOR_AVISO = { escarcha: 'var(--cielo-frio)', gota: 'var(--cielo-agua)', calor: 'var(--sol-texto)' };
   var CIELO_COLOR = { sol: 'var(--cielo-sol)', 'sol-nubes': 'var(--cielo-sol)', nublado: 'var(--cielo-nube)', lluvia: 'var(--cielo-agua)' };
 
   // Títulos, detalles y fuentes tal cual los arman src/lib/tareas/engine.ts,
@@ -1156,8 +1166,8 @@ html.captura .banderita.es-atrasada { animation: none; }
         fuente: 'según la guía: a los 3 meses de que dejó de recibir restos vale revisarlo: Santa Fe cuenta 3 en clima cálido y 6 en frío; FAO, 3 a 6', conf: 8 }
     ],
     '26': [
-      { id: 'lechuga', titulo: 'Lechuga ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 48 días',
-        detalle: 'Hojas de tamaño de consumo o cabeza compacta y firme; cosechar antes de que la planta ‘suba a flor’ (emisión del tallo floral).',
+      { id: 'lechuga', titulo: 'Lechuga ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 50 días',
+        detalle: 'Hojas de tamaño de consumo o cabeza compacta y firme; cosechar antes de que la planta \'suba a flor\' (emisión del tallo floral).',
         fuente: 'según la ficha: 50-120 días desde la siembra', conf: 8 }
     ],
     '27': [
@@ -1196,7 +1206,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     rucula: { nombre: 'rúcula', art: 'la', grupo: 'hoja', etapa: 'creciendo', pend: 1, que: 'ya estaría para cosechar' },
     zanahoria: { nombre: 'zanahoria', art: 'la', grupo: 'raiz', etapa: 'semilla', pend: 1, atrasada: true, que: 'fijate si asomó' }
   };
-  // Nivel 0: cada siembra en un bloque seguido. Con `intercalado`, lo que ya
+  // Nivel 0: cada siembra en un bloque seguido, en el orden en que se cargó
+  // (`creada`, que la demo llena así: lechuga, rúcula, zanahoria). Con `intercalado`, lo que ya
   // acomodó alguien: el Bancal del fondo como lo dice la nota de la demo
   // («rúcula intercalada entre las lechugas», «zanahoria en manchones
   // sueltos»), que es Planta.celdas, y subido al principio de la hoja, que es
@@ -1239,7 +1250,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       { id: 'mac', nombre: 'Macetas del balcón', clase: 'macetas', ancho: 'media', cols: 3, filas: 2, cap: 5, paso: 56, alto: 70,
         bloques: [{ p: 'tomBal', desde: 0, ocupa: 3 }] },
       { id: 'fondo', nombre: 'Bancal del fondo', clase: 'libre', ancho: 'entera', cols: 6, filas: 3, cap: 18, paso: 56, alto: 56,
-        bloques: [{ p: 'lechuga', desde: 0, ocupa: 5 }, { p: 'zanahoria', desde: 6, ocupa: 4 }, { p: 'rucula', desde: 12, ocupa: 4 }] },
+        bloques: [{ p: 'lechuga', desde: 0, ocupa: 5 }, { p: 'rucula', desde: 6, ocupa: 4 }, { p: 'zanahoria', desde: 12, ocupa: 4 }] },
       { id: 'med', nombre: 'Bancal de la medianera', clase: 'surcos', ancho: 'media', cols: 1, filas: 3, cap: 3, paso: 168, alto: 44,
         bloques: [] }
     ];
@@ -1273,13 +1284,14 @@ html.captura .banderita.es-atrasada { animation: none; }
     nav.innerHTML = DIAS.map(function (d) {
       var items = TAREAS[d.f] || [];
       var tareas = items.filter(function (t) { return !t.aviso; }).length;
-      var marcas = '';
-      // tres puntos como mucho: más, y se meten en la columna del día vecino
-      for (var i = 0; i < Math.min(tareas, 3); i++) marcas += '<span class="punto"></span>';
-      if (tareas > 3) marcas += '<span class="punto-mas">+' + (tareas - 3) + '</span>';
-      items.filter(function (t) { return t.aviso; }).forEach(function (t) {
-        marcas += '<span style="color:' + (t.aviso === 'escarcha' ? 'var(--cielo-frio)' : 'var(--cielo-agua)') + '">' + icono(t.aviso, 14) + '</span>';
+      var marcas = items.filter(function (t) { return t.aviso; }).map(function (t) {
+        return '<span style="color:' + COLOR_AVISO[t.aviso] + '">' + icono(t.aviso, 14) + '</span>';
       });
+      for (var i = 0; i < tareas; i++) marcas.push('<span class="punto"></span>');
+      // tres marcas como mucho, avisos primero: con más, la tercera es «+N» y la
+      // columna no baja de 44 px aunque la pantalla mida 340
+      if (marcas.length > 3) marcas = marcas.slice(0, 2).concat('<span class="punto-mas">+' + (marcas.length - 2) + '</span>');
+      marcas = marcas.join('');
       var que = [];
       if (tareas) que.push(tareas === 1 ? '1 cosa para hacer' : tareas + ' cosas para hacer');
       items.filter(function (t) { return t.aviso; }).forEach(function (t) { que.push(t.titulo.toLowerCase()); });
@@ -1301,11 +1313,12 @@ html.captura .banderita.es-atrasada { animation: none; }
       var abierta = !!abiertas[t.id];
       var hecha = !!hechas[t.id];
       var marca = t.aviso
-        ? '<span class="tarea__icono" style="color:' + (t.aviso === 'escarcha' ? 'var(--cielo-frio)' : 'var(--cielo-agua)') + '">' + icono(t.aviso, 24) + '</span>'
+        ? '<span class="tarea__icono" style="color:' + COLOR_AVISO[t.aviso] + '">' + icono(t.aviso, 24) + '</span>'
         : '<button type="button" class="casilla" role="checkbox" aria-checked="' + hecha + '" data-hecha="' + t.id + '" aria-label="Hecho: ' + t.titulo + '">' + CASILLA + '</button>';
       var linea = (t.atrasada ? '<span class="tarea__atrasada">atrasada</span> · ' : '') + t.linea;
       var botones = (t.asomo ? '<button type="button" class="lapiz lapiz--lleno">Asomó</button>' : '') +
-        (t.aviso ? '' : '<button type="button" class="lapiz">Más tarde</button>');
+        // como Hoy.tsx: al lado de «Asomó», posponer se dice «Todavía no asomó»
+        (t.aviso ? '' : '<button type="button" class="lapiz">' + (t.asomo ? 'Todavía no asomó' : 'Más tarde') + '</button>');
       var porque = '<div class="tarea__porque" id="porque-' + t.id + '"' + (abierta ? '' : ' hidden') + '>' +
         '<p class="tarea__detalle">' + t.detalle + '</p>' +
         '<p class="tarea__fuente">' + t.fuente + (t.conf ? ' · confianza ' + t.conf + '/10<span class="confianza" aria-hidden="true">' + confianza(t.conf) + '</span>' : '') + '</p>' +
@@ -1356,7 +1369,10 @@ html.captura .banderita.es-atrasada { animation: none; }
     // la hoja y no scrollIntoView: ése scrollea también la ventana, y con el
     // render abierto en una pantalla grande la tira pegada se va de la vista
     var destino = document.getElementById('dia-' + f);
-    var arriba = hojaHoy.scrollTop + destino.getBoundingClientRect().top - hojaHoy.getBoundingClientRect().top - (parseFloat(hojaHoy.style.scrollPaddingTop) || 0);
+    // el rect viene con el zoom del teléfono y scrollTop no: angosto, llevaba a otro día
+    var caja = hojaHoy.getBoundingClientRect();
+    var zoom = caja.height / hojaHoy.offsetHeight || 1;
+    var arriba = hojaHoy.scrollTop + (destino.getBoundingClientRect().top - caja.top) / zoom - (parseFloat(hojaHoy.style.scrollPaddingTop) || 0);
     hojaHoy.scrollTo({ top: arriba, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     document.getElementById('titulo-' + f).focus({ preventScroll: true });
   }
@@ -1443,7 +1459,8 @@ html.captura .banderita.es-atrasada { animation: none; }
   function etiquetaPlanta(pl) {
     var n = mayus(pl.nombre) + (pl.apodo ? ', ' + pl.apodo : '');
     var extra = [];
-    if (pl.etapa === 'semilla') extra.push('todavía no asomó');
+    // la etapa va en el nombre: la plantita que la dibuja es aria-hidden
+    extra.push({ semilla: 'todavía no asomó', brote: 'brote', creciendo: 'creciendo', dando: 'dando cosecha' }[pl.etapa]);
     if (pl.pend) extra.push(pl.pend + ' para atender' + (pl.atrasada ? ', atrasada' : '') + ': ' + pl.que);
     if (pl.helada) extra.push((pl.los ? 'tapalos' : 'tapala') + ' si hiela el martes');
     return n + (extra.length ? ' · ' + extra.join(' · ') : '');
@@ -1508,7 +1525,10 @@ html.captura .banderita.es-atrasada { animation: none; }
           if (acomodar) {
             dentro += '<button type="button" class="celda__boton" data-lugar="' + l.id + '" data-celda="' + i + '" aria-pressed="' + elegida + '" aria-label="' + mayus(pl.nombre) + ', ' + donde + (elegida && i === sel[0] && sel.length > 1 ? ', la primera' : '') + '"></button>';
           } else if (primeraDePlanta) {
-            dentro += '<a class="celda__boton" href="' + (p === 'tomAlm' ? '#una-planta' : '#marco-croquis') + '" aria-label="' + etiquetaPlanta(pl) + '"></a>';
+            dentro += '<a class="celda__boton" data-planta="' + p + '" href="' + (p === 'tomAlm' ? '#una-planta' : '#marco-croquis') + '" aria-label="' + etiquetaPlanta(pl) + '"></a>';
+          } else {
+            // un enlace por planta para teclado y lector; las demás celdas abren sólo al dedo
+            dentro += '<span class="celda__boton celda__boton--dedo" data-planta-de="' + p + '" aria-hidden="true"></span>';
           }
         } else if (existe && acomodar) {
           var entra = sel.length > 0 && !destinoDe(l, sel, i).motivo;
@@ -1537,7 +1557,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     document.getElementById('filas-lugares').innerHTML = lugaresA.map(function (l) {
       var hay = [];
       l.celdas.forEach(function (p) { if (p && hay.indexOf(PLANTAS[p].nombre) < 0) hay.push(PLANTAS[p].nombre); });
-      return '<button type="button" class="fila-lugar" id="fila-' + l.id + '" aria-expanded="false"><span><span class="fila-lugar__nombre">' + l.nombre + '</span><span class="fila-lugar__meta">' + (hay.join(', ') || 'todavía no hay nada plantado') + '</span></span>' + icono('desplegar', 22) + '</button>';
+      return '<button type="button" class="fila-lugar" id="fila-' + l.id + '"><span><span class="fila-lugar__nombre">' + l.nombre + '</span><span class="fila-lugar__meta">' + (hay.join(', ') || 'todavía no hay nada plantado') + '</span></span>' + icono('desplegar', 22) + '</button>';
     }).join('');
   }
   pintarVista();
@@ -1553,6 +1573,8 @@ html.captura .banderita.es-atrasada { animation: none; }
     document.getElementById('plano-a').hidden = abierto;
   });
   document.getElementById('plano-a').addEventListener('click', function (e) {
+    var otra = e.target.closest('[data-planta-de]');
+    if (otra) document.querySelector('#plano-a [data-planta="' + otra.getAttribute('data-planta-de') + '"]').click();
     var f = e.target.closest('[data-ficha]');
     if (f) document.getElementById('fila-' + f.getAttribute('data-ficha')).focus();
   });
@@ -1571,18 +1593,23 @@ html.captura .banderita.es-atrasada { animation: none; }
     var u = l.clase === 'macetas' ? ['maceta', 'macetas'] : l.clase === 'surcos' ? ['surco', 'surcos'] : ['celda', 'celdas'];
     return n === 1 ? u[0] : u[1];
   }
-  // El elegido pasa antes de `antesDe` (o al final). Empaquetar puede correrlo:
-  // entonces se dice por qué, en vez de anunciar un lugar que no pidió.
+  // El elegido pasa antes de `antesDe` (o al final). Empaquetar puede correr a
+  // ése o a otro: la barra dice cuál y por qué, no anuncia lo que no pasó.
   function moverLugar(movido, antesDe) {
-    var antes = lugaresB.map(function (x) { return x.id; }).join();
-    var resto = lugaresB.filter(function (x) { return x !== movido; });
-    if (antesDe) resto.splice(resto.indexOf(antesDe), 0, movido); else resto.push(movido);
-    var pedido = resto.indexOf(movido);
-    lugaresB = empaquetar(resto);
+    function ids(ls) { return ls.map(function (x) { return x.id; }).join(); }
+    var antes = ids(lugaresB);
+    var pedido = lugaresB.filter(function (x) { return x !== movido; });
+    if (antesDe) pedido.splice(pedido.indexOf(antesDe), 0, movido); else pedido.push(movido);
+    lugaresB = empaquetar(pedido);
     var quedo = lugaresB.indexOf(movido);
-    if (lugaresB.map(function (x) { return x.id; }).join() === antes) aviso = 'Quedó donde estaba: los lugares chicos van de a dos, y ese hueco ya lo ocupa otro.';
+    // empaquetar sube un lugar chico para cerrar el hueco: el que quedó más arriba de lo pedido
+    var subido = lugaresB.filter(function (x, i) { return i < pedido.indexOf(x); })[0];
+    if (ids(pedido) === antes) aviso = 'Ya estaba ahí.';
+    else if (ids(lugaresB) === antes) aviso = 'Quedó donde estaba: los lugares chicos van de a dos' +
+      (subido && subido !== movido ? ', y ese hueco es de ' + subido.nombre + '.' : ', y ahí habría quedado solo.');
     else aviso = 'Listo: ' + movido.nombre + ' quedó ' + (quedo + 1) + '.º de ' + lugaresB.length + ' en la hoja' +
-      (quedo !== pedido ? ', corrido para que no quede un hueco: los lugares chicos van de a dos.' : '.');
+      (subido === movido ? ', corrido para que no quede un hueco: los lugares chicos van de a dos.'
+        : subido ? '. Para no dejar un hueco también se corrió ' + subido.nombre + ': los lugares chicos van de a dos.' : '.');
     lugarElegido = null;
   }
   function enfocarLugar(l) {
