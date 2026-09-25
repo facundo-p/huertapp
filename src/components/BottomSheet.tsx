@@ -19,12 +19,25 @@ export function BottomSheet({ abierto, onCerrar, titulo, sobretitulo, pie, child
   const ref = useRef<HTMLDialogElement>(null)
   // con nombre, el lector anuncia el título y no sólo «diálogo, Cerrar»
   const idTitulo = useId()
+  // El foco vuelve a quien abrió la hoja por nuestra cuenta: que lo haga el
+  // <dialog> nativo no está probado en Safari de iOS.
+  const origen = useRef<Element | null>(null)
 
   useEffect(() => {
     const d = ref.current
     if (!d) return
-    if (abierto && !d.open) d.showModal()
-    else if (!abierto && d.open) d.close()
+    if (abierto) {
+      if (!d.open) {
+        origen.current = document.activeElement
+        d.showModal()
+      }
+      return
+    }
+    if (d.open) d.close()
+    const o = origen.current
+    origen.current = null
+    // si la hoja lo sacó de la pantalla (borró la fila, navegó), no hay a quién
+    if (o instanceof HTMLElement && o.isConnected) o.focus()
   }, [abierto])
 
   return (

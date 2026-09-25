@@ -40,22 +40,6 @@ Qué significa cada parte en este proyecto:
   el Glosario" te deja en la sección que corresponde —o en la palabra justa,
   si es una labor— y el lector de pantalla te dice adónde llegaste.
 
-### Arreglado
-
-- **Varias definiciones ya no dicen más de lo que sabemos.** Hablaban como si
-  valieran para todas las plantas, y alguna ficha decía otra cosa. La
-  definición de las flores polinizadoras ya no dice que espantan plagas:
-  algunas las atraen, como la caléndula, que funciona como planta trampa. Las
-  legumbres fijan nitrógeno en la raíz, no en la vaina, y las hortalizas de
-  hoja incluyen las que arman cabeza, como el brócoli. Al tocar una labor en la
-  ficha, la hoja te dice qué es: cómo se hace en esa planta es lo que dice su
-  ficha.
-- **El chip de luz de la ficha dice sólo la categoría.** Las horas eran las de
-  la categoría y no siempre coincidían con las de esa planta, que están en su
-  sección Luz, con su fuente.
-- **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
-  no sólo como «diálogo».
-
 ### Cambiado
 
 - **Suelo profundo y suelo rústico ahora te dicen qué llevarte del vivero.** Las
@@ -66,6 +50,22 @@ Qué significa cada parte en este proyecto:
   Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
   correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
   tu zona, de lo que salga y de la especie.
+
+### Arreglado
+
+- **Varias definiciones ya no dicen más de lo que sabemos.** Hablaban como si
+  valieran para todas las plantas, y alguna ficha decía otra cosa. La
+  definición de las flores polinizadoras ya no dice de todas lo que hacen
+  algunas: no todas espantan plagas, y la caléndula, por ejemplo, las atrae
+  como planta trampa. Las legumbres fijan nitrógeno en la raíz, no en la vaina,
+  y las hortalizas de hoja incluyen las que arman cabeza, como el brócoli. Al
+  tocar una labor en la ficha, la hoja te dice qué es: cómo se hace en esa
+  planta es lo que dice su ficha.
+- **El chip de luz de la ficha dice sólo la categoría.** Las horas eran las de
+  la categoría y no siempre coincidían con las de esa planta, que están en su
+  sección Luz, con su fuente.
+- **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
+  no sólo como «diálogo».
 
 ## [2.3.0] — 2026-09-12
 

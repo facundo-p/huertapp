@@ -20,6 +20,7 @@ import {
   GRUPOS,
   LUCES,
   NOMBRE_LUZ,
+  NOMBRE_SUELO,
   SUELOS,
   IconoAlerta,
   IconoAlmacigo,
@@ -340,7 +341,7 @@ export function Glosario() {
         <Seccion id="suelo" titulo="Qué suelo pide" retraso={0.1}>
           <ul className="glosario__lista">
             {Object.entries(SUELOS).map(([c, info]) => (
-              <Fila key={c} Icono={info.Icono} nombre={info.etiqueta} desc={DESC_SUELO[c as keyof typeof DESC_SUELO]} color={info.color} />
+              <Fila key={c} Icono={info.Icono} nombre={NOMBRE_SUELO[c as keyof typeof NOMBRE_SUELO]} desc={DESC_SUELO[c as keyof typeof DESC_SUELO]} color={info.color} />
             ))}
           </ul>
         </Seccion>
@@ -529,4 +530,3 @@ function descCielo(c: string): string {
       'En el cielo del día, nieve (rarísimo acá). En una alerta, riesgo de helada: mínima de 3 °C o menos — a esa marca el pasto puede estar a 0 °C (umbral FAUBA).',
   }[c]!
 }
-

@@ -3,8 +3,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test'
 // "Verlo en el Glosario →" va a un ancla dentro del HashRouter, donde el
 // navegador no salta solo: lo hace el efecto de `Glosario.tsx`. Acá se fija
 // que el destino quede a la vista, no tapado por el índice pegajoso, y con el
-// foco en su título. Que la hoja no quede colgada no se prueba: al navegar, la
-// ficha se desmonta y el <dialog> se va con ella.
+// foco en su título.
 
 /** Que se vea entero y no quede debajo del índice pegajoso del Glosario. */
 async function aLaVista(page: Page, destino: Locator) {
@@ -33,6 +32,11 @@ test('la hoja del suelo lleva a su categoría en el Glosario, a la vista y con e
     ),
   ).toBeVisible()
   await expect(hoja.getByText(/partes de compost|Cómo correr la mezcla/)).toHaveCount(0)
+  // el lugar que nombra el texto es un link a ese lugar, no al del pie
+  await expect(hoja.getByRole('link', { name: 'Cómo se arma la tierra' })).toHaveAttribute(
+    'href',
+    /#\/glosario#tierra$/,
+  )
 
   await page.getByRole('link', { name: /Verlo en el Glosario/ }).click()
 
@@ -71,11 +75,19 @@ test('con teclado, una labor salta a su término', async ({ page }) => {
   await expect(page).toHaveURL(/#\/explorar\/tomate/)
 })
 
-// El link del pie es la única salida de la hoja que navega: lo prueban los
-// dos de arriba. Las otras (Escape, la X, el fondo) cierran con el `close()`
-// nativo del <dialog>, que por spec devuelve el foco a quien la abrió; acá se
-// fija con Escape, que es la de quien va con teclado.
+// Escape, la X y el fondo cierran sin navegar, y el foco vuelve a quien abrió
+// la hoja: lo devuelve `BottomSheet`, sin contar con el <dialog> nativo. Acá se
+// fija con Escape, que es la salida de quien va con teclado.
 test('cerrar con Escape devuelve el foco al chip, no al principio de la ficha', async ({ page }) => {
+  // el <dialog> de Chromium lo devolvería solo: se le borra a quién, para que
+  // lo que se pruebe sea lo de `BottomSheet`
+  await page.addInitScript(() => {
+    const abrir = HTMLDialogElement.prototype.showModal
+    HTMLDialogElement.prototype.showModal = function () {
+      ;(document.activeElement as HTMLElement | null)?.blur()
+      abrir.call(this)
+    }
+  })
   await page.goto('/#/explorar/tomate')
   await page.waitForLoadState('networkidle')
 

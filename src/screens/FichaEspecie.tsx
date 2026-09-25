@@ -30,6 +30,7 @@ import { useZona, ZONAS_INFO } from '../lib/zona'
 import {
   GRUPOS,
   NOMBRE_LUZ,
+  NOMBRE_SUELO,
   SUELOS,
   IconoAlmacigo,
   IconoAlerta,
@@ -126,11 +127,10 @@ export function FichaEspecie() {
               texto={grupo.etiqueta}
               contenido={definicionDeGrupo(e.grupo)}
             />
-            {/* la hoja de rústico ya dice «Tolera suelos pobres.»: el título lo repetía */}
             <Categoria
               Icono={() => <IconoSuelo categoria={e.suelo.categoria_suelo} size={24} decorativo />}
               texto={suelo.etiqueta}
-              titulo={suelo.etiqueta.split(':')[0]}
+              titulo={NOMBRE_SUELO[e.suelo.categoria_suelo]}
               contenido={definicionDeSuelo(e.suelo)}
             />
             {/* sólo el nombre: las horas genéricas de la categoría no coincidían

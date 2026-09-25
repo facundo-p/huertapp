@@ -1,5 +1,8 @@
+import { readFileSync } from 'node:fs'
 import { test, expect, type Page } from '@playwright/test'
 import { conHelada } from './apoyo-pronostico'
+import { NOMBRE_LUZ } from '../src/icons/semantic'
+import type { EspecieEnriquecida } from '../src/lib/data/types'
 
 /**
  * Accesibilidad, como test y no como revisión de una sola vez.
@@ -9,6 +12,11 @@ import { conHelada } from './apoyo-pronostico'
  * agregar pantallas, así que se miden acá, en las siete pantallas, con datos
  * cargados —que es cuando aparecen los casos difíciles.
  */
+
+/** Buscada y no fijada: el hueco que hay hoy en la base se va a llenar (#152). */
+const LUZ_SIN_FUENTE = (
+  JSON.parse(readFileSync('data/huerta_gba_enriquecido.json', 'utf8')).especies as EspecieEnriquecida[]
+).find((e) => e.luz.fuentes.length === 0)
 
 const PANTALLAS = [
   { ruta: '/#/hoy', nombre: 'Esta semana' },
@@ -24,14 +32,21 @@ const PANTALLAS = [
       await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
     },
   },
-  // la de luz en los repollitos, que no tienen fuente: se dice con una
-  // pastilla propia que ninguna otra pantalla tiene
+  // la de luz de una especie sin fuente: se dice con una pastilla propia que
+  // ninguna otra pantalla tiene
   {
-    ruta: '/#/explorar/repollitos-de-bruselas',
-    nombre: 'Definición de luz',
+    ruta: `/#/explorar/${LUZ_SIN_FUENTE?.slug ?? ''}`,
+    nombre: 'Definición de luz sin fuente',
     entrar: async (page: Page) => {
-      await page.getByRole('button', { name: /^Pleno sol/ }).click()
-      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+      if (!LUZ_SIN_FUENTE) {
+        throw new Error(
+          'Ninguna especie tiene la luz sin fuente: la pastilla «sin fuente» se quedó sin pantalla que la mida. Armale un caso o sacá esta entrada.',
+        )
+      }
+      await page
+        .getByRole('button', { name: new RegExp(`^${NOMBRE_LUZ[LUZ_SIN_FUENTE.luz.categoria_luz]}`) })
+        .click()
+      await page.getByText('sin fuente', { exact: true }).waitFor()
     },
   },
   // la hoja de temperatura con un rango prendido: cuatro interruptores y ocho

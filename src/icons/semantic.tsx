@@ -44,10 +44,16 @@ export const LUCES: Record<CategoriaLuz, Info> = {
   TOLERA_SOMBRA: { Icono: IconoLuzSombra, etiqueta: 'Tolera sombra: crece con luz indirecta', color: 'var(--luz-sombra)' },
 }
 
+/** La etiqueta sin su bajada, para donde la bajada ya se dice o no vale. */
+const sinBajada = <C extends string>(m: Record<C, Info>) =>
+  Object.fromEntries(
+    Object.entries<Info>(m).map(([c, { etiqueta }]) => [c, etiqueta.split(':')[0]]),
+  ) as Record<C, string>
+
 /** Sin las horas genéricas: en la ficha, las que valen son las que cita cada especie. */
-export const NOMBRE_LUZ = Object.fromEntries(
-  Object.entries(LUCES).map(([c, { etiqueta }]) => [c, etiqueta.split(':')[0]]),
-) as Record<CategoriaLuz, string>
+export const NOMBRE_LUZ = sinBajada(LUCES)
+/** Sin «tolera suelos pobres»: la definición del rústico ya lo dice. */
+export const NOMBRE_SUELO = sinBajada(SUELOS)
 
 interface SemanticProps extends IconProps {
   /** Si es true, el ícono es decorativo (el texto está al lado). */

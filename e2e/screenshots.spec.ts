@@ -106,7 +106,7 @@ const TOMAS: Toma[] = [
   // la que se define por lo que NO lleva: sin tutorado ni poda
   { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
   // la hoja del suelo: definición, lo que pide el tomate con su confianza y su
-  // fuente, la línea que remite a las mezclas del glosario y el link
+  // fuente, la línea que remite a las mezclas del glosario y los links
   {
     nombre: 'ficha-definicion-suelo',
     ruta: '/#/explorar/tomate',
@@ -115,7 +115,7 @@ const TOMAS: Toma[] = [
       await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
     },
   },
-  // y una labor, que es la variante corta: qué es y cómo se hace
+  // y una labor, que es la variante corta: qué es y el remite al Glosario
   {
     nombre: 'ficha-definicion-labor',
     ruta: '/#/explorar/tomate',

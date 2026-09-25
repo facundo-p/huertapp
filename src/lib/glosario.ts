@@ -316,19 +316,25 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
  * las muestra también, y el mismo texto en dos lados se desincroniza.
  * ------------------------------------------------------------------ */
 
+/**
+ * La de las flores sale en seis fichas: cada cosa que dice la hace alguna según
+ * su fuente, y ninguna se afirma de todas (el copete espanta, la caléndula
+ * desvía, el girasol da sombra y tutor).
+ */
 export const DESC_GRUPO: Record<Grupo, string> = {
   'Hortaliza de hoja': 'Lechuga, acelga, espinaca, repollo… se cosechan sus hojas, o la cabeza que arman.',
   'Hortaliza de raíz/bulbo': 'Zanahoria, cebolla, papa… el tesoro está abajo.',
   'Hortaliza de fruto': 'Tomate, zapallo, frutilla… frutos de la planta.',
   Legumbre: 'Chaucha, arveja, haba: plantas de vaina que fijan nitrógeno en la raíz.',
   Aromática: 'Albahaca, romero, menta… perfume y sabor.',
-  'Flor polinizadora': 'Caléndula, copete, borraja… flores que atraen abejas y otros polinizadores.',
+  'Flor polinizadora':
+    'Flores que se siembran por lo que hacen en la huerta: según la especie, atraen abejas y fauna benéfica, desvían o espantan plagas, o les dan sombra y un tutor a otras plantas.',
 }
 
 export const DESC_SUELO: Record<CategoriaSuelo, string> = {
   ARENOSO_DRENANTE: 'Suelto y con drenaje libre: nada de charcos.',
   FRANCO_FERTIL: 'Equilibrado y con materia orgánica. El comodín.',
-  HUMEDO_RICO: 'Muy rico y siempre húmedo, no se seca.',
+  HUMEDO_RICO: 'Rico en materia orgánica y que retiene la humedad: no llega a secarse.',
   PROFUNDO_SUELTO: 'Mullido y sin piedras: clave para raíces.',
   RUSTICO_TOLERANTE: 'Tolera suelos pobres.',
 }
@@ -350,7 +356,7 @@ export const DESC_LUZ: Record<CategoriaLuz, string> = {
  * ------------------------------------------------------------------ */
 
 /** Un dato agronómico, que sí va con cita; una definición no la necesita. */
-export interface Receta {
+export interface DatoCitado {
   etiqueta: string
   /** `null`: la fuente no lo dice, y la hoja muestra el sin dato */
   texto: string | null
@@ -363,9 +369,11 @@ export interface Receta {
 
 export interface ContenidoDefinicion {
   que_es: string
-  receta?: Receta
-  /** una línea tras la receta que manda al Glosario, sin afirmar lo que allá va citado */
+  dato?: DatoCitado
+  /** una línea tras el dato que manda al Glosario, sin afirmar lo que allá va citado */
   remite?: string
+  /** la frase de `remite` que va como link, cuando nombra otro lugar que el `ancla` */
+  enlace?: { frase: string; ancla: string }
   /** sección o término del Glosario donde está lo completo (los `id` de Glosario.tsx) */
   ancla: string
 }
@@ -394,7 +402,7 @@ export function definicionDeGrupo(grupo: Grupo): ContenidoDefinicion {
  * ficha diga otra cosa. El rótulo no nombra a la especie: el artículo ("el
  * tomate", "la lechuga") no está en los datos.
  */
-function loQuePide(dato: Dato & { que_pasa_si_no: string }): Receta {
+function loQuePide(dato: Dato & { que_pasa_si_no: string }): DatoCitado {
   const siNo = dato.que_pasa_si_no.trim()
   return {
     etiqueta: 'Lo que pide esta planta',
@@ -406,21 +414,23 @@ function loQuePide(dato: Dato & { que_pasa_si_no: string }): Receta {
 }
 
 export function definicionDeLuz(luz: EspecieEnriquecida['luz']): ContenidoDefinicion {
-  return { que_es: DESC_LUZ[luz.categoria_luz], receta: loQuePide(luz), ancla: 'luz' }
+  return { que_es: DESC_LUZ[luz.categoria_luz], dato: loQuePide(luz), ancla: 'luz' }
 }
 
 /**
  * Ni la mezcla base ni `AJUSTE_SUELO`: sin la especie al lado, se leían como
  * consejo para esa planta, y la base lleva compost donde el tomillo o el
- * cosmos piden suelo pobre. Las mezclas quedan en el Glosario, con su cita, y
- * el link va a la categoría, que es lo que la hoja define.
+ * cosmos piden suelo pobre. Las mezclas quedan en el Glosario, con su cita:
+ * el link del texto va a ellas, y el del pie a la categoría, que es lo que la
+ * hoja define.
  */
 export function definicionDeSuelo(suelo: EspecieEnriquecida['suelo']): ContenidoDefinicion {
   return {
     que_es: DESC_SUELO[suelo.categoria_suelo],
-    receta: loQuePide(suelo),
+    dato: loQuePide(suelo),
     remite:
       'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario, en «Cómo se arma la tierra».',
+    enlace: { frase: 'Cómo se arma la tierra', ancla: 'tierra' },
     ancla: 'suelo',
   }
 }

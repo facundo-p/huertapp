@@ -4,7 +4,7 @@ import { BottomSheet } from './BottomSheet'
 import { ConfidenceBadge } from './ConfidenceBadge'
 import { IconoFuente } from '../icons'
 import { conNegritas } from '../lib/negritas'
-import type { ContenidoDefinicion, Receta } from '../lib/glosario'
+import type { ContenidoDefinicion, DatoCitado } from '../lib/glosario'
 import './Definicion.css'
 
 interface Props {
@@ -62,11 +62,40 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
       >
         <p className="definicion__que">{conNegritas(contenido.que_es)}</p>
 
-        {contenido.receta && <DatoConCita {...contenido.receta} />}
+        {contenido.dato && <DatoConCita {...contenido.dato} />}
 
-        {contenido.remite && <p className="definicion__que">{contenido.remite}</p>}
+        {contenido.remite && (
+          <Remite
+            texto={contenido.remite}
+            enlace={contenido.enlace}
+            alIr={() => setAbierta(false)}
+          />
+        )}
       </BottomSheet>
     </>
+  )
+}
+
+/** El remite, con la frase que nombra otro lugar del Glosario hecha link. */
+function Remite({
+  texto,
+  enlace,
+  alIr,
+}: {
+  texto: string
+  enlace: ContenidoDefinicion['enlace']
+  alIr: () => void
+}) {
+  const i = enlace ? texto.indexOf(enlace.frase) : -1
+  if (!enlace || i < 0) return <p className="definicion__que">{texto}</p>
+  return (
+    <p className="definicion__que">
+      {texto.slice(0, i)}
+      <Link to={`/glosario#${enlace.ancla}`} onClick={alIr}>
+        {enlace.frase}
+      </Link>
+      {texto.slice(i + enlace.frase.length)}
+    </p>
   )
 }
 
@@ -75,7 +104,7 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
  * sin el dato no va nada más: ni el «si no se cumple» ni las fuentes, que
  * parecerían respaldar algo.
  */
-function DatoConCita({ etiqueta, texto, siNo, confianza, fuentes }: Receta) {
+function DatoConCita({ etiqueta, texto, siNo, confianza, fuentes }: DatoCitado) {
   return (
     <div>
       <div className="definicion__dato">

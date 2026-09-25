@@ -57,10 +57,20 @@ describe('definición al toque', () => {
   it('el link al glosario apunta a una sección o término que existe', () => {
     const ids = new Set([...dibujar(Glosario, {}).matchAll(/ id="([^"]+)"/g)].map((m) => m[1]))
     expect(ids.size).toBeGreaterThan(5)
-    for (const [quien, d] of todas) expect(ids, quien).toContain(d.ancla)
+    for (const [quien, d] of todas) {
+      expect(ids, quien).toContain(d.ancla)
+      if (d.enlace) expect(ids, `${quien} · enlace`).toContain(d.enlace.ancla)
+    }
   })
 
-  // las horas van en el chip; repetidas acá, contradecían la cifra citada de la especie
+  // si la frase no está tal cual en el remite, el link no sale y nadie se entera
+  it('el link del remite es una frase que el remite dice', () => {
+    const conEnlace = todas.filter(([, d]) => d.enlace)
+    expect(conEnlace.length).toBeGreaterThan(0)
+    for (const [quien, d] of conEnlace) expect(d.remite, quien).toContain(d.enlace!.frase)
+  })
+
+  // una cifra genérica de horas contradecía la citada de la especie (berro: 3 a 6)
   it('las definiciones de luz no dan cifras', () => {
     for (const e of ESPECIES) expect(definicionDeLuz(e.luz).que_es, e.slug).not.toMatch(/\d/)
   })
@@ -77,7 +87,6 @@ describe('definición al toque', () => {
   it('la hoja de una labor no trae el paso a paso general', () => {
     for (const t of ORDEN_CUIDADOS) {
       const d = definicionDeLabor(t)
-      expect(d, t).not.toHaveProperty('detalle')
       const escrito = Object.values(d).filter((v) => typeof v === 'string').join('\n')
       if (LABORES[t].como) expect(escrito, t).not.toContain(LABORES[t].como)
       expect(d.remite, t).toMatch(/Glosario/)
@@ -85,8 +94,8 @@ describe('definición al toque', () => {
   })
 
   it('grupo y labor definen, y nada más', () => {
-    expect(definicionDeGrupo('Aromática').receta).toBeUndefined()
-    expect(definicionDeLabor('raleo').receta).toBeUndefined()
+    expect(definicionDeGrupo('Aromática').dato).toBeUndefined()
+    expect(definicionDeLabor('raleo').dato).toBeUndefined()
   })
 
   it('suelo y luz traen lo que dijo la fuente de esa especie, con todas sus fuentes', () => {
@@ -95,7 +104,7 @@ describe('definición al toque', () => {
         ['suelo', definicionDeSuelo(e.suelo)],
         ['luz', definicionDeLuz(e.luz)],
       ] as const) {
-        const r = d.receta!
+        const r = d.dato!
         const quien = `${e.slug} · ${campo}`
         // en dos rótulos, como en la sección de la ficha
         expect(r.etiqueta, quien).toBe('Lo que pide esta planta')
@@ -112,19 +121,10 @@ describe('definición al toque', () => {
     expect(especie('lechuga').luz.fuentes.length).toBeGreaterThan(1)
   })
 
-  // el artículo no está en los datos: "lo que pide el lechuga" no
-  it('el rótulo no nombra a la especie', () => {
-    for (const e of ESPECIES) {
-      for (const d of [definicionDeSuelo(e.suelo), definicionDeLuz(e.luz)]) {
-        expect(d.receta!.etiqueta.toLowerCase(), e.slug).not.toContain(e.nombre_comun.toLowerCase())
-      }
-    }
-  })
-
   it('sin texto de la fuente, queda sin dato y no se rellena', () => {
     const t = especie('tomate')
-    expect(definicionDeLuz({ ...t.luz, valor: '', que_pasa_si_no: ' ' }).receta!.texto).toBeNull()
-    expect(definicionDeSuelo({ ...t.suelo, valor: '', que_pasa_si_no: '' }).receta!.texto).toBeNull()
+    expect(definicionDeLuz({ ...t.luz, valor: '', que_pasa_si_no: ' ' }).dato!.texto).toBeNull()
+    expect(definicionDeSuelo({ ...t.suelo, valor: '', que_pasa_si_no: '' }).dato!.texto).toBeNull()
   })
 
   /**
@@ -137,7 +137,7 @@ describe('definición al toque', () => {
     const d = definicionDeSuelo(tomillo.suelo)
     const escrito = JSON.stringify(d)
     // nada escrito de nuestra mano más allá de la definición y el remite
-    expect(Object.keys(d).sort()).toEqual(['ancla', 'que_es', 'receta', 'remite'])
+    expect(Object.keys(d).sort()).toEqual(['ancla', 'dato', 'enlace', 'que_es', 'remite'])
     expect(escrito).not.toContain(SUSTRATO.base)
     expect(escrito).not.toContain(AJUSTE_SUELO[tomillo.suelo.categoria_suelo])
     expect(d.remite).toBe(
@@ -145,9 +145,14 @@ describe('definición al toque', () => {
     )
   })
 
-  // la hoja define la categoría: el link lleva a esa lista, no a las mezclas
-  it('el link del suelo va a la categoría', () => {
-    expect(definicionDeSuelo(especie('tomillo').suelo).ancla).toBe('suelo')
+  // la hoja define la categoría: el link del pie va a esa lista, y el que
+  // nombra las mezclas, a las mezclas
+  it('el link del suelo va a la categoría, y el de las mezclas a las mezclas', () => {
+    const d = definicionDeSuelo(especie('tomillo').suelo)
+    expect(d.ancla).toBe('suelo')
+    expect(d.enlace).toEqual({ frase: 'Cómo se arma la tierra', ancla: 'tierra' })
+    const html = dibujar(Definicion, { texto: 'Suelo arenoso y drenante', contenido: d })
+    expect(html).toMatch(/<a [^>]*href="\/glosario#tierra"[^>]*>Cómo se arma la tierra<\/a>/)
   })
 
   it('sin texto, la hoja no lista fuentes: parecería que respaldan algo', () => {
@@ -166,12 +171,11 @@ describe('definición al toque', () => {
     expect(html).not.toContain('Si no se cumple')
   })
 
-  // la luz de los repollitos viene sin fuente en la base: se dice, no se calla
+  // armado acá y no tomado de la base: el hueco que hay hoy se va a llenar
   it('un dato sin fuente lo dice en la hoja', () => {
-    const r = especie('repollitos-de-bruselas')
-    expect(r.luz.fuentes).toHaveLength(0)
-    const html = dibujar(Definicion, { texto: 'Pleno sol', contenido: definicionDeLuz(r.luz) })
-    expect(html).toContain(r.luz.valor)
+    const luz = { ...especie('tomate').luz, fuentes: [] }
+    const html = dibujar(Definicion, { texto: 'Pleno sol', contenido: definicionDeLuz(luz) })
+    expect(html).toContain(luz.valor)
     expect(html).toContain('sin fuente')
   })
 })
