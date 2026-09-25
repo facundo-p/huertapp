@@ -434,7 +434,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .confianza { display: inline-flex; gap: 3px; vertical-align: 2px; margin-inline: 8px 2px; }
 .confianza i { width: 6px; height: 6px; border-radius: 50%; background: var(--conf-vacio); }
 .confianza i.es-llena { background: var(--conf-alta); }
-.tarea__botones { display: flex; gap: 10px; padding-block: 6px; }
+.tarea__botones { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; padding-block: 6px; }
 .brote-hecho { position: absolute; margin: -6px 0 0 30px; color: var(--verde-hoja); animation: brotar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; transform-origin: bottom center; }
 .sin-nada { padding: 0 16px 0 64px; font-size: 14px; line-height: 28px; color: var(--tinta-suave); }
 .sin-nada strong { font-weight: 800; color: var(--tinta); }
@@ -449,6 +449,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 }
 .nota-margen__titulo { font-size: calc(24px * var(--k)); line-height: 1.1; }
 .sembrar li { display: grid; grid-template-columns: 1fr 44px; align-items: center; min-height: 48px; }
+.sembrar__link { display: block; padding-block: 4px; color: inherit; text-decoration: none; }
 .sembrar__nombre { display: block; font-size: 16px; font-weight: 800; line-height: 1.3; }
 .sembrar__meta { display: block; font-size: 14px; line-height: 1.3; color: var(--tinta-suave); }
 /* terracota como .es-cierra de Hoy.css: que se cierre es urgencia, no atención */
@@ -469,10 +470,9 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .huerta-cab__titulo { font-size: calc(46px * var(--k)); line-height: 1; }
 .huerta-cab__sub { grid-column: 1 / -1; font-size: 14px; color: var(--tinta-suave); margin-top: -2px; }
 .leyenda { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 8px 16px 12px 22px; font-size: 14px; color: var(--tinta-suave); }
-.leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+.leyenda span { display: inline-flex; align-items: center; gap: 4px; }
 .leyenda .banderita, .leyenda .copo { position: static; }
 .leyenda .banderita::before { height: 20px; }
-.leyenda span { gap: 4px; }
 
 .croquis {
   position: relative;
@@ -495,6 +495,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   width: 54px;
   height: 18px;
   background: var(--cinta);
+  pointer-events: none;
 }
 .croquis::before { left: 24px; transform: rotate(-6deg); }
 .croquis::after { right: 24px; transform: rotate(5deg); }
@@ -528,7 +529,6 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .barra__como { font-size: 14px; line-height: 1.35; color: var(--tinta-suave); }
 .barra__botones { display: flex; flex-wrap: wrap; gap: 8px; }
 .barra__botones:empty { display: none; }
-.lugar__vacio { font-size: 14px; color: var(--tinta-suave); }
 
 .celdas { position: relative; display: grid; grid-template-columns: repeat(var(--cols), var(--paso)); grid-auto-rows: var(--alto); }
 .celdas--almaciguera {
@@ -561,6 +561,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .celda.es-elegida,
 .celdas--macetas .celda.es-elegida { background: color-mix(in srgb, var(--tinta) 12%, transparent); box-shadow: inset 0 0 0 2.5px var(--tinta); }
 .celda.con-bandera .plantita { transform: translateX(-9px); }
+/* en la maceta no: la planta se saldría de la tierra, y el copo cae sobre el borde */
+.celdas:not(.celdas--macetas) .celda.con-copo:not(.con-bandera) .plantita { transform: translateX(9px); }
 .ancla {
   position: absolute;
   top: 3px;
@@ -651,8 +653,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .banderita.es-atrasada { animation: pulso-bandera 2s ease-in-out infinite; transform-origin: left bottom; }
 .copo {
   position: absolute;
-  top: -5px;
-  left: -5px;
+  top: 3px;
+  left: 3px;
   z-index: 4;
   width: 24px;
   height: 24px;
@@ -673,7 +675,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 /* ============================================================
    4 · Una planta
    ============================================================ */
-.volver { display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 0 12px 0 8px; margin: 10px 0 0 8px; font-size: 14px; font-weight: 800; color: var(--verde-prof); text-decoration: none; }
+.volver { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 2px; min-height: 44px; padding: 0 12px 0 8px; margin: 10px 0 0 8px; font-size: 14px; font-weight: 800; color: var(--verde-prof); text-decoration: none; }
 .planta-cab { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 8px; padding: 0 20px 4px 22px; }
 .planta-cab__titulo { font-size: calc(46px * var(--k)); line-height: 0.95; }
 .planta-cab__sub { font-size: 14px; color: var(--tinta-suave); margin-top: 6px; line-height: 1.4; }
@@ -752,6 +754,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .papel-muestra--cuadros { background-color: var(--hoja-cuadros); background-image: linear-gradient(var(--cuadro) 1px, transparent 1px), linear-gradient(90deg, var(--cuadro) 1px, transparent 1px); background-size: 14px 14px; }
 .papel-muestra__rotulo { font-size: 12px; font-weight: 700; color: var(--tinta-suave); text-align: center; margin-top: 4px; }
 .fila-piezas { display: flex; flex-wrap: wrap; gap: 14px 18px; align-items: center; }
+/* la cinta del post-it sube 9 px: sin aire, pisaba el título de la fila */
+#fila-hechas, #fila-avisos { padding-top: 10px; }
 .pieza-chica { display: grid; justify-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--tinta-suave); text-align: center; }
 .pieza-chica .banderita, .pieza-chica .copo { position: relative; top: auto; left: auto; right: auto; }
 .pieza-chica .postit { width: 118px; margin: 0; transform: rotate(-2deg); }
@@ -1155,21 +1159,21 @@ html.captura .banderita.es-atrasada { animation: none; }
   // compost.ts y src/lib/pronostico/derivar.ts con los datos del catálogo.
   var TAREAS = {
     '24': [
-      { id: 'rucula', titulo: 'Rúcula ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 31 días',
+      { id: 'rucula', ver: 'la rúcula', titulo: 'Rúcula ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 31 días',
         detalle: 'Hojas tiernas de tamaño de consumo (aprox. 8-15 cm), cortadas antes de que la planta emita la vara floral (que amarga las hojas).',
         fuente: 'según la ficha: 20-60 días desde la siembra', conf: 7 },
-      { id: 'tacho', titulo: 'Tacho del balcón: revolvé el compost', atrasada: true, linea: 'el último giro fue hace 9 días',
+      { id: 'tacho', ver: 'el Tacho del balcón', titulo: 'Tacho del balcón: revolvé el compost', atrasada: true, linea: 'el último giro fue hace 9 días',
         detalle: 'Hace 9 días. Girar mete aire: las bacterias que compostan lo necesitan, y sin aire ganan las que pudren, que huelen.',
         fuente: 'tu ritmo: cada semana · la guía: cada 2 o 3 días según la Ciudad; 1 o 2 veces por semana según la Provincia', conf: 8 },
-      { id: 'zanahoria', titulo: 'Zanahoria: fijate si asomó', atrasada: true, linea: '12 días pasada del plazo', abierta: true, asomo: true,
+      { id: 'zanahoria', ver: 'la zanahoria', titulo: 'Zanahoria: fijate si asomó', atrasada: true, linea: '12 días pasada del plazo', asomo: true,
         detalle: 'Hace 12 días que se pasó del plazo. Si no hay nada, puede que esas semillas no prosperen.',
         fuente: 'según la ficha: germina en 10-20 días', conf: 7 },
-      { id: 'corralito', titulo: 'Corralito del fondo: fijate si el compost ya está', linea: 'dejó de recibir restos hace 95 días',
+      { id: 'corralito', ver: 'el Corralito del fondo', titulo: 'Corralito del fondo: fijate si el compost ya está', linea: 'dejó de recibir restos hace 95 días',
         detalle: 'Las señales: no reconocés lo que entró; está a temperatura ambiente y no vuelve a calentar aunque lo mezcles; color oscuro y aspecto parejo, con textura granulada.',
         fuente: 'según la guía: a los 3 meses de que dejó de recibir restos vale revisarlo: Santa Fe cuenta 3 en clima cálido y 6 en frío; FAO, 3 a 6', conf: 8 }
     ],
     '26': [
-      { id: 'lechuga', titulo: 'Lechuga ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 50 días',
+      { id: 'lechuga', ver: 'la lechuga', titulo: 'Lechuga ya estaría para cosechar', linea: 'Bancal del fondo · sembrada hace 50 días',
         detalle: 'Hojas de tamaño de consumo o cabeza compacta y firme; cosechar antes de que la planta \'suba a flor\' (emisión del tallo floral).',
         fuente: 'según la ficha: 50-120 días desde la siembra', conf: 8 }
     ],
@@ -1179,12 +1183,12 @@ html.captura .banderita.es-atrasada { animation: none; }
         fuente: 'pronóstico de los próximos días' }
     ],
     '29': [
-      { id: 'helada', aviso: 'escarcha', titulo: 'Puede helar el martes', linea: 'dan 2 °C de mínima', abierta: true,
+      { id: 'helada', aviso: 'escarcha', titulo: 'Puede helar el martes', linea: 'dan 2 °C de mínima',
         detalle: 'Dan 2 °C de mínima. Tapá de noche los del cajón: la helada las mata.',
         fuente: 'pronóstico de los próximos días · umbral de helada de 3 °C (FAUBA)' }
     ],
     '30': [
-      { id: 'albahaca', titulo: 'Albahaca: fijate si asomó', atrasada: true, linea: 'un día pasada del plazo', asomo: true,
+      { id: 'albahaca', ver: 'la albahaca', titulo: 'Albahaca: fijate si asomó', atrasada: true, linea: 'un día pasada del plazo', asomo: true,
         detalle: 'Se pasó por un día del plazo de germinación.',
         fuente: 'según la ficha: germina en 7-14 días', conf: 4 }
     ]
@@ -1317,11 +1321,13 @@ html.captura .banderita.es-atrasada { animation: none; }
       var hecha = !!hechas[t.id];
       var marca = t.aviso
         ? '<span class="tarea__icono" style="color:' + COLOR_AVISO[t.aviso] + '">' + icono(t.aviso, 24) + '</span>'
-        : '<button type="button" class="casilla" role="checkbox" aria-checked="' + hecha + '" data-hecha="' + t.id + '" aria-label="Hecho: ' + t.titulo + '">' + CASILLA + '</button>';
+        // en la de germinación la casilla es «Asomó», como en CarrilSemana: escribe `germino`
+        : '<button type="button" class="casilla" role="checkbox" aria-checked="' + hecha + '" data-hecha="' + t.id + '" aria-label="' + (t.asomo ? 'Asomó' : 'Hecho') + ': ' + t.titulo + '">' + CASILLA + '</button>';
       var linea = (t.atrasada ? '<span class="tarea__atrasada">atrasada</span> · ' : '') + t.linea;
-      var botones = (t.asomo ? '<button type="button" class="lapiz lapiz--lleno">Asomó</button>' : '') +
-        // como Hoy.tsx: al lado de «Asomó», posponer se dice «Todavía no asomó»
-        (t.aviso ? '' : '<button type="button" class="lapiz">' + (t.asomo ? 'Todavía no asomó' : 'Más tarde') + '</button>');
+      // como Hoy.tsx: en la de germinación, posponer se dice «Todavía no asomó»
+      var botones = t.aviso ? '' : '<button type="button" class="lapiz">' + (t.asomo ? 'Todavía no asomó' : 'Más tarde') + '</button>';
+      // hoy el cuerpo de la tarea lleva a la planta; acá abre el detalle, y el camino sigue desde ahí
+      if (t.ver) botones += '<a class="ver-todas" href="#marco-croquis">Ver ' + t.ver + '</a>';
       var porque = '<div class="tarea__porque" id="porque-' + t.id + '"' + (abierta ? '' : ' hidden') + '>' +
         '<p class="tarea__detalle">' + t.detalle + '</p>' +
         '<p class="tarea__fuente">' + t.fuente + (t.conf ? ' · confianza ' + t.conf + '/10<span class="confianza" aria-hidden="true">' + confianza(t.conf) + '</span>' : '') + '</p>' +
@@ -1393,7 +1399,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   hojaHoy.addEventListener('scrollend', function () { if (!siguiendo) { clearTimeout(soltarSeguimiento); soltar(); } });
   function pintarSembrar() {
     document.getElementById('sembrar').innerHTML = SEMBRAR.map(function (s) {
-      return '<li><span><span class="sembrar__nombre">' + s.nombre + '</span><span class="sembrar__meta">' + s.meta + '</span></span>' +
+      return '<li><a class="sembrar__link" href="#marco-hoy"><span class="sembrar__nombre">' + s.nombre + '</span><span class="sembrar__meta">' + s.meta + '</span></a>' +
         '<button type="button" class="mas" aria-label="Sumar ' + s.nombre.toLowerCase() + ' a mi huerta">' + icono('mas', 22) + '</button></li>';
     }).join('');
   }
@@ -1507,7 +1513,7 @@ html.captura .banderita.es-atrasada { animation: none; }
           var primeraDePlanta = !vistas[p];
           var primeraDeManchon = !nombrados[comp[i]];
           vistas[p] = nombrados[comp[i]] = true;
-          clases += ' en-bloque' + (elegida ? ' es-elegida' : '') + (primeraDePlanta && pl.pend ? ' con-bandera' : '');
+          clases += ' en-bloque' + (elegida ? ' es-elegida' : '') + (primeraDePlanta && pl.pend ? ' con-bandera' : '') + (primeraDePlanta && pl.helada ? ' con-copo' : '');
           // el contorno a lápiz del manchón: borde y esquina redonda sólo donde no sigue
           var izq = col > 0 && misma(l, i, i - 1), der = col < l.cols - 1 && misma(l, i, i + 1);
           var arr = misma(l, i, i - l.cols), aba = misma(l, i, i + l.cols);
@@ -1625,7 +1631,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     sel.forEach(function (i) { if (ps.indexOf(l.celdas[i]) < 0) ps.push(l.celdas[i]); });
     if (ps.length > 1) return sel.length + ' ' + unidad(l, 2) + ': ' + enLista(ps.map(function (p) { return PLANTAS[p].nombre; }));
     var p = ps[0], total = cuantas(l, p), n = sel.length, nombre = PLANTAS[p].nombre;
-    var art = l.clase === 'macetas' ? ['La única', 'Las'] : l.clase === 'surcos' ? ['El único', 'Los'] : ['La única', 'Las'];
+    var art = l.clase === 'surcos' ? ['El único', 'Los'] : ['La única', 'Las'];
     if (n === total) return total === 1 ? art[0] + ' ' + unidad(l, 1) + ' de ' + nombre : art[1] + ' ' + n + ' ' + unidad(l, 2) + ' de ' + nombre;
     return n === 1 ? '1 ' + unidad(l, 1) + ' de ' + nombre + ', de ' + total : n + ' de ' + art[1].toLowerCase() + ' ' + total + ' ' + unidad(l, 2) + ' de ' + nombre;
   }
@@ -1695,7 +1701,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       }
       ultima = p;
     } else if (!elegidas) {
-      aviso = 'Primero tocá una o varias celdas con plantas.';
+      aviso = 'Esa celda está libre.';
     } else if (elegidas.lugar !== l.id) {
       aviso = 'Para pasar plantas a otro lugar está «Trasplantar», en la página de la planta.';
     } else {

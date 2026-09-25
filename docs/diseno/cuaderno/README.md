@@ -89,8 +89,8 @@ unidad de redondeo del suavizado en el borde de alguna fibra.
 
 | Pieza | Qué hace |
 |---|---|
-| Casilla dibujada | Es «Hecho», con 44 px de target. Tildada, la tarea se tacha y brota una hojita, y a los 700 ms se va, como hoy en la app: tildar es definitivo, porque girar el compost pisa la fecha anterior y «Asomó» escribe `germino`. En el render se destilda sólo para poder probarla. |
-| Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Tocarlo lleva el scroll a ese día, y el post-it se queda donde está. |
+| Casilla dibujada | Es «Hecho», o «Asomó» en la tarea de germinación, como en `CarrilSemana`, con 44 px de target. Tildada, la tarea se tacha y brota una hojita, y a los 700 ms se va, como hoy en la app: tildar es definitivo, porque girar el compost pisa la fecha anterior y «Asomó» escribe `germino`. En el render se destilda sólo para poder probarla. |
+| Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Tocarlo lleva el scroll a ese día. No se descarta: queda en la cabecera, y vuelve a verse al subir. |
 | Pestañas de separador | La barra de navegación, con la misma altura que hoy (59 + zona segura). La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
 | Cinta | Pega las fotos del diario. |
@@ -125,7 +125,7 @@ están abajo.
   leyendo**: cambia solo al scrollear. Tocar un día lleva el scroll ahí y el
   foco a su título, para que el lector de pantalla lo anuncie; mientras dura
   el scroll suave, el seguimiento no le discute el día, y al terminar
-  (`scrollend`, o a los 900 ms si ese evento no llega) recalcula. El día leído
+  (`scrollend` o 900 ms, lo que llegue primero) recalcula. El día leído
   va con `aria-current`.
 - Al scrollear, la tira **no se rearma**: se mueven `aria-current` y el
   círculo sobre los botones que ya están. Rearmarla con `innerHTML` le saca el
@@ -136,14 +136,17 @@ están abajo.
 - **La lista del día**: casilla, título y una línea corta. La línea dice dónde
   (el lugar) o cuánto (lo atrasado). El detalle y la fuente, con su confianza,
   se abren al tocar la tarea, y ahí también está «Más tarde». En la de
-  germinación son «Asomó» y «Todavía no asomó», el rótulo que ya usa
-  `Hoy.tsx`. La regla de decir de dónde sale cada consejo se cumple igual, a un
-  toque.
+  germinación la casilla es «Asomó» y escribe `germino`, no `completadas`; en
+  el detalle queda «Todavía no asomó», el rótulo que ya usa `Hoy.tsx`. La regla
+  de decir de dónde sale cada consejo se cumple igual, a un toque.
+- Hoy el cuerpo de la tarea lleva a su planta o compostera. Acá abre el
+  detalle, así que el camino pasa ahí: «Ver la zanahoria», «Ver el Corralito
+  del fondo».
 - **Post-it** arriba, con el resumen. Tocarlo lleva el scroll a su día, donde
-  está el aviso entero con su fuente, y el post-it no desaparece.
+  está el aviso entero con su fuente. No se descarta: vuelve a verse al subir.
 - **Para sembrar ahora**, como nota al margen después de hoy: cuatro nombres
-  con «+» y «Ver todas en Explorar», sin número, porque cada lugar cuenta
-  distinto: hoy la app lista 12 (el tope por defecto de `paraSembrarAhora`),
+  con «+» y «Ver todas en Explorar». Cada nombre lleva a su ficha, como en
+  `Hoy.tsx`. No lleva número porque cada lugar cuenta distinto: hoy la app lista 12 (el tope por defecto de `paraSembrarAhora`),
   sin tope son 31 contando variedades, y el filtro «Ahora» de Explorar muestra
   37 especies, 29 ideales y 8 posibles.
 
@@ -185,7 +188,7 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 - N es la capacidad del lugar. Sin capacidad, la suma de `ocupa ?? 1` de sus
   plantas.
 - Paso de celda: `clamp(ancho / columnas, 44, 56)` px, salvo dos: el surco es
-  una fila de media página por 44 de alto, y la maceta va a 70 de alto, para
+  una fila de media página (entera con más de 4) por 44 de alto, y la maceta va a 70 de alto, para
   que entre el nombre abajo. Ningún target baja de 44 ni se solapa.
 - Si lo sembrado pide más celdas que las que hay, primero cada planta recibe
   una y después se reparten las que quedan, en orden. Si ni una por planta
@@ -267,7 +270,8 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   se ignora (`validar()` del backup no mira su forma).
 - Los lugares sin `plano.orden`, por ejemplo uno creado después de acomodar, van
   después de los que lo tienen, en el orden de `agruparPorLugar`. A igual
-  `orden`, también manda ese.
+  `orden`, también manda ese. Un `orden` que no es número se trata como
+  ausente.
 - Sin los campos, el nivel 0 exacto.
 
 **«Acomodar» se hace tocando, nunca arrastrando.**
@@ -316,7 +320,9 @@ acomodar el dibujo.
   se apoya, y un gráfico necesita 3:1. Lo cumple el contorno, con 6,91. De
   noche no lleva: el relleno solo da 4,91, y 4,12 el de la atrasada.
 - **Copo** en las plantas de `expuestasAHelada` mientras haya helada en la
-  semana (tarea o aviso), en la primera celda.
+  semana (tarea o aviso): adentro de la primera celda, arriba a la izquierda,
+  sin asomar, y la plantita se corre a la derecha. En la maceta no se corre,
+  porque saldría de la tierra: el copo queda sobre el borde.
 - El tipo de tarea y la etapa van en el nombre accesible: la plantita es
   `aria-hidden`.
 - La banderita, la atrasada y el copo van al Glosario, como todo ícono con
