@@ -173,8 +173,8 @@ teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
 ### Cómo se publica
 
 Cada push a `main` dispara `.github/workflows/publicar.yml`, que en una máquina
-limpia corre `npm ci`, **los más de mil tests unitarios + el chequeo de que el JSON
-generado esté al día**, **los e2e** (offline y actualización incluidos), y
+limpia corre `npm ci`, **más de mil tests unitarios + el chequeo de que el
+JSON generado esté al día**, **los e2e** (offline y actualización incluidos), y
 recién ahí buildea y publica en GitHub Pages.
 
 Los e2e antes del deploy no son ceremonia: un service worker roto le deja una
@@ -198,8 +198,8 @@ Notas del hosting:
 
 ### Accesibilidad
 
-No es una pasada final: son cinco tests que corren en todas las pantallas con datos
-cargados (`e2e/accesibilidad.spec.ts`) y fallan si algo baja.
+No es una pasada final: `e2e/accesibilidad.spec.ts` corre en todas las
+pantallas con datos cargados y falla si algo baja.
 
 - Contraste **AA** en todo el texto — los tokens de color están calibrados a
   ~4,6:1 para no vivir en el borde. La jerarquía visual se hace con tamaño y

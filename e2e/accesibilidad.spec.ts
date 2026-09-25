@@ -6,7 +6,7 @@ import { conHelada } from './apoyo-pronostico'
  *
  * El brief la pone como no negociable: el color nunca es el único canal, los
  * targets táctiles ≥ 44 px y contraste AA. Las tres cosas se rompen solas al
- * agregar pantallas, así que se miden acá, en las siete pantallas, con datos
+ * agregar pantallas, así que se miden acá, en todas las pantallas, con datos
  * cargados —que es cuando aparecen los casos difíciles.
  */
 

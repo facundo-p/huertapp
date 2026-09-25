@@ -69,7 +69,9 @@ npx tsc -b
 npm test          # incluye el chequeo de que el JSON generado esté al día
 ```
 
-Los e2e y las capturas los corre el tester, no vos.
+La batería completa de e2e y capturas la corre el tester, no vos. Pero si
+escribiste un spec para convencerte, commitealo y nombralo en el parte: el
+tester decide si queda. Y si agregaste una captura, mirala.
 
 ## Qué devolvés
 

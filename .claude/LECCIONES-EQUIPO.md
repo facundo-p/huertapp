@@ -145,7 +145,8 @@ sesión:
 
 **Al plugin.** Un reconocimiento amplio ronda los 100 k; una consulta acotada, los
 25 k. Si un rol con alcance definido —investigador, reviewer, tester— se acerca a
-los 100 k sin hallazgos que lo justifiquen, el prompt está mal delimitado y hay que mirarlo, no aceptarlo.
+los 100 k sin hallazgos que lo justifiquen, el prompt está mal delimitado y
+hay que mirarlo, no aceptarlo.
 
 ### Los worktrees de los agentes ensucian el repo que aíslan
 
@@ -334,12 +335,13 @@ documentadas —`settingSources` sin `project`, frontmatter roto, directorio
 creado a mitad de sesión— y ninguna aplica.
 
 **Qué hacemos.** Seguir emulando: `general-purpose` con `model:` explícito y
-"leé `.claude/agents/<rol>.md` y adoptalo". Funcionó las nueve veces de esta
-tanda. En la próxima sesión, `/agents` primero, para saber en qué harness
-estamos.
+"leé `.claude/agents/<rol>.md` y adoptalo". Funcionó en las siete corridas y
+las dos reanudaciones de esta tanda. En la próxima sesión, `/agents` primero,
+para saber en qué harness estamos.
 
-**Al plugin.** **Los agentes de plugin cargan donde los del proyecto no.** El plugin no depende de `.claude/agents/`
-del repo, y es justamente por eso que conviene que exista.
+**Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
+plugin no depende de `.claude/agents/` del repo, y es justamente por eso que
+conviene que exista.
 
 ### El tester no pudo tomar la rama porque el worktree del dev la tenía
 
@@ -376,8 +378,8 @@ segunda lectura.
 
 **Síntoma.** #133 contaba "114 reglas con `--texto-s`/`--texto-xs` en 27
 archivos" y ponía «La semana» como caso ejemplar. `CarrilSemana.css` **no usa
-ningún token**: sus tamaños son 10, 11, 12 y 13 px a mano. El ejemplo de la
-issue no estaba en el recuento de la issue.
+ningún token**: sus tamaños de letra chica son 10, 11, 12 y 13 px a mano. El
+ejemplo de la issue no estaba en el recuento de la issue.
 
 **Causa.** El orquestador contó lo fácil de contar. Hay otras ~70-86 reglas en
 píxeles literales (el número depende del regex) que el token no ve, y el
@@ -498,12 +500,14 @@ test cae.
 
 **Qué hacemos.** El reviewer entrega hipótesis con el pedido concreto de
 verificación; el tester las prueba rompiendo y deja el test que fija lo que
-sí importaba. Tres e2e nuevos salieron de acá. Una de sus aserciones, igual,
-no podía fallar (ver «Lo que se le escapó al tester»).
+sí importaba. Dos e2e salieron de acá, y un tercero de la issue. Al menos una
+de sus aserciones, igual, no podía fallar (ver «Lo que se le escapó al
+tester»).
 
 **Al plugin.** Es el pedido de probar rompiendo funcionando como se escribió:
-"un test que nace verde no probó nada", que ahora está en el prompt del tester. Y para el reviewer: cuando no puede confirmar,
-que lo diga como hipótesis con su chequeo, no como hallazgo.
+"un test que nace verde no probó nada", que ahora está en el prompt del
+tester. Y para el reviewer: cuando no puede confirmar, que lo diga como
+hipótesis con su chequeo, no como hallazgo.
 
 ### El dev verificó con specs temporales y los borró; el tester los escribió de nuevo
 
@@ -548,9 +552,9 @@ la regla 13: de las cinco issues verificadas hasta acá, cuatro tenían algo mal
 
 **Síntoma.** Después de su pasada aparecieron dos cosas en el mismo PR, y las
 encontró el orquestador, no la batería. El «cuándo» de cada labor se quedaba con
-los últimos 3 px del botón de la labor: un toque en el borde abría otra cosa. Y
-un e2e afirmaba `hasAttribute('inert')` sobre algo que era inerte siempre,
-pasara lo que pasara.
+los últimos 3 px del botón de la labor: un toque en ese borde no abría nada. Y
+un e2e afirmaba que el documento no tenía el atributo `inert`, que
+`showModal()` no pone nunca: pasaba pasara lo que pasara.
 
 **Causa.** El target se midió por la caja, que daba 44 px, y no por lo que
 recibe el toque. Y el "cada test visto en rojo" se cumplió por test, no por
@@ -559,20 +563,24 @@ aserción: la del `inert` venía junto a otras que sí caían.
 **Qué hacemos.** Los targets se miden con `elementFromPoint` sobre toda el
 área, bordes incluidos. Cada aserción nueva se ve en rojo por separado.
 
+El arreglo de los 3 px lo hizo el orquestador, y cambia comportamiento: no
+calificaba para la regla 25 y tendría que haber vuelto al dev.
+
 **Al plugin.** Las dos van al prompt del tester, con estos casos como ejemplo.
 
 ### Consumo de la Tanda C
 
 | Rol / tipo | Tarea | Tokens | Llamadas | Duración |
 |---|---|---|---|---|
-| dev (emulado, opus) | #130, componente nuevo, 8 archivos, 2 specs | 174.350 | 105 | 16m 28s |
+| dev (emulado, opus) | #130, componente nuevo, 8 archivos, 2 specs borrados | 174.350 | 105 | 16m 28s |
 | reviewer (emulado, opus) | #130, 12 archivos + merge de prueba con #140 | 115.860 | 30 | 7m 58s |
 | tester como QA (emulado, sonnet) | issue punto por punto + batería + 3 e2e con mutaciones | 165.458 | 77 | 21m 35s |
 
 Como QA, el tester cuesta entre 1,6 y 2 veces lo de la tanda anterior
 (81-104 k): escribe tests, los hace fallar y corre la batería dos veces. No vio
 los dos problemas de la entrada anterior, pero dejó tres comportamientos
-fijados y una hipótesis descartada con evidencia. Es el gasto que reemplaza a "lo probé a mano y andaba".
+fijados y una hipótesis descartada con evidencia. Es el gasto que reemplaza a
+"lo probé a mano y andaba".
 
 ---
 

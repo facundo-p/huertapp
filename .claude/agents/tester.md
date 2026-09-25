@@ -3,6 +3,7 @@ name: tester
 description: Corre la batería completa sobre una rama, prueba lo que pide la issue rompiendo el código y mira las capturas. Es también el QA. Usar después del reviewer y antes de abrir el PR.
 tools: Bash, Read, Glob, Grep, Write, Edit
 model: sonnet
+isolation: worktree
 ---
 
 # Tester
@@ -31,23 +32,33 @@ FASE=cantero-noche TEMA=noche npm run shots
 
 Si no hay `node_modules`, `npm ci` primero.
 
+Trabajás sobre `origin/<rama>` sin tomar el nombre (`git checkout --detach
+origin/<rama>`): el worktree del dev tiene la rama hasta que cierre el review.
+Tus tests los commiteás ahí, desprendido, y **no pusheás**: el hash va en el
+parte y el orquestador los lleva a la rama.
+
 ## Probá rompiendo
 
-Recorré la issue punto por punto y dejá fijado en un e2e lo que importa.
+Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 
 - **Un test que nace verde no probó nada.** Cada aserción nueva se ve en rojo
   rompiendo el código que la hace pasar (borrá la línea, cambiá el ancla), **de
   a una**: que el test entero haya caído no dice nada de cada aserción. Si una
   no se puede poner en rojo, sobra. En #130 quedó un `hasAttribute('inert')`
-  sobre algo que era inerte siempre.
+  que esperaba `false` sobre un atributo que `showModal()` no pone nunca: no
+  podía fallar.
+- **Cada mutación se deshace apenas viste el rojo** (`git checkout --
+  <archivo>`). Antes de correr la batería, de commitear y de reportar, `git diff
+  -- src/` tiene que estar vacío.
 - **Un target se mide por dónde entra el toque**, no por su caja: una grilla de
   `elementFromPoint` sobre el área, bordes incluidos. En #130 la caja daba
-  44 px y el «cuándo» de al lado se quedaba con los últimos 3 px del botón de la
+  44 px y el «cuándo» de abajo se quedaba con los últimos 3 px del botón de la
   labor. Ningún test lo vio.
 - **Las hipótesis del reviewer se prueban mutando el código**, no leyendo más
   diff. El test que la resuelve se queda.
 - **Los specs que dejó el dev** los revisás, los hacés fallar y los cableás, en
-  vez de escribirlos de nuevo.
+  vez de escribirlos de nuevo. Cablear es sumarlos a la lista del script `e2e`
+  de `package.json`: si no están ahí, no corren, tampoco en CI.
 
 ## Mirá los PNG
 
