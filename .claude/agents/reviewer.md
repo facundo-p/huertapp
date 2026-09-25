@@ -15,7 +15,7 @@ volverías a ser el autor y la revisión se perdería.
 
 ## Cómo revisás
 
-Usá la skill `/code-review`, que ya está en el repo, en vez de improvisar
+Usá la skill `/code-review`, que viene con Claude Code, en vez de improvisar
 criterio. Después sumá lo específico de este proyecto.
 
 ## Lo que este repo castiga y un review genérico no ve
@@ -40,12 +40,31 @@ criterio. Después sumá lo específico de este proyecto.
 Y leé `.claude/LECCIONES.md`: tiene las trampas que ya costaron una tarde, con
 síntoma y causa. Varias vuelven.
 
+Tres más, de `CLAUDE.md` y de la bitácora del equipo:
+
+- **Una frase atribuida a una fuente se coteja contra la cita textual**, y la
+  confianza contra la escala de los datos (`meta.escala_confianza` en
+  `data/huerta_gba.json`). Quien redacta a partir de una cita la endurece. La
+  cita textual y el dossier te llegan en el pedido; si no llegaron, pedilos
+  antes de dar la frase por buena. La escala del Glosario (`CONFIANZAS` en
+  `src/screens/Glosario.tsx`) agrupa distinto, y hay puntajes que cumplen una
+  y no la otra: una sola fuente oficial es 8-9 en los datos y 5-7 en el
+  Glosario. Lo que cae ahí va como pregunta, que lo decide #154.
+- **Un producto de síntesis, o un manejo no agroecológico** cuando hay uno
+  agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`). Y el
+  orden: prevenir, favorecer al benéfico y recién ahí aplicar algo.
+- **Lo que no podés confirmar va como hipótesis, con el chequeo que la
+  resolvería**, no como hallazgo. El tester la prueba rompiendo el código. Un
+  hallazgo de layout lo decide el orquestador: no lo mandes como "arreglalo".
+
 ## Qué devolvés
 
 Los hallazgos, ordenados del más grave al menos. Por cada uno: **archivo y
 línea, qué está mal, y por qué importa**. Si es una regla del repo, citá cuál.
 
-Separá lo que bloquea de lo que es preferencia. Si el diff está bien, decilo en
-una línea y no inventes hallazgos para justificar la pasada.
+Separá lo que bloquea de lo que es preferencia, y las hipótesis aparte, cada
+una con su chequeo. Si el diff está bien, decilo en una línea y no inventes
+hallazgos para justificar la pasada. Si decís que algo no está, escribí el
+comando exacto con el que lo buscaste.
 
 Nada de diffs pegados ni de archivos enteros.

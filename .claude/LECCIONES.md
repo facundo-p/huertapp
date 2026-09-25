@@ -277,10 +277,22 @@ si no el commit sale con la mitad.
 mergeados.
 
 **Causa:** GitHub solo procesa las palabras clave de cierre cuando el PR entra
-a la rama por defecto (`staging`). Los PR del rediseño entran a `cantero`.
+a la rama por defecto (`staging`). Los PR del rediseño entraban a `cantero`.
 
 **Qué hacer:** cerrar a mano con un comentario que diga por cuál PR entró. El
 `Closes` igual va: vincula la issue con el PR en el tablero.
+
+### Cambiar el hash no vuelve a leer la base
+
+**Síntoma:** un test de captura insertaba una segunda planta en IndexedDB y
+después hacía `page.goto('/#/hoy')`. La captura salía sin la planta y el test
+pasaba igual.
+
+**Causa:** con `HashRouter`, ir de `/#/ajustes` a `/#/hoy` es un cambio de
+hash: la app no se recarga y el store sigue con lo que leyó al arrancar.
+
+**Qué hacer:** `page.reload()` después de escribir en la base desde un test. Y
+abrir el PNG: fue lo único que lo delató.
 
 ## Entorno
 
@@ -289,6 +301,42 @@ a la rama por defecto (`staging`). Los PR del rediseño entran a `cantero`.
 Un `pkill -f vite` para limpiar el dev server propio se llevó puesto el de otro
 proyecto abierto en la misma máquina. El daño cae fuera del repo, donde no se
 ve. Hay un hook que lo bloquea; usá puerto propio y matá por PID.
+
+### El puerto 4173 es uno solo para toda la máquina
+
+**Síntoma:** `npm run e2e` o `npm run shots` se cae antes del primer test:
+`http://localhost:4173 is already used`.
+
+**Causa:** Playwright levanta `vite preview` en el 4173 fijo y, a propósito, no
+reusa uno que ya esté vivo (ver `playwright.config.ts`). Con varios worktrees
+en la misma máquina, el que llega segundo no arranca.
+
+**Qué hacer:** una corrida a la vez. Si está ocupado y no lo levantaste vos,
+es la corrida de otro: no lo liberes, que es lo del `pkill`. Hacé lo que no
+necesite Playwright y, si sigue ocupado, decilo.
+
+### Playwright no encuentra el navegador
+
+**Síntoma:** `Executable doesn't exist`, y `npx playwright install` da 403
+contra `cdn.playwright.dev`.
+
+**Causa:** con el egreso cerrado no se puede bajar, pero Chromium viene en
+`/opt/pw-browsers`. `@playwright/test` lo busca con otra revisión (la que dice
+el error) y, en linux-x64, con otra carpeta y otro nombre de ejecutable.
+
+**Qué hacer:** en una carpeta fuera del worktree (el scratchpad), con `<pide>`
+la revisión del error y `<hay>` la de `/opt/pw-browsers`:
+
+```bash
+mkdir -p chromium-<pide> chromium_headless_shell-<pide>/chrome-headless-shell-linux64
+ln -s /opt/pw-browsers/chromium-<hay>/chrome-linux chromium-<pide>/chrome-linux64
+ln -s /opt/pw-browsers/chromium_headless_shell-<hay>/chrome-linux/headless_shell \
+  chromium_headless_shell-<pide>/chrome-headless-shell-linux64/chrome-headless-shell
+```
+
+y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Enlazar sólo la carpeta de la
+revisión vuelve a dar `Executable doesn't exist`. Adentro del worktree,
+`git status` los muestra. No se toca código de la app.
 
 ### `controller` no significa que el service worker vaya a responder
 

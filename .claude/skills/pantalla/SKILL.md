@@ -45,20 +45,25 @@ reinventes: extendela.
   interno dibuja la píldora (`.carril__hecho`, `.chip-hoja`, `.fuente`).
 - **Sin librerías de UI.** Es un requisito explícito del brief.
 
-## Invariantes que un test va a verificar
+## Invariantes de accesibilidad
 
-`e2e/accesibilidad.spec.ts` corre sobre 10 pantallas con datos cargados, **en
-los dos temas**. Diseñá para esto desde el principio:
+`e2e/accesibilidad.spec.ts` recorre todas las pantallas. El contraste lo mide
+**en los dos temas** y con datos cargados; el foco, en los dos temas y sin
+datos, con un Tab por ruta de partida. Lo que se abre tocando, como Planta o
+Compostera, queda sin medir el foco. Diseñá para esto desde el principio:
 
 1. **Contraste AA.** 4,5:1 el texto normal, 3:1 el grande. Los tokens están
    calibrados a ~4,6. El test compone las capas con alpha —incluido el alpha
    del **color del texto**: `--papel-alto` de noche es semitransparente y como
    texto queda invisible; usá `--papel`. Sobre un tinte (`--sol-velo`) la
    tinta tenue baja de AA: un escalón más.
-2. **Targets de 44 px.** Todo lo tocable. Si no hay 44 posibles (las iniciales
-   de mes en doce columnas), el control va en otro lado; no se exime.
+2. **Targets de 44 px.** Todo lo tocable. El test mide la caja: no ve lo que un
+   margen negativo o un vecino encima le sacan. Eso lo medís vos, con
+   `elementFromPoint`. Si no hay 44 posibles (las iniciales de mes en doce
+   columnas), el control va en otro lado; no se exime.
 3. **El color nunca solo.** Ideal/posible, y anillo externo/interno, se
-   distinguen también por forma y relleno.
+   distinguen también por forma y relleno. Esto no lo mide un test: se ve en
+   las capturas.
 4. **Nombre accesible en todo lo interactivo.** Ícono solo → `aria-label`.
    Un chip con opción elegida dice «Grupo: Aromática».
 5. **Jerarquía de encabezados sin saltos.** Un `h1` por pantalla.
@@ -77,20 +82,26 @@ los dos temas**. Diseñá para esto desde el principio:
 
 ## El bucle de verificación
 
-No termina cuando compila. Termina cuando mirás las capturas **en los dos
-temas**:
-
-```bash
-FASE=cantero-dia npm run shots
-FASE=cantero-noche TEMA=noche npm run shots
-```
+No termina cuando compila. Termina cuando mirás tus capturas **en los dos
+temas**.
 
 Agregá tu pantalla a `e2e/screenshots.spec.ts` con sus estados y a
-`PANTALLAS` de `accesibilidad.spec.ts`. Después abrí los PNG. Acá las capturas
-encontraron: un ícono que se leía como otra cosa, una lista desarmada en
-palabras sueltas, un botón con texto invisible de noche, una leyenda partida
-del color que nombraba, una aguja que se confundía con las marcas de mes, tres
-columnas de texto que eran tres torres. Ninguna rompía un test.
+`PANTALLAS` de `accesibilidad.spec.ts`. Mientras iterás, sacá sólo las tuyas,
+una corrida por tema:
+
+```bash
+FASE=dev npm run shots -- -g 'captura <nombre>$'
+FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
+```
+
+El `$` ancla el nombre: sin él, `-g 'calendario'` corre todas las de
+calendario. Con varios estados, `-g 'captura (<uno>|<otro>)$'` los saca en la
+misma corrida. Después abrí los PNG de `e2e/shots/dev/` y
+`e2e/shots/dev-noche/`. Acá las capturas encontraron: un ícono que se leía
+como otra cosa, una lista desarmada en palabras sueltas, un botón con texto
+invisible de noche, una leyenda partida del color que nombraba, una aguja que
+se confundía con las marcas de mes, tres columnas de texto que eran tres
+torres. Ninguna rompía un test.
 
 Y hacé la crítica vos, antes de mostrar: qué se lee mal, qué se toca mal, qué
 promete algo que no cumple.
@@ -102,6 +113,14 @@ no desaparece. Cuando algo no funciona en cierta plataforma, se dice **antes**.
 
 ## Verificación final
 
+Las cuatro de `CLAUDE.md`, con las capturas en los dos temas. En el equipo,
+`e2e` y `shots` enteros los corre el tester; vos, `tsc`, `npm test`,
+`accesibilidad.spec.ts` y tus capturas con `-g` (ver `.claude/agents/dev.md`).
+Si trabajás solo, todas vos:
+
 ```bash
-npx tsc -b && npm test && npm run e2e && FASE=cantero-dia npm run shots && FASE=cantero-noche TEMA=noche npm run shots
+npx tsc -b && npm test && npm run e2e
+FASE=dia npm run shots && FASE=noche TEMA=noche npm run shots
 ```
+
+Y abrí las de tu pantalla en `e2e/shots/dia/` y `e2e/shots/noche/`.

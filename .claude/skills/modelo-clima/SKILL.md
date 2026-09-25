@@ -12,14 +12,14 @@ de 10 días. Todo lo que hace es **defendible o no lo hace**.
 |---|---|
 | `scripts/clima-gba.mjs` | El modelo. Normales SMN 1991-2020 + estadística de heladas FAUBA + fotoperíodo. Cada constante citada en el propio archivo. |
 | `scripts/afinar-calendario.mjs` | Las reglas de recorte, mes → décadas. |
-| `tests/clima.test.ts` | 26 tests: monotonía, rangos plausibles, coincidencia con las normales en los anclajes. |
+| `tests/clima.test.ts` | Monotonía, rangos plausibles, coincidencia con las normales en los anclajes. |
 
 ## La regla de oro
 
 **El modelo solo puede recortar lo que dijeron las fuentes, nunca agregar.**
 
 No es un lineamiento: hay un `throw` en runtime si una década cae fuera de los
-meses de origen, y un test que lo verifica sobre 55 especies × 3 zonas. Si lo
+meses de origen, y un test que lo verifica sobre todas las entradas × 3 zonas. Si lo
 que querés hacer necesita agregar una década, **no es trabajo del modelo**: es
 un cambio en `data/enriquecimiento.json`, con fuente. Ver `/especie`.
 
@@ -82,7 +82,7 @@ procedimiento:
 
 ```bash
 npm run data:build      # tira si se violó la regla de oro
-npm test                # 26 tests de clima + 441 de estructura
+npm test                # los de clima + los de estructura
 npm run data:tabla      # → data/REVISION_CALENDARIO.md
 ```
 
@@ -99,13 +99,15 @@ Y revisá en `REVISION_CALENDARIO.md`, sin saltearte ninguno:
   (perennes leñosas, y las gobernadas por fotoperíodo). Un "sin afinar" honesto
   es mejor que una precisión falsa.
 
-Y mirá el calendario dibujado, en las tres zonas:
+Y mirá el calendario dibujado. Hay captura de conurbano (la zona por defecto)
+y de periurbano; urbano no tiene:
 
 ```bash
-npm run shots
+FASE=dev npm run shots -- -g 'captura calendario-(completo|zona-periurbano)$'
 ```
 
-→ `calendario-completo.png`, `calendario-zona-periurbano.png`.
+→ `e2e/shots/dev/calendario-completo.png` y `calendario-zona-periurbano.png`.
+En el equipo, la tanda entera la corre el tester.
 
 ## Al contarlo
 

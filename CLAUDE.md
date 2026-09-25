@@ -25,8 +25,8 @@ cinco el modelo estaba mal. Ver `.claude/LECCIONES.md`.
 
 **3. Accesibilidad.** Contraste AA en todo el texto, targets táctiles de 44 px,
 el color nunca como único canal (ideal/posible se distinguen también por forma
-y relleno). No es una pasada final: `e2e/accesibilidad.spec.ts` lo mide en las
-7 pantallas y falla si algo baja. La jerarquía visual se hace con tamaño y
+y relleno). No es una pasada final: `e2e/accesibilidad.spec.ts` lo mide en todas
+las pantallas y falla si algo baja. La jerarquía visual se hace con tamaño y
 peso, **nunca** bajando el contraste.
 
 **4. Todo texto de UI en español rioplatense, con vos.** "Fijate", "sembrá",
@@ -108,9 +108,9 @@ para eso está el historial de git.
 
 ```bash
 npx tsc -b        # tipos
-npm test          # 1014 unitarios + chequeo de que el JSON generado esté al día
-npm run e2e       # 12 e2e: backup, offline, actualización, accesibilidad
-npm run shots     # 27 capturas en 390×844 → e2e/shots/fase-N/
+npm test          # más de mil unitarios + chequeo de que el JSON generado esté al día
+npm run e2e       # e2e: backup, offline, actualización, accesibilidad
+npm run shots     # capturas en 390×844 → e2e/shots/fase-N/
 ```
 
 `e2e` y `shots` hacen `npm run build` solos: corren contra `dist/` servido por

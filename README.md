@@ -136,14 +136,14 @@ erraría a media ciudad. Se elige en Ajustes; por defecto, Conurbano.
 npm install
 npm run dev          # servidor de desarrollo (sin service worker, a propósito)
 npm run build        # dist/ listo para cualquier hosting estático
-npm run preview      # sirve dist/ en :4173 — necesario para los e2e
+npm run preview      # sirve dist/ en :4173; los e2e lo levantan solos, no lo dejes corriendo
 ```
 
 | Comando | Qué hace |
 |---|---|
-| `npm test` | 1014 tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
-| `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en las 7 pantallas. |
-| `npm run shots` | 27 screenshots en 390×844 para revisión visual (`e2e/shots/`). |
+| `npm test` | Más de mil tests de lógica pura con vitest: modelo climático, afinado del calendario, motor de tareas, agenda de avisos, estimaciones. |
+| `npm run e2e` | Playwright: backup de ida y vuelta, offline real, flujo de actualización, y accesibilidad en todas las pantallas. |
+| `npm run shots` | Screenshots en 390×844 para revisión visual (`e2e/shots/`). |
 | `npm run data:build` | Regenera `data/huerta_gba_enriquecido.json` desde el JSON base + el enriquecimiento + el modelo climático. |
 | `npm run data:tabla` | Regenera `data/REVISION_CALENDARIO.md` para revisar el calendario a mano. |
 | `npm run iconos` | Regenera los PNG del ícono desde `scripts/icono-app.mjs`. |
@@ -173,8 +173,8 @@ teléfono medio (CPU 4× más lenta, 1,6 Mbps), **0,15 s** de ahí en adelante.
 ### Cómo se publica
 
 Cada push a `main` dispara `.github/workflows/publicar.yml`, que en una máquina
-limpia corre `npm ci`, **los 1014 tests unitarios + el chequeo de que el JSON
-generado esté al día**, **los 12 e2e** (offline y actualización incluidos), y
+limpia corre `npm ci`, **más de mil tests unitarios + el chequeo de que el
+JSON generado esté al día**, **los e2e** (offline y actualización incluidos), y
 recién ahí buildea y publica en GitHub Pages.
 
 Los e2e antes del deploy no son ceremonia: un service worker roto le deja una
@@ -198,15 +198,18 @@ Notas del hosting:
 
 ### Accesibilidad
 
-No es una pasada final: son cinco tests que corren en las 7 pantallas con datos
-cargados (`e2e/accesibilidad.spec.ts`) y fallan si algo baja.
+No es una pasada final: `e2e/accesibilidad.spec.ts` recorre todas las
+pantallas y falla si algo baja. El contraste lo mide en los dos temas y con
+datos cargados; el foco, en los dos temas y sin datos, con un Tab por ruta de
+partida. Lo que se abre tocando, como Planta o Compostera, queda sin medir el
+foco.
 
 - Contraste **AA** en todo el texto — los tokens de color están calibrados a
   ~4,6:1 para no vivir en el borde. La jerarquía visual se hace con tamaño y
   peso, nunca bajando el contraste.
 - Targets táctiles de **44 px**.
 - El color nunca es el único canal: ideal/posible se distinguen también por
-  forma y relleno.
+  forma y relleno. Esto no lo ve un test: se revisa en las capturas.
 - Foco de teclado visible, jerarquía de encabezados sin saltos, nombre accesible
   en todo lo que se toca.
 
