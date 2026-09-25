@@ -98,11 +98,14 @@ unidad de redondeo del suavizado en el borde de alguna fibra.
 
 **Color.** La paleta no cambia: está calibrada AA en los dos temas y está bien.
 Cambia el uso: menos tinte a sangre, más papel, y el ocre vuelve a ser, sobre
-todo, atención: «acá estás» (el día que leés, el hoy del ciclo) y la banderita
-de algo para hacer. Fuera de eso sólo tiñe la pestaña de «Esta semana» (cada
-sección tiene la suya) y detalles de los dibujos, como raíces y pétalos. El
-post-it no es ocre: es papel amarillo, con su token. Lo elegido en «Acomodar»
-va en tinta. Los tokens nuevos están abajo.
+todo, atención: «acá estás» (el día que leés, el hoy del ciclo, el subrayado de
+la pestaña activa), la banderita de algo para hacer y el termómetro del calor,
+como en el carril de hoy. Fuera de eso sólo tiñe la pestaña de «Esta semana»
+(cada sección tiene la suya) y detalles de los dibujos, como raíces y pétalos.
+Lo que se cierra («última semana») no es atención sino urgencia: va en
+terracota, como `.es-cierra` en `Hoy.css`. El post-it no es ocre: es papel
+amarillo, con su token. Lo elegido en «Acomodar» va en tinta. Los tokens nuevos
+están abajo.
 
 ## Esta semana, des-saturada
 
@@ -181,9 +184,9 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 
 - N es la capacidad del lugar. Sin capacidad, la suma de `ocupa ?? 1` de sus
   plantas.
-- Paso de celda: `clamp(ancho / columnas, 44, 56)` px, salvo el surco, que es
-  una fila de media página por 44 de alto. Ningún target baja de 44 ni se
-  solapa.
+- Paso de celda: `clamp(ancho / columnas, 44, 56)` px, salvo dos: el surco es
+  una fila de media página por 44 de alto, y la maceta va a 70 de alto, para
+  que entre el nombre abajo. Ningún target baja de 44 ni se solapa.
 - Si lo sembrado pide más celdas que las que hay, primero cada planta recibe
   una y después se reparten las que quedan, en orden. Si ni una por planta
   alcanza (30 plantas en un bancal de 6 × 3), la grilla suma filas: el croquis
@@ -290,7 +293,8 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 
 Elegir una sola celda es mover por celda; elegir toda la planta es mover el
 grupo. Así no pelea con el scroll, y anda con teclado y lector de pantalla:
-cada celda es un botón con `aria-pressed`, y la barra es `aria-live`. Pasar
+cada celda es un botón, con `aria-pressed` si tiene planta (una libre no se
+elige: dice si entra lo elegido), y la barra es `aria-live`. Pasar
 plantas a otro lugar sigue siendo «Trasplantar»: cambia `ubicacionId`, no es
 acomodar el dibujo.
 
@@ -308,8 +312,9 @@ acomodar el dibujo.
   sobre la celda de arriba. Si hay algo atrasado es terracota y lleva un «!»
   después del número. La forma dice lo mismo que el color, también con
   `prefers-reduced-motion`, cuando se apaga el `pulso-bandera`. De día lleva
-  contorno en `--tinta-media`: el ocre da 2,96:1 contra la hoja, y un relleno
-  necesita 3.
+  contorno en `--tinta-media`: el ocre da 2,49:1 contra la celda teñida donde
+  se apoya, y un gráfico necesita 3:1. Lo cumple el contorno, con 6,91. De
+  noche no lleva: el relleno solo da 4,91, y 4,12 el de la atrasada.
 - **Copo** en las plantas de `expuestasAHelada` mientras haya helada en la
   semana (tarea o aviso), en la primera celda.
 - El tipo de tarea y la etapa van en el nombre accesible: la plantita es
@@ -355,7 +360,10 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
   - **El renglón cae debajo de la línea de base**, en el pie de cada fila de
     28 px. Nada puede correr la trama: margen sí, `padding` arriba de la
     página no, y lo que corta la página (la nota al margen, las fotos del
-    diario) ocupa un múltiplo de 28. Así el renglón no cruza ninguna letra.
+    diario) ocupa un múltiplo de 28. El título de página ocupa dos filas y
+    se apoya en la segunda: centrado en los 56 px, el primer renglón le
+    cruzaba las mayúsculas. Así el renglón no cruza el cuerpo de ninguna
+    letra; en la manuscrita, algún descendente lo roza.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
     contrastes) no van en texto de página rayada: `--tinta-tenue`, y de día
     `--verde-hoja` y `--sol-texto`, de noche `--terracota-texto`. «Atrasada»,
@@ -410,7 +418,8 @@ Contrastes medidos (WCAG: 4,5 para texto, 3 para rellenos y trazos):
 | `--sol-texto` justo encima de un renglón | **4,44, no pasa** | 5,2 |
 | `--terracota-texto` justo encima de un renglón | 6,3 | **4,38, no pasa** |
 | círculo del día leído (`--sol-texto`, trazo) | 5,3 | 6,9 |
-| relleno de la banderita contra la hoja | **2,96, no pasa**: la forma la da el contorno (`--bandera-borde`, 8,2) | 6,4 |
+| relleno de la banderita contra su celda teñida | **2,49, no pasa**: el 3:1 lo cumple el contorno (`--bandera-borde`, 6,91) | 4,91, sin contorno |
+| relleno de la banderita atrasada contra su celda teñida | 4,36, con el mismo contorno | 4,12, sin contorno |
 
 El renglón de día es el que manda: a 0,2 de opacidad la línea bajaba
 `--tinta-suave` a 4,46 y no pasaba AA. Con 0,16 queda en 4,68. Los que no
