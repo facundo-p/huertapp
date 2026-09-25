@@ -190,8 +190,6 @@ button.carril__dia:active {
   align-items: center;
   gap: var(--esp-2);
   flex-wrap: wrap;
-  flex: 1;
-  min-width: 0;
   font-family: var(--font-cuerpo);
   font-size: 13px;
   font-weight: 800;
@@ -200,6 +198,7 @@ button.carril__dia:active {
 }
 
 .carril__atrasada {
+  display: inline-block;
   padding: 1px 7px;
   border-radius: var(--radio-chip);
   background: var(--terracota-fondo);
@@ -208,6 +207,19 @@ button.carril__dia:active {
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+
+/* Sólo cuando dos tareas del día se llaman igual: dice cuál es cuál. En línea
+   y no flex: el lugar arranca en el renglón del chip en vez de bajar entero. */
+.carril__lugar {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--tinta-suave);
+}
+
+.carril__lugar .carril__atrasada {
+  margin-right: 4px;
 }
 
 .carril__detalle {
@@ -224,9 +236,8 @@ button.carril__dia:active {
 }
 
 /* ---- el pie plegado ---- */
-/* Uno por día y no uno por tarea: en un día con cuatro tareas eran cuatro
-   botones iguales de 44 px. Va en fila propia porque adentro del item competía
-   con las acciones, y anidar un botón en el link tampoco es válido. */
+/* En fila propia: adentro del item competía con las acciones, y un botón no
+   puede ir dentro del link. */
 .carril__porque {
   display: flex;
   align-items: center;
@@ -242,15 +253,6 @@ button.carril__dia:active {
 
 .carril__porque:active {
   background: var(--papel-hundido);
-}
-
-.carril__galon {
-  flex: none;
-  transition: transform 0.15s ease;
-}
-
-.carril__galon.es-abierto {
-  transform: rotate(180deg);
 }
 
 .carril__pie-dia {
@@ -281,6 +283,11 @@ button.carril__dia:active {
   color: var(--tinta-media);
 }
 
+.carril__pie-lugar {
+  font-weight: 600;
+  color: var(--tinta-suave);
+}
+
 /* Aviso de clima: el mismo molde con un tinte a sangre por la derecha. */
 .carril__aviso {
   margin-right: calc(-1 * var(--esp-4));
@@ -295,9 +302,7 @@ button.carril__dia:active {
 }
 
 /* ---- acciones ---- */
-/* Al lado y no una sobre otra: estaban apiladas porque el texto del item eran
-   tres renglones y 90 px de ancho se notaban. Ahora el item es solo el título,
-   y apiladas dejaban 88 px de alto al lado de una línea. */
+/* Al lado: con el item en una línea, apiladas dejaban 88 px de alto. */
 .carril__acciones {
   display: flex;
   align-items: center;
@@ -352,8 +357,7 @@ button.carril__dia:active {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .carril__item,
-  .carril__galon {
+  .carril__item {
     transition: none;
   }
 }

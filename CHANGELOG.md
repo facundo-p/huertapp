@@ -43,14 +43,20 @@ Qué significa cada parte en este proyecto:
   Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
   correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
   tu zona, de lo que salga y de la especie.
-- **«La semana» se lee de un vistazo.** De cada tarea se ve el título y nada
-  más: el porqué y de dónde sale el dato quedan a un toque, en «por qué y de
-  dónde sale». No se borró nada —la procedencia sigue estando, plegada—, pero
-  ahora entran muchos más días en la pantalla.
+- **«La semana» se lee de un vistazo.** De cada tarea se ve el título: el
+  porqué y de dónde sale el dato quedan a un toque, en «por qué y de dónde
+  sale». Lo que hay que hacer para no perder una planta —taparla de noche si
+  puede helar, esperar para trasplantarla— sigue a la vista. No se borró nada
+  —la procedencia sigue estando, plegada—, pero ahora entran muchos más días en
+  la pantalla.
 - **Lo que vale para varias plantas se dice una vez.** Si tenés cinco lechugas
   para trasplantar, el «según la ficha: 25-35 días…» aparece una sola vez para
   las cinco y no cinco veces igual. A la planta que le corrió la germinación le
   sigue quedando su propio pie, porque su dato es otro.
+- **Si dos tareas se llaman igual, te dice cuál es cuál.** Con dos zanahorias
+  sin apodo en bancales distintos, cada una muestra en qué lugar está —y si
+  están en el mismo, cuándo la sembraste—, y su porqué lleva lo mismo, así sabés
+  de cuál te habla.
 
 ## [2.3.0] — 2026-09-12
 

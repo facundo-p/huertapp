@@ -34,6 +34,46 @@ async function conDemo(page: import('@playwright/test').Page) {
 }
 
 /**
+ * Suma una copia de una planta de la demo, con otro apodo, otro lugar o
+ * sembrada unos días después. La pantalla la ve recién al recargar.
+ */
+async function duplicarPlanta(
+  page: import('@playwright/test').Page,
+  slug: string,
+  cambios: { apodo?: string; lugar?: string; diasDespues?: number },
+) {
+  await page.evaluate(
+    async ({ slug, cambios }) => {
+      const pedido = indexedDB.open('huerta-gba')
+      const base = await new Promise<IDBDatabase>((res, rej) => {
+        pedido.onsuccess = () => res(pedido.result)
+        pedido.onerror = () => rej(pedido.error)
+      })
+      const tx = base.transaction(['plantas', 'ubicaciones'], 'readwrite')
+      const todas = (almacen: string) =>
+        new Promise<Record<string, string>[]>((res) => {
+          const g = tx.objectStore(almacen).getAll()
+          g.onsuccess = () => res(g.result as Record<string, string>[])
+        })
+      const p = (await todas('plantas')).find((x) => x.slug === slug)!
+      const lugares = await todas('ubicaciones')
+      const copia: Record<string, string> = { ...p, id: `${p.id}-bis` }
+      if (cambios.apodo) copia.apodo = cambios.apodo
+      if (cambios.lugar) copia.ubicacionId = lugares.find((u) => u.nombre === cambios.lugar)!.id
+      if (cambios.diasDespues) {
+        const f = new Date(`${p.sembrada}T12:00:00`)
+        f.setDate(f.getDate() + cambios.diasDespues)
+        copia.sembrada = `${f.getFullYear()}-${String(f.getMonth() + 1).padStart(2, '0')}-${String(f.getDate()).padStart(2, '0')}`
+      }
+      tx.objectStore('plantas').put(copia)
+      await new Promise((res) => (tx.oncomplete = res))
+      base.close()
+    },
+    { slug, cambios },
+  )
+}
+
+/**
  * La tanda dividida de la demo repite el apodo en dos lugares: el link a una
  * planta hay que buscarlo dentro de su sección, no en la pantalla entera.
  */
@@ -524,29 +564,32 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       // se duplica la rúcula de la demo: misma fecha de siembra y misma
       // germinación, o sea el mismo «según la ficha» hasta la última coma
-      await page.evaluate(async () => {
-        const pedido = indexedDB.open('huerta-gba')
-        const base = await new Promise<IDBDatabase>((res, rej) => {
-          pedido.onsuccess = () => res(pedido.result)
-          pedido.onerror = () => rej(pedido.error)
-        })
-        const tx = base.transaction('plantas', 'readwrite')
-        const plantas = tx.objectStore('plantas')
-        const todas = await new Promise<Record<string, unknown>[]>((res) => {
-          const g = plantas.getAll()
-          g.onsuccess = () => res(g.result as Record<string, unknown>[])
-        })
-        const rucula = todas.find((p) => p.slug === 'rucula')!
-        plantas.put({ ...rucula, id: `${rucula.id as string}-bis`, apodo: 'La segunda tanda' })
-        await new Promise((res) => (tx.oncomplete = res))
-        base.close()
-      })
+      await duplicarPlanta(page, 'rucula', { apodo: 'La segunda tanda' })
       await page.goto('/#/hoy')
       // recarga de verdad: ir a otro hash no vuelve a leer la base
       await page.reload()
       await page.locator('.carril__cielo').first().waitFor()
       await page.getByRole('button', { name: /^por qué y de dónde sal/ }).first().click()
       await page.locator('.carril__pie-grupo').first().waitFor()
+    },
+  },
+  // Dos zanahorias sin apodo, una por bancal y sembradas con dos días de
+  // diferencia: mismo título, otro pie. Cada fila y cada pie dicen el lugar, y
+  // «atrasada» va en esa misma línea.
+  {
+    nombre: 'hoy-carril-lugar',
+    ruta: '/#/ajustes',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera', diasDespues: 2 })
+      await page.goto('/#/hoy')
+      await page.reload()
+      await page.locator('.carril__lugar').first().waitFor()
+      await page.getByRole('button', { name: /^por qué y de dónde sal/ }).first().click()
+      await page.locator('.carril__pie-lugar').first().waitFor()
     },
   },
   {

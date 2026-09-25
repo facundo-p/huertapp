@@ -65,7 +65,7 @@ export function TarjetaLugar({
               </span>
             )}
           </span>
-          <IconoDesplegar size={19} className={`lugar__galon ${abierta ? 'es-abierto' : ''}`} />
+          <IconoDesplegar size={19} className={`galon lugar__galon ${abierta ? 'es-abierto' : ''}`} />
         </button>
       </h2>
 

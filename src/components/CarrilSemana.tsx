@@ -16,7 +16,7 @@ import {
   type IconProps,
 } from '../icons'
 import type { Tarea } from '../lib/tareas/engine'
-import { agruparPorPie, type GrupoTareas } from '../lib/tareas/agrupar'
+import { agruparPorPie, distinguir, titulosDe, type DondeCrece, type GrupoTareas } from '../lib/tareas/agrupar'
 import { alternar } from '../lib/huerta/plegado'
 import type { AvisoClima, DiaPronostico, TipoAviso } from '../lib/pronostico/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
@@ -53,6 +53,8 @@ interface Props {
   pronostico: DiaPronostico[]
   tareas: Tarea[]
   avisos: AvisoClima[]
+  /** por id de planta: para separar dos tareas que se llaman igual */
+  dondeCrece: Map<string, DondeCrece>
   festejando: string | null
   /** la tarea de germinación responde «Asomó» en vez de «Hecho» */
   conAsomo: (t: Tarea) => boolean
@@ -69,16 +71,15 @@ interface Props {
  * eso los huecos importan. Sin pronóstico, el carril sigue: la columna del
  * día queda con la sigla y el número.
  *
- * De cada tarea se ve el título y nada más. El porqué y la procedencia se
- * pliegan —no se borran— detrás de un botón por día. Se arranca con todo
- * plegado, que es lo que hace que la semana entre en una pantalla. La
- * instrucción de una helada o de un trasplante riesgoso no pliega.
+ * De cada tarea se ve el título; el porqué y la fuente se pliegan detrás de un
+ * botón por día. La instrucción de una helada o de un trasplante riesgoso, no.
  */
 export function CarrilSemana({
   hoy,
   pronostico,
   tareas,
   avisos,
+  dondeCrece,
   festejando,
   conAsomo,
   onCompletar,
@@ -106,6 +107,7 @@ export function CarrilSemana({
         const esHoy = fecha === hoy
         const conCosas = avs.length + ts.length > 0
         const grupos = agruparPorPie(ts)
+        const distintos = distinguir(grupos, dondeCrece)
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
         const cabecera = (
           <>
@@ -142,22 +144,29 @@ export function CarrilSemana({
               {avs.map((a) => (
                 <Aviso key={a.id} aviso={a} />
               ))}
-              {grupos.flatMap((g) => g.tareas).map((t) => (
-                <Item
-                  key={t.id}
-                  tarea={t}
-                  festejando={festejando === t.id}
-                  asomo={conAsomo(t)}
-                  onCompletar={() => onCompletar(t)}
-                  onAsomo={() => onAsomo(t)}
-                  onMenu={() => onMenu(t)}
-                />
-              ))}
+              {grupos.flatMap((g) =>
+                g.tareas.map((t, i) => (
+                  <Item
+                    key={t.id}
+                    tarea={t}
+                    lugar={distintos.porTarea.get(t.id)}
+                    // cinco tomates con el mismo trasplante riesgoso: la instrucción, una vez
+                    instruccion={!!g.instruccion && i === g.tareas.length - 1}
+                    festejando={festejando === t.id}
+                    asomo={conAsomo(t)}
+                    onCompletar={() => onCompletar(t)}
+                    onAsomo={() => onAsomo(t)}
+                    onMenu={() => onMenu(t)}
+                  />
+                )),
+              )}
               {grupos.length > 0 && (
                 <PieDelDia
                   fecha={fecha}
                   esHoy={esHoy}
                   grupos={grupos}
+                  lugares={distintos.porGrupo}
+                  varias={ts.length > 1}
                   abierto={abiertos.includes(fecha)}
                   onAlternar={() => setAbiertos((v) => alternar(v, fecha))}
                 />
@@ -190,9 +199,8 @@ function Cielo({ dia, helada }: { dia: DiaPronostico; helada: boolean }) {
 }
 
 /**
- * El aviso de clima no pliega, a diferencia de las tareas: su detalle es la
- * instrucción («cubrí de noche X»), no la explicación, y son a lo sumo tres en
- * toda la semana.
+ * El aviso de clima no pliega: su detalle es la instrucción («cubrí de noche
+ * X»), no la explicación, y son hasta tres por día.
  */
 function Aviso({ aviso: a }: { aviso: AvisoClima }) {
   const Icono = ICONO_AVISO[a.tipo]
@@ -211,29 +219,27 @@ function Aviso({ aviso: a }: { aviso: AvisoClima }) {
 }
 
 /**
- * Un solo «por qué» por día, no uno por tarea: uno por tarea eran cuatro
- * botones iguales en un día cargado, y cada botón se come 44 px. Adentro, un
- * pie por grupo, encabezado por las tareas de las que habla.
- *
- * La clave del estado es la fecha, que es única en la semana. Con la clave del
- * grupo —que no lleva el día— dos grupos con el mismo pie en días distintos
- * compartían estado: abrir el del martes abría el del viernes.
+ * Un «por qué» por día y no por tarea: cada botón se come 44 px. El estado va
+ * por fecha: por grupo, abrir el del martes abría el del viernes.
  */
 function PieDelDia({
   fecha,
   esHoy,
   grupos,
+  lugares,
+  varias,
   abierto,
   onAlternar,
 }: {
   fecha: string
   esHoy: boolean
   grupos: GrupoTareas[]
+  lugares: Map<string, string>
+  varias: boolean
   abierto: boolean
   onAlternar: () => void
 }) {
   const panel = `porque-${fecha}`
-  const varias = grupos.reduce((n, g) => n + g.tareas.length, 0) > 1
   return (
     <>
       <button
@@ -243,8 +249,9 @@ function PieDelDia({
         aria-controls={panel}
         onClick={onAlternar}
       >
-        <IconoDesplegar size={13} className={`carril__galon ${abierto ? 'es-abierto' : ''}`} />
-        {abierto ? 'ocultar' : varias ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
+        {/* no cambia a «ocultar»: el galón y aria-expanded ya dicen el estado */}
+        <IconoDesplegar size={13} className={`galon ${abierto ? 'es-abierto' : ''}`} />
+        {varias ? 'por qué y de dónde salen' : 'por qué y de dónde sale'}
         {/* siete botones iguales en la pantalla: hay que decir de qué día es */}
         <span className="sr-solo">, {esHoy ? 'hoy' : fechaDiaLarga(fecha)}</span>
       </button>
@@ -253,9 +260,10 @@ function PieDelDia({
           <div key={g.clave} className="carril__pie-grupo">
             {/* de cuál habla: el pie es de las N tareas que dicen lo mismo */}
             <span className="carril__pie-de">
-              {[...new Set(g.tareas.map((t) => t.titulo))].join(' · ')}
+              {titulosDe(g).join(' · ')}
+              {lugares.has(g.clave) && <span className="carril__pie-lugar"> — {lugares.get(g.clave)}</span>}
             </span>
-            <span className="carril__detalle">{g.detalle}</span>
+            {!g.instruccion && <span className="carril__detalle">{g.detalle}</span>}
             {/* de dónde sale: sin esto, es una app que manda sin explicar */}
             <span className="carril__fuente">{g.fuente}</span>
           </div>
@@ -267,6 +275,8 @@ function PieDelDia({
 
 function Item({
   tarea: t,
+  lugar,
+  instruccion,
   festejando,
   asomo,
   onCompletar,
@@ -274,6 +284,9 @@ function Item({
   onMenu,
 }: {
   tarea: Tarea
+  /** sólo si otra tarea del día se llama igual */
+  lugar?: string
+  instruccion: boolean
   festejando: boolean
   asomo: boolean
   onCompletar: () => void
@@ -281,6 +294,7 @@ function Item({
   onMenu: () => void
 }) {
   const Icono = ICONO_TAREA[t.tipo]
+  const atrasada = t.atrasada && <span className="carril__atrasada">atrasada</span>
   const cuerpo = (
     <>
       <span className="carril__icono" aria-hidden>
@@ -289,10 +303,17 @@ function Item({
       <span className="carril__textos">
         <span className="carril__titulo">
           {t.titulo}
-          {t.atrasada && <span className="carril__atrasada">atrasada</span>}
+          {!lugar && atrasada}
         </span>
+        {/* el chip, junto al lugar: bajo el título ocupaba un renglón para él solo */}
+        {lugar && (
+          <span className="carril__lugar">
+            {atrasada && <>{atrasada} </>}
+            {lugar}
+          </span>
+        )}
         {/* sin pronóstico, esto es lo único que dice qué tapar o que conviene esperar */}
-        {t.instruccion && <span className="carril__detalle">{t.detalle}</span>}
+        {instruccion && <span className="carril__detalle">{t.detalle}</span>}
       </span>
     </>
   )
@@ -313,7 +334,7 @@ function Item({
         <button type="button" className="carril__hecho" onClick={asomo ? onAsomo : onCompletar}>
           <span className="carril__pildora">{asomo ? 'Asomó' : 'Hecho'}</span>
         </button>
-        <button type="button" className="carril__menu" onClick={onMenu} aria-label={`Más opciones: ${t.titulo}`}>
+        <button type="button" className="carril__menu" onClick={onMenu} aria-label={`Más opciones: ${t.titulo}${lugar ? `, ${lugar}` : ''}`}>
           <IconoPuntos size={20} />
         </button>
       </span>

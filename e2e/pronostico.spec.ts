@@ -102,3 +102,21 @@ test('sacar la ubicación apaga el pronóstico del todo', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Para sembrar ahora' })).toBeVisible()
   await expect(page.locator('.carril__pie')).toHaveCount(0)
 })
+
+/**
+ * Sin pronóstico, la helada sale de la estadística de la zona y su instrucción
+ * es lo único que dice qué tapar: no puede quedar plegada con el porqué.
+ */
+test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ page }) => {
+  // mediados de agosto: la estadística del conurbano todavía da helada
+  await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
+  await abrirHoy(page)
+
+  // el tomate que la demo pasó al balcón ya no está en almácigo: expuesto.
+  // Hoy y no toda la semana: al cambiar de década vuelve a salir.
+  const helada = page.locator('.carril__fila.es-hoy .carril__item', { hasText: 'Puede helar' })
+  await expect(helada.getByText(/Cubrí de noche/)).toBeVisible()
+  // sin tocar nada, y el pie no la repite
+  await expect(page.getByRole('button', { name: /^por qué y de dónde sal/, expanded: true })).toHaveCount(0)
+  await expect(page.locator('.carril__pie-dia').getByText(/Cubrí de noche/)).toHaveCount(0)
+})

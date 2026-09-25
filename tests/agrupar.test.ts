@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { agruparPorPie } from '../src/lib/tareas/agrupar'
+import { agruparPorPie, distinguir, type DondeCrece } from '../src/lib/tareas/agrupar'
 import type { Tarea } from '../src/lib/tareas/engine'
 
 const FUENTE = 'según la ficha: 25-35 días desde la siembra · confianza 7/10'
@@ -64,5 +64,94 @@ describe('el pie compartido del carril', () => {
       tarea({ id: 'c', slug: 'rucula' }),
     ])
     expect(g.map((x) => x.tareas.map((t) => t.id))).toEqual([['a', 'c'], ['b']])
+  })
+
+  it('la instrucción viaja con el grupo, para que el pie no la repita', () => {
+    const [g] = agruparPorPie([tarea({ id: 't1', instruccion: true }), tarea({ id: 't2', instruccion: true })])
+    expect(g.instruccion).toBe(true)
+    expect(agruparPorPie([tarea({})])[0].instruccion).toBeUndefined()
+  })
+})
+
+describe('dos grupos que se llaman igual', () => {
+  // dos zanahorias sin apodo sembradas en días distintos: mismo título, otro atraso
+  const zanahoria = (id: string, diasDeMas: number) =>
+    tarea({
+      id: `revisar_germinacion:${id}`,
+      tipo: 'revisar_germinacion',
+      plantaId: id,
+      slug: 'zanahoria',
+      titulo: 'Zanahoria: fijate si asomó',
+      detalle: `Hace ${diasDeMas} días que se pasó del plazo.`,
+      fuente: 'según la ficha: germina en 10-20 días · confianza 7/10',
+    })
+  const donde = (d: Record<string, DondeCrece>) => new Map(Object.entries(d))
+
+  it('en distinto lugar, dice el lugar en la fila y en el pie', () => {
+    const grupos = agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)])
+    const d = distinguir(
+      grupos,
+      donde({
+        a: { lugar: 'Bancal del fondo', sembrada: '2026-08-24' },
+        b: { lugar: 'Bancal de la medianera', sembrada: '2026-08-26' },
+      }),
+    )
+    expect(d.porTarea.get('revisar_germinacion:a')).toBe('Bancal del fondo')
+    expect(d.porTarea.get('revisar_germinacion:b')).toBe('Bancal de la medianera')
+    expect(grupos.map((g) => d.porGrupo.get(g.clave))).toEqual(['Bancal del fondo', 'Bancal de la medianera'])
+  })
+
+  it('en el mismo lugar, suma cuándo se sembró cada una', () => {
+    const grupos = agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)])
+    const d = distinguir(
+      grupos,
+      donde({
+        a: { lugar: 'Bancal del fondo', sembrada: '2026-09-03' },
+        b: { lugar: 'Bancal del fondo', sembrada: '2026-09-05' },
+      }),
+    )
+    expect(d.porTarea.get('revisar_germinacion:a')).toBe('Bancal del fondo, sembrada el 3/9')
+    expect(d.porTarea.get('revisar_germinacion:b')).toBe('Bancal del fondo, sembrada el 5/9')
+  })
+
+  it('sin choque no agrega nada, aunque estén en lugares distintos', () => {
+    const lugares = donde({
+      a: { lugar: 'Bancal del fondo', sembrada: '2026-08-24' },
+      b: { lugar: 'Bancal de la medianera', sembrada: '2026-08-24' },
+    })
+    // mismo pie: un solo grupo, y un solo encabezado
+    const juntas = distinguir(agruparPorPie([zanahoria('a', 12), zanahoria('b', 12)]), lugares)
+    expect(juntas.porTarea.size).toBe(0)
+    expect(juntas.porGrupo.size).toBe(0)
+    // títulos distintos: el encabezado ya las separa
+    const otra = { ...zanahoria('b', 10), titulo: 'La segunda tanda: fijate si asomó' }
+    expect(distinguir(agruparPorPie([zanahoria('a', 12), otra]), lugares).porTarea.size).toBe(0)
+  })
+
+  it('la planta sin lugar se dice «sin lugar»', () => {
+    const d = distinguir(
+      agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)]),
+      donde({ a: { lugar: 'Bancal del fondo', sembrada: '2026-08-24' }, b: { sembrada: '2026-08-26' } }),
+    )
+    expect(d.porTarea.get('revisar_germinacion:b')).toBe('sin lugar')
+    expect(d.porTarea.get('revisar_germinacion:a')).toBe('Bancal del fondo')
+  })
+
+  it('la fecha va sólo donde el lugar no alcanza', () => {
+    // a y b comparten pie; c choca con ese pie y está en el lugar de a
+    const grupos = agruparPorPie([zanahoria('a', 12), zanahoria('b', 12), zanahoria('c', 10)])
+    const d = distinguir(
+      grupos,
+      donde({
+        a: { lugar: 'Bancal del fondo', sembrada: '2026-08-24' },
+        b: { lugar: 'Bancal de la medianera', sembrada: '2026-08-24' },
+        c: { lugar: 'Bancal del fondo', sembrada: '2026-08-26' },
+      }),
+    )
+    expect(d.porTarea.get('revisar_germinacion:b')).toBe('Bancal de la medianera')
+    expect(grupos.map((g) => d.porGrupo.get(g.clave))).toEqual([
+      'Bancal del fondo, sembrada el 24/8 · Bancal de la medianera',
+      'Bancal del fondo, sembrada el 26/8',
+    ])
   })
 })

@@ -36,7 +36,7 @@ const DIAS_CARRIL = 6
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, composteras, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, cargado, errorCarga } = useHuerta()
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
@@ -94,6 +94,17 @@ export function Hoy() {
   // con alerta de helada del pronóstico, la tarea estadística se corre sola
   const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
   const helada = avisos.find((a) => a.tipo === 'helada')
+
+  const dondeCrece = useMemo(
+    () =>
+      new Map(
+        plantas.map((p) => [
+          p.id,
+          { lugar: ubicaciones.find((u) => u.id === p.ubicacionId)?.nombre, sembrada: p.sembrada },
+        ]),
+      ),
+    [plantas, ubicaciones],
+  )
 
   const plantaDe = (t: Tarea) =>
     t.tipo === 'revisar_germinacion' ? plantas.find((p) => p.id === t.plantaId) : undefined
@@ -159,6 +170,7 @@ export function Hoy() {
               pronostico={dias}
               tareas={tareasMostradas}
               avisos={avisos}
+              dondeCrece={dondeCrece}
               festejando={festejando}
               conAsomo={(t) => !!plantaDe(t)}
               onCompletar={(t) => void alCompletar(t)}
