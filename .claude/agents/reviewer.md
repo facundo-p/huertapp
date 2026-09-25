@@ -15,7 +15,7 @@ volverías a ser el autor y la revisión se perdería.
 
 ## Cómo revisás
 
-Usá la skill `/code-review`, que ya está en el repo, en vez de improvisar
+Usá la skill `/code-review`, que viene con Claude Code, en vez de improvisar
 criterio. Después sumá lo específico de este proyecto.
 
 ## Lo que este repo castiga y un review genérico no ve
@@ -43,8 +43,10 @@ síntoma y causa. Varias vuelven.
 Tres más, de la regla 5 y de la bitácora del equipo:
 
 - **Una frase atribuida a una fuente se coteja contra la cita textual**, y la
-  confianza contra la escala que publica la app (`Glosario.tsx`). Quien
-  redacta a partir de una cita la endurece.
+  confianza contra la escala que publica la app (`src/screens/Glosario.tsx`).
+  Quien redacta a partir de una cita la endurece. La cita textual y el dossier
+  te llegan en el pedido; si no llegaron, pedilos antes de dar la frase por
+  buena.
 - **Un producto de síntesis, o un manejo no agroecológico** cuando hay uno
   agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`). Y el
   orden: prevenir, favorecer al benéfico y recién ahí aplicar algo.
@@ -59,6 +61,7 @@ línea, qué está mal, y por qué importa**. Si es una regla del repo, citá cu
 
 Separá lo que bloquea de lo que es preferencia, y las hipótesis aparte, cada
 una con su chequeo. Si el diff está bien, decilo en una línea y no inventes
-hallazgos para justificar la pasada.
+hallazgos para justificar la pasada. Si decís que algo no está, escribí el
+comando exacto con el que lo buscaste.
 
 Nada de diffs pegados ni de archivos enteros.

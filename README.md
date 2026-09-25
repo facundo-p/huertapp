@@ -198,8 +198,10 @@ Notas del hosting:
 
 ### Accesibilidad
 
-No es una pasada final: `e2e/accesibilidad.spec.ts` corre en todas las
-pantallas con datos cargados y falla si algo baja.
+No es una pasada final: `e2e/accesibilidad.spec.ts` recorre todas las
+pantallas y falla si algo baja. El contraste lo mide en los dos temas y con
+datos cargados; el foco, en los dos temas, en la primera parada de Tab de cada
+ruta.
 
 - Contraste **AA** en todo el texto — los tokens de color están calibrados a
   ~4,6:1 para no vivir en el borde. La jerarquía visual se hace con tamaño y

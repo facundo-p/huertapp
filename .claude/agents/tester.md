@@ -46,10 +46,6 @@ resolvés vos y lo decís en el parte),
 `git diff --quiet ORIG_HEAD HEAD -- package-lock.json || npm ci`, y volvés a
 correr tus specs y la batería.
 
-Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
-está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
-Playwright y, si sigue ocupado, decilo en el parte.
-
 ## Probá rompiendo
 
 Recorré la issue punto por punto y dejá fijado en un test lo que importa.
@@ -64,8 +60,9 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 - **Cómo ver el rojo.** Un e2e, con `npm run e2e -- -g '<test>'`, que buildea:
   un `npx playwright test` suelto corre contra el `dist/` viejo y la mutación no
   llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. Una
-  captura, con `npm run shots -- -g 'captura <nombre>$'`: sin anclar,
-  `-g 'calendario'` corre diez. `screenshots.spec.ts` no se cablea en `e2e`.
+  captura no se pone en rojo: `screenshots.spec.ts` no afirma nada, sólo falla
+  por timeout, y no se cablea en `e2e`. Lo que viste en un PNG y tiene que
+  quedar fijado va a un e2e con `expect`.
   El rojo vale si es la aserción que esperabas: un build roto
   (un `noUnusedLocals` después de borrar una línea) o «No tests found» no
   cuentan. Cableá el spec antes de mutar. Si mutás `data/` o `scripts/`,
@@ -132,12 +129,9 @@ Antes de reportar, fijate qué tipo de falla es:
   no entorno. Una espera que nunca falla no está esperando.
 - **`npm test` quejándose del JSON generado**: falta `npm run data:build`.
 - **Los e2e pisándose**: `playwright.config.ts` ya usa `workers: 1`.
-- **Playwright no encuentra el navegador y `playwright install` falla**: el
-  entorno lo trae en `/opt/pw-browsers`, con otro nombre de revisión. Symlinks
-  con el nombre que espera Playwright en una carpeta fuera del worktree (el
-  scratchpad), y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Adentro,
-  `git status --short` los muestra y ya no da sólo `e2e/`, `tests/` y
-  `package.json`.
+- **Playwright no encuentra el navegador, o el puerto 4173 está ocupado**:
+  fijate en «Entorno» de `.claude/LECCIONES.md`. El puerto ocupado es la
+  corrida de otro: no lo liberes.
 
 `.claude/LECCIONES.md` tiene varias de estas con síntoma y causa. Vale leerlo
 antes de teorizar.
@@ -152,6 +146,7 @@ dev. Los tests sí los escribís vos.
   aserción**.
 - **`qa/<rama>` y su hash**, que es lo que el orquestador mergea.
 - Si algo falló: **el error, corto**, y tu diagnóstico de por qué.
+- Si decís que algo no está, el comando exacto con el que lo buscaste.
 - **Qué viste en las capturas**, en prosa. Las que convenga que mire una
   persona, copialas al scratchpad de la sesión, fuera de tu worktree, y da esa
   ruta: `e2e/shots/` está ignorado y el orquestador borra tu worktree apenas

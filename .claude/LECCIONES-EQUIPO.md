@@ -31,8 +31,9 @@ incorporado más parecido (`Explore` para los de sólo lectura, `general-purpose
 o `claude` para los que escriben), con `model:` explícito en la llamada y el
 prompt del rol traído desde su archivo —al agente se le pide que lea
 `.claude/agents/<rol>.md` y lo adopte, que además verifica que el archivo sirva—.
-Desde la sesión siguiente deberían resolver solos; en la Tanda B no pasó (ver
-«Los agentes del proyecto tampoco cargan en la sesión siguiente»).
+Desde la sesión siguiente deberían resolver solos; en la Tanda B no pasó. La
+receta vigente para emular, que además limita las herramientas a las del rol,
+está en «Los agentes del proyecto tampoco cargan en la sesión siguiente».
 
 **Al plugin.** El plugin tiene que estar instalado **antes** de arrancar la
 sesión. Vale la pena que su README lo diga en la primera línea: instalarlo a
@@ -348,17 +349,28 @@ Queda la configuración de la extensión. La guía de Claude Code listó las cau
 documentadas —`settingSources` sin `project`, frontmatter roto, directorio
 creado a mitad de sesión— y ninguna aplica.
 
-**Qué hacemos.** Seguir emulando: `general-purpose` con `model:` explícito y
-"leé `.claude/agents/<rol>.md` y adoptalo", y `isolation: worktree` en la
-llamada para dev y tester: emulado, el frontmatter no se aplica. Funcionó en
-las siete corridas y las dos reanudaciones de esta tanda. En la próxima sesión,
-`/agents` primero, para saber en qué harness estamos.
+**Qué hacemos.** Seguir emulando. Emulado, el frontmatter del rol no se
+aplica: lo que ponía va en la llamada y en el pedido. Ésta es la receta
+vigente, y reemplaza la de la Tanda A:
+
+- El tipo incorporado da igual mientras tenga las herramientas del rol. En la
+  Tanda A fueron `Explore` para leer y `general-purpose` o `claude` para
+  escribir; en ésta, `general-purpose` para todos. Ninguno las limita a las
+  del rol.
+- `model:` explícito en la llamada, e `isolation: worktree` para dev y tester.
+- El pedido dice "leé `.claude/agents/<rol>.md` y adoptalo" y **pone las
+  herramientas de su `tools:` como límite**. Sin eso, el investigador tiene
+  Bash y el reviewer puede editar: dejan de ser el rol.
+
+Esta tanda corrió sin el límite, y el investigador tuvo Bash (ver «El positivo
+también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
+corridas y las dos reanudaciones. En la próxima sesión, `/agents` primero,
+para saber en qué harness estamos.
 
 **Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
 plugin no depende de `.claude/agents/` del repo, y es justamente por eso que
 conviene que exista. Los roles van como agentes del plugin; el orquestador
-arranca con `/agents` y, si no aparecen, emula con `general-purpose`, `model:`
-e `isolation: worktree` en la llamada.
+arranca con `/agents` y, si no aparecen, emula con la receta de arriba.
 
 ### El tester no pudo tomar la rama porque el worktree del dev la tenía
 
@@ -412,8 +424,9 @@ recuento con 2.
 métrica**, no sólo si el número está bien. 114 contra 115 no importaba; el
 recuento por tokens contra el recuento por tamaño sí.
 
-**Al plugin.** Extiende la regla 13: las issues del orquestador se verifican, y
-en las que traen un número, se verifica la vara antes que la cifra.
+**Al plugin.** Extiende el punto 13 de «Qué llevamos al plugin»: las issues
+del orquestador se verifican, y en las que traen un número, se verifica la
+vara antes que la cifra.
 
 ### Quien redacta a partir de una cita la endurece
 
@@ -452,7 +465,9 @@ desconfianza.
 **Al plugin.** El dossier trae dónde cotejar: la URL, la página y una frase
 exacta de la cita. Los comandos los arma y los corre el orquestador, y dice qué
 dio: el investigador no tiene Bash. Acá lo tenía porque lo emulaba
-`general-purpose`. Cotejar es parte del paso de carga, no una opción.
+`general-purpose` sin límite de herramientas, que es lo que corrige la receta
+de «Los agentes del proyecto tampoco cargan en la sesión siguiente». Cotejar
+es parte del paso de carga, no una opción.
 
 ### El reviewer calcula, el tester mide, el orquestador decide
 
@@ -588,10 +603,10 @@ siguiente.
 **Causa.** La issue salió sin cotejar sus citas contra el código ni sus
 secciones entre sí.
 
-**Qué hacemos.** La regla 13: se verifica la issue y se le avisa al dev lo que
-esté mal. Por eso ninguno de los tres lo frenó. Sigue haciendo falta: de las
-cinco issues verificadas hasta acá (#118, #128, #129, #133 y #130), cuatro
-tenían algo mal.
+**Qué hacemos.** Lo del punto 13 de «Qué llevamos al plugin»: se verifica la
+issue y se le avisa al dev lo que esté mal. Por eso ninguno de los tres lo
+frenó. Sigue haciendo falta: de las cinco issues verificadas hasta acá (#118,
+#128, #129, #133 y #130), cuatro tenían algo mal.
 
 **Al plugin.** Antes de publicar una issue, el orquestador corre `git grep`
 sobre cada archivo y símbolo que cita, y chequea que "Qué hacer" no pida lo
@@ -619,7 +634,8 @@ no estaba ahí», no como «esta aserción sobra».
 rojo por separado, y la que no cae con ninguna mutación sobra.
 
 El arreglo de los 3 px lo hizo el orquestador, y cambia comportamiento: no
-calificaba para la regla 25 y tendría que haber vuelto al dev.
+calificaba para el punto 25 de «Qué llevamos al plugin» y tendría que haber
+vuelto al dev.
 
 **Al plugin.** Las dos van al prompt del tester, con estos casos como ejemplo.
 
@@ -676,7 +692,8 @@ La lista corta, para no releer todo:
 16. **Los agentes del proyecto no cargan en todos los harness; los de plugin
     sí.** Es la razón de que el plugin exista. Los roles van como agentes del
     plugin; el orquestador arranca con `/agents` y, si no aparecen, emula con
-    `general-purpose`, `model:` e `isolation: worktree` en la llamada.
+    la receta de «Los agentes del proyecto tampoco cargan en la sesión
+    siguiente».
 17. **El tester no toma la rama del dev**: trabaja en `qa/<rama>`, sobre
     `origin/<rama>`. El orquestador lleva sus tests con `merge --ff-only`, y
     el worktree del dev vive hasta que cierre el QA: el tester reportó en verde

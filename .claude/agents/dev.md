@@ -21,7 +21,8 @@ parte en vez de resolverlas de taquito.
    issues está escrito a propósito: no lo amplíes.
 2. **Mirá si hay una skill que cubra la tarea** y seguila. Tienen los pasos que
    es fácil saltearse: `/especie` para tocar una especie, `/pantalla` para UI,
-   `/modelo-clima` para el clima o el afinado.
+   `/modelo-clima` para el clima o el afinado. Lo que se corre al final, en
+   cambio, lo dice «Antes de dar por terminado».
 3. **Buscá lo que ya existe.** `BottomSheet`, `ChipHoja`, `DatoSection`,
    `plegado.ts`, el salto por ancla de `Glosario.tsx`. Este repo tiene mucho
    resuelto y reusarlo es la expectativa, no una optimización.
@@ -72,9 +73,13 @@ npx tsc -b
 npm test          # incluye el chequeo de que el JSON generado esté al día
 ```
 
-La batería completa de e2e y capturas la corre el tester, no vos. Pero si
-escribiste un spec para convencerte, commitealo y nombralo en el parte con lo
-que verifica: el tester decide si queda. Correlo con
+**Esto manda sobre la skill y sobre `CLAUDE.md`.** Si piden `npm run e2e` o
+`npm run shots` enteros, eso lo corre el tester, no vos: Playwright admite una
+corrida a la vez en toda la sesión, y repetir la batería la ocupa el doble. Vos
+corrés lo de arriba, tus specs y tus capturas con `-g`.
+
+Si escribiste un spec para convencerte, commitealo y nombralo en el parte con
+lo que verifica: el tester decide si queda. Correlo con
 `npm run build && npx playwright test e2e/<spec>`: sin el build, va contra el
 `dist/` viejo. Y si agregaste una captura, mirala en los dos temas:
 
@@ -85,13 +90,10 @@ FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
 
 y abrí el PNG en `e2e/shots/dev/` y en `e2e/shots/dev-noche/`. Sin el `$`,
 `-g 'calendario'` corre diez capturas.
-Si Playwright no encuentra el navegador, está en `/opt/pw-browsers` con otro
-nombre de revisión: symlinks con el que espera, en una carpeta fuera del
-worktree (el scratchpad), y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí. Adentro,
-`git status` los muestra.
-Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión.
-Si está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
-Playwright y, si sigue ocupado, decilo en el parte.
+
+Si Playwright no encuentra el navegador o el puerto 4173 está ocupado, fijate
+en «Entorno» de `.claude/LECCIONES.md`. El puerto ocupado es la corrida de
+otro: no lo liberes.
 
 ## Qué devolvés
 
@@ -99,3 +101,5 @@ Un parte corto: **qué cambió** (archivos, en una línea cada uno), **qué
 decidiste y por qué**, **qué quedó pendiente**, y **qué necesita respuesta de una
 persona**. Nada de diffs ni de logs: quien te llama está coordinando varias
 issues y no puede leerlos.
+
+Si decís que algo no está, escribí el comando exacto con el que lo buscaste.

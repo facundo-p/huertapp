@@ -47,9 +47,9 @@ reinventes: extendela.
 
 ## Invariantes que un test va a verificar
 
-`e2e/accesibilidad.spec.ts` corre sobre todas las pantallas con datos
-cargados; el contraste y el foco, **en los dos temas**. Diseñá para esto desde
-el principio:
+`e2e/accesibilidad.spec.ts` recorre todas las pantallas. El contraste lo mide
+**en los dos temas** y con datos cargados; el foco, en los dos temas, en la
+primera parada de Tab de cada ruta. Diseñá para esto desde el principio:
 
 1. **Contraste AA.** 4,5:1 el texto normal, 3:1 el grande. Los tokens están
    calibrados a ~4,6. El test compone las capas con alpha —incluido el alpha
@@ -84,16 +84,17 @@ No termina cuando compila. Termina cuando mirás tus capturas **en los dos
 temas**.
 
 Agregá tu pantalla a `e2e/screenshots.spec.ts` con sus estados y a
-`PANTALLAS` de `accesibilidad.spec.ts`. Sacá sólo las tuyas, una corrida por
-nombre y por tema:
+`PANTALLAS` de `accesibilidad.spec.ts`. Mientras iterás, sacá sólo las tuyas,
+una corrida por tema:
 
 ```bash
 FASE=dev npm run shots -- -g 'captura <nombre>$'
 FASE=dev-noche TEMA=noche npm run shots -- -g 'captura <nombre>$'
 ```
 
-El `$` ancla el nombre: sin él, `-g 'calendario'` corre diez. Después abrí
-los PNG de `e2e/shots/dev/` y `e2e/shots/dev-noche/`. Acá las capturas
+El `$` ancla el nombre: sin él, `-g 'calendario'` corre diez. Con varios
+estados, `-g 'captura (<uno>|<otro>)$'` los saca en la misma corrida. Después
+abrí los PNG de `e2e/shots/dev/` y `e2e/shots/dev-noche/`. Acá las capturas
 encontraron: un ícono que se leía como otra cosa, una lista desarmada en
 palabras sueltas, un botón con texto invisible de noche, una leyenda partida
 del color que nombraba, una aguja que se confundía con las marcas de mes, tres
@@ -109,10 +110,11 @@ no desaparece. Cuando algo no funciona en cierta plataforma, se dice **antes**.
 
 ## Verificación final
 
+Las cuatro de `CLAUDE.md`, con las capturas en los dos temas:
+
 ```bash
-npx tsc -b && npm test
+npx tsc -b && npm test && npm run e2e
+FASE=dia npm run shots && FASE=noche TEMA=noche npm run shots
 ```
 
-Más tus capturas en los dos temas, como en el bucle de arriba. La batería
-completa —`npm run e2e` y todas las capturas— la corre el tester: repetirla
-ocupa el puerto 4173, que es uno solo para toda la sesión.
+Y abrí las de tu pantalla en `e2e/shots/dia/` y `e2e/shots/noche/`.

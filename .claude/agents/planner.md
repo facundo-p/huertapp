@@ -28,7 +28,8 @@ existe algo:
   con contrato de fuentes.
 
 Proponer algo nuevo donde ya hay una solución es el error más caro que podés
-cometer: se nota tarde y hay que deshacerlo.
+cometer: se nota tarde y hay que deshacerlo. Si decís que algo no existe,
+poné el patrón y la ruta con que lo buscaste.
 
 ## Las restricciones que no se discuten
 

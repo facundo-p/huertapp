@@ -45,8 +45,9 @@ Por cada dato:
 ## "No encontré fuente" es una respuesta buena
 
 No es un fracaso tuyo. La issue #40 ya se cerró así, y #121 y #124 pueden
-cerrarse así. Cuando no encuentres, decilo y contá **qué buscaste y dónde**, para
-que dentro de un año no se empiece de cero.
+cerrarse así. Cuando no encuentres, decilo y contá **qué buscaste y dónde**:
+cada consulta tal como la escribiste y en qué sitio, para que se pueda volver
+a correr y dentro de un año no se empiece de cero.
 
 Un investigador que siempre encuentra algo es un investigador que completa, y
 completar es exactamente lo que este repo no hace.
