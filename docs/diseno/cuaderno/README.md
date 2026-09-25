@@ -17,7 +17,10 @@ textos tal cual los arman `src/lib/tareas/engine.ts`, `compost.ts` y
 domingo) es inventado para mostrar los avisos. El ciclo del tomate sigue lo que
 la demo quiere contar (asomó el 18/9, seis días tarde); hoy `demo.ts` pisa esa
 fecha al dividir la tanda, y el motor da asomó 10/9 sin corrimiento. Es un bug
-de la demo, anotado aparte.
+de la demo: #151. Y una sola fuente no sale tal cual: la del corralito, porque
+`compost.ts` (~línea 52) arma «según la guía: A los 3 meses… FAO, 3 a 6. ·»,
+con mayúscula y punto; el render la muestra como la arma la línea 35 del mismo
+archivo, en minúscula y sin punto. Es parte de la propuesta.
 
 ## Por qué
 
@@ -42,9 +45,10 @@ de cada lugar en el croquis. Todo lo que se lee de corrido va en Nunito, la
 redonda: detalles, fuentes, el diario, las fechas chicas, los nombres de las
 plantas en el croquis y los avisos. La manuscrita chica cuesta leerla, y la
 calidez ya la ponen los títulos. Por pantalla, tres tamaños de manuscrita y
-tres de redonda (16, 14 y 12). Unbounded sale.
-Nunito ya está en `package.json` sin usarse; Caveat se sumaría igual que las
-otras, self-hosted y en subset latin.
+tres de redonda (16, 14 y 12). Salen Unbounded y también Manrope, la del cuerpo
+de hoy (`--font-cuerpo`): todo lo que se lee va en Nunito, que ya está en
+`package.json` sin usarse. Las dos que salen se van también del precache.
+Caveat se sumaría igual que las otras, self-hosted y en subset latin.
 
 **Papel.** Renglones cada 28 px sólo en las listas que son «páginas», con el
 texto apoyado sobre la línea, y un margen terracota a la izquierda.
@@ -58,18 +62,28 @@ trae su intensidad, y con el 0,02 de hoy quedaría invisible.
 La regla que la hace posible: **de día, ninguna mancha es más oscura que el
 papel.** El grano negro de día tiene techo en 0,021 (`src/theme.css`), porque
 oscurecer el papel le baja el contraste a `--tinta-tenue` y a `--tinta-suave`.
-La textura se ve por tono y por claridad, con colores como `#fffdf6`, `#eef6fb`,
-`#fff2f0` y `#fff4cf`, todos igual de claros o más que el papel: no le cobra
-contraste a ningún texto. De noche es al revés, nada más claro que el papel,
-porque ahí el texto es el claro. El grano negro de siempre sigue, con nubes y
-fibras apenas más oscuras. Se verificó color por color, en los dos temas, al
-armar el render.
+La textura se ve por tono y por claridad, con colores como `#fffdf6`, `#f9fbff`,
+`#fff5f0` y `#fff8e9`. Tienen **cada canal** dos unidades o más por encima del
+papel, y no sólo la luminancia: el borde de una fibra se mezcla con el papel, y
+si un canal baja, la mezcla puede quedar más oscura que los dos. De noche es al
+revés, cada canal por debajo, porque ahí el texto es el claro. El grano negro
+de siempre sigue, con nubes y fibras apenas más oscuras.
+
+Dos trampas medidas sobre la tesela dibujada, píxel por píxel:
+- los filtros de las nubes llevan `color-interpolation-filters="sRGB"`: por
+  defecto interpolan en linearRGB, y de noche la mitad de los píxeles salía
+  más clara que el papel;
+- de noche hay que medir el píxel **más claro**, no el más oscuro (el que mira
+  `e2e/textura.spec.ts`).
+
+Medido así, de noche ningún píxel cruza. De día cruzan 11 de 65 536, por una
+unidad de redondeo del suavizado en el borde de alguna fibra.
 
 **Cosas hechas a mano, con función:**
 
 | Pieza | Qué hace |
 |---|---|
-| Casilla dibujada | Es «Hecho», con 44 px de target. Tildada, la tarea se tacha. |
+| Casilla dibujada | Es «Hecho», con 44 px de target. Tildada, la tarea se tacha y brota una hojita, y a los 700 ms se va, como hoy en la app: tildar es definitivo, porque girar el compost pisa la fecha anterior y «Asomó» escribe `germino`. En el render se destilda sólo para poder probarla. |
 | Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Tocarlo lleva el scroll a ese día, y el post-it se queda donde está. |
 | Pestañas de separador | La barra de navegación, con la misma altura que hoy (59 + zona segura). La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
@@ -86,8 +100,10 @@ abajo.
 
 - Cabecera manuscrita con la fecha y el tiempo de hoy en una línea.
 - **Tira de la semana** en vez de siete filas: sigla, número, cielo, y un
-  puntito por tarea (el aviso va con su propio ícono: copo, gota). Hoy dice
-  «hoy» en lugar de la sigla.
+  puntito por tarea, hasta tres y después «+N», que si no se meten en la
+  columna del día vecino (el aviso va con su propio ícono: copo, gota). Hoy
+  dice «hoy» en lugar de la sigla. Ancho mínimo, 340 px, el que ya asume
+  `Hoy.tsx`: a 320 un día baja de 44.
 - **La semana entera se lee scrolleando.** Cada día es una sección de la misma
   página («Para hoy», «Viernes 25»…). Un día sin nada ocupa un renglón: «Nada
   anotado · 21° · 9° · despejado». Después del último día la página sigue con
@@ -96,7 +112,8 @@ abajo.
   leyendo**: cambia solo al scrollear. Tocar un día lleva el scroll ahí y el
   foco a su título, para que el lector de pantalla lo anuncie; mientras dura
   el scroll suave, el seguimiento no le discute el día, y al terminar
-  (`scrollend`) recalcula. El día leído va con `aria-current`.
+  (`scrollend`, o a los 900 ms si ese evento no llega) recalcula. El día leído
+  va con `aria-current`.
 - Al scrollear, la tira **no se rearma**: se mueven `aria-current` y el
   círculo sobre los botones que ya están. Rearmarla con `innerHTML` le saca el
   foco a quien la usa con teclado.
@@ -110,7 +127,8 @@ abajo.
 - **Post-it** arriba, con el resumen. Tocarlo lleva el scroll a su día, donde
   está el aviso entero con su fuente, y el post-it no desaparece.
 - **Para sembrar ahora**, como nota al margen después de hoy: cuatro nombres
-  con «+» y «ver las 31».
+  con «+» y «Ver todas en Explorar», sin número: `paraSembrarAhora` cuenta 31 y
+  el filtro «Ahora» de Explorar muestra 37, porque suma lo posible.
 
 ### Más de un post-it
 
@@ -143,7 +161,7 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 | almaciguera | 6 columnas a página entera × ⌈capacidad / 6⌉ filas. Con 6 celdas o menos, 3 columnas a media página | `ocupa ?? 1` celdas seguidas |
 | macetas | 3 × ⌈N / 3⌉ a media página (N = capacidad, o las plantas si no hay). Con más de 6, 6 columnas a página entera. La maceta arriba y el nombre abajo | `ocupa ?? 1` macetas |
 | bancal en surcos | Un surco por fila, 44 px de alto, a media página. Con más de 4 surcos, página entera | `ocupa ?? 1` surcos |
-| bancal libre | 6 columnas a página entera × filas según largo / ancho (acotado entre 1,3 y 2,5). Sin medidas pero con `capacidad` en m², 6 × 3 y m² por celda = capacidad / 18. Sin ninguna de las dos, como «otro» | ⌈superficie / m² por celda⌉, mínimo 1, redondeando antes a 6 decimales: en coma flotante 1,12 / 0,16 da 7,000…1 y `Math.ceil` devuelve 8 |
+| bancal libre | 6 columnas a página entera, a lo largo del lado mayor; filas = `Math.round(6 / proporción)`, con proporción = lado mayor / lado menor, acotada entre 1,3 y 2,5. Sin medidas pero con `capacidad` en m², 6 × 3 y m² por celda = capacidad / 18. Sin ninguna de las dos, como «otro» | ⌈superficie / m² por celda⌉, mínimo 1, redondeando antes a 6 decimales: en coma flotante 1,12 / 0,16 da 7,000…1 y `Math.ceil` devuelve 8 |
 | bancal sin disposición cargada | como «otro»: no promete surcos que nadie declaró (`lugar.ts`) | 1 celda |
 | otro, o sin lugar | 3 columnas, una celda por planta | 1 celda |
 
@@ -157,11 +175,13 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 - Las columnas de macetas y almaciguera cambian con la capacidad (3 o 6). Por
   eso se fijan en `plano.cols` la primera vez que se acomoda el lugar: después,
   si cambia la capacidad, cambian las filas y no el ancho, y `celdas` no se
-  corre.
+  corre. `cols` vale sólo si es un entero de 1 a 6 (llega por backup), y
+  `FichaUbicacion` lo limpia si cambia la clase del lugar.
 - Orden de las plantas: `sembrada` ascendente, con el `id` de desempate (sin
   él, dos siembras del mismo día se reordenan solas, el bug que ya resolvió
   `agruparPorLugar`). Una siembra nueva va al final y no corre a las demás. Un
-  bloque no se corta entre filas si entra entero en la siguiente.
+  bloque no se corta entre filas si entra entero en la siguiente, salvo que
+  saltar deje sin lugar a las que siguen: entonces se corta.
 - Los lugares van en dos columnas: los de media página de a dos y los de
   página entera solos. Si a uno de media le sigue uno entero, sube el próximo
   de media a llenar el hueco. Se empaqueta en el orden de los datos, no con
@@ -210,7 +230,8 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   coincide con el de la planta, se ignoran. Un `celdas` con forma rota también
   se ignora (`validar()` del backup no mira su forma).
 - Los lugares sin `plano.orden`, por ejemplo uno creado después de acomodar, van
-  después de los que lo tienen, en el orden de `agruparPorLugar`.
+  después de los que lo tienen, en el orden de `agruparPorLugar`. A igual
+  `orden`, también manda ese.
 - Sin los campos, el nivel 0 exacto.
 
 **«Acomodar» se hace tocando, nunca arrastrando.**
@@ -226,9 +247,12 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
   cuando no queda lugar libre) y «Soltar».
 - Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
-  va a quedar después. Como los de media página se empaquetan de a dos, un
-  movimiento puede no cambiar nada: la barra lo dice («Quedó donde estaba…») en
-  vez de anunciar un cambio que no pasó.
+  va a quedar después, o «Al final de la hoja», que aparece en la barra. Como
+  los lugares chicos van de a dos, el empaquetado puede correrlo o dejarlo
+  donde estaba: la barra dice dónde quedó y por qué, en vez de anunciar un
+  cambio que no pasó. El foco queda en el lugar movido.
+- La barra habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
+  «3 celdas».
 
 Elegir una sola celda es mover por celda; elegir toda la planta es mover el
 grupo. Así no pelea con el scroll, y anda con teclado y lector de pantalla:
@@ -255,7 +279,11 @@ acomodar el dibujo.
 - El tipo de tarea va en el nombre accesible, no en el dibujo.
 - Van al Glosario, como todo ícono con significado: la banderita, la atrasada,
   el copo, la semilla, las tres etapas y la maceta vacía (libre). Las plantitas
-  de cada grupo reemplazan a `IconoGrupo` en «Grupos de especies».
+  son dibujos con su propia gramática (viewBox 32, trazo de 1,75 en pantalla) y
+  suman sus entradas: `IconoGrupo` sigue igual en la app y en el Glosario.
+- La maceta vacía se distingue por el trazo punteado, sin bajarle la opacidad.
+  El `pulso` de lo atrasado anima sólo `transform`: con opacidad, el número
+  bajaba a 3,7:1 en el valle.
 
 ### Estructura accesible
 
@@ -278,8 +306,8 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
   mano:
   - **El renglón cae debajo de la línea de base**, en el pie de cada fila de
     28 px. Nada puede correr la trama: margen sí, `padding` arriba de la
-    página no, y lo que corta la página (la nota al margen) ocupa un múltiplo
-    de 28. Así el renglón no cruza ninguna letra.
+    página no, y lo que corta la página (la nota al margen, las fotos del
+    diario) ocupa un múltiplo de 28. Así el renglón no cruza ninguna letra.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
     contrastes) no van en texto de página rayada: `--tinta-tenue`, y de día
     `--verde-hoja` y `--sol-texto`, de noche `--terracota-texto`. «Atrasada»,
