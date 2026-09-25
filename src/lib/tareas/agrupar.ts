@@ -49,8 +49,7 @@ export function etiquetaPie(grupos: GrupoTareas[]): string {
 const sinMayus = (s: string | undefined) => s?.toLocaleLowerCase('es')
 
 /** Con la letra del primero: «zanahoria» y «Zanahoria» van en un renglón, como en las filas. */
-const titulosDe = (g: GrupoTareas): string[] =>
-  g.tareas.map((t) => t.titulo).filter((x, i, xs) => xs.findIndex((y) => sinMayus(y) === sinMayus(x)) === i)
+const sinRepetir = (xs: string[]) => xs.filter((x, i) => xs.findIndex((y) => sinMayus(y) === sinMayus(x)) === i)
 
 /** Lo que se sabe de cada planta, por id, para separar dos tareas que se llaman igual. */
 export interface DondeCrece {
@@ -191,10 +190,10 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
   for (const g of grupos) {
     porGrupo.set(
       g.clave,
-      titulosDe(g).map((titulo) => {
+      sinRepetir(g.tareas.map((t) => t.titulo)).map((titulo) => {
         // el pie ya está en la fila de su día: decirlo ahí no separa nada
         const deCuales = g.tareas.filter((t) => sinMayus(t.titulo) === sinMayus(titulo) && t.plantaId && porTarea.has(t.id))
-        const lugares = [...new Set(deCuales.map((t) => porTarea.get(t.id)!))]
+        const lugares = sinRepetir(deCuales.map((t) => porTarea.get(t.id)!))
         return lugares.length ? { titulo, lugares: lugares.join(' · ') } : { titulo }
       }),
     )

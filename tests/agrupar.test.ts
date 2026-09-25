@@ -248,7 +248,7 @@ describe('dos tareas que se llaman igual', () => {
     expect(d.porTarea.get('b')).toBe(`${FONDO}, asomó el 2 sept`)
   })
 
-  // la cosecha: es la única que sale mientras la germinación sigue sin marcar
+  // la cosecha no espera a que asome: es la que junta una marcada con una sin marcar
   const cosecha = (id: string) =>
     tarea({ id, plantaId: id, tipo: 'cosechar', titulo: 'Lechuga ya estaría para cosechar' })
 
@@ -286,6 +286,18 @@ describe('dos tareas que se llaman igual', () => {
     )
     expect(etiqueta(d, 'a')).toBe('Maceta, sembrada el 24 ago')
     expect(etiqueta(d, 'b')).toBe('maceta, sembrada el 26 ago')
+  })
+
+  it('en el pie, «Maceta» y «maceta» empatadas en todo se nombran una vez', () => {
+    const grupos = agruparPorPie([zanahoria('a'), zanahoria('b')])
+    const d = distinguir(
+      grupos,
+      donde({ a: { lugar: 'Maceta', sembrada: '2026-08-24' }, b: { lugar: 'maceta', sembrada: '2026-08-24' } }),
+      HOY,
+    )
+    expect(etiqueta(d, 'a')).toBe('Maceta')
+    expect(etiqueta(d, 'b')).toBe('maceta')
+    expect(d.porGrupo.get(grupos[0].clave)).toEqual([{ titulo: ZANAHORIA, lugares: 'Maceta' }])
   })
 
   it('el apodo «zanahoria» y la «Zanahoria» del catálogo se llaman igual, también en el pie', () => {
