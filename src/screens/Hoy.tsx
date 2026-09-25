@@ -23,6 +23,7 @@ import {
 import type { DiaPronostico } from '../lib/pronostico/tipos'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
+import { dondeCreceDe } from '../lib/tareas/agrupar'
 import { hoyISO } from '../lib/huerta/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
 import { nombreDecada, decadaDe, saludoEstacional, estacionDe, mesDe } from '../lib/fechas'
@@ -36,7 +37,7 @@ const DIAS_CARRIL = 6
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, composteras, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, cargado, errorCarga } = useHuerta()
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
@@ -46,7 +47,7 @@ export function Hoy() {
   const [abrirAlta, setAbrirAlta] = useState<string | undefined>()
   const [festejando, setFestejando] = useState<string | null>(null)
   const [diaAbierto, setDiaAbierto] = useState<DiaPronostico | null>(null)
-  const [menuDe, setMenuDe] = useState<Tarea | null>(null)
+  const [menuDe, setMenuDe] = useState<{ tarea: Tarea; nombre: string } | null>(null)
 
   const tareas = useMemo(() => {
     if (!indice) return []
@@ -94,6 +95,11 @@ export function Hoy() {
   // con alerta de helada del pronóstico, la tarea estadística se corre sola
   const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
   const helada = avisos.find((a) => a.tipo === 'helada')
+
+  const dondeCrece = useMemo(
+    () => dondeCreceDe(plantas, ubicaciones, (slug) => indice?.porSlug.get(slug)?.nombre_comun),
+    [plantas, ubicaciones, indice],
+  )
 
   const plantaDe = (t: Tarea) =>
     t.tipo === 'revisar_germinacion' ? plantas.find((p) => p.id === t.plantaId) : undefined
@@ -159,11 +165,12 @@ export function Hoy() {
               pronostico={dias}
               tareas={tareasMostradas}
               avisos={avisos}
+              dondeCrece={dondeCrece}
               festejando={festejando}
               conAsomo={(t) => !!plantaDe(t)}
               onCompletar={(t) => void alCompletar(t)}
               onAsomo={(t) => void alAsomar(t)}
-              onMenu={setMenuDe}
+              onMenu={(tarea, nombre) => setMenuDe({ tarea, nombre })}
               onAbrirDia={setDiaAbierto}
             />
             {estadoPron.ubicacion && (
@@ -229,17 +236,17 @@ export function Hoy() {
       {/* «Más tarde» vive acá y no en la fila: dos botones no entran en 340
           px. Posponer no se elimina: es la válvula de escape de una app que
           manda. */}
-      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe?.titulo ?? ''}>
+      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe?.nombre ?? ''}>
         {menuDe && (
           <button
             type="button"
             className="hoja__opcion"
             onClick={() => {
-              void posponer(menuDe.id)
+              void posponer(menuDe.tarea.id)
               setMenuDe(null)
             }}
           >
-            {plantaDe(menuDe) ? 'Todavía no asomó' : 'Más tarde'}
+            {plantaDe(menuDe.tarea) ? 'Todavía no asomó' : 'Más tarde'}
             <small>Se esconde tres días y después vuelve sola.</small>
           </button>
         )}

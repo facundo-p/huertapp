@@ -47,6 +47,8 @@ export interface Tarea {
   prioridad: number
   /** true si ya se pasó de tiempo */
   atrasada?: boolean
+  /** el detalle es la instrucción («cubrí de noche X»), no el porqué: no se pliega */
+  instruccion?: true
   /** día en que cae (ISO corta). Lo atrasado y lo en ventana caen hoy. */
   fecha: string
 }
@@ -159,6 +161,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
           : `Ya tiene edad de pasar a su lugar definitivo. ${e.transplante.signos_listo}`,
         fuente: `según la ficha: ${e.dias_a_trasplante!.min}-${e.dias_a_trasplante!.max} días desde la siembra · ${conf(e.transplante.confianza)}${corrido(est.corrimiento)}`,
         prioridad: peligroso ? 3 : 1,
+        ...(peligroso && { instruccion: true as const }),
       })
     }
 
@@ -199,6 +202,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
         detalle: `Todavía hay ${Math.round(riesgo * 100)} % de probabilidad de helada. Cubrí de noche ${nombres.join(', ')}${expuestas.length > 3 ? ' y las demás' : ''}: la helada las mata.`,
         fuente: 'estadística de heladas del AMBA (FAUBA, umbral de 3 °C) para tu zona',
         prioridad: 0,
+        instruccion: true,
       })
     }
   }
