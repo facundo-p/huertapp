@@ -195,6 +195,8 @@ button.carril__dia:active {
   font-weight: 800;
   line-height: 1.25;
   color: var(--tinta-alta);
+  /* un apodo largo sin espacios corta antes que meterse abajo de los botones */
+  overflow-wrap: anywhere;
 }
 
 .carril__atrasada {
@@ -209,17 +211,13 @@ button.carril__dia:active {
   text-transform: uppercase;
 }
 
-/* Sólo cuando dos tareas del día se llaman igual: dice cuál es cuál. En línea
-   y no flex: el lugar arranca en el renglón del chip en vez de bajar entero. */
+/* Sólo cuando dos tareas de la semana se llaman igual: dice cuál es cuál. En
+   línea y no flex: el lugar arranca en el renglón del chip en vez de bajar entero. */
 .carril__lugar {
   font-size: var(--texto-xs);
   font-weight: 600;
   line-height: 1.45;
   color: var(--tinta-suave);
-}
-
-.carril__lugar .carril__atrasada {
-  margin-right: 4px;
 }
 
 .carril__detalle {
@@ -274,8 +272,8 @@ button.carril__dia:active {
   gap: 3px;
 }
 
-/* De qué tareas habla este pie. Va en negrita y no en chico: es el encabezado
-   del bloque, y la jerarquía se hace con peso. */
+/* De qué tareas habla este pie. Del detalle lo separa el peso, no el tamaño:
+   es el encabezado del bloque. */
 .carril__pie-de {
   font-size: var(--texto-xs);
   font-weight: 800;
@@ -302,11 +300,18 @@ button.carril__dia:active {
 }
 
 /* ---- acciones ---- */
-/* Al lado: con el item en una línea, apiladas dejaban 88 px de alto. */
+/* Al lado: con el item en una línea, apiladas dejaban 88 px de alto. Hasta
+   340 px: más angosto, al texto le quedan 60 px y se pisa con «Asomó». */
 .carril__acciones {
   display: flex;
   align-items: center;
   flex: none;
+}
+
+@media (max-width: 340px) {
+  .carril__acciones {
+    flex-direction: column;
+  }
 }
 
 .carril__hecho {

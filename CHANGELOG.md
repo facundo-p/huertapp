@@ -34,9 +34,11 @@ Qué significa cada parte en este proyecto:
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
 - **Si dos plantas tienen una tarea con el mismo nombre, te dice cuál es
   cuál.** Con dos zanahorias sin apodo, cada una muestra en qué lugar está y,
-  si con eso no alcanza, cuándo la sembraste, de qué especie es o cuándo asomó.
-  Su porqué lleva lo mismo, así sabés de cuál te habla. Y con lector de
-  pantalla, cada «Hecho» y cada «Asomó» dice de qué tarea es.
+  si con eso no alcanza, cómo está puesta, cuándo la sembraste, de qué especie o
+  variedad es, o cuándo asomó. Vale para toda la semana: dos iguales en días
+  distintos también lo dicen. Su porqué lleva lo mismo, así sabés de cuál te
+  habla. Y con lector de pantalla, cada «Hecho» y cada «Asomó» dice de qué
+  tarea es.
 
 ### Cambiado
 
@@ -51,9 +53,9 @@ Qué significa cada parte en este proyecto:
 - **«La semana» se lee de un vistazo.** De cada tarea se ve el título: el
   porqué y de dónde sale el dato quedan a un toque, en «por qué y de dónde
   sale». Lo que hay que hacer para no perder una planta —taparla de noche si
-  puede helar, esperar para trasplantarla— sigue a la vista, en cada planta. No
-  se borró nada —la procedencia sigue estando, plegada—, pero ahora entra mucho
-  más de cada día sin tener que bajar.
+  puede helar, esperar para trasplantarla— sigue a la vista, en la fila de la
+  tarea. No se borró nada —la procedencia sigue estando, plegada—, pero ahora
+  entra mucho más de cada día sin tener que bajar.
 - **Lo que vale para varias plantas se dice una vez.** Si tenés cinco lechugas
   para trasplantar, el «según la ficha: 25-35 días…» aparece una sola vez para
   las cinco y no cinco veces igual. A la planta que le corrió la germinación le

@@ -46,8 +46,7 @@ export function Hoy() {
   const [abrirAlta, setAbrirAlta] = useState<string | undefined>()
   const [festejando, setFestejando] = useState<string | null>(null)
   const [diaAbierto, setDiaAbierto] = useState<DiaPronostico | null>(null)
-  const [menuDe, setMenuDe] = useState<Tarea | null>(null)
-  const [lugarMenu, setLugarMenu] = useState<string>()
+  const [menuDe, setMenuDe] = useState<{ tarea: Tarea; nombre: string } | null>(null)
 
   const tareas = useMemo(() => {
     if (!indice) return []
@@ -103,8 +102,10 @@ export function Hoy() {
         p.id,
         {
           lugar: p.ubicacionId ? lugares.get(p.ubicacionId) : undefined,
+          comoEsta: p.comoEsta,
           sembrada: p.sembrada,
           especie: indice?.porSlug.get(p.slug)?.nombre_comun,
+          variedad: p.variedad,
           germino: p.germino,
         },
       ]),
@@ -180,10 +181,7 @@ export function Hoy() {
               conAsomo={(t) => !!plantaDe(t)}
               onCompletar={(t) => void alCompletar(t)}
               onAsomo={(t) => void alAsomar(t)}
-              onMenu={(t, lugar) => {
-                setMenuDe(t)
-                setLugarMenu(lugar)
-              }}
+              onMenu={(tarea, nombre) => setMenuDe({ tarea, nombre })}
               onAbrirDia={setDiaAbierto}
             />
             {estadoPron.ubicacion && (
@@ -249,17 +247,17 @@ export function Hoy() {
       {/* «Más tarde» vive acá y no en la fila: dos botones no entran en 340
           px. Posponer no se elimina: es la válvula de escape de una app que
           manda. */}
-      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe ? `${menuDe.titulo}${lugarMenu ? `, ${lugarMenu}` : ''}` : ''}>
+      <BottomSheet abierto={!!menuDe} onCerrar={() => setMenuDe(null)} titulo={menuDe?.nombre ?? ''}>
         {menuDe && (
           <button
             type="button"
             className="hoja__opcion"
             onClick={() => {
-              void posponer(menuDe.id)
+              void posponer(menuDe.tarea.id)
               setMenuDe(null)
             }}
           >
-            {plantaDe(menuDe) ? 'Todavía no asomó' : 'Más tarde'}
+            {plantaDe(menuDe.tarea) ? 'Todavía no asomó' : 'Más tarde'}
             <small>Se esconde tres días y después vuelve sola.</small>
           </button>
         )}

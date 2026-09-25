@@ -123,6 +123,10 @@ test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ 
   // con lector, «Hecho» dice de qué tarea es: seguidos, eran todos iguales.
   // El espacio antes de «:» lo pone Chrome al cruzar al span sr-solo.
   await expect(helada.getByRole('button', { name: /^Hecho ?: Puede helar$/ })).toBeVisible()
+  // plegado no es borrado: abierto, el pie dice de dónde sale
+  const hoy = page.locator('.carril__fila.es-hoy')
+  await hoy.getByRole('button', { name: /de dónde sal/ }).click()
+  await expect(hoy.locator('.carril__pie-dia')).toContainText('FAUBA')
 })
 
 /**
@@ -169,4 +173,28 @@ test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál e
   await expect(page.locator('dialog.hoja[open]').getByRole('heading')).toHaveText(
     'Zanahoria: fijate si asomó, Bancal del fondo',
   )
+  await page.keyboard.press('Escape')
+  await hoy.getByRole('button', { name: /de dónde sal/ }).click()
+  await expect(hoy.locator('.carril__pie-dia')).toContainText('según la ficha: germina en 10-20 días')
+})
+
+/** A 320 px, con los botones al lado, al texto le quedaban 60 px y se metía abajo de «Asomó». */
+test('en 320 px, ningún título se pisa con sus botones', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 })
+  await abrirHoy(page)
+  // evaluateAll no espera: sin esto, a veces medía la lista vacía y pasaba sin mirar
+  await expect(page.locator('.carril__item').first()).toBeVisible()
+  const pisados = await page.locator('.carril__item').evaluateAll((items) =>
+    items.flatMap((item) => {
+      const titulo = item.querySelector('.carril__titulo')
+      const acciones = item.querySelector('.carril__acciones')
+      if (!titulo || !acciones) return []
+      // el rango mide el texto, que desborda su caja; la caja sola no lo ve
+      const rango = document.createRange()
+      rango.selectNodeContents(titulo)
+      const texto = rango.getBoundingClientRect()
+      return texto.right > acciones.getBoundingClientRect().left ? [titulo.textContent] : []
+    }),
+  )
+  expect(pisados).toEqual([])
 })

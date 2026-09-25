@@ -67,8 +67,8 @@ interface Props {
   conAsomo: (t: Tarea) => boolean
   onCompletar: (t: Tarea) => void
   onAsomo: (t: Tarea) => void
-  /** con el lugar, si otra tarea del día se llama igual */
-  onMenu: (t: Tarea, lugar?: string) => void
+  /** con el nombre que la dice: el título y, si otra se llama igual, el lugar */
+  onMenu: (t: Tarea, nombre: string) => void
   onAbrirDia: (d: DiaPronostico) => void
 }
 
@@ -99,23 +99,22 @@ export function CarrilSemana({
   // semana ahora, no una preferencia que valga la pena recordar mañana.
   const [abiertos, setAbiertos] = useState<string[]>([])
 
-  const semana = useMemo(
-    () =>
-      Array.from({ length: 7 }, (_, i) => {
-        const fecha = sumarDias(hoy, i)
-        const ts = tareas.filter((t) => t.fecha === fecha)
-        const grupos = agruparPorPie(ts)
-        return {
-          fecha,
-          dia: pronostico.find((d) => d.fecha === fecha) ?? null,
-          avisos: avisos.filter((a) => a.fecha === fecha),
-          tareas: ts,
-          grupos,
-          distintos: distinguir(grupos, dondeCrece),
-        }
-      }),
-    [hoy, pronostico, avisos, tareas, dondeCrece],
-  )
+  const semana = useMemo(() => {
+    const fechas = Array.from({ length: 7 }, (_, i) => sumarDias(hoy, i))
+    const deLaSemana = tareas.filter((t) => fechas.includes(t.fecha))
+    return fechas.map((fecha) => {
+      const ts = deLaSemana.filter((t) => t.fecha === fecha)
+      const grupos = agruparPorPie(ts)
+      return {
+        fecha,
+        dia: pronostico.find((d) => d.fecha === fecha) ?? null,
+        avisos: avisos.filter((a) => a.fecha === fecha),
+        tareas: ts,
+        grupos,
+        distintos: distinguir(grupos, dondeCrece, deLaSemana),
+      }
+    })
+  }, [hoy, pronostico, avisos, tareas, dondeCrece])
 
   return (
     <ol className="carril" aria-label="La semana, día por día">
@@ -167,7 +166,7 @@ export function CarrilSemana({
                   asomo={conAsomo(t)}
                   onCompletar={() => onCompletar(t)}
                   onAsomo={() => onAsomo(t)}
-                  onMenu={() => onMenu(t, distintos.porTarea.get(t.id))}
+                  onMenu={(nombre) => onMenu(t, nombre)}
                 />
               ))}
               {grupos.length > 0 && (
@@ -292,13 +291,13 @@ function Item({
   onMenu,
 }: {
   tarea: Tarea
-  /** sólo si otra tarea del día se llama igual */
+  /** sólo si otra tarea de la semana se llama igual */
   lugar?: string
   festejando: boolean
   asomo: boolean
   onCompletar: () => void
   onAsomo: () => void
-  onMenu: () => void
+  onMenu: (nombre: string) => void
 }) {
   const Icono = ICONO_TAREA[t.tipo]
   const atrasada = t.atrasada && <span className="carril__atrasada">atrasada</span>
@@ -321,8 +320,8 @@ function Item({
             {lugar}
           </span>
         )}
-        {/* qué tapar o que conviene esperar: en cada planta, porque sólo en la
-            última la primera quedaba igual a un trasplante sin riesgo */}
+        {/* en cada fila y no en el pie: si no, de dos iguales, la primera se
+            leía como un trasplante sin riesgo */}
         {t.instruccion && <span className="carril__detalle">{t.detalle}</span>}
       </span>
     </>
@@ -345,7 +344,12 @@ function Item({
           <span className="carril__pildora">{asomo ? 'Asomó' : 'Hecho'}</span>
           <span className="sr-solo">: {deCual}</span>
         </button>
-        <button type="button" className="carril__menu" onClick={onMenu} aria-label={`Más opciones: ${deCual}`}>
+        <button
+          type="button"
+          className="carril__menu"
+          onClick={() => onMenu(deCual)}
+          aria-label={`Más opciones: ${deCual}`}
+        >
           <IconoPuntos size={20} />
         </button>
       </span>

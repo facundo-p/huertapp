@@ -262,6 +262,48 @@ describe('dos tareas que se llaman igual', () => {
     expect([...d.porGrupo.values()].flat().every((e) => !e.lugares)).toBe(true)
   })
 
+  it('en el mismo lugar, antes que la siembra, dice cómo está puesta', () => {
+    const d = distinguir(
+      agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)]),
+      donde({
+        a: { lugar: FONDO, sembrada: '2026-08-24', comoEsta: 'intercalada entre las lechugas' },
+        b: { lugar: FONDO, sembrada: '2026-08-26' },
+      }),
+    )
+    expect(etiqueta(d, 'a')).toBe(`${FONDO}, intercalada entre las lechugas`)
+    // a la otra la separa lo que no tiene: no se le inventa un texto
+    expect(etiqueta(d, 'b')).toBe(FONDO)
+  })
+
+  it('misma especie, lugar y siembra: desempata la variedad que anotaste', () => {
+    const trasplante = (id: string) =>
+      tarea({ id, plantaId: id, slug: 'albahaca', titulo: 'Albahaca: hora de trasplantar' })
+    const d = distinguir(
+      agruparPorPie([trasplante('v'), trasplante('m')]),
+      donde({
+        v: { lugar: FONDO, sembrada: '2026-08-24', especie: 'Albahaca' },
+        m: { lugar: FONDO, sembrada: '2026-08-24', especie: 'Albahaca', variedad: 'Morada' },
+      }),
+    )
+    expect(d.porTarea.get('m')).toBe(`${FONDO}, Morada`)
+    expect(d.porTarea.get('v')).toBe(FONDO)
+  })
+
+  it('en días distintos también: el día no dice cuál es', () => {
+    const hoy = zanahoria('a')
+    const jueves = { ...zanahoria('b'), fecha: '2026-08-20' }
+    const plantas = donde({
+      a: { lugar: FONDO, sembrada: '2026-08-24' },
+      b: { lugar: MEDIANERA, sembrada: '2026-08-24' },
+    })
+    const grupos = agruparPorPie([hoy])
+    const d = distinguir(grupos, plantas, [hoy, jueves])
+    expect(etiqueta(d, 'a')).toBe(FONDO)
+    expect(d.porGrupo.get(grupos[0].clave)).toEqual([{ titulo: ZANAHORIA, lugares: FONDO }])
+    // sin la semana, el día solo no ve el choque
+    expect(distinguir(grupos, plantas).porTarea.size).toBe(0)
+  })
+
   it('la planta sin lugar se dice «sin lugar asignado»', () => {
     const d = distinguir(
       agruparPorPie([zanahoria('a', 12), zanahoria('b', 10)]),

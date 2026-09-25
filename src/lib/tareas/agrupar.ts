@@ -50,13 +50,17 @@ export interface DondeCrece {
   lugar?: string
   /** ISO corta */
   sembrada: string
+  /** «intercalada entre las lechugas»: dónde, dentro del lugar */
+  comoEsta?: string
   /** nombre común: separa el mismo apodo en dos especies */
   especie?: string
+  /** la que anotaste, «morada» */
+  variedad?: string
   /** ISO corta, si ya asomó */
   germino?: string
 }
 
-/** Un renglón del encabezado del pie: el título y, si se repite en el día, dónde. */
+/** Un renglón del encabezado del pie: el título y, si se repite en la semana, dónde. */
 export interface Encabezado {
   titulo: string
   lugares?: string
@@ -82,19 +86,28 @@ const fechaCorta = (iso: string, otras: (string | undefined)[]) => {
 }
 
 /**
- * Dos tareas del día con el mismo título (dos zanahorias sin apodo) no se
- * distinguen en la fila ni en el pie. Sólo ahí se dice el lugar, y cada dato
- * que sigue se suma sólo si la separa de otra todavía empatada: la siembra, la
- * especie (mismo apodo en dos especies), cuándo asomó o que no se marcó. Lo que
- * queda empatado después de eso es indistinguible de verdad.
+ * Dos tareas de la semana con el mismo título (dos zanahorias sin apodo) no se
+ * distinguen en la fila ni en el pie: en días distintos tampoco, porque el día
+ * no dice cuál es. Sólo ahí se dice el lugar, y cada dato que sigue se suma
+ * sólo si la separa de otra todavía empatada: cómo está puesta, la siembra, la
+ * especie (mismo apodo en dos especies), la variedad, cuándo asomó o que no se
+ * marcó. Lo que queda empatado después de eso es indistinguible de verdad.
+ *
+ * `grupos` son los del día que se dibuja; `semana`, todas las tareas entre las
+ * que un título tiene que decir cuál es.
  */
-export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrece>): Distincion {
+export function distinguir(
+  grupos: GrupoTareas[],
+  plantas: Map<string, DondeCrece>,
+  semana: Tarea[] = grupos.flatMap((g) => g.tareas),
+): Distincion {
   const dato = (t: Tarea) => plantas.get(t.plantaId!)
   const lugar = (t: Tarea) => dato(t)?.lugar ?? SIN_LUGAR
   const desempates: {
     clave: (t: Tarea) => string | undefined
     texto: (t: Tarea, empatadas: Tarea[]) => string | undefined
   }[] = [
+    { clave: (t) => dato(t)?.comoEsta, texto: (t) => dato(t)?.comoEsta },
     {
       clave: (t) => dato(t)?.sembrada,
       texto: (t, es) => {
@@ -103,6 +116,8 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
       },
     },
     { clave: (t) => t.slug, texto: (t) => dato(t)?.especie?.toLocaleLowerCase('es') },
+    // texto tuyo tal cual: puede ser un nombre propio, «Genovesa»
+    { clave: (t) => dato(t)?.variedad, texto: (t) => dato(t)?.variedad },
     {
       clave: (t) => dato(t)?.germino,
       texto: (t, es) => {
@@ -116,7 +131,7 @@ export function distinguir(grupos: GrupoTareas[], plantas: Map<string, DondeCrec
   // por título y no por grupo: dos iguales pueden compartir pie, o pisarse sólo en parte.
   // Helada y compost no tienen planta, y a la compostera la nombrás vos.
   const porTitulo = new Map<string, Tarea[]>()
-  for (const t of grupos.flatMap((g) => g.tareas)) {
+  for (const t of semana) {
     if (t.plantaId) porTitulo.set(t.titulo, [...(porTitulo.get(t.titulo) ?? []), t])
   }
 
