@@ -112,7 +112,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   rotacion: {
     termino: 'Rotación',
     que_es:
-      'No repetir en el mismo lugar, temporada tras temporada, plantas que comparten enfermedades del suelo: si les dejás el mismo cantero, se acumulan. Cuáles las comparten lo dice la ficha de cada una.',
+      'No repetir en el mismo lugar, temporada tras temporada, plantas que comparten enfermedades del suelo: si les dejás el mismo cantero, se acumulan.',
     como: 'Anotá qué familia hubo en cada cantero y hacelas girar. Las cinco que más aparecen en esta app: **solanáceas** (tomate, papa, pimiento, ají, berenjena), **crucíferas** (repollo, brócoli, coliflor, kale, rúcula, rabanito, nabo), **cucurbitáceas** (zapallo, zapallito, pepino, melón, sandía), **aliáceas** (ajo, cebolla, puerro, ciboulette) y **leguminosas** (chaucha, arveja, haba). Después de una leguminosa el suelo queda mejor que antes: fijan nitrógeno.',
   },
 }
@@ -319,7 +319,8 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
 /**
  * La de las flores sale en seis fichas: cada cosa que dice la hace alguna según
  * su fuente, y ninguna se afirma de todas (el copete espanta, la caléndula
- * desvía, el girasol da sombra y tutor).
+ * desvía, el girasol hace de tutor). Sombra no: El Espectador la cuenta a
+ * favor y La Nación, con más confianza, pide sembrarlo donde no la dé.
  */
 export const DESC_GRUPO: Record<Grupo, string> = {
   'Hortaliza de hoja': 'Lechuga, acelga, espinaca, repollo… se cosechan sus hojas, o la cabeza que arman.',
@@ -328,7 +329,7 @@ export const DESC_GRUPO: Record<Grupo, string> = {
   Legumbre: 'Chaucha, arveja, haba: plantas de vaina que fijan nitrógeno en la raíz.',
   Aromática: 'Albahaca, romero, menta… perfume y sabor.',
   'Flor polinizadora':
-    'Flores que se siembran por lo que hacen en la huerta: según la especie, atraen abejas y fauna benéfica, desvían o espantan plagas, o les dan sombra y un tutor a otras plantas.',
+    'Flores que se siembran por lo que hacen en la huerta: según la especie, atraen abejas y fauna benéfica, desvían o espantan plagas, o les hacen de tutor a las trepadoras.',
 }
 
 export const DESC_SUELO: Record<CategoriaSuelo, string> = {
@@ -340,15 +341,23 @@ export const DESC_SUELO: Record<CategoriaSuelo, string> = {
 }
 
 /**
- * Sin horas: las de cada especie las dice su fuente, y una cifra genérica la
- * contradecía (berro: 3 a 6). Y sin pedir más que las citas: el pleno sol de
- * las fuentes es «al menos 6 horas», no «todo el día».
+ * Para la hoja de la ficha, sin horas: al lado de las citadas de la planta, la
+ * cifra genérica las contradecía (berro: 3 a 6). Y sin pedir más que las
+ * citas: el pleno sol de las fuentes es «al menos 6 horas», no «todo el día».
  */
 export const DESC_LUZ: Record<CategoriaLuz, string> = {
   PLENO_SOL: 'Sol directo buena parte del día.',
   SOL_PARCIAL: 'Sol directo una parte del día y sombra el resto.',
   MEDIA_SOMBRA: 'Pocas horas de sol directo; el resto, luz filtrada.',
   TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',
+}
+
+/** En el Glosario sí van las horas de `categorias_luz`: son lo que separa una categoría de otra. */
+export const DESC_LUZ_GLOSARIO: Record<CategoriaLuz, string> = {
+  PLENO_SOL: 'Seis horas o más de sol directo.',
+  SOL_PARCIAL: 'Entre 4 y 6 horas de sol directo.',
+  MEDIA_SOMBRA: 'Con 2 a 4 horas de sol ya está contenta.',
+  TOLERA_SOMBRA: DESC_LUZ.TOLERA_SOMBRA,
 }
 
 /* ------------------------------------------------------------------ *

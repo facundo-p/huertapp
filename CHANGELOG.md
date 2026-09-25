@@ -33,11 +33,11 @@ Qué significa cada parte en este proyecto:
   salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
   Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
 - **Los términos de la ficha se tocan y se explican.** El grupo, el suelo y la
-  luz de arriba de todo, y el nombre de cada labor de "Mientras crece", ahora
+  luz de arriba de todo, y el nombre de cada labor de «Mientras crece», ahora
   van subrayados con puntitos: tocalos y sube una hoja con qué es esa palabra,
   sin sacarte de la ficha. Las del suelo y la luz suman lo que pide esa planta
-  y qué le pasa si no lo tiene, con su confianza y su fuente. Al pie, "Verlo en
-  el Glosario" te deja en la sección que corresponde —o en la palabra justa,
+  y qué le pasa si no lo tiene, con su confianza y su fuente. Al pie, «Verlo en
+  el Glosario» te deja en la sección que corresponde —o en la palabra justa,
   si es una labor— y el lector de pantalla te dice adónde llegaste.
 
 ### Cambiado
@@ -61,9 +61,9 @@ Qué significa cada parte en este proyecto:
   y las hortalizas de hoja incluyen las que arman cabeza, como el brócoli. Al
   tocar una labor en la ficha, la hoja te dice qué es: cómo se hace en esa
   planta es lo que dice su ficha.
-- **El chip de luz de la ficha dice sólo la categoría.** Las horas eran las de
-  la categoría y no siempre coincidían con las de esa planta, que están en su
-  sección Luz, con su fuente.
+- **El chip de luz de la ficha dice sólo la categoría.** Mostraba las horas
+  generales de la categoría, que no siempre coincidían con las que cita cada
+  planta. Las de cada categoría siguen en el Glosario.
 - **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
   no sólo como «diálogo».
 

@@ -5,6 +5,7 @@ import { ConfidenceBadge } from './ConfidenceBadge'
 import { IconoFuente } from '../icons'
 import { conNegritas } from '../lib/negritas'
 import type { ContenidoDefinicion, DatoCitado } from '../lib/glosario'
+import './DatoSection.css' // la cita usa .fuente y su píldora
 import './Definicion.css'
 
 interface Props {
@@ -36,7 +37,11 @@ export function Definicion({ texto, titulo, contenido, className }: Props) {
       <button
         type="button"
         className={`definicion ${className ?? ''}`}
-        onClick={() => setAbierta(true)}
+        onClick={(e) => {
+          // Safari no enfoca un botón al tocarlo, y el foco no tendría adónde volver
+          e.currentTarget.focus({ preventScroll: true })
+          setAbierta(true)
+        }}
         aria-haspopup="dialog"
       >
         {/* El nombre accesible arranca con el texto que se ve (WCAG 2.5.3):

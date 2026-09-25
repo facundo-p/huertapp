@@ -4,7 +4,7 @@ import { Header } from '../components/Header'
 import {
   AJUSTE_SUELO,
   DESC_GRUPO,
-  DESC_LUZ,
+  DESC_LUZ_GLOSARIO,
   DESC_SUELO,
   LABORES,
   PALABRAS,
@@ -333,7 +333,7 @@ export function Glosario() {
         <Seccion id="grupos" titulo="Grupos de especies" retraso={0.05}>
           <ul className="glosario__lista">
             {Object.entries(GRUPOS).map(([g, info]) => (
-              <Fila key={g} Icono={info.Icono} nombre={g} desc={DESC_GRUPO[g as keyof typeof DESC_GRUPO]} color={info.color} />
+              <Fila key={g} Icono={info.Icono} nombre={info.etiqueta} desc={DESC_GRUPO[g as keyof typeof DESC_GRUPO]} color={info.color} />
             ))}
           </ul>
         </Seccion>
@@ -349,7 +349,7 @@ export function Glosario() {
         <Seccion id="luz" titulo="Cuánto sol necesita" retraso={0.15}>
           <ul className="glosario__lista">
             {Object.entries(LUCES).map(([c, info]) => (
-              <Fila key={c} Icono={info.Icono} nombre={NOMBRE_LUZ[c as keyof typeof NOMBRE_LUZ]} desc={DESC_LUZ[c as keyof typeof DESC_LUZ]} color={info.color} />
+              <Fila key={c} Icono={info.Icono} nombre={NOMBRE_LUZ[c as keyof typeof NOMBRE_LUZ]} desc={DESC_LUZ_GLOSARIO[c as keyof typeof DESC_LUZ_GLOSARIO]} color={info.color} />
             ))}
           </ul>
         </Seccion>

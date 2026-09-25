@@ -133,8 +133,6 @@ export function FichaEspecie() {
               titulo={NOMBRE_SUELO[e.suelo.categoria_suelo]}
               contenido={definicionDeSuelo(e.suelo)}
             />
-            {/* sólo el nombre: las horas genéricas de la categoría no coincidían
-                con las citadas de cada especie (berro: 3 a 6) */}
             <Categoria
               Icono={() => <IconoLuz categoria={e.luz.categoria_luz} size={24} decorativo />}
               texto={NOMBRE_LUZ[e.luz.categoria_luz]}
