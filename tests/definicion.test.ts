@@ -70,9 +70,11 @@ describe('definición al toque', () => {
     for (const [quien, d] of conEnlace) expect(d.remite, quien).toContain(d.enlace!.frase)
   })
 
-  // una cifra genérica de horas contradecía la citada de la especie (berro: 3 a 6)
+  // una cifra genérica de horas contradecía la citada de la especie (berro: 3 a 6).
+  // En letras también: así la escribe el Glosario, y copiarla es el error probable
   it('las definiciones de luz no dan cifras', () => {
-    for (const e of ESPECIES) expect(definicionDeLuz(e.luz).que_es, e.slug).not.toMatch(/\d/)
+    const cifra = /\d|\b(?:dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|doce)\b/i
+    for (const e of ESPECIES) expect(definicionDeLuz(e.luz).que_es, e.slug).not.toMatch(cifra)
   })
 
   it('la labor salta a su término, no al principio de la sección', () => {

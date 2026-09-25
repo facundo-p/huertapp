@@ -105,10 +105,12 @@ test('la hoja de la luz trae lo que pide la especie, con todas sus fuentes', asy
   await page.goto('/#/explorar/lechuga')
   await page.waitForLoadState('networkidle')
 
-  // el chip dice sólo la categoría: sus horas genéricas no eran las citadas
-  await expect(page.locator('.ficha__categorias')).not.toContainText(/hora/)
+  // el chip dice sólo la categoría: sus horas genéricas no eran las citadas.
+  // El chip y no .ficha__categorias: ahí adentro están las hojas cerradas
+  const chip = page.getByRole('button', { name: /^Sol parcial/ })
+  await expect(chip).not.toContainText(/hora/)
 
-  await page.getByRole('button', { name: /^Sol parcial/ }).click()
+  await chip.click()
   const hoja = page.getByRole('dialog')
   await expect(hoja.getByText('Lo que pide esta planta')).toBeVisible()
   await expect(hoja.getByText(/tolera sol parcial/)).toBeVisible()
