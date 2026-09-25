@@ -338,8 +338,7 @@ creado a mitad de sesión— y ninguna aplica.
 "leé `.claude/agents/<rol>.md` y adoptalo", y `isolation: worktree` en la
 llamada para dev y tester: emulado, el frontmatter no se aplica. Funcionó en
 las siete corridas y las dos reanudaciones de esta tanda. En la próxima sesión,
-`/agents` primero,
-para saber en qué harness estamos.
+`/agents` primero, para saber en qué harness estamos.
 
 **Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
 plugin no depende de `.claude/agents/` del repo, y es justamente por eso que
@@ -380,8 +379,8 @@ segunda lectura.
 
 ### La métrica de la issue definía la búsqueda y dejaba afuera el peor caso
 
-**Síntoma.** #133 contaba "114 reglas con `--texto-s`/`--texto-xs` en 27
-archivos" y ponía «La semana» como caso ejemplar. `CarrilSemana.css` **no usa
+**Síntoma.** #133 contaba "114 reglas de CSS usando `--texto-s` o
+`--texto-xs` repartidas en 27 archivos" y ponía «La semana» como caso ejemplar. `CarrilSemana.css` **no usa
 ningún token**: sus tamaños de letra chica son 10, 11, 12 y 13 px a mano. El
 ejemplo de la issue no estaba en el recuento de la issue.
 
@@ -548,8 +547,9 @@ de los 3 px, que después hubo que arreglar.
 
 ### Tres errores más en una issue del orquestador
 
-#130 hablaba de "chips de labor con link" en `Cuidados.tsx` que no existen (hay
-una etiqueta de texto y un link en la bajada), nombraba `SUELOS` como si viviera
+#130 hablaba de "Los chips de labor de `Cuidados.tsx`, que hoy mandan a
+`/glosario#labores` a secas", que no existen (hay una etiqueta de texto y un
+link en la bajada), nombraba `SUELOS` como si viviera
 en `glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
 mientras "Lo que no va acá" dejaba justamente esos términos para la issue
 siguiente. Ninguno frenó al dev, porque se le avisaron antes. Van a la cuenta de
@@ -576,7 +576,8 @@ aserción. Y una mutación que deja el test en verde se leyó como «el riesgo
 no estaba ahí», no como «esta aserción sobra».
 
 **Qué hacemos.** Los targets se miden con `elementFromPoint` sobre toda el
-área, bordes incluidos. Cada aserción nueva se ve en rojo por separado.
+área, bordes incluidos pero medio píxel adentro. Cada aserción nueva se ve en
+rojo por separado, y la que no cae con ninguna mutación sobra.
 
 El arreglo de los 3 px lo hizo el orquestador, y cambia comportamiento: no
 calificaba para la regla 25 y tendría que haber vuelto al dev.
@@ -593,7 +594,7 @@ calificaba para la regla 25 y tendría que haber vuelto al dev.
 
 Como QA, el tester cuesta entre 1,6 y 2 veces lo de la tanda anterior
 (81-104 k): escribe tests, los hace fallar y corre la batería dos veces. No vio
-los dos problemas de la entrada anterior, pero dejó tres comportamientos
+los tres problemas de la entrada anterior, pero dejó tres comportamientos
 fijados y una hipótesis descartada con evidencia. Es el gasto que reemplaza a
 "lo probé a mano y andaba".
 

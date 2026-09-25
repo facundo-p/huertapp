@@ -47,8 +47,9 @@ reinventes: extendela.
 
 ## Invariantes que un test va a verificar
 
-`e2e/accesibilidad.spec.ts` corre sobre todas las pantallas con datos cargados, **en
-los dos temas**. Diseñá para esto desde el principio:
+`e2e/accesibilidad.spec.ts` corre sobre todas las pantallas con datos
+cargados; el contraste y el foco, **en los dos temas**. Diseñá para esto desde
+el principio:
 
 1. **Contraste AA.** 4,5:1 el texto normal, 3:1 el grande. Los tokens están
    calibrados a ~4,6. El test compone las capas con alpha —incluido el alpha

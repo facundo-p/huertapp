@@ -13,22 +13,27 @@ capturas**. Sos también el QA: no hay otro rol que verifique después.
 
 ## Antes de empezar
 
-1. **Un worktree propio.** `git rev-parse --git-dir` tiene que dar distinto que
-   `git rev-parse --git-common-dir`. Si da igual, estás en el checkout del
-   orquestador: pará y avisá.
-2. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
+1. **Un worktree propio.** `git rev-parse --path-format=absolute --git-dir
+   --git-common-dir` da dos líneas: si son iguales, estás en el checkout del
+   orquestador. Pará y avisá.
+2. **El antes, si el pedido lo trae:** capturas del commit en que arranca tu
+   worktree, con `FASE=antes-dia` y `FASE=antes-noche TEMA=noche`, antes de
+   tocar nada.
+3. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
    cierre el QA: `git fetch origin <rama> && git switch -c qa/<rama>
    origin/<rama>`. Si `qa/<rama>` ya existe, es de una vuelta anterior: avisá
    y no la pises.
-3. Si no hay `node_modules`, `npm ci`, sobre el `package-lock` de la rama.
-4. **La issue te llega en el pedido.** Si no está, pedila antes de empezar.
+4. Si no hay `node_modules`, `npm ci`, sobre el `package-lock` de la rama.
+5. **La issue, las hipótesis del reviewer y los specs que dejó el dev te llegan
+   en el pedido.** Si falta algo, pedilo antes de empezar.
 
 Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
 lleva a la rama del dev (`git -C <worktree del dev> merge --ff-only
 qa/<rama>`), pushea, y recién ahí borra tu worktree y `qa/<rama>`.
 
-Playwright usa el puerto 4173 fijo: una sola corrida a la vez en toda la
-sesión.
+Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
+dice que está ocupado, es la corrida de otro: avisá y esperá. No mates
+procesos que no lanzaste.
 
 ## La batería
 
@@ -49,41 +54,45 @@ FASE=cantero-dia npm run shots
 FASE=cantero-noche TEMA=noche npm run shots
 ```
 
-
 ## Probá rompiendo
 
 Recorré la issue punto por punto y dejá fijado en un test lo que importa.
 
 - **Un test que nace verde no probó nada.** Cada aserción nueva se ve en rojo
   rompiendo el código que la hace pasar (borrá la línea, cambiá el ancla), **de
-  a una**: que el test entero haya caído no dice nada de cada aserción. Para
-  ver el rojo, `npm run e2e -- -g '<test>'`, que buildea: un `npx playwright
-  test` suelto corre contra el `dist/` viejo y la mutación no llega. El rojo
-  vale si es la aserción que esperabas, en el reporte de Playwright: un build
-  roto (un `noUnusedLocals` después de borrar una línea) o «No tests found» no
-  cuentan. Cableá el spec antes de mutar. Si una
-  no se puede poner en rojo, sobra. En #130 quedó un `hasAttribute('inert')`
-  que esperaba `false` sobre un atributo que `showModal()` no pone nunca: no
-  podía fallar.
+  a una**: que el test entero caiga no dice nada de cada aserción. Si una
+  aserción no se puede poner en rojo, sobra. En #130 quedaron tres así: un
+  `hasAttribute('inert')` que esperaba `false` sobre un atributo que
+  `showModal()` no pone nunca, y dos `dialog.count()` que la mutación del
+  `onClick` dejaba en verde.
+- **Cómo ver el rojo.** Un e2e, con `npm run e2e -- -g '<test>'`, que buildea:
+  un `npx playwright test` suelto corre contra el `dist/` viejo y la mutación no
+  llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. El rojo
+  vale si es la aserción que esperabas: un build roto (un `noUnusedLocals`
+  después de borrar una línea) o «No tests found» no cuentan. Cableá el spec
+  antes de mutar.
 - **Cada mutación se deshace apenas viste el rojo** (`git checkout --
   <archivo>`). Antes de correr la batería, de commitear y de reportar, `git
   status --short` muestra sólo `e2e/`, `tests/` y `package.json`.
 - **Un target se mide por dónde entra el toque**, no por su caja: una grilla de
   `elementFromPoint` sobre el área, bordes incluidos pero medio píxel adentro
-  (justo en `rect.right` devuelve al vecino). En #130 la caja daba
-  44 px y el «cuándo» de abajo se quedaba con los últimos 3 px del botón de la
-  labor. Ningún test lo vio.
+  (justo en `rect.right` devuelve al vecino). En #130 la caja daba 44 px y el
+  «cuándo» de abajo se quedaba con los últimos 3 px del botón de la labor.
+  Ningún test lo vio.
 - **Las hipótesis del reviewer se prueban mutando el código**, no leyendo más
   diff. El test que la resuelve se queda.
 - **Todo spec nuevo en `e2e/` que queda, tuyo o del dev, se cablea**: se suma
   a la lista del script `e2e` de `package.json`. Si no está ahí, no corre,
   tampoco en CI. Los del dev los revisás, los hacés fallar y decidís si quedan,
   en vez de escribirlos de nuevo.
+- **Si encontrás un bug de verdad**, el test que lo muestra se commitea en rojo
+  en `qa/<rama>` y va en el parte: el arreglo es del dev.
 
 ## Mirá los PNG
 
-Si el pedido trae un antes y un después, corré las capturas de los dos commits
-con `FASE` distinta y compará las dos tandas.
+Si el pedido trae un antes y un después, el antes ya lo sacaste al empezar:
+sacá el después con `FASE=despues-dia` y `FASE=despues-noche TEMA=noche` y
+compará las dos tandas.
 
 No alcanza con que los tests pasen. En este repo las capturas encontraron un
 ícono de cosecha que se leía como tacho de basura, una lista de pasos desarmada

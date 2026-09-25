@@ -37,7 +37,9 @@ cometer: se nota tarde y hay que deshacerlo.
 3. **Accesibilidad medida**: contraste AA, targets de 44 px, el color nunca como
    único canal. `e2e/accesibilidad.spec.ts` lo verifica y falla si algo baja.
 4. **Todo texto de UI en español rioplatense, con vos.**
-5. **Sin librerías de UI.** Es un objetivo explícito del brief.
+5. **La huerta es agroecológica.** Entre dos manejos con fuente, gana el
+   agroecológico; ningún producto de síntesis entra al catálogo.
+6. **Sin librerías de UI.** Es un objetivo explícito del brief.
 
 ## Qué devolvés
 

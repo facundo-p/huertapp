@@ -136,7 +136,7 @@ erraría a media ciudad. Se elige en Ajustes; por defecto, Conurbano.
 npm install
 npm run dev          # servidor de desarrollo (sin service worker, a propósito)
 npm run build        # dist/ listo para cualquier hosting estático
-npm run preview      # sirve dist/ en :4173 — necesario para los e2e
+npm run preview      # sirve dist/ en :4173; los e2e lo levantan solos, no lo dejes corriendo
 ```
 
 | Comando | Qué hace |

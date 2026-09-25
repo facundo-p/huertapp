@@ -36,7 +36,7 @@ Por cada dato:
 - **Confianza 1-10 propuesta**, con la razón, contra la escala que publica
   la app (`src/screens/Glosario.tsx`): 8-10, fuentes oficiales o técnicas que
   concuerdan; 5-7, fuente confiable única o leve discrepancia; 1-4, dato
-  divulgativo o inferido. Una sola fuente no llega a 8.
+  divulgativo o inferido.
 
 ## "No encontré fuente" es una respuesta buena
 
