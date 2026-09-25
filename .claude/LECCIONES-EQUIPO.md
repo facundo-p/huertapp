@@ -362,9 +362,10 @@ vigente, y reemplaza la de la Tanda A:
   herramientas de su `tools:` como límite**. Es un límite escrito, no una
   restricción: `general-purpose` sigue teniendo Bash y Edit. Sin eso queda
   sólo la frase del prompt del rol, sin el `tools:` que la hacía cumplir. Al
-  terminar el reviewer, `git -C <worktree que revisó> status --short` y un
-  `git log` sin commits nuevos dicen si editó. En su cwd no se ve:
-  `.claude/worktrees/` está ignorado.
+  terminar el reviewer, `git -C <worktree que revisó> status --short` y
+  `git -C <worktree> log --oneline <hash revisado>..HEAD` tienen que dar
+  vacío; si no, editó. Desde otro checkout no se ve: cada worktree tiene su
+  propio índice.
 
 Esta tanda corrió sin el límite, y el investigador usó Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete
@@ -391,10 +392,13 @@ hace ahí.
 
 **Qué hacemos.** El orquestador pushea la rama del dev antes de llamar al
 tester, y el tester trabaja sobre `origin/<rama>` sin tomar el nombre, en una
-rama propia, `qa/<rama>`, que no se pushea. El orquestador lleva sus
-tests a la rama del dev con `merge --ff-only`, pushea, y recién ahí borra el
-worktree del tester y `qa/<rama>`. El worktree del dev se borra cuando cerró
-el QA —el tester reportó en verde y sus tests están en la rama—, no antes.
+rama propia, `qa/<rama>`, que no se pushea. El orquestador mira que
+`git diff --name-only <rama>..qa/<rama>` traiga sólo `e2e/`, `tests/` y
+`package.json`: el tester muta la app, y una mutación sin deshacer entraría
+con sus tests. Después los lleva a la rama del dev con `merge --ff-only`,
+pushea, y recién ahí borra el worktree del tester y `qa/<rama>`. El worktree
+del dev se borra cuando cerró el QA —el tester reportó en verde y sus tests
+están en la rama—, no antes.
 
 **Al plugin.** Va al prompt del tester. Y el orquestador borra worktrees sólo
 después de comprobar que `HEAD` coincide con `origin/<rama>` y que no hay
@@ -443,7 +447,8 @@ ideal"*. El dev escribió *"el INTA lo dice sin vueltas, no hay un sustrato
 ideal"*. Y cargó confianza 9 porque el investigador la propuso. Se bajó a 7
 por la escala del Glosario, que pide para 8-10 "fuentes oficiales o técnicas
 que concuerdan", y acá había una. La de los datos (`meta.escala_confianza`)
-admite 8-9 con "una fuente oficial clara": cuál manda lo decide #154.
+admite 8-9 con "una fuente oficial (INTA u similar) clara": cuál manda lo
+decide #154.
 
 **Causa.** Redactar para que suene bien tira hacia lo categórico, y la
 confianza se tomó del dossier sin cotejarla con ninguna escala. Los dos errores
@@ -452,9 +457,9 @@ de escribir.
 
 **Qué hacemos.** El reviewer coteja cada frase que atribuye algo a una fuente
 contra la cita textual, palabra por palabra, y la confianza contra la escala de
-los datos. Lo hizo, y fueron dos de sus tres bloqueantes. Cotejó contra la del
-Glosario sin ver que los datos tienen otra: lo que cae entre las dos se
-pregunta.
+los datos. Cotejó frase y confianza, y fueron dos de sus tres bloqueantes; la
+confianza, contra la escala del Glosario, sin ver que los datos tienen otra. Lo
+que cae entre las dos se pregunta.
 
 **Al plugin.** Va al prompt del reviewer, para diffs que toquen datos. Y al del
 investigador: la confianza que propone se justifica contra la escala con que se
@@ -717,7 +722,8 @@ La lista corta, para no releer todo:
     en la sesión siguiente».
 17. **El tester no toma la rama del dev**: el orquestador la pushea, y el
     tester trabaja en `qa/<rama>`, sobre `origin/<rama>`. El orquestador lleva
-    sus tests con `merge --ff-only`, y el worktree del dev vive hasta que
+    sus tests con `merge --ff-only`, después de ver que el diff toca sólo
+    `e2e/`, `tests/` y `package.json`, y el worktree del dev vive hasta que
     cierre el QA: el tester reportó en verde y sus tests están en la rama.
 18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
     que el orquestador ya decidió.

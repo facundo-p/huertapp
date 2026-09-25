@@ -37,10 +37,11 @@ En este orden:
 6. `npm ci`. Si ya lo corriste en el paso 4, sólo si la rama cambió el lock:
    `git diff --quiet origin/staging...HEAD -- package-lock.json || npm ci`.
 
-Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
-lleva a la rama del dev con `git -C <worktree del dev> merge --ff-only qa/<rama>`,
-nunca con un merge commit. Después pushea, y recién ahí borra tu worktree y
-`qa/<rama>`.
+Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador mira
+que `git diff --name-only <rama>..qa/<rama>` traiga sólo `e2e/`, `tests/` y
+`package.json`, y los lleva a la rama del dev con
+`git -C <worktree del dev> merge --ff-only qa/<rama>`, nunca con un merge
+commit. Después pushea, y recién ahí borra tu worktree y `qa/<rama>`.
 
 Si no es fast-forward, porque la rama del dev se movió, el orquestador te
 reanuda por mensaje. Hacés `git rebase <rama>` en tu worktree (si choca, lo
