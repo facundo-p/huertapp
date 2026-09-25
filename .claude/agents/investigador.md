@@ -72,3 +72,7 @@ te llama necesita los datos con su cita, no el material crudo.
 
 Si te consultan por una fuente puntual —"¿esto respalda esto?"— contestás con la
 cita o con un no, en pocas líneas.
+
+Si un `WebFetch` da 403 o no conecta, pegá el error tal cual, con el host, y
+seguí con lo demás. Una página bloqueada no es un "no encontré": el proxy lo
+vuelve a chequear el orquestador.
