@@ -14,7 +14,10 @@ Los datos son los de la huerta de ejemplo (`src/lib/huerta/demo.ts`) el jueves
 24 de septiembre, y las tareas son las que el motor le da ese día, con los
 textos tal cual los arman `src/lib/tareas/engine.ts`, `compost.ts` y
 `src/lib/pronostico/derivar.ts`. El pronóstico (helada el martes, lluvia el
-domingo) es inventado para mostrar los avisos.
+domingo) es inventado para mostrar los avisos. El ciclo del tomate sigue lo que
+la demo quiere contar (asomó el 18/9, seis días tarde); hoy `demo.ts` pisa esa
+fecha al dividir la tanda, y el motor da asomó 10/9 sin corrimiento. Es un bug
+de la demo, anotado aparte.
 
 ## Por qué
 
@@ -71,11 +74,13 @@ armar el render.
 | Pestañas de separador | La barra de navegación, con la misma altura que hoy (59 + zona segura). La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
 | Cinta | Pega las fotos del diario. |
-| Plantitas | 19 dibujos: 6 grupos × 3 etapas (brote, creciendo, dando), más la semilla que no asomó. La etapa y la semilla dicen algo, así que van al Glosario; el grupo no, porque la especie va siempre en el nombre. |
+| Plantitas | 19 dibujos: 6 grupos × 3 etapas (brote, creciendo, dando), más la semilla que no asomó. Van al Glosario: las de cada grupo reemplazan a los íconos de «Grupos de especies», y la etapa y la semilla suman su entrada. La especie va siempre en el nombre. |
 
 **Color.** La paleta no cambia: está calibrada AA en los dos temas y está bien.
-Cambia el uso: menos tinte a sangre, más papel, el ocre vuelve a ser sólo
-«acá estás». Los tokens nuevos están abajo.
+Cambia el uso: menos tinte a sangre, más papel, y el ocre vuelve a ser sólo
+atención: «acá estás» (el día que leés, el hoy del ciclo) y la banderita de
+algo para hacer. Lo elegido en «Acomodar» va en tinta. Los tokens nuevos están
+abajo.
 
 ## Esta semana, des-saturada
 
@@ -90,8 +95,14 @@ Cambia el uso: menos tinte a sangre, más papel, el ocre vuelve a ser sólo
 - **La tira queda pegada arriba y el día redondeado es el que estás
   leyendo**: cambia solo al scrollear. Tocar un día lleva el scroll ahí y el
   foco a su título, para que el lector de pantalla lo anuncie; mientras dura
-  el scroll suave, el seguimiento no le discute el día. El día leído va con
-  `aria-current`.
+  el scroll suave, el seguimiento no le discute el día, y al terminar
+  (`scrollend`) recalcula. El día leído va con `aria-current`.
+- Al scrollear, la tira **no se rearma**: se mueven `aria-current` y el
+  círculo sobre los botones que ya están. Rearmarla con `innerHTML` le saca el
+  foco a quien la usa con teclado.
+- La tira y la barra de «Acomodar» son pegajosas: la hoja lleva
+  `scroll-padding-top` y `scroll-padding-bottom` con su alto, para que el foco
+  nunca quede tapado (WCAG 2.4.11).
 - **La lista del día**: casilla, título y una línea corta. La línea dice dónde
   (el lugar) o cuánto (lo atrasado). El detalle y la fuente, con su confianza,
   se abren al tocar la tarea, y ahí también están «Más tarde» y «Asomó». La
@@ -132,12 +143,13 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 | almaciguera | 6 columnas a página entera × ⌈capacidad / 6⌉ filas. Con 6 celdas o menos, 3 columnas a media página | `ocupa ?? 1` celdas seguidas |
 | macetas | 3 × ⌈N / 3⌉ a media página (N = capacidad, o las plantas si no hay). Con más de 6, 6 columnas a página entera. La maceta arriba y el nombre abajo | `ocupa ?? 1` macetas |
 | bancal en surcos | Un surco por fila, 44 px de alto, a media página. Con más de 4 surcos, página entera | `ocupa ?? 1` surcos |
-| bancal libre | 6 columnas a página entera × filas según largo / ancho (acotado entre 1,3 y 2,5). Sin medidas, 6 × 3 | ⌈superficie / m² por celda⌉, mínimo 1, redondeando antes a 6 decimales: en coma flotante 1,12 / 0,16 da 7,000…1 y `Math.ceil` devuelve 8 |
+| bancal libre | 6 columnas a página entera × filas según largo / ancho (acotado entre 1,3 y 2,5). Sin medidas pero con `capacidad` en m², 6 × 3 y m² por celda = capacidad / 18. Sin ninguna de las dos, como «otro» | ⌈superficie / m² por celda⌉, mínimo 1, redondeando antes a 6 decimales: en coma flotante 1,12 / 0,16 da 7,000…1 y `Math.ceil` devuelve 8 |
 | bancal sin disposición cargada | como «otro»: no promete surcos que nadie declaró (`lugar.ts`) | 1 celda |
 | otro, o sin lugar | 3 columnas, una celda por planta | 1 celda |
 
-- Paso de celda: `clamp(ancho / columnas, 44, 56)` px. Ningún target baja de
-  44 ni se solapa.
+- Paso de celda: `clamp(ancho / columnas, 44, 56)` px, salvo el surco, que es
+  una fila de media página por 44 de alto. Ningún target baja de 44 ni se
+  solapa.
 - Si lo sembrado pide más celdas que las que hay, primero cada planta recibe
   una y después se reparten las que quedan, en orden. Si ni una por planta
   alcanza (30 plantas en un bancal de 6 × 3), la grilla suma filas: el croquis
@@ -158,7 +170,8 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
   el mismo empaquetado: el orden a la vista, el del foco y el de la lista son
   uno solo.
 - Sin capacidad no se dibujan celdas vacías (la misma regla que el medidor).
-  Las composteras no van en el croquis.
+  Una planta sin `superficie` ocupa 1 celda. Las composteras no van en el
+  croquis.
 - En la demo: el Bancal del fondo mide 120 × 240, son 6 × 3 celdas de 0,16 m².
   La lechuga (0,8 m²) ocupa 5, la rúcula y la zanahoria (0,6 m²) 4 cada una.
 
@@ -170,7 +183,10 @@ subir de versión, igual que los otros campos aditivos
 
 ```ts
 // Planta
-celdas?: { col: number; fila: number }[]   // las celdas que ocupa en la grilla de su lugar
+celdas?: {                                 // las celdas que ocupa en la grilla de su lugar
+  ubicacionId: string                      // de qué lugar son: si no coincide, se ignoran
+  en: { col: number; fila: number }[]
+}
 // Ubicacion
 plano?: { orden?: number; cols?: number } // antes o después en la hoja; el ancho de su grilla
 ```
@@ -183,13 +199,18 @@ Columna y fila, no un índice plano (se desordena si cambia la capacidad) ni una
 posición libre x/y (no existe en celdas, macetas ni surcos). Cuando los datos no
 cierran, se ordena de izquierda a derecha y de arriba abajo:
 
-- Sobran celdas (porque bajó `ocupa`, la superficie o raleaste): se quedan las
-  primeras.
+- Sobran celdas (porque bajó `ocupa` o la superficie): se quedan las primeras.
 - Faltan: se completa con las primeras libres.
 - Una celda que quedó fuera de la grilla se descarta, y se completa igual.
 - Si dos plantas quieren la misma celda, gana la siembra más vieja; a igual
   fecha, el `id` menor.
-- Trasplantar, dividir la tanda o borrar el lugar limpian el campo.
+- Trasplantar, dividir la tanda o borrar el lugar limpian el campo. Y como
+  una versión vieja de la app puede restaurar un backup nuevo y trasplantar sin
+  saber de `celdas`, las celdas llevan el `ubicacionId` de su lugar: si no
+  coincide con el de la planta, se ignoran. Un `celdas` con forma rota también
+  se ignora (`validar()` del backup no mira su forma).
+- Los lugares sin `plano.orden`, por ejemplo uno creado después de acomodar, van
+  después de los que lo tienen, en el orden de `agruparPorLugar`.
 - Sin los campos, el nivel 0 exacto.
 
 **«Acomodar» se hace tocando, nunca arrastrando.**
@@ -204,7 +225,10 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 - Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas, para
   cuando no queda lugar libre) y «Soltar».
-- Tocás dos nombres de lugar y se cambian de orden en la hoja.
+- Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
+  va a quedar después. Como los de media página se empaquetan de a dos, un
+  movimiento puede no cambiar nada: la barra lo dice («Quedó donde estaba…») en
+  vez de anunciar un cambio que no pasó.
 
 Elegir una sola celda es mover por celda; elegir toda la planta es mover el
 grupo. Así no pelea con el scroll, y anda con teclado y lector de pantalla:
@@ -230,7 +254,8 @@ acomodar el dibujo.
   semana (tarea o aviso), en la primera celda.
 - El tipo de tarea va en el nombre accesible, no en el dibujo.
 - Van al Glosario, como todo ícono con significado: la banderita, la atrasada,
-  el copo, la semilla y las tres etapas.
+  el copo, la semilla, las tres etapas y la maceta vacía (libre). Las plantitas
+  de cada grupo reemplazan a `IconoGrupo` en «Grupos de especies».
 
 ### Estructura accesible
 
@@ -249,9 +274,17 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
 - `--papel-alto` de noche es semitransparente: el croquis usa `--hoja-cuadros`
   y `--papel-opaco`, que son opacos.
 - `e2e/accesibilidad.spec.ts` compone sólo `backgroundColor`, y el renglón es
-  un `background-image`: el test no lo ve. Hasta que lo mida, la regla va a
-  mano: **sobre un renglón no va texto en `--tinta-tenue`** (ver la tabla de
-  contrastes). `GanttPlanta` y `TarjetaLugar` lo usan a 11 px: si la lista por
+  un `background-image`: el test no lo ve. Hasta que lo mida, dos reglas van a
+  mano:
+  - **El renglón cae debajo de la línea de base**, en el pie de cada fila de
+    28 px. Nada puede correr la trama: margen sí, `padding` arriba de la
+    página no, y lo que corta la página (la nota al margen) ocupa un múltiplo
+    de 28. Así el renglón no cruza ninguna letra.
+  - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
+    contrastes) no van en texto de página rayada: `--tinta-tenue`, y de día
+    `--verde-hoja` y `--sol-texto`, de noche `--terracota-texto`. «Atrasada»,
+    en terracota, pasa porque el renglón no la toca.
+  `GanttPlanta` y `TarjetaLugar` usan `--tinta-tenue` a 11 px: si la lista por
   lugar pasa a ser página con renglones, esos textos pasan a `--tinta-suave`.
 - Sin `<filter>` por viñeta: el grano ya está en `body::before`.
 
@@ -296,10 +329,16 @@ Contrastes medidos (WCAG, texto):
 | texto del botón lleno (`--sobre-salvia` sobre `--salvia`) | 5,3 | 8,5 |
 | `--tinta-suave` justo encima de un renglón | 4,68 | 6,0 |
 | `--tinta-tenue` justo encima de un renglón | **3,86, no pasa** | **4,10, no pasa** |
+| `--verde-hoja` justo encima de un renglón | **4,06, no pasa** | 5,3 |
+| `--sol-texto` justo encima de un renglón | **4,44, no pasa** | 5,2 |
+| `--terracota-texto` justo encima de un renglón | 6,3 | **4,38, no pasa** |
+| círculo del día leído (`--sol-texto`, trazo) | 5,3 | 6,9 |
 
 El renglón de día es el que manda: a 0,2 de opacidad la línea bajaba
-`--tinta-suave` a 4,46 y no pasaba AA. Con 0,16 queda en 4,68. `--tinta-tenue`
-no pasa en ningún tema, así que sobre un renglón no va.
+`--tinta-suave` a 4,46 y no pasaba AA. Con 0,16 queda en 4,68. Los que no
+pasan justo encima de un renglón sólo sirven si el renglón no los toca. El
+círculo del día leído va en `--sol-texto` y no en `--sol`, que de día da 2,7
+y es la única marca de qué día estás leyendo.
 
 ## Cómo seguir
 

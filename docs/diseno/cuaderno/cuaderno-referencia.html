@@ -167,7 +167,7 @@ a { color: inherit; }
   --bandera-atrasada: #a1583d;
   --sobre-bandera-atrasada: #fffdf5;
   /* Papel reciclado: nubes, fibras y motas, ninguna más oscura que el papel
-     (build.mjs lo chequea). Así no le cobra contraste a ningún texto: el
+     (se verificó color por color). Así no le cobra contraste a ningún texto: el
      grano negro de día tiene techo en 0,021, ver src/theme.css. */
   --grano: 1;
   --grano-img: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22256%22%20height%3D%22256%22%3E%3Cfilter%20id%3D%22a%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%25%22%20height%3D%22100%25%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.012%22%20numOctaves%3D%223%22%20seed%3D%225%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%201.000%200%200%200%200%200.980%200%200%200%200%200.922%201.8%200%200%200%20-0.810%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22256%22%20height%3D%22256%22%20filter%3D%22url(%23a)%22%2F%3E%3Cfilter%20id%3D%22b%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%25%22%20height%3D%22100%25%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.012%22%20numOctaves%3D%223%22%20seed%3D%2212%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%200.957%200%200%200%200%200.984%200%200%200%200%200.969%201.6%200%200%200%20-0.720%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22256%22%20height%3D%22256%22%20filter%3D%22url(%23b)%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M137.7%20172.2Q138.2%20167.1%20141.8%20163.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.69%22%20stroke-opacity%3D%220.72%22%2F%3E%3Cpath%20d%3D%22M55%20217Q59.7%20213.7%2063.7%20209.5%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.05%22%20stroke-opacity%3D%220.62%22%2F%3E%3Cpath%20d%3D%22M93.3%20190.2Q89%20188.6%2084.8%20186.7%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.66%22%20stroke-opacity%3D%220.61%22%2F%3E%3Cpath%20d%3D%22M134.5%2095.4Q141.7%2097.5%20147.4%2092.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.63%22%20stroke-opacity%3D%220.63%22%2F%3E%3Cpath%20d%3D%22M24.4%20252.7Q20.5%20247.2%2013.8%20248.3%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.09%22%20stroke-opacity%3D%220.77%22%2F%3E%3Cpath%20d%3D%22M69.3%2093.5Q77.9%2097.7%2087.3%2099.7%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.93%22%20stroke-opacity%3D%220.73%22%2F%3E%3Cpath%20d%3D%22M148.9%2087.5Q154.4%2086.7%20159.7%2084.8%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.87%22%20stroke-opacity%3D%220.76%22%2F%3E%3Cpath%20d%3D%22M200.6%20243.7Q197%20246.7%20194%20250.2%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.62%22%20stroke-opacity%3D%220.85%22%2F%3E%3Cpath%20d%3D%22M14.2%20223.7Q11.9%20229.1%2010.6%20234.8%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.88%22%20stroke-opacity%3D%220.84%22%2F%3E%3Cpath%20d%3D%22M137.9%2097.6Q140.1%2093.2%20144.4%2090.9%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.70%22%20stroke-opacity%3D%220.87%22%2F%3E%3Cpath%20d%3D%22M221.8%20157.7Q223.7%20163%20229.2%20164.1%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.67%22%20stroke-opacity%3D%220.70%22%2F%3E%3Cpath%20d%3D%22M249.1%2066.6Q250.5%2064.3%20252.1%2062.1%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.71%22%20stroke-opacity%3D%220.57%22%2F%3E%3Cpath%20d%3D%22M200.2%2049.1Q197%2049.1%20193.8%2048.7%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.94%22%20stroke-opacity%3D%220.55%22%2F%3E%3Cpath%20d%3D%22M153.5%20131.8Q158.2%20136.7%20161.2%20142.8%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.66%22%20stroke-opacity%3D%220.84%22%2F%3E%3Cpath%20d%3D%22M209.3%20221.3Q206.5%20218.5%20203.3%20216.1%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.99%22%20stroke-opacity%3D%220.67%22%2F%3E%3Cpath%20d%3D%22M144.3%20131.9Q151.8%20126.9%20159.6%20122.5%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.83%22%20stroke-opacity%3D%220.79%22%2F%3E%3Cpath%20d%3D%22M127.4%2091.8Q126.2%2097.9%20124.4%20103.8%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.66%22%20stroke-opacity%3D%220.81%22%2F%3E%3Cpath%20d%3D%22M32.4%20182.4Q35.5%20173%2044.5%20168.8%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.03%22%20stroke-opacity%3D%220.71%22%2F%3E%3Cpath%20d%3D%22M188.6%20179.1Q180%20183.5%20172.3%20177.9%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.05%22%20stroke-opacity%3D%220.74%22%2F%3E%3Cpath%20d%3D%22M215%20213.5Q219.4%20211.8%20224%20212.5%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.96%22%20stroke-opacity%3D%220.82%22%2F%3E%3Cpath%20d%3D%22M231.7%2054.9Q237.8%2055.1%20242.4%2051%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.77%22%20stroke-opacity%3D%220.84%22%2F%3E%3Cpath%20d%3D%22M45.1%2062.3Q41.4%2054.8%2046.2%2047.9%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.71%22%20stroke-opacity%3D%220.79%22%2F%3E%3Cpath%20d%3D%22M-7.4%2015Q-1.2%2018%205.5%2017.4%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.79%22%20stroke-opacity%3D%220.59%22%2F%3E%3Cpath%20d%3D%22M248.6%2015Q254.8%2018%20261.5%2017.4%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.79%22%20stroke-opacity%3D%220.59%22%2F%3E%3Cpath%20d%3D%22M246.9%2023.2Q245.2%2020.4%20241.9%2020.2%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.73%22%20stroke-opacity%3D%220.66%22%2F%3E%3Cpath%20d%3D%22M220.5%20144Q218.6%20155%20227.7%20161.5%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.62%22%20stroke-opacity%3D%220.62%22%2F%3E%3Cpath%20d%3D%22M58.3%20176.1Q60.7%20183.4%2061.8%20191%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.73%22%20stroke-opacity%3D%220.64%22%2F%3E%3Cpath%20d%3D%22M134%2067Q129.5%2068.5%20126.1%2065.1%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.97%22%20stroke-opacity%3D%220.86%22%2F%3E%3Cpath%20d%3D%22M10.6%2085.3Q13%2084.5%2015.5%2084.3%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.74%22%20stroke-opacity%3D%220.59%22%2F%3E%3Cpath%20d%3D%22M-4.8%20174.3Q0.6%20175.5%204.1%20179.8%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.93%22%20stroke-opacity%3D%220.91%22%2F%3E%3Cpath%20d%3D%22M251.2%20174.3Q256.6%20175.5%20260.1%20179.8%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.93%22%20stroke-opacity%3D%220.91%22%2F%3E%3Cpath%20d%3D%22M77.6%209.4Q82.5%2016.8%2084.2%2025.4%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.66%22%20stroke-opacity%3D%220.76%22%2F%3E%3Cpath%20d%3D%22M77.3%20131Q83.1%20126.9%2089.3%20130.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.90%22%20stroke-opacity%3D%220.69%22%2F%3E%3Cpath%20d%3D%22M163.1%20120.5Q155.5%20123.9%20147.1%20123.5%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.87%22%20stroke-opacity%3D%220.88%22%2F%3E%3Cpath%20d%3D%22M87.8%20182.2Q80.6%20179.9%2077%20173.3%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.82%22%20stroke-opacity%3D%220.61%22%2F%3E%3Cpath%20d%3D%22M178.4%20124.6Q169.3%20126.6%20161.5%20121.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.75%22%20stroke-opacity%3D%220.78%22%2F%3E%3Cpath%20d%3D%22M174.5%2088.3Q174.2%2096.7%20180.4%20102.4%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.71%22%20stroke-opacity%3D%220.59%22%2F%3E%3Cpath%20d%3D%22M209.6%20170.3Q202.6%20169%20196.1%20166.1%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.70%22%20stroke-opacity%3D%220.90%22%2F%3E%3Cpath%20d%3D%22M42%20199.2Q40.6%20205.4%2038.1%20211.1%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%221.01%22%20stroke-opacity%3D%220.62%22%2F%3E%3Cpath%20d%3D%22M235.8%2023.2Q233.2%2028.3%20230.6%2033.3%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.87%22%20stroke-opacity%3D%220.65%22%2F%3E%3Cpath%20d%3D%22M132.1%2078.3Q137.9%2084.2%20138.2%2092.5%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.77%22%20stroke-opacity%3D%220.77%22%2F%3E%3Cpath%20d%3D%22M97.8%2060.7Q95.2%2066.7%2099.9%2071.2%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.80%22%20stroke-opacity%3D%220.90%22%2F%3E%3Cpath%20d%3D%22M188.5%20165.8Q185.2%20165.1%20182.9%20167.6%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.75%22%20stroke-opacity%3D%220.90%22%2F%3E%3Cpath%20d%3D%22M88.6%20254.7Q83.3%20251.5%2077.5%20249%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.82%22%20stroke-opacity%3D%220.79%22%2F%3E%3Cpath%20d%3D%22M11.2%20110.7Q13.1%20104.9%2012.4%2098.8%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.70%22%20stroke-opacity%3D%220.92%22%2F%3E%3Cpath%20d%3D%22M21.4%2098.7Q16.2%2090.7%2021.7%2082.9%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.83%22%20stroke-opacity%3D%220.74%22%2F%3E%3Cpath%20d%3D%22M180.2%20126.3Q176.5%20127.6%20173.7%20130.4%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.85%22%20stroke-opacity%3D%220.79%22%2F%3E%3Cpath%20d%3D%22M159.6%20230.7Q163.8%20229.9%20167.7%20231.7%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.86%22%20stroke-opacity%3D%220.83%22%2F%3E%3Cpath%20d%3D%22M244.1%20200.4Q245.8%20189.5%20255.7%20184.9%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.82%22%20stroke-opacity%3D%220.64%22%2F%3E%3Cpath%20d%3D%22M134.2%2046.3Q135.8%2038.7%20141.8%2033.8%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.63%22%20stroke-opacity%3D%220.56%22%2F%3E%3Cpath%20d%3D%22M109.2%20197Q111.3%20193.2%20112.6%20189.1%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%221.05%22%20stroke-opacity%3D%220.62%22%2F%3E%3Cpath%20d%3D%22M78.1%20149.2Q80%20140%2080.1%20130.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.86%22%20stroke-opacity%3D%220.73%22%2F%3E%3Cpath%20d%3D%22M60.6%2068.8Q53%2069.4%2046.4%2065.3%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.64%22%20stroke-opacity%3D%220.67%22%2F%3E%3Cpath%20d%3D%22M125.7%20145.5Q121.6%20144.8%20117.6%20145.3%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.02%22%20stroke-opacity%3D%220.68%22%2F%3E%3Cpath%20d%3D%22M160.9%20195.4Q152.6%20193.3%20144.8%20189.8%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%221.01%22%20stroke-opacity%3D%220.64%22%2F%3E%3Cpath%20d%3D%22M118%2015.7Q114.3%2015.9%20110.7%2017.2%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.78%22%20stroke-opacity%3D%220.95%22%2F%3E%3Cpath%20d%3D%22M34.7%20211.6Q41.9%20211.5%2047.2%20206.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.92%22%20stroke-opacity%3D%220.61%22%2F%3E%3Cpath%20d%3D%22M198.1%20180.3Q192.7%20184.8%20186.6%20188.4%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.76%22%20stroke-opacity%3D%220.83%22%2F%3E%3Cpath%20d%3D%22M19.7%2014.5Q14.3%2012.5%209.1%2014.6%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.92%22%20stroke-opacity%3D%220.94%22%2F%3E%3Cpath%20d%3D%22M225.1%20212.6Q225.4%20206%20231.5%20203.4%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.67%22%20stroke-opacity%3D%220.76%22%2F%3E%3Cpath%20d%3D%22M212.4%2060.9Q216.2%2066.7%20213.8%2073.2%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.76%22%20stroke-opacity%3D%220.82%22%2F%3E%3Cpath%20d%3D%22M97.2%20234.4Q99.9%20234.5%20102.1%20232.9%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.85%22%20stroke-opacity%3D%220.63%22%2F%3E%3Cpath%20d%3D%22M35.8%20-1.2Q34.7%201.5%2031.8%202.4%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.74%22%20stroke-opacity%3D%220.60%22%2F%3E%3Cpath%20d%3D%22M35.8%20254.8Q34.7%20257.5%2031.8%20258.4%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.74%22%20stroke-opacity%3D%220.60%22%2F%3E%3Cpath%20d%3D%22M148.8%20194.8Q154%20190%20161%20189.4%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.61%22%20stroke-opacity%3D%220.71%22%2F%3E%3Cpath%20d%3D%22M160.5%20125.2Q166.4%20128.2%20172.4%20125.3%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.75%22%20stroke-opacity%3D%220.86%22%2F%3E%3Cpath%20d%3D%22M127.4%2046.7Q122.1%2051.3%20121.3%2058.3%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.83%22%20stroke-opacity%3D%220.84%22%2F%3E%3Cpath%20d%3D%22M9.3%20113.3Q5.2%20107.7%200.3%20102.7%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%221.08%22%20stroke-opacity%3D%220.56%22%2F%3E%3Cpath%20d%3D%22M111.3%20243.3Q111.5%20239.6%20110.7%20236.1%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.83%22%20stroke-opacity%3D%220.77%22%2F%3E%3Cpath%20d%3D%22M190.8%20216.9Q188.4%20227.7%20177.7%20230.4%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.93%22%20stroke-opacity%3D%220.75%22%2F%3E%3Cpath%20d%3D%22M9.8%2045.1Q5.4%2038.5%202.9%2030.9%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.64%22%20stroke-opacity%3D%220.60%22%2F%3E%3Cpath%20d%3D%22M156.5%2014.9Q154%2021.1%20153.9%2027.7%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.84%22%20stroke-opacity%3D%220.84%22%2F%3E%3Cpath%20d%3D%22M158%20248.5Q156.2%20237.9%20163%20229.5%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.68%22%20stroke-opacity%3D%220.56%22%2F%3E%3Cpath%20d%3D%22M40.5%20105.4Q44.4%20111.4%2046.2%20118.4%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.67%22%20stroke-opacity%3D%220.73%22%2F%3E%3Cpath%20d%3D%22M109.4%20-2.3Q119.7%20-3.7%20127.5%203.1%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.04%22%20stroke-opacity%3D%220.68%22%2F%3E%3Cpath%20d%3D%22M109.4%20253.7Q119.7%20252.3%20127.5%20259.1%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%221.04%22%20stroke-opacity%3D%220.68%22%2F%3E%3Cpath%20d%3D%22M170%2053.4Q164.6%2048.6%20159.3%2043.6%22%20stroke%3D%22%23eef6fb%22%20stroke-width%3D%220.91%22%20stroke-opacity%3D%220.91%22%2F%3E%3Cpath%20d%3D%22M131.4%20181.5Q125.8%20182.9%20121.3%20179.3%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.93%22%20stroke-opacity%3D%220.88%22%2F%3E%3Cpath%20d%3D%22M6.3%20239.2Q2.1%20240.7%20-1.7%20238.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.74%22%20stroke-opacity%3D%220.80%22%2F%3E%3Cpath%20d%3D%22M262.3%20239.2Q258.1%20240.7%20254.3%20238.6%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.74%22%20stroke-opacity%3D%220.80%22%2F%3E%3Cpath%20d%3D%22M233.6%20155.2Q234.5%20152.1%20237.2%20150.5%22%20stroke%3D%22%23fff4cf%22%20stroke-width%3D%220.63%22%20stroke-opacity%3D%220.62%22%2F%3E%3Cpath%20d%3D%22M13.7%20157.9Q10.6%20163.2%2013.4%20168.7%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.94%22%20stroke-opacity%3D%220.90%22%2F%3E%3Cpath%20d%3D%22M24.3%20173.2Q16.8%20177.4%208.4%20175.5%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.95%22%20stroke-opacity%3D%220.70%22%2F%3E%3Cpath%20d%3D%22M237.9%2095.6Q244.3%2092%20247.6%2085.5%22%20stroke%3D%22%23fff2f0%22%20stroke-width%3D%220.62%22%20stroke-opacity%3D%220.61%22%2F%3E%3Cpath%20d%3D%22M107.6%20187.9Q104.8%20185.2%20103.4%20181.4%22%20stroke%3D%22%23fffdf6%22%20stroke-width%3D%220.65%22%20stroke-opacity%3D%220.58%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%227.8%22%20cy%3D%2263.1%22%20r%3D%220.96%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.84%22%2F%3E%3Ccircle%20cx%3D%22201.9%22%20cy%3D%2240.4%22%20r%3D%220.36%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.81%22%2F%3E%3Ccircle%20cx%3D%2229.1%22%20cy%3D%2240.2%22%20r%3D%220.41%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.69%22%2F%3E%3Ccircle%20cx%3D%22133.6%22%20cy%3D%22252%22%20r%3D%220.52%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.90%22%2F%3E%3Ccircle%20cx%3D%22215%22%20cy%3D%22230.7%22%20r%3D%220.42%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.95%22%2F%3E%3Ccircle%20cx%3D%22138.8%22%20cy%3D%226.7%22%20r%3D%220.45%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.65%22%2F%3E%3Ccircle%20cx%3D%2296.6%22%20cy%3D%22127.8%22%20r%3D%220.50%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.85%22%2F%3E%3Ccircle%20cx%3D%22205.4%22%20cy%3D%22193.1%22%20r%3D%220.36%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.90%22%2F%3E%3Ccircle%20cx%3D%22238.2%22%20cy%3D%22151%22%20r%3D%220.80%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.92%22%2F%3E%3Ccircle%20cx%3D%2226.1%22%20cy%3D%22191.7%22%20r%3D%221.03%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.90%22%2F%3E%3Ccircle%20cx%3D%2233.1%22%20cy%3D%225%22%20r%3D%220.68%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.83%22%2F%3E%3Ccircle%20cx%3D%22114.5%22%20cy%3D%22169.2%22%20r%3D%220.68%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.81%22%2F%3E%3Ccircle%20cx%3D%2282.1%22%20cy%3D%22125%22%20r%3D%220.73%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.62%22%2F%3E%3Ccircle%20cx%3D%22176.6%22%20cy%3D%2235.1%22%20r%3D%220.67%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.71%22%2F%3E%3Ccircle%20cx%3D%22241%22%20cy%3D%22175.8%22%20r%3D%220.86%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.67%22%2F%3E%3Ccircle%20cx%3D%2261.2%22%20cy%3D%22198.4%22%20r%3D%220.50%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.65%22%2F%3E%3Ccircle%20cx%3D%2210.3%22%20cy%3D%2280.2%22%20r%3D%220.95%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.83%22%2F%3E%3Ccircle%20cx%3D%22133.4%22%20cy%3D%22145.3%22%20r%3D%220.47%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.83%22%2F%3E%3Ccircle%20cx%3D%2280.8%22%20cy%3D%22162.4%22%20r%3D%220.64%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.88%22%2F%3E%3Ccircle%20cx%3D%22198.9%22%20cy%3D%22195%22%20r%3D%220.39%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.76%22%2F%3E%3Ccircle%20cx%3D%2239.8%22%20cy%3D%22182.7%22%20r%3D%220.81%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.93%22%2F%3E%3Ccircle%20cx%3D%22171.8%22%20cy%3D%22193.1%22%20r%3D%220.84%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.88%22%2F%3E%3Ccircle%20cx%3D%2293%22%20cy%3D%22129.6%22%20r%3D%220.70%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.69%22%2F%3E%3Ccircle%20cx%3D%2276.9%22%20cy%3D%22102.9%22%20r%3D%220.46%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.83%22%2F%3E%3Ccircle%20cx%3D%22129.6%22%20cy%3D%2247.2%22%20r%3D%220.84%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.87%22%2F%3E%3Ccircle%20cx%3D%2219.4%22%20cy%3D%2212.1%22%20r%3D%220.71%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.86%22%2F%3E%3Ccircle%20cx%3D%22214.2%22%20cy%3D%220.8%22%20r%3D%220.88%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.91%22%2F%3E%3Ccircle%20cx%3D%22214.2%22%20cy%3D%22256.8%22%20r%3D%220.88%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.91%22%2F%3E%3Ccircle%20cx%3D%22180.1%22%20cy%3D%22166.9%22%20r%3D%220.42%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.71%22%2F%3E%3Ccircle%20cx%3D%22254.7%22%20cy%3D%22236.6%22%20r%3D%220.86%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.84%22%2F%3E%3Ccircle%20cx%3D%22203.1%22%20cy%3D%22172.5%22%20r%3D%220.96%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.88%22%2F%3E%3Ccircle%20cx%3D%22-0.6%22%20cy%3D%22137.6%22%20r%3D%220.80%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.65%22%2F%3E%3Ccircle%20cx%3D%22255.4%22%20cy%3D%22137.6%22%20r%3D%220.80%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.65%22%2F%3E%3Ccircle%20cx%3D%22119.2%22%20cy%3D%22121.6%22%20r%3D%220.65%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.85%22%2F%3E%3Ccircle%20cx%3D%22229.6%22%20cy%3D%22229.3%22%20r%3D%220.75%22%20fill%3D%22%23fffdf6%22%20fill-opacity%3D%220.75%22%2F%3E%3Ccircle%20cx%3D%22152.7%22%20cy%3D%2217.5%22%20r%3D%220.35%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.62%22%2F%3E%3Ccircle%20cx%3D%2222.1%22%20cy%3D%22205.1%22%20r%3D%220.80%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.78%22%2F%3E%3Ccircle%20cx%3D%22252%22%20cy%3D%22139.6%22%20r%3D%220.45%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.80%22%2F%3E%3Ccircle%20cx%3D%2219.8%22%20cy%3D%22103.6%22%20r%3D%220.88%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.93%22%2F%3E%3Ccircle%20cx%3D%2238.3%22%20cy%3D%2277.8%22%20r%3D%221.04%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.80%22%2F%3E%3Ccircle%20cx%3D%22106.6%22%20cy%3D%2253.3%22%20r%3D%220.43%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.64%22%2F%3E%3Ccircle%20cx%3D%2291.9%22%20cy%3D%22153.8%22%20r%3D%220.77%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.94%22%2F%3E%3Ccircle%20cx%3D%22198.8%22%20cy%3D%22124.7%22%20r%3D%220.60%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.92%22%2F%3E%3Ccircle%20cx%3D%2255.2%22%20cy%3D%22114.6%22%20r%3D%220.68%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.69%22%2F%3E%3Ccircle%20cx%3D%2268.5%22%20cy%3D%22214.2%22%20r%3D%220.50%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.91%22%2F%3E%3Ccircle%20cx%3D%22238.7%22%20cy%3D%22250%22%20r%3D%220.44%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.83%22%2F%3E%3Ccircle%20cx%3D%22251.8%22%20cy%3D%2244.9%22%20r%3D%220.91%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.88%22%2F%3E%3Ccircle%20cx%3D%2268.7%22%20cy%3D%22246.4%22%20r%3D%220.90%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.83%22%2F%3E%3Ccircle%20cx%3D%2211.7%22%20cy%3D%22193.7%22%20r%3D%220.52%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.70%22%2F%3E%3Ccircle%20cx%3D%2214.5%22%20cy%3D%22132.5%22%20r%3D%220.55%22%20fill%3D%22%23fff4cf%22%20fill-opacity%3D%220.69%22%2F%3E%3Ccircle%20cx%3D%22234.3%22%20cy%3D%22158.9%22%20r%3D%221.01%22%20fill%3D%22%23eef6fb%22%20fill-opacity%3D%220.62%22%2F%3E%3Ccircle%20cx%3D%22108.6%22%20cy%3D%22199.9%22%20r%3D%220.56%22%20fill%3D%22%23fff2f0%22%20fill-opacity%3D%220.78%22%2F%3E%3C%2Fsvg%3E");
@@ -400,10 +400,11 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .dia__cielo { width: 20px; height: 20px; }
 .dia__marcas { display: flex; gap: 3px; align-items: center; height: 14px; }
 .punto { width: 6px; height: 6px; border-radius: 50%; background: var(--tinta-media); }
-.dia__circulo { position: absolute; left: 50%; top: 50%; width: 46px; height: 38px; transform: translate(-50%, -52%); color: var(--sol); pointer-events: none; }
+/* --sol-texto y no --sol: de día --sol da 2,7:1 y es la única marca del día leído */
+.dia__circulo { position: absolute; left: 50%; top: 50%; width: 46px; height: 38px; transform: translate(-50%, -52%); color: var(--sol-texto); pointer-events: none; }
 
-.pagina--hoy { padding-top: 12px; }
-.dia-bloque { scroll-margin-top: var(--alto-tira, 110px); }
+/* margin y no padding: el padding corre la trama y el renglón cruza las letras */
+.pagina--hoy { margin-top: 12px; }
 .dia-bloque .pagina__titulo:focus { outline: none; }
 .dia-bloque .pagina__titulo:focus-visible { outline: 2.5px solid var(--foco, var(--tinta)); outline-offset: -4px; border-radius: 6px; }
 .tareas { padding-right: 14px; }
@@ -411,8 +412,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .tarea > .casilla, .tarea > .tarea__icono { margin: 6px 0 6px 4px; }
 .casilla { width: 44px; height: 44px; display: grid; place-items: center; color: var(--tinta-media); }
 .casilla .tilde { opacity: 0; }
-.casilla[aria-checked='true'] .tilde { opacity: 1; }
-.casilla[aria-checked='true'] .tilde path { stroke: var(--verde-hoja); }
+.casilla[aria-checked='true'] .tilde, .casilla.es-tildada .tilde { opacity: 1; }
+.casilla[aria-checked='true'] .tilde path, .casilla.es-tildada .tilde path { stroke: var(--verde-hoja); }
 .tarea__icono { width: 44px; height: 44px; display: grid; place-items: center; }
 .tarea__abrir { width: 100%; min-height: 56px; display: grid; grid-template-columns: 1fr 26px; align-items: start; }
 .tarea__titulo { display: block; font-size: 16px; font-weight: 800; line-height: 28px; padding-top: 0; text-wrap: pretty; }
@@ -495,7 +496,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .croquis::before { left: 24px; transform: rotate(-6deg); }
 .croquis::after { right: 24px; transform: rotate(5deg); }
 .croquis__cab { display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 22px; }
-.croquis__plegar { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: calc(24px * var(--k)); }
+.croquis__plegar { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-size: calc(28px * var(--k)); }
 .croquis__plegar svg { color: var(--tinta-tenue); }
 .croquis__plegar[aria-expanded='false'] svg { transform: rotate(-90deg); }
 
@@ -507,7 +508,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .lugar__cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 2px; min-height: 44px; }
 .lugar__nombre { min-height: 44px; display: flex; align-items: flex-end; padding-bottom: 2px; font-size: calc(21px * var(--k)); line-height: 1; text-align: left; }
 .lugar__nombre--mover { text-decoration: underline dashed var(--tinta-tenue) 1.5px; text-underline-offset: 5px; }
-.lugar__nombre--mover.es-elegido { text-decoration-color: var(--sol-texto); text-decoration-style: solid; text-decoration-thickness: 3px; }
+.lugar__nombre--mover.es-elegido { text-decoration-color: var(--tinta); text-decoration-style: solid; text-decoration-thickness: 3px; }
 .ayuda-acomodar { margin: 8px 16px 12px 22px; font-size: 14px; line-height: 1.4; color: var(--tinta-suave); }
 .barra-acomodar {
   position: sticky;
@@ -555,7 +556,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .celda.en-bloque { background: color-mix(in srgb, var(--verde-hoja) 13%, transparent); }
 .celdas--libre .celda.en-bloque { border-color: var(--verde-hoja); border-style: dashed; border-width: 0; }
 .celda.es-elegida,
-.celdas--macetas .celda.es-elegida { background: color-mix(in srgb, var(--sol) 26%, transparent); box-shadow: inset 0 0 0 2.5px var(--sol-texto); }
+.celdas--macetas .celda.es-elegida { background: color-mix(in srgb, var(--tinta) 12%, transparent); box-shadow: inset 0 0 0 2.5px var(--tinta); }
 .celda.con-bandera .plantita { transform: translateX(-9px); }
 .ancla {
   position: absolute;
@@ -574,7 +575,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   line-height: 1;
   pointer-events: none;
 }
-.celdas--libre .celda.es-elegida { border-color: var(--sol-texto); }
+.celdas--libre .celda.es-elegida { border-color: var(--tinta); }
 .celda__boton { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; z-index: 3; }
 .celda__nombre {
   position: absolute;
@@ -614,7 +615,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .surco { position: absolute; left: 8px; right: 8px; top: 50%; height: 12px; transform: translateY(-50%); color: var(--tinta-tenue); }
 .surco-vacio-texto { position: absolute; inset: 0; display: grid; place-items: center; font-size: 14px; color: var(--tinta-suave); pointer-events: none; }
 .surco-vacio-texto span { padding: 0 8px; background: var(--hoja-cuadros); }
-.meta-celda { position: absolute; inset: 7px; border: 2px dashed var(--sol-texto); border-radius: 50%; display: grid; place-items: center; color: var(--sol-texto); pointer-events: none; }
+.meta-celda { position: absolute; inset: 7px; border: 2px dashed var(--tinta-media); border-radius: 50%; display: grid; place-items: center; color: var(--tinta); pointer-events: none; }
 
 .banderita { position: absolute; top: 3px; right: 3px; z-index: 4; display: flex; align-items: flex-start; pointer-events: none; }
 .banderita::before { content: ''; width: 1.75px; height: 24px; background: var(--tinta-media); border-radius: 1px; }
@@ -876,7 +877,7 @@ html.captura .banderita.es-atrasada { animation: none; }
               <button type="button" class="lapiz lapiz--lleno" id="listo-acomodar"><span data-icono="check-18"></span>Listo</button>
               <p class="huerta-cab__sub">Acomodando el croquis</p>
             </header>
-            <p class="ayuda-acomodar">Tocá una o varias celdas, y después una marca + para llevarlas ahí. Los lugares se reordenan tocando dos nombres.</p>
+            <p class="ayuda-acomodar">Tocá una o varias celdas, y después una marca + para llevarlas ahí. Para mover un lugar, tocá su nombre y después el del lugar que va a quedar después.</p>
             <section class="croquis" aria-labelledby="croquis-b-titulo">
               <div class="croquis__cab">
                 <h4 id="croquis-b-titulo" class="croquis__plegar mano">Croquis</h4>
@@ -915,9 +916,9 @@ html.captura .banderita.es-atrasada { animation: none; }
             <section class="ciclo" aria-labelledby="ciclo-titulo">
               <h4 class="ciclo__titulo mano" id="ciclo-titulo">El ciclo</h4>
               <ol class="casilleros">
-                <li class="casillero"><span class="casillero__tilde" data-icono="check-16"></span><span class="casillero__nombre">Sembrada</span><span class="casillero__fecha">2/9</span></li>
-                <li class="casillero"><span class="casillero__tilde" data-icono="check-16"></span><span class="casillero__nombre">Asomó</span><span class="casillero__fecha">18/9</span><span class="casillero__nota">6 días tarde</span></li>
-                <li class="casillero es-futuro"><span class="aca-estas" aria-hidden="true">hoy</span><span class="casillero__nombre">Trasplante</span><span class="casillero__fecha">8/10</span><span class="casillero__nota">en adelante</span></li>
+                <li class="casillero"><span class="casillero__tilde" data-icono="check-16"></span><span class="sr-solo">Hecho: </span><span class="casillero__nombre">Sembrada</span><span class="casillero__fecha">2/9</span></li>
+                <li class="casillero"><span class="casillero__tilde" data-icono="check-16"></span><span class="sr-solo">Hecho: </span><span class="casillero__nombre">Asomó</span><span class="casillero__fecha">18/9</span><span class="casillero__nota">6 días tarde</span></li>
+                <li class="casillero es-futuro"><span class="aca-estas" aria-hidden="true">hoy</span><span class="sr-solo">Lo que sigue, hoy estás acá: </span><span class="casillero__nombre">Trasplante</span><span class="casillero__fecha">8/10</span><span class="casillero__nota">en adelante</span></li>
                 <li class="casillero es-futuro"><span class="casillero__nombre">Cosecha</span><span class="casillero__fecha">27/11</span><span class="casillero__nota">en adelante</span></li>
                 <li class="casillero es-futuro"><span class="casillero__nombre">Terminada</span></li>
               </ol>
@@ -966,7 +967,7 @@ html.captura .banderita.es-atrasada { animation: none; }
               <section aria-labelledby="p-plantitas">
                 <h4 class="pieza__titulo mano" id="p-plantitas">Plantitas: grupo × etapa</h4>
                 <div class="tabla-plantitas" id="tabla-plantitas"></div>
-                <p class="pieza__nota">19 dibujos: 6 grupos × 3 etapas, más la semilla que todavía no asomó. La etapa y la semilla dicen algo, así que van al Glosario; el grupo no, porque la especie va siempre en el nombre.</p>
+                <p class="pieza__nota">19 dibujos: 6 grupos × 3 etapas, más la semilla que todavía no asomó. Van al Glosario: las de cada grupo reemplazan a los íconos de «Grupos de especies», y la etapa y la semilla suman su entrada. La especie va siempre en el nombre.</p>
               </section>
 
               <section aria-labelledby="p-marcas">
@@ -1165,7 +1166,7 @@ html.captura .banderita.es-atrasada { animation: none; }
         fuente: 'pronóstico de los próximos días · umbral de helada de 3 °C (FAUBA)' }
     ],
     '30': [
-      { id: 'albahaca', titulo: 'Albahaca: fijate si asomó', atrasada: true, linea: 'un día pasada del plazo',
+      { id: 'albahaca', titulo: 'Albahaca: fijate si asomó', atrasada: true, linea: 'un día pasada del plazo', asomo: true,
         detalle: 'Se pasó por un día del plazo de germinación.',
         fuente: 'según la ficha: germina en 7-14 días', conf: 4 }
     ]
@@ -1253,6 +1254,15 @@ html.captura .banderita.es-atrasada { animation: none; }
     el.innerHTML = '<span style="color:' + CIELO_COLOR[d.cielo] + '">' + icono(d.cielo, 20) + '</span>' + d.max + '° · ' + d.min + '° · ' + d.txt;
   }
   // `diaVisto` es el día que se está leyendo: lo mueve el scroll, no un toque
+  function marcarDia() {
+    document.querySelectorAll('#semana [data-dia]').forEach(function (b) {
+      var leyendo = b.getAttribute('data-dia') === diaVisto;
+      if (leyendo) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+      var c = b.querySelector('.dia__circulo');
+      if (c && !leyendo) c.remove();
+      if (!c && leyendo) b.querySelector('.dia__num').insertAdjacentHTML('beforeend', CIRCULO_HOY);
+    });
+  }
   function pintarSemana() {
     var nav = document.getElementById('semana');
     nav.innerHTML = DIAS.map(function (d) {
@@ -1266,7 +1276,8 @@ html.captura .banderita.es-atrasada { animation: none; }
       var que = [];
       if (tareas) que.push(tareas === 1 ? '1 cosa para hacer' : tareas + ' cosas para hacer');
       items.filter(function (t) { return t.aviso; }).forEach(function (t) { que.push(t.titulo.toLowerCase()); });
-      var etiqueta = 'Ir a ' + (d.hoy ? 'hoy, ' : '') + d.nombre + ': ' + d.txt + ', ' + d.max + '° y ' + d.min + '°' + (que.length ? '. ' + que.join(', ') : '. Nada anotado');
+      // arranca con lo que se ve («vie 25»): quien maneja por voz dice eso
+      var etiqueta = (d.hoy ? 'hoy' : d.sigla) + ' ' + d.f + ': ' + d.txt + ', ' + d.max + '° y ' + d.min + '°' + (que.length ? '. ' + que.join(', ') : '. Nada anotado');
       var leyendo = d.f === diaVisto;
       return '<button type="button" class="dia' + (d.hoy ? ' es-hoy' : '') + '" data-dia="' + d.f + '"' + (leyendo ? ' aria-current="true"' : '') + ' aria-label="' + etiqueta + '">' +
         '<span class="dia__sigla' + (d.hoy ? ' dia__sigla--hoy' : '') + '" aria-hidden="true">' + (d.hoy ? 'hoy' : d.sigla) + '</span>' +
@@ -1317,7 +1328,12 @@ html.captura .banderita.es-atrasada { animation: none; }
   // y la página sigue con renglones hasta que el último día también llegue arriba
   function medirHoja() {
     var tira = document.getElementById('semana').offsetHeight;
-    hojaHoy.style.setProperty('--alto-tira', (tira + 4) + 'px');
+    hojaHoy.style.scrollPaddingTop = (tira + 4) + 'px';
+    // la nota corta la trama: su alto se lleva a un múltiplo del renglón
+    var nota = document.querySelector('#marco-hoy .nota-margen');
+    nota.style.marginBottom = '';
+    var ocupa = nota.offsetHeight + 30;
+    nota.style.marginBottom = (10 + (28 - ocupa % 28) % 28) + 'px';
     var ultimo = document.getElementById('dia-' + DIAS[DIAS.length - 1].f);
     var resto = hojaHoy.clientHeight - tira - ultimo.offsetHeight - 8;
     document.getElementById('dias-siguientes').style.paddingBottom = Math.max(20, resto) + 'px';
@@ -1325,28 +1341,30 @@ html.captura .banderita.es-atrasada { animation: none; }
   var siguiendo = true, soltarSeguimiento = 0;
   function irAlDia(f) {
     diaVisto = f;
-    pintarSemana();
+    marcarDia();
     // mientras dura el scroll suave, el seguimiento no le discute el día
     siguiendo = false;
     clearTimeout(soltarSeguimiento);
-    soltarSeguimiento = setTimeout(function () { siguiendo = true; }, 900);
+    soltarSeguimiento = setTimeout(soltar, 900);
     var destino = document.getElementById('dia-' + f);
     destino.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
     document.getElementById('titulo-' + f).focus({ preventScroll: true });
   }
-  hojaHoy.addEventListener('scroll', function () {
-    if (!siguiendo) return;
+  function seguir() {
     var linea = document.getElementById('semana').getBoundingClientRect().bottom + 12;
     var leido = DIAS[0].f;
     DIAS.forEach(function (d) {
       if (document.getElementById('dia-' + d.f).getBoundingClientRect().top <= linea) leido = d.f;
     });
-    if (leido !== diaVisto) { diaVisto = leido; pintarSemana(); }
-  }, { passive: true });
+    if (leido !== diaVisto) { diaVisto = leido; marcarDia(); }
+  }
+  function soltar() { siguiendo = true; seguir(); }
+  hojaHoy.addEventListener('scroll', function () { if (siguiendo) seguir(); }, { passive: true });
+  hojaHoy.addEventListener('scrollend', function () { if (!siguiendo) { clearTimeout(soltarSeguimiento); soltar(); } });
   function pintarSembrar() {
     document.getElementById('sembrar').innerHTML = SEMBRAR.map(function (s) {
       return '<li><span><span class="sembrar__nombre">' + s.nombre + '</span><span class="sembrar__meta">' + s.meta + '</span></span>' +
-        '<button type="button" class="mas" aria-label="Sumar ' + s.nombre.toLowerCase() + ' a tu huerta">' + icono('mas', 22) + '</button></li>';
+        '<button type="button" class="mas" aria-label="Sumar ' + s.nombre.toLowerCase() + ' a mi huerta">' + icono('mas', 22) + '</button></li>';
     }).join('');
   }
   document.getElementById('semana').addEventListener('click', function (e) {
@@ -1493,7 +1511,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       }
       var lugarElegido = acomodar && opciones.lugarElegido === l.id;
       var nombre = acomodar
-        ? '<button type="button" class="lugar__nombre lugar__nombre--mover mano' + (lugarElegido ? ' es-elegido' : '') + '" data-orden="' + li + '" aria-pressed="' + lugarElegido + '" aria-label="' + (lugarElegido ? 'Elegido para mover: ' : 'Mover en la hoja: ') + l.nombre + '">' + l.nombre + '</button>'
+        ? '<button type="button" class="lugar__nombre lugar__nombre--mover mano' + (lugarElegido ? ' es-elegido' : '') + '" data-orden="' + li + '" aria-pressed="' + lugarElegido + '" aria-label="' + l.nombre + (lugarElegido ? ', elegido para mover' : ', mover en la hoja') + '">' + l.nombre + '</button>'
         : '<button type="button" class="lugar__nombre mano" data-ficha="' + l.id + '">' + l.nombre + '</button>';
       return '<article class="lugar lugar--' + l.ancho + '" aria-label="' + l.nombre + '">' +
         '<h5 class="lugar__cab">' + nombre + '</h5>' +
@@ -1570,6 +1588,8 @@ html.captura .banderita.es-atrasada { animation: none; }
   function pintarAcomodar() {
     pintarPlano(document.getElementById('plano-b'), lugaresB, { acomodar: true, elegidas: elegidas, lugarElegido: lugarElegido });
     pintarBarra();
+    var barra = document.querySelector('#marco-acomodar .barra-acomodar');
+    document.querySelector('#marco-acomodar .hoja').style.scrollPaddingBottom = (barra.offsetHeight + 8) + 'px';
   }
   document.getElementById('plano-b').addEventListener('click', function (e) {
     aviso = '';
@@ -1578,14 +1598,18 @@ html.captura .banderita.es-atrasada { animation: none; }
       var i0 = Number(orden.getAttribute('data-orden'));
       var l0 = lugaresB[i0];
       elegidas = null;
-      if (!lugarElegido) { lugarElegido = l0.id; aviso = 'Elegiste ' + l0.nombre + ': tocá otro lugar para cambiarlos de orden.'; }
+      if (!lugarElegido) { lugarElegido = l0.id; aviso = 'Elegiste ' + l0.nombre + ': tocá el lugar que va a quedar después.'; }
       else if (lugarElegido === l0.id) { lugarElegido = null; aviso = 'Quedó donde estaba.'; }
       else {
-        var j = lugaresB.map(function (x) { return x.id; }).indexOf(lugarElegido);
-        var otro = lugaresB[j];
-        lugaresB[j] = l0; lugaresB[i0] = otro;
-        lugaresB = empaquetar(lugaresB);
-        aviso = 'Cambiaste de orden ' + otro.nombre + ' y ' + l0.nombre + '.';
+        // el elegido pasa antes del tocado; empaquetar puede deshacerlo, y entonces se dice
+        var antes = lugaresB.map(function (x) { return x.id; }).join();
+        var movido = lugarPorId(lugarElegido);
+        var resto = lugaresB.filter(function (x) { return x !== movido; });
+        resto.splice(resto.indexOf(l0), 0, movido);
+        lugaresB = empaquetar(resto);
+        aviso = lugaresB.map(function (x) { return x.id; }).join() === antes
+          ? 'Quedó donde estaba: los de media página van de a dos y ese hueco ya lo llena otro.'
+          : 'Listo: ' + movido.nombre + ' quedó ' + (lugaresB.indexOf(movido) + 1) + '.º de ' + lugaresB.length + ' en la hoja.';
         lugarElegido = null;
       }
       pintarAcomodar();
@@ -1595,7 +1619,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     }
     lugarElegido = null;
     var t = e.target.closest('[data-celda]');
-    if (!t) return;
+    if (!t) { pintarAcomodar(); return; }
     var l = lugarPorId(t.getAttribute('data-lugar'));
     var i = Number(t.getAttribute('data-celda'));
     var p = l.celdas[i];
@@ -1698,8 +1722,8 @@ html.captura .banderita.es-atrasada { animation: none; }
   });
   document.getElementById('tabla-plantitas').innerHTML = tabla;
   document.getElementById('fila-marcas').innerHTML =
-    '<span class="pieza-chica"><span class="target-44 casilla" aria-checked="false">' + CASILLA + '</span>casilla (44 px)</span>' +
-    '<span class="pieza-chica"><span class="target-44 casilla" aria-checked="true">' + CASILLA + '</span>tildada</span>' +
+    '<span class="pieza-chica"><span class="target-44 casilla">' + CASILLA + '</span>casilla (44 px)</span>' +
+    '<span class="pieza-chica"><span class="target-44 casilla es-tildada">' + CASILLA + '</span>tildada</span>' +
     '<span class="pieza-chica"><span style="padding-top:12px;display:block">' + banderita(1, false) + '</span>algo para hacer</span>' +
     '<span class="pieza-chica"><span style="padding-top:12px;display:block">' + banderita(2, true) + '</span>atrasada</span>' +
     '<span class="pieza-chica"><span style="display:block;padding-top:6px">' + copo() + '</span>tapar si hiela</span>';
@@ -1779,6 +1803,10 @@ html.captura .banderita.es-atrasada { animation: none; }
   ponerTema(temaInicial());
 
   // ── Modo captura: #hoy-dia, #croquis-noche, #planta-dia-redondos, … ───────
+  // el modo captura se arma al cargar: otro hash de captura necesita recargar
+  window.addEventListener('hashchange', function () {
+    if (/^#(hoy|croquis|acomodar|planta|piezas)-/.test(location.hash)) location.reload();
+  });
   var m = /^#(hoy|croquis|acomodar|planta|piezas)-(dia|noche)(-redondos)?$/.exec(location.hash);
   if (m) {
     raiz.classList.add('captura');
