@@ -36,7 +36,9 @@ poné el patrón y la ruta con que lo buscaste.
 1. **No se inventan datos agronómicos.** Sin fuente con URL, no entra.
 2. **El modelo climático sólo recorta**, nunca agrega.
 3. **Accesibilidad medida**: contraste AA, targets de 44 px, el color nunca como
-   único canal. `e2e/accesibilidad.spec.ts` lo verifica y falla si algo baja.
+   único canal. `e2e/accesibilidad.spec.ts` mide el contraste y los targets, y
+   falla si algo baja; que el color no sea el único canal se revisa en las
+   capturas.
 4. **Todo texto de UI en español rioplatense, con vos.**
 5. **La huerta es agroecológica.** Entre dos manejos con fuente, gana el
    agroecológico; ningún producto de síntesis entra al catálogo. El orden es

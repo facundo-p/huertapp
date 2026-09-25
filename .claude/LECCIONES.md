@@ -302,7 +302,7 @@ Un `pkill -f vite` para limpiar el dev server propio se llevó puesto el de otro
 proyecto abierto en la misma máquina. El daño cae fuera del repo, donde no se
 ve. Hay un hook que lo bloquea; usá puerto propio y matá por PID.
 
-### El puerto 4173 es uno solo para toda la sesión
+### El puerto 4173 es uno solo para toda la máquina
 
 **Síntoma:** `npm run e2e` o `npm run shots` se cae antes del primer test:
 `http://localhost:4173 is already used`.
@@ -311,8 +311,8 @@ ve. Hay un hook que lo bloquea; usá puerto propio y matá por PID.
 reusa uno que ya esté vivo (ver `playwright.config.ts`). Con varios worktrees
 en la misma máquina, el que llega segundo no arranca.
 
-**Qué hacer:** una corrida a la vez. Si está ocupado, es la corrida de otro:
-no lo liberes, que es lo del `pkill`. Hacé lo que no necesite Playwright y, si
+**Qué hacer:** una corrida a la vez. Si está ocupado y no lo levantaste vos,
+es la corrida de otro: no lo liberes, que es lo del `pkill`. Hacé lo que no necesite Playwright y, si
 sigue ocupado, decilo.
 
 ### Playwright no encuentra el navegador

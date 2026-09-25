@@ -363,7 +363,9 @@ vigente, y reemplaza la de la Tanda A:
   herramientas de su `tools:` como límite**. Es un límite escrito, no una
   restricción: el agente sigue teniendo Bash y Edit. Sin eso, nada le dice al
   investigador que no use Bash ni al reviewer que no edite, y dejan de ser el
-  rol. Al terminar el reviewer, `git status` en su cwd dice si editó.
+  rol. Al terminar el reviewer, `git -C <worktree que revisó> status --short`
+  y un `git log` sin commits nuevos dicen si editó. En su cwd no se ve:
+  `.claude/worktrees/` está ignorado.
 
 Esta tanda corrió sin el límite, y el investigador tuvo Bash (ver «El positivo
 también se verificó, y costó un minuto»); por lo demás, anduvo en las siete

@@ -113,8 +113,9 @@ no desaparece. Cuando algo no funciona en cierta plataforma, se dice **antes**.
 
 ## Verificación final
 
-Las cuatro de `CLAUDE.md`, con las capturas en los dos temas. En el equipo las
-corre el tester (ver `dev.md`); si trabajás solo, vos:
+Las cuatro de `CLAUDE.md`, con las capturas en los dos temas. En el equipo,
+`e2e` y `shots` los corre el tester y `tsc` y `npm test`, vos (ver `dev.md`);
+si trabajás solo, todas vos:
 
 ```bash
 npx tsc -b && npm test && npm run e2e
