@@ -277,7 +277,7 @@ si no el commit sale con la mitad.
 mergeados.
 
 **Causa:** GitHub solo procesa las palabras clave de cierre cuando el PR entra
-a la rama por defecto (`staging`). Los PR del rediseño entran a `cantero`.
+a la rama por defecto (`staging`). Los PR del rediseño entraban a `cantero`.
 
 **Qué hacer:** cerrar a mano con un comentario que diga por cuál PR entró. El
 `Closes` igual va: vincula la issue con el PR en el tablero.

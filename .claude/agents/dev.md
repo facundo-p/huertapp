@@ -73,13 +73,14 @@ npm test          # incluye el chequeo de que el JSON generado esté al día
 ```
 
 La batería completa de e2e y capturas la corre el tester, no vos. Pero si
-escribiste un spec para convencerte, commitealo y nombralo en el parte: el
-tester decide si queda. Corrélo con `npm run build && npx playwright test
-e2e/<spec>`: sin el build, va contra el `dist/` viejo. Y si agregaste una
-captura, mirala: `npm run shots -- -g '<nombre>'` y abrí el PNG en
-`e2e/shots/<fase>/` (sin `FASE`, `fase-6`). Si Playwright no encuentra el
-navegador, está en `/opt/pw-browsers` con otro nombre de revisión: symlinks
-con el que espera, y `PLAYWRIGHT_BROWSERS_PATH` apuntando ahí.
+escribiste un spec para convencerte, commitealo y nombralo en el parte con lo
+que verifica: el tester decide si queda. Correlo con
+`npm run build && npx playwright test e2e/<spec>`: sin el build, va contra el
+`dist/` viejo. Y si agregaste una captura, mirala:
+`FASE=dev npm run shots -- -g '<nombre>'` y abrí `e2e/shots/dev/<nombre>.png`.
+Si Playwright no encuentra el navegador, está en `/opt/pw-browsers` con otro
+nombre de revisión: symlinks con el que espera, y `PLAYWRIGHT_BROWSERS_PATH`
+apuntando ahí.
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión.
 Si está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
 Playwright y, si sigue ocupado, decilo en el parte.

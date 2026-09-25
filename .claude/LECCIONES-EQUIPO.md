@@ -331,8 +331,8 @@ iniciar la sesión, `claude plugin validate .claude/agents` pasa, y
 **Causa probable.** No es el archivo ni el momento: probablemente, el harness.
 La sesión de la Tanda B corrió en la extensión de VSCode sobre el Agent SDK, y
 ahí los agentes de usuario y de plugin cargaron y los del proyecto no. El Agent
-SDK en sí no es: en la sesión que revisó este PR, también sobre el Agent SDK,
-el reviewer cargó como agente del proyecto, con su prompt y sus herramientas.
+SDK en sí no es: en #142, también sobre el Agent SDK, el reviewer cargó como
+agente del proyecto, con su prompt y sus herramientas.
 Queda la configuración de la extensión. La guía de Claude Code listó las causas
 documentadas —`settingSources` sin `project`, frontmatter roto, directorio
 creado a mitad de sesión— y ninguna aplica.
@@ -345,7 +345,9 @@ las siete corridas y las dos reanudaciones de esta tanda. En la próxima sesión
 
 **Al plugin.** Los agentes de plugin cargan donde los del proyecto no. El
 plugin no depende de `.claude/agents/` del repo, y es justamente por eso que
-conviene que exista.
+conviene que exista. Los roles van como agentes del plugin; el orquestador
+arranca con `/agents` y, si no aparecen, emula con `general-purpose`, `model:`
+e `isolation: worktree` en la llamada.
 
 ### El tester no pudo tomar la rama porque el worktree del dev la tenía
 
@@ -354,14 +356,14 @@ falló: git no deja la misma rama en dos worktrees. El tester lo resolvió solo
 con `git reset --hard origin/<rama>` sobre su worktree y lo dijo en el parte.
 
 **Causa.** El worktree del dev sigue vivo después del push, y tiene que
-seguir: si el QA encuentra un bug, el arreglo vuelve al mismo dev y lo hace
-ahí.
+seguir: si el tester encuentra un bug, el arreglo vuelve al mismo dev y lo
+hace ahí.
 
 **Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre,
 en una rama propia, `qa/<rama>`, que no se pushea. El orquestador lleva sus
 tests a la rama del dev con `merge --ff-only`, pushea, y recién ahí borra el
 worktree del tester y `qa/<rama>`. El worktree del dev se borra cuando cerró
-el QA —el tester reportó y sus tests están en la rama—, no antes.
+el QA —el tester reportó en verde y sus tests están en la rama—, no antes.
 
 **Al plugin.** Va al prompt del tester. Y el orquestador borra worktrees sólo
 después de comprobar que `HEAD` coincide con `origin/<rama>` y que no hay
@@ -373,9 +375,10 @@ cambios sin commitear.
 reanudaron por mensaje con su contexto intacto y aplicaron todo en una vuelta:
 el de #129 en 9 llamadas y dos minutos.
 
+**Causa.** Un dev nuevo tendría que releer la issue, la rama y el review.
+
 **Qué hacemos.** `SendMessage` al dev que escribió el código, con los hallazgos
-ya decididos por el orquestador (qué va, qué no, qué se cambia de diseño). Un
-dev nuevo tendría que releer la issue, la rama y el review.
+ya decididos por el orquestador (qué va, qué no, qué se cambia de diseño).
 
 **Al plugin.** El flujo es dev → reviewer → **mismo dev** → tester. Lo que el
 orquestador decide antes de reenviar el review es lo que le ahorra al dev la
@@ -429,9 +432,10 @@ pasársela al dev, el orquestador bajó el PDF (esta sesión tenía el egreso
 abierto) y corrió
 `grep -n "sustrato ideal"`: línea 523, como decía. Un minuto.
 
+**Causa.** La regla 1 de CLAUDE.md no tiene margen, y cotejar cuesta un minuto.
+
 **Qué hacemos.** Un dato que va a entrar al catálogo se coteja aunque venga con
-prueba adjunta. No por desconfianza: porque es barato y porque la regla 1 de
-CLAUDE.md no tiene margen.
+prueba adjunta, y no por desconfianza.
 
 **Al plugin.** Un dossier trae comandos reproducibles. Correrlos es parte del
 paso de carga, no una opción.
@@ -458,9 +462,14 @@ sin decidirlo primero.
 
 ### El dev que mira su propio PNG
 
-La captura nueva de #133 pasaba en verde sin la planta que el test insertaba
-(la trampa del hash, en `.claude/LECCIONES.md`), y el dev la agarró **mirando el
-PNG**. "Mirá las capturas" no es sólo del tester.
+**Síntoma.** La captura nueva de #133 salía sin la planta que el test
+insertaba, y pasaba en verde. El dev la agarró **mirando el PNG**.
+
+**Causa.** La trampa del hash, en `.claude/LECCIONES.md`: cambiar de ruta no
+vuelve a leer la base. Y un test de captura no afirma nada sobre la imagen.
+
+**Qué hacemos.** El dev abre el PNG antes del parte. "Mirá las capturas" no es
+sólo del tester.
 
 **Al plugin.** Al prompt del dev: si agregás una captura, mirala.
 
@@ -538,8 +547,10 @@ commitean y se nombran en el parte; el tester decide si quedan.
 ### Un arreglo de una línea con ubicación conocida lo hace el orquestador
 
 **Síntoma.** Del review quedó un comentario de CSS mal contado ("los 27 que
-sobran" cuando el margen absorbe 16). Reanudar al dev por eso cuesta decenas de
-miles de tokens; corregirlo en el worktree del dev, una llamada.
+sobran" cuando el margen absorbe 16).
+
+**Causa.** Reanudar al dev por eso cuesta decenas de miles de tokens;
+corregirlo en el worktree del dev, una llamada.
 
 **Qué hacemos.** Si el hallazgo es una línea, está ubicado y no cambia
 comportamiento, lo corrige el orquestador y lo dice. Todo lo demás vuelve al
@@ -553,16 +564,24 @@ de los 3 px, que después hubo que arreglar.
 
 ### Tres errores más en una issue del orquestador
 
-#130 hablaba de "Los chips de labor de `Cuidados.tsx`, que hoy mandan a
-`/glosario#labores` a secas", que no existen (hay una etiqueta de texto y un
-link en la bajada), nombraba `SUELOS` como si viviera
-en `glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
+**Síntoma.** #130 hablaba de "Los chips de labor de `Cuidados.tsx`, que hoy
+mandan a `/glosario#labores` a secas", que no existen (hay una etiqueta de
+texto y un link en la bajada), nombraba `SUELOS` como si viviera en
+`glosario.ts` (vive en otro módulo) y decía que la hoja leería de `PALABRAS`
 mientras "Lo que no va acá" dejaba justamente esos términos para la issue
-siguiente. Ninguno frenó al dev, porque se le avisaron antes. Van a la cuenta de
-la regla 13: de las cinco issues verificadas hasta acá (#118, #128, #129, #133
-y #130), cuatro tenían algo mal.
+siguiente.
 
-**Al plugin.** Nada nuevo: es la regla 13, que sigue haciendo falta.
+**Causa.** La issue salió sin cotejar sus citas contra el código ni sus
+secciones entre sí.
+
+**Qué hacemos.** La regla 13: se verifica la issue y se le avisa al dev lo que
+esté mal. Por eso ninguno de los tres lo frenó. Sigue haciendo falta: de las
+cinco issues verificadas hasta acá (#118, #128, #129, #133 y #130), cuatro
+tenían algo mal.
+
+**Al plugin.** Antes de publicar una issue, el orquestador corre `git grep`
+sobre cada archivo y símbolo que cita, y chequea que "Qué hacer" no pida lo
+que "Lo que no va acá" deja afuera.
 
 ### Lo que se le escapó al tester
 
@@ -574,7 +593,7 @@ pone nunca: pasaba pasara lo que pasara. Y las dos aserciones de
 `dialog.count()` tampoco podían fallar: la propia mutación del tester, borrar
 el `onClick`, las había dejado en verde, y el tester las dejó igual. Los 3 px se le
 pasaron también al reviewer y al orquestador en su primera pasada, cuando
-corrigió el comentario del margen (1e7a562).
+corrigió el comentario del margen (1e7a562, en #143).
 
 **Causa.** El target se midió por la caja, que daba 44 px, y no por lo que
 recibe el toque. Y el "cada test visto en rojo" se cumplió por test, no por
@@ -634,15 +653,19 @@ La lista corta, para no releer todo:
 12. **Elegir modelo por cuántos archivos hay que entender**, no por si el cambio
     final parece mecánico.
 13. **Las issues que escribe el orquestador también se verifican.** Cuatro de
-    las cinco verificadas hasta ahora tenían algo mal.
+    las cinco verificadas hasta ahora tenían algo mal. Antes de publicar cada
+    una, `git grep` sobre lo que cita, y "Qué hacer" contra "Lo que no va acá".
 14. **Las capturas se guardan por rama** antes de cambiar de checkout.
 15. **Un tester que compara ramas necesita su propio worktree**, o pisa su
     propio trabajo.
 16. **Los agentes del proyecto no cargan en todos los harness; los de plugin
-    sí.** Es la razón de que el plugin exista.
+    sí.** Es la razón de que el plugin exista. Los roles van como agentes del
+    plugin; el orquestador arranca con `/agents` y, si no aparecen, emula con
+    `general-purpose`, `model:` e `isolation: worktree` en la llamada.
 17. **El tester no toma la rama del dev**: trabaja en `qa/<rama>`, sobre
     `origin/<rama>`. El orquestador lleva sus tests con `merge --ff-only`, y
-    el worktree del dev vive hasta que cierre el QA.
+    el worktree del dev vive hasta que cierre el QA: el tester reportó en verde
+    y sus tests están en la rama.
 18. **Las correcciones del review vuelven al mismo dev por mensaje**, con lo
     que el orquestador ya decidió.
 19. **En una issue con números, verificar la vara antes que la cifra.**

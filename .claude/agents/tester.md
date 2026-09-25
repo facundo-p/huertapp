@@ -15,29 +15,35 @@ capturas**. Sos también el QA: no hay otro rol que verifique después.
 
 En este orden:
 
-1. **Un worktree propio.** `git rev-parse --path-format=absolute --git-dir
-   --git-common-dir` da dos líneas: si son iguales, estás en el checkout
-   principal. Pará y avisá.
+1. **Un worktree propio.**
+   `git rev-parse --path-format=absolute --git-dir --git-common-dir` da dos
+   líneas: si son iguales, estás en el checkout principal. Pará y avisá.
 2. **La issue, las hipótesis del reviewer y los specs que dejó el dev te llegan
    en el pedido.** Si falta algo, pedilo antes de empezar.
-3. `git fetch origin staging <rama>`.
-4. **El antes, si el pedido lo trae:** `git switch --detach $(git merge-base
-   origin/staging origin/<rama>)`, `npm ci` y las capturas con
-   `FASE=antes-dia` y `FASE=antes-noche TEMA=noche`.
+3. `git fetch origin staging <rama>` y dos chequeos. Si alguno falla, pará y
+   avisá:
+   - `git rev-parse --verify --quiet qa/<rama>` no da nada. Si da un hash,
+     esa rama es de una vuelta anterior.
+   - `git rev-parse <rama> origin/<rama>` da dos veces el mismo hash.
+4. **El antes, si el pedido lo trae:**
+   `git switch --detach $(git merge-base origin/staging origin/<rama>)`,
+   `npm ci` y las capturas: `FASE=antes-dia npm run shots` y
+   `FASE=antes-noche TEMA=noche npm run shots`.
 5. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
-   cierre el QA: `git switch -c qa/<rama> origin/<rama>`. Si `qa/<rama>` ya
-   existe, es de una vuelta anterior: pará y avisá.
-6. `npm ci`, siempre: la rama puede traer otro `package-lock`.
+   cierre el QA: que reportes en verde y tus tests estén en su rama.
+   `git switch -c qa/<rama> origin/<rama>`.
+6. `npm ci`. Si ya lo corriste en el paso 4, sólo si la rama cambió el lock:
+   `git diff --quiet origin/staging...HEAD -- package-lock.json || npm ci`.
 
 Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
-lleva a la rama del dev con `git -C <worktree del dev> merge --ff-only
-qa/<rama>`, nunca con un merge commit. Después pushea, y recién ahí borra tu
-worktree y `qa/<rama>`.
+lleva a la rama del dev con `git -C <worktree del dev> merge --ff-only qa/<rama>`,
+nunca con un merge commit. Después pushea, y recién ahí borra tu worktree y
+`qa/<rama>`.
 
 Si no es fast-forward, porque la rama del dev se movió, el orquestador te
 reanuda por mensaje. Hacés `git rebase <rama>` en tu worktree (si choca, lo
 resolvés vos y lo decís en el parte), `npm ci` si cambió el `package-lock`, y
-volvés a correr tus specs sobre la rama nueva.
+volvés a correr tus specs y la batería.
 
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
 está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
@@ -56,15 +62,17 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   `onClick` dejaba en verde.
 - **Cómo ver el rojo.** Un e2e, con `npm run e2e -- -g '<test>'`, que buildea:
   un `npx playwright test` suelto corre contra el `dist/` viejo y la mutación no
-  llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. El rojo
-  vale si es la aserción que esperabas: un build roto (un `noUnusedLocals`
-  después de borrar una línea) o «No tests found» no cuentan. Cableá el spec
-  antes de mutar. Si mutás `data/` o `scripts/`, `npm run data:build` antes de
-  correr y otra vez después de deshacer: la app y los tests leen el JSON
-  generado.
-- **Cada mutación se deshace apenas viste el rojo** (`git checkout --
-  <archivo>`). Antes de correr la batería, de commitear y de reportar, `git
-  status --short` muestra sólo `e2e/`, `tests/` y `package.json`.
+  llega. Un unitario, con `npx vitest run tests/<archivo> -t '<test>'`. Una
+  captura, con `npm run shots -- -g '<nombre>'`; `screenshots.spec.ts` no se
+  cablea en `e2e`. El rojo vale si es la aserción que esperabas: un build roto
+  (un `noUnusedLocals` después de borrar una línea) o «No tests found» no
+  cuentan. Cableá el spec antes de mutar. Si mutás `data/` o `scripts/`,
+  `npm run data:build` antes de correr y otra vez después de deshacer: la app y
+  los tests leen el JSON generado.
+- **Cada mutación se deshace apenas viste el rojo**
+  (`git checkout -- <archivo>`). Antes de correr la batería, de commitear y de
+  reportar, `git status --short` muestra sólo `e2e/`, `tests/` y
+  `package.json`.
 - **Un target se mide por dónde entra el toque**, no por su caja: una grilla de
   `elementFromPoint` sobre el área, bordes incluidos pero medio píxel adentro
   (justo en `rect.right` devuelve al vecino). En #130 la caja daba 44 px y el
@@ -140,5 +148,7 @@ dev. Los tests sí los escribís vos.
 - Si algo falló: **el error, corto**, y tu diagnóstico de por qué.
 - **Qué viste en las capturas**, en prosa. Y la ruta de las que convenga que mire
   una persona.
+- Si hubo antes y después, **la medición de las dos tandas**, en píxeles o en
+  filas: «antes entraban 3-4 filas del día en 390×844, y ahora las 6».
 
 Nada de logs completos ni de salidas de test pegadas enteras.
