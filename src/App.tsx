@@ -1,4 +1,4 @@
-import { HashRouter, Navigate, Outlet, Route, Routes } from 'react-router'
+import { HashRouter, Navigate, Outlet, Route, Routes, useParams } from 'react-router'
 import { TabBar } from './components/TabBar'
 import { AvisoEscritura } from './components/AvisoDatos'
 import { AvisoActualizacion } from './components/AvisoActualizacion'
@@ -26,6 +26,15 @@ function ConTabs() {
   )
 }
 
+/**
+ * Una ficha por especie. Sin la key, React reusa la de la anterior al cambiar
+ * de slug, y volver con el historial dejaba abierta la hoja que estaba arriba.
+ */
+function FichaPorEspecie() {
+  const { slug } = useParams()
+  return <FichaEspecie key={slug} />
+}
+
 export default function App() {
   return (
     <HashRouter>
@@ -38,7 +47,7 @@ export default function App() {
           <Route path="/compost" element={<Compost />} />
           <Route path="/huerta" element={<MiHuerta />} />
         </Route>
-        <Route path="/explorar/:slug" element={<FichaEspecie />} />
+        <Route path="/explorar/:slug" element={<FichaPorEspecie />} />
         <Route path="/huerta/:id" element={<DetallePlanta />} />
         <Route path="/huerta/compostera/:id" element={<DetalleCompostera />} />
         <Route path="/compost/:capitulo" element={<CompostCapitulo />} />

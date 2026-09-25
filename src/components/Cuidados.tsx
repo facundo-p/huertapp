@@ -1,7 +1,8 @@
-import { Link } from 'react-router'
 import type { Cuidado, Fuente } from '../lib/data/types'
 import { ETIQUETA_CUIDADO, ordenarCuidados } from '../lib/data/cuidados'
+import { LABORES, definicionDeLabor } from '../lib/glosario'
 import { ConfidenceBadge } from './ConfidenceBadge'
+import { Definicion } from './Definicion'
 import { IconoCuidado, IconoFuente } from '../icons'
 import './Cuidados.css'
 
@@ -31,15 +32,19 @@ export function Cuidados({ cuidados }: { cuidados: Cuidado[] }) {
 
       <p className="cuidados__bajada">
         Lo que hay que ir haciendo entre la siembra y la cosecha. Si alguna de estas palabras no te
-        dice nada, están explicadas —con el paso a paso— en el{' '}
-        <Link to="/glosario#labores">glosario</Link>.
+        dice nada, tocala: te decimos qué es.
       </p>
 
       <ul className="cuidados__lista">
         {ordenarCuidados(cuidados).map((c, i) => (
           <li key={`${c.tipo}-${i}`} className="cuidado">
             <div className="cuidado__cabeza">
-              <span className="cuidado__tipo">{ETIQUETA_CUIDADO[c.tipo]}</span>
+              <Definicion
+                texto={ETIQUETA_CUIDADO[c.tipo]}
+                titulo={LABORES[c.tipo].termino}
+                contenido={definicionDeLabor(c.tipo)}
+                className="cuidado__tipo"
+              />
               <ConfidenceBadge valor={c.confianza} compacto />
             </div>
 

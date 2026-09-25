@@ -1,4 +1,12 @@
-import type { CategoriaSuelo, Fuente, TipoCuidado } from './data/types'
+import type {
+  CategoriaLuz,
+  CategoriaSuelo,
+  Dato,
+  EspecieEnriquecida,
+  Fuente,
+  Grupo,
+  TipoCuidado,
+} from './data/types'
 
 /**
  * El vocabulario de la huerta, explicado.
@@ -26,7 +34,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   riego: {
     termino: 'Riego',
     que_es:
-      'Regar "parejo" no es regar mucho: es que el sustrato no pase de charco a polvo y de vuelta. Casi todo lo que se raja, se pudre o amarga viene de ese vaivén, no de la cantidad total de agua.',
+      'Darle agua a la planta cuando la lluvia no alcanza. Cuánto y cada cuánto depende de la especie.',
     como: 'Meté un dedo en la tierra: si sale seco, regá. Mejor temprano o al atardecer, al pie de la planta y no sobre las hojas —el agua sobre la hoja al sol es la puerta de entrada de los hongos.',
   },
   raleo: {
@@ -38,25 +46,25 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   aporque: {
     termino: 'Aporque',
     que_es:
-      'Arrimarle tierra a la base de la planta. Según el cultivo hace tres cosas distintas: le da sostén para que no se tumbe, tapa lo que no tiene que ver la luz (la papa), o blanquea lo que se come tierno (el puerro).',
+      'Arrimarle tierra a la base de la planta, en un montoncito o un lomo. Según el cultivo, sirve para cosas distintas.',
     como: 'Con la mano o con una azadita, juntá tierra alrededor del tallo formando un montoncito. De a poco y varias veces, no todo junto.',
   },
   tutorado: {
     termino: 'Tutorado',
     que_es:
-      'Darle a la planta algo a qué agarrarse: una caña, un hilo tenso, una espaldera, unas ramas. Lo piden las que trepan y las que se cargan de fruta.',
+      'Darle a la planta algo en qué apoyarse o por dónde trepar: una caña, un hilo tenso, una espaldera, unas ramas.',
     como: 'Clavá el tutor **al plantar** y no después, para no cortarle raíces ya hechas. Atá flojo y en forma de ocho, con el cruce entre el tallo y la caña: así el tallo puede engordar sin que el hilo lo estrangule.',
   },
   poda: {
     termino: 'Poda',
     que_es:
-      'Sacarle partes vivas a la planta para que la energía vaya a otro lado. Tiene nombres según qué se saca: **desbrote** son los chupones del tomate, **despunte** es cortarle la punta a una guía o a una rama, **pinzado** es hacerlo con los dedos en algo tierno, como la albahaca.',
+      'Cortarle partes a la planta: brotes, puntas, ramas, hojas o flores. Tiene nombres según qué se saca: **desbrote** son los chupones del tomate, **despunte** es cortarle la punta a una guía o a una rama, **pinzado** es hacerlo con los dedos en algo tierno, como la albahaca. Para qué se hace cambia con cada especie.',
     como: 'Cuanto más chico el brote, mejor: sale con los dedos y la herida cierra sola. Si ya está grueso, tijera limpia y en día seco.',
   },
   mulch: {
     termino: 'Mulch (acolchado o cobertura)',
     que_es:
-      'Taparle la tierra con algo: paja, hojas secas, cartón, chips de poda, plástico negro. Un suelo tapado retiene la humedad, no deja crecer yuyos, amortigua el golpe de calor y evita que la lluvia salpique tierra —y hongos— sobre las hojas de abajo.',
+      'Taparle la tierra con algo: paja, hojas secas, cartón, chips de poda, plástico negro. Qué se busca con eso depende del cultivo.',
     como: 'Cubrí toda la superficie dejando libre un anillo alrededor del tallo, para que el cuello de la planta no quede en contacto con material húmedo.',
   },
   blanqueo: {
@@ -74,7 +82,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   abonado: {
     termino: 'Abonado',
     que_es:
-      'Reponerle al suelo lo que las plantas se llevan. En una huerta que produce todo el año no alcanza con la tierra que había.',
+      'Sumarle nutrientes a la tierra con compost u otro abono orgánico. Si conviene, y cuánto, depende de la especie.',
     como: 'Compost o humus de lombriz bien hechos, incorporados antes de plantar o esparcidos alrededor de la planta. **Nunca estiércol fresco**: quema las raíces y deforma las de zanahoria y remolacha.',
   },
   desmalezar: {
@@ -92,7 +100,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   contener: {
     termino: 'Contención',
     que_es:
-      'Ponerle un límite físico a las que se expanden solas. La menta y la melisa avanzan por debajo de la tierra con rizomas y, si las dejás sueltas en un bancal, en dos temporadas es un bancal de menta.',
+      'Ponerle un límite a una planta que se expande sola, por debajo de la tierra o resembrándose. Cómo, depende de la especie.',
     como: 'Maceta —incluso enterrada— o una barrera hundida en el suelo alrededor del cantero. Y a las que se expanden por semilla, como la borraja, cortarles las flores antes de que semillen.',
   },
   dividir: {
@@ -104,7 +112,7 @@ export const LABORES: Record<TipoCuidado, Termino> = {
   rotacion: {
     termino: 'Rotación',
     que_es:
-      'No repetir la misma familia de plantas en el mismo lugar temporada tras temporada. Las enfermedades y las plagas del suelo son bastante específicas de cada familia: si les dejás el mismo cantero, se acumulan.',
+      'No repetir en el mismo lugar, temporada tras temporada, plantas que comparten enfermedades del suelo: si les dejás el mismo cantero, se acumulan.',
     como: 'Anotá qué familia hubo en cada cantero y hacelas girar. Las cinco que más aparecen en esta app: **solanáceas** (tomate, papa, pimiento, ají, berenjena), **crucíferas** (repollo, brócoli, coliflor, kale, rúcula, rabanito, nabo), **cucurbitáceas** (zapallo, zapallito, pepino, melón, sandía), **aliáceas** (ajo, cebolla, puerro, ciboulette) y **leguminosas** (chaucha, arveja, haba). Después de una leguminosa el suelo queda mejor que antes: fijan nitrógeno.',
   },
 }
@@ -297,4 +305,141 @@ export const AJUSTE_SUELO: Record<CategoriaSuelo, string> = {
     'Lo que cambia acá no es la mezcla sino dónde la ponés: hondo y que no haya nada duro abajo. Zanahoria, remolacha y nabo salen bifurcadas cuando chocan con una piedra, un terrón o el fondo de una maceta baja.',
   RUSTICO_TOLERANTE:
     'Se arreglan con lo que haya, así que no compres nada especial para ellas. En la capuchina y en el cosmos **conviene** incluso correr la base a menos materia orgánica: con mucho nitrógeno hacen hojas y no flores.',
+}
+
+/* ------------------------------------------------------------------ *
+ * Las categorías del resumen de la ficha.
+ *
+ * El nombre de cada una sale de `GRUPOS`/`SUELOS`/`LUCES`
+ * (src/icons/semantic.tsx); acá va sólo la elaboración que esa etiqueta no
+ * trae. Viven en este módulo y no en la pantalla del Glosario porque la ficha
+ * las muestra también, y el mismo texto en dos lados se desincroniza.
+ * ------------------------------------------------------------------ */
+
+/**
+ * La de las flores sale en seis fichas: cada cosa que dice la hace alguna según
+ * su fuente, y ninguna se afirma de todas (el copete espanta, la caléndula
+ * desvía, el girasol hace de tutor). Sombra no: El Espectador la cuenta a
+ * favor y La Nación, con más confianza, pide sembrarlo donde no la dé.
+ */
+export const DESC_GRUPO: Record<Grupo, string> = {
+  'Hortaliza de hoja': 'Lechuga, acelga, espinaca, repollo… se cosechan sus hojas, o la cabeza que arman.',
+  'Hortaliza de raíz/bulbo': 'Zanahoria, cebolla, papa… el tesoro está abajo.',
+  'Hortaliza de fruto': 'Tomate, zapallo, frutilla… frutos de la planta.',
+  Legumbre: 'Chaucha, arveja, haba: plantas de vaina que fijan nitrógeno en la raíz.',
+  Aromática: 'Albahaca, romero, menta… perfume y sabor.',
+  'Flor polinizadora':
+    'Flores que se siembran por lo que hacen en la huerta: según la especie, atraen abejas y fauna benéfica, desvían o espantan plagas, o les hacen de tutor a las trepadoras.',
+}
+
+export const DESC_SUELO: Record<CategoriaSuelo, string> = {
+  ARENOSO_DRENANTE: 'Suelto y con drenaje libre: nada de charcos.',
+  FRANCO_FERTIL: 'Equilibrado y con materia orgánica. El comodín.',
+  HUMEDO_RICO: 'Rico en materia orgánica y que retiene la humedad: no llega a secarse.',
+  PROFUNDO_SUELTO: 'Mullido y sin piedras: clave para raíces.',
+  RUSTICO_TOLERANTE: 'Tolera suelos pobres.',
+}
+
+/**
+ * Para la hoja de la ficha, sin horas: al lado de las citadas de la planta, la
+ * cifra genérica las contradecía (berro: 3 a 6). Y sin pedir más que las
+ * citas: el pleno sol de las fuentes es «al menos 6 horas», no «todo el día».
+ */
+export const DESC_LUZ: Record<CategoriaLuz, string> = {
+  PLENO_SOL: 'Sol directo buena parte del día.',
+  SOL_PARCIAL: 'Sol directo una parte del día y sombra el resto.',
+  MEDIA_SOMBRA: 'Pocas horas de sol directo; el resto, luz filtrada.',
+  TOLERA_SOMBRA: 'Crece con luz indirecta, sin sol directo.',
+}
+
+/** En el Glosario sí van las horas: las de `categorias_luz` de la base, lo único que separa una categoría de otra (#153). */
+export const DESC_LUZ_GLOSARIO: Record<CategoriaLuz, string> = {
+  PLENO_SOL: 'Seis horas o más de sol directo.',
+  SOL_PARCIAL: 'Entre 4 y 6 horas de sol directo.',
+  MEDIA_SOMBRA: 'Entre 2 y 4 horas de sol directo.',
+  TOLERA_SOMBRA: DESC_LUZ.TOLERA_SOMBRA,
+}
+
+/* ------------------------------------------------------------------ *
+ * Lo que muestra la hoja que sube al tocar un término en la ficha.
+ * ------------------------------------------------------------------ */
+
+/** Un dato agronómico, que sí va con cita; una definición no la necesita. */
+export interface DatoCitado {
+  etiqueta: string
+  /** `null`: la fuente no lo dice, y la hoja muestra el sin dato */
+  texto: string | null
+  /** qué pasa si no se cumple, con su rótulo aparte, como en la ficha */
+  siNo?: { etiqueta: string; texto: string }
+  confianza: number
+  /** todas, como en el resto de la ficha; vacío se muestra como tal */
+  fuentes: Fuente[]
+}
+
+export interface ContenidoDefinicion {
+  que_es: string
+  dato?: DatoCitado
+  /** una línea tras el dato que manda al Glosario, sin afirmar lo que allá va citado */
+  remite?: string
+  /** la frase de `remite` que va como link, cuando nombra otro lugar que el `ancla` */
+  enlace?: { frase: string; ancla: string }
+  /** sección o término del Glosario donde está lo completo (los `id` de Glosario.tsx) */
+  ancla: string
+}
+
+/**
+ * Define y no prescribe: al lado del cuidado citado de la especie, el paso a
+ * paso general lo contradecía (regar si está seco, en la cebolla; abonar, en
+ * la capuchina). El ancla va al término y no a la sección, que lo dejaba
+ * fuera de pantalla.
+ */
+export function definicionDeLabor(tipo: TipoCuidado): ContenidoDefinicion {
+  return {
+    que_es: LABORES[tipo].que_es,
+    remite: 'El paso a paso general está en el Glosario. Para esta planta, vale lo que dice su ficha.',
+    ancla: `labor-${tipo}`,
+  }
+}
+
+export function definicionDeGrupo(grupo: Grupo): ContenidoDefinicion {
+  return { que_es: DESC_GRUPO[grupo], ancla: 'grupos' }
+}
+
+/**
+ * Suelo y luz suman a la definición lo que dijo la fuente de esta especie: el
+ * chip dice la categoría, y la categoría sola se lee como consejo aunque la
+ * ficha diga otra cosa. El rótulo no nombra a la especie: el artículo ("el
+ * tomate", "la lechuga") no está en los datos.
+ */
+function loQuePide(dato: Dato & { que_pasa_si_no: string }): DatoCitado {
+  const siNo = dato.que_pasa_si_no.trim()
+  return {
+    etiqueta: 'Lo que pide esta planta',
+    texto: dato.valor.trim() || null,
+    siNo: siNo ? { etiqueta: 'Si no se cumple', texto: siNo } : undefined,
+    confianza: dato.confianza,
+    fuentes: dato.fuentes,
+  }
+}
+
+export function definicionDeLuz(luz: EspecieEnriquecida['luz']): ContenidoDefinicion {
+  return { que_es: DESC_LUZ[luz.categoria_luz], dato: loQuePide(luz), ancla: 'luz' }
+}
+
+/**
+ * Ni la mezcla base ni `AJUSTE_SUELO`: sin la especie al lado, se leían como
+ * consejo para esa planta, y la base lleva compost donde el tomillo o el
+ * cosmos piden suelo pobre. Las mezclas quedan en el Glosario, con su cita:
+ * el link del texto va a ellas, y el del pie a la categoría, que es lo que la
+ * hoja define.
+ */
+export function definicionDeSuelo(suelo: EspecieEnriquecida['suelo']): ContenidoDefinicion {
+  return {
+    que_es: DESC_SUELO[suelo.categoria_suelo],
+    dato: loQuePide(suelo),
+    remite:
+      'La mezcla para maceta o cantero, y la de la bandeja de almácigos, están en el Glosario, en «Cómo se arma la tierra».',
+    enlace: { frase: 'Cómo se arma la tierra', ancla: 'tierra' },
+    ancla: 'suelo',
+  }
 }

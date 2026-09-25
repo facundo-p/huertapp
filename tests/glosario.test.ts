@@ -1,6 +1,20 @@
 import { describe, it, expect } from 'vitest'
-import { LABORES, PALABRAS, SUSTRATO, AJUSTE_SUELO } from '../src/lib/glosario'
+import db from '../data/huerta_gba_enriquecido.json'
+import { LABORES, PALABRAS, SUSTRATO, AJUSTE_SUELO, DESC_LUZ_GLOSARIO } from '../src/lib/glosario'
 import { ORDEN_CUIDADOS, ETIQUETA_CUIDADO } from '../src/lib/data/cuidados'
+import type { CategoriaLuz } from '../src/lib/data/types'
+
+const CATEGORIAS_LUZ = (db as unknown as { categorias_luz: Record<CategoriaLuz, { desc: string }> })
+  .categorias_luz
+
+// el Glosario escribe «Seis horas»; la base, «≥6 h»
+const EN_LETRAS: Record<string, number> = {
+  dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7, ocho: 8, nueve: 9, diez: 10, doce: 12,
+}
+const numeros = (texto: string) =>
+  [...texto.toLowerCase().matchAll(/\d+|\p{L}+/gu)]
+    .map(([m]) => (/\d/.test(m) ? Number(m) : EN_LETRAS[m]))
+    .filter((n) => n !== undefined)
 
 /**
  * El glosario es la red que sostiene al resto: la ficha manda a ralear dando
@@ -73,6 +87,18 @@ describe('glosario', () => {
     // "muy difícil hablar de un sustrato ideal" es lo que dice el PDF; afirmar
     // que no existe sería ir más lejos que la fuente
     expect(t).toMatch(/difícil hablar de un sustrato ideal/i)
+  })
+
+  // copiadas a mano de la base: si la base cambia, sólo esto avisa
+  it('las horas de luz del Glosario son las de la base', () => {
+    expect(Object.keys(DESC_LUZ_GLOSARIO).sort()).toEqual(Object.keys(CATEGORIAS_LUZ).sort())
+    let comparados = 0
+    for (const c of Object.keys(CATEGORIAS_LUZ) as CategoriaLuz[]) {
+      const deLaBase = numeros(CATEGORIAS_LUZ[c].desc)
+      expect(numeros(DESC_LUZ_GLOSARIO[c]), c).toEqual(deLaBase)
+      comparados += deLaBase.length
+    }
+    expect(comparados).toBeGreaterThan(0)
   })
 
   it('las cinco categorías de suelo dicen hacia dónde correr la mezcla', () => {

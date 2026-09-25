@@ -106,6 +106,34 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-coliflor-temprana', ruta: '/#/explorar/coliflor-temprana', fullPage: true },
   // la que se define por lo que NO lleva: sin tutorado ni poda
   { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
+  // la hoja del suelo: definición, lo que pide el tomate con su confianza y su
+  // fuente, la línea que remite a las mezclas del glosario y los links
+  {
+    nombre: 'ficha-definicion-suelo',
+    ruta: '/#/explorar/tomate',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // y una labor, que es la variante corta: qué es y el remite al Glosario
+  {
+    nombre: 'ficha-definicion-labor',
+    ruta: '/#/explorar/tomate',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Tutorado/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // la luz con el dato de la especie; la lechuga, que trae dos fuentes
+  {
+    nombre: 'ficha-definicion-luz',
+    ruta: '/#/explorar/lechuga',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Sol parcial/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
   { nombre: 'calendario', ruta: '/#/calendario' },
   {
     nombre: 'calendario-trasplante',
