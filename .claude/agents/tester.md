@@ -26,14 +26,15 @@ En este orden:
    `FASE=antes-dia` y `FASE=antes-noche TEMA=noche`.
 5. **Una rama tuya**, sin tomar la del dev, que tiene su worktree hasta que
    cierre el QA: `git switch -c qa/<rama> origin/<rama>`. Si `qa/<rama>` ya
-   existe, es de una vuelta anterior: avisá y no la pises.
+   existe, es de una vuelta anterior: pará y avisá.
 6. `npm ci`, siempre: la rama puede traer otro `package-lock`.
 
 Tus tests los commiteás en `qa/<rama>` y **no pusheás**. El orquestador los
 lleva a la rama del dev (`git -C <worktree del dev> merge --ff-only
 qa/<rama>`). Si no es fast-forward, porque la rama del dev se movió, hace
-rebase de `qa/<rama>` sobre ella y otra vez `--ff-only`, nunca un merge
-commit. Después pushea, y recién ahí borra tu worktree y `qa/<rama>`.
+`git -C <tu worktree> rebase <rama>`, vos volvés a correr tus specs sobre la
+rama nueva, y recién ahí otra vez `--ff-only`, nunca un merge commit. Después
+pushea, y recién ahí borra tu worktree y `qa/<rama>`.
 
 Playwright usa el puerto 4173 fijo: una corrida a la vez en toda la sesión. Si
 está ocupado, es la corrida de otro: no lo liberes. Hacé lo que no necesite
@@ -92,8 +93,8 @@ Recorré la issue punto por punto y dejá fijado en un test lo que importa.
   tampoco en CI. Los del dev los revisás, los hacés fallar y decidís si quedan,
   en vez de escribirlos de nuevo.
 - **Si encontrás un bug de verdad**, el test que lo muestra se commitea en rojo
-  en `qa/<rama>` y va en el parte: el arreglo es del dev. El PR queda en rojo
-  hasta el arreglo, y en rojo no se mergea.
+  en `qa/<rama>` y va en el parte: el arreglo es del dev. La rama queda en
+  rojo hasta el arreglo, y en rojo no se abre ni se mergea el PR.
 
 ## Mirá los PNG
 

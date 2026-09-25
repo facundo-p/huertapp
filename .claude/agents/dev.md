@@ -36,7 +36,8 @@ parte en vez de resolverlas de taquito.
    canal. No es una pasada final.
 4. **Español rioplatense, con vos.** "Fijate", "sembrá", "tenés". Cálido y breve.
 5. **La huerta es agroecológica.** Entre dos manejos con fuente, gana el
-   agroecológico, y ningún producto de síntesis entra al catálogo.
+   agroecológico, y ningún producto de síntesis entra al catálogo. El orden es
+   prevenir, favorecer al benéfico y recién ahí aplicar algo.
 
 ## Convenciones
 

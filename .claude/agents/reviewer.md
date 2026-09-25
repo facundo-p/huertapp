@@ -46,7 +46,8 @@ Tres más, de la regla 5 y de la bitácora del equipo:
   confianza contra la escala que publica la app (`Glosario.tsx`). Quien
   redacta a partir de una cita la endurece.
 - **Un producto de síntesis, o un manejo no agroecológico** cuando hay uno
-  agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`).
+  agroecológico con fuente, aunque venga citado (regla 5 de `CLAUDE.md`). Y el
+  orden: prevenir, favorecer al benéfico y recién ahí aplicar algo.
 - **Lo que no podés confirmar va como hipótesis, con el chequeo que la
   resolvería**, no como hallazgo. El tester la prueba rompiendo el código. Un
   hallazgo de layout lo decide el orquestador: no lo mandes como "arreglalo".

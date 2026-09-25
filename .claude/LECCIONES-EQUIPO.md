@@ -351,7 +351,8 @@ falló: git no deja la misma rama en dos worktrees. El tester lo resolvió solo
 con `git reset --hard origin/<rama>` sobre su worktree y lo dijo en el parte.
 
 **Causa.** El worktree del dev sigue vivo después del push, y tiene que
-seguir: el review le vuelve por mensaje y la segunda vuelta la hace ahí.
+seguir: si el QA encuentra un bug, el arreglo vuelve al mismo dev y lo hace
+ahí.
 
 **Qué hacemos.** El tester trabaja sobre `origin/<rama>` sin tomar el nombre,
 en una rama propia, `qa/<rama>`, que no se pushea. El orquestador lleva sus
@@ -438,7 +439,7 @@ paso de carga, no una opción.
 de cada grupo, un grupo de una tarea quedaba igual o más alto que antes. Tenía
 razón en la dirección. La decisión —un solo botón por día en vez de uno por
 grupo— la tomó el orquestador antes de reenviar el review; el tester midió
-después: de 3-4 filas a las 6 que tenía el día, en el mismo viewport.
+después: antes entraban 3-4 filas del día en 390×844, y ahora las 6.
 
 **Causa.** Un hallazgo de layout no se resuelve con aritmética ni se delega al
 dev como "arreglalo": necesita una decisión de diseño y una medición.
@@ -497,8 +498,8 @@ está en `.claude/agents/tester.md`.
 `<dialog>` modal colgado al navegar, y pidió verificarlo a mano. El tester lo probó
 en el navegador y funcionó; después **borró el `onClick` que lo cerraba** y los
 tests siguieron pasando: React Router desmonta la ficha entera y el navegador
-limpia el diálogo solo. El riesgo real no estaba ahí. Lo confirmó rompiendo
-otra cosa —el ancla— y ahí sí el test se puso rojo.
+limpia el diálogo solo. El riesgo real no estaba ahí. Rompió el ancla y ahí
+sí el test se puso rojo: eso es lo que el test fija.
 
 **Causa.** Una hipótesis de comportamiento se lee plausible en el diff y no se
 puede resolver leyendo más diff. Se resuelve mutando el código y mirando qué
