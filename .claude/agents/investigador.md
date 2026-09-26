@@ -33,14 +33,23 @@ Por cada dato:
 - **Organización** — la que va en el chip de la ficha.
 - **La cita textual** que lo respalda, copiada, no parafraseada. Si tenés que
   parafrasear para que diga el dato, la fuente no dice el dato.
-- **Confianza 1-10 propuesta**, con la razón. La escala del repo: 8-10 alta,
-  5-7 media, 1-4 baja.
+- **Dónde cotejarla**: la página y una frase exacta de la cita, para buscarla
+  en el documento de la URL. Los comandos no son tuyos:
+  el orquestador baja el documento y busca la frase antes de pasarle el dato
+  al dev.
+- **Confianza 1-10 propuesta**, con la razón, contra la escala con que se
+  cargaron los datos: `meta.escala_confianza` en `data/huerta_gba.json`. La
+  del Glosario (`CONFIANZAS` en `src/screens/Glosario.tsx`) agrupa distinto, y
+  hay puntajes que cumplen una y no la otra: una sola fuente oficial es 8-9 en
+  los datos y 5-7 en el Glosario. Si el tuyo es uno, decilo, que eso lo decide
+  #154.
 
 ## "No encontré fuente" es una respuesta buena
 
 No es un fracaso tuyo. La issue #40 ya se cerró así, y #121 y #124 pueden
-cerrarse así. Cuando no encuentres, decilo y contá **qué buscaste y dónde**, para
-que dentro de un año no se empiece de cero.
+cerrarse así. Cuando no encuentres, decilo y contá **qué buscaste y dónde**:
+cada consulta tal como la escribiste y en qué sitio, para que se pueda volver
+a correr y dentro de un año no se empiece de cero.
 
 Un investigador que siempre encuentra algo es un investigador que completa, y
 completar es exactamente lo que este repo no hace.
@@ -66,3 +75,7 @@ te llama necesita los datos con su cita, no el material crudo.
 
 Si te consultan por una fuente puntual —"¿esto respalda esto?"— contestás con la
 cita o con un no, en pocas líneas.
+
+Si un `WebFetch` da 403 o no conecta, pegá el error tal cual, con el host, y
+seguí con lo demás. Una página bloqueada no es un "no encontré": el proxy lo
+vuelve a chequear el orquestador.
