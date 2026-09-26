@@ -82,8 +82,8 @@ Dos trampas medidas sobre la tesela dibujada, píxel por píxel:
 - de noche hay que medir el píxel **más claro**, no el más oscuro (el que mira
   `e2e/textura.spec.ts`).
 
-Medido así, de noche ningún píxel cruza. De día cruzan 11 de 65 536, por una
-unidad de redondeo del suavizado en el borde de alguna fibra.
+Medido así, de noche ningún píxel cruza. De día cruzan unos pocos, ninguno
+por más de una unidad: el redondeo del suavizado en el borde de alguna fibra.
 
 **Cosas hechas a mano, con función:**
 
@@ -304,15 +304,16 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas;
   sirve sobre todo cuando no queda lugar libre) y «Soltar».
 - Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
-  va a quedar después, o «Al final de la hoja», que aparece en la barra. Como
-  los lugares chicos van de a dos, el empaquetado puede dejarlo más arriba o
-  más abajo de lo pedido, o correr a otros. La barra dice en qué puesto quedó
-  («está ahora en el puesto 3 de 4, más abajo de lo que pediste») y nombra
-  sólo a los que el empaquetado subió para llenar el hueco, si de verdad
-  cambiaron de fila o de lado. Si el empaquetado lo devuelve a su lugar dice
-  «Quedó donde estaba» y por qué; si ya estaba ahí, «Ya estaba ahí». Nunca
-  anuncia un cambio que no pasó, y las frases no concuerdan con el nombre, que
-  lo pone la persona. El foco queda en el lugar movido.
+  va a quedar después, o «Al final de la hoja», que aparece en la barra. Tocar
+  otra vez el nombre lo suelta. Como los lugares chicos van de a dos, el
+  empaquetado puede dejarlo más arriba o más abajo de lo pedido, o correr a
+  otros. La barra dice en qué puesto quedó («está ahora en el puesto 3 de 4,
+  más abajo de lo que pediste») y nombra sólo a los que el empaquetado subió
+  para llenar el hueco, si de verdad cambiaron de fila o de lado. Si el
+  empaquetado lo devuelve a su lugar dice «Quedó donde estaba» y por qué; si
+  ya estaba ahí, «Ya estaba ahí». Nunca anuncia un cambio que no pasó, y las
+  frases no concuerdan con el nombre, que lo pone la persona. El foco queda en
+  el lugar movido.
 - La barra habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
   «3 celdas».
 

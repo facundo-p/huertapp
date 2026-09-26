@@ -1720,7 +1720,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       var l0 = lugaresB[i0];
       elegidas = null;
       if (!lugarElegido) lugarElegido = l0.id;
-      else if (lugarElegido === l0.id) { lugarElegido = null; aviso = 'Quedó donde estaba.'; }
+      else if (lugarElegido === l0.id) { lugarElegido = null; aviso = 'Lo soltaste: no se movió.'; }
       else {
         var movido = lugarPorId(lugarElegido);
         moverLugar(movido, l0);
