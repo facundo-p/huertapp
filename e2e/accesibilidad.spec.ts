@@ -19,7 +19,25 @@ const LUZ_SIN_FUENTE = (
 ).find((e) => e.luz.fuentes.length === 0)
 
 const PANTALLAS = [
-  { ruta: '/#/hoy', nombre: 'Esta semana' },
+  // El detalle y la fuente de cada día viven en un panel plegado. Sin abrirlo
+  // no se miden, y son el texto más chico de la pantalla: el test pasaría por
+  // no estar mirando nada.
+  {
+    ruta: '/#/hoy',
+    nombre: 'Esta semana',
+    entrar: async (page: Page) => {
+      // siempre el primero que queda cerrado: al abrirse sale del conjunto, así
+      // que los índices se corren solos. Tope en 7, los días de la semana.
+      const cerrados = page.getByRole('button', { name: /de dónde sal/, expanded: false })
+      // count() no espera: si el catálogo pinta antes que las plantas, el
+      // bucle no abriría nada y el test mediría la pantalla sin la letra chica
+      await cerrados.first().waitFor()
+      for (let i = 0; i < 7 && (await cerrados.count()) > 0; i++) {
+        await cerrados.first().click()
+      }
+      await expect(page.locator('.carril__porque-dia:not([hidden])').first()).toBeVisible()
+    },
+  },
   { ruta: '/#/explorar', nombre: 'Explorar' },
   { ruta: '/#/explorar/tomate', nombre: 'Ficha' },
   // un término del resumen con su hoja arriba: el dato de la especie, su

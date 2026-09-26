@@ -84,14 +84,8 @@
 /* El estado abierto/cerrado lo dice aria-expanded, pero el galón es la única
    pista visual de que la ficha se pliega: no baja de la tinta tenue. */
 .lugar__galon {
-  flex: none;
   margin-top: 2px;
   color: var(--tinta-tenue);
-  transition: transform 0.18s;
-}
-
-.lugar__galon.es-abierto {
-  transform: rotate(180deg);
 }
 
 /* ---- Plegada ---- */

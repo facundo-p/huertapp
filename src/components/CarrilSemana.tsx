@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import { useMemo, useState, type ComponentType } from 'react'
 import { Link } from 'react-router'
 import {
   CIELOS,
@@ -6,6 +6,7 @@ import {
   IconoCalor,
   IconoCompost,
   IconoCosechar,
+  IconoDesplegar,
   IconoEscarcha,
   IconoLluvia,
   IconoPuntos,
@@ -15,6 +16,15 @@ import {
   type IconProps,
 } from '../icons'
 import type { Tarea } from '../lib/tareas/engine'
+import {
+  agruparPorPie,
+  distinguir,
+  etiquetaPie,
+  type DondeCrece,
+  type Encabezado,
+  type GrupoTareas,
+} from '../lib/tareas/agrupar'
+import { alternar } from '../lib/huerta/plegado'
 import type { AvisoClima, DiaPronostico, TipoAviso } from '../lib/pronostico/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
 import { fechaDiaLarga, numeroDia, siglaDia } from '../lib/fechas'
@@ -50,12 +60,15 @@ interface Props {
   pronostico: DiaPronostico[]
   tareas: Tarea[]
   avisos: AvisoClima[]
+  /** por id de planta: para separar dos tareas que se llaman igual */
+  dondeCrece: Map<string, DondeCrece>
   festejando: string | null
   /** la tarea de germinación responde «Asomó» en vez de «Hecho» */
   conAsomo: (t: Tarea) => boolean
   onCompletar: (t: Tarea) => void
   onAsomo: (t: Tarea) => void
-  onMenu: (t: Tarea) => void
+  /** con el nombre que la dice: el título y, si otra se llama igual, el lugar o el día */
+  onMenu: (t: Tarea, nombre: string) => void
   onAbrirDia: (d: DiaPronostico) => void
 }
 
@@ -65,12 +78,16 @@ interface Props {
  * con un guion: la lectura que se busca es «cómo viene la semana», y para
  * eso los huecos importan. Sin pronóstico, el carril sigue: la columna del
  * día queda con la sigla y el número.
+ *
+ * De cada tarea se ve el título; el porqué y la fuente se pliegan detrás de un
+ * botón por día. La instrucción de una helada o de un trasplante riesgoso, no.
  */
 export function CarrilSemana({
   hoy,
   pronostico,
   tareas,
   avisos,
+  dondeCrece,
   festejando,
   conAsomo,
   onCompletar,
@@ -78,21 +95,26 @@ export function CarrilSemana({
   onMenu,
   onAbrirDia,
 }: Props) {
-  const semana = Array.from({ length: 7 }, (_, i) => {
-    const fecha = sumarDias(hoy, i)
-    return {
+  // En memoria y no en localStorage: acá el plegado es cómo estás mirando la
+  // semana ahora, no una preferencia que valga la pena recordar mañana.
+  const [abiertos, setAbiertos] = useState<string[]>([])
+
+  const { semana, distintos } = useMemo(() => {
+    const dias = Array.from({ length: 7 }, (_, i) => sumarDias(hoy, i)).map((fecha) => ({
       fecha,
       dia: pronostico.find((d) => d.fecha === fecha) ?? null,
       avisos: avisos.filter((a) => a.fecha === fecha),
-      tareas: tareas.filter((t) => t.fecha === fecha),
-    }
-  })
+      grupos: agruparPorPie(tareas.filter((t) => t.fecha === fecha)),
+    }))
+    // una vez para toda la semana: dos iguales en días distintos también chocan
+    return { semana: dias, distintos: distinguir(dias.flatMap((d) => d.grupos), dondeCrece, hoy) }
+  }, [hoy, pronostico, avisos, tareas, dondeCrece])
 
   return (
     <ol className="carril" aria-label="La semana, día por día">
-      {semana.map(({ fecha, dia, avisos: avs, tareas: ts }) => {
+      {semana.map(({ fecha, dia, avisos: avs, grupos }) => {
         const esHoy = fecha === hoy
-        const conCosas = avs.length + ts.length > 0
+        const conCosas = avs.length + grupos.length > 0
         const heladaEseDia = avs.some((a) => a.tipo === 'helada')
         const cabecera = (
           <>
@@ -129,17 +151,28 @@ export function CarrilSemana({
               {avs.map((a) => (
                 <Aviso key={a.id} aviso={a} />
               ))}
-              {ts.map((t) => (
+              {grupos.flatMap((g) => g.tareas).map((t) => (
                 <Item
                   key={t.id}
                   tarea={t}
+                  lugar={distintos.porTarea.get(t.id)}
                   festejando={festejando === t.id}
                   asomo={conAsomo(t)}
                   onCompletar={() => onCompletar(t)}
                   onAsomo={() => onAsomo(t)}
-                  onMenu={() => onMenu(t)}
+                  onMenu={(nombre) => onMenu(t, nombre)}
                 />
               ))}
+              {grupos.length > 0 && (
+                <PieDelDia
+                  fecha={fecha}
+                  esHoy={esHoy}
+                  grupos={grupos}
+                  lugares={distintos.porGrupo}
+                  abierto={abiertos.includes(fecha)}
+                  onAlternar={() => setAbiertos((v) => alternar(v, fecha))}
+                />
+              )}
             </div>
           </li>
         )
@@ -167,6 +200,10 @@ function Cielo({ dia, helada }: { dia: DiaPronostico; helada: boolean }) {
   )
 }
 
+/**
+ * El aviso de clima no pliega: su detalle es la instrucción («cubrí de noche
+ * X»), no la explicación, y son hasta tres por día.
+ */
 function Aviso({ aviso: a }: { aviso: AvisoClima }) {
   const Icono = ICONO_AVISO[a.tipo]
   return (
@@ -183,8 +220,63 @@ function Aviso({ aviso: a }: { aviso: AvisoClima }) {
   )
 }
 
+/**
+ * Un «por qué» por día y no por tarea: cada botón se come 44 px. El estado va
+ * por fecha: por grupo, abrir el del martes abría el del viernes.
+ */
+function PieDelDia({
+  fecha,
+  esHoy,
+  grupos,
+  lugares,
+  abierto,
+  onAlternar,
+}: {
+  fecha: string
+  esHoy: boolean
+  grupos: GrupoTareas[]
+  lugares: Map<string, Encabezado[]>
+  abierto: boolean
+  onAlternar: () => void
+}) {
+  const panel = `porque-${fecha}`
+  return (
+    <>
+      <button
+        type="button"
+        className="carril__porque"
+        aria-expanded={abierto}
+        aria-controls={panel}
+        onClick={onAlternar}
+      >
+        {/* no cambia a «ocultar»: el galón y aria-expanded ya dicen el estado */}
+        <IconoDesplegar size={13} className={`galon ${abierto ? 'es-abierto' : ''}`} />
+        {etiquetaPie(grupos)}
+        {/* siete botones iguales en la pantalla: hay que decir de qué día es */}
+        <span className="sr-solo">, {esHoy ? 'hoy' : fechaDiaLarga(fecha)}</span>
+      </button>
+      <div id={panel} className="carril__porque-dia" hidden={!abierto}>
+        {grupos.map((g) => (
+          <div key={g.clave} className="carril__porque-grupo">
+            {lugares.get(g.clave)!.map((e) => (
+              <span key={e.titulo} className="carril__porque-de">
+                {e.titulo}
+                {e.lugares && <span className="carril__porque-lugar"> — {e.lugares}</span>}
+              </span>
+            ))}
+            {!g.instruccion && <span className="carril__detalle">{g.detalle}</span>}
+            {/* de dónde sale: sin esto, es una app que manda sin explicar */}
+            <span className="carril__fuente">{g.fuente}</span>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
 function Item({
   tarea: t,
+  lugar,
   festejando,
   asomo,
   onCompletar,
@@ -192,13 +284,20 @@ function Item({
   onMenu,
 }: {
   tarea: Tarea
+  /** sólo si otra tarea de la semana se llama igual: el lugar o, sin planta, el día */
+  lugar?: string
   festejando: boolean
   asomo: boolean
   onCompletar: () => void
   onAsomo: () => void
-  onMenu: () => void
+  onMenu: (nombre: string) => void
 }) {
   const Icono = ICONO_TAREA[t.tipo]
+  const atrasada = t.atrasada && <span className="carril__atrasada">atrasada</span>
+  // dos «Hecho» seguidos no dicen de qué tarea es cada uno
+  const deCual = `${t.titulo}${lugar ? `, ${lugar}` : ''}`
+  // sin planta lo que la separa es el día, y a la vista ya está a la izquierda
+  const aLaVista = t.plantaId ? lugar : undefined
   const cuerpo = (
     <>
       <span className="carril__icono" aria-hidden>
@@ -206,12 +305,19 @@ function Item({
       </span>
       <span className="carril__textos">
         <span className="carril__titulo">
-          {t.titulo}
-          {t.atrasada && <span className="carril__atrasada">atrasada</span>}
+          <span className="carril__titulo-texto">{t.titulo}</span>
+          {!aLaVista && atrasada}
         </span>
-        <span className="carril__detalle">{t.detalle}</span>
-        {/* de dónde sale: sin esto, es una app que manda sin explicar */}
-        <span className="carril__fuente">{t.fuente}</span>
+        {/* el chip, junto al lugar: bajo el título ocupaba un renglón para él solo */}
+        {aLaVista && (
+          <span className="carril__lugar">
+            {atrasada && <>{atrasada} </>}
+            {aLaVista}
+          </span>
+        )}
+        {/* en cada fila y no en el pie: si no, de dos iguales, la primera se
+            leía como un trasplante sin riesgo */}
+        {t.instruccion && <span className="carril__detalle">{t.detalle}</span>}
       </span>
     </>
   )
@@ -231,8 +337,14 @@ function Item({
         {/* El botón mide 44 para el dedo; la píldora de adentro, 32 para el ojo. */}
         <button type="button" className="carril__hecho" onClick={asomo ? onAsomo : onCompletar}>
           <span className="carril__pildora">{asomo ? 'Asomó' : 'Hecho'}</span>
+          <span className="sr-solo">: {deCual}</span>
         </button>
-        <button type="button" className="carril__menu" onClick={onMenu} aria-label={`Más opciones: ${t.titulo}`}>
+        <button
+          type="button"
+          className="carril__menu"
+          onClick={() => onMenu(deCual)}
+          aria-label={`Más opciones: ${deCual}`}
+        >
           <IconoPuntos size={20} />
         </button>
       </span>

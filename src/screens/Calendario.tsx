@@ -215,9 +215,7 @@ export function Calendario() {
                     aria-expanded={abiertas.has(e.slug)}
                     onClick={() => alternar(e.slug)}
                   >
-                    <span className={abiertas.has(e.slug) ? 'cal-desplegar__flecha es-abierta' : 'cal-desplegar__flecha'}>
-                      <IconoDesplegar size={13} />
-                    </span>
+                    <IconoDesplegar size={13} className={`galon ${abiertas.has(e.slug) ? 'es-abierto' : ''}`} />
                     {abiertas.has(e.slug)
                       ? 'ocultar variedades'
                       : `${e.variedades.length} variedades`}

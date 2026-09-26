@@ -454,6 +454,16 @@ a {
   animation-delay: var(--retraso, 0s);
 }
 
+/* acá y no en cada pantalla: lo comparten Mi huerta, Calendario y La semana */
+.galon {
+  flex: none;
+  transition: transform 0.15s ease;
+}
+
+.galon.es-abierto {
+  transform: rotate(180deg);
+}
+
 /* hojita que brota — microanimación de completar/celebrar */
 @keyframes brotar {
   0% {

@@ -41,6 +41,13 @@ Qué significa cada parte en este proyecto:
   planta vale lo que dice su ficha. Al pie, «Verlo en el Glosario» te deja en la
   sección que corresponde —o en la palabra justa, si es una labor— y el lector
   de pantalla te dice adónde llegaste.
+- **Si dos plantas tienen una tarea con el mismo nombre, te dice cuál es
+  cuál.** Con dos zanahorias sin apodo, cada una muestra en qué lugar está y,
+  si con eso no alcanza, cómo está puesta, cuándo la sembraste, de qué especie o
+  variedad es, o cuándo asomó. Vale para toda la semana: dos iguales en días
+  distintos también lo dicen. Su porqué lleva lo mismo, así sabés de cuál te
+  habla. Y con lector de pantalla, cada «Hecho» y cada «Asomó» dice de qué
+  tarea es; si hay dos «Puede helar» en la semana, cada uno dice su día.
 
 ### Cambiado
 
@@ -52,6 +59,16 @@ Qué significa cada parte en este proyecto:
   Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
   correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
   tu zona, de lo que salga y de la especie.
+- **«La semana» se lee de un vistazo.** De cada tarea se ve el título: el
+  porqué y de dónde sale el dato quedan a un toque, plegados al pie de cada
+  día. Lo que hay que hacer para no perder una planta —taparla de noche si
+  puede helar, esperar para trasplantarla— sigue a la vista, en la fila de la
+  tarea. No se borró nada —la procedencia sigue estando, plegada—, pero ahora
+  entra mucho más de cada día sin tener que bajar.
+- **Lo que vale para varias plantas se dice una vez.** Si tenés cinco lechugas
+  para trasplantar, el «según la ficha: 25-35 días…» aparece una sola vez para
+  las cinco y no cinco veces igual. A la planta que le corrió la germinación le
+  sigue quedando su propio pie, porque su dato es otro.
 
 ### Arreglado
 
