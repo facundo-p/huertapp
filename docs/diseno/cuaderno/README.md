@@ -137,7 +137,8 @@ están abajo.
   `scroll-padding-top` y `scroll-padding-bottom` con su alto, para que el foco
   nunca quede tapado (WCAG 2.4.11).
 - **La lista del día**: casilla, título y una línea corta. La línea dice dónde
-  (el lugar) o cuánto (lo atrasado). El detalle y la fuente, con su confianza,
+  (el lugar), cuánto tiempo (el atraso o los días desde lo último que pasó) o,
+  en un aviso, qué da el pronóstico. El detalle y la fuente, con su confianza,
   se abren al tocar la tarea, y ahí también está «Más tarde». En la de
   germinación la casilla es «Asomó» y escribe `germino`, no `completadas`; en
   el detalle queda «Todavía no asomó», el rótulo que ya usa `Hoy.tsx`. La regla
@@ -204,9 +205,9 @@ Una grilla gruesa por lugar, según su clase (`lugarDe`, `src/lib/huerta/lugar.t
 - Las columnas de macetas y almaciguera cambian con la capacidad (3 o 6). Por
   eso se fijan en `plano.cols` la primera vez que se acomoda el lugar: después,
   si cambia la capacidad, cambian las filas y no el ancho, y `celdas` no se
-  corre. `cols` vale sólo en almaciguera y macetas, y sólo si es un entero de 1
-  a 6 (llega por backup). Si el lugar cambia de clase, ver `plano.grilla` en el
-  nivel 1.
+  corre. `cols` vale sólo en almaciguera y macetas, y sólo si es 3 o 6 (llega
+  por backup): 3 va a media página y 6 a página entera, aunque N cambie. Si el
+  lugar cambia de clase, ver `plano.grilla` en el nivel 1.
 - Orden de las plantas: por `creada`, con el `id` de desempate (sin él, dos
   cargadas en el mismo instante se reordenan solas, el bug que ya resolvió
   `agruparPorLugar`). No por `sembrada`: la fecha de siembra se edita en el
@@ -246,7 +247,7 @@ celdas?: {                                 // las celdas que ocupa en la grilla 
 plano?: {
   orden?: number                           // antes o después en la hoja
   grilla?: 'almaciguera' | 'macetas' | 'surcos' | 'libre' | 'otro'  // con qué fila de la tabla se acomodó
-  cols?: number                            // el ancho de su grilla: sólo almaciguera y macetas
+  cols?: 3 | 6                             // el ancho de su grilla: sólo almaciguera y macetas
 }
 ```
 
