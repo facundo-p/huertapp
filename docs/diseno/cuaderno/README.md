@@ -430,7 +430,7 @@ Lo que no está en esta tabla sale de `src/theme.css`.
 | `--sobre-postit` / `-suave` | `#2a2110` / `#5a4a1e` | igual | texto del post-it |
 | `--cinta` | `rgba(222,208,168,.8)` | `rgba(214,202,166,.42)` | cinta de las fotos y del croquis |
 | `--bandera` / `--bandera-atrasada` | `--sol` / `--terracota` | igual | banderita de atención |
-| `--sobre-bandera` / `--sobre-bandera-atrasada` | `#2a2110` / `#fffdf5` | `#2a2110` / `#2a2110` | el número de la banderita |
+| `--sobre-bandera` / `--sobre-bandera-atrasada` | `--sobre-sol` / `#fffdf5` | `--sobre-sol` / `#2a2110` | el número de la banderita |
 | `--bandera-borde` | `--tinta-media` | `transparent` | contorno de la banderita: de día el relleno no llega a 3:1 |
 | `--papel-opaco` | `#fffdf5` | `#222e1f` | lo que no puede transparentar: la barra de Acomodar, la almaciguera, el copo, los botones a lápiz, la nota al margen |
 | `--foto-borde` | `#fbfaf4` | `#e7e2d2` | el borde blanco de las fotos del diario |
