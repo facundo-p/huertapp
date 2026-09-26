@@ -269,11 +269,13 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 - Una celda que quedó fuera de la grilla se descarta, y se completa igual.
 - Si dos plantas quieren la misma celda, gana la que se cargó primero
   (`creada`); a igual `creada`, el `id` menor.
-- Trasplantar, dividir la tanda o borrar el lugar limpian el campo. Y como
-  una versión vieja de la app puede restaurar un backup nuevo y trasplantar sin
-  saber de `celdas`, las celdas llevan el `ubicacionId` de su lugar: si no
-  coincide con el de la planta, se ignoran. Un `celdas` con forma rota también
-  se ignora (`validar()` del backup no mira su forma).
+- Trasplantar o mudar la tanda entera y borrar el lugar limpian el campo. Al
+  dividirla, la madre no cambia de lugar ni de `ocupa` y conserva sus celdas;
+  la hija nace sin ellas. Y como una versión vieja de la app puede restaurar
+  un backup nuevo y trasplantar sin saber de `celdas`, las celdas llevan el
+  `ubicacionId` de su lugar: si no coincide con el de la planta, se ignoran.
+  Un `celdas` con forma rota también se ignora (`validar()` del backup no
+  mira su forma).
 - Los lugares sin `plano.orden`, por ejemplo uno creado después de acomodar, van
   después de los que lo tienen, en el orden de `agruparPorLugar`. A igual
   `orden`, también manda ese. Un `orden` que no es número se trata como
@@ -295,18 +297,18 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 - La primera cae siempre en una libre. Así, un bloque se corre sobre sí mismo
   hacia atrás (a la izquierda o arriba), pero no hacia adelante, donde la
   primera caería sobre otra elegida: ahí se lleva la punta de atrás al otro
-  lado, que da lo mismo. Si no queda ninguna libre donde entre, no hay marcas,
-  y la barra dice «soltá alguna»; con una sola, que toques otra para
-  intercambiarlas.
+  lado, que con una sola planta da lo mismo; con plantas intercaladas, cambia
+  el orden. Si no queda ninguna libre donde entre, no hay marcas, y la barra
+  dice «soltá alguna»; con una sola, que toques otra para intercambiarlas.
 - Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
   las de esa planta), «Intercambiar» (con dos celdas de plantas distintas;
   sirve sobre todo cuando no queda lugar libre) y «Soltar».
 - Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
   va a quedar después, o «Al final de la hoja», que aparece en la barra. Como
   los lugares chicos van de a dos, el empaquetado puede correrlo, dejarlo
-  donde estaba o correr a otro: la barra dice dónde quedó y por qué, nombra
-  al otro si también se movió, y si ya estaba ahí dice «Ya estaba ahí». Nunca
-  anuncia un cambio que no pasó. El foco queda en el lugar movido.
+  donde estaba o correr a otros: la barra dice dónde quedó y por qué, nombra
+  a los otros que también se movieron, y si ya estaba ahí dice «Ya estaba
+  ahí». Nunca anuncia un cambio que no pasó. El foco queda en el lugar movido.
 - La barra habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
   «3 celdas».
 
@@ -422,8 +424,8 @@ Lo que no está en esta tabla sale de `src/theme.css`.
 | `--sobre-bandera` / `--sobre-bandera-atrasada` | `#2a2110` / `#fffdf5` | `#2a2110` / `#2a2110` | el número de la banderita |
 | `--bandera-borde` | `--tinta-media` | `transparent` | contorno de la banderita: de día el relleno no llega a 3:1 |
 | `--papel-opaco` | `#fffdf5` | `#222e1f` | lo que no puede transparentar: la barra de Acomodar, la almaciguera, el copo, los botones a lápiz, la nota al margen |
-| `--sobre-salvia` | `#fffdf5` | `#1f2a1c` | texto del botón lleno («Listo» de Acomodar). Con `--papel` de día da 4,87; con éste, 5,3 |
 | `--foto-borde` | `#fbfaf4` | `#e7e2d2` | el borde blanco de las fotos del diario |
+| `--sombra-postit` / `-croquis` / `-barra` / `-foto` | `rgba()` propias | igual | sombras con forma, que `--sombra-1` y `-2` no tienen: el post-it levanta la punta, la barra sombrea para arriba |
 | pestañas | `color-mix(<token> 20 %, --papel)` | igual | una pestaña por sección: sol, verde, agua, terracota, oliva |
 | papel reciclado | `papel-reciclado-dia.svg`, nada más oscuro que `--papel` | `papel-reciclado-noche.svg`, nada más claro | fondo, en lugar del grano |
 
@@ -436,7 +438,7 @@ Contrastes medidos (WCAG: 4,5 para texto, 3 para rellenos y trazos):
 | número de la banderita | 5,3 | 7,3 |
 | número de la banderita atrasada | 5,2 | 6,1 |
 | rótulo de pestaña sobre su tinte (el peor de los cinco) | 5,8 | 6,3 |
-| texto del botón lleno (`--sobre-salvia` sobre `--salvia`) | 5,3 | 8,5 |
+| texto del botón lleno («Listo»: `--papel` sobre `--verde-hoja`, el par de `.boton-primario`) | 4,87 | 7,0 |
 | `--tinta-suave` justo encima de un renglón | 4,68 | 6,0 |
 | `--tinta-tenue` justo encima de un renglón | **3,86, no pasa** | **4,10, no pasa** |
 | `--verde-hoja` justo encima de un renglón | **4,06, no pasa** | 5,3 |

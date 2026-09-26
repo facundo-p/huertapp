@@ -127,7 +127,6 @@ a { color: inherit; }
   --linea: #dcd5bf;
   --linea-fuerte: #c9c1a8;
   --salvia: #4d7440;
-  --sobre-salvia: #fffdf5;
   --verde-hoja: #4d7440;
   --verde-prof: #33502b;
   --oliva: #7c8143;
@@ -162,6 +161,12 @@ a { color: inherit; }
   --sobre-postit-suave: #5a4a1e;
   --cinta: rgba(222, 208, 168, 0.8);
   --foto-borde: #fbfaf4;
+  /* nuevo, igual de noche: sombras con forma, que --sombra-1 y -2 no tienen
+     (el post-it levanta la punta, la barra sombrea para arriba) */
+  --sombra-postit: 0 1px 1px rgba(0, 0, 0, 0.1), 0 14px 20px -14px rgba(60, 40, 0, 0.55);
+  --sombra-croquis: 0 6px 14px -12px rgba(40, 30, 10, 0.5);
+  --sombra-barra: 0 -10px 18px -14px rgba(30, 20, 0, 0.4);
+  --sombra-foto: 0 1px 2px rgba(0, 0, 0, 0.15), 0 10px 16px -12px rgba(0, 0, 0, 0.5);
   --bandera: var(--sol);
   /* el relleno da 2,49:1 contra su celda teñida: el 3:1 lo cumple el contorno */
   --bandera-borde: var(--tinta-media);
@@ -192,7 +197,6 @@ a { color: inherit; }
   --linea: #33422e;
   --linea-fuerte: #3a4933;
   --salvia: #b9c9a8;
-  --sobre-salvia: #1f2a1c;
   --verde-hoja: #8fbf6f;
   --verde-prof: #a5cf88;
   --oliva: #9ca153;
@@ -336,7 +340,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   font-weight: 800;
   color: var(--tinta);
 }
-.lapiz--lleno { background: var(--salvia); border-color: var(--salvia); color: var(--sobre-salvia); }
+/* el par de .boton-primario y .huerta__cta: un botón lleno se ve igual en toda la app */
+.lapiz--lleno { background: var(--verde-hoja); border-color: var(--verde-hoja); color: var(--papel); }
 
 /* ============================================================
    1 · Esta semana
@@ -357,7 +362,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   color: var(--sobre-postit);
   transform: rotate(2.4deg);
   border-radius: 2px 2px 16px 2px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 14px 20px -14px rgba(60, 40, 0, 0.55);
+  box-shadow: var(--sombra-postit);
   display: grid;
   gap: 4px;
 }
@@ -491,7 +496,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   background-position: 13px 0;
   border-top: 1px solid var(--linea);
   border-bottom: 1px solid var(--linea);
-  box-shadow: 0 6px 14px -12px rgba(40, 30, 10, 0.5);
+  box-shadow: var(--sombra-croquis);
 }
 .croquis::before, .croquis::after {
   content: '';
@@ -528,7 +533,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   padding: 10px 14px 12px 22px;
   background: var(--papel-opaco);
   border-top: 1.5px solid var(--linea-fuerte);
-  box-shadow: 0 -10px 18px -14px rgba(30, 20, 0, 0.4);
+  box-shadow: var(--sombra-barra);
 }
 .barra__que { font-size: 16px; font-weight: 800; line-height: 1.3; }
 .barra__como { font-size: 14px; line-height: 1.35; color: var(--tinta-suave); }
@@ -735,7 +740,7 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .entrada__fecha { padding-right: 14px; text-align: right; font-size: 12px; font-weight: 800; line-height: 28px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
 .entrada__texto { font-size: 16px; line-height: 28px; text-wrap: pretty; }
 .entrada__tipo { display: inline-flex; vertical-align: -3px; margin-right: 4px; color: var(--agua); }
-.foto { position: relative; display: block; width: 150px; margin: 10px 0 9px 4px; padding: 5px 5px 16px; background: var(--foto-borde); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 10px 16px -12px rgba(0, 0, 0, 0.5); }
+.foto { position: relative; display: block; width: 150px; margin: 10px 0 9px 4px; padding: 5px 5px 16px; background: var(--foto-borde); box-shadow: var(--sombra-foto); }
 .foto svg { display: block; width: 100%; height: auto; }
 .foto--a { transform: rotate(-2.2deg); }
 .foto--b { transform: rotate(1.8deg); margin-left: 40px; }
@@ -1571,9 +1576,9 @@ html.captura .banderita.es-atrasada { animation: none; }
         }
         celdas += '<div class="' + clases + '" style="' + estilo + '">' + dentro + '</div>';
       }
-      var lugarElegido = acomodar && opciones.lugarElegido === l.id;
+      var esteElegido = acomodar && opciones.lugarElegido === l.id;
       var nombre = acomodar
-        ? '<button type="button" class="lugar__nombre lugar__nombre--mover mano' + (lugarElegido ? ' es-elegido' : '') + '" data-orden="' + li + '" aria-pressed="' + lugarElegido + '" aria-label="' + l.nombre + (lugarElegido ? ', elegido para mover' : ', mover en la hoja') + '">' + l.nombre + '</button>'
+        ? '<button type="button" class="lugar__nombre lugar__nombre--mover mano' + (esteElegido ? ' es-elegido' : '') + '" data-orden="' + li + '" aria-pressed="' + esteElegido + '" aria-label="' + l.nombre + (esteElegido ? ', elegido para mover' : ', mover en la hoja') + '">' + l.nombre + '</button>'
         : '<button type="button" class="lugar__nombre mano" data-ficha="' + l.id + '">' + l.nombre + '</button>';
       return '<article class="lugar lugar--' + l.ancho + '" aria-label="' + l.nombre + '">' +
         '<h5 class="lugar__cab">' + nombre + '</h5>' +
@@ -1636,14 +1641,19 @@ html.captura .banderita.es-atrasada { animation: none; }
     if (antesDe) pedido.splice(pedido.indexOf(antesDe), 0, movido); else pedido.push(movido);
     lugaresB = empaquetar(pedido);
     var quedo = lugaresB.indexOf(movido);
-    // empaquetar sube un lugar chico para cerrar el hueco: el que quedó más arriba de lo pedido
-    var subido = lugaresB.filter(function (x, i) { return i < pedido.indexOf(x); })[0];
+    // empaquetar sube lugares chicos para cerrar huecos: los que quedaron más arriba de lo pedido.
+    // Con varios pares separados por lugares enteros, sube más de uno
+    var subidos = lugaresB.filter(function (x, i) { return i < pedido.indexOf(x); });
+    var el = subidos.indexOf(movido) >= 0;
+    var otros = subidos.filter(function (x) { return x !== movido; });
+    var nombres = enLista(otros.map(function (x) { return x.nombre; }));
     if (ids(pedido) === antes) aviso = 'Ya estaba ahí.';
     else if (ids(lugaresB) === antes) aviso = 'Quedó donde estaba: los lugares chicos van de a dos' +
-      (subido && subido !== movido ? ', y ese hueco es de ' + subido.nombre + '.' : ', y ahí habría quedado solo.');
+      (otros.length ? ', y ' + (otros.length > 1 ? 'esos huecos son de ' : 'ese hueco es de ') + nombres + '.' : ', y ahí habría quedado solo.');
     else aviso = 'Listo: ' + movido.nombre + ' quedó ' + (quedo + 1) + '.º de ' + lugaresB.length + ' en la hoja' +
-      (subido === movido ? ', corrido para que no quede un hueco: los lugares chicos van de a dos.'
-        : subido ? '. Para no dejar un hueco también se corrió ' + subido.nombre + ': los lugares chicos van de a dos.' : '.');
+      (el ? ', corrido para que no quede un hueco' : '') +
+      (otros.length ? (el ? ', y también se ' : '. Para no dejar un hueco también se ') + (otros.length > 1 ? 'corrieron ' : 'corrió ') + nombres : '') +
+      (subidos.length ? ': los lugares chicos van de a dos.' : '.');
     lugarElegido = null;
   }
   function enfocarLugar(l) {
@@ -1663,7 +1673,7 @@ html.captura .banderita.es-atrasada { animation: none; }
     var que = document.getElementById('barra-que'), como = document.getElementById('barra-como');
     var botones = '';
     if (!elegidas) {
-      que.textContent = aviso || 'No elegiste nada todavía.';
+      que.textContent = aviso || (lugarElegido ? 'Elegiste ' + lugarPorId(lugarElegido).nombre + '.' : 'No elegiste nada todavía.');
       como.textContent = lugarElegido ? 'Tocá el nombre del lugar que va a quedar después, o «Al final de la hoja».' : 'Tocá una o varias celdas con plantas para elegirlas.';
       if (lugarElegido) botones += '<button type="button" class="lapiz" data-al-final>Al final de la hoja</button>';
     } else {
@@ -1699,7 +1709,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       var i0 = Number(orden.getAttribute('data-orden'));
       var l0 = lugaresB[i0];
       elegidas = null;
-      if (!lugarElegido) { lugarElegido = l0.id; aviso = 'Elegiste ' + l0.nombre + '.'; }
+      if (!lugarElegido) lugarElegido = l0.id;
       else if (lugarElegido === l0.id) { lugarElegido = null; aviso = 'Quedó donde estaba.'; }
       else {
         var movido = lugarPorId(lugarElegido);
@@ -1713,9 +1723,9 @@ html.captura .banderita.es-atrasada { animation: none; }
       if (fo) fo.focus();
       return;
     }
-    lugarElegido = null;
     var t = e.target.closest('[data-celda]');
     if (!t) { pintarAcomodar(); return; }
+    lugarElegido = null;
     var l = lugarPorId(t.getAttribute('data-lugar'));
     var i = Number(t.getAttribute('data-celda'));
     var p = l.celdas[i];
