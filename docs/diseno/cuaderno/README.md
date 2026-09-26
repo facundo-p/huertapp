@@ -308,11 +308,11 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   los lugares chicos van de a dos, el empaquetado puede dejarlo más arriba o
   más abajo de lo pedido, o correr a otros. La barra dice en qué puesto quedó
   («está ahora en el puesto 3 de 4, más abajo de lo que pediste») y nombra
-  sólo a los que de verdad cambiaron de fila o de lado. Si el empaquetado lo
-  devuelve a su lugar dice «Quedó donde estaba» y por qué; si ya estaba ahí,
-  «Ya estaba ahí». Nunca anuncia un cambio que no pasó, y las frases no
-  concuerdan con el nombre, que lo pone la persona. El foco queda en el lugar
-  movido.
+  sólo a los que el empaquetado subió para llenar el hueco, si de verdad
+  cambiaron de fila o de lado. Si el empaquetado lo devuelve a su lugar dice
+  «Quedó donde estaba» y por qué; si ya estaba ahí, «Ya estaba ahí». Nunca
+  anuncia un cambio que no pasó, y las frases no concuerdan con el nombre, que
+  lo pone la persona. El foco queda en el lugar movido.
 - La barra habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
   «3 celdas».
 
