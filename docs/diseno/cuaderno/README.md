@@ -305,10 +305,14 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   sirve sobre todo cuando no queda lugar libre) y «Soltar».
 - Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
   va a quedar después, o «Al final de la hoja», que aparece en la barra. Como
-  los lugares chicos van de a dos, el empaquetado puede correrlo, dejarlo
-  donde estaba o correr a otros: la barra dice dónde quedó y por qué, nombra
-  a los otros que también se movieron, y si ya estaba ahí dice «Ya estaba
-  ahí». Nunca anuncia un cambio que no pasó. El foco queda en el lugar movido.
+  los lugares chicos van de a dos, el empaquetado puede dejarlo más arriba o
+  más abajo de lo pedido, o correr a otros. La barra dice en qué puesto quedó
+  («está ahora en el puesto 3 de 4, más abajo de lo que pediste») y nombra
+  sólo a los que de verdad cambiaron de fila o de lado. Si el empaquetado lo
+  devuelve a su lugar dice «Quedó donde estaba» y por qué; si ya estaba ahí,
+  «Ya estaba ahí». Nunca anuncia un cambio que no pasó, y las frases no
+  concuerdan con el nombre, que lo pone la persona. El foco queda en el lugar
+  movido.
 - La barra habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
   «3 celdas».
 
@@ -392,9 +396,9 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
     medio. Así el renglón no cruza el cuerpo de ninguna letra; en la
     manuscrita, algún descendente lo roza.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
-    contrastes) no van en texto de página rayada: `--tinta-tenue`, y de día
-    `--verde-hoja` y `--sol-texto`, de noche `--terracota-texto`. «Atrasada»,
-    en terracota, pasa porque el renglón no la toca.
+    contrastes) sólo sirven en página rayada si el renglón no los toca:
+    `--tinta-tenue`, y de día `--verde-hoja` y `--sol-texto`, de noche
+    `--terracota-texto`. Así pasa «Atrasada», en terracota.
   `GanttPlanta` y `TarjetaLugar` usan `--tinta-tenue` a 11 px: si la lista por
   lugar pasa a ser página con renglones, esos textos pasan a `--tinta-suave`.
 - Sin `<filter>` por viñeta: el grano ya está en `body::before`.

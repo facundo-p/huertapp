@@ -171,7 +171,7 @@ a { color: inherit; }
   /* el relleno da 2,49:1 contra su celda teñida: el 3:1 lo cumple el contorno */
   --bandera-borde: var(--tinta-media);
   --sobre-bandera: #2a2110;
-  --bandera-atrasada: #a1583d;
+  --bandera-atrasada: var(--terracota);
   --sobre-bandera-atrasada: #fffdf5;
   /* Papel reciclado: nubes, fibras y motas, ninguna más oscura que el papel
      (se verificó color por color). Así no le cobra contraste a ningún texto: el
@@ -224,9 +224,9 @@ a { color: inherit; }
   --postit: #e6c872;
   --cinta: rgba(214, 202, 166, 0.42);
   --foto-borde: #e7e2d2;
-  --bandera: #e3a52f;
+  --bandera: var(--sol);
   --bandera-borde: transparent;
-  --bandera-atrasada: #d4917a;
+  --bandera-atrasada: var(--terracota);
   --sobre-bandera-atrasada: #2a2110;
   /* de noche, al revés: nada más claro que el papel, porque el texto es el claro */
   --grano: 1;
@@ -1229,12 +1229,6 @@ html.captura .banderita.es-atrasada { animation: none; }
     rucula: { nombre: 'rúcula', art: 'la', grupo: 'hoja', etapa: 'creciendo', pend: 1, que: 'ya estaría para cosechar' },
     zanahoria: { nombre: 'zanahoria', art: 'la', grupo: 'raiz', etapa: 'semilla', pend: 1, atrasada: true, que: 'fijate si asomó' }
   };
-  // Nivel 0: cada siembra en un bloque seguido, en el orden en que se cargó
-  // (`creada`, que la demo llena así: lechuga, rúcula, zanahoria). Con `intercalado`, lo que ya
-  // acomodó alguien: el Bancal del fondo como lo dice la nota de la demo
-  // («rúcula intercalada entre las lechugas», «zanahoria en manchones
-  // sueltos»), que es Planta.celdas, y subido al principio de la hoja, que es
-  // Ubicacion.plano.
   // Los de media página van de a dos: si a uno le sigue uno de página entera,
   // sube el próximo de media a completar el hueco. En el dato y no con
   // grid-auto-flow: dense, que deja el foco saltando de abajo para arriba.
@@ -1251,6 +1245,9 @@ html.captura .banderita.es-atrasada { animation: none; }
     }
     return r;
   }
+  // Nivel 0: cada siembra en un bloque seguido, en el orden de carga. Con
+  // `intercalado`, lo acomodado a mano: el Bancal del fondo como dice la nota
+  // de la demo (Planta.celdas) y primero en la hoja (Ubicacion.plano).
   function lugaresIniciales(intercalado) {
     var ls = lugaresEnBloques();
     ls.forEach(function (l) {
@@ -1319,7 +1316,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       if (tareas) que.push(tareas === 1 ? '1 cosa para hacer' : tareas + ' cosas para hacer');
       items.filter(function (t) { return t.aviso; }).forEach(function (t) { que.push(t.titulo.toLowerCase()); });
       // arranca con lo que se ve («vie 25»): quien maneja por voz dice eso
-      var etiqueta = (d.hoy ? 'hoy' : d.sigla) + ' ' + d.f + ': ' + d.txt + ', ' + d.max + '° y ' + d.min + '°' + (que.length ? '. ' + que.join(', ') : '. Nada anotado');
+      var etiqueta = (d.hoy ? 'hoy' : d.sigla) + ' ' + d.f + ': ' + d.txt + ', ' + d.max + '° y ' + d.min + '°' + (que.length ? '. ' + mayus(que.join(', ')) : '. Nada anotado');
       var leyendo = d.f === diaVisto;
       return '<button type="button" class="dia' + (d.hoy ? ' es-hoy' : '') + '" data-dia="' + d.f + '"' + (leyendo ? ' aria-current="true"' : '') + ' aria-label="' + etiqueta + '">' +
         '<span class="dia__sigla' + (d.hoy ? ' dia__sigla--hoy' : '') + '" aria-hidden="true">' + (d.hoy ? 'hoy' : d.sigla) + '</span>' +
@@ -1578,7 +1575,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       }
       var esteElegido = acomodar && opciones.lugarElegido === l.id;
       var nombre = acomodar
-        ? '<button type="button" class="lugar__nombre lugar__nombre--mover mano' + (esteElegido ? ' es-elegido' : '') + '" data-orden="' + li + '" aria-pressed="' + esteElegido + '" aria-label="' + l.nombre + (esteElegido ? ', elegido para mover' : ', mover en la hoja') + '">' + l.nombre + '</button>'
+        ? '<button type="button" class="lugar__nombre lugar__nombre--mover mano' + (esteElegido ? ' es-elegido' : '') + '" data-orden="' + li + '" aria-pressed="' + esteElegido + '" aria-label="' + l.nombre + ', mover en la hoja">' + l.nombre + '</button>'
         : '<button type="button" class="lugar__nombre mano" data-ficha="' + l.id + '">' + l.nombre + '</button>';
       return '<article class="lugar lugar--' + l.ancho + '" aria-label="' + l.nombre + '">' +
         '<h5 class="lugar__cab">' + nombre + '</h5>' +
@@ -1632,28 +1629,41 @@ html.captura .banderita.es-atrasada { animation: none; }
     var u = l.clase === 'macetas' ? ['maceta', 'macetas'] : l.clase === 'surcos' ? ['surco', 'surcos'] : ['celda', 'celdas'];
     return n === 1 ? u[0] : u[1];
   }
+  // Fila y lado de cada lugar, como los arma empaquetar
+  function puestos(ls) {
+    var m = {}, fila = 0, izq = true;
+    ls.forEach(function (x) {
+      if (x.ancho === 'entera') { m[x.id] = ++fila + 'e'; izq = true; return; }
+      if (izq) fila++;
+      m[x.id] = fila + (izq ? 'i' : 'd');
+      izq = !izq;
+    });
+    return m;
+  }
   // El elegido pasa antes de `antesDe` (o al final). Empaquetar puede correr a
-  // ése o a otro: la barra dice cuál y por qué, no anuncia lo que no pasó.
+  // ése o a otro: la barra dice cuál y por qué, no anuncia lo que no pasó. Las
+  // frases no concuerdan con el nombre, que lo pone la persona.
   function moverLugar(movido, antesDe) {
     function ids(ls) { return ls.map(function (x) { return x.id; }).join(); }
-    var antes = ids(lugaresB);
-    var pedido = lugaresB.filter(function (x) { return x !== movido; });
+    var previo = lugaresB, antes = ids(previo);
+    var pedido = previo.filter(function (x) { return x !== movido; });
     if (antesDe) pedido.splice(pedido.indexOf(antesDe), 0, movido); else pedido.push(movido);
     lugaresB = empaquetar(pedido);
-    var quedo = lugaresB.indexOf(movido);
-    // empaquetar sube lugares chicos para cerrar huecos: los que quedaron más arriba de lo pedido.
-    // Con varios pares separados por lugares enteros, sube más de uno
-    var subidos = lugaresB.filter(function (x, i) { return i < pedido.indexOf(x); });
-    var el = subidos.indexOf(movido) >= 0;
-    var otros = subidos.filter(function (x) { return x !== movido; });
-    var nombres = enLista(otros.map(function (x) { return x.nombre; }));
+    var quedo = lugaresB.indexOf(movido), pidio = pedido.indexOf(movido);
+    // subidos: los que empaquetar puso más arriba de lo pedido. Se nombran
+    // sólo si de verdad cambiaron de fila o de lado: uno que el pedido bajaba
+    // y volvió a su puesto no se movió
+    var subidos = lugaresB.filter(function (x, i) { return x !== movido && i < pedido.indexOf(x); });
+    var pa = puestos(previo), pd = puestos(lugaresB);
+    var otros = subidos.filter(function (x) { return pa[x.id] !== pd[x.id]; });
+    function nombres(ls) { return enLista(ls.map(function (x) { return x.nombre; })); }
     if (ids(pedido) === antes) aviso = 'Ya estaba ahí.';
-    else if (ids(lugaresB) === antes) aviso = 'Quedó donde estaba: los lugares chicos van de a dos' +
-      (otros.length ? ', y ' + (otros.length > 1 ? 'esos huecos son de ' : 'ese hueco es de ') + nombres + '.' : ', y ahí habría quedado solo.');
-    else aviso = 'Listo: ' + movido.nombre + ' quedó ' + (quedo + 1) + '.º de ' + lugaresB.length + ' en la hoja' +
-      (el ? ', corrido para que no quede un hueco' : '') +
-      (otros.length ? (el ? ', y también se ' : '. Para no dejar un hueco también se ') + (otros.length > 1 ? 'corrieron ' : 'corrió ') + nombres : '') +
-      (subidos.length ? ': los lugares chicos van de a dos.' : '.');
+    else if (ids(lugaresB) === antes) aviso = 'Quedó donde estaba: los lugares chicos van de a dos, y ' +
+      (subidos.length ? 'ese hueco es de ' + nombres(subidos) + '.' : 'así quedaba un hueco.');
+    else aviso = 'Listo: ' + movido.nombre + ' está ahora en el puesto ' + (quedo + 1) + ' de ' + lugaresB.length +
+      (quedo !== pidio ? ', más ' + (quedo < pidio ? 'arriba' : 'abajo') + ' de lo que pediste' : '') +
+      (otros.length ? ', y también hubo que correr ' + nombres(otros) : '') +
+      (quedo !== pidio || otros.length ? ': los lugares chicos van de a dos.' : '.');
     lugarElegido = null;
   }
   function enfocarLugar(l) {
