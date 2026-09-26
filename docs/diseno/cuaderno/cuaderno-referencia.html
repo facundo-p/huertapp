@@ -519,6 +519,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
 .plano[hidden], .leyenda[hidden] { display: none; }
 .lugar { display: grid; gap: 2px; align-content: start; }
 .lugar--entera { grid-column: 1 / -1; justify-self: center; }
+/* el «1» asoma 7 px sobre la primera fila: con menos aire le pisa el nombre al lugar */
+.plano--acomodar .lugar { gap: 8px; }
 .lugar__cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 2px; min-height: 44px; }
 .lugar__nombre { min-height: 44px; display: flex; align-items: flex-end; padding-bottom: 2px; font-size: calc(21px * var(--k)); line-height: 1; text-align: left; }
 .lugar__nombre--mover { text-decoration: underline dashed var(--tinta-tenue) 1.5px; text-underline-offset: 5px; }
@@ -612,6 +614,8 @@ body.titulos-redondos .telefono .mano { letter-spacing: -0.01em; }
   white-space: nowrap;
   pointer-events: none;
 }
+/* adentro del trazo de lo elegido: sobre él, la letra oscura no se lee */
+.celda.es-elegida .celda__nombre { left: 4.5px; width: calc(var(--corrida, 1) * var(--paso) - 9px); }
 .plantita { color: var(--verde-hoja); display: block; }
 .plantita .h { fill: color-mix(in srgb, currentColor 18%, transparent); }
 .plantita .suelo { stroke: var(--tinta-tenue); }
@@ -916,7 +920,7 @@ html.captura .banderita.es-atrasada { animation: none; }
               <div class="croquis__cab">
                 <h4 id="croquis-b-titulo" class="croquis__plegar mano">Croquis</h4>
               </div>
-              <div class="plano" id="plano-b"></div>
+              <div class="plano plano--acomodar" id="plano-b"></div>
             </section>
             <div class="barra-acomodar">
               <div aria-live="polite"><p class="barra__que" id="barra-que"></p><p class="barra__como" id="barra-como"></p></div>
@@ -927,7 +931,7 @@ html.captura .banderita.es-atrasada { animation: none; }
         </div>
       </div>
       <dl class="porque">
-        <div><dt>Resuelve</dt><dd>Que el croquis se parezca a tu huerta, hasta con las plantas intercaladas.</dd></div>
+        <div><dt>Resuelve</dt><dd>Que el croquis se parezca a tu huerta, hasta con las plantas intercaladas. Acá el Bancal del fondo ya está acomodado como dice la nota de la demo; «Listo» lo pasa al croquis.</dd></div>
         <div><dt>Se saca</dt><dd>El arrastre y los bloques fijos. Se elige por celda, una o varias, y se toca donde van: no pelea con el scroll y anda con teclado y lector de pantalla.</dd></div>
         <div><dt>Se conserva</dt><dd>Todo es opcional. Si nunca acomodás nada, el croquis se arma solo.</dd></div>
       </dl>
@@ -1042,7 +1046,7 @@ html.captura .banderita.es-atrasada { animation: none; }
   </main>
 
   <footer class="pie">
-    <p><strong>Qué cambia en los datos:</strong> dos campos opcionales, <code>Planta.celdas</code> (las celdas que ocupa en la grilla de su lugar) y <code>Ubicacion.plano</code> (su orden en la hoja y las columnas de su grilla). Sin ellos el croquis se arma solo.</p>
+    <p><strong>Qué cambia en los datos:</strong> dos campos opcionales, <code>Planta.celdas</code> (las celdas que ocupa en la grilla de su lugar) y <code>Ubicacion.plano</code> (su orden en la hoja, la grilla con que se acomodó y el ancho de esa grilla). Sin ellos el croquis se arma solo.</p>
     <p><strong>Qué no cambia:</strong> el motor de tareas, el backup (los campos nuevos viajan sin subir de versión) y el catálogo.</p>
     <p>El detalle, con la grilla de cada clase de lugar, está en <code>docs/diseno/cuaderno/README.md</code>.</p>
   </footer>
@@ -1461,7 +1465,10 @@ html.captura .banderita.es-atrasada { animation: none; }
   }
   function misma(l, i, j) { return j >= 0 && j < l.cap && l.celdas[j] === l.celdas[i]; }
   // celdas vecinas de la misma planta son un manchón, y cada manchón lleva su nombre
-  function manchones(l) {
+  // Lo elegido es manchón aparte: si no, el trazo de la selección cruzaría el
+  // nombre del manchón entero
+  function manchones(l, sel) {
+    function elegida(i) { return sel.indexOf(i) >= 0; }
     var comp = [], n = 0;
     for (var i = 0; i < l.cap; i++) {
       if (!l.celdas[i] || comp[i] !== undefined) continue;
@@ -1470,7 +1477,7 @@ html.captura .banderita.es-atrasada { animation: none; }
       while (pila.length) {
         var c = pila.pop();
         vecinas(l, c).forEach(function (v) {
-          if (comp[v] === undefined && l.celdas[v] === l.celdas[c]) { comp[v] = n; pila.push(v); }
+          if (comp[v] === undefined && l.celdas[v] === l.celdas[c] && elegida(v) === elegida(c)) { comp[v] = n; pila.push(v); }
         });
       }
       n++;
@@ -1509,9 +1516,9 @@ html.captura .banderita.es-atrasada { animation: none; }
     var acomodar = !!opciones.acomodar;
     var eleg = opciones.elegidas;
     contenedor.innerHTML = lugares.map(function (l, li) {
-      var comp = manchones(l);
-      var vistas = {}, nombrados = {};
       var sel = eleg && eleg.lugar === l.id ? eleg.celdas : [];
+      var comp = manchones(l, sel);
+      var vistas = {}, nombrados = {};
       var total = l.cols * l.filas;
       var celdas = '';
       for (var i = 0; i < total; i++) {

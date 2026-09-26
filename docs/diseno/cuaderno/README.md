@@ -82,8 +82,10 @@ Dos trampas medidas sobre la tesela dibujada, píxel por píxel:
 - de noche hay que medir el píxel **más claro**, no el más oscuro (el que mira
   `e2e/textura.spec.ts`).
 
-Medido así, de noche ningún píxel cruza. De día cruzan unos pocos, ninguno
-por más de una unidad: el redondeo del suavizado en el borde de alguna fibra.
+Medido así sobre la tesela sola, de noche ningún píxel cruza y de día unos
+pocos, por una unidad. Compuesta en la página cruzan más (de día ~1,4 %,
+alguno por dos unidades; de noche menos de 0,1 %, por una): es redondeo en el
+borde de nubes y fibras, y no le mueve ningún contraste a la tabla.
 
 **Cosas hechas a mano, con función:**
 
@@ -286,7 +288,9 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
 
 - Tocás una o varias celdas con plantas y quedan elegidas. Tocar otra vez
   una elegida la saca. Lo elegido se tiñe, y el trazo lo rodea como grupo:
-  entre dos vecinas de la misma planta no va, porque ahí pasa el nombre.
+  entre dos vecinas elegidas de la misma planta no va, porque ahí pasa el
+  nombre. Si elegís parte de un manchón, esa parte lleva su nombre aparte,
+  adentro del trazo, y el resto el suyo.
 - Las celdas libres donde entra lo elegido llevan una marca «+». Tocás una: la
   primera en orden de lectura (arriba a la izquierda) va ahí y las demás la
   siguen con la misma forma. Con más de una elegida, ésa lleva un «1» montado
@@ -466,6 +470,9 @@ Si la dirección gusta, un epic con una issue por pantalla, como se hizo con
 croquis, que es lo único que toca el modelo (los dos campos opcionales).
 
 ## Capturas
+
+Acomodar arranca con el Bancal del fondo ya acomodado como dice la nota de la
+demo, y el croquis en nivel 0: «Listo» pasa lo acomodado al croquis.
 
 Con el hash el render muestra un solo teléfono, sin marco, a 390 × 844:
 `#hoy-dia`, `#croquis-noche`, `#acomodar-dia`, `#planta-noche`, `#piezas-dia`,
