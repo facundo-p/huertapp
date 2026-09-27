@@ -145,6 +145,20 @@ describe('grillaDe: cuántas celdas toma cada siembra', () => {
     expect(g.celdas.filter(Boolean)).toHaveLength(13)
   })
 
+  it('una capacidad con coma cuenta las celdas enteras: ninguna planta queda afuera', () => {
+    const ps = [planta({ ocupa: 2 }), planta({}), planta({}), planta({})]
+    const g = grillaDe(ubi({ tipo: 'maceta', capacidad: 4.5 }), ps)
+    expect(g.cap).toBe(4)
+    expect(new Set(g.celdas)).toEqual(new Set(ps.map((p) => p.id)))
+    expect(Object.keys(g.celdas)).toHaveLength(g.cap)
+
+    const tres = [planta({ ocupa: 2 }), planta({ ocupa: 2 }), planta({ ocupa: 2 })]
+    const alm = grillaDe(ubi({ tipo: 'almacigo', capacidad: 3.5 }), tres)
+    expect(new Set(alm.celdas)).toEqual(new Set(tres.map((p) => p.id)))
+
+    expect(grillaDe(ubi({ tipo: 'bancal_tierra', disposicion: 'surcos', capacidad: 2.5 }), []).cap).toBe(2)
+  })
+
   it('las archivadas y las terminadas no se dibujan', () => {
     const g = grillaDe(ubi({ tipo: 'maceta', capacidad: 3 }), [
       planta({ archivada: true }),

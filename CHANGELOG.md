@@ -72,6 +72,8 @@ Qué significa cada parte en este proyecto:
   «Tomate indeterminado» en un teléfono angosto o con la letra agrandada: se
   corta la palabra. Con la letra al doble, la cabecera de cada dato de la
   ficha tampoco se sale.
+- **El aviso de helada ya no repite una planta** cuando tenés dos siembras de
+  lo mismo: decía «tomate y tomate».
 
 ## [2.4.0] — 2026-09-27
 

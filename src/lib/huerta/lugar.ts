@@ -149,11 +149,19 @@ export function proximaTareaDe(tareas: Tarea[], plantas: Planta[]): ProximaTarea
   const ids = new Set(plantas.map((p) => p.id))
   const suyas = tareas.filter((t) => t.plantaId && ids.has(t.plantaId))
   if (suyas.length === 0) return null
-  // lo atrasado primero, y entre iguales manda la prioridad del motor
-  const elegida = [...suyas].sort(
+  const elegida = laMasUrgente(suyas)
+  return { texto: elegida.titulo, urgente: !!elegida.atrasada }
+}
+
+/**
+ * Lo atrasado primero, y entre iguales manda la prioridad del motor. Compartida
+ * con la banderita del croquis: si cada una ordenara a su modo, nombrarían
+ * tareas distintas del mismo lugar.
+ */
+export function laMasUrgente(tareas: Tarea[]): Tarea {
+  return [...tareas].sort(
     (a, b) => Number(b.atrasada ?? false) - Number(a.atrasada ?? false) || a.prioridad - b.prioridad,
   )[0]
-  return { texto: elegida.titulo, urgente: !!elegida.atrasada }
 }
 
 /**

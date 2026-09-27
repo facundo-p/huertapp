@@ -343,7 +343,8 @@
 .surco {
   position: absolute;
   left: 8px;
-  right: 8px;
+  /* un svg no se estira entre left y right: se quedaba en sus 152 px y se salía */
+  width: calc(100% - 16px);
   top: 50%;
   height: 12px;
   transform: translateY(-50%);

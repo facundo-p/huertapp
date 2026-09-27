@@ -558,6 +558,32 @@ for (const [ancho, letra] of [
 }
 
 /**
+ * El surco es un svg: sin ancho explícito se quedaba en sus 152 px aunque el
+ * bancal midiera menos, y a 320 px Mi huerta scrolleaba de costado.
+ */
+for (const letra of [100, 200]) {
+  test(`el croquis no se sale · 320 px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 844 })
+    await conDemo(page)
+    await abrir(page, '/#/huerta', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      // el croquis llega después del primer título: sin esperarlo no mide nada
+      await expect(p.locator('.surco').first(), 'la huerta de ejemplo tiene un bancal en surcos').toBeAttached()
+    })
+    const { surcos, pagina } = await page.evaluate(() => ({
+      surcos: [...document.querySelectorAll('.surco')].map((s) => {
+        const celda = s.closest('.croquis-celda')!.getBoundingClientRect()
+        const r = s.getBoundingClientRect()
+        return { izq: r.left - celda.left, der: celda.right - r.right }
+      }),
+      pagina: document.documentElement.scrollWidth,
+    }))
+    for (const s of surcos) expect(Math.min(s.izq, s.der), 'el surco se sale de su celda').toBeGreaterThanOrEqual(0)
+    expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(320)
+  })
+}
+
+/**
  * La zona segura de abajo cambia sin que cambie el ancho (Safari al esconder
  * su barra, Android de borde a borde), y lo que mide la barra tiene que
  * seguirla. Mirando sólo el contenido, --tab-ocupa se quedaba en 72 con la

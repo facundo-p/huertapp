@@ -3,7 +3,7 @@ import type { AvisoClima } from '../pronostico/tipos'
 import type { Tarea } from '../tareas/engine'
 import { sumarDias } from './estimar'
 import { germinacion, germinacionPendiente } from './germinacion'
-import { lugarDe, superficieDe } from './lugar'
+import { laMasUrgente, lugarDe, superficieDe } from './lugar'
 import type { Planta, Ubicacion } from './tipos'
 
 /**
@@ -84,8 +84,10 @@ export function grillaDe(u: Ubicacion | undefined, plantas: Planta[]): GrillaLug
     ancho = 'media'
   } else {
     demanda = vivas.map((p) => unidades(p.ocupa ?? 1))
-    // sin capacidad no se dibujan celdas vacías: la misma regla que el medidor
-    cap = u?.capacidad && u.capacidad > 0 ? u.capacidad : demanda.reduce((s, n) => s + n, 0)
+    // sin capacidad no se dibujan celdas vacías: la misma regla que el medidor.
+    // Entera: «4,5» macetas son 4, y media celda correría las demás fuera de la grilla
+    const entera = Math.floor(u?.capacidad ?? 0)
+    cap = entera > 0 ? entera : demanda.reduce((s, n) => s + n, 0)
     if (clase === 'surcos') {
       cols = 1
       filas = cap
@@ -223,10 +225,7 @@ export function atencionPorPlanta(tareas: Tarea[], nombreDe: (id: string) => str
   for (const t of tareas) if (t.plantaId) porPlanta.set(t.plantaId, [...(porPlanta.get(t.plantaId) ?? []), t])
   const r = new Map<string, Atencion>()
   for (const [id, suyas] of porPlanta) {
-    // lo atrasado primero y entre iguales manda la prioridad, como en proximaTareaDe
-    const [primera] = [...suyas].sort(
-      (a, b) => Number(b.atrasada ?? false) - Number(a.atrasada ?? false) || a.prioridad - b.prioridad,
-    )
+    const primera = laMasUrgente(suyas)
     r.set(id, {
       cuantas: suyas.length,
       atrasada: suyas.some((t) => t.atrasada),

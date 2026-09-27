@@ -62,7 +62,7 @@ test('el backup da la vuelta completa: exportar, borrar y restaurar', async ({ p
   // 5 · verificar que volvió todo, diario, fotos y el estado de germinación
   await page.goto('/#/huerta')
   await expect(lista.getByRole('link', { name: /Los del cajón/ })).toHaveCount(2)
-  await page.getByRole('link', { name: /Los del cajón/ }).first().click()
+  await lista.getByRole('link', { name: /Los del cajón/ }).first().click()
   await expect(page.getByText(/Germinaron 7 de 10/)).toBeVisible()
   await expect(page.locator('img.foto-diario')).toHaveCount(2)
   // el dato de germinación también sobrevive al viaje

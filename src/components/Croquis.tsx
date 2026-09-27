@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import type { Planta, Ubicacion } from '../lib/huerta/tipos'
+import { mayus } from '../lib/fechas'
 import { ocupacionDe } from '../lib/huerta/lugar'
 import {
   ETAPA_DIBUJO_TEXTO,
@@ -42,7 +43,6 @@ interface Dibujada {
   etapa: EtapaDibujo
 }
 
-const mayus = (t: string) => t.charAt(0).toUpperCase() + t.slice(1)
 // lo sembrado, en minúscula como en el cuaderno: el apodo va en el nombre accesible
 const nombreCorto = (d: Dibujada) => (d.especie?.nombre_comun ?? d.planta.slug).toLowerCase()
 
