@@ -1,0 +1,444 @@
+/* El croquis de Mi huerta: hoja cuadriculada pegada con dos cintas, arriba de
+   la lista con fechas. Opaca (--hoja-cuadros): el renglón no pasa por abajo. */
+.croquis-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 8px var(--esp-4) 0 22px;
+  font-size: 14px;
+  color: var(--tinta-suave);
+}
+.croquis-leyenda > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.croquis-leyenda .banderita,
+.croquis-leyenda .copo {
+  position: static;
+}
+.croquis-leyenda .banderita::before {
+  height: 20px;
+}
+
+.croquis {
+  position: relative;
+  container-type: inline-size;
+  /* el aire de la cinta es de la hoja: plegada la leyenda, pisaba el encabezado */
+  margin: 20px 0 12px;
+  padding: 2px 0 16px;
+  background-color: var(--hoja-cuadros);
+  background-image:
+    linear-gradient(var(--cuadro) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cuadro) 1px, transparent 1px);
+  background-size: 14px 14px;
+  background-position: 13px 0;
+  border-block: 1px solid var(--linea);
+  box-shadow: var(--sombra-croquis);
+}
+.croquis::before,
+.croquis::after {
+  content: '';
+  position: absolute;
+  top: -9px;
+  width: 54px;
+  height: 18px;
+  background: var(--cinta);
+  pointer-events: none;
+}
+.croquis::before {
+  left: 24px;
+  transform: rotate(-6deg);
+}
+.croquis::after {
+  right: 24px;
+  transform: rotate(5deg);
+}
+
+.croquis__cab {
+  margin: 0;
+  padding: 0 8px 0 22px;
+  font-size: inherit;
+}
+.croquis__plegar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: var(--tap-min);
+  font-size: var(--mano-l);
+}
+.croquis__plegar svg {
+  color: var(--tinta-tenue);
+}
+.croquis__plegar[aria-expanded='false'] svg {
+  transform: rotate(-90deg);
+}
+
+/* Dos columnas de media página. El paso sale del ancho: 6 celdas, los 24 del
+   medio y los márgenes; nunca menos de 44, el target. */
+.croquis__plano {
+  --paso: clamp(44px, (100cqi - 56px) / 6, 56px);
+  --planta: min(32px, calc(var(--paso) - 24px));
+  display: grid;
+  grid-template-columns: repeat(2, calc(3 * var(--paso) + 4px));
+  column-gap: 24px;
+  row-gap: 12px;
+  justify-content: center;
+}
+/* sin esto, display:grid le gana a [hidden] y el croquis no se pliega */
+.croquis__plano[hidden],
+.croquis-leyenda[hidden] {
+  display: none;
+}
+
+.croquis-lugar {
+  display: grid;
+  gap: 2px;
+  align-content: start;
+  min-width: 0;
+}
+.croquis-lugar--entera {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+.croquis-lugar__cab {
+  margin: 0;
+  font-size: inherit;
+}
+.croquis-lugar__nombre {
+  display: flex;
+  align-items: flex-end;
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+  padding-bottom: 2px;
+  font-size: var(--mano-s);
+  line-height: 1;
+  text-align: left;
+}
+.croquis-lugar__vacio {
+  display: grid;
+  place-items: center;
+  min-height: var(--tap-min);
+  border: 1.75px dashed var(--tinta-tenue);
+  border-radius: 12px;
+  background: var(--hoja-cuadros);
+  font-size: 14px;
+  color: var(--tinta-suave);
+}
+
+/* --col y --alto por clase: la maceta es más alta para que entre el nombre, y
+   el surco es una fila del ancho del lugar */
+.croquis-celdas {
+  --col: var(--paso);
+  --alto: var(--paso);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--col));
+  grid-auto-rows: var(--alto);
+  justify-content: start;
+}
+.croquis-celdas--almaciguera {
+  border: 1.75px solid var(--tinta-media);
+  border-radius: 7px;
+  background-color: var(--papel-opaco);
+  background-image:
+    linear-gradient(90deg, var(--linea-fuerte) 1px, transparent 1px),
+    linear-gradient(var(--linea-fuerte) 1px, transparent 1px);
+  background-size: var(--paso) var(--paso);
+  background-position: -1px -1px;
+}
+.croquis-celdas--libre {
+  border: 6px double var(--tinta-media);
+  border-radius: 4px;
+  background-color: var(--hoja-cuadros);
+  background-image:
+    linear-gradient(var(--cuadro-fuerte) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cuadro-fuerte) 1px, transparent 1px),
+    linear-gradient(var(--cuadro) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cuadro) 1px, transparent 1px);
+  background-size:
+    var(--paso) var(--paso),
+    var(--paso) var(--paso),
+    14px 14px,
+    14px 14px;
+  background-position: -1px -1px;
+}
+.croquis-celdas--macetas {
+  --alto: calc(var(--paso) + 14px);
+}
+.croquis-lugar--media .croquis-celdas--surcos {
+  --col: calc(3 * var(--paso));
+}
+.croquis-lugar--entera .croquis-celdas--surcos {
+  --col: calc(6 * var(--paso));
+}
+.croquis-celdas--surcos {
+  --alto: 44px;
+  border: 1.75px dashed var(--tinta-tenue);
+  border-radius: 12px;
+}
+.croquis-celdas--otro {
+  border: 1.75px dashed var(--tinta-tenue);
+  border-radius: 7px;
+}
+
+.croquis-celda {
+  position: relative;
+  display: grid;
+  place-items: start center;
+  padding-top: 3px;
+}
+.croquis-celda.en-bloque {
+  background: color-mix(in srgb, var(--verde-hoja) 13%, transparent);
+}
+.croquis-celdas--libre .croquis-celda.en-bloque {
+  border: 0 dashed var(--verde-hoja);
+}
+.croquis-celdas--macetas .croquis-celda {
+  padding-top: 0;
+}
+.croquis-celdas--macetas .croquis-celda.en-bloque {
+  background: none;
+}
+/* con las dos marcas queda al medio; en la maceta, nunca: se saldría de la tierra */
+.croquis-celdas:not(.croquis-celdas--macetas, .croquis-celdas--surcos) .croquis-celda.con-bandera:not(.con-copo) .plantita {
+  transform: translateX(-9px);
+}
+.croquis-celdas:not(.croquis-celdas--macetas, .croquis-celdas--surcos) .croquis-celda.con-copo:not(.con-bandera) .plantita {
+  transform: translateX(9px);
+}
+
+/* El surco sembrado se lee de corrido: la planta, su nombre y las marcas al final */
+.croquis-celdas--surcos .croquis-celda {
+  place-items: center;
+  padding-top: 0;
+}
+.croquis-celdas--surcos .croquis-celda.en-bloque {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+}
+.croquis-celdas--surcos .croquis-celda__nombre {
+  position: static;
+  flex: 1;
+  width: auto;
+  text-align: left;
+  font-size: 14px;
+}
+.croquis-celdas--surcos .banderita,
+.croquis-celdas--surcos .copo {
+  position: static;
+}
+.croquis-celdas--surcos .copo {
+  order: 1;
+}
+.croquis-celdas--surcos .banderita {
+  order: 2;
+}
+
+.croquis-celda .plantita {
+  position: relative;
+  z-index: 1;
+  width: var(--planta);
+  height: var(--planta);
+}
+/* el tamaño lo pone el paso, y el trazo sigue en 1,75 */
+.croquis-celda .plantita :is(path, circle, ellipse) {
+  vector-effect: non-scaling-stroke;
+}
+.croquis-celdas--macetas .plantita {
+  margin-top: calc((var(--paso) - 6px) / 2 - var(--planta) / 2);
+}
+.croquis-celdas--surcos .plantita {
+  flex: none;
+  width: min(28px, var(--planta));
+  height: min(28px, var(--planta));
+}
+
+.croquis-celda__boton {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 6px;
+}
+.croquis-celda__boton--dedo {
+  cursor: pointer;
+}
+.croquis-celda__nombre {
+  position: absolute;
+  left: 2px;
+  bottom: 4px;
+  z-index: 2;
+  width: calc(var(--corrida, 1) * var(--col) - 4px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  pointer-events: none;
+}
+
+.plantita {
+  display: block;
+  color: var(--verde-hoja);
+}
+.plantita .h {
+  fill: color-mix(in srgb, currentColor 18%, transparent);
+}
+.plantita .suelo {
+  stroke: var(--tinta-tenue);
+}
+.plantita .semilla {
+  fill: var(--tinta-suave);
+  stroke: none;
+}
+.plantita .espera {
+  stroke: var(--tinta-tenue);
+  stroke-dasharray: 1.6 2.6;
+}
+.plantita .fruto {
+  fill: var(--terracota-suave);
+  stroke: var(--terracota);
+}
+.plantita .raiz {
+  fill: var(--sol);
+  stroke: var(--sol-texto);
+}
+.plantita .vaina {
+  fill: color-mix(in srgb, currentColor 40%, transparent);
+}
+.plantita .capullo {
+  fill: var(--sol-suave);
+}
+.plantita .petalo {
+  fill: var(--sol);
+  stroke: var(--sol-texto);
+}
+.plantita .centro {
+  fill: var(--sol-texto);
+  stroke: none;
+}
+.plantita .florcita {
+  fill: var(--frambuesa);
+  stroke: none;
+}
+
+.maceta {
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  width: calc(var(--paso) - 6px);
+  height: calc(var(--paso) - 6px);
+  transform: translateX(-50%);
+  color: var(--terracota);
+  pointer-events: none;
+}
+.maceta__tierra {
+  fill: var(--papel-hundido);
+}
+.surco {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 12px;
+  transform: translateY(-50%);
+  color: var(--tinta-tenue);
+}
+.croquis-celdas__libres {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: var(--tinta-suave);
+  pointer-events: none;
+}
+.croquis-celdas__libres span {
+  padding: 0 8px;
+  background: var(--hoja-cuadros);
+}
+
+/* Adentro de la primera celda, sin asomar a la de arriba: ahí pisaba nombres */
+.banderita {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  pointer-events: none;
+}
+.banderita::before {
+  content: '';
+  width: 1.75px;
+  height: 24px;
+  background: var(--tinta-media);
+  border-radius: 1px;
+}
+/* el contorno va en la tela y no en <b>: clip-path recorta también su filter */
+.banderita__tela {
+  filter: drop-shadow(1.25px 0 0 var(--bandera-borde)) drop-shadow(-1.25px 0 0 var(--bandera-borde))
+    drop-shadow(0 1.25px 0 var(--bandera-borde)) drop-shadow(0 -1.25px 0 var(--bandera-borde));
+}
+.banderita b {
+  display: grid;
+  grid-auto-flow: column;
+  place-items: center;
+  min-width: 24px;
+  height: 18px;
+  padding: 0 9px 0 5px;
+  background: var(--bandera);
+  color: var(--sobre-bandera);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%);
+}
+.banderita.es-atrasada b {
+  background: var(--bandera-atrasada);
+  color: var(--sobre-bandera-atrasada);
+}
+.banderita i {
+  margin-left: 1px;
+  font-style: normal;
+}
+/* sólo transform: con opacidad, el número bajaba a 3,7:1 en el valle */
+@keyframes pulso-bandera {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+.banderita.es-atrasada {
+  animation: pulso-bandera 2s ease-in-out infinite;
+  transform-origin: left bottom;
+}
+@media (prefers-reduced-motion: reduce) {
+  .banderita.es-atrasada {
+    animation: none;
+  }
+}
+
+.copo {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--papel-opaco);
+  border: 1.5px solid var(--cielo-frio);
+  color: var(--cielo-frio);
+  pointer-events: none;
+}

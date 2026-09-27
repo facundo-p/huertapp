@@ -23,6 +23,17 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **Mi huerta tiene un croquis arriba de todo.** Tus lugares dibujados sobre
+  una hoja cuadriculada, cada planta en sus celdas. Cada plantita muestra en
+  qué anda —todavía no asomó, brote, creciendo o dando cosecha— y, si te pide
+  algo, lleva una banderita con cuántas cosas; terracota y con «!» si algo está
+  atrasado. Si esta semana puede helar, las que no lo aguantan
+  llevan un copo. Tocá una planta y vas a su página; tocá el nombre de un lugar
+  y bajás a sus fechas. Se pliega como un lugar, y queda como lo dejaste.
+- **Las marcas del croquis están en el Glosario.**
+
 ### Cambiado
 
 - **La app se parece más a un cuaderno de huerta.** El título de cada pantalla
@@ -49,6 +60,8 @@ Qué significa cada parte en este proyecto:
   Tocalo y te lleva a ese día. El post-it se queda hasta que pase.
 - **El tiempo de hoy va al lado de la fecha**, y el de los otros días, en el
   título de su página. Tocalo para ver el detalle.
+- **La lista de Mi huerta es una página con renglones**, debajo del croquis, y
+  el texto más chico de cada lugar tiene más contraste.
 - **«Para sembrar ahora» es una nota al margen** entre hoy y mañana. «Ver todas
   en Explorar» abre Explorar con el filtro de lo que se siembra ahora ya
   prendido.

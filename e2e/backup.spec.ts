@@ -17,8 +17,10 @@ test('el backup da la vuelta completa: exportar, borrar y restaurar', async ({ p
   await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible({ timeout: 5000 })
 
   await page.goto('/#/huerta')
-  // la tanda dividida de la demo: el mismo apodo en el almácigo y en el bancal
-  await expect(page.getByRole('link', { name: /Los del cajón/ })).toHaveCount(2)
+  // la tanda dividida de la demo: el mismo apodo en el almácigo y en el bancal.
+  // En la lista: el croquis repite los enlaces
+  const lista = page.getByRole('region', { name: 'Por lugar, con sus fechas' })
+  await expect(lista.getByRole('link', { name: /Los del cajón/ })).toHaveCount(2)
 
   // 2 · exportar y leer el archivo que bajó
   await page.goto('/#/ajustes')
@@ -59,7 +61,7 @@ test('el backup da la vuelta completa: exportar, borrar y restaurar', async ({ p
 
   // 5 · verificar que volvió todo, diario, fotos y el estado de germinación
   await page.goto('/#/huerta')
-  await expect(page.getByRole('link', { name: /Los del cajón/ })).toHaveCount(2)
+  await expect(lista.getByRole('link', { name: /Los del cajón/ })).toHaveCount(2)
   await page.getByRole('link', { name: /Los del cajón/ }).first().click()
   await expect(page.getByText(/Germinaron 7 de 10/)).toBeVisible()
   await expect(page.locator('img.foto-diario')).toHaveCount(2)

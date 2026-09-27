@@ -14,6 +14,7 @@ import {
 import { conNegritas } from '../lib/negritas'
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
+import { Banderita, Copo } from '../components/Croquis'
 import '../components/ChipHoja.css'
 // las marcas de la tira se muestran con sus clases de verdad
 import '../components/Semana.css'
@@ -116,6 +117,7 @@ const INDICE = [
   { id: 'tiempo', etiqueta: 'Tiempo' },
   { id: 'calendario', etiqueta: 'Calendario' },
   { id: 'decadas', etiqueta: 'Décadas' },
+  { id: 'croquis', etiqueta: 'Croquis' },
   { id: 'acciones', etiqueta: 'Acciones' },
   { id: 'confianza', etiqueta: 'Confianza' },
 ]
@@ -498,6 +500,40 @@ export function Glosario() {
               entre el centro porteño y el periurbano, el calendario se corre según la zona que elijas en
               Ajustes.
             </p>
+          </div>
+        </Seccion>
+
+        <Seccion id="croquis" titulo="Las marcas del croquis" retraso={0.24}>
+          <div className="tarjeta glosario__calendario">
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <Banderita cuantas={1} atrasada={false} />
+              </span>
+              <div>
+                <p className="glosario__nombre">Algo para hacer</p>
+                <p className="glosario__desc">En el croquis de Mi huerta, cuántas cosas te pide esa planta.</p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <Banderita cuantas={1} atrasada />
+              </span>
+              <div>
+                <p className="glosario__nombre">Atrasado</p>
+                <p className="glosario__desc">Terracota y con «!»: una de esas cosas ya se pasó de fecha.</p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <Copo />
+              </span>
+              <div>
+                <p className="glosario__nombre">Tapar si hiela</p>
+                <p className="glosario__desc">
+                  Esta semana puede helar y esa planta no lo aguanta: tapala de noche.
+                </p>
+              </div>
+            </div>
           </div>
         </Seccion>
 

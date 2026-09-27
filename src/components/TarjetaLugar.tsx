@@ -49,10 +49,10 @@ export function TarjetaLugar({
   const nombre = ubicacion?.nombre ?? 'Sin lugar asignado'
 
   return (
-    <section className={`lugar lugar--${lugar.clase}`}>
-      {/* el h2 con el botón adentro: la pantalla se navega por encabezados y
+    <section className={`lugar lugar--${lugar.clase}`} id={`tarjeta-lugar-${ubicacion?.id ?? 'sin'}`}>
+      {/* el h3 con el botón adentro: la pantalla se navega por encabezados y
           el plegado tiene que ser alcanzable con el teclado */}
-      <h2 className="lugar__titulo">
+      <h3 className="lugar__titulo">
         <button className="lugar__plegar" aria-expanded={abierta} aria-controls={panel} onClick={onAlternar}>
           <SelloLugar clase={lugar.clase} />
           <span className="lugar__textos">
@@ -67,7 +67,7 @@ export function TarjetaLugar({
           </span>
           <IconoDesplegar size={19} className={`galon lugar__galon ${abierta ? 'es-abierto' : ''}`} />
         </button>
-      </h2>
+      </h3>
 
       {/* Plegada: qué hay adentro y qué falta hacer. Sin esto, plegar un lugar
           escondía que algo pedía atención. */}

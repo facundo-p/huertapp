@@ -88,7 +88,11 @@ const PANTALLAS = [
     ruta: '/#/huerta',
     nombre: 'Planta',
     entrar: async (page: Page) => {
-      await page.getByRole('link', { name: /Zanahoria/ }).click()
+      // la de la lista: el croquis de arriba repite el enlace
+      await page
+        .getByRole('region', { name: 'Por lugar, con sus fechas' })
+        .getByRole('link', { name: /Zanahoria/ })
+        .click()
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
     },
   },

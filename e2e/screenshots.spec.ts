@@ -44,9 +44,13 @@ function linkEnSeccion(
   nombre: RegExp,
 ) {
   return page
-    .locator('section', { has: page.getByRole('button', { name: seccion }) })
+    .locator('section.lugar', { has: page.getByRole('button', { name: seccion }) })
     .getByRole('link', { name: nombre })
 }
+
+/** La lista por lugar: el croquis de arriba repite los enlaces a cada planta. */
+const lista = (page: import('@playwright/test').Page) =>
+  page.getByRole('region', { name: 'Por lugar, con sus fechas' })
 
 const TOMAS: Toma[] = [
   { nombre: 'explorar', ruta: '/#/explorar' },
@@ -234,7 +238,7 @@ const TOMAS: Toma[] = [
         /^Bancal del fondo/,
         /^Bancal de la medianera/,
       ]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       // click() scrollea el botón a la vista: la toma tiene que arrancar arriba
       await page.evaluate(() => window.scrollTo(0, 0))
@@ -251,7 +255,7 @@ const TOMAS: Toma[] = [
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
       for (const lugar of [/^Macetas del balcón/, /^Bancal del fondo/, /^Bancal de la medianera/]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       await page.evaluate(() => window.scrollTo(0, 0))
       await page.waitForTimeout(400)
@@ -267,7 +271,7 @@ const TOMAS: Toma[] = [
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
       for (const lugar of [/^Almaciguera del balcón/, /^Macetas del balcón/]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       await page.evaluate(() => window.scrollTo(0, 0))
       await page.waitForTimeout(400)
@@ -287,7 +291,7 @@ const TOMAS: Toma[] = [
         /^Macetas del balcón/,
         /^Bancal del fondo/,
       ]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       // la ficha vacía es la última: se la trae entera a la vista, con la línea
       // de estado vacío Y el botón de sumar, que es su salida
@@ -309,7 +313,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('button', { name: /^Bancal del fondo/ }).click()
+      await page.getByRole('button', { name: /^Bancal del fondo/, expanded: true }).click()
       await page.waitForTimeout(400)
     },
   },
@@ -399,7 +403,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('link', { name: /Zanahoria/ }).click()
+      await lista(page).getByRole('link', { name: /Zanahoria/ }).click()
       await page.waitForTimeout(400)
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
       await page.waitForTimeout(300)

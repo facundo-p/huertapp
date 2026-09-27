@@ -10,19 +10,12 @@ import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, marcarGerminada, marcarGirada, sinRomper } from '../lib/huerta/store'
 import { useCompostaje } from '../lib/compostaje'
-import { usePronostico } from '../lib/pronostico/store'
+import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
 import { proveedor } from '../lib/pronostico/proveedor'
-import {
-  actualizadoHace,
-  derivarAvisos,
-  frescura,
-  postits,
-  recortarPasados,
-  suprimirHeladaEstadistica,
-} from '../lib/pronostico/derivar'
+import { actualizadoHace, postits, suprimirHeladaEstadistica } from '../lib/pronostico/derivar'
 import type { DiaPronostico } from '../lib/pronostico/tipos'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
-import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
+import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea } from '../lib/tareas/engine'
 import { distinguir, dondeCreceDe, lineaDe } from '../lib/tareas/agrupar'
 import { hoyISO } from '../lib/huerta/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
@@ -80,25 +73,8 @@ export function Hoy() {
     [indice, zona, iso],
   )
 
-  const estadoPron = usePronostico()
   const ahoraISO = hoy.toISOString()
-  const pron = estadoPron.pronostico
-  const fresc = pron ? frescura(pron, ahoraISO) : null
-  // sin ubicación o vencido, la semana sigue: solo pierde el cielo
-  const dias = useMemo(
-    () => (estadoPron.ubicacion && pron && fresc !== 'vencido' ? recortarPasados(pron, iso) : []),
-    [estadoPron.ubicacion, pron, fresc, iso],
-  )
-
-  const avisos = useMemo(() => {
-    if (!pron || dias.length === 0) return []
-    const nombres = indice
-      ? expuestasAHelada(plantas, indice.porSlug)
-          .map((pl) => (pl.apodo || indice.porSlug.get(pl.slug)!.nombre_comun).toLowerCase())
-          .slice(0, 3)
-      : []
-    return derivarAvisos(pron, iso, nombres)
-  }, [pron, dias, indice, plantas, iso])
+  const { estado: estadoPron, pron, fresc, dias, avisos } = useAvisosClima(plantas, indice?.porSlug, iso, ahoraISO)
 
   // con alerta de helada del pronóstico, la tarea estadística se corre sola
   const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])

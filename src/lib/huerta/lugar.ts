@@ -71,7 +71,7 @@ export interface Ocupacion {
 }
 
 /** Los m² de un bancal, de las medidas que ya se cargan. Vienen en centímetros. */
-function superficieDe(u: Ubicacion): number | null {
+export function superficieDe(u: Ubicacion): number | null {
   if (u.capacidad != null) return u.capacidad
   const { ancho, largo } = u.medidas ?? {}
   if (ancho == null || largo == null) return null
