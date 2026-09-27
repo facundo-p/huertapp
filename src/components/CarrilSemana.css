@@ -56,11 +56,9 @@ button.carril__dia:active {
 }
 
 .carril__sigla {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
   color: var(--tinta-suave);
 }
 
@@ -224,10 +222,8 @@ button.carril__dia:active {
   border-radius: var(--radio-chip);
   background: var(--terracota-fondo);
   color: var(--terracota-texto);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
 }
 
 /* Sólo cuando dos tareas de la semana se llaman igual: dice cuál es cuál. En
@@ -362,8 +358,8 @@ button.carril__dia:active {
   padding: 0 12px;
   border: 1.5px solid var(--sol-texto);
   border-radius: var(--radio-chip);
-  font-family: var(--font-display);
-  font-size: 11px;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
   font-weight: 700;
   color: var(--sol-texto);
 }

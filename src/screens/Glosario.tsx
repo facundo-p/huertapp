@@ -135,7 +135,7 @@ function Seccion({
       className="glosario__seccion aparecer"
       style={{ '--retraso': `${retraso}s` } as React.CSSProperties}
     >
-      <h2 className="seccion__titulo" tabIndex={-1}>
+      <h2 className="seccion__titulo mano" tabIndex={-1}>
         {titulo}
       </h2>
       {children}

@@ -119,8 +119,8 @@ test('las fuentes tipográficas también están cacheadas: nada de texto en Time
     await document.fonts.ready
     return [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family)
   })
-  expect(cargadas).toContain('Manrope Variable')
-  expect(cargadas).toContain('Unbounded Variable')
+  expect(cargadas).toContain('Nunito Variable')
+  expect(cargadas).toContain('Caveat Variable')
 })
 
 /**

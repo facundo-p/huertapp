@@ -104,19 +104,20 @@
 }
 
 .anillo__centro b {
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
   color: var(--tinta-alta);
 }
 
 .anillo--grande .anillo__centro b {
+  font-size: var(--texto-m);
   color: var(--sol-texto);
 }
 
 .anillo__centro small {
   font-family: var(--font-cuerpo);
-  font-size: 7px;
+  font-size: 12px;
   color: var(--tinta-tenue);
   margin-top: 2px;
 }

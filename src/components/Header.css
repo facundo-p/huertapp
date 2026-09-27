@@ -11,34 +11,30 @@
   min-width: 0;
 }
 
-.encabezado__sobre {
-  /* la fila entera, arriba de todo, aunque el botón de volver la preceda */
-  order: -1;
-  width: 100%;
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.14em;
+/* la década viene en minúscula («fines de septiembre») para ir a mitad de frase */
+.encabezado__sobre::first-letter {
   text-transform: uppercase;
-  color: var(--sol-texto);
-  margin-bottom: 6px;
+}
+
+.encabezado__sobre {
+  order: 1;
+  width: 100%;
+  font-size: var(--texto-s);
+  line-height: 1.4;
+  color: var(--tinta-suave);
 }
 
 .encabezado__titulo {
-  font-family: var(--font-display);
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  font-size: var(--mano-xl);
+  line-height: 0.95;
+  text-wrap: balance;
+  /* crece con la letra: «indeterminado» se corta antes que salirse de la pantalla */
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
-/* Adorno: es lo primero que cede si el título crece. --tinta-apagada es el
-   token decorativo del sistema, el mismo de los ejes del anillo.
-
-   El encabezado no tiene lugar de sobra: «La semana» mide 201 px y los dos
-   botones 92, así que la viñeta entra en 44 y sobran seis. Con 52 el título
-   se parte en dos renglones. Un título más largo que este no lleva viñeta. */
+/* Adorno, en --tinta-apagada (el token decorativo). Sólo entra al lado de un
+   título corto como «La semana»: uno más largo no lleva viñeta. */
 .encabezado__vineta {
   display: flex;
   flex: 0 1 auto;

@@ -42,10 +42,8 @@
    jerarquía se hace con tamaño y peso, nunca bajando el contraste. */
 .referencia__rotulo {
   width: 100%;
-  font-size: 9.5px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
   color: var(--tinta-suave);
 }
 
@@ -135,7 +133,7 @@
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
   color: var(--papel);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   font-weight: 700;
 }
@@ -204,7 +202,7 @@
 }
 
 .composteras__nombre {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
   color: var(--tinta-alta);

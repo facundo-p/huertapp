@@ -5,7 +5,7 @@
 }
 
 .alta__label {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
   color: var(--tinta);
@@ -151,7 +151,7 @@ select.alta__input {
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
   color: var(--papel);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   font-weight: 700;
 }

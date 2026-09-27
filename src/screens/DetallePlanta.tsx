@@ -231,7 +231,7 @@ export function DetallePlanta() {
         )}
 
         <div className="diario__cabeza">
-          <h2 className="seccion__titulo">Diario</h2>
+          <h2 className="seccion__titulo mano">Diario</h2>
           <button className="diario__agregar" onClick={() => setAbrirDiario(true)}>
             ＋ Anotar
           </button>

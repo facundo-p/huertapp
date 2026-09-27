@@ -5,7 +5,7 @@ import './Header.css'
 
 interface Props {
   titulo: ReactNode
-  /** subtítulo chico arriba del título (ej. la fecha) */
+  /** bajada chica debajo del título (ej. el nombre científico) */
   sobretitulo?: ReactNode
   /** pantalla de detalle: muestra flecha de volver y oculta accesos */
   volver?: boolean
@@ -23,12 +23,12 @@ export function Header({ titulo, sobretitulo, volver, vineta, children }: Props)
           <IconoVolver size={22} />
         </button>
       )}
-      {/* fuera del bloque del título y con la fila para él solo: si comparte
-          ancho con los botones, un contador largo se parte en dos líneas */}
-      {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
       <div className="encabezado__textos">
-        <h1 className="encabezado__titulo">{titulo}</h1>
+        <h1 className="encabezado__titulo mano">{titulo}</h1>
       </div>
+      {/* se lee después del título y se ve abajo de todo (`order`): si
+          comparte fila con los botones, un contador largo se parte en dos */}
+      {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
       {vineta && <span className="encabezado__vineta">{vineta}</span>}
       {!volver && (
         <div className="encabezado__acciones">

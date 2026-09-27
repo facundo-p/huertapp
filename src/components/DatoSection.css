@@ -12,6 +12,8 @@
 
 .dato__cabeza {
   display: flex;
+  /* con la letra al 200 % la confianza baja de renglón en vez de salirse */
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--esp-2);
 }
@@ -48,11 +50,9 @@
 }
 
 .dato__subtitulo {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-xs);
   font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
   color: var(--tinta);
   margin-bottom: 2px;
 }

@@ -81,7 +81,7 @@ export function CompostCapitulo() {
 
         {/* 1. tres estados */}
         <section className="compost__seccion" id="estados">
-          <h2 className="compost__titulo">Tres estados</h2>
+          <h2 className="compost__titulo mano">Tres estados</h2>
           <p className="compost__texto">
             Cuando el primero se llena, pasa a cocinar y empezás a llenar el siguiente. Siempre hay
             uno en cada estado.
@@ -111,7 +111,7 @@ export function CompostCapitulo() {
 
         {/* 2. qué poner */}
         <section className="compost__seccion" id="que-poner">
-          <h2 className="compost__titulo">Qué poner</h2>
+          <h2 className="compost__titulo mano">Qué poner</h2>
           <div className="compost__poner">
             <p className="compost__poner-rotulo es-verde">
               Verdes <small>nitrógeno</small>
@@ -172,7 +172,7 @@ export function CompostCapitulo() {
 
         {/* 3. girar */}
         <section className="compost__seccion" id="girar">
-          <h2 className="compost__titulo">Girar: cuándo y por qué</h2>
+          <h2 className="compost__titulo mano">Girar: cuándo y por qué</h2>
           <p className="compost__texto">
             <strong>{sd(sis.girar.cuando)}</strong> {sd(sis.girar.por_que)}
           </p>
@@ -222,7 +222,7 @@ export function CompostCapitulo() {
 
         {/* 4. va bien / algo falla */}
         <section className="compost__seccion" id="senales">
-          <h2 className="compost__titulo">Va bien, algo falla</h2>
+          <h2 className="compost__titulo mano">Va bien, algo falla</h2>
           <div className="compost__tabla" role="table" aria-label="Señales de que va bien y de que algo falla">
             <div className="compost__tabla-cabeza" role="row">
               <span role="columnheader" className="es-bien">Va bien</span>

@@ -294,7 +294,14 @@ for (const tema of TEMAS) {
       await abrir(page, ruta, entrar)
 
       const malos = await page.evaluate(() => {
-        const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number)
+        /** [r, g, b] en 0-255 y a en 0-1. `color-mix()` computa a `color(srgb …)`, en
+         *  0-1: leído como rgb daba casi negro, y de noche el texto claro
+         *  pasaba en falso. */
+        const canales = (c: string) => {
+          const v = (c.match(/[\d.]+/g) ?? []).map(Number)
+          return c.startsWith('color(srgb ') ? v.map((x, i) => (i < 3 ? x * 255 : x)) : v
+        }
+        const rgb = (c: string) => canales(c).slice(0, 3)
         const lum = ([r, g, b]: number[]) => {
           const f = (v: number) => {
             const s = v / 255
@@ -322,7 +329,7 @@ for (const tema of TEMAS) {
         const fondo = (el: Element): number[] => {
           const capas: number[][] = []
           for (let n: Element | null = el; n; n = n.parentElement) {
-            const v = (getComputedStyle(n).backgroundColor.match(/[\d.]+/g) ?? []).map(Number)
+            const v = canales(getComputedStyle(n).backgroundColor)
             if (v.length < 3) continue
             const a = v[3] ?? 1
             if (a === 0) continue
@@ -332,9 +339,7 @@ for (const tema of TEMAS) {
           // La base es el body, que siempre pinta `--papel` opaco. Se lee
           // computado y no como custom property: `--papel` es un hex y hay que
           // resolverlo a rgb igual.
-          const b = (getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g) ?? []).map(
-            Number,
-          )
+          const b = canales(getComputedStyle(document.body).backgroundColor)
           let out = b.length >= 3 && (b[3] ?? 1) >= 0.999 ? [b[0], b[1], b[2]] : [246, 239, 221]
           for (const c of capas.reverse()) {
             out = [0, 1, 2].map((i) => c[3] * c[i] + (1 - c[3]) * out[i])
@@ -367,7 +372,7 @@ for (const tema of TEMAS) {
           // de noche lo tiene): se compone sobre el fondo, que es lo que se ve.
           // Sin esto el botón «Agregar a mi huerta» pasaba con texto invisible.
           const f = fondo(el)
-          const c = (cs.color.match(/[\d.]+/g) ?? []).map(Number)
+          const c = canales(cs.color)
           const ac = c[3] ?? 1
           const color = ac >= 0.999 ? rgb(cs.color) : [0, 1, 2].map((i) => ac * c[i] + (1 - ac) * f[i])
           const r = ratio(color, f)
@@ -442,4 +447,136 @@ test('la jerarquía de encabezados es navegable', async ({ page }) => {
   }
 
   expect(problemas).toEqual([])
+})
+
+/**
+ * Con la letra agrandada, el rótulo crece, las cinco pestañas siguen en
+ * pantalla y cada rótulo queda dentro de la suya. Sin el corte en em, a 130 %
+ * «Mi huerta» quedaba afuera.
+ */
+for (const [ancho, letra] of [
+  [390, 100],
+  [390, 130],
+  [360, 130],
+  [320, 100],
+  [320, 130],
+] as const) {
+  test(`las cinco pestañas entran · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await abrir(page, '/#/hoy', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+    })
+    // en px fijos el rótulo no crecía, y la letra agrandada no llegaba a la barra
+    const tamano = await page
+      .locator('.tabbar__etiqueta')
+      .first()
+      .evaluate((e) => parseFloat(getComputedStyle(e).fontSize))
+    expect(tamano, 'el rótulo no crece con la letra').toBeCloseTo((12 * letra) / 100, 1)
+
+    const medidas = await page.locator('.tabbar__tab').evaluateAll((tabs) =>
+      tabs.map((t) => {
+        const caja = t.getBoundingClientRect()
+        const rotulo = t.querySelector('.tabbar__etiqueta')!.getBoundingClientRect()
+        return {
+          nombre: t.textContent,
+          caja: { izq: caja.left, der: caja.right, abajo: caja.bottom },
+          rotulo: { izq: rotulo.left, der: rotulo.right, abajo: rotulo.bottom },
+        }
+      }),
+    )
+    expect(medidas).toHaveLength(5)
+    for (const { nombre, caja, rotulo } of medidas) {
+      expect(caja.izq, `${nombre}: se sale por la izquierda`).toBeGreaterThanOrEqual(0)
+      expect(caja.der, `${nombre}: se sale por la derecha`).toBeLessThanOrEqual(ancho)
+      expect(caja.abajo, `${nombre}: se sale por abajo`).toBeLessThanOrEqual(844)
+      expect(caja.der - caja.izq, `${nombre}: menos de 44 px para el dedo`).toBeGreaterThanOrEqual(44)
+      expect(rotulo.izq, `${nombre}: el rótulo se sale de su pestaña`).toBeGreaterThanOrEqual(caja.izq - 0.5)
+      expect(rotulo.der, `${nombre}: el rótulo se sale de su pestaña`).toBeLessThanOrEqual(caja.der + 0.5)
+      expect(rotulo.abajo, `${nombre}: el rótulo se sale por abajo de su pestaña`).toBeLessThanOrEqual(caja.abajo + 0.5)
+    }
+  })
+}
+
+/**
+ * La barra crece con la letra, y lo de abajo de cada pantalla tiene que
+ * despejarla. Con el alto fijo de 72, a 320 px y 130 % «Sumar una compostera»
+ * quedaba con 29 de sus 48 px para tocar.
+ */
+for (const [ancho, letra] of [
+  [320, 130],
+  [360, 200],
+] as const) {
+  test(`nada queda detrás de la barra · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    for (const ruta of ['/#/hoy', '/#/explorar', '/#/calendario', '/#/compost', '/#/huerta']) {
+      await abrir(page, ruta, async (p) => {
+        await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      })
+      // dos cuadros: el que mide la barra y el que repinta el pie de la pantalla
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+      const { barra, abajo, nombre } = await page.evaluate(() => {
+        const enfocables = [...document.querySelectorAll<HTMLElement>('.pantalla a[href], .pantalla button, .pantalla input')]
+          .filter((e) => e.getClientRects().length > 0)
+        const ultimo = enfocables[enfocables.length - 1]
+        return {
+          barra: document.querySelector('.tabbar')!.getBoundingClientRect().top,
+          abajo: ultimo.getBoundingClientRect().bottom,
+          nombre: ultimo.getAttribute('aria-label') ?? ultimo.textContent?.trim(),
+        }
+      })
+      expect(abajo, `${ruta}: «${nombre}» queda detrás de la barra`).toBeLessThanOrEqual(barra + 0.5)
+    }
+  })
+}
+
+/**
+ * El título de una ficha crece con la letra. Sin corte de palabra, a 390 px y
+ * 150 % «Tomate indeterminado» se salía y la página scrolleaba de costado.
+ */
+for (const [ancho, letra] of [
+  [360, 130],
+  [390, 150],
+  [320, 200],
+] as const) {
+  test(`el título de una ficha no se sale · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await abrir(page, '/#/explorar/tomate-indeterminado', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+    })
+    const { titulo, pagina } = await page.evaluate(() => ({
+      titulo: document.querySelector('.encabezado__titulo')!.getBoundingClientRect().right,
+      pagina: document.documentElement.scrollWidth,
+    }))
+    expect(titulo, 'el título se sale por la derecha').toBeLessThanOrEqual(ancho)
+    expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(ancho)
+  })
+}
+
+/**
+ * La zona segura de abajo cambia sin que cambie el ancho (Safari al esconder
+ * su barra, Android de borde a borde), y lo que mide la barra tiene que
+ * seguirla. Mirando sólo el contenido, --tab-ocupa se quedaba en 72 con la
+ * barra en 93.
+ */
+test('lo que ocupa la barra sigue a la zona segura', async ({ page }) => {
+  await abrir(page, '/#/hoy')
+  const cdp = await page.context().newCDPSession(page)
+  const medir = () =>
+    page.evaluate(() => ({
+      barra: document.querySelector<HTMLElement>('.tabbar')!.offsetHeight,
+      ocupa: parseFloat(document.documentElement.style.getPropertyValue('--tab-ocupa')),
+    }))
+  const sinZona = (await medir()).barra
+  for (const bottom of [34, 0]) {
+    await cdp.send('Emulation.setSafeAreaInsetsOverride', { insets: { bottom, bottomMax: bottom } })
+    await expect.poll(async () => (await medir()).barra).toBe(bottom ? sinZona + bottom - 13 : sinZona)
+    // el observador contesta en el cuadro siguiente
+    await expect
+      .poll(async () => {
+        const { barra, ocupa } = await medir()
+        return ocupa - barra
+      }, { message: `con ${bottom} px de zona segura` })
+      .toBe(0)
+  }
 })

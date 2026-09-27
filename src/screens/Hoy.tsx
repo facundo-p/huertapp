@@ -187,7 +187,7 @@ export function Hoy() {
 
         {sugerencias.length > 0 && (
           <section className="hoy__seccion">
-            <h2 className="seccion__titulo">Para sembrar ahora</h2>
+            <h2 className="seccion__titulo mano">Para sembrar ahora</h2>
             <p className="hoy__bajada">
               En {nombreDecada(decadaHoy)}, ordenado por lo que primero se te cierra.
             </p>

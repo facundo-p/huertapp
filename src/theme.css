@@ -1,7 +1,8 @@
 /* ============================================================
    Huerta GBA — design tokens
-   Dirección: "Cantero", en dos temas intercambiables — `día` (papel
-   claro) y `noche` (tierra oscura). Son EL MISMO diseño: ninguna
+   Dirección: «Cuaderno» (docs/diseno/cuaderno/), sobre la paleta de
+   «Cantero», en dos temas intercambiables — `día` (papel claro) y
+   `noche` (tierra oscura). Son EL MISMO diseño: ninguna
    medida, ningún radio, ningún peso cambia entre los dos. Cambian
    los valores de color, y nada más.
    Todos los tokens del sistema viven acá. No hay otro lugar.
@@ -30,12 +31,15 @@
 
 /* ---- Medidas: idénticas en los dos temas, por definición ---- */
 :root {
-  /* Tipografía (self-hosted, ver src/fuentes.css) */
-  /* Unbounded es una display geométrica de ancho aparente fijo: NUNCA por
-     debajo de 9 px y nunca en párrafos. Solo títulos, sobretítulos, números
-     grandes y etiquetas de nav. */
-  --font-display: 'Unbounded Variable', system-ui, sans-serif;
-  --font-cuerpo: 'Manrope Variable', system-ui, sans-serif;
+  /* Tipografía (self-hosted, ver src/fuentes.css). La manuscrita, sólo en
+     títulos y rótulos de pocas palabras de 21 px para arriba: chica cuesta
+     leerla, y la calidez ya la ponen los títulos. Todo lo demás, redonda. */
+  --font-mano: 'Caveat Variable', 'Segoe Print', 'Bradley Hand', cursive;
+  --font-cuerpo: 'Nunito Variable', ui-rounded, system-ui, sans-serif;
+  --mano-s: 1.3125rem;
+  --mano-m: 1.5rem;
+  --mano-l: 1.75rem;
+  --mano-xl: 2.875rem;
   --texto-xs: 0.75rem;
   --texto-s: 0.875rem;
   --texto-m: 1rem;
@@ -69,11 +73,26 @@
      suma. */
   --tab-alto: 59px;
   --tab-zona-segura: max(13px, env(safe-area-inset-bottom));
+  /* lo que ocupa la barra: con la letra agrandada crece, y TabBar lo mide */
+  --tab-ocupa: calc(var(--tab-alto) + var(--tab-zona-segura));
   --max-ancho: 640px;
+
+  /* Papel rayado: el texto se apoya en el renglón, que cae en el pie de cada
+     fila. Nada puede correr la trama: lo que corta una página ocupa un
+     múltiplo de --renglon-alto. */
+  --renglon-alto: 28px;
+  --margen-x: 52px;
+
+  /* sombras con forma, que --sombra-1 y -2 no tienen: el post-it levanta la
+     punta, la barra sombrea para arriba */
+  --sombra-postit: 0 1px 1px rgba(0, 0, 0, 0.1), 0 14px 20px -14px rgba(60, 40, 0, 0.55);
+  --sombra-croquis: 0 6px 14px -12px rgba(40, 30, 10, 0.5);
+  --sombra-barra: 0 -10px 18px -14px rgba(30, 20, 0, 0.4);
+  --sombra-foto: 0 1px 2px rgba(0, 0, 0, 0.15), 0 10px 16px -12px rgba(0, 0, 0, 0.5);
 }
 
 /* ============================================================
-   Cantero de día — tema claro (el que sale sin elegir nada)
+   De día — tema claro (el que sale sin elegir nada)
    ============================================================ */
 :root,
 [data-tema='dia'] {
@@ -82,6 +101,9 @@
   /* ---- Superficies ---- */
   --papel: #f7f3e7;
   --papel-alto: #fffdf5;
+  /* lo que no puede transparentar el renglón: botones a lápiz, nota al
+     margen, barra de Acomodar. De noche --papel-alto es translúcido. */
+  --papel-opaco: #fffdf5;
   --papel-hundido: #ebe6d4;
   --papel-plano: #efeadb;
   --crema: #eae4d2;
@@ -187,21 +209,35 @@
   --gantt-cosecha-a: #c98718;
   --gantt-cosecha-b: #a86a10;
 
-  /* Fuerza del grano del suelo (el tile está más abajo, en `body::before`).
-     De día el techo no lo pone el gusto: el par más justo que vive sobre el
-     papel es --tinta-tenue, 4,64:1, y aguanta 1,3 % de negro encima antes de
-     bajar de AA. La mota más opaca del tile tiene alpha 0,62, así que la
-     fuerza tope es 0,021: con 0,025 el contraste da 4,49 y
-     `e2e/textura.spec.ts` —que lo mide sobre el píxel dibujado— falla.
+  /* ---- Cuaderno ---- */
+  /* El renglón tiene techo: a .2 bajaba --tinta-suave a 4,46 justo encima de
+     la línea. Encima de un renglón no pasan --tinta-tenue y --terracota en
+     los dos temas; de día --verde-hoja, --sol-texto y --conf-alta/media/sin;
+     de noche --terracota-texto, --peligro y --conf-baja (el mismo color). */
+  --renglon: rgba(79, 127, 149, 0.16);
+  --margen: rgba(161, 88, 61, 0.5);
+  --cuadro: rgba(79, 127, 149, 0.13);
+  --cuadro-fuerte: rgba(79, 127, 149, 0.3);
+  --hoja-cuadros: #fffdf5;
+  /* el post-it es papel amarillo en los dos temas, no ocre de atención */
+  --postit: #f3d98b;
+  --sobre-postit: #2a2110;
+  --sobre-postit-suave: #5a4a1e;
+  --cinta: rgba(222, 208, 168, 0.8);
+  --foto-borde: #fbfaf4;
+  --bandera: var(--sol);
+  --bandera-atrasada: var(--terracota);
+  --sobre-bandera: var(--sobre-sol);
+  --sobre-bandera-atrasada: #fffdf5;
+  /* de día el ocre da 2,49:1 contra la celda teñida: el 3:1 lo pone el borde */
+  --bandera-borde: var(--tinta-media);
 
-     Y sí, de día casi no se ve. Ya se probó: al triple, corriendo
-     --tinta-tenue a #626d59 para pagarlo, TAMPOCO se ve. Comprar textura
-     invisible con la delicadeza del metadato de toda la app es mal negocio;
-     el grano se queda en su techo y de día es un gesto. El que se ve es el de
-     noche. (Si algún día se insiste: variar el TONO a luminancia constante
-     —#fff3c4 y #e8f6f2 miden igual que --papel— no gasta contraste, porque la
-     fórmula de WCAG sólo mira luminancia. Es la única vía sin techo.) */
-  --grano-fuerza: 0.02;
+  /* Papel reciclado (el tile, más abajo en `body::before`). De día ninguna
+     mancha es más oscura que el papel: la textura se ve por tono y claridad
+     y no le cobra contraste a ningún texto (el grano negro de antes, por
+     oscurecer, tenía techo en 0,021). `e2e/textura.spec.ts` lo mide. */
+  --papel-img: url('./papel/papel-reciclado-dia.svg');
+  --grano-fuerza: 1;
 
   /* ---- Sombras suaves y cálidas ---- */
   --sombra-1: 0 1px 2px rgba(74, 60, 28, 0.07), 0 2px 8px rgba(74, 60, 28, 0.06);
@@ -212,7 +248,7 @@
 }
 
 /* ============================================================
-   Cantero de noche — tema oscuro
+   De noche — tema oscuro
 
    --papel-alto es semitransparente a propósito (44 % de #263322): la
    tarjeta flota sobre la tierra en vez de taparla. Compuesto da
@@ -223,6 +259,7 @@
 
   --papel: #1f2a1c;
   --papel-alto: #26332270;
+  --papel-opaco: #222e1f;
   --papel-hundido: #2b3826;
   --papel-plano: #243021;
   --crema: #26332f;
@@ -310,12 +347,25 @@
   --gantt-cosecha-a: #e3a52f;
   --gantt-cosecha-b: #b8801a;
 
-  /* Catorce veces la fuerza de día, y no es un error: oscurecer sobre tierra
-     ALEJA del texto, que acá es claro (el contraste sube de 4,7 a 5,9). El
-     techo de noche lo pone el ojo, no la aritmética —y la tarjeta, que es
-     semitransparente a propósito y deja pasar el 56 % del grano: pasada de
-     fuerza se embarra, que es por lo que la textura se cayó en el rediseño. */
-  --grano-fuerza: 0.35;
+  --renglon: rgba(127, 176, 200, 0.15);
+  --margen: rgba(212, 145, 122, 0.45);
+  --cuadro: rgba(127, 176, 200, 0.1);
+  --cuadro-fuerte: rgba(127, 176, 200, 0.22);
+  --hoja-cuadros: #243021;
+  --postit: #e6c872;
+  --sobre-postit: #2a2110;
+  --sobre-postit-suave: #5a4a1e;
+  --cinta: rgba(214, 202, 166, 0.42);
+  --foto-borde: #e7e2d2;
+  --bandera: var(--sol);
+  --bandera-atrasada: var(--terracota);
+  --sobre-bandera: var(--sobre-sol);
+  --sobre-bandera-atrasada: #2a2110;
+  --bandera-borde: transparent;
+
+  /* Al revés que de día: nada más claro que el papel, porque acá el texto es
+     el claro. Lleva el grano negro de siempre y nubes apenas más oscuras. */
+  --papel-img: url('./papel/papel-reciclado-noche.svg');
 
   --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.22);
   --sombra-2: 0 2px 4px rgba(0, 0, 0, 0.22), 0 8px 22px rgba(0, 0, 0, 0.3);
@@ -352,17 +402,10 @@ body {
   isolation: isolate;
 }
 
-/* ---- El suelo tiene grano ----
-   Motas negras sueltas sobre el papel del tema: un solo tile, y cada tema le
-   pone su fuerza (--grano-fuerza). Negro y no un color propio porque al 1 %
-   el tono no se ve; lo que se ve es la mota.
-
+/* ---- Papel reciclado ----
    Vive en `body::before` y no en `body`: pintado como capa aparte queda
-   DEBAJO de todo lo que tenga fondo propio, y eso es justo lo que hace falta.
-   Las superficies de dato ya se pintan solas —la tarjeta con --papel-alto, el
-   gantt con --papel-plano, las celdas del calendario con --papel-hundido—, así
-   que el grano nunca cae abajo de una grilla: la otra razón por la que la
-   textura se había caído del rediseño.
+   DEBAJO de todo lo que tenga fondo propio, así que nunca cae abajo de una
+   grilla ni de una tarjeta.
 
    `fixed` para que no repinte al scrollear (el tile queda quieto y el
    compositor lo reusa), y `z-index: -1` para pasar arriba del fondo del body
@@ -374,11 +417,11 @@ body::before {
   z-index: -1;
   pointer-events: none;
   opacity: var(--grano-fuerza);
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 0 0 0 -.35'/></filter><rect width='120' height='120' filter='url(%23g)'/></svg>");
+  background-image: var(--papel-img);
 }
 
-/* Con más contraste pedido, el suelo se aplana: el grano es adorno y el
-   adorno no se queda con puntos de contraste. */
+/* Con más contraste pedido, el papel se aplana: es adorno, y el adorno no se
+   queda con puntos de contraste. */
 @media (prefers-contrast: more) {
   :root,
   [data-tema='dia'],
@@ -391,13 +434,20 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
+  font-weight: 800;
   line-height: 1.2;
   margin: 0;
   color: var(--tinta);
-  /* Unbounded ya es ancha de por sí: el interletrado positivo que pedía
-     Quicksand acá desarma la palabra. */
-  letter-spacing: -0.01em;
+}
+
+/* Títulos de pantalla y de sección, a mano. Clase y no h1/h2: hay h3 de
+   16 px que en manuscrita no se leerían. */
+.mano {
+  font-family: var(--font-mano);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 p {

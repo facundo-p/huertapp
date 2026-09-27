@@ -6,10 +6,8 @@
 }
 
 .fila-chips__etiqueta {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   color: var(--tinta-suave);
 }
 
@@ -50,7 +48,7 @@
 .chip--texto {
   width: auto;
   padding: 0 var(--esp-4);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
   color: var(--tinta-media);

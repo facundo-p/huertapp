@@ -1,44 +1,47 @@
-/* Barra opaca, a ras del borde, de lado a lado. La segunda entrega del
-   rediseño deshizo la píldora flotante: con la barra flotando el contenido
-   que scrollea se veía por el hueco de abajo y por los costados, y se leía
-   como un error.
-   `fixed` y no `absolute`: la pantalla mide 100dvh y no hay contenedor
-   posicionado, así que `absolute` la anclaría al documento y se iría con el
-   scroll. */
+/* Pestañas de separador: cada sección con su tinte, y la activa se une a la
+   página. `fixed` y no `absolute`: la pantalla mide 100dvh y no hay
+   contenedor posicionado, así que `absolute` se iría con el scroll. */
 .tabbar {
+  container-type: inline-size;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 20;
   display: flex;
-  align-items: stretch;
-  /* 59 de barra más la zona segura: 13 fijos, o el home indicator si es más */
-  height: calc(var(--tab-alto) + var(--tab-zona-segura));
+  align-items: flex-start;
+  gap: 2px;
+  /* 59 de barra más la zona segura: 13 fijos, o el home indicator si es más.
+     min y no height: con la letra agrandada crece hacia arriba. */
+  min-height: calc(var(--tab-alto) + var(--tab-zona-segura));
   max-width: var(--max-ancho);
   margin-inline: auto;
-  padding: 7px 8px var(--tab-zona-segura);
-  background: var(--papel);
-  border-top: 1px solid var(--linea);
+  padding: 0 6px var(--tab-zona-segura);
+  background: var(--papel-hundido);
+  border-top: 1.5px solid var(--linea-fuerte);
+  font-size: var(--texto-xs);
 }
 
 .tabbar__tab {
-  flex: 1;
-  min-width: var(--tap-min);
+  --tinte: color-mix(in srgb, var(--c) 20%, var(--papel));
+  /* Parejas, pero ninguna más angosta que su rótulo: «Esta semana» activa
+     mide 76 y a 390 el quinto de la barra da 72. */
+  flex: 1 1 0;
+  min-width: max-content;
+  padding-inline: 2px;
+  height: calc(var(--tab-alto) - 5px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  border-radius: var(--radio-tarjeta);
+  gap: 1px;
+  border-radius: 0 0 12px 12px;
+  background: var(--tinte);
+  color: var(--tinta-media);
   text-decoration: none;
-  /* el handoff pide --tinta-tenue, pero da 4,12:1 y el nombre de una pestaña
-     no es un metadato accesorio: es lo que dice adónde vas. */
-  color: var(--tinta-suave);
   -webkit-tap-highlight-color: transparent;
-  /* Sin transición de color: el test de contraste medía la pestaña a mitad
-     del fundido al cambiar de pantalla y fallaba según el reloj. Un cambio
-     de pestaña es un corte, no un fundido. */
+  /* Sin transición: el test de contraste medía la pestaña a mitad del fundido
+     y fallaba según el reloj. */
 }
 
 .tabbar__pastilla {
@@ -47,22 +50,67 @@
 }
 
 .tabbar__etiqueta {
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  /* con cinco pestañas cada una mide ~75 px y «Esta semana» tiene que entrar
-     en una línea: si se parte, la barra crece y tapa contenido */
+  font-weight: 700;
+  line-height: 1.2;
+  /* si se parte, la barra crece */
   white-space: nowrap;
 }
 
-/* La activa es un bloque entero, no una pastilla detrás del ícono: el ícono y
-   la etiqueta comparten el mismo fondo. */
-.tabbar__tab.active {
-  background: var(--sol);
-  color: var(--sobre-sol);
+/* El 1,5 de más tapa el borde de la barra: así la pestaña sale de la página */
+.tabbar__tab[aria-current='page'] {
+  margin-top: -1.5px;
+  height: var(--tab-alto);
+  background: var(--papel);
+  color: var(--tinta);
+  border: 1.5px solid var(--linea-fuerte);
+  border-top: 0;
 }
 
-.tabbar__tab.active .tabbar__etiqueta {
-  font-weight: 600;
+.tabbar__tab[aria-current='page'] .tabbar__etiqueta {
+  font-weight: 800;
+  padding-bottom: 2px;
+  background: linear-gradient(var(--sol), var(--sol)) 0 100% / 100% 3px no-repeat;
+}
+
+/* Cuando las cinco no entran en una línea (menos de 340 a letra normal, o la
+   letra agrandada en Ajustes del teléfono), los rótulos se parten en dos.
+   En em para que el corte crezca con la letra: en px, a 130 % la última
+   pestaña quedaba fuera de la pantalla. */
+@container (max-width: 27.25em) {
+  /* estiradas y 5 más cortas que la activa, como a letra normal: si no, la
+     que se parte en dos bajaba más que la activa */
+  .tabbar__tab {
+    align-self: stretch;
+    min-width: min-content;
+    height: auto;
+    min-height: calc(var(--tab-alto) - 5px);
+    margin-bottom: 5px;
+    padding-block: 4px;
+  }
+
+  .tabbar__tab[aria-current='page'] {
+    height: auto;
+    min-height: var(--tab-alto);
+    margin-bottom: 0;
+  }
+
+  .tabbar__etiqueta {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* Ni partidas en dos entran: se cortan las palabras largas («Calen-dario»,
+   con guion donde el navegador sabe separar en sílabas). Pasa a 130 % por
+   debajo de ~363 px, a 150 % ya en 390, y a 200 % en todos. Feo, pero las
+   cinco se alcanzan. */
+@container (max-width: 22.5em) {
+  .tabbar__tab {
+    min-width: 0;
+  }
+
+  .tabbar__etiqueta {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
 }

@@ -59,8 +59,8 @@
 }
 
 .hoja__titulo {
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--mano-l);
+  line-height: 1.1;
 }
 
 .hoja__cerrar {

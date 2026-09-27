@@ -3,7 +3,7 @@
   max-width: var(--max-ancho);
   margin: 0 auto;
   /* la nav es fija: hay que despejar su alto más la zona segura */
-  padding-bottom: calc(var(--tab-alto) + var(--tab-zona-segura) + var(--esp-4));
+  padding-bottom: calc(var(--tab-ocupa) + var(--esp-4));
   min-height: 100dvh;
 }
 
@@ -20,7 +20,7 @@
 
 .seccion__titulo {
   display: inline-block;
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--mano-l);
   margin-top: var(--esp-4);
+  text-wrap: balance;
 }

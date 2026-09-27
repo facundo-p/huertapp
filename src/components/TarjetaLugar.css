@@ -63,11 +63,9 @@
 .lugar__etiqueta {
   display: block;
   margin-top: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
   color: var(--acento-texto);
 }
 
@@ -192,10 +190,9 @@
   display: flex;
   justify-content: space-between;
   padding: 0 0 5px;
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
   color: var(--tinta-tenue);
 }
 

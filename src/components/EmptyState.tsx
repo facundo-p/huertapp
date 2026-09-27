@@ -27,7 +27,7 @@ export function EmptyState({ Icono, Dibujo, titulo, texto, accion }: Props) {
           </div>
         )
       )}
-      <h2 className="estado-vacio__titulo">{titulo}</h2>
+      <h2 className="estado-vacio__titulo mano">{titulo}</h2>
       <p className="estado-vacio__texto">{texto}</p>
       {accion}
     </div>

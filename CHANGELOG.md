@@ -23,6 +23,27 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Cambiado
+
+- **La app se parece más a un cuaderno de huerta.** El título de cada pantalla
+  y los de sus secciones grandes van en letra manuscrita. Lo que se lee de
+  corrido, y los títulos chicos como los de la ficha, van en una letra redonda.
+  Los rótulos dejaron de ir en mayúsculas y los más chicos crecieron. El fondo
+  es papel reciclado, muy leve: se ve de día sin que ningún texto pierda
+  contraste.
+- **La barra de abajo son pestañas de separador.** Cada sección tiene su
+  color, y la pestaña de donde estás se une a la página y lleva un subrayado.
+  Con la letra del teléfono agrandada, las cinco siguen en pantalla y nada
+  queda tapado detrás de la barra: los rótulos se parten en dos líneas y, en
+  las pantallas angostas, los más largos también a mitad de palabra.
+
+### Arreglado
+
+- **El nombre de una especie larga ya no se sale de la pantalla**, como
+  «Tomate indeterminado» en un teléfono angosto o con la letra agrandada: se
+  corta la palabra. Con la letra al doble, la cabecera de cada dato de la
+  ficha tampoco se sale.
+
 ## [2.4.0] — 2026-09-27
 
 ### Agregado

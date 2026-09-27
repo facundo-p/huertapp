@@ -75,8 +75,8 @@
   background: var(--ideal-fondo);
   color: var(--verde-prof);
   border: 1.5px solid var(--ideal);
-  font-family: var(--font-display);
-  font-size: 11px;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
 }
