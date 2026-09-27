@@ -294,7 +294,14 @@ for (const tema of TEMAS) {
       await abrir(page, ruta, entrar)
 
       const malos = await page.evaluate(() => {
-        const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number)
+        /** [r, g, b, a?] en 0-255. `color-mix()` computa a `color(srgb …)`, en
+         *  0-1: leído como rgb daba casi negro, y de noche el texto claro
+         *  pasaba en falso. */
+        const canales = (c: string) => {
+          const v = (c.match(/[\d.]+/g) ?? []).map(Number)
+          return c.startsWith('color(srgb ') ? v.map((x, i) => (i < 3 ? x * 255 : x)) : v
+        }
+        const rgb = (c: string) => canales(c).slice(0, 3)
         const lum = ([r, g, b]: number[]) => {
           const f = (v: number) => {
             const s = v / 255
@@ -322,7 +329,7 @@ for (const tema of TEMAS) {
         const fondo = (el: Element): number[] => {
           const capas: number[][] = []
           for (let n: Element | null = el; n; n = n.parentElement) {
-            const v = (getComputedStyle(n).backgroundColor.match(/[\d.]+/g) ?? []).map(Number)
+            const v = canales(getComputedStyle(n).backgroundColor)
             if (v.length < 3) continue
             const a = v[3] ?? 1
             if (a === 0) continue
@@ -332,9 +339,7 @@ for (const tema of TEMAS) {
           // La base es el body, que siempre pinta `--papel` opaco. Se lee
           // computado y no como custom property: `--papel` es un hex y hay que
           // resolverlo a rgb igual.
-          const b = (getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g) ?? []).map(
-            Number,
-          )
+          const b = canales(getComputedStyle(document.body).backgroundColor)
           let out = b.length >= 3 && (b[3] ?? 1) >= 0.999 ? [b[0], b[1], b[2]] : [246, 239, 221]
           for (const c of capas.reverse()) {
             out = [0, 1, 2].map((i) => c[3] * c[i] + (1 - c[3]) * out[i])
@@ -367,7 +372,7 @@ for (const tema of TEMAS) {
           // de noche lo tiene): se compone sobre el fondo, que es lo que se ve.
           // Sin esto el botón «Agregar a mi huerta» pasaba con texto invisible.
           const f = fondo(el)
-          const c = (cs.color.match(/[\d.]+/g) ?? []).map(Number)
+          const c = canales(cs.color)
           const ac = c[3] ?? 1
           const color = ac >= 0.999 ? rgb(cs.color) : [0, 1, 2].map((i) => ac * c[i] + (1 - ac) * f[i])
           const r = ratio(color, f)

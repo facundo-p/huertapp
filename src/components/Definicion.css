@@ -36,11 +36,9 @@
 
 .definicion__rotulo {
   margin-bottom: 3px;
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--tinta-media);
 }
 
@@ -83,7 +81,7 @@
   display: flex;
   align-items: center;
   min-height: var(--tap-min);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
 }

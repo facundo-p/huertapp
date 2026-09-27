@@ -61,7 +61,7 @@ texto apoyado sobre la línea, y un margen terracota a la izquierda.
 
 **Papel reciclado de fondo**, muy leve y sobre todo de día. Una tesela de
 256 × 256 con tres capas: nubes (el papel que no es parejo), fibras cortas y
-motas. Está en `papel-reciclado-dia.svg` y `papel-reciclado-noche.svg`, para
+motas. Está en `src/papel/papel-reciclado-dia.svg` y `-noche.svg`, para
 `body::before`, donde hoy vive el grano, con `--grano-fuerza` en 1: la tesela ya
 trae su intensidad, y con el 0,02 de hoy quedaría invisible.
 

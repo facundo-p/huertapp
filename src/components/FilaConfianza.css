@@ -28,8 +28,8 @@
 }
 
 .fila-conf__numero {
-  font-family: var(--font-display);
-  font-size: 10px;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
   font-weight: 700;
   color: var(--tinta-suave);
   font-variant-numeric: tabular-nums;

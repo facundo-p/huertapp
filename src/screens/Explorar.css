@@ -88,15 +88,10 @@
   min-width: 0;
   font-size: var(--texto-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--tinta-suave);
 }
 
-/* lo elegido, sin versalitas: tres etiquetas en mayúscula son un muro */
 .explorar__elegido {
-  text-transform: none;
-  letter-spacing: 0;
   font-weight: 600;
   color: var(--tinta-media);
 }
@@ -114,8 +109,7 @@
   text-underline-offset: 3px;
 }
 
-/* Hasta diecinueve nombres con los cuatro rangos prendidos: acá va texto
-   corrido, no la versalita del contador. */
+/* hasta diecinueve nombres con los cuatro rangos prendidos */
 .explorar__sindato {
   font-size: var(--texto-xs);
   line-height: 1.5;

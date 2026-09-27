@@ -1,18 +1,15 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * El grano del suelo, medido sobre el píxel que se ve.
+ * El papel reciclado, medido sobre el píxel que se ve.
  *
  * `accesibilidad.spec.ts` compone las capas leyendo `backgroundColor`, y el
- * grano es un `background-image`: para ese test la textura no existe. O sea
- * que subirle --grano-fuerza baja el contraste de verdad y no falla nada.
+ * papel es un `background-image`: para ese test la textura no existe.
  *
- * La primera versión de esta guarda leía el tile del CSS y lo componía a mano.
- * Pasaba en verde con el grano SIN DIBUJAR —el z-index lo dejaba abajo del
- * fondo del body—, que es el mismo error de siempre: medir la propiedad y no
- * lo que se ve. Ahora se saca una captura de un pedazo de suelo vacío, se la
- * devuelve al navegador y se leen los píxeles: el más oscuro del suelo es el
- * peor fondo que puede tocarle a una letra.
+ * La primera versión leía el tile del CSS y pasaba en verde con la textura SIN
+ * DIBUJAR (el z-index la dejaba abajo del body). Por eso se captura la pantalla
+ * vacía y se leen los píxeles. El peor fondo para una letra es, de día, el
+ * píxel más oscuro, y de noche, donde el texto es el claro, el más claro.
  */
 
 const TEMAS = ['dia', 'noche'] as const
@@ -31,7 +28,7 @@ const TEXTOS = [
 ]
 
 for (const tema of TEMAS) {
-  test(`el grano del suelo no se come el contraste · tema ${tema}`, async ({ page }) => {
+  test(`el papel reciclado no se come el contraste · tema ${tema}`, async ({ page }) => {
     await page.addInitScript((t) => {
       try {
         localStorage.setItem('huerta-gba:tema', t)
@@ -42,18 +39,16 @@ for (const tema of TEMAS) {
     await page.goto('/#/hoy')
     await page.waitForLoadState('networkidle')
 
-    // Se esconde la app y queda la pantalla entera de suelo. Buscar un hueco
-    // libre entre el contenido es frágil: el primer intento agarró el
-    // encabezado y midió el blanco de un botón contra la tinta de un título.
-    // `visibility` y no `display`: el layout queda igual y el grano se pinta,
-    // porque cuelga del body y no del root de React.
+    // Se esconde la app y queda la pantalla entera de papel: buscar un hueco
+    // libre agarró una vez el blanco de un botón. `visibility` y no `display`:
+    // el papel cuelga del body, no del root de React.
     await page.locator('#root').evaluate((el) => {
       ;(el as HTMLElement).style.visibility = 'hidden'
     })
     const png = (await page.screenshot()).toString('base64')
 
     const medido = await page.evaluate(
-      async ({ png, tokens }: { png: string; tokens: string[] }) => {
+      async ({ png, tokens, tema }: { png: string; tokens: string[]; tema: string }) => {
         const img = new Image()
         img.src = `data:image/png;base64,${png}`
         await img.decode()
@@ -82,12 +77,14 @@ for (const tema of TEMAS) {
           if (lum(p) > lum(masClaro)) masClaro = p
         }
 
+        const peor = tema === 'dia' ? masOscuro : masClaro
+
         const rgb = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number)
         const sonda = document.createElement('span')
         document.body.appendChild(sonda)
         const pares = tokens.map((t) => {
           sonda.style.color = `var(${t})`
-          return { token: t, contraste: ratio(rgb(getComputedStyle(sonda).color), masOscuro) }
+          return { token: t, contraste: ratio(rgb(getComputedStyle(sonda).color), peor) }
         })
         sonda.remove()
 
@@ -96,26 +93,25 @@ for (const tema of TEMAS) {
           papel: rgb(getComputedStyle(document.body).backgroundColor),
           masOscuro,
           masClaro,
-          // en canales y no en luminancia: de noche los valores son tan bajos
-          // que la luminancia redondea todo a cero y el grano parece no estar
+          // en canales y no en luminancia: de noche la luminancia redondea
+          // todo a cero y el papel parece liso
           amplitud: Math.max(...[0, 1, 2].map((i) => masClaro[i] - masOscuro[i])),
           pares,
         }
       },
-      { png, tokens: TEXTOS },
+      { png, tokens: TEXTOS, tema },
     )
 
-    // el informe sale siempre: cuando falla, el número que hay que tocar es
-    // --grano-fuerza y conviene tenerlo a mano
+    // el informe sale siempre: cuando falla, conviene ver qué píxel fue
     console.log(
-      `[${tema}] fuerza ${medido.fuerza} · suelo dibujado ${medido.masOscuro.join(',')} a ` +
+      `[${tema}] fuerza ${medido.fuerza} · papel dibujado ${medido.masOscuro.join(',')} a ` +
         `${medido.masClaro.join(',')} (papel ${medido.papel.join(',')}) · amplitud ${medido.amplitud}`,
     )
     for (const p of medido.pares) console.log(`   ${p.token.padEnd(20)} ${p.contraste.toFixed(2)}:1`)
 
-    // Que el grano EXISTA. Sin esto la guarda pasa con la textura apagada o
-    // tapada, que fue exactamente lo que pasó.
-    expect(medido.amplitud, 'el suelo salió plano: el grano no se está dibujando').toBeGreaterThan(1)
+    // Que la textura EXISTA: sin esto la guarda pasa con el papel tapado, que
+    // fue exactamente lo que pasó.
+    expect(medido.amplitud, 'el papel salió liso: la textura no se está dibujando').toBeGreaterThan(1)
 
     const flojos = medido.pares.filter((p) => p.contraste < 4.5)
     expect(flojos.map((p) => `${p.token} ${p.contraste.toFixed(2)}:1`)).toEqual([])

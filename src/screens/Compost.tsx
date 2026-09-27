@@ -29,7 +29,7 @@ export function Compost() {
             </p>
 
             <section className="compost__seccion">
-              <h2 className="compost__titulo">Qué vas a compostar</h2>
+              <h2 className="compost__titulo mano">Qué vas a compostar</h2>
               <ul className="compost__filas">
                 <Fila
                   a="/compost/cocina-tachos"
@@ -49,7 +49,7 @@ export function Compost() {
             </section>
 
             <section className="compost__seccion">
-              <h2 className="compost__titulo">En qué sistema</h2>
+              <h2 className="compost__titulo mano">En qué sistema</h2>
               <ul className="compost__filas">
                 <Fila
                   a="/compost/cocina-tachos"
@@ -70,7 +70,7 @@ export function Compost() {
 
             {/* La receta, a sangre: el mismo tinte que un aviso de la semana */}
             <section className="compost__receta" aria-labelledby="receta-titulo">
-              <h2 id="receta-titulo" className="compost__titulo">
+              <h2 id="receta-titulo" className="compost__titulo mano">
                 La receta
               </h2>
               <div className="compost__barra" aria-hidden>
@@ -88,7 +88,7 @@ export function Compost() {
             </section>
 
             <section className="compost__seccion">
-              <h2 className="compost__titulo">Guía</h2>
+              <h2 className="compost__titulo mano">Guía</h2>
               <ul className="compost__filas compost__filas--guia">
                 <FilaGuia a="/compost/cocina-tachos#que-poner">Qué poner y qué no</FilaGuia>
                 <FilaGuia a="/compost/cocina-tachos#estados">Proporción, humedad y los tres estados</FilaGuia>

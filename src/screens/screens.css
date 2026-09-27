@@ -20,7 +20,6 @@
 
 .seccion__titulo {
   display: inline-block;
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--mano-l);
   margin-top: var(--esp-4);
 }

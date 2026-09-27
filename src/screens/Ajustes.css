@@ -7,8 +7,7 @@
 
 .ajustes__titulo {
   align-self: flex-start;
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--mano-l);
 }
 
 .ajustes__bajada {
@@ -64,7 +63,7 @@
   width: 100%;
   min-height: var(--tap-min);
   border-radius: var(--radio-chip);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
 }
@@ -134,16 +133,14 @@
 }
 
 .ajustes__estado dt {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
   color: var(--tinta-suave);
 }
 
 .ajustes__estado dd {
   margin: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
   color: var(--tinta);
@@ -220,7 +217,7 @@
   border-radius: 50%;
   background: var(--ideal-fondo);
   border: 1.5px solid var(--ideal);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-s);
   font-weight: 700;
   color: var(--verde-prof);

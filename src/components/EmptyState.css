@@ -28,8 +28,7 @@
 }
 
 .estado-vacio__titulo {
-  font-size: var(--texto-l);
-  font-weight: 700;
+  font-size: var(--mano-l);
   color: var(--tinta);
 }
 

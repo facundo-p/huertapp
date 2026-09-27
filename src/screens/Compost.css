@@ -19,10 +19,7 @@
 }
 
 .compost__titulo {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.1;
+  font-size: var(--mano-l);
   color: var(--tinta-alta);
 }
 
@@ -129,9 +126,9 @@
   display: grid;
   place-items: center;
   border-radius: var(--radio-chip);
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 600;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
   color: var(--papel);
 }
 
@@ -192,8 +189,8 @@
   place-items: center;
   min-height: var(--tap-min);
   border-radius: 11px;
-  font-family: var(--font-display);
-  font-size: 11px;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
   font-weight: 700;
   color: var(--tinta-media);
   text-decoration: none;
@@ -245,11 +242,9 @@
 }
 
 .compost__estado-rotulo {
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .es-llenando .compost__estado-marca {
@@ -284,11 +279,9 @@
 }
 
 .compost__poner-rotulo {
-  font-family: var(--font-display);
-  font-size: 10px;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--tinta-media);
 }
 
@@ -375,11 +368,9 @@
 }
 
 .compost__tabla-cabeza {
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .compost__tabla-cabeza .es-bien {
@@ -419,11 +410,9 @@
 }
 
 .compost__listo-sobre {
-  font-family: var(--font-display);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
+  font-weight: 700;
   /* el handoff lo pide en --sol, pero de noche el bloque invertido es claro
      y el ocre da 1,87:1: va en el color del papel, como el resto */
   color: var(--papel);
@@ -431,7 +420,7 @@
 
 .compost__listo-titulo {
   margin: 6px 0 var(--esp-3);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: 17px;
   font-weight: 600;
   line-height: 1.15;
@@ -503,11 +492,9 @@
 /* ── Ritmos de giro: filas regladas, el número a la izquierda ── */
 .compost__subtitulo {
   margin-top: var(--esp-2);
-  font-family: var(--font-display);
-  font-size: 11px;
+  font-family: var(--font-cuerpo);
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--tinta-suave);
 }
 
@@ -531,7 +518,7 @@
 
 .compost__ritmo-dias {
   padding-top: 2px;
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: 12px;
   font-weight: 800;
   line-height: 1.3;

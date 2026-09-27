@@ -33,7 +33,7 @@
 }
 
 .variedad__nombre {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   font-weight: 700;
   color: var(--verde-prof);
@@ -66,11 +66,9 @@
 
 .variedad__campo {
   flex: none;
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-xs);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--tinta-media);
 }
 

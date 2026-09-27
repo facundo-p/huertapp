@@ -56,7 +56,7 @@ export function BottomSheet({ abierto, onCerrar, titulo, sobretitulo, pie, child
         <div className="hoja__cabeza">
           <div className="hoja__textos">
             {sobretitulo && <p className="hoja__sobre">{sobretitulo}</p>}
-            <h2 className="hoja__titulo" id={idTitulo}>
+            <h2 className="hoja__titulo mano" id={idTitulo}>
               {titulo}
             </h2>
           </div>

@@ -72,7 +72,7 @@
 }
 
 .glosario__nombre {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-weight: 700;
   font-size: var(--texto-m);
 }
@@ -105,7 +105,7 @@
 }
 
 .termino__nombre {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-weight: 700;
   font-size: var(--texto-m);
   margin-bottom: var(--esp-1);
@@ -129,7 +129,7 @@
 }
 
 .termino__como-etiqueta {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-weight: 700;
   color: var(--verde-prof);
 }
@@ -148,7 +148,7 @@
   border-radius: var(--radio-s);
   border-left: 3px solid var(--verde-hoja);
   background: var(--ideal-fondo);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   font-weight: 700;
   line-height: 1.45;
@@ -262,7 +262,7 @@
   height: 30px;
   padding: 0 10px;
   border-radius: var(--radio-chip);
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-weight: 700;
   font-size: var(--texto-s);
 }
@@ -301,6 +301,6 @@
 }
 
 .glosario__postura strong {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   color: var(--verde-prof);
 }

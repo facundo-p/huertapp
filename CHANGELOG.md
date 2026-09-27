@@ -23,6 +23,16 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Cambiado
+
+- **La app se parece más a un cuaderno de huerta.** Los títulos de cada
+  pantalla y de cada sección van en letra manuscrita. Todo lo que se lee de
+  corrido va en una letra redonda, sin mayúsculas, y los rótulos más chicos
+  crecieron. El fondo es papel reciclado, muy leve: se ve de día sin que
+  ningún texto pierda contraste.
+- **La barra de abajo son pestañas de separador.** Cada sección tiene su
+  color, y la pestaña de donde estás se une a la página y lleva un subrayado.
+
 ## [2.4.0] — 2026-09-27
 
 ### Agregado

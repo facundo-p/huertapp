@@ -5,13 +5,25 @@ description: Construir una pantalla, un componente o una feature de UI. Usar cua
 
 # Construir UI acá
 
-La dirección estética está definida y probada: **«Cantero»**, en dos temas
-idénticos e intercambiables —`día` (papel claro) y `noche` (tierra oscura)—
-que solo cambian de color. Unbounded para títulos y rótulos, Manrope para el
-cuerpo. Ocre `--sol` como único acento de «acá estás» (pestaña activa, aguja de
-hoy, etapa actual, acción primaria). El handoff completo está en
-`docs/diseno/cantero/` y el prototipo en `cantero-referencia.html`. No la
-reinventes: extendela.
+La dirección estética está definida: **«Cuaderno»**, un cuaderno de huerta
+sobre la paleta de «Cantero», en dos temas idénticos e intercambiables —`día`
+(papel claro) y `noche` (tierra oscura)— que solo cambian de color. La
+especificación está en `docs/diseno/cuaderno/README.md` y el render en
+`cuaderno-referencia.html`. No la reinventes: extendela.
+
+- **Letra.** Caveat (`.mano`, `--mano-s/m/l/xl`: 21, 24, 28, 46) sólo en
+  títulos y rótulos de pocas palabras de 21 px para arriba. Todo lo que se lee
+  va en Nunito, en 16, 14 o 12. Nada en mayúsculas espaciadas y nada debajo
+  de 12.
+- **Papel.** La textura vive en `body::before`: de día ninguna mancha es más
+  oscura que `--papel`, de noche ninguna más clara (`e2e/textura.spec.ts`).
+  Los renglones (`--renglon`, cada `--renglon-alto`) sólo en las listas que
+  son «páginas», y ahí `--tinta-tenue`, `--verde-hoja` y `--sol-texto` no
+  pasan AA encima de la línea.
+- **Ocre `--sol` = atención:** «acá estás» (pestaña activa, día que leés,
+  etapa actual) y la banderita de algo para hacer. El post-it es papel
+  amarillo (`--postit`), no ocre. Lo que no puede transparentar va en
+  `--papel-opaco`.
 
 ## Las tres reglas de layout
 

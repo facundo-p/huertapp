@@ -25,7 +25,7 @@
 }
 
 .riego-escala__etiqueta {
-  font-family: var(--font-display);
+  font-family: var(--font-cuerpo);
   font-size: var(--texto-m);
   color: var(--tinta);
 }
