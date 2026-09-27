@@ -297,21 +297,6 @@
 }
 
 /* ---- Piezas que comparte con la nota de Para sembrar ---- */
-.lapiz {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: var(--tap-min);
-  padding-inline: var(--esp-4);
-  border: 1.75px solid var(--tinta-media);
-  border-radius: 20px 24px 18px 26px / 24px 18px 26px 20px;
-  background: var(--papel-opaco);
-  font-family: inherit;
-  font-size: var(--texto-s);
-  font-weight: 800;
-  color: var(--tinta);
-}
-
 .ver-todas {
   display: inline-flex;
   align-items: center;

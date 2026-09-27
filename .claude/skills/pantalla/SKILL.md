@@ -52,9 +52,9 @@ especificación está en `docs/diseno/cuaderno/README.md` y el render en
 - **Mirá si el componente ya existe:** `BottomSheet`, `EmptyState`, `Header`,
   `ChipHoja` (chip que abre hoja de radios), `FilaConfianza`, `DatoSection`,
   `AnilloAnual`, `GanttPlanta`, `TiraSemana` y `PaginaDia` (en `Semana.tsx`),
-  `CycleProgress`, `AltaPlanta`, `FuentesCompost`. El patrón de radios es
-  `.opciones` en `components/opciones.css`. Reusar mantiene la coherencia mejor
-  que cualquier guía.
+  `AltaPlanta`, `FuentesCompost`. El patrón de radios es `.opciones` en
+  `components/opciones.css`; el botón a lápiz, `.lapiz` en `screens.css`.
+  Reusar mantiene la coherencia mejor que cualquier guía.
 - **Botón de 44 con lo chico dibujado adentro.** Cuando el diseño pide un chip
   o un botón chico, el target sigue siendo 44: el `<button>` mide 44 y adentro
   se dibuja la píldora de 32 (`.chip-hoja`, `.fuente`) o la casilla de 26

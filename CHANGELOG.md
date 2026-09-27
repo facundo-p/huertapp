@@ -72,6 +72,12 @@ Qué significa cada parte en este proyecto:
 - **«Para sembrar ahora» es una nota al margen** entre hoy y mañana. «Ver todas
   en Explorar» abre Explorar con el filtro de lo que se siembra ahora ya
   prendido.
+- **La página de cada planta es una hoja del cuaderno.** El ciclo va en
+  casilleros: los que pasaron llevan su fecha y un tilde, y los que vienen
+  están punteados, con la fecha desde la que se esperan. Un «hoy» marca por
+  dónde andás. El diario va en renglones, con la fecha al margen; las fotos,
+  pegadas con cinta, y los trasplantes, las floraciones y las cosechas llevan
+  un sello.
 
 ### Arreglado
 

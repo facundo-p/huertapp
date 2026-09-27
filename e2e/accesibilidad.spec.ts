@@ -111,6 +111,20 @@ const PANTALLAS = [
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
     },
   },
+  // la de Los del cajón que quedó en el almácigo: el diario con fotos, sello y
+  // riego sobre los renglones, y el «hoy» en los casilleros
+  {
+    ruta: '/#/huerta',
+    nombre: 'Planta con diario',
+    entrar: async (page: Page) => {
+      await page
+        .locator('section.lugar', { has: page.getByRole('button', { name: /^Almaciguera del balcón/ }) })
+        .getByRole('link', { name: /Los del cajón/ })
+        .click()
+      // las fotos llegan de IndexedDB después de pintar
+      await page.getByRole('img', { name: 'Foto del diario' }).first().waitFor()
+    },
+  },
   // la compostera de la demo con el giro atrasado; se entra desde Mi huerta
   {
     ruta: '/#/huerta',
