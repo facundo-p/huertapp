@@ -225,7 +225,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
         <h2 className="ajustes__titulo mano">El pronóstico</h2>
         <p className="ajustes__bajada">
           Se pide para <strong>{ubicacion.etiqueta}</strong>, directo de tu teléfono a{' '}
-          {proveedor.nombre}. Lo ves en Hoy, con la semana y sus avisos.
+          {proveedor.nombre}. Lo ves en Esta semana: el cielo de cada día y sus avisos.
         </p>
         <div className="ajustes__botones">
           <button className="boton-secundario" onClick={() => setEligiendo(true)}>

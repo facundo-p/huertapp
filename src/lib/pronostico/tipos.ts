@@ -62,6 +62,22 @@ export interface AvisoClima {
   titulo: string
   detalle: string
   fuente: string
+  /** lo que da el pronóstico, para la línea corta de la lista: «dan 2 °C de mínima» */
+  linea: string
+  /** redondeado: la mínima en la helada, la máxima en el calor, los mm en la lluvia */
+  valor: number
+  /** qué hacer, corto, para el post-it; la lluvia no lleva: es un ahorro, no un peligro */
+  accion?: string
+  /** qué hacer, entero, a la vista en la página del día: el detalle sin el «Dan…» de la línea */
+  instruccion?: string
+}
+
+/** El resumen de arriba de «Esta semana»: uno por tipo, y lleva al primer día. */
+export interface Postit {
+  tipo: 'helada' | 'calor'
+  fecha: string
+  titulo: string
+  texto: string
 }
 
 export interface ProveedorClima {

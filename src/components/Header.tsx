@@ -9,12 +9,10 @@ interface Props {
   sobretitulo?: ReactNode
   /** pantalla de detalle: muestra flecha de volver y oculta accesos */
   volver?: boolean
-  /** dibujo decorativo al lado del título (ver `src/dibujos`) */
-  vineta?: ReactNode
   children?: ReactNode
 }
 
-export function Header({ titulo, sobretitulo, volver, vineta, children }: Props) {
+export function Header({ titulo, sobretitulo, volver, children }: Props) {
   const navegar = useNavigate()
   return (
     <header className="encabezado">
@@ -29,18 +27,22 @@ export function Header({ titulo, sobretitulo, volver, vineta, children }: Props)
       {/* se lee después del título y se ve abajo de todo (`order`): si
           comparte fila con los botones, un contador largo se parte en dos */}
       {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
-      {vineta && <span className="encabezado__vineta">{vineta}</span>}
-      {!volver && (
-        <div className="encabezado__acciones">
-          <Link to="/glosario" className="encabezado__boton" aria-label="Glosario de íconos">
-            <IconoGlosario size={22} />
-          </Link>
-          <Link to="/ajustes" className="encabezado__boton" aria-label="Ajustes">
-            <IconoAjustes size={22} />
-          </Link>
-        </div>
-      )}
+      {!volver && <Accesos />}
       {children}
     </header>
+  )
+}
+
+/** Glosario y Ajustes: también los usa Esta semana, que arma su propio encabezado. */
+export function Accesos() {
+  return (
+    <div className="encabezado__acciones">
+      <Link to="/glosario" className="encabezado__boton" aria-label="Glosario de íconos">
+        <IconoGlosario size={22} />
+      </Link>
+      <Link to="/ajustes" className="encabezado__boton" aria-label="Ajustes">
+        <IconoAjustes size={22} />
+      </Link>
+    </div>
   )
 }

@@ -36,6 +36,21 @@ Qué significa cada parte en este proyecto:
   Con la letra del teléfono agrandada, las cinco siguen en pantalla y nada
   queda tapado detrás de la barra: los rótulos se parten en dos líneas y, en
   las pantallas angostas, los más largos también a mitad de palabra.
+- **Esta semana se lee como un cuaderno, con una página por día.** Arriba queda
+  fija una tira con los siete días: tocá uno y vas a su página. Mientras bajás,
+  el círculo sigue al día que estás leyendo. Un día sin nada dice «Nada
+  anotado».
+- **Las tareas se tildan.** Tocás la casilla, el tilde queda un momento a la
+  vista y la tarea se va. El porqué, la fuente y «Más tarde» están plegados:
+  tocá el título para verlos. Lo que es instrucción queda siempre a la vista,
+  como qué tapar si hiela.
+- **Si el pronóstico trae helada o mucho calor, aparece un post-it arriba.**
+  Tocalo y te lleva a ese día. El post-it se queda hasta que pase.
+- **El tiempo de hoy va al lado de la fecha**, y el de los otros días, en el
+  título de su página. Tocalo para ver el detalle.
+- **«Para sembrar ahora» es una nota al margen** entre hoy y mañana. «Ver todas
+  en Explorar» abre Explorar con el filtro de lo que se siembra ahora ya
+  prendido.
 
 ### Arreglado
 

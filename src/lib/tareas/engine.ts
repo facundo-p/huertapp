@@ -1,6 +1,6 @@
 import type { ClimaDecada, EspecieEnriquecida, Zona } from '../data/types'
 import { estadoSiembra, metodoDelMes } from '../data/especies'
-import { decadaDe, mesDeDecada, nombreDecada, siguienteDecada } from '../fechas'
+import { decadaDe, dias, mesDeDecada, nombreDecada, siguienteDecada } from '../fechas'
 import { diasEntre, hoyISO, type Compostera, type Planta } from '../huerta/tipos'
 import { estimar, sumarDias } from '../huerta/estimar'
 import { germinacion, germinacionPendiente } from '../huerta/germinacion'
@@ -47,8 +47,10 @@ export interface Tarea {
   prioridad: number
   /** true si ya se pasó de tiempo */
   atrasada?: boolean
-  /** el detalle es la instrucción («cubrí de noche X»), no el porqué: no se pliega */
-  instruccion?: true
+  /** qué hacer, a la vista («Cubrí de noche X…»): con esto, el detalle no se pliega aparte */
+  instruccion?: string
+  /** el tiempo, para la línea corta de la lista: «se pasó por 12 días», «sembrada hace 31 días» */
+  linea?: string
   /** día en que cae (ISO corta). Lo atrasado y lo en ventana caen hoy. */
   fecha: string
 }
@@ -64,17 +66,21 @@ export const ESTADO_VACIO: EstadoTarea = { completadas: {}, pospuestas: {} }
 
 const conf = (n: number) => `confianza ${n}/10`
 
+const sembradaHace = (sembrada: string, hoy: string) => {
+  const n = diasEntre(sembrada, hoy)
+  return n === 0 ? 'sembrada hoy' : `sembrada hace ${dias(n)}`
+}
+
 /**
  * La corrección por germinación va pegada al dato de la ficha, no lo reemplaza:
  * la ficha dice lo que dice y esto es lo que le pasó a TU planta.
  */
-const corrido = (dias: number) => {
-  if (dias === 0) return ''
-  const n = Math.abs(dias)
-  const cuantos = `${n} ${n === 1 ? 'día' : 'días'}`
+const corrido = (corrimiento: number) => {
+  if (corrimiento === 0) return ''
+  const cuantos = dias(Math.abs(corrimiento))
   // Corto a propósito: el porqué entero está en la ficha de la planta, y acá
   // esta línea ya venía en dos renglones de itálica chica.
-  return dias > 0 ? ` · corrido ${cuantos} porque asomó tarde` : ` · adelantado ${cuantos} porque asomó antes`
+  return corrimiento > 0 ? ` · corrido ${cuantos} porque asomó tarde` : ` · adelantado ${cuantos} porque asomó antes`
 }
 
 export interface EntradaMotor {
@@ -136,6 +142,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
         fuente: `según la ficha: germina en ${e.dias_germinacion!.min}-${e.dias_germinacion!.max} días · ${conf(e.germinacion.confianza)}`,
         prioridad: 2,
         atrasada: true,
+        linea: `se pasó por ${dias(g.diasDeMas)}`,
       })
     }
 
@@ -149,6 +156,9 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
     if (!germinacionPendiente(g) && p.etapa === 'almacigo' && est.trasplante?.enVentana) {
       const riesgo = clima[decada - 1]?.helada ?? 0
       const peligroso = e.temperaturas.helada === 'muere' && riesgo >= 0.2
+      const detalle = peligroso
+        ? `Está en edad, pero todavía hay ${Math.round(riesgo * 100)} % de probabilidad de helada y no la banca. Si podés, esperá o cubrila de noche.`
+        : `Ya tiene edad de pasar a su lugar definitivo. ${e.transplante.signos_listo}`
       tareas.push({
         id: `trasplantar:${p.id}`,
         fecha: hoy,
@@ -156,12 +166,11 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
         plantaId: p.id,
         slug: e.slug,
         titulo: `${nombre}: hora de trasplantar`,
-        detalle: peligroso
-          ? `Está en edad, pero todavía hay ${Math.round(riesgo * 100)} % de probabilidad de helada y no la banca. Si podés, esperá o cubrila de noche.`
-          : `Ya tiene edad de pasar a su lugar definitivo. ${e.transplante.signos_listo}`,
+        detalle,
         fuente: `según la ficha: ${e.dias_a_trasplante!.min}-${e.dias_a_trasplante!.max} días desde la siembra · ${conf(e.transplante.confianza)}${corrido(est.corrimiento)}`,
         prioridad: peligroso ? 3 : 1,
-        ...(peligroso && { instruccion: true as const }),
+        linea: sembradaHace(p.sembrada, hoy),
+        ...(peligroso && { instruccion: detalle }),
       })
     }
 
@@ -181,6 +190,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
         detalle: e.cosecha.indicadores_listo,
         fuente: `según la ficha: ${e.dias_a_cosecha!.min}-${e.dias_a_cosecha!.max} días desde la siembra · ${conf(e.cosecha.confianza)}${corrido(est.corrimiento)}`,
         prioridad: 2,
+        linea: sembradaHace(p.sembrada, hoy),
       })
     }
   }
@@ -194,15 +204,18 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
       const nombres = [
         ...new Set(expuestas.map((p) => (p.apodo || porSlug.get(p.slug)!.nombre_comun).toLowerCase())),
       ].slice(0, 3)
+      const pct = Math.round(riesgo * 100)
+      const instruccion = `Cubrí de noche ${nombres.join(', ')}${expuestas.length > 3 ? ' y las demás' : ''}: la helada las mata.`
       tareas.push({
         id: `helada:${nombreDecada(siguienteDecada(decada))}`,
         fecha: hoy,
         tipo: 'helada',
         titulo: 'Puede helar',
-        detalle: `Todavía hay ${Math.round(riesgo * 100)} % de probabilidad de helada. Cubrí de noche ${nombres.join(', ')}${expuestas.length > 3 ? ' y las demás' : ''}: la helada las mata.`,
+        detalle: `Todavía hay ${pct} % de probabilidad de helada. ${instruccion}`,
         fuente: 'estadística de heladas del AMBA (FAUBA, umbral de 3 °C) para tu zona',
         prioridad: 0,
-        instruccion: true,
+        instruccion,
+        linea: `${pct} % de probabilidad de helada`,
       })
     }
   }

@@ -76,7 +76,7 @@ test('sin internet la app abre entera: pantallas, catálogo y calendario', async
   await expect(page.getByRole('heading', { name: 'Para sembrar ahora' })).toBeVisible()
 
   // el catálogo va en un chunk aparte: el caso más fácil de olvidar
-  await page.getByRole('link', { name: 'Explorar' }).click()
+  await page.getByRole('link', { name: 'Explorar', exact: true }).click()
   await expect(page.getByPlaceholder(/Buscar/)).toBeVisible()
   await expect(page.getByText('Tomate', { exact: true })).toBeVisible()
 

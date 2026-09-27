@@ -33,12 +33,12 @@ import {
   IconoTempCalida,
   IconoTempFria,
   IconoTempTemplada,
-  IconoPuntos,
   IconoCompost,
   IconoTacho,
   IconoTermo,
   IconoCheck,
   IconoCruz,
+  IconoMas,
   IconoConfianza,
   IconoCosechar,
   IconoCuidado,
@@ -87,10 +87,10 @@ const ACCIONES: Item[] = [
   { Icono: IconoDesplegar, nombre: 'Desplegar', desc: 'Abre lo que está plegado. Girado, ya está abierto.' },
   { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
   { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
-  { Icono: IconoPuntos, nombre: 'Más opciones', desc: 'Lo que una fila también permite hacer, como posponer.' },
   { Icono: IconoCompost, nombre: 'Compost', desc: 'La guía de compostaje, y la tarea de revolver tu compostera.' },
   { Icono: IconoTacho, nombre: 'Tacho', desc: 'Compostera cerrada, de balcón o patio.' },
   { Icono: IconoTermo, nombre: 'Temperatura', desc: 'La pila que calienta: señal de que trabaja.' },
+  { Icono: IconoMas, nombre: 'Sumar', desc: 'Llevar algo que se puede sembrar ahora a tu huerta.' },
   { Icono: IconoCheck, nombre: 'Se cumple', desc: 'Una señal que está.' },
   { Icono: IconoCruz, nombre: 'No va', desc: 'Lo que no se composta.' },
 ]
@@ -380,8 +380,8 @@ export function Glosario() {
 
         <Seccion id="tiempo" titulo="El tiempo de la semana" retraso={0.17}>
           <p className="glosario__intro">
-            Si activaste el pronóstico en Ajustes, Hoy muestra la semana con
-            estos íconos.
+            Si activaste el pronóstico en Ajustes, Esta semana muestra el tiempo
+            de cada día con estos íconos.
           </p>
           <ul className="glosario__lista">
             {Object.entries(CIELOS).map(([c, info]) => (

@@ -275,6 +275,7 @@ describe('las coordenadas por zona', () => {
 
 import {
   derivarAvisos,
+  postits,
   frescura,
   recortarPasados,
   suprimirHeladaEstadistica,
@@ -358,8 +359,8 @@ describe('derivarAvisos', () => {
   })
 
   it('varios días con helada: un aviso por día, cada uno en su fecha', () => {
-    // el carril ubica cada aviso en su fila: comprimirlos en «se repite el
-    // sábado» dejaba el sábado vacío con helada
+    // cada aviso va en la página de su día: comprimirlos en «se repite el
+    // sábado» dejaba el sábado sin helada
     const avisos = derivarAvisos(
       pron([dia('2026-08-28', { min: 2 }), dia('2026-08-30', { min: 1 })]),
       HOY,
@@ -407,6 +408,85 @@ describe('derivarAvisos', () => {
       HOY,
     )
     expect(avisos.map((a) => a.tipo)).toEqual(['helada', 'calor', 'lluvia'])
+  })
+})
+
+describe('la línea corta de cada aviso', () => {
+  it('dice sólo lo que da el pronóstico: el día ya lo dice la fila', () => {
+    const avisos = derivarAvisos(
+      pron([dia('2026-08-28', { min: 1.6, max: 33.4 }), dia('2026-08-29', { probLluvia: 80, lluviaMm: 12.4 })]),
+      HOY,
+    )
+    expect(avisos.map((a) => a.linea)).toEqual([
+      'dan 2 °C de mínima',
+      'dan 33 °C de máxima',
+      'dan 12 mm, con 80 % de probabilidad',
+    ])
+    expect(avisos.map((a) => a.valor)).toEqual([2, 33, 12])
+  })
+
+  it('la lluvia no trae acción: es un ahorro, no algo de qué cuidarse', () => {
+    const [a] = derivarAvisos(pron([dia('2026-08-28', { probLluvia: 80, lluviaMm: 12 })]), HOY)
+    expect(a.accion).toBeUndefined()
+    expect(a.instruccion).toBeUndefined()
+  })
+
+  it('la instrucción es el detalle sin el «Dan…»: la línea ya lo dice', () => {
+    const avisos = derivarAvisos(pron([dia('2026-08-28', { min: 2, max: 33 })]), HOY, ['el tomate'])
+    expect(avisos.map((a) => a.instruccion)).toEqual([
+      'Tapá de noche el tomate: la helada las mata.',
+      'Regá temprano, y fijate a la tardecita si la tierra pide otra pasada.',
+    ])
+    for (const a of avisos) expect(a.detalle).toBe(`${a.linea.replace(/^dan/, 'Dan').replace(/ de máxima$/, '')}. ${a.instruccion}`)
+  })
+})
+
+describe('postits', () => {
+  it('una helada: el título dice cuándo y el texto cuánto y qué hacer', () => {
+    const avisos = derivarAvisos(pron([dia('2026-08-28', { min: 2 })]), HOY, ['el tomate'])
+    expect(postits(avisos, HOY)).toEqual([
+      {
+        tipo: 'helada',
+        fecha: '2026-08-28',
+        titulo: 'Puede helar el viernes',
+        texto: 'Dan 2 °C. Tapá de noche el tomate.',
+      },
+    ])
+  })
+
+  it('dos heladas van en un solo post-it, que lleva al primer día', () => {
+    const avisos = derivarAvisos(
+      pron([dia('2026-08-30', { min: 1 }), dia('2026-08-29', { min: 2 })]),
+      HOY,
+      ['el tomate', 'la albahaca'],
+    )
+    const [p] = postits(avisos, HOY)
+    expect(p.fecha).toBe('2026-08-29')
+    expect(p.titulo).toBe('Puede helar el sábado y el domingo')
+    expect(p.texto).toBe('Dan 2 °C y 1 °C. Tapá de noche el tomate y la albahaca.')
+  })
+
+  it('la helada de hoy dice «hoy»', () => {
+    const avisos = derivarAvisos(pron([dia(HOY, { min: 2 })]), HOY)
+    expect(postits(avisos, HOY)[0].titulo).toBe('Puede helar hoy')
+  })
+
+  it('helada antes que calor, y la lluvia no lleva post-it', () => {
+    const avisos = derivarAvisos(
+      pron([
+        dia('2026-08-28', { max: 34, probLluvia: 90, lluviaMm: 20 }),
+        dia('2026-08-30', { min: 2 }),
+      ]),
+      HOY,
+    )
+    const ps = postits(avisos, HOY)
+    expect(ps.map((p) => p.tipo)).toEqual(['helada', 'calor'])
+    expect(ps[1]).toMatchObject({ titulo: 'Mucho calor el viernes', texto: 'Dan 34 °C. Regá temprano.' })
+  })
+
+  it('una semana sin peligro no pega ninguno', () => {
+    const avisos = derivarAvisos(pron([dia('2026-08-28', { probLluvia: 90, lluviaMm: 20 })]), HOY)
+    expect(postits(avisos, HOY)).toEqual([])
   })
 })
 

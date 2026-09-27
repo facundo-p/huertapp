@@ -1,167 +1,182 @@
-.hoy__seccion {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3);
-}
-
-.hoy__bajada {
-  font-size: var(--texto-s);
-  color: var(--tinta-suave);
-}
-
-/* La helada de la semana, además de en su día, arriba de todo: tinte a
-   sangre, sin borde ni radio. */
-.hoy__destacado {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--esp-3);
-  margin: 0 calc(-1 * var(--esp-4));
-  padding: var(--esp-3) var(--esp-4);
-  background: var(--sol-velo);
-}
-
-.hoy__destacado-icono {
-  flex: none;
-  margin-top: 2px;
-  color: var(--terracota-texto);
-}
-
-.hoy__destacado-titulo {
-  margin: 0;
-  font-family: var(--font-cuerpo);
-  font-size: var(--texto-m);
-  font-weight: 700;
-  color: var(--tinta-alta);
-}
-
-.hoy__destacado-detalle {
-  margin: 3px 0 0;
-  font-size: var(--texto-s);
-  line-height: 1.45;
-  color: var(--tinta-media);
-}
-
-.hoy__destacado-fuente {
-  margin: 3px 0 0;
-  font-size: 10px;
-  font-style: italic;
-  /* sobre el tinte, la tinta tenue baja de AA: un escalón más */
-  color: var(--tinta-suave);
-}
-
-/* ---- Sembrá ahora: lista reglada, no carrusel ---- */
-.sembrar {
-  list-style: none;
-  margin: 0 calc(-1 * var(--esp-4));
-  padding: 0;
-}
-
-.sembrar__fila {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-  padding: 0 var(--esp-4);
-  border-top: 1px solid var(--linea);
-}
-
-.sembrar__fila:last-child {
-  border-bottom: 1px solid var(--linea);
-}
-
-.sembrar__link {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-3);
-  flex: 1;
-  min-width: 0;
-  min-height: 56px;
-  padding: var(--esp-2) 0;
-  text-decoration: none;
-  color: inherit;
-}
-
-.sembrar__icono {
+/* ---- Encabezado: la fecha a mano, el cielo de hoy y los post-its ---- */
+.hoy-cab {
   display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  flex: none;
-  border-radius: var(--radio-s);
-  background: var(--papel-hundido);
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: start;
+  padding: calc(22px + env(safe-area-inset-top)) 18px 6px 22px;
 }
 
-.sembrar__textos {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
+.hoy-cab__fecha {
+  display: grid;
 }
 
-.sembrar__nombre {
-  font-family: var(--font-cuerpo);
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--tinta-alta);
+.hoy-cab__dia {
+  font-size: var(--mano-xl);
+  line-height: 0.95;
 }
 
-.sembrar__ventana {
-  font-size: 11px;
+.hoy-cab__mes {
+  font-size: var(--mano-l);
+  line-height: 1.1;
   color: var(--tinta-suave);
 }
 
-.sembrar__ventana.es-cierra {
-  font-weight: 700;
-  color: var(--terracota-texto);
-}
-
-.sembrar__metodo {
-  display: inline-flex;
+.clima {
+  display: flex;
   align-items: center;
-  gap: 4px;
-  margin-left: var(--esp-2);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--terracota-texto);
+  gap: 6px;
+  margin-top: 10px;
+  font-size: var(--texto-s);
+  line-height: 1.4;
+  color: var(--tinta-suave);
 }
 
-.sembrar__sumar {
-  display: grid;
-  place-items: center;
-  flex: none;
-  min-width: var(--tap-min);
+button.clima {
   min-height: var(--tap-min);
+  margin-top: 0;
   font-family: inherit;
-}
-
-.sembrar__sumar .carril__pildora {
-  border-color: var(--verde-prof);
-  color: var(--verde-prof);
-}
-
-/* ---- menú de la fila ---- */
-.hoja__opcion {
-  display: block;
-  width: 100%;
-  min-height: 52px;
-  padding: 0 var(--esp-3);
-  border-radius: var(--radio-tarjeta);
-  background: var(--papel-hundido);
-  font-family: var(--font-cuerpo);
-  font-size: var(--texto-s);
-  font-weight: 700;
-  color: var(--tinta);
+  font-variant-numeric: tabular-nums;
   text-align: left;
 }
 
-.hoja__opcion + .hoja__opcion {
-  margin-top: var(--esp-2);
+.clima > span[aria-hidden] {
+  display: grid;
+  flex: none;
 }
 
-.hoja__opcion small {
+.hoy-cab__lado {
+  display: grid;
+  justify-items: end;
+  gap: var(--esp-2);
+}
+
+/* ---- Post-it: lo único destacado de la semana ---- */
+.pila {
+  display: grid;
+  isolation: isolate;
+}
+
+.postit {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  /* a 340 px, 150 le dejaba a la fecha menos que «Jueves» */
+  width: min(150px, 38vw);
+  margin-top: 6px;
+  padding: 16px 12px 14px 14px;
+  border-radius: 2px 2px 16px 2px;
+  background: var(--postit);
+  box-shadow: var(--sombra-postit);
+  color: var(--sobre-postit);
+  font-family: inherit;
+  text-align: left;
+  transform: rotate(2.4deg);
+}
+
+.postit::before {
+  content: '';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  width: 58px;
+  height: 18px;
+  transform: translateX(-50%) rotate(-4deg);
+  background: var(--cinta);
+}
+
+.postit__titulo {
+  font-size: var(--mano-m);
+  line-height: 1;
+}
+
+.postit__texto {
+  font-size: var(--texto-s);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--sobre-postit-suave);
+}
+
+/* el de abajo asoma con su título: sigue siendo un botón de 44 px o más */
+.pila .postit + .postit {
+  z-index: -1;
+  margin-top: -24px;
+  padding-top: 32px;
+  transform: rotate(3deg);
+}
+
+/* margin y no padding: el padding corre la trama y el renglón cruza las letras */
+.pagina--hoy {
+  margin-top: 12px;
+}
+
+/* ---- Para sembrar ahora: una nota en el margen, entre hoy y mañana ---- */
+.nota-margen {
+  margin: 20px 18px 10px 64px;
+  padding: 10px 6px 6px 14px;
+  border: 1.75px dashed var(--linea-fuerte);
+  border-radius: 6px;
+  background: var(--papel-opaco);
+  transform: rotate(-0.7deg);
+}
+
+.nota-margen__titulo {
+  font-size: var(--mano-m);
+  line-height: 1.1;
+}
+
+.sembrar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sembrar li {
+  display: grid;
+  grid-template-columns: 1fr 44px;
+  align-items: center;
+  min-height: 48px;
+}
+
+.sembrar__link {
   display: block;
-  margin-top: 2px;
-  font-family: var(--font-cuerpo);
-  font-size: 11px;
-  font-weight: 400;
+  padding-block: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sembrar__nombre {
+  display: block;
+  font-size: var(--texto-m);
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.sembrar__meta {
+  display: block;
+  font-size: var(--texto-s);
+  line-height: 1.3;
   color: var(--tinta-suave);
+}
+
+/* terracota: que se cierre es urgencia, no atención */
+.sembrar__meta b {
+  font-weight: 800;
+  color: var(--terracota-texto);
+}
+
+.mas {
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  color: var(--verde-prof);
+}
+
+.hoy__pie {
+  padding: var(--renglon-alto) var(--esp-4) 0 64px;
+  font-size: var(--texto-s);
+  line-height: var(--renglon-alto);
+  color: var(--tinta-suave);
+  text-wrap: pretty;
 }
