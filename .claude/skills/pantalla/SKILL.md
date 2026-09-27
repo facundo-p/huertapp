@@ -23,7 +23,8 @@ especificación está en `docs/diseno/cuaderno/README.md` y el render en
   `--conf-alta/media/sin` (día); ni `--terracota-texto`, `--peligro` y
   `--conf-baja` (noche).
 - **Ocre `--sol` = atención:** «acá estás» (pestaña activa, día que leés,
-  etapa actual) y la banderita de algo para hacer. El post-it es papel
+  etapa actual) y la banderita de algo para hacer. Fuera de eso sólo tiñe la
+  pestaña de «Esta semana», porque cada sección tiene la suya. El post-it es papel
   amarillo (`--postit`), no ocre. Lo que no puede transparentar va en
   `--papel-opaco`.
 

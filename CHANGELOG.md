@@ -37,6 +37,13 @@ Qué significa cada parte en este proyecto:
   queda tapado detrás de la barra: los rótulos se parten en dos líneas y, en
   las pantallas angostas, los más largos también a mitad de palabra.
 
+### Arreglado
+
+- **El nombre de una especie larga ya no se sale de la pantalla**, como
+  «Tomate indeterminado» en un teléfono angosto o con la letra agrandada: se
+  corta la palabra. Con la letra al doble, la cabecera de cada dato de la
+  ficha tampoco se sale.
+
 ## [2.4.0] — 2026-09-27
 
 ### Agregado

@@ -463,9 +463,9 @@ for (const [ancho, letra] of [
 ] as const) {
   test(`las cinco pestañas entran · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
     await page.setViewportSize({ width: ancho, height: 844 })
-    await page.goto('/#/hoy')
-    await page.addStyleTag({ content: `html { font-size: ${letra}% }` })
-    await page.evaluate(() => document.fonts.ready)
+    await abrir(page, '/#/hoy', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+    })
     // en px fijos el rótulo no crecía, y la letra agrandada no llegaba a la barra
     const tamano = await page
       .locator('.tabbar__etiqueta')
@@ -489,6 +489,7 @@ for (const [ancho, letra] of [
       expect(caja.izq, `${nombre}: se sale por la izquierda`).toBeGreaterThanOrEqual(0)
       expect(caja.der, `${nombre}: se sale por la derecha`).toBeLessThanOrEqual(ancho)
       expect(caja.abajo, `${nombre}: se sale por abajo`).toBeLessThanOrEqual(844)
+      expect(caja.der - caja.izq, `${nombre}: menos de 44 px para el dedo`).toBeGreaterThanOrEqual(44)
       expect(rotulo.izq, `${nombre}: el rótulo se sale de su pestaña`).toBeGreaterThanOrEqual(caja.izq - 0.5)
       expect(rotulo.der, `${nombre}: el rótulo se sale de su pestaña`).toBeLessThanOrEqual(caja.der + 0.5)
       expect(rotulo.abajo, `${nombre}: el rótulo se sale por abajo de su pestaña`).toBeLessThanOrEqual(caja.abajo + 0.5)
@@ -508,9 +509,9 @@ for (const [ancho, letra] of [
   test(`nada queda detrás de la barra · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
     await page.setViewportSize({ width: ancho, height: 844 })
     for (const ruta of ['/#/hoy', '/#/explorar', '/#/calendario', '/#/compost', '/#/huerta']) {
-      await page.goto(ruta)
-      await page.addStyleTag({ content: `html { font-size: ${letra}% }` })
-      await page.evaluate(() => document.fonts.ready)
+      await abrir(page, ruta, async (p) => {
+        await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      })
       // dos cuadros: el que mide la barra y el que repinta el pie de la pantalla
       await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
       await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
@@ -528,3 +529,54 @@ for (const [ancho, letra] of [
     }
   })
 }
+
+/**
+ * El título de una ficha crece con la letra. Sin corte de palabra, a 390 px y
+ * 150 % «Tomate indeterminado» se salía y la página scrolleaba de costado.
+ */
+for (const [ancho, letra] of [
+  [360, 130],
+  [390, 150],
+  [320, 200],
+] as const) {
+  test(`el título de una ficha no se sale · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await abrir(page, '/#/explorar/tomate-indeterminado', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+    })
+    const { titulo, pagina } = await page.evaluate(() => ({
+      titulo: document.querySelector('.encabezado__titulo')!.getBoundingClientRect().right,
+      pagina: document.documentElement.scrollWidth,
+    }))
+    expect(titulo, 'el título se sale por la derecha').toBeLessThanOrEqual(ancho)
+    expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(ancho)
+  })
+}
+
+/**
+ * La zona segura de abajo cambia sin que cambie el ancho (Safari al esconder
+ * su barra, Android de borde a borde), y lo que mide la barra tiene que
+ * seguirla. Mirando sólo el contenido, --tab-ocupa se quedaba en 72 con la
+ * barra en 93.
+ */
+test('lo que ocupa la barra sigue a la zona segura', async ({ page }) => {
+  await abrir(page, '/#/hoy')
+  const cdp = await page.context().newCDPSession(page)
+  const medir = () =>
+    page.evaluate(() => ({
+      barra: document.querySelector<HTMLElement>('.tabbar')!.offsetHeight,
+      ocupa: parseFloat(document.documentElement.style.getPropertyValue('--tab-ocupa')),
+    }))
+  const sinZona = (await medir()).barra
+  for (const bottom of [34, 0]) {
+    await cdp.send('Emulation.setSafeAreaInsetsOverride', { insets: { bottom, bottomMax: bottom } })
+    await expect.poll(async () => (await medir()).barra).toBe(bottom ? sinZona + bottom - 13 : sinZona)
+    // el observador contesta en el cuadro siguiente
+    await expect
+      .poll(async () => {
+        const { barra, ocupa } = await medir()
+        return ocupa - barra
+      }, { message: `con ${bottom} px de zona segura` })
+      .toBe(0)
+  }
+})

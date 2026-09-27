@@ -12,6 +12,8 @@
 
 .dato__cabeza {
   display: flex;
+  /* con la letra al 200 % la confianza baja de renglón en vez de salirse */
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--esp-2);
 }

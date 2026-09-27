@@ -11,7 +11,7 @@
   min-width: 0;
 }
 
-/* «fines de septiembre · Conurbano» */
+/* la década viene en minúscula («fines de septiembre») para ir a mitad de frase */
 .encabezado__sobre::first-letter {
   text-transform: uppercase;
 }
@@ -28,11 +28,13 @@
   font-size: var(--mano-xl);
   line-height: 0.95;
   text-wrap: balance;
+  /* crece con la letra: «indeterminado» se corta antes que salirse de la pantalla */
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
-/* Adorno: es lo primero que cede si el título crece. --tinta-apagada es el
-   token decorativo, el mismo de los ejes del anillo. Un título más largo que
-   «La semana» no lleva viñeta: no queda lugar al lado de los dos botones. */
+/* Adorno, en --tinta-apagada (el token decorativo). Sólo entra al lado de un
+   título corto como «La semana»: uno más largo no lleva viñeta. */
 .encabezado__vineta {
   display: flex;
   flex: 0 1 auto;

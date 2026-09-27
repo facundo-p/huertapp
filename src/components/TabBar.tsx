@@ -24,7 +24,8 @@ export function TabBar() {
     const raiz = document.documentElement
     const medir = () => raiz.style.setProperty('--tab-ocupa', `${barra.offsetHeight}px`)
     const observador = new ResizeObserver(medir)
-    observador.observe(barra)
+    // border-box: la zona segura va en el padding, y cambia sin que cambie el contenido
+    observador.observe(barra, { box: 'border-box' })
     medir()
     return () => {
       observador.disconnect()
