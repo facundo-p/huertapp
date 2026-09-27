@@ -2,9 +2,10 @@ import { useId, useState, type ComponentType, type ReactNode, type Ref } from 'r
 import { Link } from 'react-router'
 import { CIELOS, IconoCalor, IconoDesplegar, IconoEscarcha, IconoGota, IconoHoja, type IconProps } from '../icons'
 import type { Tarea } from '../lib/tareas/engine'
+import { DIAS_POSPONER } from '../lib/tareas/estado'
 import type { AvisoClima, DiaPronostico, TipoAviso } from '../lib/pronostico/tipos'
 import { puntosConfianza } from '../lib/data/confianza'
-import { nombreDia, numeroDia, siglaDia } from '../lib/fechas'
+import { dias, mayus, nombreDia, numeroDia, siglaDia } from '../lib/fechas'
 import './Semana.css'
 
 /** Un día de la semana, con lo que toca y el cielo si hay pronóstico. */
@@ -22,7 +23,6 @@ const AVISO: Record<TipoAviso, { Icono: ComponentType<IconProps>; color: string 
   calor: { Icono: IconoCalor, color: 'var(--sol-texto)' },
 }
 
-const mayus = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 const grados = (d: DiaPronostico) => `${Math.round(d.max)}° · ${Math.round(d.min)}°`
 
 /** «Viernes 25»; hoy, «Para hoy». */
@@ -124,6 +124,8 @@ export function TiraSemana({
 export interface AccionesTarea {
   /** dónde crece la planta o, si otra tarea se llama igual, lo que las separa */
   dondeDe: (t: Tarea) => string | undefined
+  /** el tiempo de la tarea, si `dondeDe` no lo dijo ya */
+  lineaDe: (t: Tarea) => string | undefined
   /** la de germinación se tilda con «Asomó», que escribe `germino` */
   conAsomo: (t: Tarea) => boolean
   marcadas: ReadonlySet<string>
@@ -263,10 +265,11 @@ function ItemAviso({ aviso: a }: { aviso: AvisoClima }) {
 }
 
 function ItemTarea({ tarea: t, acciones }: { tarea: Tarea; acciones: AccionesTarea }) {
-  const { dondeDe, conAsomo, marcadas, onMarcar, onPosponer } = acciones
+  const { dondeDe, lineaDe, conAsomo, marcadas, onMarcar, onPosponer } = acciones
   const donde = dondeDe(t)
   const asomo = conAsomo(t)
   const marcada = marcadas.has(t.id)
+  const aviso = useId()
   // dos casillas seguidas no dicen de qué tarea es cada una
   const deCual = donde ? `${t.titulo}, ${donde}` : t.titulo
   // sin planta lo que la separa es el día, y ya está en el título de la página
@@ -278,7 +281,7 @@ function ItemTarea({ tarea: t, acciones }: { tarea: Tarea; acciones: AccionesTar
       </span>
     ),
     lugar,
-    t.linea,
+    lineaDe(t),
   ].filter(Boolean)
   const linea = partes.length ? partes.flatMap((p, i) => (i ? [' · ', p] : [p])) : undefined
   const ver = t.plantaId
@@ -309,7 +312,12 @@ function ItemTarea({ tarea: t, acciones }: { tarea: Tarea; acciones: AccionesTar
         <Fuente texto={t.fuente} />
         <div className="tarea__botones">
           {/* no se saca: es la válvula de escape de una app que manda */}
-          <button type="button" className="lapiz" onClick={(e) => onPosponer(t, e.currentTarget)}>
+          <button
+            type="button"
+            className="lapiz"
+            aria-describedby={aviso}
+            onClick={(e) => onPosponer(t, e.currentTarget)}
+          >
             {asomo ? 'Todavía no asomó' : 'Más tarde'}
             <span className="sr-solo">: {deCual}</span>
           </button>
@@ -320,6 +328,12 @@ function ItemTarea({ tarea: t, acciones }: { tarea: Tarea; acciones: AccionesTar
             </Link>
           )}
         </div>
+        {/* antes de tocar: si no, posponer se siente como borrar */}
+        <p className="tarea__pospone" id={aviso}>
+          {asomo
+            ? `Te vuelvo a preguntar en ${dias(DIAS_POSPONER)}.`
+            : `La esconde ${dias(DIAS_POSPONER)}; después vuelve sola.`}
+        </p>
       </Plegable>
     </li>
   )

@@ -5,13 +5,17 @@ export function mesDe(fecha: Date): Mes {
   return (fecha.getMonth() + 1) as Mes
 }
 
+/** «viernes» → «Viernes» */
+export const mayus = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1)
+
 export function fechaLarga(fecha: Date): string {
-  const texto = new Intl.DateTimeFormat('es-AR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  }).format(fecha)
-  return texto.charAt(0).toUpperCase() + texto.slice(1)
+  return mayus(
+    new Intl.DateTimeFormat('es-AR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    }).format(fecha),
+  )
 }
 
 export const NOMBRES_MES = [

@@ -427,10 +427,40 @@ describe('la línea corta de cada tarea', () => {
     expect(t.find((x) => x.tipo === 'revisar_germinacion')!.linea).toBe('se pasó por 10 días')
   })
 
-  it('trasplantar y cosechar dicen cuándo se sembró, en singular si es uno', () => {
+  it('la germinación, en singular si se pasó por uno', () => {
+    // tomate: germina en 6-10 días
+    const t = motor([planta({ slug: 'tomate', sembrada: sumarDias(HOY, -11), etapa: 'almacigo' })])
+    expect(t.find((x) => x.tipo === 'revisar_germinacion')!.linea).toBe('se pasó por 1 día')
+  })
+
+  it('trasplantar y cosechar dicen cuándo se sembró, con la marca de que es la siembra', () => {
     const p = planta({ slug: 'tomate', sembrada: sumarDias(HOY, -35), etapa: 'almacigo', germino: sumarDias(HOY, -27) })
-    expect(motor([p]).find((x) => x.tipo === 'trasplantar')!.linea).toBe('sembrada hace 35 días')
+    const t = motor([p]).find((x) => x.tipo === 'trasplantar')!
+    expect(t.linea).toBe('sembrada hace 35 días')
+    expect(t.lineaEsSiembra).toBe(true)
     const r = planta({ slug: 'rucula', sembrada: sumarDias(HOY, -40), germino: sumarDias(HOY, -34) })
-    expect(motor([r]).find((x) => x.tipo === 'cosechar')!.linea).toBe('sembrada hace 40 días')
+    const c = motor([r]).find((x) => x.tipo === 'cosechar')!
+    expect(c.linea).toBe('sembrada hace 40 días')
+    expect(c.lineaEsSiembra).toBe(true)
+  })
+
+  // ninguna ficha cosecha tan rápido: una de prueba, con la cosecha desde el día 0
+  it('la siembra en singular si fue ayer, y «hoy» si fue hoy', () => {
+    const rucula = porSlug.get('rucula')!
+    const deUnDia = new Map([['rucula', { ...rucula, dias_a_cosecha: { min: 0, max: 30 } }]])
+    const linea = (hace: number) =>
+      derivarTareas({
+        plantas: [planta({ slug: 'rucula', sembrada: sumarDias(HOY, -hace) })],
+        porSlug: deUnDia,
+        clima: clima.conurbano,
+        hoy: HOY,
+      }).find((x) => x.tipo === 'cosechar')!.linea
+    expect(linea(1)).toBe('sembrada hace 1 día')
+    expect(linea(0)).toBe('sembrada hoy')
+  })
+
+  it('la germinación no marca su línea como siembra', () => {
+    const t = motor([planta({ slug: 'tomate', sembrada: sumarDias(HOY, -20), etapa: 'almacigo' })])
+    expect(t.find((x) => x.tipo === 'revisar_germinacion')!.lineaEsSiembra).toBeUndefined()
   })
 })

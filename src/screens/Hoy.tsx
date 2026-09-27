@@ -8,7 +8,7 @@ import { HojaDia } from '../components/HojaDia'
 import { PaginaDia, TiraSemana, type AccionesTarea, type DiaSemana } from '../components/Semana'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, marcarGerminada, marcarGirada } from '../lib/huerta/store'
+import { useHuerta, marcarGerminada, marcarGirada, sinRomper } from '../lib/huerta/store'
 import { useCompostaje } from '../lib/compostaje'
 import { usePronostico } from '../lib/pronostico/store'
 import { proveedor } from '../lib/pronostico/proveedor'
@@ -23,10 +23,10 @@ import {
 import type { DiaPronostico } from '../lib/pronostico/tipos'
 import { useEstadoTareas, completar, posponer } from '../lib/tareas/estado'
 import { derivarTareas, paraSembrarAhora, tareasVisibles, type Tarea, expuestasAHelada } from '../lib/tareas/engine'
-import { distinguir, dondeCreceDe } from '../lib/tareas/agrupar'
+import { distinguir, dondeCreceDe, lineaDe } from '../lib/tareas/agrupar'
 import { hoyISO } from '../lib/huerta/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
-import { NOMBRES_MES, mesDe, nombreDia, numeroDia } from '../lib/fechas'
+import { NOMBRES_MES, mayus, mesDe, nombreDia, numeroDia } from '../lib/fechas'
 import { CIELOS, IconoMas } from '../icons'
 import { DibujoCantero } from '../dibujos'
 import './Hoy.css'
@@ -34,8 +34,6 @@ import './Hoy.css'
 const RENGLON = 28
 /** lo que dura el tilde a la vista antes de que la tarea se vaya */
 const TILDE_MS = 700
-
-const mayus = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
 /** Lleva el foco a la fila de al lado: la que se tildó o se pospuso está por irse. */
 function correrFoco(li: Element) {
@@ -140,7 +138,8 @@ export function Hoy() {
   // ref y no el estado: dos toques seguidos llegan antes del render
   const enCurso = useRef(new Set<string>())
   const acciones: AccionesTarea = {
-    dondeDe: (t) => porTarea.get(t.id) ?? (t.plantaId ? dondeCrece.get(t.plantaId)?.lugar : undefined),
+    dondeDe: (t) => porTarea.get(t.id)?.texto ?? (t.plantaId ? dondeCrece.get(t.plantaId)?.lugar : undefined),
+    lineaDe: (t) => lineaDe(t, porTarea.get(t.id)),
     conAsomo: (t) => !!plantaDe(t),
     marcadas,
     onMarcar: (t, casilla) => {
@@ -150,20 +149,22 @@ export function Hoy() {
       const li = casilla.closest('li')
       setTimeout(() => {
         if (li?.contains(document.activeElement)) correrFoco(li)
-        void escribir(t).finally(() => {
-          enCurso.current.delete(t.id)
-          setMarcadas((m) => {
-            const sin = new Set(m)
-            sin.delete(t.id)
-            return sin
-          })
-        })
+        sinRomper(
+          escribir(t).finally(() => {
+            enCurso.current.delete(t.id)
+            setMarcadas((m) => {
+              const sin = new Set(m)
+              sin.delete(t.id)
+              return sin
+            })
+          }),
+        )
       }, TILDE_MS)
     },
     onPosponer: (t, boton) => {
       const li = boton.closest('li')
       if (li) correrFoco(li)
-      void posponer(t.id)
+      sinRomper(posponer(t.id))
     },
   }
 
@@ -171,7 +172,8 @@ export function Hoy() {
   const hayHuerta = plantas.length > 0 || composteras.length > 0
   // sin huerta, el pronóstico igual sirve: la semana se muestra si hay cielo
   const conSemana = listo && (hayHuerta || dias.length > 0)
-  const notas = conSemana ? postits(avisos, iso) : []
+  // del pronóstico y no de la semana: sin poder leer la huerta, la helada se avisa igual
+  const notas = postits(avisos, iso)
   const hoyPron = dias[0]?.fecha === iso ? dias[0] : undefined
   const cieloHoy = hoyPron && CIELOS[hoyPron.cielo]
 
@@ -258,13 +260,16 @@ export function Hoy() {
       // contra el fondo del contenido y no scrollHeight: con poco, manda el min-height de la pantalla
       const ultimo = [...lista.querySelectorAll('[data-dia]')].at(-1)
       const pantalla = resto.closest('.pantalla')
-      if (!ultimo || !pantalla) return
-      const debajo =
-        resto.getBoundingClientRect().bottom -
-        ultimo.getBoundingClientRect().top +
-        parseFloat(getComputedStyle(pantalla).paddingBottom)
-      const falta = innerHeight - alto - 4 - debajo
-      resto.style.height = `${Math.max(0, resto.offsetHeight + falta)}px`
+      if (ultimo && pantalla) {
+        const debajo =
+          resto.getBoundingClientRect().bottom -
+          ultimo.getBoundingClientRect().top +
+          parseFloat(getComputedStyle(pantalla).paddingBottom)
+        const falta = innerHeight - alto - 4 - debajo
+        resto.style.height = `${Math.max(0, resto.offsetHeight + falta)}px`
+      }
+      // la app no vuelve el scroll a cero entre pestañas: se llega ya scrolleado y sin evento de scroll
+      if (siguiendo.current) seguir()
     }
     medir()
     const obs = new ResizeObserver(medir)
@@ -277,7 +282,7 @@ export function Hoy() {
       raiz.style.scrollPaddingTop = ''
       raiz.style.scrollPaddingBottom = ''
     }
-  }, [conSemana])
+  }, [conSemana, seguir])
 
   const leido = semana.some((d) => d.fecha === leyendo) ? leyendo : iso
 
@@ -314,13 +319,25 @@ export function Hoy() {
           {notas.length > 0 && (
             <div className="pila">
               {/* lleva a su día y se queda: es el resumen, el aviso entero está abajo */}
-              {notas.map((n) => (
-                <button key={n.tipo} type="button" className="postit" onClick={() => irAlDia(n.fecha)}>
-                  <span className="postit__titulo mano">{n.titulo}</span>
-                  <span className="postit__texto">{n.texto}</span>
-                  <span className="sr-solo">. {n.fecha === iso ? 'Ir a hoy' : `Ir al ${nombreDia(n.fecha)}`}</span>
-                </button>
-              ))}
+              {notas.map((n) => {
+                const nota = (
+                  <>
+                    <span className="postit__titulo mano">{n.titulo}</span>
+                    <span className="postit__texto">{n.texto}</span>
+                  </>
+                )
+                // sin la semana no hay día adonde llevar: queda la nota sola
+                return conSemana ? (
+                  <button key={n.tipo} type="button" className="postit" onClick={() => irAlDia(n.fecha)}>
+                    {nota}
+                    <span className="sr-solo">. {n.fecha === iso ? 'Ir a hoy' : `Ir al ${nombreDia(n.fecha)}`}</span>
+                  </button>
+                ) : (
+                  <div key={n.tipo} className="postit">
+                    {nota}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>

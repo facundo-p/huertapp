@@ -28,6 +28,13 @@ async function debajoDeLaTira(page: Page, i: number) {
   return pag.y - (tira.y + tira.height)
 }
 
+/** El índice del día cuya página se lee: la última que arrancó antes del pie de la tira. */
+async function diaQueSeLee(page: Page) {
+  const tira = (await page.getByRole('navigation', { name: 'Los días de la semana' }).boundingBox())!
+  const tops = await paginas(page).evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top))
+  return tops.filter((y) => y <= tira.y + tira.height + 12).length - 1
+}
+
 /** Espera a que quede entre 0 y 8, no «≤ 8»: subiendo, el scroll suave pasa por los negativos. */
 async function llegaArriba(page: Page, i: number) {
   await expect
@@ -50,7 +57,46 @@ test('tocar un día lleva a su página, con el foco en su título', async ({ pag
     await llegaArriba(page, i)
     const fecha = await paginas(page).nth(i).getAttribute('data-dia')
     await expect(page.locator(`#titulo-${fecha}`)).toBeFocused()
+    // a los 900 ms el scroll vuelve a mandar: tiene que seguir en el mismo día
+    await page.waitForTimeout(1000)
+    await expect(dias(page).nth(i)).toHaveAttribute('aria-current', 'true')
+    await expect(page.locator('button.dia[aria-current]')).toHaveCount(1)
   }
+})
+
+/**
+ * El resto del archivo corre con el scroll en seco (`reducedMotion: 'reduce'`):
+ * ahí el círculo no tiene días intermedios por los que pasar, y un seguimiento
+ * roto se ve igual que uno sano.
+ */
+test.describe('con el scroll suave', () => {
+  test.use({ reducedMotion: 'no-preference' })
+
+  test('tocar un día lejano no hace pasar el círculo por los de en medio', async ({ page }) => {
+    await abrirHoy(page)
+    await page.evaluate(() => {
+      const w = window as unknown as { marcados: number[]; alturas: number[] }
+      w.marcados = []
+      w.alturas = []
+      const botones = [...document.querySelectorAll('nav.semana button.dia')]
+      new MutationObserver(() => {
+        w.marcados.push(botones.findIndex((b) => b.hasAttribute('aria-current')))
+      }).observe(document.querySelector('nav.semana')!, { subtree: true, attributeFilter: ['aria-current'] })
+      addEventListener('scroll', () => w.alturas.push(scrollY), { passive: true })
+    })
+
+    await dias(page).nth(6).click()
+    await llegaArriba(page, 6)
+    await page.waitForTimeout(1000)
+
+    const { marcados, alturas } = await page.evaluate(() => {
+      const w = window as unknown as { marcados: number[]; alturas: number[] }
+      return { marcados: w.marcados, alturas: w.alturas }
+    })
+    expect(new Set(alturas).size, 'el scroll tiene que haber sido suave, o el test no prueba nada').toBeGreaterThan(3)
+    expect(marcados.filter((i) => i !== 6), `pasó por: ${marcados.join(', ')}`).toEqual([])
+    await expect(dias(page).nth(6)).toHaveAttribute('aria-current', 'true')
+  })
 })
 
 /** El último día tiene que poder llegar arriba: sin la hoja de más, se quedaba a mitad de pantalla. */
@@ -77,6 +123,23 @@ test('al scrollear, el círculo sigue al día que se lee', async ({ page }) => {
   await expect(page.locator('button.dia[aria-current]')).toHaveCount(1)
 })
 
+/** La app no vuelve el scroll a cero entre pestañas: se llega a la semana ya scrolleada. */
+test('llegando ya scrolleado, el círculo marca el día que se ve', async ({ page }) => {
+  await abrirHoy(page)
+  await page.goto('/#/explorar')
+  await page.waitForLoadState('networkidle')
+  await page.evaluate(() => scrollTo(0, 1100))
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(1100)
+
+  await page.getByRole('link', { name: 'Esta semana' }).click()
+  await paginas(page).first().waitFor()
+  expect(await page.evaluate(() => scrollY), 'el recorrido tiene que llegar scrolleado').toBeGreaterThan(0)
+  const i = await diaQueSeLee(page)
+  expect(i, 'a 1100 px no se lee hoy: si no, el test no prueba nada').toBeGreaterThan(0)
+  await expect(dias(page).nth(i)).toHaveAttribute('aria-current', 'true')
+  await expect(page.locator('button.dia[aria-current]')).toHaveCount(1)
+})
+
 /** El post-it es el resumen: lleva al aviso entero y se queda arriba. */
 test('tocar un post-it lleva a su día y el post-it se queda', async ({ page }) => {
   await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: conHelada() }))
@@ -95,6 +158,33 @@ test('tocar un post-it lleva a su día y el post-it se queda', async ({ page }) 
   await llegaArriba(page, 1)
   await expect(paginas(page).nth(1).locator('.tarea.es-aviso', { hasText: 'Puede helar' })).toBeInViewport()
   await expect(postit).toHaveCount(1)
+})
+
+/** El pronóstico no pasa por la huerta: con un store roto, la helada se avisa igual. */
+test('sin poder leer la huerta, el post-it de helada aparece igual', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (!sessionStorage.getItem('romper-plantas')) return
+    const getAll = IDBObjectStore.prototype.getAll
+    IDBObjectStore.prototype.getAll = function (this: IDBObjectStore, ...args: Parameters<typeof getAll>) {
+      if (this.name === 'plantas') throw new DOMException('store roto', 'NotFoundError')
+      return getAll.apply(this, args)
+    }
+  })
+  await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: conHelada() }))
+  await page.goto('/#/ajustes')
+  await page.waitForLoadState('networkidle')
+  await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+  await expect(page.getByText(/Se pide para/)).toBeVisible()
+  await page.evaluate(() => sessionStorage.setItem('romper-plantas', '1'))
+  await page.goto('/#/hoy')
+  await page.reload()
+
+  await expect(page.getByText(/No pude leer tus datos/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /Ver el detalle de hoy/ }), 'el pronóstico tiene que haber llegado').toBeVisible()
+  await expect(page.locator('.postit')).toHaveCount(1)
+  await expect(page.locator('.postit')).toContainText('Puede helar')
+  // sin la semana no hay día adonde llevar: un botón que no lleva a ningún lado confunde
+  await expect(page.getByRole('button', { name: /Puede helar/ })).toHaveCount(0)
 })
 
 test('tildar deja ver el tilde, y la tarea se va con el foco en la de al lado', async ({ page }) => {
@@ -117,7 +207,7 @@ test('tildar deja ver el tilde, y la tarea se va con el foco en la de al lado', 
   expect(foco).toMatch(/casilla|tarea__abrir/)
 })
 
-test('«Más tarde» la saca de hoy y el foco sigue en la lista', async ({ page }) => {
+test('«Más tarde» dice por cuánto antes de tocarlo, la saca de hoy y el foco sigue en la lista', async ({ page }) => {
   await abrirHoy(page)
   const hoy = paginas(page).first()
   const tarea = hoy.locator('.tarea:not(.es-aviso)').first()
@@ -125,7 +215,11 @@ test('«Más tarde» la saca de hoy y el foco sigue en la lista', async ({ page 
   const cuantas = await hoy.locator('.tarea__titulo', { hasText: titulo }).count()
 
   await tarea.locator('.tarea__abrir').click()
-  await tarea.getByRole('button', { name: /^(Más tarde|Todavía no asomó)/ }).click()
+  const boton = tarea.getByRole('button', { name: /^(Más tarde|Todavía no asomó)/ })
+  // a la vista y en el botón: si no, posponer se siente como borrar
+  await expect(boton).toHaveAccessibleDescription(/(La esconde|Te vuelvo a preguntar en) 3 días/)
+  await expect(tarea.locator('.tarea__pospone')).toBeVisible()
+  await boton.click()
   await expect(hoy.locator('.tarea__titulo', { hasText: titulo })).toHaveCount(cuantas - 1)
   const foco = await page.evaluate(() => document.activeElement?.className ?? '')
   expect(foco).toMatch(/casilla|tarea__abrir|pagina__titulo/)

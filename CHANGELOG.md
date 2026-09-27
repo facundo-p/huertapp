@@ -42,8 +42,9 @@ Qué significa cada parte en este proyecto:
   anotado».
 - **Las tareas se tildan.** Tocás la casilla, el tilde queda un momento a la
   vista y la tarea se va. El porqué, la fuente y «Más tarde» están plegados:
-  tocá el título para verlos. Lo que es instrucción queda siempre a la vista,
-  como qué tapar si hiela.
+  tocá el título para verlos. Junto a «Más tarde» dice por cuántos días la
+  esconde, antes de que lo toques. Lo que es instrucción queda siempre a la
+  vista, como qué tapar si hiela.
 - **Si el pronóstico trae helada o mucho calor, aparece un post-it arriba.**
   Tocalo y te lleva a ese día. El post-it se queda hasta que pase.
 - **El tiempo de hoy va al lado de la fecha**, y el de los otros días, en el

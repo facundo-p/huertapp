@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { distinguir, dondeCreceDe, type DondeCrece } from '../src/lib/tareas/agrupar'
+import { distinguir, dondeCreceDe, lineaDe, type DondeCrece } from '../src/lib/tareas/agrupar'
 import type { Tarea } from '../src/lib/tareas/engine'
 import type { Planta, Ubicacion } from '../src/lib/huerta/tipos'
 
@@ -36,7 +36,7 @@ describe('dos tareas que se llaman igual', () => {
   const MACETAS = 'Macetas del balcón'
   const ZANAHORIA = 'Zanahoria: fijate si asomó'
   const SEGUNDA = 'La segunda tanda: fijate si asomó'
-  const etiqueta = (d: ReturnType<typeof distinguir>, id: string) => d.get(`revisar_germinacion:${id}`)
+  const etiqueta = (d: ReturnType<typeof distinguir>, id: string) => d.get(`revisar_germinacion:${id}`)?.texto
 
   it('sembradas el mismo día en dos bancales: cada una dice el suyo', () => {
     const d = distinguir(
@@ -135,8 +135,8 @@ describe('dos tareas que se llaman igual', () => {
       }),
       HOY,
     )
-    expect(d.get('t')).toBe(`${FONDO}, Tomate`)
-    expect(d.get('p')).toBe(`${FONDO}, Pimiento / Morrón`)
+    expect(d.get('t')?.texto).toBe(`${FONDO}, Tomate`)
+    expect(d.get('p')?.texto).toBe(`${FONDO}, Pimiento / Morrón`)
   })
 
   it('y si también son la misma especie, desempata cuándo asomó', () => {
@@ -149,8 +149,8 @@ describe('dos tareas que se llaman igual', () => {
       }),
       HOY,
     )
-    expect(d.get('a')).toBe(`${FONDO}, asomó el 30 ago`)
-    expect(d.get('b')).toBe(`${FONDO}, asomó el 2 sept`)
+    expect(d.get('a')?.texto).toBe(`${FONDO}, asomó el 30 ago`)
+    expect(d.get('b')?.texto).toBe(`${FONDO}, asomó el 2 sept`)
   })
 
   // la cosecha no espera a que asome: es la que junta una marcada con una sin marcar
@@ -166,8 +166,8 @@ describe('dos tareas que se llaman igual', () => {
       }),
       HOY,
     )
-    expect(d.get('a')).toBe(`${FONDO}, asomó el 30 ago`)
-    expect(d.get('b')).toBe(`${FONDO}, sin marcar cuándo asomó`)
+    expect(d.get('a')?.texto).toBe(`${FONDO}, asomó el 30 ago`)
+    expect(d.get('b')?.texto).toBe(`${FONDO}, sin marcar cuándo asomó`)
   })
 
   it('a la que la app no le pide marcarlo (plantada, o cargada ya crecida) no se le dice que falta', () => {
@@ -179,8 +179,8 @@ describe('dos tareas que se llaman igual', () => {
       }),
       HOY,
     )
-    expect(d.get('a')).toBe(`${FONDO}, asomó el 30 ago`)
-    expect(d.get('b')).toBe(FONDO)
+    expect(d.get('a')?.texto).toBe(`${FONDO}, asomó el 30 ago`)
+    expect(d.get('b')?.texto).toBe(FONDO)
   })
 
   it('«Maceta» y «maceta» son el mismo lugar: desempata la siembra', () => {
@@ -270,8 +270,8 @@ describe('dos tareas que se llaman igual', () => {
       }),
       HOY,
     )
-    expect(d.get('m')).toBe(`${FONDO}, Morada`)
-    expect(d.get('v')).toBe(FONDO)
+    expect(d.get('m')?.texto).toBe(`${FONDO}, Morada`)
+    expect(d.get('v')?.texto).toBe(FONDO)
   })
 
   it('«Genovesa» y «genovesa» son la misma variedad, y cada una se dice como la escribiste', () => {
@@ -287,9 +287,9 @@ describe('dos tareas que se llaman igual', () => {
       HOY,
     )
     // la variedad las separa de la morada, pero entre ellas desempata cuándo asomó
-    expect(d.get('g')).toBe(`${FONDO}, Genovesa, asomó el 30 ago`)
-    expect(d.get('m')).toBe(`${FONDO}, genovesa, asomó el 2 sept`)
-    expect(d.get('n')).toBe(`${FONDO}, Morada`)
+    expect(d.get('g')?.texto).toBe(`${FONDO}, Genovesa, asomó el 30 ago`)
+    expect(d.get('m')?.texto).toBe(`${FONDO}, genovesa, asomó el 2 sept`)
+    expect(d.get('n')?.texto).toBe(`${FONDO}, Morada`)
   })
 
   it('en días distintos también: el día no dice cuál es', () => {
@@ -317,6 +317,55 @@ describe('dos tareas que se llaman igual', () => {
   })
 })
 
+describe('la línea corta dice la siembra una sola vez', () => {
+  const FONDO = 'Bancal del fondo'
+  const donde = (d: Record<string, DondeCrece>) => new Map(Object.entries(d))
+  // la línea como la arma el motor: con su marca
+  const trasplante = (id: string, linea: string) =>
+    tarea({ id, plantaId: id, slug: 'tomate', titulo: 'Tomate: hora de trasplantar', linea, lineaEsSiembra: true })
+
+  it('si para separarlas dijo cuándo se sembró, la línea que también lo cuenta se va', () => {
+    const [a, b] = [trasplante('a', 'sembrada hace 24 días'), trasplante('b', 'sembrada hace 22 días')]
+    const d = distinguir(
+      [a, b],
+      donde({ a: { lugar: FONDO, sembrada: '2026-09-03' }, b: { lugar: FONDO, sembrada: '2026-09-05' } }),
+      HOY,
+    )
+    expect(d.get('a')?.texto).toBe(`${FONDO}, sembrada el 3 sept`)
+    expect(lineaDe(a, d.get('a'))).toBeUndefined()
+    expect(lineaDe(b, d.get('b'))).toBeUndefined()
+  })
+
+  it('si las separa el lugar, la línea queda', () => {
+    const [a, b] = [trasplante('a', 'sembrada hace 24 días'), trasplante('b', 'sembrada hace 22 días')]
+    const d = distinguir(
+      [a, b],
+      donde({ a: { lugar: FONDO, sembrada: '2026-09-03' }, b: { lugar: 'Maceta', sembrada: '2026-09-05' } }),
+      HOY,
+    )
+    expect(d.get('a')?.texto).toBe(FONDO)
+    expect(lineaDe(a, d.get('a'))).toBe('sembrada hace 24 días')
+  })
+
+  it('la línea que no cuenta la siembra queda aunque se haya dicho la fecha', () => {
+    const zanahoria = (id: string) =>
+      tarea({ id, plantaId: id, tipo: 'revisar_germinacion', titulo: 'Zanahoria: fijate si asomó', linea: 'se pasó por 10 días' })
+    const [a, b] = [zanahoria('a'), zanahoria('b')]
+    const d = distinguir(
+      [a, b],
+      donde({ a: { lugar: FONDO, sembrada: '2026-09-03' }, b: { lugar: FONDO, sembrada: '2026-09-05' } }),
+      HOY,
+    )
+    expect(d.get('a')?.conSiembra).toBe(true)
+    expect(lineaDe(a, d.get('a'))).toBe('se pasó por 10 días')
+  })
+
+  it('sin choque, la línea es la de la tarea', () => {
+    const a = trasplante('a', 'sembrada hace 24 días')
+    expect(lineaDe(a, undefined)).toBe('sembrada hace 24 días')
+  })
+})
+
 describe('dos tareas sin planta que se llaman igual', () => {
   // una helada por década: el sábado 15 cierra mediados y el viernes 21 arranca fines
   const helada = (fecha: string) =>
@@ -326,8 +375,8 @@ describe('dos tareas sin planta que se llaman igual', () => {
 
   it('las separa el día: «hoy» o el día entero', () => {
     const d = distinguir([sabado, viernes], new Map(), HOY)
-    expect(d.get(sabado.id)).toBe('hoy')
-    expect(d.get(viernes.id)).toBe('viernes, 21 de agosto')
+    expect(d.get(sabado.id)?.texto).toBe('hoy')
+    expect(d.get(viernes.id)?.texto).toBe('viernes, 21 de agosto')
   })
 
   it('una sola en la semana no suma nada', () => {
@@ -346,8 +395,8 @@ describe('dos tareas sin planta que se llaman igual', () => {
       })
     const [una, otra] = [girar('c1'), girar('c2')]
     const d = distinguir([una, otra], new Map(), HOY)
-    expect(d.get(una.id)).toBe('hoy')
-    expect(d.get(otra.id)).toBe('hoy')
+    expect(d.get(una.id)?.texto).toBe('hoy')
+    expect(d.get(otra.id)?.texto).toBe('hoy')
   })
 })
 

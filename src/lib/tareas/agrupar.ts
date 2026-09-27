@@ -49,6 +49,21 @@ export function dondeCreceDe(
 
 const SIN_LUGAR = 'sin lugar asignado'
 
+export interface Distingo {
+  /** «Bancal del fondo, sembrada el 3 sept» */
+  texto: string
+  /** para separarla dijo cuándo se sembró */
+  conSiembra: boolean
+}
+
+/**
+ * La línea del tiempo de la tarea, salvo que repita la siembra que ya dijo
+ * `distinguir`. Queda la fecha y no «hace 30 días»: eso lo dicen los dos
+ * tomates si entran en ventana en días distintos.
+ */
+export const lineaDe = (t: Tarea, d: Distingo | undefined): string | undefined =>
+  d?.conSiembra && t.lineaEsSiembra ? undefined : t.linea
+
 /** Con el año sólo si otra de las fechas es de otro. */
 const fechaParaDistinguir = (iso: string, otras: (string | undefined)[]) =>
   diaYMes(iso, otras.some((o) => o && o.slice(0, 4) !== iso.slice(0, 4)))
@@ -63,22 +78,24 @@ const fechaParaDistinguir = (iso: string, otras: (string | undefined)[]) =>
  * Por id de tarea: «Bancal del fondo, sembrada el 3 sept», o «hoy», «viernes,
  * 21 de agosto». Sólo las que chocan con otra.
  */
-export function distinguir(semana: Tarea[], plantas: Map<string, DondeCrece>, hoy: string): Map<string, string> {
+export function distinguir(semana: Tarea[], plantas: Map<string, DondeCrece>, hoy: string): Map<string, Distingo> {
   const dato = (t: Tarea) => plantas.get(t.plantaId!)
   const lugar = (t: Tarea) => dato(t)?.lugar ?? SIN_LUGAR
   const mismoLugar = (a: Tarea, b: Tarea) => sinMayus(lugar(a)) === sinMayus(lugar(b))
-  const desempates: {
+  interface Desempate {
     clave: (t: Tarea) => string | undefined
     texto: (t: Tarea, empatadas: Tarea[]) => string | undefined
-  }[] = [
-    { clave: (t) => sinMayus(dato(t)?.comoEsta), texto: (t) => dato(t)?.comoEsta },
-    {
-      clave: (t) => dato(t)?.sembrada,
-      texto: (t, es) => {
-        const s = dato(t)?.sembrada
-        return s && `sembrada el ${fechaParaDistinguir(s, es.map((o) => dato(o)?.sembrada))}`
-      },
+  }
+  const porSiembra: Desempate = {
+    clave: (t) => dato(t)?.sembrada,
+    texto: (t, es) => {
+      const s = dato(t)?.sembrada
+      return s && `sembrada el ${fechaParaDistinguir(s, es.map((o) => dato(o)?.sembrada))}`
     },
+  }
+  const desempates: Desempate[] = [
+    { clave: (t) => sinMayus(dato(t)?.comoEsta), texto: (t) => dato(t)?.comoEsta },
+    porSiembra,
     // tal cual el catálogo: en minúscula saldría «repollitos de bruselas»
     { clave: (t) => t.slug, texto: (t) => dato(t)?.especie },
     { clave: (t) => sinMayus(dato(t)?.variedad), texto: (t) => dato(t)?.variedad },
@@ -102,23 +119,25 @@ export function distinguir(semana: Tarea[], plantas: Map<string, DondeCrece>, ho
     else porTitulo.set(k, [t])
   }
 
-  const porTarea = new Map<string, string>()
+  const porTarea = new Map<string, Distingo>()
   for (const mismas of porTitulo.values()) {
     if (mismas.length < 2) continue
     for (const t of mismas) {
       if (!t.plantaId) {
-        porTarea.set(t.id, t.fecha === hoy ? 'hoy' : fechaDiaLarga(t.fecha))
+        porTarea.set(t.id, { texto: t.fecha === hoy ? 'hoy' : fechaDiaLarga(t.fecha), conSiembra: false })
         continue
       }
       const partes = [lugar(t)]
+      let conSiembra = false
       let empatadas = mismas.filter((o) => o !== t && mismoLugar(o, t))
-      for (const { clave, texto } of desempates) {
-        if (!empatadas.some((o) => clave(o) !== clave(t))) continue
-        const x = texto(t, empatadas)
+      for (const d of desempates) {
+        if (!empatadas.some((o) => d.clave(o) !== d.clave(t))) continue
+        const x = d.texto(t, empatadas)
         if (x) partes.push(x)
-        empatadas = empatadas.filter((o) => clave(o) === clave(t))
+        if (x && d === porSiembra) conSiembra = true
+        empatadas = empatadas.filter((o) => d.clave(o) === d.clave(t))
       }
-      porTarea.set(t.id, partes.join(', '))
+      porTarea.set(t.id, { texto: partes.join(', '), conSiembra })
     }
   }
 

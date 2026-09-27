@@ -51,6 +51,8 @@ export interface Tarea {
   instruccion?: string
   /** el tiempo, para la línea corta de la lista: «se pasó por 12 días», «sembrada hace 31 días» */
   linea?: string
+  /** la línea cuenta la siembra: si `distinguir` también la dice, va una sola vez */
+  lineaEsSiembra?: true
   /** día en que cae (ISO corta). Lo atrasado y lo en ventana caen hoy. */
   fecha: string
 }
@@ -66,9 +68,10 @@ export const ESTADO_VACIO: EstadoTarea = { completadas: {}, pospuestas: {} }
 
 const conf = (n: number) => `confianza ${n}/10`
 
+// la línea y su marca juntas: una no se puede poner sin la otra
 const sembradaHace = (sembrada: string, hoy: string) => {
   const n = diasEntre(sembrada, hoy)
-  return n === 0 ? 'sembrada hoy' : `sembrada hace ${dias(n)}`
+  return { linea: n === 0 ? 'sembrada hoy' : `sembrada hace ${dias(n)}`, lineaEsSiembra: true } as const
 }
 
 /**
@@ -169,7 +172,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
         detalle,
         fuente: `según la ficha: ${e.dias_a_trasplante!.min}-${e.dias_a_trasplante!.max} días desde la siembra · ${conf(e.transplante.confianza)}${corrido(est.corrimiento)}`,
         prioridad: peligroso ? 3 : 1,
-        linea: sembradaHace(p.sembrada, hoy),
+        ...sembradaHace(p.sembrada, hoy),
         ...(peligroso && { instruccion: detalle }),
       })
     }
@@ -190,7 +193,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
         detalle: e.cosecha.indicadores_listo,
         fuente: `según la ficha: ${e.dias_a_cosecha!.min}-${e.dias_a_cosecha!.max} días desde la siembra · ${conf(e.cosecha.confianza)}${corrido(est.corrimiento)}`,
         prioridad: 2,
-        linea: sembradaHace(p.sembrada, hoy),
+        ...sembradaHace(p.sembrada, hoy),
       })
     }
   }

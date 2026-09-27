@@ -284,6 +284,13 @@
   padding-block: 6px;
 }
 
+/* un renglón (dos, si baja): --tinta-suave y no --tinta-tenue, que encima de la línea no pasa AA */
+.tarea__pospone {
+  font-size: var(--texto-s);
+  line-height: 28px;
+  color: var(--tinta-suave);
+}
+
 /* el link no es opaco como «Más tarde»: centrado, el renglón le pasaba por el medio */
 .tarea__botones .ver-todas {
   align-items: flex-end;

@@ -15,6 +15,8 @@ import { conNegritas } from '../lib/negritas'
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
 import '../components/ChipHoja.css'
+// las marcas de la tira se muestran con sus clases de verdad
+import '../components/Semana.css'
 import {
   CIELOS,
   GRUPOS,
@@ -157,6 +159,19 @@ function FilaTermino({ termino, id }: { termino: Termino; id?: string }) {
         </p>
       )}
     </li>
+  )
+}
+
+/** Las de la tira, con las mismas clases: un aviso y cuatro tareas se ven así. */
+function MarcasTira(_: IconProps) {
+  return (
+    <span className="dia__marcas">
+      <span style={{ color: 'var(--cielo-agua)' }}>
+        <IconoGota size={14} />
+      </span>
+      <span className="dia__punto" />
+      <span className="dia__mas">+3</span>
+    </span>
   )
 }
 
@@ -400,12 +415,17 @@ export function Glosario() {
             <Fila
               Icono={IconoGota}
               nombre="probabilidad de lluvia"
-              desc="Qué tan probable es que llueva ese día. La humedad del aire va en el detalle."
+              desc="Qué tan probable es que llueva ese día; la humedad del aire va en el detalle. En la tira y en la página del día marca también «Se viene lluvia»: 5 mm o más, con 60 % de probabilidad o más."
             />
             <Fila
               Icono={IconoUbicacion}
               nombre="ubicación de la huerta"
               desc="Desde dónde se pide el pronóstico. Se elige en Ajustes y se saca cuando quieras."
+            />
+            <Fila
+              Icono={MarcasTira}
+              nombre="marcas de cada día"
+              desc="Debajo de cada día de la tira: un punto por cada cosa para hacer y, adelante, los avisos del tiempo. Entran tres; con más, la tercera dice cuántas más hay, como «+3»."
             />
           </ul>
         </Seccion>
