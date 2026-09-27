@@ -32,7 +32,11 @@ export function ChipHoja({ etiqueta, opciones, activo, onElegir }: Props) {
       <button
         type="button"
         className={`chip-hoja ${elegida ? 'es-activo' : ''}`}
-        onClick={() => setAbierta(true)}
+        onClick={(e) => {
+          // Safari no enfoca un botón al tocarlo, y el foco no tendría adónde volver
+          e.currentTarget.focus({ preventScroll: true })
+          setAbierta(true)
+        }}
         aria-haspopup="dialog"
         aria-label={`${etiqueta}: ${corto}`}
       >

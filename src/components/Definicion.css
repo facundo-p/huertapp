@@ -1,0 +1,89 @@
+/* El botón mide 44 para el dedo; lo que se ve es el término, con su
+   tipografía de siempre. Tipografía y color los pone la clase del contexto
+   (`.ficha__categoria-texto`, `.cuidado__tipo`): un selector de clase le gana
+   al reset de `button`, así que acá no se tocan. */
+.definicion {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  text-align: left;
+}
+
+/* Punteado y no lleno: la regla del color que nunca va solo vale también para
+   "esto se toca". Va en text-decoration para que sobreviva al wrap, y en
+   currentColor para que herede el contraste del término —un token de línea
+   sobre la crema de los cuidados quedaba por debajo de 3:1. */
+.definicion__termino {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.definicion:active .definicion__termino {
+  text-decoration-style: solid;
+}
+
+.definicion__que {
+  font-size: var(--texto-s);
+  line-height: 1.6;
+  color: var(--tinta);
+}
+
+/* Como el sin dato de un campo de la ficha: cambia el tono, no se apaga. */
+.definicion__que.es-sin-dato {
+  color: var(--tinta-media);
+}
+
+.definicion__rotulo {
+  margin-bottom: 3px;
+  font-family: var(--font-display);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tinta-media);
+}
+
+/* lo que pide y qué pasa si no, separados como dos párrafos de la hoja */
+.definicion__dato {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.definicion__cita {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 var(--esp-2);
+}
+
+/* Alta como el link de una fuente: si las fuentes bajan de renglón, la
+   confianza queda sola en el suyo y sin esto se pegaba al texto de arriba. */
+.definicion__confianza {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
+
+/* La pastilla de una fuente, punteada y sin relleno: lo que falta es la fuente. */
+.definicion__sin-fuente {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: 10px;
+  border: 1.5px dashed var(--linea);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--tinta-media);
+}
+
+.definicion__glosario {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-family: var(--font-display);
+  font-size: var(--texto-s);
+  font-weight: 700;
+}

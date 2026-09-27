@@ -31,6 +31,22 @@
   gap: var(--esp-2);
 }
 
+/* El nombre de la labor abre su definición en una cabecera de 17 px. Los 44
+   del dedo los pone un ::before fuera del flujo: no depende del padding ni del
+   gap, y como está posicionado, el «cuándo» no se le pinta encima.
+   Trampa: por el flex: 1 cubre toda la fila y baja ~8 px sobre el «cuándo»;
+   si ahí va un link algún día, ese borde abre la definición. */
+.cuidado .cuidado__tipo {
+  position: relative;
+  min-height: 0;
+}
+
+.cuidado__tipo::before {
+  content: '';
+  position: absolute;
+  inset: calc(50% - var(--tap-min) / 2) 0;
+}
+
 .cuidado__tipo {
   flex: 1;
   font-family: var(--font-display);

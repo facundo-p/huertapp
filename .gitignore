@@ -13,6 +13,9 @@ e2e/shots/
 test-results/
 playwright-report/
 
+# worktrees de los agentes del equipo: checkouts efímeros, uno por tarea
+.claude/worktrees/
+
 # OS
 .DS_Store
 

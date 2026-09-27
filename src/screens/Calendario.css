@@ -634,15 +634,6 @@
   text-align: left;
 }
 
-.cal-desplegar__flecha {
-  display: inline-flex;
-  transition: transform 0.15s ease;
-}
-
-.cal-desplegar__flecha.es-abierta {
-  transform: rotate(180deg);
-}
-
 /* 34px y no 20: el nombre del padre ya arranca a los 20 después de su ícono,
    así que con 20 quedaban alineadas y la sangría no decía nada. */
 .cal-fila--variedad .cal-nombre {

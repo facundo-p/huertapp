@@ -2,6 +2,7 @@ import { test } from '@playwright/test'
 import { mkdirSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
 import { conHelada, fixtureDesdeHoy } from './apoyo-pronostico'
+import { duplicarPlanta } from './apoyo-huerta'
 
 // Screenshots por pantalla para revisión visual de cada fase.
 // Salida: e2e/shots/<fase>/<pantalla>.png  (npm run shots)
@@ -105,6 +106,34 @@ const TOMAS: Toma[] = [
   { nombre: 'ficha-coliflor-temprana', ruta: '/#/explorar/coliflor-temprana', fullPage: true },
   // la que se define por lo que NO lleva: sin tutorado ni poda
   { nombre: 'ficha-tomate-determinado', ruta: '/#/explorar/tomate-determinado', fullPage: true },
+  // la hoja del suelo: definición, lo que pide el tomate con su confianza y su
+  // fuente, la línea que remite a las mezclas del glosario y los links
+  {
+    nombre: 'ficha-definicion-suelo',
+    ruta: '/#/explorar/tomate',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Suelo franco fértil/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // y una labor, que es la variante corta: qué es y el remite al Glosario
+  {
+    nombre: 'ficha-definicion-labor',
+    ruta: '/#/explorar/tomate',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Tutorado/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
+  // la luz con el dato de la especie; la lechuga, que trae dos fuentes
+  {
+    nombre: 'ficha-definicion-luz',
+    ruta: '/#/explorar/lechuga',
+    antes: async (page) => {
+      await page.getByRole('button', { name: /^Sol parcial/ }).click()
+      await page.getByRole('link', { name: /Verlo en el Glosario/ }).waitFor()
+    },
+  },
   { nombre: 'calendario', ruta: '/#/calendario' },
   {
     nombre: 'calendario-trasplante',
@@ -509,6 +538,47 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
       await page.locator('.carril__cielo').first().waitFor()
+    },
+  },
+  // Dos plantas de la misma especie sembradas el mismo día: sus tareas dicen
+  // exactamente lo mismo, así que comparten un pie en vez de repetirlo. Es lo
+  // único que hay que mirar acá, y con el panel del día abierto.
+  {
+    nombre: 'hoy-carril-pie',
+    ruta: '/#/ajustes',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      // se duplica la rúcula de la demo: misma fecha de siembra y misma
+      // germinación, o sea el mismo «según la ficha» hasta la última coma
+      await duplicarPlanta(page, 'rucula', { apodo: 'La segunda tanda' })
+      await page.goto('/#/hoy')
+      // recarga de verdad: ir a otro hash no vuelve a leer la base
+      await page.reload()
+      await page.locator('.carril__cielo').first().waitFor()
+      await page.getByRole('button', { name: /de dónde sal/ }).first().click()
+      await page.locator('.carril__porque-grupo').first().waitFor()
+    },
+  },
+  // Dos zanahorias sin apodo sembradas el mismo día, una por bancal: el caso
+  // común. Mismo título y mismo pie; cada fila dice su lugar, con «atrasada» en
+  // esa misma línea, y el pie los junta.
+  {
+    nombre: 'hoy-carril-lugar',
+    ruta: '/#/ajustes',
+    fullPage: true,
+    antes: async (page) => {
+      await conDemo(page)
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera' })
+      await page.goto('/#/hoy')
+      await page.reload()
+      await page.locator('.carril__lugar').first().waitFor()
+      await page.getByRole('button', { name: /de dónde sal/ }).first().click()
+      await page.locator('.carril__porque-lugar').first().waitFor()
     },
   },
   {

@@ -51,16 +51,16 @@ export function guardarPlegado(p: Plegado): void {
   }
 }
 
-function alternarEn(lista: string[], id: string): string[] {
+export function alternar(lista: string[], id: string): string[] {
   return lista.includes(id) ? lista.filter((x) => x !== id) : [...lista, id]
 }
 
 export function alternarUbicacion(p: Plegado, id: string): Plegado {
-  return { ...p, ubicacionesCerradas: alternarEn(p.ubicacionesCerradas, id) }
+  return { ...p, ubicacionesCerradas: alternar(p.ubicacionesCerradas, id) }
 }
 
 export function alternarPlanta(p: Plegado, id: string): Plegado {
-  return { ...p, plantasAbiertas: alternarEn(p.plantasAbiertas, id) }
+  return { ...p, plantasAbiertas: alternar(p.plantasAbiertas, id) }
 }
 
 /**

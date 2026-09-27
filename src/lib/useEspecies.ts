@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { cargarEspecies, type IndiceEspecies } from './data/especies'
+import { cargarEspecies, especiesYaCargadas, type IndiceEspecies } from './data/especies'
 
 /** Carga diferida del catálogo (el JSON no entra al bundle inicial). */
 export function useEspecies(): { indice: IndiceEspecies | null; cargando: boolean } {
-  const [indice, setIndice] = useState<IndiceEspecies | null>(null)
+  const [indice, setIndice] = useState<IndiceEspecies | null>(especiesYaCargadas)
 
   useEffect(() => {
     let vivo = true

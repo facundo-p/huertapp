@@ -31,12 +31,18 @@ export interface IndiceEspecies {
 }
 
 let cache: Promise<IndiceEspecies> | null = null
+let resuelto: IndiceEspecies | null = null
 
 export function cargarEspecies(): Promise<IndiceEspecies> {
-  cache ??= import('../../../data/huerta_gba_enriquecido.json').then((m) =>
-    indexar(m.default as unknown as EspeciesDB),
+  cache ??= import('../../../data/huerta_gba_enriquecido.json').then(
+    (m) => (resuelto = indexar(m.default as unknown as EspeciesDB)),
   )
   return cache
+}
+
+/** El catálogo si ya llegó: la ficha se remonta por especie, y sin esto cada cambio pasaba un cuadro por «Cargando…». */
+export function especiesYaCargadas(): IndiceEspecies | null {
+  return resuelto
 }
 
 function indexar(db: EspeciesDB): IndiceEspecies {

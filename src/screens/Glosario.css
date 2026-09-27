@@ -8,6 +8,34 @@
   display: flex;
   flex-direction: column;
   gap: var(--esp-3);
+  /* mismo valor que .termino y .glosario__tierra: alto de la fila de índice
+     pegajosa, para que el salto no deje el título tapado debajo. */
+  scroll-margin-top: 72px;
+}
+
+/* --- índice pegado bajo el Header --- */
+.glosario__indice {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: var(--esp-2);
+  padding: var(--esp-3) var(--esp-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--papel);
+  box-shadow: var(--sombra-1);
+}
+
+.glosario__indice::-webkit-scrollbar {
+  display: none;
+}
+
+.glosario__indice-item {
+  flex: none;
+  /* .chip-hoja no fija ancho: con etiquetas cortas como «Luz» el botón queda
+     bajo los 44px del dedo si no se lo pide. */
+  min-width: var(--tap-min);
 }
 
 /* Listas regladas: hairlines de borde a borde, sin tarjeta */
@@ -260,4 +288,19 @@
   background: var(--conf-sin-fondo);
   color: var(--conf-sin);
   border: 1.5px dotted var(--conf-sin);
+}
+
+/* --- el pie: desde dónde habla la app --- */
+.glosario__postura {
+  border-top: 1.5px dashed var(--linea-suave);
+  padding-top: var(--esp-4);
+  font-size: var(--texto-s);
+  line-height: 1.55;
+  color: var(--tinta-media);
+  max-width: 46ch;
+}
+
+.glosario__postura strong {
+  font-family: var(--font-display);
+  color: var(--verde-prof);
 }

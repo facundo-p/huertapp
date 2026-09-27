@@ -19,7 +19,70 @@ Qué significa cada parte en este proyecto:
 ---
 
 > Mientras se trabaja en `staging`, los cambios se anotan bajo una sección
-> `## [Sin publicar]
+> `## [Sin publicar]`.
+
+## [2.4.0] — 2026-09-27
+
+### Agregado
+
+- **El Glosario ahora dice desde dónde te habla la app.** Un párrafo al pie: la
+  huerta que propone es agroecológica, y eso también ordena cómo intervenir
+  cuando algo anda mal —primero prevenir, después favorecer al bicho que trabaja
+  a favor, y recién ahí aplicar algo.
+- **Índice de secciones en el Glosario.** Una fila de chips debajo del título
+  salta directo a cualquiera de las doce secciones —Labores, Suelo, Luz,
+  Confianza y el resto—, en vez de tener que bajar scrolleando por todo.
+- **Los términos de la ficha se tocan y se explican.** El grupo, el suelo y la
+  luz de arriba de todo, y el nombre de cada labor de «Mientras crece», ahora
+  van subrayados con puntitos: tocalos y sube una hoja con qué es esa palabra,
+  sin sacarte de la ficha. Las del suelo y la luz suman lo que pide esa planta
+  y qué le pasa si no lo tiene, con su confianza y sus fuentes, o «sin fuente»
+  si no la tiene. La de una labor te dice qué es, y para cómo se hace en esa
+  planta vale lo que dice su ficha. Al pie, «Verlo en el Glosario» te deja en la
+  sección que corresponde —o en la palabra justa, si es una labor— y el lector
+  de pantalla te dice adónde llegaste.
+- **Si dos plantas tienen una tarea con el mismo nombre, te dice cuál es
+  cuál.** Con dos zanahorias sin apodo, cada una muestra en qué lugar está y,
+  si con eso no alcanza, cómo está puesta, cuándo la sembraste, de qué especie o
+  variedad es, o cuándo asomó. Vale para toda la semana: dos iguales en días
+  distintos también lo dicen. Su porqué lleva lo mismo, así sabés de cuál te
+  habla. Y con lector de pantalla, cada «Hecho» y cada «Asomó» dice de qué
+  tarea es; si hay dos «Puede helar» en la semana, cada uno dice su día.
+
+### Cambiado
+
+- **Suelo profundo y suelo rústico ahora te dicen qué llevarte del vivero.** Las
+  dos direcciones explicaban el problema —la raíz que sale bifurcada, la tierra
+  que conviene pobre— pero no qué preparar: ahora dicen qué cambiar respecto de
+  la mezcla base.
+- **La advertencia sobre las recetas de sustrato ahora tiene de dónde agarrarse.**
+  Lleva su fuente del INTA, como cualquier otro dato de la app: no hay una receta
+  correcta que estés buscando mal, porque la mezcla depende de lo que consigas en
+  tu zona, de lo que salga y de la especie.
+- **«La semana» se lee de un vistazo.** De cada tarea se ve el título: el
+  porqué y de dónde sale el dato quedan a un toque, plegados al pie de cada
+  día. Lo que hay que hacer para no perder una planta —taparla de noche si
+  puede helar, esperar para trasplantarla— sigue a la vista, en la fila de la
+  tarea. No se borró nada —la procedencia sigue estando, plegada—, pero ahora
+  entra mucho más de cada día sin tener que bajar.
+- **Lo que vale para varias plantas se dice una vez.** Si tenés cinco lechugas
+  para trasplantar, el «según la ficha: 25-35 días…» aparece una sola vez para
+  las cinco y no cinco veces igual. A la planta que le corrió la germinación le
+  sigue quedando su propio pie, porque su dato es otro.
+
+### Arreglado
+
+- **Varias definiciones ya no dicen más de lo que sabemos.** Hablaban como si
+  valieran para todas las plantas, y alguna ficha decía otra cosa. La
+  definición de las flores polinizadoras ya no dice de todas lo que hacen
+  algunas: no todas espantan plagas, y la caléndula, por ejemplo, las atrae
+  como planta trampa. Las legumbres fijan nitrógeno en la raíz, no en la vaina,
+  y las hortalizas de hoja incluyen las que arman cabeza, como el brócoli.
+- **El chip de luz de la ficha dice sólo la categoría.** Mostraba las horas
+  generales de la categoría, que no siempre coincidían con las que cita cada
+  planta. Las de cada categoría siguen en el Glosario.
+- **Con lector de pantalla, cada hoja que sube se anuncia con su título**, y
+  no sólo como «diálogo».
 
 ## [2.3.0] — 2026-09-12
 

@@ -124,3 +124,7 @@ export const fechaDiaLarga = (iso: string): string =>
 
 /** «11» */
 export const numeroDia = (iso: string): number => aFechaLocal(iso).getDate()
+
+/** «3 sept»; con el año, «3 de sept de 2025». */
+export const diaYMes = (iso: string, conAnio = false): string =>
+  aFechaLocal(iso).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', ...(conAnio && { year: 'numeric' }) })

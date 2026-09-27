@@ -121,6 +121,9 @@ describe('motor de tareas', () => {
     expect(enAgosto.detalle).toMatch(/probabilidad de helada/)
     expect(enDiciembre.detalle).not.toMatch(/probabilidad de helada/)
     expect(enAgosto.prioridad).toBeGreaterThan(enDiciembre.prioridad)
+    // «esperá o cubrila» no puede quedar plegado; el porqué común, sí
+    expect(enAgosto.instruccion).toBe(true)
+    expect(enDiciembre.instruccion).toBeUndefined()
   })
 
   it('avisa la cosecha cuando entra en ventana, y no si ya está cosechando', () => {
@@ -155,6 +158,8 @@ describe('motor de tareas', () => {
     const kale = planta({ slug: 'kale', id: 'k', etapa: 'creciendo', germino: HOY })
 
     expect(motor([tomate], 'conurbano', '2026-08-15').some((t) => t.tipo === 'helada')).toBe(true)
+    // qué tapar es la instrucción, y sin pronóstico no se dice en otro lado
+    expect(motor([tomate], 'conurbano', '2026-08-15').find((t) => t.tipo === 'helada')!.instruccion).toBe(true)
     // el kale mejora con la helada: no se avisa
     expect(motor([kale], 'conurbano', '2026-08-15').some((t) => t.tipo === 'helada')).toBe(false)
     // en enero no hay helada que avisar
