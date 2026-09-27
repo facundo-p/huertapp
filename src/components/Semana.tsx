@@ -332,7 +332,7 @@ function ItemTarea({ tarea: t, acciones }: { tarea: Tarea; acciones: AccionesTar
         <p className="tarea__pospone" id={aviso}>
           {asomo
             ? `Te vuelvo a preguntar en ${dias(DIAS_POSPONER)}.`
-            : `La esconde ${dias(DIAS_POSPONER)}; después vuelve sola.`}
+            : `La escondo ${dias(DIAS_POSPONER)}; después vuelve sola.`}
         </p>
       </Plegable>
     </li>

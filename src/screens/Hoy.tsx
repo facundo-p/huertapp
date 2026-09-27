@@ -148,8 +148,9 @@ export function Hoy() {
   const hayHuerta = plantas.length > 0 || composteras.length > 0
   // sin huerta, el pronóstico igual sirve: la semana se muestra si hay cielo
   const conSemana = listo && (hayHuerta || dias.length > 0)
-  // del pronóstico y no de la semana: sin poder leer la huerta, la helada se avisa igual
-  const notas = postits(avisos, iso)
+  // del pronóstico y no de la semana: sin poder leer la huerta, la helada se avisa igual.
+  // Pero recién cuando se sabe: antes salía como nota muda y al rato pasaba a botón
+  const notas = listo || errorCarga ? postits(avisos, iso) : []
   const hoyPron = dias[0]?.fecha === iso ? dias[0] : undefined
   const cieloHoy = hoyPron && CIELOS[hoyPron.cielo]
 

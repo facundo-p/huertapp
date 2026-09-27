@@ -160,6 +160,27 @@ test('tocar un post-it lleva a su día y el post-it se queda', async ({ page }) 
   await expect(postit).toHaveCount(1)
 })
 
+/** Mientras carga, la huerta todavía no se sabe: el post-it no sale mudo para volverse botón. */
+test('el post-it espera a que la huerta cargue', async ({ page }) => {
+  await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: conHelada() }))
+  await page.goto('/#/ajustes')
+  await page.waitForLoadState('networkidle')
+  await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+  await expect(page.getByText(/Se pide para/)).toBeVisible()
+  await abrirHoy(page)
+
+  await page.addInitScript(() => {
+    const w = window as unknown as { mudos: number }
+    w.mudos = 0
+    new MutationObserver(() => {
+      if (document.querySelector('div.postit')) w.mudos++
+    }).observe(document, { childList: true, subtree: true })
+  })
+  await page.reload()
+  await expect(page.locator('button.postit')).toBeVisible()
+  expect(await page.evaluate(() => (window as unknown as { mudos: number }).mudos)).toBe(0)
+})
+
 /** El pronóstico no pasa por la huerta: con un store roto, la helada se avisa igual. */
 test('sin poder leer la huerta, el post-it de helada aparece igual', async ({ page }) => {
   await page.addInitScript(() => {
@@ -217,7 +238,7 @@ test('«Más tarde» dice por cuánto antes de tocarlo, la saca de hoy y el foco
   await tarea.locator('.tarea__abrir').click()
   const boton = tarea.getByRole('button', { name: /^(Más tarde|Todavía no asomó)/ })
   // a la vista y en el botón: si no, posponer se siente como borrar
-  await expect(boton).toHaveAccessibleDescription(/(La esconde|Te vuelvo a preguntar en) 3 días/)
+  await expect(boton).toHaveAccessibleDescription(/(La escondo|Te vuelvo a preguntar en) 3 días/)
   await expect(tarea.locator('.tarea__pospone')).toBeVisible()
   await boton.click()
   await expect(hoy.locator('.tarea__titulo', { hasText: titulo })).toHaveCount(cuantas - 1)
