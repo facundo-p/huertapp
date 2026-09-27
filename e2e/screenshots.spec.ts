@@ -207,6 +207,8 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/hoy')
       await page.waitForLoadState('networkidle')
+      // llega con el scroll de Ajustes: la tira, pegada, taparía un día en la captura entera
+      await page.evaluate(() => scrollTo(0, 0))
       await page.waitForTimeout(500)
     },
   },
