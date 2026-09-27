@@ -22,4 +22,5 @@
   display: inline-block;
   font-size: var(--mano-l);
   margin-top: var(--esp-4);
+  text-wrap: balance;
 }

@@ -448,3 +448,50 @@ test('la jerarquía de encabezados es navegable', async ({ page }) => {
 
   expect(problemas).toEqual([])
 })
+
+/**
+ * Con la letra agrandada, el rótulo crece, las cinco pestañas siguen en
+ * pantalla y cada rótulo queda dentro de la suya. Sin el corte en em, a 130 %
+ * «Mi huerta» quedaba afuera.
+ */
+for (const [ancho, letra] of [
+  [390, 100],
+  [390, 130],
+  [360, 130],
+  [320, 100],
+  [320, 130],
+] as const) {
+  test(`las cinco pestañas entran · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await page.goto('/#/hoy')
+    await page.addStyleTag({ content: `html { font-size: ${letra}% }` })
+    await page.evaluate(() => document.fonts.ready)
+    // en px fijos el rótulo no crecía, y la letra agrandada no llegaba a la barra
+    const tamano = await page
+      .locator('.tabbar__etiqueta')
+      .first()
+      .evaluate((e) => parseFloat(getComputedStyle(e).fontSize))
+    expect(tamano, 'el rótulo no crece con la letra').toBeCloseTo((12 * letra) / 100, 1)
+
+    const medidas = await page.locator('.tabbar__tab').evaluateAll((tabs) =>
+      tabs.map((t) => {
+        const caja = t.getBoundingClientRect()
+        const rotulo = t.querySelector('.tabbar__etiqueta')!.getBoundingClientRect()
+        return {
+          nombre: t.textContent,
+          caja: { izq: caja.left, der: caja.right, abajo: caja.bottom },
+          rotulo: { izq: rotulo.left, der: rotulo.right, abajo: rotulo.bottom },
+        }
+      }),
+    )
+    expect(medidas).toHaveLength(5)
+    for (const { nombre, caja, rotulo } of medidas) {
+      expect(caja.izq, `${nombre}: se sale por la izquierda`).toBeGreaterThanOrEqual(0)
+      expect(caja.der, `${nombre}: se sale por la derecha`).toBeLessThanOrEqual(ancho)
+      expect(caja.abajo, `${nombre}: se sale por abajo`).toBeLessThanOrEqual(844)
+      expect(rotulo.izq, `${nombre}: el rótulo se sale de su pestaña`).toBeGreaterThanOrEqual(caja.izq - 0.5)
+      expect(rotulo.der, `${nombre}: el rótulo se sale de su pestaña`).toBeLessThanOrEqual(caja.der + 0.5)
+      expect(rotulo.abajo, `${nombre}: el rótulo se sale por abajo de su pestaña`).toBeLessThanOrEqual(caja.abajo + 0.5)
+    }
+  })
+}

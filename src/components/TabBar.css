@@ -2,6 +2,7 @@
    página. `fixed` y no `absolute`: la pantalla mide 100dvh y no hay
    contenedor posicionado, así que `absolute` se iría con el scroll. */
 .tabbar {
+  container-type: inline-size;
   position: fixed;
   left: 0;
   right: 0;
@@ -10,13 +11,15 @@
   display: flex;
   align-items: flex-start;
   gap: 2px;
-  /* 59 de barra más la zona segura: 13 fijos, o el home indicator si es más */
-  height: calc(var(--tab-alto) + var(--tab-zona-segura));
+  /* 59 de barra más la zona segura: 13 fijos, o el home indicator si es más.
+     min y no height: con la letra agrandada crece hacia arriba. */
+  min-height: calc(var(--tab-alto) + var(--tab-zona-segura));
   max-width: var(--max-ancho);
   margin-inline: auto;
   padding: 0 6px var(--tab-zona-segura);
   background: var(--papel-hundido);
   border-top: 1.5px solid var(--linea-fuerte);
+  font-size: var(--texto-xs);
 }
 
 .tabbar__tab {
@@ -47,24 +50,10 @@
 }
 
 .tabbar__etiqueta {
-  font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
   /* si se parte, la barra crece */
   white-space: nowrap;
-}
-
-/* Debajo del mínimo de la spec (340) las cinco no entran en una línea: ahí
-   «Esta semana» se parte en dos, que caben en la pestaña. */
-@media (max-width: 339px) {
-  .tabbar__tab {
-    min-width: min-content;
-  }
-
-  .tabbar__etiqueta {
-    white-space: normal;
-    text-align: center;
-  }
 }
 
 /* El 1,5 de más tapa el borde de la barra: así la pestaña sale de la página */
@@ -81,4 +70,45 @@
   font-weight: 800;
   padding-bottom: 2px;
   background: linear-gradient(var(--sol), var(--sol)) 0 100% / 100% 3px no-repeat;
+}
+
+/* Cuando las cinco no entran en una línea (menos de 340 a letra normal, o la
+   letra agrandada en Ajustes del teléfono), los rótulos se parten en dos.
+   En em para que el corte crezca con la letra: en px, a 130 % la última
+   pestaña quedaba fuera de la pantalla. */
+@container (max-width: 27.25em) {
+  /* estiradas y 5 más cortas que la activa, como a letra normal: si no, la
+     que se parte en dos bajaba más que la activa */
+  .tabbar__tab {
+    align-self: stretch;
+    min-width: min-content;
+    height: auto;
+    min-height: calc(var(--tab-alto) - 5px);
+    margin-bottom: 5px;
+    padding-block: 4px;
+  }
+
+  .tabbar__tab[aria-current='page'] {
+    height: auto;
+    min-height: var(--tab-alto);
+    margin-bottom: 0;
+  }
+
+  .tabbar__etiqueta {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* Ni partidas en dos entran (320 con la letra al 130 %): se cortan las
+   palabras. Feo, pero las cinco se alcanzan. */
+@container (max-width: 22.5em) {
+  .tabbar__tab {
+    min-width: 0;
+  }
+
+  .tabbar__etiqueta {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
 }

@@ -19,7 +19,8 @@ especificación está en `docs/diseno/cuaderno/README.md` y el render en
   oscura que `--papel`, de noche ninguna más clara (`e2e/textura.spec.ts`).
   Los renglones (`--renglon`, cada `--renglon-alto`) sólo en las listas que
   son «páginas». Encima de la línea no pasan AA `--tinta-tenue` (los dos
-  temas), `--verde-hoja` y `--sol-texto` (día) ni `--terracota-texto` (noche).
+  temas); `--verde-hoja`, `--sol-texto` y `--conf-alta/media/sin` (día); ni
+  `--terracota-texto`, `--peligro` y `--conf-baja` (noche).
 - **Ocre `--sol` = atención:** «acá estás» (pestaña activa, día que leés,
   etapa actual) y la banderita de algo para hacer. El post-it es papel
   amarillo (`--postit`), no ocre. Lo que no puede transparentar va en

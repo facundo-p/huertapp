@@ -403,8 +403,9 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
     manuscrita, algún descendente lo roza.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
     contrastes) sólo sirven en página rayada si el renglón no los toca:
-    `--tinta-tenue`, y de día `--verde-hoja` y `--sol-texto`, de noche
-    `--terracota-texto`. Así pasa «Atrasada», en terracota.
+    `--tinta-tenue`; de día `--verde-hoja`, `--sol-texto` y
+    `--conf-alta/media/sin`; de noche `--terracota-texto`, `--peligro` y
+    `--conf-baja`. Así pasa «Atrasada», en terracota.
   `GanttPlanta` y `TarjetaLugar` usan `--tinta-tenue` a 11 px: si la lista por
   lugar pasa a ser página con renglones, esos textos pasan a `--tinta-suave`.
 - Sin `<filter>` por viñeta: el grano ya está en `body::before`.
@@ -454,6 +455,10 @@ Contrastes medidos (WCAG: 4,5 para texto, 3 para rellenos y trazos):
 | `--verde-hoja` justo encima de un renglón | **4,06, no pasa** | 5,3 |
 | `--sol-texto` justo encima de un renglón | **4,44, no pasa** | 5,2 |
 | `--terracota-texto` justo encima de un renglón | 6,3 | **4,38, no pasa** |
+| `--peligro` y `--conf-baja` justo encima de un renglón | 4,66 | **4,38, no pasa** |
+| `--conf-alta` justo encima de un renglón | **4,23, no pasa** | 5,9 |
+| `--conf-media` justo encima de un renglón | **4,21, no pasa** | 5,8 |
+| `--conf-sin` justo encima de un renglón | **4,45, no pasa** | 5,1 |
 | círculo del día leído (`--sol-texto`, trazo) | 5,3 | 6,9 |
 | relleno de la banderita contra su celda teñida | **2,49, no pasa**: el 3:1 lo cumple el contorno (`--bandera-borde`, 6,91) | 4,91, sin contorno |
 | relleno de la banderita atrasada contra su celda teñida | 4,36, con el mismo contorno | 4,12, sin contorno |
