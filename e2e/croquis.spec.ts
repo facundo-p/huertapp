@@ -190,6 +190,34 @@ test('en otro lugar, una libre no recibe lo elegido: para eso está Trasplantar'
   await expect(croquis(page).getByRole('button', { pressed: true })).toHaveCount(1)
 })
 
+test('con el dedo: toda una planta, intercambiar dos, y el lector oye cada paso', async ({ page }) => {
+  await abrirHuerta(page)
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  const fondo = croquis(page).locator('article', { has: page.getByRole('heading', { name: 'Bancal del fondo' }) })
+  // sin aria-live, la barra cambia y el lector no dice nada
+  const oye = (texto: string | RegExp) => page.locator('[aria-live="polite"]').filter({ hasText: texto })
+
+  await fondo.getByRole('button', { name: 'Rúcula, fila 2, columna 1' }).click()
+  await page.getByRole('button', { name: 'Todas las celdas de rúcula' }).click()
+  await expect(oye('Las 4 celdas de rúcula.')).toHaveCount(1)
+  await expect(fondo.getByRole('button', { name: /^Rúcula/, pressed: true })).toHaveCount(4)
+  await page.getByRole('button', { name: 'Soltar' }).click()
+
+  await fondo.getByRole('button', { name: 'Lechuga, fila 1, columna 2' }).click()
+  await fondo.getByRole('button', { name: 'Rúcula, fila 2, columna 1' }).click()
+  await page.getByRole('button', { name: 'Intercambiar' }).click()
+  await expect(oye(/cambiaste de lugar .* de lechuga y .* de rúcula/)).toHaveCount(1)
+  await expect(fondo.getByRole('button', { name: 'Rúcula, fila 1, columna 2' })).toBeVisible()
+  await expect(fondo.getByRole('button', { name: 'Lechuga, fila 2, columna 1' })).toBeVisible()
+  await expect(croquis(page).getByRole('button', { pressed: true })).toHaveCount(0)
+
+  await page.reload()
+  await page.waitForLoadState('networkidle')
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  await expect(fondo.getByRole('button', { name: 'Rúcula, fila 1, columna 2' })).toBeVisible()
+  await expect(fondo.getByRole('button', { name: 'Lechuga, fila 2, columna 1' })).toBeVisible()
+})
+
 /**
  * Dos toques más rápidos que lo que tarda en releerse la huerta: el segundo se
  * armaba con la pantalla de antes del primero y lo pisaba. Demora los getAll de
