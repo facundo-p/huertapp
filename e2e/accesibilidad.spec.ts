@@ -601,6 +601,41 @@ for (const letra of [100, 200]) {
 }
 
 /**
+ * Con cinco casilleros, «Trasplante» ensanchaba su columna y a 320 px la página
+ * de la planta scrolleaba de costado. Al 200 %, también el «Anotar algo».
+ */
+for (const [ancho, letra] of [
+  [320, 100],
+  [390, 130],
+  [320, 200],
+] as const) {
+  test(`la página de la planta no se sale · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await conDemo(page)
+    await abrir(page, '/#/huerta', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      await p
+        .locator('section.lugar', { has: p.getByRole('button', { name: /^Almaciguera del balcón/ }) })
+        .getByRole('link', { name: /Los del cajón/ })
+        .click()
+      await expect(p.locator('.pagina-planta-casillero'), 'Los del cajón pasa por cinco hitos').toHaveCount(5)
+    })
+    const { casilleros, pagina } = await page.evaluate(() => ({
+      casilleros: [...document.querySelectorAll('.pagina-planta-casillero')].map((c) => ({
+        der: c.getBoundingClientRect().right,
+        desborda: c.scrollWidth > c.clientWidth,
+      })),
+      pagina: document.documentElement.scrollWidth,
+    }))
+    for (const c of casilleros) {
+      expect(c.der, 'un casillero se sale por la derecha').toBeLessThanOrEqual(ancho)
+      expect(c.desborda, 'el texto se sale de su casillero').toBe(false)
+    }
+    expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(ancho)
+  })
+}
+
+/**
  * La zona segura de abajo cambia sin que cambie el ancho (Safari al esconder
  * su barra, Android de borde a borde), y lo que mide la barra tiene que
  * seguirla. Mirando sólo el contenido, --tab-ocupa se quedaba en 72 con la

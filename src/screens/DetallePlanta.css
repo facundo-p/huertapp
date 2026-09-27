@@ -208,19 +208,22 @@
   margin-bottom: calc(-1 * var(--esp-2));
 }
 
-/* 1fr y no minmax(0, 1fr): «Trasplante» ensancha su columna antes que cortarse */
+/* En fila mientras entren y si no, siguen abajo: en grilla, «Trasplante» ensanchaba
+   su columna y a 320 px la página scrolleaba de costado */
 .pagina-planta-casilleros {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  gap: 5px;
-  /* lugar para el «hoy», que va encima */
+  display: flex;
+  flex-wrap: wrap;
+  /* lugar para el «hoy», que va encima, también en la segunda fila */
+  gap: 22px 5px;
   margin: 18px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .pagina-planta-casillero {
+  /* crecen parejo desde cero; el mínimo es su palabra más larga, sin cortarla */
+  flex: 1 1 0;
+  max-width: 8rem;
   position: relative;
   display: grid;
   align-content: start;
@@ -230,7 +233,6 @@
   border: 1.5px solid var(--tinta-media);
   border-radius: 3px 5px 4px 6px;
   background: var(--papel-alto);
-  hyphens: auto;
 }
 
 .pagina-planta-casillero.es-futuro {
@@ -313,18 +315,20 @@
   padding-bottom: var(--renglon-alto);
 }
 
-/* el botón, opaco, tapa el renglón que cruza; el alto no se mueve de 2 renglones */
+/* el botón, opaco, tapa el renglón que cruza. Dos renglones de alto; con la
+   letra grande el botón baja antes que hacer scrollear la página de costado */
 .pagina-planta-diario__cab {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--esp-2);
-  height: calc(2 * var(--renglon-alto));
+  min-height: calc(2 * var(--renglon-alto));
 }
 
 .pagina-planta-diario__cab > .lapiz {
   flex: none;
-  margin: 6px var(--esp-4) 0 0;
+  margin: 6px var(--esp-4) 0 auto;
 }
 
 .pagina-planta-diario__vacio {
@@ -350,7 +354,7 @@
 .pagina-planta-entrada__fecha {
   padding-right: 14px;
   text-align: right;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   line-height: var(--renglon-alto);
   font-variant-numeric: tabular-nums;

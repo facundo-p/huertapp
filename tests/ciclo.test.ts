@@ -59,6 +59,14 @@ describe('los casilleros del ciclo', () => {
     const cs = casillerosDelCiclo(planta(), lechuga, '2026-08-03')
     expect(cs[1]).toMatchObject({ nombre: 'Asoma', fecha: '2026-08-05', hecho: false, hoy: true })
     expect(elDeHoy(cs)).toEqual(['asoma'])
+    // lo que sigue depende de cuándo asome: germinacionPendiente lo calla, como en el resto de la página
+    expect([cs[2].fecha, cs[2].nota, cs[3].fecha, cs[3].nota]).toEqual([undefined, undefined, undefined, undefined])
+  })
+
+  it('pasado el plazo sin asomar, «Asoma» no muestra una fecha vencida como por venir', () => {
+    const cs = casillerosDelCiclo(planta(), lechuga, '2026-08-20')
+    expect(cs[1]).toMatchObject({ nombre: 'Asoma', nota: 'se demora', hoy: true })
+    expect([cs[1].fecha, cs[2].fecha, cs[3].fecha]).toEqual([undefined, undefined, undefined])
   })
 
   it('la siembra directa no tiene trasplante', () => {

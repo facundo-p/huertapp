@@ -1,6 +1,6 @@
 import type { EspecieEnriquecida } from '../data/types'
 import { corrimiento, estimar } from './estimar'
-import { esperaGerminacion, germinacion } from './germinacion'
+import { esperaGerminacion, germinacion, germinacionPendiente, type Germinacion } from './germinacion'
 import type { Planta, TipoEntrada } from './tipos'
 
 /**
@@ -36,6 +36,8 @@ export function casillerosDelCiclo(
     p.metodo === 'almacigo' || p.metodo === 'almacigo_protegido' || p.etapa === 'trasplantada'
   const trasplantada = pasaPorAlmacigo && p.etapa !== 'almacigo'
   const cosechando = p.etapa === 'cosechando' || p.etapa === 'terminada'
+  // mientras no asoma, lo que sigue se calla: la estimación se corre con ella
+  const aVenir = germinacionPendiente(germ) ? () => ({}) : porVenir
 
   const lista: Omit<Casillero, 'hoy'>[] = [
     { clave: 'siembra', nombre: plantada ? 'Plantada' : 'Sembrada', fecha: p.sembrada, hecho: p.sembrada <= hoy },
@@ -55,7 +57,7 @@ export function casillerosDelCiclo(
             nota: corrido > 0 ? `${dias(corrido)} tarde` : corrido < 0 ? `${dias(-corrido)} antes` : undefined,
             hecho: true,
           }
-        : { clave: 'asoma', nombre: 'Asoma', ...porVenir(germ?.desde), hecho: false },
+        : { clave: 'asoma', nombre: 'Asoma', ...asomaria(germ), hecho: false },
     )
   }
 
@@ -68,14 +70,14 @@ export function casillerosDelCiclo(
             fecha: p.etapa === 'trasplantada' ? p.etapaDesde : undefined,
             hecho: true,
           }
-        : { clave: 'trasplante', nombre: 'Trasplante', ...porVenir(est?.trasplante?.desde), hecho: false },
+        : { clave: 'trasplante', nombre: 'Trasplante', ...aVenir(est?.trasplante?.desde), hecho: false },
     )
   }
 
   lista.push(
     cosechando
       ? { clave: 'cosecha', nombre: 'Cosecha', fecha: p.etapa === 'cosechando' ? p.etapaDesde : undefined, hecho: true }
-      : { clave: 'cosecha', nombre: 'Cosecha', ...porVenir(est?.cosecha?.desde), hecho: false },
+      : { clave: 'cosecha', nombre: 'Cosecha', ...aVenir(est?.cosecha?.desde), hecho: false },
     {
       clave: 'fin',
       nombre: 'Terminada',
@@ -91,6 +93,11 @@ export function casillerosDelCiclo(
 /** Lo estimado es un «desde»: la ficha da un rango y el casillero muestra dónde empieza. */
 function porVenir(desde?: string): { fecha?: string; nota?: string } {
   return desde ? { fecha: desde, nota: 'en adelante' } : {}
+}
+
+/** Pasado el plazo, la fecha ya no es algo por venir: lo explica la página, abajo. */
+function asomaria(g: Germinacion | null): { fecha?: string; nota?: string } {
+  return g?.estado === 'demorada' ? { nota: 'se demora' } : porVenir(g?.desde)
 }
 
 /** Un hito cumplido lleva sello; lo de todos los días, no. */
