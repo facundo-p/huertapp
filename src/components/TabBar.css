@@ -7,23 +7,26 @@
   right: 0;
   bottom: 0;
   z-index: 20;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  align-items: start;
-  gap: 3px;
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
   /* 59 de barra más la zona segura: 13 fijos, o el home indicator si es más */
   height: calc(var(--tab-alto) + var(--tab-zona-segura));
   max-width: var(--max-ancho);
   margin-inline: auto;
-  padding: 0 8px var(--tab-zona-segura);
+  padding: 0 6px var(--tab-zona-segura);
   background: var(--papel-hundido);
   border-top: 1.5px solid var(--linea-fuerte);
 }
 
 .tabbar__tab {
   --tinte: color-mix(in srgb, var(--c) 20%, var(--papel));
-  min-width: 0;
-  height: 54px;
+  /* Parejas, pero ninguna más angosta que su rótulo: «Esta semana» activa
+     mide 76 y a 390 el quinto de la barra da 72. */
+  flex: 1 1 0;
+  min-width: max-content;
+  padding-inline: 2px;
+  height: calc(var(--tab-alto) - 5px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,12 +41,6 @@
      y fallaba según el reloj. */
 }
 
-.tabbar__tab:nth-child(1) { --c: var(--sol); }
-.tabbar__tab:nth-child(2) { --c: var(--verde-hoja); }
-.tabbar__tab:nth-child(3) { --c: var(--agua); }
-.tabbar__tab:nth-child(4) { --c: var(--terracota); }
-.tabbar__tab:nth-child(5) { --c: var(--oliva); }
-
 .tabbar__pastilla {
   display: grid;
   place-items: center;
@@ -53,14 +50,27 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
-  /* «Esta semana» entra justa en una línea: si se parte, la barra crece */
+  /* si se parte, la barra crece */
   white-space: nowrap;
+}
+
+/* Debajo del mínimo de la spec (340) las cinco no entran en una línea: ahí
+   «Esta semana» se parte en dos, que caben en la pestaña. */
+@media (max-width: 339px) {
+  .tabbar__tab {
+    min-width: min-content;
+  }
+
+  .tabbar__etiqueta {
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* El 1,5 de más tapa el borde de la barra: así la pestaña sale de la página */
 .tabbar__tab[aria-current='page'] {
   margin-top: -1.5px;
-  height: 59px;
+  height: var(--tab-alto);
   background: var(--papel);
   color: var(--tinta);
   border: 1.5px solid var(--linea-fuerte);

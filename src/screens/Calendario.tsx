@@ -143,7 +143,7 @@ export function Calendario() {
         {/* Las iniciales no se tocan: a 20 px de columna no hay target de 44
             posible. El panel del mes se navega con sus flechas. */}
         <div className="cal-fila cal-cabecera" aria-hidden>
-          <span className="cal-cabecera__hueco">cada mes en 3</span>
+          <span className="cal-cabecera__hueco">Cada mes en 3</span>
           {MESES.map((m) => (
             <span key={m} className="cal-celda">
               <span
@@ -398,7 +398,7 @@ function PanelMes({
           ›
         </button>
         <button type="button" className="panel-mes__cerrar" onClick={onCerrar}>
-          cerrar
+          Cerrar
         </button>
       </div>
       {tercios.map((t) => {

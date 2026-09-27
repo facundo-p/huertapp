@@ -368,6 +368,12 @@
   margin-left: auto;
 }
 
+/* los nombres vienen en minúscula para ir dentro de una frase */
+.panel-mes__mes::first-letter,
+.panel-mes__rotulo::first-letter {
+  text-transform: uppercase;
+}
+
 /* cuando el panel está cerrado, el camino de vuelta */
 .calendario__abrir-mes {
   align-self: flex-start;

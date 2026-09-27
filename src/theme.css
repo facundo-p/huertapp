@@ -209,8 +209,8 @@
 
   /* ---- Cuaderno ---- */
   /* El renglón tiene techo: a .2 bajaba --tinta-suave a 4,46 justo encima de
-     la línea. --tinta-tenue, --verde-hoja y --sol-texto no pasan encima de
-     un renglón: sólo sirven donde el renglón no los toca. */
+     la línea. Encima de un renglón no pasan --tinta-tenue en los dos temas,
+     --verde-hoja y --sol-texto de día y --terracota-texto de noche. */
   --renglon: rgba(79, 127, 149, 0.16);
   --margen: rgba(161, 88, 61, 0.5);
   --cuadro: rgba(79, 127, 149, 0.13);

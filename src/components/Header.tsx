@@ -26,6 +26,9 @@ export function Header({ titulo, sobretitulo, volver, vineta, children }: Props)
       <div className="encabezado__textos">
         <h1 className="encabezado__titulo mano">{titulo}</h1>
       </div>
+      {/* se lee después del título y se ve abajo de todo (`order`): si
+          comparte fila con los botones, un contador largo se parte en dos */}
+      {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
       {vineta && <span className="encabezado__vineta">{vineta}</span>}
       {!volver && (
         <div className="encabezado__acciones">
@@ -38,9 +41,6 @@ export function Header({ titulo, sobretitulo, volver, vineta, children }: Props)
         </div>
       )}
       {children}
-      {/* al final y con la fila para él solo: si comparte ancho con los
-          botones, un contador largo se parte en dos líneas */}
-      {sobretitulo && <p className="encabezado__sobre">{sobretitulo}</p>}
     </header>
   )
 }

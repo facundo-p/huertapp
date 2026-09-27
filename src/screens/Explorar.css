@@ -109,7 +109,7 @@
   text-underline-offset: 3px;
 }
 
-/* hasta diecinueve nombres con los cuatro rangos prendidos */
+/* chica: con los cuatro rangos prendidos son hasta diecinueve nombres */
 .explorar__sindato {
   font-size: var(--texto-xs);
   line-height: 1.5;

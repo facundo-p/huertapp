@@ -62,11 +62,11 @@ texto apoyado sobre la línea, y un margen terracota a la izquierda.
 **Papel reciclado de fondo**, muy leve y sobre todo de día. Una tesela de
 256 × 256 con tres capas: nubes (el papel que no es parejo), fibras cortas y
 motas. Está en `src/papel/papel-reciclado-dia.svg` y `-noche.svg`, para
-`body::before`, donde hoy vive el grano, con `--grano-fuerza` en 1: la tesela ya
-trae su intensidad, y con el 0,02 de hoy quedaría invisible.
+`body::before`, donde vivía el grano, con `--grano-fuerza` en 1: la tesela ya
+trae su intensidad.
 
 La regla que la hace posible: **de día, ninguna mancha es más oscura que el
-papel.** El grano negro de día tiene techo en 0,021 (`src/theme.css`), porque
+papel.** El grano negro que había antes tenía techo en 0,021, porque
 oscurecer el papel le baja el contraste a `--tinta-tenue` y a `--tinta-suave`.
 La textura se ve por tono y por claridad, con colores como `#fffdf6`, `#f9fbff`,
 `#fff5f0` y `#fff8e9`. Tienen **cada canal** dos unidades o más por encima del

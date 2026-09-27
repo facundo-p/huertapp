@@ -288,10 +288,8 @@
 .compost__poner-rotulo small {
   display: block;
   font-family: var(--font-cuerpo);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
   color: var(--tinta-suave);
 }
 

@@ -294,7 +294,7 @@ for (const tema of TEMAS) {
       await abrir(page, ruta, entrar)
 
       const malos = await page.evaluate(() => {
-        /** [r, g, b, a?] en 0-255. `color-mix()` computa a `color(srgb …)`, en
+        /** [r, g, b] en 0-255 y a en 0-1. `color-mix()` computa a `color(srgb …)`, en
          *  0-1: leído como rgb daba casi negro, y de noche el texto claro
          *  pasaba en falso. */
         const canales = (c: string) => {
