@@ -16,7 +16,7 @@ import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, expuestasAHelada, tareasVisibles } from '../lib/tareas/engine'
 import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
-import { atencionPorPlanta, copoDeLaSemana, empaquetar, grillaDe } from '../lib/huerta/croquis'
+import { atencionPorPlanta, copoDeLaSemana, empaquetar, grillaDe, ordenarLugares } from '../lib/huerta/croquis'
 import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Ubicacion } from '../lib/huerta/tipos'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import { resumenHuerta } from '../lib/huerta/tanda'
@@ -49,6 +49,8 @@ export function MiHuerta() {
   const [editando, setEditando] = useState<Ubicacion | null>(null)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
   const [croquisPlegado, setCroquisPlegado] = useState(leerCroquisPlegado)
+  // sin guardar: al volver a la pantalla se mira, no se acomoda
+  const [acomodando, setAcomodando] = useState(false)
   const hoy = hoyISO()
 
   const activas = useMemo(
@@ -63,7 +65,7 @@ export function MiHuerta() {
   const lugares = useMemo(
     () =>
       empaquetar(
-        agruparPorLugar(activas, ubicaciones).map((g) => {
+        ordenarLugares(agruparPorLugar(activas, ubicaciones)).map((g) => {
           const grilla = grillaDe(g.ubicacion, g.plantas)
           return { ...g, grilla, ancho: grilla.ancho }
         }),
@@ -165,17 +167,21 @@ export function MiHuerta() {
 
   const listo = cargado && !cargando
   const hayLista = listo && lugares.length > 0
+  // mientras se acomoda, sólo el croquis: la lista y el compost quedan para después
+  const acomoda = hayLista && acomodando
 
   return (
-    <div className="pantalla">
+    <div className={acomoda ? 'pantalla pantalla--acomodando' : 'pantalla'}>
       <Header
         titulo="Mi huerta"
-        sobretitulo={listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'}
+        sobretitulo={
+          acomoda ? 'Acomodando el croquis' : listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'
+        }
       >
         {/* La acción primaria, en ocre, donde la pone el diseño. Va con el
             glifo solo: con la palabra "Sumar", el título y los dos accesos no
             entran en 390 px y "Mi huerta" se parte en dos líneas. */}
-        {hayLista && (
+        {hayLista && !acomoda && (
           <button
             className="huerta__sumar"
             aria-label="Sumar una planta"
@@ -211,13 +217,15 @@ export function MiHuerta() {
           atencion={atencion}
           copo={copo}
           hoy={hoy}
-          plegado={croquisPlegado}
+          plegado={croquisPlegado && !acomoda}
           onPlegar={alternarCroquis}
           onIrALugar={irALugar}
+          acomodando={acomoda}
+          onAcomodar={setAcomodando}
         />
       )}
 
-      {hayLista && (
+      {hayLista && !acomoda && (
         <section className="pagina huerta__pagina" aria-labelledby="huerta-lista-titulo">
           <h2 className="pagina__titulo mano" id="huerta-lista-titulo">
             Por lugar, con sus fechas
@@ -264,7 +272,7 @@ export function MiHuerta() {
       <div className="pantalla__cuerpo">
         {/* Las composteras viven acá, con lo demás que registrás; la guía es
             la pestaña Compost y no sabe de tus tachos. */}
-        {listo && (
+        {listo && !acomoda && (
           <section className="huerta__seccion huerta__compost">
             <h2 className="huerta__compost-titulo">
               <IconoCompost size={18} />

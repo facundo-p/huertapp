@@ -320,6 +320,22 @@ const TOMAS: Toma[] = [
     },
   },
   {
+    // acomodando: dos celdas de plantas distintas elegidas, sus marcas + y la
+    // barra con todos sus botones. La barra no puede tapar lo elegido
+    nombre: 'huerta-acomodar',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: 'Acomodar' }).click()
+      const almaciguera = page.locator('article', { has: page.getByRole('heading', { name: 'Almaciguera del balcón' }) })
+      await almaciguera.getByRole('button', { name: 'Tomate, Los del cajón, fila 1, columna 4' }).click()
+      await almaciguera.getByRole('button', { name: 'Albahaca, fila 1, columna 5' }).click()
+      await page.waitForTimeout(400)
+    },
+  },
+  {
     nombre: 'planta-detalle',
     ruta: '/#/huerta',
     fullPage: true,

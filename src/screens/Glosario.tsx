@@ -14,7 +14,7 @@ import {
 import { conNegritas } from '../lib/negritas'
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
-import { Banderita, Copo } from '../components/Croquis'
+import { Banderita, Copo, MarcaEntra } from '../components/Croquis'
 import '../components/ChipHoja.css'
 // las marcas de la tira se muestran con sus clases de verdad
 import '../components/Semana.css'
@@ -41,6 +41,7 @@ import {
   IconoTermo,
   IconoCheck,
   IconoCruz,
+  IconoFlecha,
   IconoMas,
   IconoConfianza,
   IconoCosechar,
@@ -531,6 +532,43 @@ export function Glosario() {
                 <p className="glosario__nombre">Tapar si hiela</p>
                 <p className="glosario__desc">
                   Esta semana puede helar y esa planta no lo aguanta: tapala de noche.
+                </p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <MarcaEntra />
+              </span>
+              <div>
+                <p className="glosario__nombre">Entra lo elegido</p>
+                <p className="glosario__desc">
+                  Al acomodar, las celdas libres donde entra lo que elegiste. Tocá una y va ahí.
+                </p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <span className="croquis-ancla">1</span>
+              </span>
+              <div>
+                <p className="glosario__nombre">La primera</p>
+                <p className="glosario__desc">
+                  Si elegiste varias, la «1» va a la marca que toques y las demás la siguen con la misma
+                  forma.
+                </p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <span className="acomodar-flecha">
+                  <IconoFlecha hacia="derecha" size={24} />
+                </span>
+              </span>
+              <div>
+                <p className="glosario__nombre">Correr lo elegido</p>
+                <p className="glosario__desc">
+                  Una celda para ese lado, con la misma forma. Punteada no se puede: si la tocás, te dice
+                  por qué.
                 </p>
               </div>
             </div>

@@ -33,6 +33,13 @@ Qué significa cada parte en este proyecto:
   llevan un copo. Tocá una planta y vas a su página; tocá el nombre de un lugar
   y bajás a sus fechas. Se pliega como un lugar, y queda como lo dejaste.
 - **Las marcas del croquis están en el Glosario.**
+- **Podés acomodar el croquis como está en tu huerta, si querés.** Tocá
+  «Acomodar», elegí una o varias celdas y tocá dónde van: las marcas «+» te
+  muestran dónde entran. También podés correrlas una celda con las flechas,
+  intercambiar dos plantas o mover todas las de lo mismo juntas. Y con «Antes» y
+  «Después» cambiás el orden de los lugares en la hoja, que es también el de la
+  lista. Si no acomodás nada, el croquis se sigue armando solo, como hasta
+  ahora; y lo que trasplantás o mudás llega a la primera celda libre.
 
 ### Cambiado
 

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import type { Planta, Ubicacion } from '../lib/huerta/tipos'
@@ -9,12 +9,35 @@ import {
   corrida,
   etapaDibujo,
   manchones,
+  type AnchoCroquis,
   type Atencion,
   type EtapaDibujo,
   type GrillaLugar,
 } from '../lib/huerta/croquis'
+import {
+  FLECHAS,
+  acomodado,
+  comoSeguir,
+  describir,
+  destinoDe,
+  dondeEntra,
+  dondeEsta,
+  enOrden,
+  intercambiables,
+  intercambiar,
+  llevar,
+  moverLugar,
+  porQueNoSeMueve,
+  textoIntercambio,
+  textoLibre,
+  textoQuedo,
+  textoToda,
+  trasladar,
+} from '../lib/huerta/acomodar'
+import { guardarAcomodo, ordenarUbicaciones, sinRomper } from '../lib/huerta/store'
 import { Dibujo, FORMA_DE_GRUPO, Plantita } from '../dibujos'
-import { IconoDesplegar, IconoEscarcha } from '../icons'
+import { IconoCheck, IconoDesplegar, IconoEscarcha, IconoFlecha, IconoMas } from '../icons'
+import './Semana.css'
 import './Croquis.css'
 
 export interface LugarCroquis {
@@ -22,6 +45,7 @@ export interface LugarCroquis {
   ubicacion?: Ubicacion
   plantas: Planta[]
   grilla: GrillaLugar
+  ancho: AnchoCroquis
 }
 
 interface Props {
@@ -35,6 +59,8 @@ interface Props {
   plegado: boolean
   onPlegar: () => void
   onIrALugar: (id: string | undefined) => void
+  acomodando: boolean
+  onAcomodar: (acomodando: boolean) => void
 }
 
 interface Dibujada {
@@ -43,15 +69,59 @@ interface Dibujada {
   etapa: EtapaDibujo
 }
 
+/** Lo que el croquis le pasa a un lugar mientras se acomoda. */
+interface AcomodoLugar {
+  /** las celdas elegidas de este lugar, en orden de lectura */
+  sel: number[]
+  /** las libres donde entra lo elegido: llevan la marca «+» */
+  entra: Set<number>
+  /** el lugar entero, para moverlo en la hoja */
+  elegido: boolean
+  onCelda: (i: number) => void
+  onNombre: () => void
+}
+
+/** Una flecha de la barra, con adónde llevaría lo elegido o por qué no puede. */
+type Flecha = (typeof FLECHAS)[number] & { r: ReturnType<typeof trasladar> }
+
 // lo sembrado, en minúscula como en el cuaderno: el apodo va en el nombre accesible
 const nombreCorto = (d: Dibujada) => (d.especie?.nombre_comun ?? d.planta.slug).toLowerCase()
+const nombreLargo = (d: Dibujada) =>
+  mayus(d.especie?.nombre_comun ?? d.planta.slug) + (d.planta.apodo ? `, ${d.planta.apodo}` : '')
+
+const TRASPLANTAR = 'Para pasar plantas a otro lugar está «Trasplantar», en la página de la planta.'
 
 /**
- * Mi huerta vista desde arriba, sobre hoja cuadriculada. Sale sólo de lo
- * cargado (`lib/huerta/croquis.ts`); acá se dibuja. La identidad y la atención
- * van en HTML: el SVG sólo pone papel y plantas.
+ * Mi huerta vista desde arriba, sobre hoja cuadriculada. Sale de lo cargado y
+ * de lo acomodado (`lib/huerta/croquis.ts`); acá se dibuja. La identidad y la
+ * atención van en HTML: el SVG sólo pone papel y plantas.
  */
-export function Croquis({ lugares, porSlug, atencion, copo, hoy, plegado, onPlegar, onIrALugar }: Props) {
+export function Croquis({
+  lugares: dados,
+  porSlug,
+  atencion,
+  copo,
+  hoy,
+  plegado,
+  onPlegar,
+  onIrALugar,
+  acomodando,
+  onAcomodar,
+}: Props) {
+  const [elegidas, setElegidas] = useState<{ lugar: string; celdas: number[] } | null>(null)
+  const [lugarElegido, setLugarElegido] = useState<string | null>(null)
+  const [aviso, setAviso] = useState('')
+  const [ultima, setUltima] = useState<string | null>(null)
+  // lo que se está guardando, para que el dibujo no espere a IndexedDB
+  const [borrador, setBorrador] = useState<{ id: string; celdas: (string | null)[] } | null>(null)
+  const [ordenLocal, setOrdenLocal] = useState<string[] | null>(null)
+  const enfocar = useRef<string | null>(null)
+
+  let lugares = borrador
+    ? dados.map((l) => (l.ubicacion?.id === borrador.id ? { ...l, grilla: { ...l.grilla, celdas: borrador.celdas } } : l))
+    : dados
+  if (ordenLocal) lugares = enOrden(lugares, ordenLocal)
+
   const dibujadas = new Map<string, Dibujada>()
   for (const l of lugares) {
     for (const p of l.plantas) {
@@ -60,6 +130,121 @@ export function Croquis({ lugares, porSlug, atencion, copo, hoy, plegado, onPleg
       const etapa = etapaDibujo(p, especie, hoy)
       if (etapa) dibujadas.set(p.id, { planta: p, especie, etapa })
     }
+  }
+  const nombreDe = (id: string) => {
+    const d = dibujadas.get(id)
+    return d ? nombreCorto(d) : id
+  }
+
+  // lo elegido se relee contra lo guardado: una celda que se vació ya no cuenta
+  const lugarSel = acomodando && elegidas ? lugares.find((l) => l.ubicacion?.id === elegidas.lugar) : undefined
+  const sel = lugarSel ? elegidas!.celdas.filter((i) => lugarSel.grilla.celdas[i]) : []
+  const g = lugarSel?.grilla
+  const entra = g && sel.length ? dondeEntra(g, sel, nombreDe) : new Set<number>()
+  const flechas: Flecha[] = g && sel.length ? FLECHAS.map((f) => ({ ...f, r: trasladar(g, sel, f.dc, f.df, nombreDe) })) : []
+  const movido = acomodando && lugarElegido ? lugares.find((l) => l.ubicacion?.id === lugarElegido) : undefined
+
+  const selectorCelda = (lugar: string, i: number) => `[data-lugar="${lugar}"] [data-celda="${i}"]`
+  const primera = lugarSel && sel.length ? selectorCelda(elegidas!.lugar, sel[0]) : null
+
+  useEffect(() => {
+    if (!enfocar.current) return
+    document.querySelector<HTMLElement>(enfocar.current)?.focus({ preventScroll: true })
+    enfocar.current = null
+  })
+  // que la barra no tape lo elegido: el scroll-padding de la barra hace el resto
+  useEffect(() => {
+    if (primera) document.querySelector(primera)?.scrollIntoView({ block: 'nearest' })
+  }, [primera])
+
+  function empezarDeNuevo() {
+    setElegidas(null)
+    setLugarElegido(null)
+    setAviso('')
+    setUltima(null)
+  }
+
+  function alternarAcomodar() {
+    empezarDeNuevo()
+    onAcomodar(!acomodando)
+  }
+
+  function guardarCeldas(l: LugarCroquis, celdas: (string | null)[]) {
+    const hecho = { id: l.ubicacion!.id, celdas }
+    setBorrador(hecho)
+    const { ubicacion, plantas } = acomodado(l.ubicacion!, l.plantas, l.grilla, celdas)
+    sinRomper(guardarAcomodo(ubicacion, plantas).finally(() => setBorrador((b) => (b === hecho ? null : b))))
+  }
+
+  function tocarCelda(l: LugarCroquis, i: number) {
+    setAviso('')
+    setLugarElegido(null)
+    if (!l.ubicacion) {
+      setAviso(`Lo que no tiene lugar no se acomoda. ${TRASPLANTAR}`)
+      return
+    }
+    const id = l.ubicacion.id
+    const planta = l.grilla.celdas[i]
+    if (planta) {
+      // tocar una celda con planta la suma o la saca de lo elegido
+      const antes = lugarSel === l ? sel : []
+      const nuevas = antes.includes(i) ? antes.filter((x) => x !== i) : [...antes, i].sort((a, b) => a - b)
+      setElegidas(nuevas.length ? { lugar: id, celdas: nuevas } : null)
+      setUltima(planta)
+    } else if (!sel.length) {
+      setAviso(textoLibre(l.grilla.clase))
+    } else if (lugarSel !== l) {
+      setAviso(TRASPLANTAR)
+    } else {
+      const r = destinoDe(l.grilla, sel, i, nombreDe)
+      if ('motivo' in r) {
+        setAviso(`No entra ahí: ${r.motivo}.`)
+        return
+      }
+      guardarCeldas(l, llevar(l.grilla.celdas, sel, r.dest))
+      setAviso(sel.length === 1 ? 'Listo, ya está en su lugar nuevo.' : 'Listo, ya están en su lugar nuevo.')
+      setElegidas(null)
+    }
+  }
+
+  function correr(f: Flecha) {
+    if (!lugarSel) return
+    if ('motivo' in f.r) {
+      setAviso(`No se puede correr ${f.texto}: ${f.r.motivo}.`)
+      return
+    }
+    guardarCeldas(lugarSel, llevar(lugarSel.grilla.celdas, sel, f.r.dest))
+    setElegidas({ lugar: elegidas!.lugar, celdas: f.r.dest })
+    setAviso(textoQuedo(lugarSel.grilla, f.r.dest[0], sel.length > 1))
+  }
+
+  /** Toda, Intercambiar y Soltar: el botón puede no volver a estar, y el foco va a la primera elegida. */
+  function desdeLaBarra(accion: () => void) {
+    enfocar.current = primera
+    setAviso('')
+    accion()
+  }
+
+  function tocarNombre(l: LugarCroquis) {
+    if (!l.ubicacion) return
+    setElegidas(null)
+    setAviso('')
+    setLugarElegido(lugarElegido === l.ubicacion.id ? null : l.ubicacion.id)
+  }
+
+  function moverElLugar(paso: -1 | 1) {
+    if (!movido) return
+    const id = movido.ubicacion!.id
+    const r = moverLugar(lugares, id, paso)
+    if (!r) {
+      setAviso(`No puede ir ${paso < 0 ? 'antes' : 'después'}: ${porQueNoSeMueve(lugares, id, paso)}.`)
+      return
+    }
+    const ids = r.orden.map((u) => u.id)
+    setOrdenLocal(ids)
+    sinRomper(ordenarUbicaciones(r.orden).finally(() => setOrdenLocal((o) => (o === ids ? null : o))))
+    setAviso(`Quedó ${r.puesto + 1}.º de ${lugares.length}.`)
+    requestAnimationFrame(() => document.querySelector(`[data-lugar="${id}"]`)?.scrollIntoView({ block: 'nearest' }))
   }
 
   // la leyenda nombra sólo lo que está dibujado
@@ -103,19 +288,42 @@ export function Croquis({ lugares, porSlug, atencion, copo, hoy, plegado, onPleg
           )}
         </p>
       )}
-      <section className="croquis" aria-labelledby="croquis-titulo">
-        <h2 className="croquis__cab" id="croquis-titulo">
-          <button
-            type="button"
-            className="croquis__plegar mano"
-            aria-expanded={!plegado}
-            aria-controls={hayLeyenda ? 'croquis-plano croquis-leyenda' : 'croquis-plano'}
-            onClick={onPlegar}
-          >
-            <IconoDesplegar size={20} />
-            Croquis
-          </button>
-        </h2>
+      {acomodando && (
+        <p className="croquis-ayuda">
+          Tocá una o varias celdas con plantas, y después una marca + o las flechas de abajo. Para mover un lugar en
+          la hoja, tocá su nombre.
+        </p>
+      )}
+      <section className={acomodando ? 'croquis croquis--acomodando' : 'croquis'} aria-labelledby="croquis-titulo">
+        <div className="croquis__cab">
+          <h2 className="croquis__titulo" id="croquis-titulo">
+            {acomodando ? (
+              <span className="croquis__plegar mano">Croquis</span>
+            ) : (
+              <button
+                type="button"
+                className="croquis__plegar mano"
+                aria-expanded={!plegado}
+                aria-controls={hayLeyenda ? 'croquis-plano croquis-leyenda' : 'croquis-plano'}
+                onClick={onPlegar}
+              >
+                <IconoDesplegar size={20} />
+                Croquis
+              </button>
+            )}
+          </h2>
+          {/* el mismo botón entra y sale: el foco no se pierde al cambiar de modo */}
+          {!plegado && (
+            <button
+              type="button"
+              className={acomodando ? 'lapiz croquis__acomodar es-listo' : 'lapiz croquis__acomodar'}
+              onClick={alternarAcomodar}
+            >
+              {acomodando && <IconoCheck size={18} />}
+              {acomodando ? 'Listo' : 'Acomodar'}
+            </button>
+          )}
+        </div>
         <div className="croquis__plano" id="croquis-plano" hidden={plegado}>
           {lugares.map((l) => (
             <LugarDibujado
@@ -125,11 +333,210 @@ export function Croquis({ lugares, porSlug, atencion, copo, hoy, plegado, onPleg
               atencion={atencion}
               copo={copo}
               onIrALugar={onIrALugar}
+              acomodo={
+                acomodando
+                  ? {
+                      sel: l === lugarSel ? sel : [],
+                      entra: l === lugarSel ? entra : new Set(),
+                      elegido: l === movido,
+                      onCelda: (i) => tocarCelda(l, i),
+                      onNombre: () => tocarNombre(l),
+                    }
+                  : undefined
+              }
             />
           ))}
         </div>
       </section>
+      {acomodando && (
+        <BarraAcomodar
+          que={
+            lugarSel && sel.length
+              ? `${describir(lugarSel.grilla, sel, nombreDe)}.`
+              : movido
+                ? `Elegiste ${movido.ubicacion!.nombre}.`
+                : aviso || 'No elegiste nada todavía.'
+          }
+          como={
+            lugarSel && sel.length
+              ? aviso ||
+                comoSeguir(
+                  lugarSel.grilla,
+                  sel,
+                  entra.size > 0,
+                  flechas.some((f) => 'dest' in f.r),
+                )
+              : movido
+                ? aviso || 'Movelo con «Antes» o «Después».'
+                : 'Tocá una o varias celdas con plantas para elegirlas, o el nombre de un lugar para moverlo.'
+          }
+        >
+          {lugarSel && sel.length > 0 && (
+            <BotonesCeldas
+              lugar={lugarSel}
+              sel={sel}
+              ultima={ultima}
+              nombreDe={nombreDe}
+              flechas={flechas}
+              onCorrer={correr}
+              onToda={(planta) =>
+                desdeLaBarra(() =>
+                  setElegidas({
+                    lugar: elegidas!.lugar,
+                    celdas: lugarSel.grilla.celdas.flatMap((x, i) => (x === planta || sel.includes(i) ? [i] : [])),
+                  }),
+                )
+              }
+              onIntercambiar={() =>
+                desdeLaBarra(() => {
+                  const [a, b] = sel
+                  const celdas = lugarSel.grilla.celdas
+                  guardarCeldas(lugarSel, intercambiar(celdas, a, b))
+                  setAviso(textoIntercambio(lugarSel.grilla.clase, nombreDe(celdas[a]!), nombreDe(celdas[b]!)))
+                  setElegidas(null)
+                })
+              }
+              onSoltar={() => desdeLaBarra(() => setElegidas(null))}
+            />
+          )}
+          {movido && (
+            <div className="acomodar-barra__fila">
+              {([-1, 1] as const).map((paso) => {
+                const puede = !!moverLugar(lugares, movido.ubicacion!.id, paso)
+                const texto = paso < 0 ? 'Antes' : 'Después'
+                return (
+                  <button
+                    key={paso}
+                    type="button"
+                    className="lapiz acomodar-barra__boton"
+                    aria-disabled={!puede || undefined}
+                    aria-label={
+                      puede ? undefined : `${texto}: ${porQueNoSeMueve(lugares, movido.ubicacion!.id, paso)}`
+                    }
+                    onClick={() => moverElLugar(paso)}
+                  >
+                    {texto}
+                  </button>
+                )
+              })}
+              <button
+                type="button"
+                className="lapiz"
+                onClick={() => {
+                  enfocar.current = `[data-lugar="${movido.ubicacion!.id}"] .croquis-lugar__nombre`
+                  setAviso('')
+                  setLugarElegido(null)
+                }}
+              >
+                Soltar
+              </button>
+            </div>
+          )}
+        </BarraAcomodar>
+      )}
     </>
+  )
+}
+
+function BotonesCeldas({
+  lugar,
+  sel,
+  ultima,
+  nombreDe,
+  flechas,
+  onCorrer,
+  onToda,
+  onIntercambiar,
+  onSoltar,
+}: {
+  lugar: LugarCroquis
+  sel: number[]
+  ultima: string | null
+  nombreDe: (id: string) => string
+  flechas: Flecha[]
+  onCorrer: (f: Flecha) => void
+  onToda: (planta: string) => void
+  onIntercambiar: () => void
+  onSoltar: () => void
+}) {
+  const g = lugar.grilla
+  // «Toda» ofrece la última que tocaste, si sigue elegida: la que soltaste no
+  const q = ultima && sel.some((i) => g.celdas[i] === ultima) ? ultima : g.celdas[sel.at(-1)!]!
+  const faltan = g.celdas.some((x, i) => x === q && !sel.includes(i))
+  const cambiar = intercambiables(g, sel)
+  return (
+    <>
+      {(faltan || cambiar) && (
+        <div className="acomodar-barra__fila">
+          {faltan && (
+            <button type="button" className="lapiz" onClick={() => onToda(q)}>
+              {textoToda(g.clase, nombreDe(q))}
+            </button>
+          )}
+          {cambiar && (
+            <button type="button" className="lapiz" onClick={onIntercambiar}>
+              Intercambiar
+            </button>
+          )}
+        </div>
+      )}
+      {/* las flechas van siempre en la última fila: la barra crece para arriba y no se corren del dedo */}
+      <div className="acomodar-barra__fila">
+        <div className="acomodar-flechas" role="group" aria-label="Correr lo elegido">
+          {flechas.map((f) => {
+            const motivo = 'motivo' in f.r ? f.r.motivo : null
+            return (
+              <button
+                key={f.hacia}
+                type="button"
+                className="acomodar-flecha"
+                aria-disabled={motivo ? true : undefined}
+                aria-label={`Correr ${f.texto}${motivo ? `: ${motivo}` : ''}`}
+                onClick={() => onCorrer(f)}
+              >
+                <IconoFlecha hacia={f.hacia} size={24} />
+              </button>
+            )
+          })}
+        </div>
+        <button type="button" className="lapiz" onClick={onSoltar}>
+          Soltar
+        </button>
+      </div>
+    </>
+  )
+}
+
+/**
+ * Abajo, arriba de las pestañas. Mide su alto para que el scroll deje lo
+ * enfocado arriba de ella y la pantalla alcance a mostrar el final del croquis.
+ */
+function BarraAcomodar({ que, como, children }: { que: string; como: string; children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const medir = () => {
+    if (ref.current) document.documentElement.style.setProperty('--barra-acomodar', `${ref.current.offsetHeight}px`)
+  }
+  // en cada render y antes de los efectos del croquis, que hacen scroll contra este alto
+  useLayoutEffect(medir)
+  useLayoutEffect(() => {
+    const raiz = document.documentElement
+    raiz.style.scrollPaddingBottom = 'calc(var(--tab-ocupa) + var(--barra-acomodar) + 8px)'
+    const obs = new ResizeObserver(medir)
+    obs.observe(ref.current!)
+    return () => {
+      obs.disconnect()
+      raiz.style.removeProperty('--barra-acomodar')
+      raiz.style.scrollPaddingBottom = ''
+    }
+  }, [])
+  return (
+    <div className="acomodar-barra" ref={ref}>
+      <div aria-live="polite">
+        <p className="acomodar-barra__que">{que}</p>
+        <p className="acomodar-barra__como">{como}</p>
+      </div>
+      {children}
+    </div>
   )
 }
 
@@ -139,12 +546,14 @@ function LugarDibujado({
   atencion,
   copo,
   onIrALugar,
+  acomodo,
 }: {
   lugar: LugarCroquis
   dibujadas: Map<string, Dibujada>
   atencion: Map<string, Atencion>
   copo: Props['copo']
   onIrALugar: Props['onIrALugar']
+  acomodo?: AcomodoLugar
 }) {
   const navegar = useNavigate()
   const nombre = ubicacion?.nombre ?? 'Sin lugar asignado'
@@ -152,7 +561,8 @@ function LugarDibujado({
   const ocupacion =
     (ubicacion && ocupacionDe(ubicacion, plantas)?.texto) ||
     (siembras ? `${siembras} ${siembras === 1 ? 'siembra' : 'siembras'}` : 'todavía vacío')
-  const comp = manchones(g)
+  const elegidas = new Set(acomodo?.sel)
+  const comp = manchones(g, elegidas)
   const vistas = new Set<string>()
   const nombradas = new Set<number>()
   const misma = (i: number, j: number) => j >= 0 && j < g.cap && g.celdas[j] === g.celdas[i]
@@ -161,13 +571,31 @@ function LugarDibujado({
   const celdas: ReactNode[] = []
   for (let i = 0; i < g.cols * g.filas; i++) {
     const col = i % g.cols
-    const id = i < g.cap ? g.celdas[i] : null
+    const existe = i < g.cap
+    const id = existe ? g.celdas[i] : null
     const d = id ? dibujadas.get(id) : undefined
-    if (i >= g.cap || !id || !d) {
+    if (!existe || !id || !d) {
+      const entra = !!acomodo?.entra.has(i)
       celdas.push(
         <div key={i} className="croquis-celda">
-          {i < g.cap && g.clase === 'macetas' && <Maceta vacia />}
-          {i < g.cap && g.clase === 'surcos' && <Surco />}
+          {existe && g.clase === 'macetas' && <Maceta vacia />}
+          {existe && g.clase === 'surcos' && <Surco />}
+          {entra && (
+            <span className="croquis-meta" aria-hidden>
+              <IconoMas size={18} />
+            </span>
+          )}
+          {/* con key: al llenarse la celda el botón es el mismo, y el foco se queda */}
+          {acomodo && existe && ubicacion && (
+            <button
+              key="boton"
+              type="button"
+              className="croquis-celda__boton"
+              data-celda={i}
+              aria-label={`Libre, ${dondeEsta(g, i)}${entra ? ': entra lo elegido' : ''}`}
+              onClick={() => acomodo.onCelda(i)}
+            />
+          )}
         </div>,
       )
       continue
@@ -179,6 +607,8 @@ function LugarDibujado({
     nombradas.add(comp[i])
     const at = primeraDePlanta ? atencion.get(id) : undefined
     const conCopo = primeraDePlanta && !!copo?.ids.has(id)
+    const elegida = elegidas.has(i)
+    const ancla = elegida && acomodo!.sel[0] === i && acomodo!.sel.length > 1
 
     // el contorno a lápiz del manchón: borde y esquina redonda sólo donde no sigue
     const izq = col > 0 && misma(i, i - 1)
@@ -198,11 +628,28 @@ function LugarDibujado({
         borderLeftWidth: lado(izq),
       })
     }
+    if (elegida) {
+      // lo elegido se rodea como grupo: entre dos vecinas elegidas no va, porque ahí pasa el nombre
+      const lados = [
+        !(arr && elegidas.has(i - g.cols)) && 'inset 0 2.5px var(--tinta)',
+        !(aba && elegidas.has(i + g.cols)) && 'inset 0 -2.5px var(--tinta)',
+        !(izq && elegidas.has(i - 1)) && 'inset 2.5px 0 var(--tinta)',
+        !(der && elegidas.has(i + 1)) && 'inset -2.5px 0 var(--tinta)',
+      ].filter(Boolean)
+      estilo.boxShadow = lados.join(', ') || 'none'
+    }
 
     celdas.push(
       <div
         key={i}
-        className={['croquis-celda en-bloque', at && 'con-bandera', conCopo && 'con-copo'].filter(Boolean).join(' ')}
+        className={[
+          'croquis-celda en-bloque',
+          elegida && 'es-elegida',
+          at && 'con-bandera',
+          conCopo && 'con-copo',
+        ]
+          .filter(Boolean)
+          .join(' ')}
         style={estilo}
       >
         {g.clase === 'macetas' && <Maceta />}
@@ -218,7 +665,26 @@ function LugarDibujado({
         )}
         {at && <Banderita cuantas={at.cuantas} atrasada={at.atrasada} />}
         {conCopo && <Copo />}
-        {primeraDePlanta ? (
+        {ancla && (
+          <span className="croquis-ancla" aria-hidden>
+            1
+          </span>
+        )}
+        {acomodo ? (
+          <button
+            key="boton"
+            type="button"
+            className="croquis-celda__boton"
+            data-celda={i}
+            aria-pressed={ubicacion ? elegida : undefined}
+            aria-label={
+              ubicacion
+                ? `${nombreLargo(d)}, ${dondeEsta(g, i)}${ancla ? ', la primera' : ''}`
+                : `${nombreLargo(d)}, sin lugar asignado`
+            }
+            onClick={() => acomodo.onCelda(i)}
+          />
+        ) : primeraDePlanta ? (
           <Link className="croquis-celda__boton" to={`/huerta/${id}`} aria-label={etiqueta(d, at, conCopo ? copo!.texto : null)} />
         ) : (
           // un enlace por planta para el teclado y el lector; las demás celdas abren sólo al dedo
@@ -229,17 +695,32 @@ function LugarDibujado({
   }
 
   return (
-    <article className={`croquis-lugar croquis-lugar--${g.ancho}`}>
+    <article className={`croquis-lugar croquis-lugar--${g.ancho}`} data-lugar={ubicacion?.id ?? 'sin'}>
       <h3 className="croquis-lugar__cab">
-        {/* aria-label y no un sr-solo adentro: el flex parte el nombre en «fondo , ir» */}
-        <button
-          type="button"
-          className="croquis-lugar__nombre mano"
-          aria-label={`${nombre}, ir a sus fechas`}
-          onClick={() => onIrALugar(ubicacion?.id)}
-        >
-          {nombre}
-        </button>
+        {!acomodo ? (
+          // aria-label y no un sr-solo adentro: el flex parte el nombre en «fondo , ir»
+          <button
+            type="button"
+            className="croquis-lugar__nombre mano"
+            aria-label={`${nombre}, ir a sus fechas`}
+            onClick={() => onIrALugar(ubicacion?.id)}
+          >
+            {nombre}
+          </button>
+        ) : ubicacion ? (
+          <button
+            type="button"
+            className={`croquis-lugar__nombre croquis-lugar__nombre--mover mano${acomodo.elegido ? ' es-elegido' : ''}`}
+            aria-pressed={acomodo.elegido}
+            aria-label={`${nombre}, mover en la hoja`}
+            onClick={acomodo.onNombre}
+          >
+            {nombre}
+          </button>
+        ) : (
+          // lo que no tiene lugar va siempre al final: no se mueve
+          <span className="croquis-lugar__nombre mano">{nombre}</span>
+        )}
       </h3>
       <p className="sr-solo">{ocupacion}</p>
       {g.cap === 0 ? (
@@ -262,8 +743,7 @@ function LugarDibujado({
 
 /** «Zanahoria · todavía no asomó · 1 para atender, atrasada: fijate si asomó». La plantita es aria-hidden. */
 function etiqueta(d: Dibujada, at: Atencion | undefined, copo: string | null): string {
-  const nombre = mayus(d.especie?.nombre_comun ?? d.planta.slug) + (d.planta.apodo ? `, ${d.planta.apodo}` : '')
-  const partes = [nombre, ETAPA_DIBUJO_TEXTO[d.etapa]]
+  const partes = [nombreLargo(d), ETAPA_DIBUJO_TEXTO[d.etapa]]
   if (at) partes.push(`${at.cuantas} para atender${at.atrasada ? ', atrasada' : ''}: ${at.que}`)
   if (copo) partes.push(copo)
   return partes.join(' · ')
@@ -287,6 +767,15 @@ export function Copo() {
   return (
     <span className="copo" aria-hidden>
       <IconoEscarcha size={16} />
+    </span>
+  )
+}
+
+/** La marca de Acomodar: una libre donde entra lo elegido. */
+export function MarcaEntra() {
+  return (
+    <span className="croquis-meta croquis-meta--suelta" aria-hidden>
+      <IconoMas size={18} />
     </span>
   )
 }

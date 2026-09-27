@@ -8,6 +8,7 @@ import {
   etapaDibujo,
   grillaDe,
   manchones,
+  ordenarLugares,
 } from '../src/lib/huerta/croquis'
 import type { EspecieEnriquecida } from '../src/lib/data/types'
 import type { AvisoClima } from '../src/lib/pronostico/tipos'
@@ -395,5 +396,159 @@ describe('copoDeLaSemana', () => {
 
   it('sin ninguna de las dos, no hay copo', () => {
     expect(copoDeLaSemana([tarea({})], [], '2026-06-10')).toBeNull()
+  })
+})
+
+describe('grillaDe: lo acomodado (nivel 1)', () => {
+  const alm = (plano: unknown = { grilla: 'almaciguera', cols: 6 }) =>
+    ubi({ id: 'alm', tipo: 'almacigo', capacidad: 12, plano: plano as Ubicacion['plano'] })
+  const en = (...celdas: [number, number][]) => ({
+    ubicacionId: 'alm',
+    en: celdas.map(([col, fila]) => ({ col, fila })),
+  })
+  const enAlm = (p: Partial<Planta>) => planta({ ubicacionId: 'alm', ...p })
+
+  it('cada planta va a las celdas que se le acomodaron', () => {
+    const a = enAlm({ ocupa: 2, celdas: en([4, 1], [5, 1]) })
+    const b = enAlm({ ocupa: 1, celdas: en([0, 0]) })
+    expect(mapa(grillaDe(alm(), [a, b]), { [a.id]: 'a', [b.id]: 'b' })).toEqual(['b · · · · ·', '· · · · a a'])
+  })
+
+  it('sin plano ni celdas es exactamente el nivel 0', () => {
+    const ps = [enAlm({ ocupa: 4 }), enAlm({ ocupa: 2 })]
+    const sin = grillaDe(ubi({ id: 'alm', tipo: 'almacigo', capacidad: 12 }), ps)
+    expect(grillaDe(alm(), ps)).toEqual(sin)
+    // celdas sin plano en el lugar: las escribió algo que no acomodó, no valen
+    const conCeldas = ps.map((p) => ({ ...p, celdas: en([5, 1]) }))
+    expect(grillaDe(ubi({ id: 'alm', tipo: 'almacigo', capacidad: 12 }), conCeldas)).toEqual(sin)
+  })
+
+  it('si sobran celdas, se queda con las primeras de izquierda a derecha y de arriba abajo', () => {
+    const a = enAlm({ ocupa: 2, celdas: en([3, 1], [5, 0], [1, 1]) })
+    expect(mapa(grillaDe(alm(), [a]), { [a.id]: 'a' })).toEqual(['· · · · · a', '· a · · · ·'])
+  })
+
+  it('si faltan, se completa con las primeras libres', () => {
+    const b = enAlm({ ocupa: 1, celdas: en([0, 0]) })
+    const a = enAlm({ ocupa: 3, celdas: en([5, 1]) })
+    expect(mapa(grillaDe(alm(), [b, a]), { [a.id]: 'a', [b.id]: 'b' })).toEqual(['b a a · · ·', '· · · · · a'])
+  })
+
+  it('una siembra nueva, sin celdas, toma las primeras libres y no corre a nadie', () => {
+    const a = enAlm({ ocupa: 2, celdas: en([0, 0], [1, 0]) })
+    const nueva = enAlm({ ocupa: 2 })
+    expect(mapa(grillaDe(alm(), [a, nueva]), { [a.id]: 'a', [nueva.id]: 'n' })).toEqual([
+      'a a n n · ·',
+      '· · · · · ·',
+    ])
+  })
+
+  it('una celda fuera de la grilla se descarta, y la planta se completa igual', () => {
+    const a = enAlm({ ocupa: 2, celdas: en([6, 0], [2, 5], [-1, 0], [3, 1]) })
+    expect(mapa(grillaDe(alm(), [a]), { [a.id]: 'a' })).toEqual(['a · · · · ·', '· · · a · ·'])
+  })
+
+  it('si dos plantas se pisan, gana la que se cargó primero y la otra va a la primera libre', () => {
+    const primera = enAlm({ ocupa: 1, celdas: en([2, 0]) })
+    const segunda = enAlm({ ocupa: 1, celdas: en([2, 0]) })
+    // el orden en que llegan no importa: manda el de carga
+    const g = grillaDe(alm(), [segunda, primera])
+    expect(mapa(g, { [primera.id]: '1', [segunda.id]: '2' })).toEqual(['2 · 1 · · ·', '· · · · · ·'])
+  })
+
+  it('las celdas de otro lugar se ignoran: las pudo dejar un trasplante de una versión vieja', () => {
+    const a = enAlm({ ocupa: 1, celdas: { ubicacionId: 'otro', en: [{ col: 5, fila: 1 }] } })
+    const b = enAlm({ ocupa: 1, celdas: en([5, 0]) })
+    expect(mapa(grillaDe(alm(), [a, b]), { [a.id]: 'a', [b.id]: 'b' })).toEqual(['a · · · · b', '· · · · · ·'])
+  })
+
+  it('unas celdas rotas se ignoran sin romper', () => {
+    const rotas = [
+      'x',
+      { ubicacionId: 'alm' },
+      { ubicacionId: 'alm', en: [{ col: 1, fila: '0' }] },
+      { ubicacionId: 'alm', en: [{ col: 1.5, fila: 0 }] },
+      { ubicacionId: 7, en: [] },
+    ]
+    for (const celdas of rotas) {
+      const a = enAlm({ ocupa: 1, celdas: celdas as Planta['celdas'] })
+      const b = enAlm({ ocupa: 1, celdas: en([5, 1]) })
+      expect(mapa(grillaDe(alm(), [a, b]), { [a.id]: 'a', [b.id]: 'b' }), JSON.stringify(celdas)).toEqual([
+        'a · · · · ·',
+        '· · · · · b',
+      ])
+    }
+  })
+
+  it('si el lugar cambió de grilla, lo acomodado no vale: ni columnas ni celdas', () => {
+    const a = enAlm({ ocupa: 1, celdas: en([2, 2]) })
+    // se acomodó como macetas y después pasó a ser almaciguera
+    const g = grillaDe(alm({ grilla: 'macetas', cols: 3 }), [a])
+    expect(g.cols).toBe(6)
+    expect(g.celdas[0]).toBe(a.id)
+  })
+
+  it('las columnas acomodadas quedan aunque cambie la capacidad: se suman filas', () => {
+    const a = enAlm({ ocupa: 1, celdas: en([2, 1]) })
+    const g = grillaDe(alm({ grilla: 'almaciguera', cols: 3 }), [a])
+    expect(g).toMatchObject({ cols: 3, filas: 4, ancho: 'media' })
+    expect(g.celdas[5]).toBe(a.id)
+  })
+
+  it('sólo valen 3 o 6 columnas', () => {
+    for (const cols of [4, 0, '6', 12]) expect(grillaDe(alm({ grilla: 'almaciguera', cols }), []).cols).toBe(6)
+  })
+
+  it('un plano roto no rompe: se dibuja el nivel 0', () => {
+    const a = enAlm({ ocupa: 2 })
+    const nivel0 = grillaDe(ubi({ id: 'alm', tipo: 'almacigo', capacidad: 12 }), [a])
+    for (const plano of ['x', 3, null, [], { grilla: 'rara' }, { orden: 'uno' }])
+      expect(grillaDe(alm(plano), [a]), JSON.stringify(plano)).toEqual(nivel0)
+  })
+})
+
+describe('ordenarLugares', () => {
+  const g = (id: string, plano?: unknown) => ({ ubicacion: ubi({ id, plano: plano as Ubicacion['plano'] }) })
+  const ids = (xs: { ubicacion?: Ubicacion }[]) => xs.map((x) => x.ubicacion?.id ?? 'sin').join(' ')
+
+  it('primero los que tienen orden, de menor a mayor', () => {
+    expect(ids(ordenarLugares([g('a', { orden: 2 }), g('b', { orden: 0 }), g('c', { orden: 1 })]))).toBe('b c a')
+  })
+
+  it('los que no tienen orden, o lo tienen roto, van después en el orden en que vinieron', () => {
+    const grupos = [g('a'), g('b', { orden: 1 }), g('c', { orden: Number.NaN }), g('d', { orden: '0' }), g('e', { orden: 0 })]
+    expect(ids(ordenarLugares(grupos))).toBe('e b a c d')
+  })
+
+  it('a igual orden manda el que vino primero; sin lugar asignado va con los de sin orden', () => {
+    expect(ids(ordenarLugares([{ ubicacion: undefined }, g('a', { orden: 0 }), g('b', { orden: 0 })]))).toBe('a b sin')
+  })
+
+  it('sin ningún orden, queda como vino', () => {
+    const grupos = [g('c'), g('a'), g('b')]
+    expect(ordenarLugares(grupos)).toEqual(grupos)
+  })
+})
+
+describe('manchones con lo elegido', () => {
+  const g = {
+    clase: 'almaciguera' as const,
+    ancho: 'media' as const,
+    cols: 3,
+    filas: 2,
+    cap: 6,
+    celdas: ['a', 'a', 'a', 'a', 'a', null],
+  }
+
+  it('lo elegido se separa del resto de su planta: cada parte lleva su nombre', () => {
+    const comp = manchones(g, new Set([1, 2]))
+    expect(comp[1]).toBe(comp[2])
+    expect(comp[0]).not.toBe(comp[1])
+    expect(comp[0]).toBe(comp[3])
+    expect(comp[3]).toBe(comp[4])
+  })
+
+  it('sin nada elegido, es el manchón de siempre', () => {
+    expect(new Set(manchones(g, new Set()).filter((c) => c >= 0)).size).toBe(1)
   })
 })

@@ -56,8 +56,15 @@
 }
 
 .croquis__cab {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 14px 0 22px;
+}
+.croquis__titulo {
   margin: 0;
-  padding: 0 8px 0 22px;
   font-size: inherit;
 }
 .croquis__plegar {
@@ -442,4 +449,141 @@
   border: 1.5px solid var(--cielo-frio);
   color: var(--cielo-frio);
   pointer-events: none;
+}
+
+/* ── Acomodar: se toca, nunca se arrastra ── */
+.croquis-ayuda {
+  margin: 8px var(--esp-4) 0 22px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--tinta-suave);
+}
+/* debajo de la cinta de la derecha, que si no le pisa el borde; y a la
+   derecha aunque la letra grande lo baje de renglón */
+.croquis__acomodar {
+  margin-top: 14px;
+  margin-left: auto;
+}
+/* mismo par que la acción principal de la pantalla: se ve que estás en otro modo */
+.croquis__acomodar.es-listo {
+  background: var(--verde-hoja);
+  border-color: var(--verde-hoja);
+  color: var(--papel);
+}
+/* el «1» asoma 7 px sobre la primera fila: con menos aire pisa el nombre del lugar */
+.croquis--acomodando .croquis-lugar {
+  gap: 8px;
+}
+.croquis-lugar__nombre--mover {
+  text-decoration: underline dashed var(--tinta-tenue) 1.5px;
+  text-underline-offset: 5px;
+}
+.croquis-lugar__nombre--mover.es-elegido {
+  text-decoration: underline solid var(--tinta) 3px;
+}
+
+.croquis-celda.es-elegida,
+.croquis-celdas--macetas .croquis-celda.en-bloque.es-elegida {
+  background: color-mix(in srgb, var(--tinta) 12%, transparent);
+}
+.croquis-celdas--libre .croquis-celda.es-elegida {
+  border-color: var(--tinta);
+}
+/* montado en la esquina: adentro ya están la planta, el nombre y las marcas.
+   Debajo del copo: si se tocan, el aviso de helada queda entero */
+.croquis-ancla {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: var(--tinta);
+  color: var(--papel-opaco);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+.croquis-meta {
+  position: absolute;
+  inset: 7px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border: 2px dashed var(--tinta-media);
+  border-radius: 999px;
+  color: var(--tinta);
+  pointer-events: none;
+}
+/* adentro de la maceta y con su mismo centro: la celda es más alta que ancha */
+.croquis-celdas--macetas .croquis-meta {
+  inset: auto;
+  top: 7px;
+  left: 50%;
+  width: calc(var(--paso) - 14px);
+  height: calc(var(--paso) - 14px);
+  transform: translateX(-50%);
+}
+.croquis-meta--suelta {
+  position: static;
+  width: 36px;
+  height: 36px;
+}
+
+.acomodar-barra {
+  position: fixed;
+  z-index: 15;
+  left: 0;
+  right: 0;
+  bottom: var(--tab-ocupa);
+  max-width: var(--max-ancho);
+  margin: 0 auto;
+  display: grid;
+  gap: 8px;
+  padding: 10px 14px 12px 22px;
+  background: var(--papel-opaco);
+  border-top: 1.5px solid var(--linea-fuerte);
+  box-shadow: var(--sombra-barra);
+}
+.acomodar-barra__que {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+.acomodar-barra__como {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--tinta-suave);
+}
+.acomodar-barra__fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.acomodar-flechas {
+  display: flex;
+  gap: 6px;
+}
+.acomodar-flecha {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1.75px solid var(--tinta-media);
+  border-radius: 14px 17px 12px 16px / 16px 12px 17px 14px;
+  background: var(--papel-opaco);
+  color: var(--tinta);
+}
+/* la que no se puede usar va punteada: la forma dice lo mismo que el tono */
+.acomodar-flecha[aria-disabled='true'],
+.acomodar-barra__boton[aria-disabled='true'] {
+  border-style: dashed;
+  color: var(--tinta-tenue);
 }

@@ -169,12 +169,13 @@ export const guardarEntrada = async (e: EntradaDiario) => {
  * tanda escribe dos plantas y dos entradas; a medias sería una huerta que
  * cuenta plantines que no existen.
  */
-export async function guardarLote(datos: { plantas: Planta[]; entradas: EntradaDiario[] }) {
+export async function guardarLote(datos: { plantas: Planta[]; entradas: EntradaDiario[]; ubicaciones?: Ubicacion[] }) {
   const d = await abrir()
-  const tx = d.transaction(['plantas', 'diario'], 'readwrite')
+  const tx = d.transaction(['plantas', 'diario', 'ubicaciones'], 'readwrite')
   // sin ningún await ajeno a la transacción (auto-commit, ver reemplazarTodo)
   for (const p of datos.plantas) tx.objectStore('plantas').put(p)
   for (const e of datos.entradas) tx.objectStore('diario').put(e)
+  for (const u of datos.ubicaciones ?? []) tx.objectStore('ubicaciones').put(u)
   await tx.done
 }
 

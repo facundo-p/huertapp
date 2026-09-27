@@ -91,3 +91,101 @@ test('la banderita, su «!» y el copo dicen lo mismo que el enlace de su planta
     expect(c.copo, c.nombre).toBe(c.nombre.includes('tapar de noche'))
   }
 })
+
+/** Los lugares en el orden en que se ven, por su nombre. */
+const LUGARES = ['Almaciguera del balcón', 'Macetas del balcón', 'Bancal del fondo', 'Bancal de la medianera']
+const enOrden = (textos: string[]) => textos.map((t) => LUGARES.find((l) => t.includes(l)) ?? t)
+
+test('acomodar anda con el teclado: elegir, llevar a una marca, correr, mover un lugar; y queda guardado', async ({
+  page,
+}) => {
+  await abrirHuerta(page)
+  const acomodar = page.getByRole('button', { name: 'Acomodar' })
+  await acomodar.focus()
+  await page.keyboard.press('Enter')
+  // es el mismo botón: el foco no se pierde al cambiar de modo
+  await expect(page.getByRole('button', { name: 'Listo' })).toBeFocused()
+
+  const alm = croquis(page).locator('article', { has: page.getByRole('heading', { name: 'Almaciguera del balcón' }) })
+  const albahaca = alm.getByRole('button', { name: 'Albahaca, fila 1, columna 6' })
+  await albahaca.focus()
+  await page.keyboard.press('Enter')
+  await expect(albahaca).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByText('1 celda de albahaca, de 2.')).toBeVisible()
+
+  // la marca +: el botón de la libre es el mismo que queda con la planta, y el foco se queda
+  await alm.getByRole('button', { name: 'Libre, fila 2, columna 1: entra lo elegido' }).focus()
+  await page.keyboard.press(' ')
+  const movida = alm.getByRole('button', { name: 'Albahaca, fila 2, columna 1' })
+  await expect(movida).toBeFocused()
+  await expect(movida).toHaveAttribute('aria-pressed', 'false')
+  await expect(page.getByText('Listo, ya está en su lugar nuevo.')).toBeVisible()
+
+  // las flechas: la que no se puede lo dice en el nombre, y al tocarla no mueve
+  await page.keyboard.press('Enter')
+  const flechas = page.getByRole('group', { name: 'Correr lo elegido' })
+  await expect(flechas.getByRole('button', { name: 'Correr a la izquierda: se sale del lugar' })).toHaveAttribute(
+    'aria-disabled',
+    'true',
+  )
+  const derecha = flechas.getByRole('button', { name: 'Correr a la derecha' })
+  await derecha.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByText('Quedó en fila 2, columna 2.')).toBeVisible()
+  await expect(derecha).toBeFocused()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 2' })).toHaveAttribute('aria-pressed', 'true')
+  const arriba = flechas.getByRole('button', { name: 'Correr arriba: pisa una celda de tomate' })
+  await expect(arriba).toHaveAttribute('aria-disabled', 'true')
+  await arriba.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByText('No se puede correr arriba: pisa una celda de tomate.')).toBeVisible()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 2' })).toBeVisible()
+
+  // Soltar se va con lo elegido: el foco vuelve a la celda
+  await page.getByRole('button', { name: 'Soltar' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 2' })).toBeFocused()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 2' })).toHaveAttribute('aria-pressed', 'false')
+
+  // un lugar: el último no va después, y antes sí
+  const fondo = croquis(page).getByRole('button', { name: 'Bancal del fondo, mover en la hoja' })
+  await fondo.focus()
+  await page.keyboard.press('Enter')
+  await expect(fondo).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('button', { name: 'Después: ya es el último' })).toHaveAttribute('aria-disabled', 'true')
+  await page.getByRole('button', { name: 'Antes', exact: true }).focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByText('Quedó 2.º de 4.')).toBeVisible()
+  const orden = ['Almaciguera del balcón', 'Bancal del fondo', 'Macetas del balcón', 'Bancal de la medianera']
+  expect(enOrden(await croquis(page).locator('article h3').allTextContents())).toEqual(orden)
+
+  await page.getByRole('button', { name: 'Listo' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button', { name: 'Acomodar' })).toBeFocused()
+  // la lista va en el mismo orden que el croquis
+  expect(enOrden(await lista(page).locator('section.lugar').allTextContents())).toEqual(orden)
+
+  // al volver, todo sigue donde quedó
+  await page.reload()
+  await page.waitForLoadState('networkidle')
+  await expect(lista(page).locator('section.lugar')).toHaveCount(4)
+  expect(enOrden(await croquis(page).locator('article h3').allTextContents())).toEqual(orden)
+  expect(enOrden(await lista(page).locator('section.lugar').allTextContents())).toEqual(orden)
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 2' })).toBeVisible()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 1, columna 5' })).toBeVisible()
+  await expect(alm.getByRole('button', { name: 'Libre, fila 1, columna 6' })).toBeVisible()
+})
+
+test('en otro lugar, una libre no recibe lo elegido: para eso está Trasplantar', async ({ page }) => {
+  await abrirHuerta(page)
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  await croquis(page).getByRole('button', { name: 'Albahaca, fila 1, columna 6' }).click()
+  const macetas = croquis(page).locator('article', { has: page.getByRole('heading', { name: 'Macetas del balcón' }) })
+  await macetas.getByRole('button', { name: 'Libre, fila 2, columna 1' }).click()
+  await expect(page.getByText(/está «Trasplantar», en la página de la planta/)).toBeVisible()
+  // una con planta de otro lugar arranca una elección nueva
+  await macetas.getByRole('button', { name: /^Tomate, Los del cajón, fila 1, columna 1/ }).click()
+  await expect(page.getByText('1 maceta de tomate, de 3.')).toBeVisible()
+  await expect(croquis(page).getByRole('button', { pressed: true })).toHaveCount(1)
+})

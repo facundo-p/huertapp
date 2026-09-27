@@ -72,10 +72,15 @@ export function moverTanda(p: Planta, o: OpcionesLugar & { fecha: string }): Pla
     ocupa: o.ocupa,
     superficie: o.superficie,
     comoEsta: o.comoEsta?.trim() || undefined,
+    // aunque vuelva al mismo lugar: lo acomodado era de la ocupación de antes
+    celdas: undefined,
     etapa: cambiaEtapa ? 'trasplantada' : p.etapa,
     etapaDesde: cambiaEtapa ? o.fecha : p.etapaDesde,
   }
 }
+
+/** Al borrar su lugar, la planta queda sin lugar y sin celdas en él. */
+export const sacarDelLugar = (p: Planta): Planta => ({ ...p, ubicacionId: undefined, celdas: undefined })
 
 /** Del input de texto a una cantidad, o undefined si no es un número usable. */
 export function aCantidad(texto: string): number | undefined {

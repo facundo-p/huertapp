@@ -4,15 +4,16 @@ import type { Tarea } from '../tareas/engine'
 import { sumarDias } from './estimar'
 import { germinacion, germinacionPendiente } from './germinacion'
 import { laMasUrgente, lugarDe, superficieDe } from './lugar'
-import type { Planta, Ubicacion } from './tipos'
+import type { CeldaCroquis, GrillaCroquis, Planta, PlanoUbicacion, Ubicacion } from './tipos'
 
 /**
- * El croquis de Mi huerta, nivel 0: sale sólo de lo que ya está cargado. Una
- * grilla gruesa por lugar, y cada siembra en un bloque de celdas seguidas.
+ * El croquis de Mi huerta. Nivel 0: sale sólo de lo cargado, una grilla gruesa
+ * por lugar y cada siembra en un bloque de celdas seguidas. Nivel 1: lo que se
+ * acomodó a mano (`plano` y `celdas`), mientras cierre con lo cargado.
  * Lógica pura: el componente sólo dibuja.
  */
 
-export type ClaseCroquis = 'almaciguera' | 'macetas' | 'surcos' | 'libre' | 'otro'
+export type ClaseCroquis = GrillaCroquis
 export type AnchoCroquis = 'media' | 'entera'
 
 export interface GrillaLugar {
@@ -59,9 +60,47 @@ export const enOrdenDeCarga = (plantas: Planta[]): Planta[] =>
     .filter((p) => !p.archivada && p.etapa !== 'terminada')
     .sort((a, b) => a.creada.localeCompare(b.creada) || a.id.localeCompare(b.id))
 
+const GRILLAS: readonly GrillaCroquis[] = ['almaciguera', 'macetas', 'surcos', 'libre', 'otro']
+const esCelda = (x: unknown): x is CeldaCroquis =>
+  !!x && typeof x === 'object' && Number.isInteger((x as CeldaCroquis).col) && Number.isInteger((x as CeldaCroquis).fila)
+
+/**
+ * `plano` sin lo que llegó roto, o undefined si no queda nada. El backup no
+ * mira la forma de lo que trae: esto es lo que la deja pasar sin romper.
+ */
+export function planoSano(x: unknown): PlanoUbicacion | undefined {
+  if (!x || typeof x !== 'object') return undefined
+  const { orden, grilla, cols } = x as Record<string, unknown>
+  const r: PlanoUbicacion = {}
+  if (typeof orden === 'number' && Number.isFinite(orden)) r.orden = orden
+  if (GRILLAS.includes(grilla as GrillaCroquis)) r.grilla = grilla as GrillaCroquis
+  if (cols === 3 || cols === 6) r.cols = cols
+  return Object.keys(r).length ? r : undefined
+}
+
+/** `celdas` si tiene la forma, o undefined: una celda rota invalida todas. */
+export function celdasSanas(x: unknown): Planta['celdas'] {
+  if (!x || typeof x !== 'object') return undefined
+  const { ubicacionId, en } = x as Record<string, unknown>
+  if (typeof ubicacionId !== 'string' || !Array.isArray(en) || !en.every(esCelda)) return undefined
+  return { ubicacionId, en: en.map(({ col, fila }) => ({ col, fila })) }
+}
+
+/** Las celdas guardadas que valen acá: de este lugar y con su forma. */
+function celdasGuardadas(p: Planta, u: Ubicacion): CeldaCroquis[] | null {
+  const c = celdasSanas(p.celdas)
+  if (!c || c.ubicacionId !== u.id || p.ubicacionId !== u.id) return null
+  // de izquierda a derecha y de arriba abajo: si sobran, se quedan las primeras
+  return [...c.en].sort((a, b) => a.fila - b.fila || a.col - b.col)
+}
+
 export function grillaDe(u: Ubicacion | undefined, plantas: Planta[]): GrillaLugar {
   const clase = claseDe(u)
   const vivas = enOrdenDeCarga(plantas)
+  // lo acomodado vale mientras la grilla sea la misma con que se acomodó: si
+  // cambió el tipo, la disposición o las medidas, vuelve al nivel 0
+  const sano = planoSano(u?.plano)
+  const plano = sano?.grilla === clase ? sano : undefined
 
   let cols: number
   let filas: number
@@ -93,7 +132,8 @@ export function grillaDe(u: Ubicacion | undefined, plantas: Planta[]): GrillaLug
       filas = cap
       ancho = cap <= 4 ? 'media' : 'entera'
     } else {
-      cols = cap <= 6 ? 3 : 6
+      // las columnas acomodadas quedan: si cambia la capacidad, cambian las filas
+      cols = plano?.cols ?? (cap <= 6 ? 3 : 6)
       filas = Math.ceil(cap / cols)
       ancho = cols === 3 ? 'media' : 'entera'
     }
@@ -115,6 +155,48 @@ export function grillaDe(u: Ubicacion | undefined, plantas: Planta[]): GrillaLug
     })
   }
 
+  const guardadas = plano && u ? vivas.map((p) => celdasGuardadas(p, u)) : []
+  const celdas = guardadas.some(Boolean)
+    ? acomodar(vivas, demanda, guardadas, cols, cap)
+    : enBloques(vivas, demanda, cols, cap)
+  return { clase, ancho, cols, filas, cap, celdas }
+}
+
+/**
+ * Nivel 1. Primero cada planta toma sus celdas, en orden de carga: en un
+ * choque gana la que se cargó primero. Después, a la que le faltan (o no tiene
+ * ninguna, como una siembra nueva) se le completa con las primeras libres.
+ */
+function acomodar(
+  vivas: Planta[],
+  demanda: number[],
+  guardadas: (CeldaCroquis[] | null)[],
+  cols: number,
+  cap: number,
+): (string | null)[] {
+  const celdas: (string | null)[] = Array.from({ length: cap }, () => null)
+  const faltan = demanda.map((n, i) => {
+    for (const { col, fila } of guardadas[i] ?? []) {
+      if (n === 0) break
+      const k = fila * cols + col
+      // fuera de la grilla o ya tomada: se descarta, y se completa igual
+      if (col < 0 || col >= cols || fila < 0 || k >= cap || celdas[k]) continue
+      celdas[k] = vivas[i].id
+      n--
+    }
+    return n
+  })
+  faltan.forEach((n, i) => {
+    for (let k = 0; k < cap && n > 0; k++) {
+      if (celdas[k]) continue
+      celdas[k] = vivas[i].id
+      n--
+    }
+  })
+  return celdas
+}
+
+function enBloques(vivas: Planta[], demanda: number[], cols: number, cap: number): (string | null)[] {
   const celdas: (string | null)[] = Array.from({ length: cap }, () => null)
   let pos = 0
   demanda.forEach((n, i) => {
@@ -129,8 +211,19 @@ export function grillaDe(u: Ubicacion | undefined, plantas: Planta[]): GrillaLug
     for (let k = 0; k < n; k++) celdas[pos + k] = vivas[i].id
     pos += n
   })
+  return celdas
+}
 
-  return { clase, ancho, cols, filas, cap, celdas }
+/**
+ * Primero los lugares con `plano.orden`; a igual orden, o sin él (uno creado
+ * después de acomodar), manda el orden en que vienen, el de `agruparPorLugar`.
+ */
+export function ordenarLugares<T extends { ubicacion?: Ubicacion }>(grupos: T[]): T[] {
+  const orden = (g: T) => planoSano(g.ubicacion?.plano)?.orden ?? Infinity
+  return grupos
+    .map((g, i) => ({ g, i, o: orden(g) }))
+    .sort((a, b) => (a.o === b.o ? a.i - b.i : a.o - b.o))
+    .map(({ g }) => g)
 }
 
 /**
@@ -155,8 +248,11 @@ export function empaquetar<T extends { ancho: AnchoCroquis }>(lugares: T[]): T[]
   return r
 }
 
-/** Las celdas vecinas (sin diagonales) de la misma planta son un manchón. -1 en las libres. */
-export function manchones(g: GrillaLugar): number[] {
+/**
+ * Las celdas vecinas (sin diagonales) de la misma planta son un manchón. -1 en
+ * las libres. Al acomodar, lo elegido se separa del resto de su planta.
+ */
+export function manchones(g: GrillaLugar, elegidas: ReadonlySet<number> = new Set()): number[] {
   const comp = g.celdas.map(() => -1)
   let n = 0
   g.celdas.forEach((id, i) => {
@@ -166,7 +262,7 @@ export function manchones(g: GrillaLugar): number[] {
     while (pila.length) {
       const c = pila.pop()!
       for (const v of vecinas(g, c)) {
-        if (comp[v] < 0 && g.celdas[v] === id) {
+        if (comp[v] < 0 && g.celdas[v] === id && elegidas.has(v) === elegidas.has(c)) {
           comp[v] = n
           pila.push(v)
         }

@@ -1,6 +1,7 @@
 import * as db from './db'
 import { hoyISO, type Compostera, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
 import { resumenHuerta } from './tanda'
+import { celdasSanas, planoSano } from './croquis'
 import { zonaActual, elegirZona } from '../zona'
 import { CLAVE_UBICACION, elegirUbicacion, sacarUbicacion } from '../pronostico/store'
 import type { UbicacionClima } from '../pronostico/tipos'
@@ -130,7 +131,19 @@ export function validar(dato: unknown): Backup {
   if (b.composteras !== undefined && !Array.isArray(b.composteras)) {
     throw new BackupInvalido('Al backup se le rompió "composteras".')
   }
-  return b as Backup
+  // lo del croquis no frena el import: lo roto se descarta y se dibuja el nivel 0
+  return {
+    ...b,
+    plantas: b.plantas!.map((p) => sinRoto(p, 'celdas', celdasSanas)),
+    ubicaciones: b.ubicaciones!.map((u) => sinRoto(u, 'plano', planoSano)),
+  } as Backup
+}
+
+function sinRoto<T>(x: T, campo: string, sanar: (v: unknown) => unknown): T {
+  if (!x || typeof x !== 'object' || !(campo in x)) return x
+  const { [campo]: v, ...resto } = x as Record<string, unknown>
+  const sano = sanar(v)
+  return (sano === undefined ? resto : { ...resto, [campo]: sano }) as T
 }
 
 export interface ResumenBackup {

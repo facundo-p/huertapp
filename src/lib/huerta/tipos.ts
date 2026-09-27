@@ -43,6 +43,25 @@ export interface Ubicacion {
   capacidad?: number
   disposicion?: Disposicion
   notas?: string
+  /** cómo quedó en el croquis al acomodarlo. Sin él, el croquis sale sólo de lo cargado */
+  plano?: PlanoUbicacion
+}
+
+/** Las filas de la tabla del croquis (`croquis.ts`), no las clases de `lugarDe`. */
+export type GrillaCroquis = 'almaciguera' | 'macetas' | 'surcos' | 'libre' | 'otro'
+
+export interface PlanoUbicacion {
+  /** antes o después en la hoja */
+  orden?: number
+  /** con qué grilla se acomodó: si al dibujar ya es otra, se descartan `cols` y las celdas */
+  grilla?: GrillaCroquis
+  /** fijo al acomodar, para que un cambio de capacidad sume filas y no corra las celdas */
+  cols?: 3 | 6
+}
+
+export interface CeldaCroquis {
+  col: number
+  fila: number
 }
 
 export interface Planta {
@@ -76,6 +95,12 @@ export interface Planta {
   comoEsta?: string
   /** raíz de la siembra de la que se separó esta tarjeta. Sin él, esta tarjeta ES la siembra */
   origenId?: string
+  /**
+   * Las celdas que ocupa en la grilla de su lugar, si se acomodó. Llevan el
+   * lugar porque una versión vieja puede trasplantar sin saber de ellas: si no
+   * coincide con `ubicacionId`, se ignoran.
+   */
+  celdas?: { ubicacionId: string; en: CeldaCroquis[] }
   notas?: string
   creada: string
   archivada?: boolean
