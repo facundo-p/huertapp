@@ -179,6 +179,25 @@ export async function guardarLote(datos: { plantas: Planta[]; entradas: EntradaD
   await tx.done
 }
 
+/**
+ * Lee y escribe los lugares en una sola transacción: el cambio se arma sobre lo
+ * guardado, no sobre lo que había en pantalla. `cambiar` es síncrono (auto-commit).
+ */
+export async function cambiarLugares(
+  cambiar: (guardado: { ubicaciones: Ubicacion[]; plantas: Planta[] }) => { ubicaciones: Ubicacion[]; plantas: Planta[] },
+) {
+  const d = await abrir()
+  const tx = d.transaction(['plantas', 'ubicaciones'], 'readwrite')
+  const [ubicaciones, plantas] = await Promise.all([
+    tx.objectStore('ubicaciones').getAll(),
+    tx.objectStore('plantas').getAll(),
+  ])
+  const r = cambiar({ ubicaciones, plantas })
+  for (const p of r.plantas) tx.objectStore('plantas').put(p)
+  for (const u of r.ubicaciones) tx.objectStore('ubicaciones').put(u)
+  await tx.done
+}
+
 export async function borrarEntrada(id: string) {
   const d = await abrir()
   const entrada = await d.get('diario', id)

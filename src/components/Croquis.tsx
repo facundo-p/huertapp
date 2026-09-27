@@ -186,7 +186,6 @@ export function Croquis({
     const id = l.ubicacion.id
     const planta = l.grilla.celdas[i]
     if (planta) {
-      // tocar una celda con planta la suma o la saca de lo elegido
       const antes = lugarSel === l ? sel : []
       const nuevas = antes.includes(i) ? antes.filter((x) => x !== i) : [...antes, i].sort((a, b) => a - b)
       setElegidas(nuevas.length ? { lugar: id, celdas: nuevas } : null)
@@ -243,7 +242,7 @@ export function Croquis({
     const ids = r.orden.map((u) => u.id)
     setOrdenLocal(ids)
     sinRomper(ordenarUbicaciones(r.orden).finally(() => setOrdenLocal((o) => (o === ids ? null : o))))
-    setAviso(`Quedó ${r.puesto + 1}.º de ${lugares.length}.`)
+    setAviso(`Quedó en el puesto ${r.puesto + 1} de ${lugares.length}.`)
     requestAnimationFrame(() => document.querySelector(`[data-lugar="${id}"]`)?.scrollIntoView({ block: 'nearest' }))
   }
 
@@ -580,11 +579,7 @@ function LugarDibujado({
         <div key={i} className="croquis-celda">
           {existe && g.clase === 'macetas' && <Maceta vacia />}
           {existe && g.clase === 'surcos' && <Surco />}
-          {entra && (
-            <span className="croquis-meta" aria-hidden>
-              <IconoMas size={18} />
-            </span>
-          )}
+          {entra && <MarcaEntra />}
           {/* con key: al llenarse la celda el botón es el mismo, y el foco se queda */}
           {acomodo && existe && ubicacion && (
             <button
@@ -771,10 +766,10 @@ export function Copo() {
   )
 }
 
-/** La marca de Acomodar: una libre donde entra lo elegido. */
-export function MarcaEntra() {
+/** La marca de Acomodar: una libre donde entra lo elegido. Suelta, en el Glosario. */
+export function MarcaEntra({ suelta = false }: { suelta?: boolean }) {
   return (
-    <span className="croquis-meta croquis-meta--suelta" aria-hidden>
+    <span className={suelta ? 'croquis-meta croquis-meta--suelta' : 'croquis-meta'} aria-hidden>
       <IconoMas size={18} />
     </span>
   )

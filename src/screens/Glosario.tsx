@@ -537,7 +537,7 @@ export function Glosario() {
             </div>
             <div className="glosario__celda-demo">
               <span className="glosario__marca" aria-hidden>
-                <MarcaEntra />
+                <MarcaEntra suelta />
               </span>
               <div>
                 <p className="glosario__nombre">Entra lo elegido</p>

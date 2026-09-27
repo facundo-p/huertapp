@@ -155,7 +155,7 @@ test('acomodar anda con el teclado: elegir, llevar a una marca, correr, mover un
   await expect(page.getByRole('button', { name: 'Después: ya es el último' })).toHaveAttribute('aria-disabled', 'true')
   await page.getByRole('button', { name: 'Antes', exact: true }).focus()
   await page.keyboard.press('Enter')
-  await expect(page.getByText('Quedó 2.º de 4.')).toBeVisible()
+  await expect(page.getByText('Quedó en el puesto 2 de 4.')).toBeVisible()
   const orden = ['Almaciguera del balcón', 'Bancal del fondo', 'Macetas del balcón', 'Bancal de la medianera']
   expect(enOrden(await croquis(page).locator('article h3').allTextContents())).toEqual(orden)
 
@@ -188,4 +188,56 @@ test('en otro lugar, una libre no recibe lo elegido: para eso está Trasplantar'
   await macetas.getByRole('button', { name: /^Tomate, Los del cajón, fila 1, columna 1/ }).click()
   await expect(page.getByText('1 maceta de tomate, de 3.')).toBeVisible()
   await expect(croquis(page).getByRole('button', { pressed: true })).toHaveCount(1)
+})
+
+/**
+ * Dos toques más rápidos que lo que tarda en releerse la huerta: el segundo se
+ * armaba con la pantalla de antes del primero y lo pisaba. Demora los getAll de
+ * sólo lectura, que es con lo que se relee; la escritura lee en su transacción.
+ */
+const RELECTURA_LENTA = `
+  (() => {
+    const getAll = IDBObjectStore.prototype.getAll
+    IDBObjectStore.prototype.getAll = function (...args) {
+      const pedido = getAll.apply(this, args)
+      if (!window.__lento || this.transaction.mode !== 'readonly') return pedido
+      const escuchar = pedido.addEventListener.bind(pedido)
+      pedido.addEventListener = (tipo, f, o) =>
+        escuchar(tipo, tipo === 'success' ? (e) => setTimeout(() => f.call(pedido, e), window.__lento) : f, o)
+      return pedido
+    }
+  })()
+`
+
+test('acomodar, mover un lugar y volver a acomodar, todo seguido: no se pisa nada', async ({ page }) => {
+  await page.addInitScript(RELECTURA_LENTA)
+  await abrirHuerta(page)
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  const alm = croquis(page).locator('article', { has: page.getByRole('heading', { name: 'Almaciguera del balcón' }) })
+  await alm.getByRole('button', { name: 'Albahaca, fila 1, columna 6' }).click()
+
+  await page.evaluate(() => ((window as unknown as { __lento: number }).__lento = 800))
+  await alm.getByRole('button', { name: 'Libre, fila 2, columna 1: entra lo elegido' }).click()
+  // el orden no puede llevarse la grilla que se acaba de acomodar
+  await croquis(page).getByRole('button', { name: 'Bancal del fondo, mover en la hoja' }).click()
+  await page.getByRole('button', { name: 'Antes', exact: true }).click()
+  // ni un acomodo el orden que se acaba de escribir
+  await alm.getByRole('button', { name: 'Albahaca, fila 1, columna 5' }).click()
+  await alm.getByRole('button', { name: 'Libre, fila 2, columna 2: entra lo elegido' }).click()
+  await page.evaluate(() => ((window as unknown as { __lento: number }).__lento = 0))
+  await page.waitForTimeout(3000)
+
+  await page.reload()
+  await page.waitForLoadState('networkidle')
+  await expect(lista(page).locator('section.lugar')).toHaveCount(4)
+  expect(enOrden(await croquis(page).locator('article h3').allTextContents())).toEqual([
+    'Almaciguera del balcón',
+    'Bancal del fondo',
+    'Macetas del balcón',
+    'Bancal de la medianera',
+  ])
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 1' })).toBeVisible()
+  await expect(alm.getByRole('button', { name: 'Albahaca, fila 2, columna 2' })).toBeVisible()
+  await expect(alm.getByRole('button', { name: 'Libre, fila 1, columna 5' })).toBeVisible()
 })

@@ -141,7 +141,8 @@ export function comoSeguir(g: GrillaLugar, sel: number[], hayMarcas: boolean, ha
   if (hayFlecha) return 'No hay otro lugar libre con esa forma: usá las flechas.'
   if (intercambiables(g, sel)) return 'No hay lugar libre con esa forma: soltá alguna, o intercambiá.'
   if (sel.length > 1) return 'No hay lugar libre con esa forma: soltá alguna.'
-  return 'No hay lugar libre: tocá también una celda de otra planta para intercambiarlas.'
+  const u = UNIDAD[g.clase]
+  return `No hay lugar libre: tocá también ${u.femenina ? 'una' : 'un'} ${u.una} de otra planta para intercambiarlas.`
 }
 
 /**
@@ -224,6 +225,32 @@ export function enOrden<T extends LugarEnHoja>(vista: T[], ids: string[]): T[] {
     .sort((a, b) => (a.k === b.k ? a.i - b.i : a.k - b.k))
     .map(({ l }) => l)
   return empaquetar([...ordenados, ...vista.filter((l) => !l.ubicacion)])
+}
+
+/**
+ * El acomodo sobre lo guardado: de lo dibujado van sólo la grilla y las celdas.
+ * Con dos toques seguidos, un «Antes» o un trasplante que todavía no llegó a la
+ * pantalla se pisaba.
+ */
+export function acomodoSobre(
+  guardado: { ubicaciones: Ubicacion[]; plantas: Planta[] },
+  hecho: { ubicacion: Ubicacion; plantas: Planta[] },
+): { ubicaciones: Ubicacion[]; plantas: Planta[] } {
+  const u = guardado.ubicaciones.find((x) => x.id === hecho.ubicacion.id)
+  if (!u) return { ubicaciones: [], plantas: [] }
+  const celdas = new Map(hecho.plantas.map((p) => [p.id, p.celdas]))
+  return {
+    ubicaciones: [{ ...u, plano: planoSano({ ...hecho.ubicacion.plano, orden: planoSano(u.plano)?.orden }) }],
+    plantas: guardado.plantas
+      .filter((p) => celdas.has(p.id) && p.ubicacionId === u.id)
+      .map((p) => ({ ...p, celdas: celdas.get(p.id) })),
+  }
+}
+
+/** El orden nuevo sobre lo guardado: sólo cambia `plano.orden`. */
+export function ordenSobre(guardadas: Ubicacion[], orden: Ubicacion[]): Ubicacion[] {
+  const porId = new Map(guardadas.map((u) => [u.id, u]))
+  return conOrden(orden.flatMap((u) => porId.get(u.id) ?? []))
 }
 
 /** Cada lugar con su puesto en `plano.orden`: el orden queda escrito para todos. */

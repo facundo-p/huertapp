@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   acomodado,
+  acomodoSobre,
   comoSeguir,
   conOrden,
   describir,
@@ -12,6 +13,7 @@ import {
   intercambiar,
   llevar,
   moverLugar,
+  ordenSobre,
   porQueNoSeMueve,
   textoIntercambio,
   textoLibre,
@@ -158,6 +160,11 @@ describe('lo que dice la barra', () => {
       'No hay lugar libre: tocá también una celda de otra planta para intercambiarlas.',
     )
   })
+
+  it('sin lugar libre, habla en la unidad del lugar', () => {
+    expect(comoSeguir(grilla(['t a'], 'macetas'), [0], false, false)).toMatch(/tocá también una maceta de otra planta/)
+    expect(comoSeguir(grilla(['t a'], 'surcos'), [0], false, false)).toMatch(/tocá también un surco de otra planta/)
+  })
 })
 
 describe('acomodado: lo que se guarda', () => {
@@ -215,6 +222,27 @@ describe('acomodado: lo que se guarda', () => {
     expect(ubicacion.plano).toEqual({ orden: 3, grilla: 'almaciguera', cols: 6 })
     const surcos = acomodado({ ...LUGARES[2], plano: { cols: 3 } }, [], grillaDe(LUGARES[2], []), [null])
     expect(surcos.ubicacion.plano).toEqual({ grilla: 'surcos' })
+  })
+
+  // dos toques seguidos: el segundo se armó con la pantalla de antes del primero
+  it('se guarda sobre lo guardado: no pisa un orden ni un trasplante que no llegó a la pantalla', () => {
+    const u = LUGARES[0]
+    const [a, b] = [planta({ ubicacionId: 'alm' }), planta({ ubicacionId: 'alm' })]
+    const g = grillaDe(u, [a, b])
+    const hecho = acomodado(u, [a, b], g, [...g.celdas].reverse())
+    const guardado = {
+      ubicaciones: [{ ...u, nombre: 'Almaciguera nueva', plano: { orden: 2 } }, LUGARES[1]],
+      plantas: [a, { ...b, ubicacionId: 'mac' }],
+    }
+    const r = acomodoSobre(guardado, hecho)
+    expect(r.ubicaciones).toEqual([{ ...guardado.ubicaciones[0], plano: { orden: 2, grilla: 'almaciguera', cols: 6 } }])
+    expect(r.plantas.map((p) => [p.id, p.ubicacionId, p.celdas?.ubicacionId])).toEqual([[a.id, 'alm', 'alm']])
+    // sin orden guardado, tampoco sale uno de la pantalla
+    const conOrdenViejo = { ...hecho.ubicacion, plano: { ...hecho.ubicacion.plano, orden: 7 } }
+    const sinOrden = acomodoSobre({ ...guardado, ubicaciones: [u] }, { ...hecho, ubicacion: conOrdenViejo })
+    expect(sinOrden.ubicaciones[0].plano).toEqual({ grilla: 'almaciguera', cols: 6 })
+    // un lugar borrado entretanto no vuelve
+    expect(acomodoSobre({ ...guardado, ubicaciones: [LUGARES[1]] }, hecho)).toEqual({ ubicaciones: [], plantas: [] })
   })
 
   it('van todas las plantas dibujadas, cada una con su lugar; las que no se dibujan, no', () => {
@@ -292,6 +320,19 @@ describe('mover un lugar en la hoja', () => {
 
   it('el que no está en el orden nuevo va después, como vino', () => {
     expect(ids(enOrden(demo, ['fon', 'alm']))).toBe('fon alm mac med')
+  })
+
+  it('el orden va sobre lo guardado: no pisa un acomodo que no llegó a la pantalla, ni revive uno borrado', () => {
+    const vistos: Ubicacion[] = [
+      { id: 'a', nombre: 'a', tipo: 'almacigo', creada: '' },
+      { id: 'b', nombre: 'b', tipo: 'maceta', creada: '' },
+      { id: 'c', nombre: 'c', tipo: 'otro', creada: '' },
+    ]
+    const guardadas = [{ ...vistos[0], plano: { grilla: 'almaciguera' as const, cols: 6 as const } }, vistos[2]]
+    expect(ordenSobre(guardadas, [vistos[2], vistos[1], vistos[0]])).toEqual([
+      { ...vistos[2], plano: { orden: 0 } },
+      { ...vistos[0], plano: { grilla: 'almaciguera', cols: 6, orden: 1 } },
+    ])
   })
 
   it('el orden queda escrito en todos los lugares, sin tocar lo demás del plano', () => {
