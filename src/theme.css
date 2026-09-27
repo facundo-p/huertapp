@@ -73,6 +73,8 @@
      suma. */
   --tab-alto: 59px;
   --tab-zona-segura: max(13px, env(safe-area-inset-bottom));
+  /* lo que ocupa la barra: con la letra agrandada crece, y TabBar lo mide */
+  --tab-ocupa: calc(var(--tab-alto) + var(--tab-zona-segura));
   --max-ancho: 640px;
 
   /* Papel rayado: el texto se apoya en el renglón, que cae en el pie de cada
@@ -209,9 +211,9 @@
 
   /* ---- Cuaderno ---- */
   /* El renglón tiene techo: a .2 bajaba --tinta-suave a 4,46 justo encima de
-     la línea. Encima de un renglón no pasan --tinta-tenue en los dos temas;
-     de día --verde-hoja, --sol-texto y --conf-alta/media/sin; de noche
-     --terracota-texto, --peligro y --conf-baja (el mismo color). */
+     la línea. Encima de un renglón no pasan --tinta-tenue y --terracota en
+     los dos temas; de día --verde-hoja, --sol-texto y --conf-alta/media/sin;
+     de noche --terracota-texto, --peligro y --conf-baja (el mismo color). */
   --renglon: rgba(79, 127, 149, 0.16);
   --margen: rgba(161, 88, 61, 0.5);
   --cuadro: rgba(79, 127, 149, 0.13);
@@ -364,7 +366,6 @@
   /* Al revés que de día: nada más claro que el papel, porque acá el texto es
      el claro. Lleva el grano negro de siempre y nubes apenas más oscuras. */
   --papel-img: url('./papel/papel-reciclado-noche.svg');
-  --grano-fuerza: 1;
 
   --sombra-1: 0 1px 2px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.22);
   --sombra-2: 0 2px 4px rgba(0, 0, 0, 0.22), 0 8px 22px rgba(0, 0, 0, 0.3);

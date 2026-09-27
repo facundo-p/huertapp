@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { useLayoutEffect, useRef, type CSSProperties } from 'react'
 import { NavLink } from 'react-router'
 import { IconoCalendario, IconoCompost, IconoExplorar, IconoHoy, IconoHuerta } from '../icons'
 import './TabBar.css'
@@ -14,8 +14,26 @@ const TABS = [
 ] as const
 
 export function TabBar() {
+  const ref = useRef<HTMLElement>(null)
+
+  // con la letra agrandada la barra crece: el pie de cada pantalla y los
+  // avisos tienen que despejar lo que mide de verdad, no los 59 de siempre
+  useLayoutEffect(() => {
+    const barra = ref.current
+    if (!barra || typeof ResizeObserver === 'undefined') return
+    const raiz = document.documentElement
+    const medir = () => raiz.style.setProperty('--tab-ocupa', `${barra.offsetHeight}px`)
+    const observador = new ResizeObserver(medir)
+    observador.observe(barra)
+    medir()
+    return () => {
+      observador.disconnect()
+      raiz.style.removeProperty('--tab-ocupa')
+    }
+  }, [])
+
   return (
-    <nav className="tabbar" aria-label="Navegación principal">
+    <nav ref={ref} className="tabbar" aria-label="Navegación principal">
       {TABS.map(({ a, etiqueta, Icono, color }) => (
         <NavLink key={a} to={a} className="tabbar__tab" style={{ '--c': color } as CSSProperties}>
           {({ isActive }) => (

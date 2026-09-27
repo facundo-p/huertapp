@@ -33,8 +33,9 @@ Qué significa cada parte en este proyecto:
   contraste.
 - **La barra de abajo son pestañas de separador.** Cada sección tiene su
   color, y la pestaña de donde estás se une a la página y lleva un subrayado.
-  Con la letra del teléfono agrandada, los rótulos se parten en dos líneas y
-  las cinco siguen en pantalla.
+  Con la letra del teléfono agrandada, las cinco siguen en pantalla y nada
+  queda tapado detrás de la barra: los rótulos se parten en dos líneas y, en
+  las pantallas angostas, los más largos también a mitad de palabra.
 
 ## [2.4.0] — 2026-09-27
 

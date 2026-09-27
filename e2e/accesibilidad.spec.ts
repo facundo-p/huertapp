@@ -495,3 +495,36 @@ for (const [ancho, letra] of [
     }
   })
 }
+
+/**
+ * La barra crece con la letra, y lo de abajo de cada pantalla tiene que
+ * despejarla. Con el alto fijo de 72, a 320 px y 130 % «Sumar una compostera»
+ * quedaba con 29 de sus 48 px para tocar.
+ */
+for (const [ancho, letra] of [
+  [320, 130],
+  [360, 200],
+] as const) {
+  test(`nada queda detrás de la barra · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    for (const ruta of ['/#/hoy', '/#/explorar', '/#/calendario', '/#/compost', '/#/huerta']) {
+      await page.goto(ruta)
+      await page.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      await page.evaluate(() => document.fonts.ready)
+      // dos cuadros: el que mide la barra y el que repinta el pie de la pantalla
+      await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
+      await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+      const { barra, abajo, nombre } = await page.evaluate(() => {
+        const enfocables = [...document.querySelectorAll<HTMLElement>('.pantalla a[href], .pantalla button, .pantalla input')]
+          .filter((e) => e.getClientRects().length > 0)
+        const ultimo = enfocables[enfocables.length - 1]
+        return {
+          barra: document.querySelector('.tabbar')!.getBoundingClientRect().top,
+          abajo: ultimo.getBoundingClientRect().bottom,
+          nombre: ultimo.getAttribute('aria-label') ?? ultimo.textContent?.trim(),
+        }
+      })
+      expect(abajo, `${ruta}: «${nombre}» queda detrás de la barra`).toBeLessThanOrEqual(barra + 0.5)
+    }
+  })
+}

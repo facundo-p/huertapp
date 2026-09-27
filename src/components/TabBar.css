@@ -100,8 +100,10 @@
   }
 }
 
-/* Ni partidas en dos entran (320 con la letra al 130 %): se cortan las
-   palabras. Feo, pero las cinco se alcanzan. */
+/* Ni partidas en dos entran: se cortan las palabras largas («Calen-dario»,
+   con guion donde el navegador sabe separar en sílabas). Pasa a 130 % por
+   debajo de ~363 px, a 150 % ya en 390, y a 200 % en todos. Feo, pero las
+   cinco se alcanzan. */
 @container (max-width: 22.5em) {
   .tabbar__tab {
     min-width: 0;

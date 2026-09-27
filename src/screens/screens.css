@@ -3,7 +3,7 @@
   max-width: var(--max-ancho);
   margin: 0 auto;
   /* la nav es fija: hay que despejar su alto más la zona segura */
-  padding-bottom: calc(var(--tab-alto) + var(--tab-zona-segura) + var(--esp-4));
+  padding-bottom: calc(var(--tab-ocupa) + var(--esp-4));
   min-height: 100dvh;
 }
 

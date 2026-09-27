@@ -93,7 +93,7 @@ borde de nubes y fibras, y no le mueve ningún contraste a la tabla.
 |---|---|
 | Casilla dibujada | Es «Hecho», o «Asomó» en la tarea de germinación, como en `CarrilSemana`, con 44 px de target. Tildada, la tarea se tacha y brota una hojita, y a los 700 ms se va, como hoy en la app: tildar es definitivo, porque girar el compost pisa la fecha anterior y «Asomó» escribe `germino`. En el render no se va, para poder destildarla y probarla de nuevo, y la tira no recuenta. |
 | Post-it | Lo único que se destaca en la pantalla: los avisos que piden proteger algo. Qué hace al tocarlo, en la lista de abajo; cuántos hay, en «Más de un post-it». |
-| Pestañas de separador | La barra de navegación, con la misma altura que hoy (59 + zona segura). La activa se une a la página. |
+| Pestañas de separador | La barra de navegación, con la misma altura mínima que hoy (59 + zona segura); con la letra agrandada crece. La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
 | Cinta | Pega las fotos del diario. |
 | Plantitas | 19 dibujos: 6 grupos × 3 etapas (brote, creciendo, dando), más la semilla que no asomó. La especie y la etapa van siempre en el nombre accesible. Si la etapa es ícono o dibujo está por decidir: ver «Marcas». |
@@ -403,9 +403,9 @@ recorre el lector de pantalla y lo que mide `e2e/accesibilidad.spec.ts`
     manuscrita, algún descendente lo roza.
   - **Los tokens que no pasan justo encima de un renglón** (ver la tabla de
     contrastes) sólo sirven en página rayada si el renglón no los toca:
-    `--tinta-tenue`; de día `--verde-hoja`, `--sol-texto` y
-    `--conf-alta/media/sin`; de noche `--terracota-texto`, `--peligro` y
-    `--conf-baja`. Así pasa «Atrasada», en terracota.
+    `--tinta-tenue` y `--terracota` en los dos temas; de día `--verde-hoja`,
+    `--sol-texto` y `--conf-alta/media/sin`; de noche `--terracota-texto`,
+    `--peligro` y `--conf-baja`. Así pasa «Atrasada», en terracota.
   `GanttPlanta` y `TarjetaLugar` usan `--tinta-tenue` a 11 px: si la lista por
   lugar pasa a ser página con renglones, esos textos pasan a `--tinta-suave`.
 - Sin `<filter>` por viñeta: el grano ya está en `body::before`.
@@ -455,9 +455,10 @@ Contrastes medidos (WCAG: 4,5 para texto, 3 para rellenos y trazos):
 | `--verde-hoja` justo encima de un renglón | **4,06, no pasa** | 5,3 |
 | `--sol-texto` justo encima de un renglón | **4,44, no pasa** | 5,2 |
 | `--terracota-texto` justo encima de un renglón | 6,3 | **4,38, no pasa** |
+| `--terracota` justo encima de un renglón (de noche es el mismo color que `--terracota-texto`) | **3,96, no pasa** | **4,38, no pasa** |
 | `--peligro` y `--conf-baja` justo encima de un renglón | 4,66 | **4,38, no pasa** |
-| `--conf-alta` justo encima de un renglón | **4,23, no pasa** | 5,9 |
-| `--conf-media` justo encima de un renglón | **4,21, no pasa** | 5,8 |
+| `--conf-alta` justo encima de un renglón | **4,23, no pasa** | 5,3 |
+| `--conf-media` justo encima de un renglón | **4,21, no pasa** | 5,2 |
 | `--conf-sin` justo encima de un renglón | **4,45, no pasa** | 5,1 |
 | círculo del día leído (`--sol-texto`, trazo) | 5,3 | 6,9 |
 | relleno de la banderita contra su celda teñida | **2,49, no pasa**: el 3:1 lo cumple el contorno (`--bandera-borde`, 6,91) | 4,91, sin contorno |
