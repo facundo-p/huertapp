@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, type ComponentType } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { BottomSheet } from '../components/BottomSheet'
-import { CycleProgress } from '../components/CycleProgress'
 import { FotoDeDiario } from '../components/FotoDeDiario'
 import { BloqueGerminacion } from '../components/BloqueGerminacion'
 import { Trasplantar } from '../components/Trasplantar'
@@ -25,8 +24,18 @@ import {
 } from '../lib/huerta/tipos'
 import { estimar, siguienteEtapa, textoHito } from '../lib/huerta/estimar'
 import { germinacion, germinacionPendiente } from '../lib/huerta/germinacion'
+import { casillerosDelCiclo, fechaDeMargen, llevaSello, type Casillero } from '../lib/huerta/ciclo'
 import { METODOS } from '../lib/calendario'
-import { IconoFoto, IconoNota, IconoReloj, IconoSembrar } from '../icons'
+import {
+  IconoCheck,
+  IconoFoto,
+  IconoNota,
+  IconoPlaga,
+  IconoRegar,
+  IconoReloj,
+  IconoSembrar,
+  type IconProps,
+} from '../icons'
 import './DetallePlanta.css'
 import { DibujoEtiquetaVacia } from '../dibujos'
 
@@ -97,7 +106,6 @@ export function DetallePlanta() {
   const est = especie ? estimar(planta, especie) : null
   const germ = especie ? germinacion(planta, especie) : null
   const sigue = siguienteEtapa(planta)
-  const directa = planta.metodo === 'directa' || planta.metodo === 'plantacion'
   const nombre = planta.apodo || especie?.nombre_comun || 'Planta'
   const partes = partesDe(plantas, planta)
   const cantidad = textoCantidad(planta)
@@ -127,35 +135,41 @@ export function DetallePlanta() {
       />
 
       <div className="pantalla__cuerpo">
-        {/* 1. el ciclo, con la etapa actual en --sol */}
-        <section className="planta__bloque">
-          <CycleProgress etapa={planta.etapa} directa={directa} />
+        <section className="pagina-planta-ciclo" aria-labelledby="ciclo-titulo">
+          <h2 className="seccion__titulo mano" id="ciclo-titulo">
+            El ciclo
+          </h2>
+          <Casilleros lista={casillerosDelCiclo(planta, especie, hoyISO())} />
+
+          {!germinacionPendiente(germ) && est?.proximo && (
+            <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
+              <IconoReloj size={15} />
+              <span>
+                <strong>{est.proximo.titulo}</strong> estimado entre el {fechaCorta(est.proximo.desde)} y
+                el {fechaCorta(est.proximo.hasta)} — {textoHito(est.proximo)}.
+              </span>
+            </p>
+          )}
+
+          {/* Por qué esa fecha no es la que sale de la ficha: se corrió con TU
+              planta, y sin decirlo parece que el catálogo se contradice. */}
+          {!!est?.corrimiento && planta.germino && especie?.dias_germinacion && (
+            <p className="planta__corrimiento">
+              <IconoSembrar size={15} />
+              <span>
+                {textoCorrimiento(
+                  est.corrimiento,
+                  especie.dias_germinacion,
+                  diasEntre(planta.sembrada, planta.germino),
+                )}
+              </span>
+            </p>
+          )}
         </section>
 
-        {/* 2. la germinación, con el corrimiento explicado en tres números */}
-        {especie && clima && (
-          <section className="planta__bloque">
-            <BloqueGerminacion planta={planta} especie={especie} clima={clima} />
-            {/* Por qué esa fecha no es la que sale de la ficha: se corrió con TU
-                planta, y sin decirlo parece que el catálogo se contradice. */}
-            {!!est?.corrimiento && planta.germino && especie.dias_germinacion && (
-              <p className="planta__corrimiento">
-                <IconoSembrar size={15} />
-                <span>
-                  {textoCorrimiento(
-                    est.corrimiento,
-                    especie.dias_germinacion,
-                    diasEntre(planta.sembrada, planta.germino),
-                  )}
-                </span>
-              </p>
-            )}
-          </section>
-        )}
+        {especie && clima && <BloqueGerminacion planta={planta} especie={especie} clima={clima} />}
 
-        {/* 3. los datos de la siembra, reglados */}
         <dl className="planta__datos">
-          <Dato titulo="Sembrada" valor={fechaCorta(planta.sembrada)} />
           {planta.metodo && <Dato titulo="Cómo" valor={METODOS[planta.metodo]} />}
           {cantidad && <Dato titulo="Cuántas" valor={cantidad} />}
           {ubicacion && <Dato titulo="Dónde" valor={ubicacion.nombre} />}
@@ -167,42 +181,36 @@ export function DetallePlanta() {
           )}
         </dl>
 
-        {/* 4. lo que viene, con la acción primaria y la secundaria */}
-        <section className="planta__bloque">
-          {!germinacionPendiente(germ) && est?.proximo && (
-            <p className={`planta__hito ${est.proximo.enVentana ? 'es-lista' : ''}`}>
-              <IconoReloj size={15} />
-              <span>
-                <strong>{est.proximo.titulo}</strong> estimado entre el {fechaCorta(est.proximo.desde)} y
-                el {fechaCorta(est.proximo.hasta)} — {textoHito(est.proximo)}.
-              </span>
-            </p>
-          )}
-
+        {/* a lápiz: el ocre queda para el «hoy» */}
+        <div className="pagina-planta-acciones">
           {planta.etapa === 'almacigo' ? (
-            <button className="planta__avanzar" onClick={() => setAbrirTrasplante(true)}>
+            <button type="button" className="lapiz pagina-planta-principal" onClick={() => setAbrirTrasplante(true)}>
               La trasplanté…
             </button>
           ) : (
             sigue && (
-              <button className="planta__avanzar" onClick={() => sinRomper(cambiarEtapa(planta, sigue))}>
+              <button
+                type="button"
+                className="lapiz pagina-planta-principal"
+                onClick={() => sinRomper(cambiarEtapa(planta, sigue))}
+              >
                 Marcar como {ETAPA_INFO[sigue].etiqueta.toLowerCase()}
               </button>
             )
           )}
 
           {planta.etapa !== 'terminada' && (
-            <button className="planta__secundario" onClick={() => setAbrirCantidad(true)}>
+            <button type="button" className="lapiz" onClick={() => setAbrirCantidad(true)}>
               {cantidad ? 'Cambiar la cuenta' : 'Anotar cuántas hay'}
             </button>
           )}
 
           {planta.etapa !== 'almacigo' && planta.etapa !== 'terminada' && (
-            <button className="planta__secundario" onClick={() => setAbrirTrasplante(true)}>
+            <button type="button" className="lapiz" onClick={() => setAbrirTrasplante(true)}>
               Mover o separar una parte…
             </button>
           )}
-        </section>
+        </div>
 
         {partes.length > 0 && (
           <div className="planta__partes">
@@ -230,41 +238,49 @@ export function DetallePlanta() {
           </Link>
         )}
 
-        <div className="diario__cabeza">
-          <h2 className="seccion__titulo mano">Diario</h2>
-          <button className="diario__agregar" onClick={() => setAbrirDiario(true)}>
-            ＋ Anotar
-          </button>
-        </div>
+        <section className="pagina pagina-planta-diario" aria-labelledby="diario-titulo">
+          <div className="pagina-planta-diario__cab">
+            <h2 className="pagina__titulo mano" id="diario-titulo">
+              Diario
+            </h2>
+            {/* arriba y no al pie: lo nuevo va primero, y lo que anotás aparece acá */}
+            <button type="button" className="lapiz" onClick={() => setAbrirDiario(true)}>
+              <IconoNota size={18} />
+              Anotar algo
+            </button>
+          </div>
 
-        {entradas?.length === 0 && (
-          <p className="diario__vacio">
-            Todavía no anotaste nada. Una foto por semana y en dos meses tenés la película.
-          </p>
-        )}
+          {entradas?.length === 0 && (
+            <p className="pagina-planta-diario__vacio">
+              Todavía no anotaste nada. Una foto por semana y en dos meses tenés la película.
+            </p>
+          )}
 
-        <ul className="diario">
-          {entradas?.map((e) => (
-            <li
-              key={e.id}
-              className={`diario__item es-${e.tipo}`}
-              style={{ '--tipo': TIPOS_ENTRADA[e.tipo].color } as React.CSSProperties}
-            >
-              <div className="diario__meta">
-                <span className="diario__tipo">{TIPOS_ENTRADA[e.tipo].etiqueta}</span>
-                <span className="diario__fecha">{fechaCorta(e.fecha)}</span>
-              </div>
-              {e.texto && <p className="diario__texto">{e.texto}</p>}
-              {e.fotoIds.length > 0 && (
-                <div className="diario__fotos">
-                  {e.fotoIds.map((f) => (
-                    <FotoDeDiario key={f} id={f} />
-                  ))}
+          <ol className="pagina-planta-entradas">
+            {entradas?.map((e) => (
+              <li key={e.id} className="pagina-planta-entrada">
+                <Fecha iso={e.fecha} className="pagina-planta-entrada__fecha" />
+                <div>
+                  {(e.texto || MARCA_ENTRADA[e.tipo] || llevaSello(e.tipo)) && (
+                    <p className="pagina-planta-entrada__texto">
+                      <MarcaDeEntrada tipo={e.tipo} />
+                      {e.texto}
+                    </p>
+                  )}
+                  {e.fotoIds.length > 0 && (
+                    <div className="pagina-planta-fotos">
+                      {e.fotoIds.map((f) => (
+                        <span key={f} className="pagina-planta-foto">
+                          <FotoDeDiario id={f} />
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         <button className="planta__borrar" onClick={borrar}>
           Borrar esta planta
@@ -450,6 +466,69 @@ function NuevaEntrada({
 
 /* ---------- piezas ---------- */
 
+function Casilleros({ lista }: { lista: Casillero[] }) {
+  return (
+    <ol className="pagina-planta-casilleros">
+      {lista.map((c) => (
+        <li
+          key={c.clave}
+          className={`pagina-planta-casillero ${c.hecho ? 'es-hecho' : 'es-futuro'} ${c.hoy ? 'es-hoy' : ''}`}
+        >
+          {c.hoy && (
+            <span className="pagina-planta-casillero__hoy" aria-hidden>
+              hoy
+            </span>
+          )}
+          {c.hecho && <span className="sr-solo">Hecho: </span>}
+          {c.hoy && <span className="sr-solo">Lo que sigue, hoy estás acá: </span>}
+          <span className="pagina-planta-casillero__nombre">{c.nombre}</span>
+          {c.fecha && <Fecha iso={c.fecha} className="pagina-planta-casillero__fecha" />}
+          {c.nota && <span className="pagina-planta-casillero__nota">{c.nota}</span>}
+          {c.hecho && <IconoCheck size={16} className="pagina-planta-casillero__tilde" />}
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+/** «5/9» a la vista; el lector dice «5 de septiembre», no «5 barra 9». */
+function Fecha({ iso, className }: { iso: string; className: string }) {
+  return (
+    <span className={className}>
+      <span aria-hidden>{fechaDeMargen(iso)}</span>
+      <span className="sr-solo">{fechaLarga(iso)}</span>
+    </span>
+  )
+}
+
+/** Lo de todos los días va con ícono; la nota, que es lo más común, sin nada. */
+const MARCA_ENTRADA: Partial<Record<TipoEntrada, ComponentType<IconProps>>> = {
+  riego: IconoRegar,
+  plaga: IconoPlaga,
+}
+
+function MarcaDeEntrada({ tipo }: { tipo: TipoEntrada }) {
+  const { etiqueta } = TIPOS_ENTRADA[tipo]
+  if (llevaSello(tipo)) {
+    return (
+      <>
+        <span className="pagina-planta-sello">
+          <b>{etiqueta}</b>
+        </span>
+        <span className="sr-solo">: </span>
+      </>
+    )
+  }
+  const Icono = MARCA_ENTRADA[tipo]
+  if (!Icono) return null
+  return (
+    <>
+      <Icono size={18} className={`pagina-planta-entrada__tipo es-${tipo}`} />
+      <span className="sr-solo">{etiqueta}: </span>
+    </>
+  )
+}
+
 function Dato({ titulo, valor }: { titulo: string; valor: string }) {
   return (
     <div className="planta__dato">
@@ -461,4 +540,8 @@ function Dato({ titulo, valor }: { titulo: string; valor: string }) {
 
 function fechaCorta(iso: string): string {
   return new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short' }).format(desdeISO(iso))
+}
+
+function fechaLarga(iso: string): string {
+  return new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'long' }).format(desdeISO(iso))
 }

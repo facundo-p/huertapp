@@ -185,6 +185,58 @@ describe('validación del backup', () => {
     expect(vuelta.plantas[0].cantidad).toBe(8)
     expect(vuelta.plantas[0].origenId).toBe('p0')
   })
+
+  describe('lo acomodado del croquis', () => {
+    const planta = {
+      id: 'p1',
+      slug: 'tomate',
+      sembrada: '2026-08-01',
+      metodo: 'almacigo',
+      etapa: 'almacigo',
+      etapaDesde: '2026-08-01',
+      creada: '2026-08-01T10:00:00.000Z',
+      ubicacionId: 'u1',
+    }
+    const lugar = { id: 'u1', nombre: 'Almaciguera', tipo: 'almacigo', capacidad: 12, creada: '2026-08-01' }
+    const con = (p: object, u: object) => ({ ...valido, plantas: [{ ...planta, ...p }], ubicaciones: [{ ...lugar, ...u }] })
+
+    it('viaja en la versión 1: plano y celdas van y vuelven intactos', () => {
+      // aditivo como cantidad: una app vieja los ignora y dibuja el nivel 0
+      expect(VERSION_BACKUP).toBe(1)
+      const b = con(
+        { celdas: { ubicacionId: 'u1', en: [{ col: 4, fila: 1 }, { col: 5, fila: 1 }] } },
+        { plano: { orden: 2, grilla: 'almaciguera', cols: 6 } },
+      )
+      expect(validar(JSON.parse(JSON.stringify(b)))).toEqual(b)
+    })
+
+    it('sin plano ni celdas queda exactamente como vino, sin campos de más', () => {
+      const b = con({}, {})
+      const v = validar(b)
+      expect(v).toEqual(b)
+      expect('celdas' in v.plantas[0]).toBe(false)
+      expect('plano' in v.ubicaciones[0]).toBe(false)
+    })
+
+    it('lo roto se descarta sin frenar el import, y lo demás de la planta queda', () => {
+      const rotos: [object, object, object, object][] = [
+        [{ celdas: 'x' }, {}, { plano: 7 }, {}],
+        [{ celdas: { ubicacionId: 'u1', en: [{ col: 'a', fila: 0 }] } }, {}, { plano: { grilla: 'rara', cols: 4 } }, {}],
+        [
+          { celdas: { en: [] } },
+          {},
+          { plano: { orden: 1, grilla: 'rara', cols: 4 } },
+          { plano: { orden: 1 } },
+        ],
+      ]
+      for (const [p, pSano, u, uSano] of rotos) {
+        let v: ReturnType<typeof validar> | undefined
+        expect(() => (v = validar(con(p, u))), JSON.stringify([p, u])).not.toThrow()
+        expect(v!.plantas[0]).toEqual({ ...planta, ...pSano })
+        expect(v!.ubicaciones[0]).toEqual({ ...lugar, ...uSano })
+      }
+    })
+  })
 })
 
 describe('backup y ubicación del pronóstico', () => {

@@ -260,18 +260,6 @@ export function IconoMaceta(p: IconProps) {
   )
 }
 
-/** Tres puntos: «más opciones» de una fila. Horizontal, para no leerse como
- *  arrastrar. */
-export function IconoPuntos(p: IconProps) {
-  return (
-    <Svg {...p}>
-      <circle cx="5.5" cy="12" r="1.1" fill="currentColor" />
-      <circle cx="12" cy="12" r="1.1" fill="currentColor" />
-      <circle cx="18.5" cy="12" r="1.1" fill="currentColor" />
-    </Svg>
-  )
-}
-
 /* ---- Compost: cinco íconos de la segunda entrega, misma gramática ---- */
 
 /** Compost: dos flechas en círculo y un brote en el medio. */
@@ -315,6 +303,30 @@ export function IconoCheck(p: IconProps) {
   return (
     <Svg {...p}>
       <path d="M5 12.5 L9.5 17 L19 7.5" />
+    </Svg>
+  )
+}
+
+/** Más: sumar algo a lo tuyo. */
+export function IconoMas(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M12 5.5 V 18.5" />
+      <path d="M5.5 12 H 18.5" />
+    </Svg>
+  )
+}
+
+const GIRO = { arriba: 0, derecha: 90, abajo: 180, izquierda: 270 } as const
+
+/** Flecha: correr lo elegido una celda para ese lado. Una sola, girada, para que las cuatro sean iguales. */
+export function IconoFlecha({ hacia, ...p }: IconProps & { hacia: keyof typeof GIRO }) {
+  return (
+    <Svg {...p}>
+      <g transform={`rotate(${GIRO[hacia]} 12 12)`}>
+        <path d="M12 19 V 5.5" />
+        <path d="M6.5 11 L 12 5.5 L 17.5 11" />
+      </g>
     </Svg>
   )
 }

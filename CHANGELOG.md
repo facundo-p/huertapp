@@ -23,6 +23,26 @@ Qué significa cada parte en este proyecto:
 
 ## [Sin publicar]
 
+### Agregado
+
+- **Mi huerta tiene un croquis arriba de todo.** Tus lugares dibujados sobre
+  una hoja cuadriculada, cada planta en sus celdas. Cada plantita muestra en
+  qué anda —todavía no asomó, brote, creciendo o dando cosecha— y, si te pide
+  algo, lleva una banderita con cuántas cosas; terracota y con «!» si algo está
+  atrasado. Si esta semana puede helar, las que no lo aguantan
+  llevan un copo. Tocá una planta y vas a su página; tocá el nombre de un lugar
+  y bajás a sus fechas. Se pliega como un lugar, y queda como lo dejaste.
+- **Las marcas del croquis están en el Glosario.**
+- **Podés acomodar el croquis como está en tu huerta, si querés.** Tocá
+  «Acomodar», elegí una o varias celdas y tocá dónde van: las marcas «+» te
+  muestran dónde entran. También podés correrlas una celda con las flechas,
+  intercambiar dos plantas o mover juntas todas las celdas de una misma planta.
+  Y con «Antes» y «Después» cambiás el orden de los lugares en la hoja, que es
+  también el de la lista. Si no acomodás nada, el croquis se sigue armando solo,
+  como hasta ahora. En un lugar acomodado, lo que trasplantás o mudás ahí llega a
+  la primera celda libre; y si le cambiás el tipo o la disposición, el lugar
+  vuelve a armarse solo.
+
 ### Cambiado
 
 - **La app se parece más a un cuaderno de huerta.** El título de cada pantalla
@@ -36,6 +56,31 @@ Qué significa cada parte en este proyecto:
   Con la letra del teléfono agrandada, las cinco siguen en pantalla y nada
   queda tapado detrás de la barra: los rótulos se parten en dos líneas y, en
   las pantallas angostas, los más largos también a mitad de palabra.
+- **Esta semana se lee como un cuaderno, con una página por día.** Arriba queda
+  fija una tira con los siete días: tocá uno y vas a su página. Mientras bajás,
+  el círculo sigue al día que estás leyendo. Un día sin nada dice «Nada
+  anotado».
+- **Las tareas se tildan.** Tocás la casilla, el tilde queda un momento a la
+  vista y la tarea se va. El porqué, la fuente y «Más tarde» están plegados:
+  tocá el título para verlos. Junto a «Más tarde» dice por cuántos días la
+  esconde, antes de que lo toques. Lo que es instrucción queda siempre a la
+  vista, como qué tapar si hiela.
+- **Si el pronóstico trae helada o mucho calor, aparece un post-it arriba.**
+  Tocalo y te lleva a ese día. El post-it se queda hasta que pase.
+- **El tiempo de hoy va al lado de la fecha**, y el de los otros días, en el
+  título de su página. Tocalo para ver el detalle.
+- **La lista de Mi huerta es una página con renglones**, debajo del croquis, y
+  el texto más chico de cada lugar tiene más contraste.
+- **«Para sembrar ahora» es una nota al margen** entre hoy y mañana. «Ver todas
+  en Explorar» abre Explorar con el filtro de lo que se siembra ahora ya
+  prendido.
+- **La página de cada planta es una hoja del cuaderno.** El ciclo va en
+  casilleros: los que pasaron llevan un tilde, y la fecha cuando se sabe; los
+  que vienen están punteados, con la fecha desde la que se esperan. Mientras la
+  semilla no asoma, lo que sigue no lleva fecha: depende de cuándo asome. Un
+  «hoy» marca por dónde andás. El diario va en renglones, con la fecha al
+  margen; las fotos, pegadas con cinta, y los trasplantes, las floraciones y
+  las cosechas llevan un sello.
 
 ### Arreglado
 
@@ -43,6 +88,8 @@ Qué significa cada parte en este proyecto:
   «Tomate indeterminado» en un teléfono angosto o con la letra agrandada: se
   corta la palabra. Con la letra al doble, la cabecera de cada dato de la
   ficha tampoco se sale.
+- **El aviso de helada ya no repite una planta** cuando tenés dos siembras de
+  lo mismo: decía «tomate y tomate».
 
 ## [2.4.0] — 2026-09-27
 

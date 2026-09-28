@@ -14,7 +14,10 @@ import {
 import { conNegritas } from '../lib/negritas'
 import { ORDEN_CUIDADOS } from '../lib/data/cuidados'
 import { ConfidenceBadge } from '../components/ConfidenceBadge'
+import { Banderita, Copo, MarcaEntra } from '../components/Croquis'
 import '../components/ChipHoja.css'
+// las marcas de la tira se muestran con sus clases de verdad
+import '../components/Semana.css'
 import {
   CIELOS,
   GRUPOS,
@@ -33,12 +36,13 @@ import {
   IconoTempCalida,
   IconoTempFria,
   IconoTempTemplada,
-  IconoPuntos,
   IconoCompost,
   IconoTacho,
   IconoTermo,
   IconoCheck,
   IconoCruz,
+  IconoFlecha,
+  IconoMas,
   IconoConfianza,
   IconoCosechar,
   IconoCuidado,
@@ -87,10 +91,10 @@ const ACCIONES: Item[] = [
   { Icono: IconoDesplegar, nombre: 'Desplegar', desc: 'Abre lo que está plegado. Girado, ya está abierto.' },
   { Icono: IconoBajar, nombre: 'Backup', desc: 'Bajar tus datos a un archivo, o traerlos de vuelta.' },
   { Icono: IconoInstalar, nombre: 'Instalar', desc: 'Dejar la app en la pantalla de inicio del celu.' },
-  { Icono: IconoPuntos, nombre: 'Más opciones', desc: 'Lo que una fila también permite hacer, como posponer.' },
   { Icono: IconoCompost, nombre: 'Compost', desc: 'La guía de compostaje, y la tarea de revolver tu compostera.' },
   { Icono: IconoTacho, nombre: 'Tacho', desc: 'Compostera cerrada, de balcón o patio.' },
   { Icono: IconoTermo, nombre: 'Temperatura', desc: 'La pila que calienta: señal de que trabaja.' },
+  { Icono: IconoMas, nombre: 'Sumar', desc: 'Llevar algo que se puede sembrar ahora a tu huerta.' },
   { Icono: IconoCheck, nombre: 'Se cumple', desc: 'Una señal que está.' },
   { Icono: IconoCruz, nombre: 'No va', desc: 'Lo que no se composta.' },
 ]
@@ -114,6 +118,7 @@ const INDICE = [
   { id: 'tiempo', etiqueta: 'Tiempo' },
   { id: 'calendario', etiqueta: 'Calendario' },
   { id: 'decadas', etiqueta: 'Décadas' },
+  { id: 'croquis', etiqueta: 'Croquis' },
   { id: 'acciones', etiqueta: 'Acciones' },
   { id: 'confianza', etiqueta: 'Confianza' },
 ]
@@ -157,6 +162,19 @@ function FilaTermino({ termino, id }: { termino: Termino; id?: string }) {
         </p>
       )}
     </li>
+  )
+}
+
+/** Las de la tira, con las mismas clases: un aviso y cuatro tareas se ven así. */
+function MarcasTira(_: IconProps) {
+  return (
+    <span className="dia__marcas">
+      <span style={{ color: 'var(--cielo-agua)' }}>
+        <IconoGota size={14} />
+      </span>
+      <span className="dia__punto" />
+      <span className="dia__mas">+3</span>
+    </span>
   )
 }
 
@@ -380,8 +398,8 @@ export function Glosario() {
 
         <Seccion id="tiempo" titulo="El tiempo de la semana" retraso={0.17}>
           <p className="glosario__intro">
-            Si activaste el pronóstico en Ajustes, Hoy muestra la semana con
-            estos íconos.
+            Si activaste el pronóstico en Ajustes, Esta semana muestra el tiempo
+            de cada día con estos íconos.
           </p>
           <ul className="glosario__lista">
             {Object.entries(CIELOS).map(([c, info]) => (
@@ -400,12 +418,17 @@ export function Glosario() {
             <Fila
               Icono={IconoGota}
               nombre="probabilidad de lluvia"
-              desc="Qué tan probable es que llueva ese día. La humedad del aire va en el detalle."
+              desc="Qué tan probable es que llueva ese día; la humedad del aire va en el detalle. En la tira y en la página del día marca también «Se viene lluvia»: 5 mm o más, con 60 % de probabilidad o más."
             />
             <Fila
               Icono={IconoUbicacion}
               nombre="ubicación de la huerta"
               desc="Desde dónde se pide el pronóstico. Se elige en Ajustes y se saca cuando quieras."
+            />
+            <Fila
+              Icono={MarcasTira}
+              nombre="marcas de cada día"
+              desc="Debajo de cada día de la tira: un punto por cada cosa para hacer y, adelante, los avisos del tiempo. Entran tres; con más, la tercera dice cuántas más hay, como «+3»."
             />
           </ul>
         </Seccion>
@@ -478,6 +501,77 @@ export function Glosario() {
               entre el centro porteño y el periurbano, el calendario se corre según la zona que elijas en
               Ajustes.
             </p>
+          </div>
+        </Seccion>
+
+        <Seccion id="croquis" titulo="Las marcas del croquis" retraso={0.24}>
+          <div className="tarjeta glosario__calendario">
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <Banderita cuantas={1} atrasada={false} />
+              </span>
+              <div>
+                <p className="glosario__nombre">Algo para hacer</p>
+                <p className="glosario__desc">En el croquis de Mi huerta, cuántas cosas te pide esa planta.</p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <Banderita cuantas={1} atrasada />
+              </span>
+              <div>
+                <p className="glosario__nombre">Atrasado</p>
+                <p className="glosario__desc">Terracota y con «!»: una de esas cosas ya se pasó de fecha.</p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <Copo />
+              </span>
+              <div>
+                <p className="glosario__nombre">Tapar si hiela</p>
+                <p className="glosario__desc">
+                  Esta semana puede helar y esa planta no lo aguanta: tapala de noche.
+                </p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <MarcaEntra suelta />
+              </span>
+              <div>
+                <p className="glosario__nombre">Entra lo elegido</p>
+                <p className="glosario__desc">
+                  Al acomodar, las celdas libres donde entra lo que elegiste. Tocá una y va ahí.
+                </p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <span className="croquis-ancla">1</span>
+              </span>
+              <div>
+                <p className="glosario__nombre">La primera</p>
+                <p className="glosario__desc">
+                  Si elegiste varias, la «1» va a la marca que toques y las demás la siguen con la misma
+                  forma.
+                </p>
+              </div>
+            </div>
+            <div className="glosario__celda-demo">
+              <span className="glosario__marca" aria-hidden>
+                <span className="acomodar-flecha">
+                  <IconoFlecha hacia="derecha" size={24} />
+                </span>
+              </span>
+              <div>
+                <p className="glosario__nombre">Correr lo elegido</p>
+                <p className="glosario__desc">
+                  Una celda para ese lado, con la misma forma. Punteada no se puede: si la tocás, te dice
+                  por qué.
+                </p>
+              </div>
+            </div>
           </div>
         </Seccion>
 

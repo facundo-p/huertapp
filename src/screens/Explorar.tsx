@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useLocation } from 'react-router'
 import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { EspecieCard } from '../components/EspecieCard'
@@ -39,7 +40,9 @@ export function Explorar() {
   const decadaHoy = decadaDe(hoy)
 
   const [busqueda, setBusqueda] = useState('')
-  const [soloAhora, setSoloAhora] = useState(false)
+  // «Ver todas en Explorar», desde Esta semana, llega con el filtro puesto
+  const llegada = useLocation().state as { soloAhora?: boolean } | null
+  const [soloAhora, setSoloAhora] = useState(!!llegada?.soloAhora)
   const [grupo, setGrupo] = useState<FiltroGrupo>(null)
   const [suelo, setSuelo] = useState<FiltroSuelo>(null)
   const [luz, setLuz] = useState<FiltroLuz>(null)

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { test, expect, type Page } from '@playwright/test'
 import { conHelada } from './apoyo-pronostico'
+import { abrir } from './apoyo-huerta'
 import { NOMBRE_LUZ } from '../src/icons/semantic'
 import type { EspecieEnriquecida } from '../src/lib/data/types'
 
@@ -19,23 +20,23 @@ const LUZ_SIN_FUENTE = (
 ).find((e) => e.luz.fuentes.length === 0)
 
 const PANTALLAS = [
-  // El detalle y la fuente de cada día viven en un panel plegado. Sin abrirlo
-  // no se miden, y son el texto más chico de la pantalla: el test pasaría por
-  // no estar mirando nada.
+  // El porqué y la fuente de cada tarea viven plegados. Sin abrirlos no se
+  // miden, y son el texto más chico de la pantalla: el test pasaría por no
+  // estar mirando nada.
   {
     ruta: '/#/hoy',
     nombre: 'Esta semana',
     entrar: async (page: Page) => {
       // siempre el primero que queda cerrado: al abrirse sale del conjunto, así
-      // que los índices se corren solos. Tope en 7, los días de la semana.
-      const cerrados = page.getByRole('button', { name: /de dónde sal/, expanded: false })
+      // que los índices se corren solos. Tope en 8, para no abrir la semana entera.
+      const cerrados = page.locator('.tarea__abrir[aria-expanded="false"]')
       // count() no espera: si el catálogo pinta antes que las plantas, el
       // bucle no abriría nada y el test mediría la pantalla sin la letra chica
       await cerrados.first().waitFor()
-      for (let i = 0; i < 7 && (await cerrados.count()) > 0; i++) {
+      for (let i = 0; i < 8 && (await cerrados.count()) > 0; i++) {
         await cerrados.first().click()
       }
-      await expect(page.locator('.carril__porque-dia:not([hidden])').first()).toBeVisible()
+      await expect(page.locator('.tarea__porque:not([hidden])').first()).toBeVisible()
     },
   },
   { ruta: '/#/explorar', nombre: 'Explorar' },
@@ -79,6 +80,20 @@ const PANTALLAS = [
   },
   { ruta: '/#/calendario', nombre: 'Calendario' },
   { ruta: '/#/huerta', nombre: 'Mi huerta' },
+  // Acomodando, con dos celdas de plantas distintas: aparecen las marcas +, el
+  // «1», la barra entera y las flechas punteadas, que son las de texto tenue.
+  // Las dos de acomodar van antes de otra ruta: con la misma, goto no remonta
+  // la pantalla y la siguiente la encontraría acomodando
+  {
+    ruta: '/#/huerta',
+    nombre: 'Mi huerta acomodando',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: 'Acomodar' }).click()
+      await page.getByRole('button', { name: 'Tomate, Los del cajón, fila 1, columna 4' }).click()
+      await page.getByRole('button', { name: 'Albahaca, fila 1, columna 5' }).click()
+      await page.getByRole('button', { name: 'Intercambiar' }).waitFor()
+    },
+  },
   { ruta: '/#/compost', nombre: 'Compost' },
   { ruta: '/#/compost/cocina-tachos', nombre: 'Compost capítulo' },
   // La ficha de una planta se llega clickeando: el id lo genera la app. Va la
@@ -88,8 +103,26 @@ const PANTALLAS = [
     ruta: '/#/huerta',
     nombre: 'Planta',
     entrar: async (page: Page) => {
-      await page.getByRole('link', { name: /Zanahoria/ }).click()
+      // la de la lista: el croquis de arriba repite el enlace
+      await page
+        .getByRole('region', { name: 'Por lugar, con sus fechas' })
+        .getByRole('link', { name: /Zanahoria/ })
+        .click()
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
+    },
+  },
+  // la de Los del cajón que quedó en el almácigo: el diario con fotos, sello y
+  // riego sobre los renglones, y el «hoy» en los casilleros
+  {
+    ruta: '/#/huerta',
+    nombre: 'Planta con diario',
+    entrar: async (page: Page) => {
+      await page
+        .locator('section.lugar', { has: page.getByRole('button', { name: /^Almaciguera del balcón/ }) })
+        .getByRole('link', { name: /Los del cajón/ })
+        .click()
+      // las fotos llegan de IndexedDB después de pintar
+      await page.getByRole('img', { name: 'Foto del diario' }).first().waitFor()
     },
   },
   // la compostera de la demo con el giro atrasado; se entra desde Mi huerta
@@ -102,6 +135,16 @@ const PANTALLAS = [
     },
   },
   { ruta: '/#/glosario', nombre: 'Glosario' },
+  // y moviendo un lugar: «Antes» no se puede, porque la almaciguera es la primera
+  {
+    ruta: '/#/huerta',
+    nombre: 'Mi huerta moviendo un lugar',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: 'Acomodar' }).click()
+      await page.getByRole('button', { name: 'Almaciguera del balcón, mover en la hoja' }).click()
+      await page.getByRole('button', { name: 'Antes: ya es el primero' }).waitFor()
+    },
+  },
   { ruta: '/#/ajustes', nombre: 'Ajustes' },
   // Con los lugares plegados aparecen los chips, los medidores y la próxima
   // tarea de cada uno: es el estado con más texto chico de la pantalla.
@@ -152,28 +195,6 @@ async function conDemo(page: Page) {
   })
   await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
   await expect(page.getByText(/Se pide para/)).toBeVisible()
-}
-
-/**
- * Abre una pantalla y espera a que haya dibujado. Sin esto los tests miden a
- * veces el esqueleto vacío y pasan sin haber revisado nada: un test de
- * accesibilidad que pasa por llegar temprano es peor que no tenerlo.
- */
-async function abrir(page: Page, ruta: string, entrar?: (page: Page) => Promise<void>) {
-  await page.goto(ruta)
-  await page.waitForLoadState('networkidle')
-  await page.waitForFunction(
-    () =>
-      document.querySelectorAll('h1, h2, h3').length > 1 ||
-      !!document.querySelector('.estado-vacio'),
-    null,
-    { timeout: 15_000 },
-  )
-  await page.evaluate(() => document.fonts.ready)
-  if (entrar) {
-    await entrar(page)
-    await page.evaluate(() => document.fonts.ready)
-  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -549,6 +570,67 @@ for (const [ancho, letra] of [
       pagina: document.documentElement.scrollWidth,
     }))
     expect(titulo, 'el título se sale por la derecha').toBeLessThanOrEqual(ancho)
+    expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(ancho)
+  })
+}
+
+/**
+ * El surco es un svg: sin ancho explícito se quedaba en sus 152 px aunque el
+ * bancal midiera menos, y a 320 px Mi huerta scrolleaba de costado.
+ */
+for (const letra of [100, 200]) {
+  test(`el croquis no se sale · 320 px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 844 })
+    await conDemo(page)
+    await abrir(page, '/#/huerta', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      // el croquis llega después del primer título: sin esperarlo no mide nada
+      await expect(p.locator('.surco').first(), 'la huerta de ejemplo tiene un bancal en surcos').toBeAttached()
+    })
+    const { surcos, pagina } = await page.evaluate(() => ({
+      surcos: [...document.querySelectorAll('.surco')].map((s) => {
+        const celda = s.closest('.croquis-celda')!.getBoundingClientRect()
+        const r = s.getBoundingClientRect()
+        return { izq: r.left - celda.left, der: celda.right - r.right }
+      }),
+      pagina: document.documentElement.scrollWidth,
+    }))
+    for (const s of surcos) expect(Math.min(s.izq, s.der), 'el surco se sale de su celda').toBeGreaterThanOrEqual(0)
+    expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(320)
+  })
+}
+
+/**
+ * Con cinco casilleros, «Trasplante» ensanchaba su columna y a 320 px la página
+ * de la planta scrolleaba de costado. Al 200 %, también el «Anotar algo».
+ */
+for (const [ancho, letra] of [
+  [320, 100],
+  [390, 130],
+  [320, 200],
+] as const) {
+  test(`la página de la planta no se sale · ${ancho} px, letra al ${letra} %`, async ({ page }) => {
+    await page.setViewportSize({ width: ancho, height: 844 })
+    await conDemo(page)
+    await abrir(page, '/#/huerta', async (p) => {
+      await p.addStyleTag({ content: `html { font-size: ${letra}% }` })
+      await p
+        .locator('section.lugar', { has: p.getByRole('button', { name: /^Almaciguera del balcón/ }) })
+        .getByRole('link', { name: /Los del cajón/ })
+        .click()
+      await expect(p.locator('.pagina-planta-casillero'), 'Los del cajón pasa por cinco hitos').toHaveCount(5)
+    })
+    const { casilleros, pagina } = await page.evaluate(() => ({
+      casilleros: [...document.querySelectorAll('.pagina-planta-casillero')].map((c) => ({
+        der: c.getBoundingClientRect().right,
+        desborda: c.scrollWidth > c.clientWidth,
+      })),
+      pagina: document.documentElement.scrollWidth,
+    }))
+    for (const c of casilleros) {
+      expect(c.der, 'un casillero se sale por la derecha').toBeLessThanOrEqual(ancho)
+      expect(c.desborda, 'el texto se sale de su casillero').toBe(false)
+    }
     expect(pagina, 'la página scrollea de costado').toBeLessThanOrEqual(ancho)
   })
 }

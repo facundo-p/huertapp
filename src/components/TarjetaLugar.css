@@ -1,8 +1,10 @@
 /* La ficha del lugar. Tarjeta y no reglado: cada lugar es separable y
    navegable —se abre, se cierra, se edita— y no una fila más de una lista
-   homogénea. Radio 18, el de la tarjeta grande. */
+   homogénea. Radio 18, el de la tarjeta grande. Opaca: va sobre página
+   rayada, y el renglón no le cruza las letras. */
 .lugar {
-  background: var(--papel-alto);
+  scroll-margin-top: var(--esp-4);
+  background: var(--papel-opaco);
   border: 1.5px solid var(--linea);
   border-radius: var(--radio-grande);
   overflow: hidden;
@@ -26,7 +28,7 @@
 }
 .lugar--otro {
   --acento: var(--tinta-apagada);
-  --acento-texto: var(--tinta-tenue);
+  --acento-texto: var(--tinta-suave);
 }
 
 .lugar__titulo {
@@ -76,14 +78,14 @@
   margin-top: 8px;
   font-size: 11px;
   font-weight: 400;
-  color: var(--tinta-tenue);
+  color: var(--tinta-suave);
 }
 
 /* El estado abierto/cerrado lo dice aria-expanded, pero el galón es la única
    pista visual de que la ficha se pliega: no baja de la tinta tenue. */
 .lugar__galon {
   margin-top: 2px;
-  color: var(--tinta-tenue);
+  color: var(--tinta-suave);
 }
 
 /* ---- Plegada ---- */
@@ -116,7 +118,7 @@
   padding: 0 2px;
   font-size: 11px;
   font-weight: 700;
-  color: var(--tinta-tenue);
+  color: var(--tinta-suave);
 }
 
 /* lo atrasado se distingue también por el ícono de alerta: el color no va solo */
@@ -162,7 +164,7 @@
   border-radius: 12px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--tinta-tenue);
+  color: var(--tinta-suave);
 }
 
 .lugar__editar {
@@ -172,7 +174,7 @@
   height: var(--tap-min);
   display: grid;
   place-items: center;
-  color: var(--tinta-tenue);
+  color: var(--tinta-suave);
 }
 
 /* con su caja: si no, es el único control de la ficha sin afordancia */
@@ -193,7 +195,7 @@
   font-family: var(--font-cuerpo);
   font-size: 12px;
   font-weight: 700;
-  color: var(--tinta-tenue);
+  color: var(--tinta-suave);
 }
 
 .lugar__eje span.es-actual {

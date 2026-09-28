@@ -141,108 +141,7 @@
   font-weight: 600;
 }
 
-/* --- diario --- */
-.diario__cabeza {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--esp-3);
-  margin-top: var(--esp-3);
-}
-
-.diario__agregar {
-  min-height: var(--tap-min);
-  padding: 0 var(--esp-4);
-  border-radius: var(--radio-chip);
-  background: var(--papel-alto);
-  border: 1.5px solid var(--linea);
-  font-family: var(--font-cuerpo);
-  font-size: var(--texto-s);
-  font-weight: 700;
-  color: var(--verde-prof);
-}
-
-.diario__vacio {
-  font-size: var(--texto-s);
-  font-style: italic;
-  color: var(--tinta-suave);
-}
-
-/* Línea de tiempo: una línea vertical a la izquierda y un punto del color
-   del tipo de entrada por cada una. La entrada sigue siendo tarjeta (es una
-   unidad separable); la línea es lo que las hilvana. */
-.diario {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-3);
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 22px;
-}
-
-.diario::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  bottom: 8px;
-  left: 5px;
-  width: 2px;
-  background: var(--linea);
-}
-
-.diario__item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-2);
-  padding: var(--esp-3);
-  border-radius: var(--radio-tarjeta);
-  background: var(--papel-alto);
-  border: 1px solid var(--linea);
-}
-
-.diario__item::before {
-  content: '';
-  position: absolute;
-  top: 16px;
-  left: -22px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--tipo);
-  border: 2px solid var(--papel);
-}
-
-.diario__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-2);
-}
-
-.diario__tipo {
-  padding: 2px 9px;
-  border-radius: var(--radio-chip);
-  background: color-mix(in srgb, var(--tipo) 14%, var(--papel-alto));
-  border: 1.5px solid var(--tipo);
-  color: var(--tipo);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.diario__fecha {
-  margin-left: auto;
-  font-size: var(--texto-xs);
-  color: var(--tinta-suave);
-}
-
-.diario__texto {
-  font-size: var(--texto-s);
-  line-height: 1.55;
-  color: var(--tinta);
-  white-space: pre-wrap;
-}
-
+/* --- la hoja de «Anotar en el diario» --- */
 .diario__fotos {
   display: flex;
   flex-wrap: wrap;
@@ -295,4 +194,267 @@
   color: var(--peligro);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* ---- La página de la planta, como cuaderno ---- */
+
+.pagina-planta-ciclo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-3);
+}
+
+.pagina-planta-ciclo > .seccion__titulo {
+  margin-bottom: calc(-1 * var(--esp-2));
+}
+
+/* En fila mientras entren y si no, siguen abajo: en grilla, «Trasplante» ensanchaba
+   su columna y a 320 px la página scrolleaba de costado */
+.pagina-planta-casilleros {
+  display: flex;
+  flex-wrap: wrap;
+  /* lugar para el «hoy», que va encima, también en la segunda fila */
+  gap: 22px 5px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagina-planta-casillero {
+  /* crecen parejo desde cero; el mínimo es su palabra más larga, sin cortarla */
+  flex: 1 1 0;
+  max-width: 8rem;
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  min-height: 84px;
+  padding: 6px 4px 6px 6px;
+  border: 1.5px solid var(--tinta-media);
+  border-radius: 3px 5px 4px 6px;
+  background: var(--papel-alto);
+}
+
+.pagina-planta-casillero.es-futuro {
+  border-style: dashed;
+  border-color: var(--tinta-tenue);
+  background: none;
+}
+
+.pagina-planta-casillero__nombre {
+  font-size: var(--texto-xs);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--tinta-media);
+}
+
+.pagina-planta-casillero__fecha {
+  font-size: var(--texto-m);
+  font-weight: 800;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta);
+}
+
+.pagina-planta-casillero__nota {
+  font-size: var(--texto-xs);
+  line-height: 1.2;
+  color: var(--tinta-suave);
+}
+
+.es-hecho .pagina-planta-casillero__nota {
+  padding-right: 16px;
+}
+
+.pagina-planta-casillero__tilde {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  color: var(--verde-hoja);
+}
+
+/* El ocre es «acá estás» y nada más: la raya y la palabra, que el color no va solo */
+.pagina-planta-casillero.es-hoy::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: -4.5px;
+  width: 2.5px;
+  border-radius: 2px;
+  background: var(--sol);
+}
+
+.pagina-planta-casillero__hoy {
+  position: absolute;
+  top: -19px;
+  left: -14px;
+  font-size: var(--texto-xs);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--sol-texto);
+  white-space: nowrap;
+}
+
+.pagina-planta-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+}
+
+/* la que avanza el ciclo se distingue por tamaño y trazo, no por color */
+.lapiz.pagina-planta-principal {
+  min-height: 48px;
+  border-width: 2.25px;
+  font-size: var(--texto-m);
+}
+
+/* --- el diario: renglón de 28, fecha al margen, todo en Nunito --- */
+.pagina-planta-diario {
+  margin-inline: calc(-1 * var(--esp-4));
+  padding-bottom: var(--renglon-alto);
+}
+
+/* el botón, opaco, tapa el renglón que cruza. Dos renglones de alto; con la
+   letra grande el botón baja antes que hacer scrollear la página de costado */
+.pagina-planta-diario__cab {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--esp-2);
+  min-height: calc(2 * var(--renglon-alto));
+}
+
+.pagina-planta-diario__cab > .lapiz {
+  flex: none;
+  margin: 6px var(--esp-4) 0 auto;
+}
+
+.pagina-planta-diario__vacio {
+  padding: 0 var(--esp-4) 0 64px;
+  font-size: var(--texto-s);
+  font-style: italic;
+  line-height: var(--renglon-alto);
+  color: var(--tinta-suave);
+}
+
+.pagina-planta-entradas {
+  margin: 0;
+  padding: 0 var(--esp-4) 0 0;
+  list-style: none;
+}
+
+.pagina-planta-entrada {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+}
+
+/* --tinta-suave y no --tinta-tenue: la fecha va encima del renglón */
+.pagina-planta-entrada__fecha {
+  padding-right: 14px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: var(--renglon-alto);
+  font-variant-numeric: tabular-nums;
+  color: var(--tinta-suave);
+}
+
+.pagina-planta-entrada__texto {
+  font-size: var(--texto-m);
+  line-height: var(--renglon-alto);
+  color: var(--tinta);
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+.pagina-planta-entrada__tipo {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: -3px;
+}
+
+.pagina-planta-entrada__tipo.es-riego {
+  color: var(--agua);
+}
+
+.pagina-planta-entrada__tipo.es-plaga {
+  color: var(--frambuesa);
+}
+
+/* El sello ocupa su renglón justo, girado y todo: un alto de 28 con la
+   caja al medio, así no cruza la línea ni empuja la de abajo. Opaco, porque
+   --terracota-texto de noche no pasa encima del renglón. */
+.pagina-planta-sello {
+  display: inline-flex;
+  align-items: center;
+  height: var(--renglon-alto);
+  margin-right: var(--esp-2);
+  vertical-align: top;
+}
+
+.pagina-planta-sello b {
+  display: block;
+  padding: 1px 6px 0;
+  border: 3px double var(--terracota);
+  border-radius: 5px;
+  background: var(--papel-opaco);
+  color: var(--terracota-texto);
+  font-size: var(--texto-xs);
+  font-weight: 900;
+  line-height: 14px;
+  white-space: nowrap;
+  transform: rotate(-3deg);
+}
+
+/* cada foto, con su borde, ocupa 5 renglones justos: 14 + 5 + 105 + 16 = 140 */
+.pagina-planta-fotos {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--esp-5);
+}
+
+.pagina-planta-foto {
+  position: relative;
+  display: block;
+  margin-top: 14px;
+  padding: 5px 5px 16px;
+  background: var(--foto-borde);
+  box-shadow: var(--sombra-foto);
+  transform: rotate(-2.2deg);
+}
+
+.pagina-planta-entrada:nth-child(even) .pagina-planta-foto {
+  margin-left: var(--esp-6);
+  transform: rotate(1.8deg);
+}
+
+.pagina-planta-foto::before,
+.pagina-planta-foto::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  width: 40px;
+  height: 14px;
+  background: var(--cinta);
+}
+
+.pagina-planta-foto::before {
+  left: -12px;
+  transform: rotate(-34deg);
+}
+
+.pagina-planta-foto::after {
+  right: -12px;
+  transform: rotate(34deg);
+}
+
+.pagina-planta-foto .foto-diario {
+  display: block;
+  width: 105px;
+  height: 105px;
+  border: 0;
+  border-radius: 0;
 }

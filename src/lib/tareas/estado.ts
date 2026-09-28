@@ -55,8 +55,11 @@ export async function descompletar(id: string) {
   await guardar({ ...estado, completadas: resto })
 }
 
+/** Lo que se esconde una tarea pospuesta: la pantalla lo dice antes de que la toques. */
+export const DIAS_POSPONER = 3
+
 /** Posponer esconde la tarea unos días; después vuelve sola. */
-export async function posponer(id: string, dias = 3) {
+export async function posponer(id: string, dias = DIAS_POSPONER) {
   await guardar({ ...estado, pospuestas: { ...estado.pospuestas, [id]: sumarDias(hoyISO(), dias) } })
 }
 

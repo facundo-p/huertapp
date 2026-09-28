@@ -3,6 +3,7 @@ import { diasEntre } from '../huerta/tipos'
 import { baseDelGiro, proximoGiro, revisionListo, textoRitmo } from '../huerta/compostera'
 import type { Guia } from '../compostaje'
 import type { Tarea } from './engine'
+import { dias } from '../fechas'
 
 const conf = (n: number | null) => (n == null ? 'confianza s/d' : `confianza ${n}/10`)
 const primeraFrase = (s: string | null) => (s ?? '').split('. ')[0].replace(/\.$/, '')
@@ -30,12 +31,13 @@ export function tareasDeCompost(composteras: Compostera[], guia: Guia | null | u
         tipo: 'girar_compost',
         composteraId: c.id,
         titulo: `${c.nombre}: revolvé el compost`,
-        detalle: `${c.girada ? 'Hace' : 'Sin giro anotado desde hace'} ${hace} ${hace === 1 ? 'día' : 'días'}.${porQue ? ` ${porQue}.` : ''}`,
+        detalle: `${c.girada ? 'Hace' : 'Sin giro anotado desde hace'} ${dias(hace)}.${porQue ? ` ${porQue}.` : ''}`,
         fuente: sis
           ? `tu ritmo: ${textoRitmo(c.ritmoDias)} · la guía: ${minuscula(primeraFrase(sis.girar.cuando.valor))} · ${conf(sis.girar.cuando.confianza)}`
           : `tu ritmo: ${textoRitmo(c.ritmoDias)}`,
         prioridad: 2,
         atrasada: giro < hoy,
+        linea: c.girada ? `el último giro fue hace ${dias(hace)}` : `sin girar desde hace ${dias(hace)}`,
       })
     }
 
@@ -51,6 +53,7 @@ export function tareasDeCompost(composteras: Compostera[], guia: Guia | null | u
         detalle: `Las señales: ${senales.join('; ')}.`,
         fuente: `según la guía: ${sis.listo_desde.valor ?? 's/d'} · ${conf(sis.listo_desde.confianza)}`,
         prioridad: 3,
+        linea: `dejó de recibir restos hace ${dias(diasEntre(c.cerrada, hoy))}`,
       })
     }
   }

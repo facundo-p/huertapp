@@ -33,16 +33,6 @@
   hyphens: auto;
 }
 
-/* Adorno, en --tinta-apagada (el token decorativo). Sólo entra al lado de un
-   título corto como «La semana»: uno más largo no lleva viñeta. */
-.encabezado__vineta {
-  display: flex;
-  flex: 0 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  color: var(--tinta-apagada);
-}
-
 .encabezado__acciones {
   display: flex;
   gap: var(--esp-1);

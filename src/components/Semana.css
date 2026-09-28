@@ -1,0 +1,310 @@
+/* ---- La tira: pegada arriba mientras se lee la semana ---- */
+.semana {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  padding-inline: var(--esp-2);
+  background-color: var(--papel);
+  border-bottom: 1.5px solid var(--linea-fuerte);
+}
+
+/* Opaca tapa el papel del body: lo repite. `fixed` lo deja en fase con el de
+   abajo, así no se ve la costura. */
+.semana::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--grano-fuerza);
+  background-image: var(--papel-img);
+  background-attachment: fixed;
+}
+
+.dia {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 1px;
+  min-width: 0;
+  min-height: 92px;
+  padding: 6px 0 8px;
+  font-family: inherit;
+  color: var(--tinta);
+}
+
+.dia + .dia {
+  border-left: 1px solid var(--linea);
+}
+
+.dia__sigla {
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--tinta-suave);
+}
+
+.dia.es-hoy .dia__sigla {
+  font-weight: 900;
+  color: var(--tinta);
+}
+
+.dia__num {
+  position: relative;
+  min-width: 36px;
+  font-family: var(--font-mano);
+  font-weight: 700;
+  font-size: var(--mano-l);
+  line-height: 1.1;
+  text-align: center;
+}
+
+.dia__cielo {
+  width: 20px;
+  height: 20px;
+}
+
+/* gap 1 y no 2: a 340 px, dos avisos y «+4» tocaban el separador */
+.dia__marcas {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  height: 14px;
+}
+
+.dia__punto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tinta-media);
+}
+
+.dia__mas {
+  font-size: var(--texto-xs);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--tinta-suave);
+}
+
+/* --sol-texto y no --sol: de día --sol da 2,7:1, y es la única marca del día leído */
+.dia__circulo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 50px;
+  height: 40px;
+  transform: translate(-50%, -52%);
+  color: var(--sol-texto);
+  pointer-events: none;
+}
+
+/* ---- La página de cada día ---- */
+.dia-pagina__cab {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.dia-pagina .pagina__titulo:focus {
+  outline: none;
+}
+
+.dia-pagina .pagina__titulo:focus-visible {
+  outline: 2.5px solid var(--foco);
+  outline-offset: -4px;
+  border-radius: 6px;
+}
+
+/* abajo contra el segundo renglón, como el título */
+.dia-pagina__cielo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap-min);
+  margin: 12px var(--esp-4) 0 0;
+  padding-inline: var(--esp-2);
+  font-family: inherit;
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-suave);
+  font-variant-numeric: tabular-nums;
+}
+
+.dia-pagina__cielo > span[aria-hidden] {
+  display: grid;
+}
+
+.sin-nada {
+  padding: 0 var(--esp-4) 0 64px;
+  font-size: var(--texto-s);
+  font-weight: 700;
+  line-height: 28px;
+  color: var(--tinta-suave);
+}
+
+/* ---- Las tareas: todo en múltiplos del renglón, así la trama no se corre ---- */
+.tareas {
+  list-style: none;
+  margin: 0;
+  padding: 0 14px 0 0;
+}
+
+.tarea {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: start;
+}
+
+.casilla,
+.tarea__icono {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 6px 0 6px 4px;
+}
+
+.casilla {
+  position: relative;
+  color: var(--tinta-media);
+}
+
+.casilla .tilde {
+  opacity: 0;
+}
+
+.casilla[aria-checked='true'] .tilde {
+  opacity: 1;
+  stroke: var(--verde-hoja);
+}
+
+.brote-hecho {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  color: var(--verde-hoja);
+}
+
+.tarea__cuerpo {
+  min-width: 0;
+}
+
+.tarea__abrir {
+  display: grid;
+  grid-template-columns: 1fr 26px;
+  align-items: start;
+  width: 100%;
+  min-height: 56px;
+  font-family: inherit;
+  color: var(--tinta);
+  text-align: left;
+}
+
+/* anywhere: un apodo sin espacios («TomatesDeLaAbuela…») empujaba la página de costado */
+.tarea__titulo {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: var(--texto-m);
+  font-weight: 800;
+  line-height: 28px;
+  text-wrap: pretty;
+}
+
+.tarea__linea {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: var(--texto-s);
+  line-height: 28px;
+  color: var(--tinta-suave);
+}
+
+.tarea__atrasada {
+  font-weight: 800;
+  color: var(--terracota-texto);
+}
+
+/* --tinta-suave y no --tinta-tenue: sobre el renglón, la tenue baja de 3:1 */
+.tarea__galon {
+  margin-top: 3px;
+  color: var(--tinta-suave);
+}
+
+.tarea.es-hecha .tarea__titulo {
+  color: var(--tinta-suave);
+  text-decoration: line-through;
+  text-decoration-color: var(--tinta-media);
+  text-decoration-thickness: 2px;
+}
+
+.tarea__detalle {
+  font-size: var(--texto-s);
+  line-height: 28px;
+}
+
+.tarea__fuente {
+  font-size: var(--texto-s);
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--tinta-suave);
+}
+
+.confianza {
+  display: inline-flex;
+  gap: 3px;
+  margin-inline: 8px 2px;
+  vertical-align: 2px;
+}
+
+.confianza i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--conf-vacio);
+}
+
+.confianza i.es-alta {
+  background: var(--conf-alta);
+}
+.confianza i.es-media {
+  background: var(--conf-media);
+}
+.confianza i.es-baja {
+  background: var(--conf-baja);
+}
+
+/* una fila de botones ocupa dos renglones y dos filas, cuatro */
+.tarea__botones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 14px;
+  padding-block: 6px;
+}
+
+/* un renglón (dos, si baja): --tinta-suave y no --tinta-tenue, que encima de la línea no pasa AA */
+.tarea__pospone {
+  font-size: var(--texto-s);
+  line-height: 28px;
+  color: var(--tinta-suave);
+}
+
+/* el link no es opaco como «Más tarde»: centrado, el renglón le pasaba por el medio */
+.tarea__botones .ver-todas {
+  align-items: flex-end;
+}
+
+/* ---- Piezas que comparte con la nota de Para sembrar ---- */
+.ver-todas {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-size: var(--texto-s);
+  font-weight: 800;
+  color: var(--verde-prof);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}

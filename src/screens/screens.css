@@ -24,3 +24,47 @@
   margin-top: var(--esp-4);
   text-wrap: balance;
 }
+
+/* ---- Hoja rayada ----
+   El renglón cae al pie de cada fila de --renglon-alto, y el margen, en
+   --margen-x. Lo que va adentro ocupa múltiplos del renglón. */
+.pagina {
+  position: relative;
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent var(--margen-x),
+      var(--margen) var(--margen-x),
+      var(--margen) calc(var(--margen-x) + 1.5px),
+      transparent calc(var(--margen-x) + 1.5px)
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 calc(var(--renglon-alto) - 1px),
+      var(--renglon) calc(var(--renglon-alto) - 1px) var(--renglon-alto)
+    );
+}
+
+/* se apoya en el segundo renglón: centrada en los 56 px, el primero le cruzaba las mayúsculas */
+.pagina__titulo {
+  height: calc(2 * var(--renglon-alto));
+  padding: var(--renglon-alto) var(--esp-4) 0 64px;
+  font-size: var(--mano-l);
+  line-height: var(--renglon-alto);
+}
+
+/* Botón a lápiz, el de las páginas. Opaco: de noche --papel-alto deja ver el renglón. */
+.lapiz {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap-min);
+  padding-inline: var(--esp-4);
+  border: 1.75px solid var(--tinta-media);
+  border-radius: 20px 24px 18px 26px / 24px 18px 26px 20px;
+  background: var(--papel-opaco);
+  font-family: inherit;
+  font-size: var(--texto-s);
+  font-weight: 800;
+  color: var(--tinta);
+}

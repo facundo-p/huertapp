@@ -4,6 +4,7 @@ import { Header } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
 import { NoSePudoLeer } from '../components/AvisoDatos'
 import { TarjetaLugar } from '../components/TarjetaLugar'
+import { Croquis } from '../components/Croquis'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { FichaUbicacion } from '../components/FichaUbicacion'
 import { FichaCompostera } from '../components/FichaCompostera'
@@ -13,14 +14,18 @@ import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
 import { useEstadoTareas } from '../lib/tareas/estado'
-import { derivarTareas, tareasVisibles } from '../lib/tareas/engine'
+import { derivarTareas, expuestasAHelada, tareasVisibles } from '../lib/tareas/engine'
+import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
+import { atencionPorPlanta, copoDeLaSemana, empaquetar, grillaDe, ordenarLugares } from '../lib/huerta/croquis'
 import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Ubicacion } from '../lib/huerta/tipos'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import { resumenHuerta } from '../lib/huerta/tanda'
 import { agruparPorLugar, pieDelLugar } from '../lib/huerta/lugar'
 import {
   alternarUbicacion,
+  guardarCroquisPlegado,
   guardarPlegado,
+  leerCroquisPlegado,
   leerPlegado,
   podarPlegado,
   type Plegado,
@@ -43,6 +48,10 @@ export function MiHuerta() {
   const [abrirCompostera, setAbrirCompostera] = useState(false)
   const [editando, setEditando] = useState<Ubicacion | null>(null)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
+  const [croquisPlegado, setCroquisPlegado] = useState(leerCroquisPlegado)
+  // sin guardar: al volver a la pantalla se mira, no se acomoda
+  const [acomodando, setAcomodando] = useState(false)
+  const hoy = hoyISO()
 
   const activas = useMemo(
     () =>
@@ -52,7 +61,17 @@ export function MiHuerta() {
     [plantas],
   )
 
-  const grupos = useMemo(() => agruparPorLugar(activas, ubicaciones), [activas, ubicaciones])
+  // el croquis y la lista en el mismo orden: el de la vista, el del foco y el de la lista es uno solo
+  const lugares = useMemo(
+    () =>
+      empaquetar(
+        ordenarLugares(agruparPorLugar(activas, ubicaciones)).map((g) => {
+          const grilla = grillaDe(g.ubicacion, g.plantas)
+          return { ...g, grilla, ancho: grilla.ancho }
+        }),
+      ),
+    [activas, ubicaciones],
+  )
 
   /**
    * Las tareas visibles, del **mismo motor** que alimenta a Esta semana: si Mi
@@ -63,7 +82,6 @@ export function MiHuerta() {
    */
   const tareas = useMemo(() => {
     if (!indice) return []
-    const hoy = hoyISO()
     return tareasVisibles(
       derivarTareas({
         plantas,
@@ -76,7 +94,7 @@ export function MiHuerta() {
       estadoTareas,
       hoy,
     )
-  }, [indice, plantas, composteras, guia, zona, estadoTareas])
+  }, [indice, plantas, composteras, guia, zona, estadoTareas, hoy])
 
   const pendientes = useMemo(() => {
     const cuenta = new Map<string, number>()
@@ -86,6 +104,23 @@ export function MiHuerta() {
     }
     return cuenta
   }, [tareas])
+
+  const { avisos } = useAvisosClima(plantas, indice?.porSlug, hoy, new Date().toISOString())
+
+  const atencion = useMemo(
+    () =>
+      atencionPorPlanta(tareas, (id) => {
+        const p = plantas.find((x) => x.id === id)
+        return p && (p.apodo || indice?.porSlug.get(p.slug)?.nombre_comun)
+      }),
+    [tareas, plantas, indice],
+  )
+
+  const copo = useMemo(() => {
+    const texto = copoDeLaSemana(tareas, avisos, hoy)
+    if (!texto || !indice) return null
+    return { texto, ids: new Set(expuestasAHelada(plantas, indice.porSlug).map((p) => p.id)) }
+  }, [tareas, avisos, hoy, plantas, indice])
 
   // los ids de lo que se borró no tienen por qué quedar guardados para siempre
   useEffect(() => {
@@ -109,24 +144,44 @@ export function MiHuerta() {
     guardarPlegado(nuevo)
   }
 
+  function alternarCroquis() {
+    setCroquisPlegado(!croquisPlegado)
+    guardarCroquisPlegado(!croquisPlegado)
+  }
+
+  /** El nombre de un lugar en el croquis lleva a sus fechas, abierto. */
+  function irALugar(id: string | undefined) {
+    if (plegado.ubicacionesCerradas.includes(id ?? '')) guardar(alternarUbicacion(plegado, id ?? ''))
+    requestAnimationFrame(() => {
+      const tarjeta = document.getElementById(`tarjeta-lugar-${id ?? 'sin'}`)
+      const suave = !matchMedia('(prefers-reduced-motion: reduce)').matches
+      tarjeta?.scrollIntoView({ behavior: suave ? 'smooth' : 'auto', block: 'start' })
+      tarjeta?.querySelector<HTMLElement>('.lugar__plegar')?.focus({ preventScroll: true })
+    })
+  }
+
   function sumarPlantaEn(id?: string) {
     setUbicacionDelAlta(id)
     setAbrirAlta(true)
   }
 
   const listo = cargado && !cargando
-  const hayLista = listo && grupos.length > 0
+  const hayLista = listo && lugares.length > 0
+  // mientras se acomoda, sólo el croquis: la lista y el compost quedan para después
+  const acomoda = hayLista && acomodando
 
   return (
-    <div className="pantalla">
+    <div className={acomoda ? 'pantalla pantalla--acomodando' : 'pantalla'}>
       <Header
         titulo="Mi huerta"
-        sobretitulo={listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'}
+        sobretitulo={
+          acomoda ? 'Acomodando el croquis' : listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'
+        }
       >
         {/* La acción primaria, en ocre, donde la pone el diseño. Va con el
             glifo solo: con la palabra "Sumar", el título y los dos accesos no
             entran en 390 px y "Mi huerta" se parte en dos líneas. */}
-        {hayLista && (
+        {hayLista && !acomoda && (
           <button
             className="huerta__sumar"
             aria-label="Sumar una planta"
@@ -140,7 +195,7 @@ export function MiHuerta() {
       <div className="pantalla__cuerpo">
         {errorCarga && <NoSePudoLeer error={errorCarga} />}
 
-        {listo && grupos.length === 0 && (
+        {listo && lugares.length === 0 && (
           <EmptyState
             Dibujo={DibujoMaceta}
             titulo="Todavía no plantaste nada"
@@ -153,9 +208,30 @@ export function MiHuerta() {
           />
         )}
 
-        {/* La referencia va ARRIBA de la lista y no al pie: es lo que hay que
-            saber para leer las líneas, no una nota al final. */}
-        {hayLista && (
+      </div>
+
+      {hayLista && (
+        <Croquis
+          lugares={lugares}
+          porSlug={indice?.porSlug ?? SIN_ESPECIES}
+          atencion={atencion}
+          copo={copo}
+          hoy={hoy}
+          plegado={croquisPlegado && !acomoda}
+          onPlegar={alternarCroquis}
+          onIrALugar={irALugar}
+          acomodando={acomoda}
+          onAcomodar={setAcomodando}
+        />
+      )}
+
+      {hayLista && !acomoda && (
+        <section className="pagina huerta__pagina" aria-labelledby="huerta-lista-titulo">
+          <h2 className="pagina__titulo mano" id="huerta-lista-titulo">
+            Por lugar, con sus fechas
+          </h2>
+          {/* La referencia va ARRIBA de la lista y no al pie: es lo que hay que
+              saber para leer las líneas, no una nota al final. */}
           <p className="referencia">
             <span className="referencia__rotulo">Línea del año de cada planta</span>
             <span>
@@ -171,11 +247,8 @@ export function MiHuerta() {
               <i className="es-hoy" /> Hoy
             </span>
           </p>
-        )}
-
-        {hayLista && (
           <div className="huerta__lista">
-            {grupos.map(({ ubicacion, plantas: lista }) => {
+            {lugares.map(({ ubicacion, plantas: lista }) => {
               const id = ubicacion?.id ?? ''
               return (
                 <TarjetaLugar
@@ -193,11 +266,13 @@ export function MiHuerta() {
               )
             })}
           </div>
-        )}
+        </section>
+      )}
 
+      <div className="pantalla__cuerpo">
         {/* Las composteras viven acá, con lo demás que registrás; la guía es
             la pestaña Compost y no sabe de tus tachos. */}
-        {listo && (
+        {listo && !acomoda && (
           <section className="huerta__seccion huerta__compost">
             <h2 className="huerta__compost-titulo">
               <IconoCompost size={18} />
@@ -210,8 +285,8 @@ export function MiHuerta() {
                   const giro = proximoGiro(c)
                   const alertas = pendientes.get(c.id) ?? 0
                   const detalle = [
-                    `${ESTADO_COMPOST_INFO[c.estado].etiqueta.toLowerCase()} desde hace ${diasEnEstado(c, hoyISO())} días`,
-                    giro ? (giro <= hoyISO() ? 'toca girar' : `girar el ${fechaCorta(giro)}`) : null,
+                    `${ESTADO_COMPOST_INFO[c.estado].etiqueta.toLowerCase()} desde hace ${diasEnEstado(c, hoy)} días`,
+                    giro ? (giro <= hoy ? 'toca girar' : `girar el ${fechaCorta(giro)}`) : null,
                   ]
                     .filter(Boolean)
                     .join(' · ')

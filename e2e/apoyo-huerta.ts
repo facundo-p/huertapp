@@ -34,3 +34,25 @@ export async function duplicarPlanta(
     { slug, sufijo, lugar, campos },
   )
 }
+
+/**
+ * Abre una pantalla y espera a que haya dibujado. Sin esto los tests miden a
+ * veces el esqueleto vacío y pasan sin haber revisado nada: un test de
+ * accesibilidad que pasa por llegar temprano es peor que no tenerlo.
+ */
+export async function abrir(page: Page, ruta: string, entrar?: (page: Page) => Promise<void>) {
+  await page.goto(ruta)
+  await page.waitForLoadState('networkidle')
+  await page.waitForFunction(
+    () =>
+      document.querySelectorAll('h1, h2, h3').length > 1 ||
+      !!document.querySelector('.estado-vacio'),
+    null,
+    { timeout: 15_000 },
+  )
+  await page.evaluate(() => document.fonts.ready)
+  if (entrar) {
+    await entrar(page)
+    await page.evaluate(() => document.fonts.ready)
+  }
+}

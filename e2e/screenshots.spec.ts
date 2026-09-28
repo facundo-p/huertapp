@@ -44,9 +44,13 @@ function linkEnSeccion(
   nombre: RegExp,
 ) {
   return page
-    .locator('section', { has: page.getByRole('button', { name: seccion }) })
+    .locator('section.lugar', { has: page.getByRole('button', { name: seccion }) })
     .getByRole('link', { name: nombre })
 }
+
+/** La lista por lugar: el croquis de arriba repite los enlaces a cada planta. */
+const lista = (page: import('@playwright/test').Page) =>
+  page.getByRole('region', { name: 'Por lugar, con sus fechas' })
 
 const TOMAS: Toma[] = [
   { nombre: 'explorar', ruta: '/#/explorar' },
@@ -203,6 +207,8 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/hoy')
       await page.waitForLoadState('networkidle')
+      // llega con el scroll de Ajustes: la tira, pegada, taparía un día en la captura entera
+      await page.evaluate(() => scrollTo(0, 0))
       await page.waitForTimeout(500)
     },
   },
@@ -234,7 +240,7 @@ const TOMAS: Toma[] = [
         /^Bancal del fondo/,
         /^Bancal de la medianera/,
       ]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       // click() scrollea el botón a la vista: la toma tiene que arrancar arriba
       await page.evaluate(() => window.scrollTo(0, 0))
@@ -251,7 +257,7 @@ const TOMAS: Toma[] = [
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
       for (const lugar of [/^Macetas del balcón/, /^Bancal del fondo/, /^Bancal de la medianera/]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       await page.evaluate(() => window.scrollTo(0, 0))
       await page.waitForTimeout(400)
@@ -267,7 +273,7 @@ const TOMAS: Toma[] = [
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
       for (const lugar of [/^Almaciguera del balcón/, /^Macetas del balcón/]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       await page.evaluate(() => window.scrollTo(0, 0))
       await page.waitForTimeout(400)
@@ -287,7 +293,7 @@ const TOMAS: Toma[] = [
         /^Macetas del balcón/,
         /^Bancal del fondo/,
       ]) {
-        await page.getByRole('button', { name: lugar }).click()
+        await page.getByRole('button', { name: lugar, expanded: true }).click()
       }
       // la ficha vacía es la última: se la trae entera a la vista, con la línea
       // de estado vacío Y el botón de sumar, que es su salida
@@ -309,7 +315,23 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('button', { name: /^Bancal del fondo/ }).click()
+      await page.getByRole('button', { name: /^Bancal del fondo/, expanded: true }).click()
+      await page.waitForTimeout(400)
+    },
+  },
+  {
+    // acomodando: dos celdas de plantas distintas elegidas, sus marcas + y la
+    // barra con todos sus botones. La barra no puede tapar lo elegido
+    nombre: 'huerta-acomodar',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.waitForLoadState('networkidle')
+      await page.getByRole('button', { name: 'Acomodar' }).click()
+      const almaciguera = page.locator('article', { has: page.getByRole('heading', { name: 'Almaciguera del balcón' }) })
+      await almaciguera.getByRole('button', { name: 'Tomate, Los del cajón, fila 1, columna 4' }).click()
+      await almaciguera.getByRole('button', { name: 'Albahaca, fila 1, columna 5' }).click()
       await page.waitForTimeout(400)
     },
   },
@@ -399,7 +421,7 @@ const TOMAS: Toma[] = [
       await conDemo(page)
       await page.goto('/#/huerta')
       await page.waitForLoadState('networkidle')
-      await page.getByRole('link', { name: /Zanahoria/ }).click()
+      await lista(page).getByRole('link', { name: /Zanahoria/ }).click()
       await page.waitForTimeout(400)
       await page.getByRole('button', { name: /Por qué puede estar tardando/ }).click()
       await page.waitForTimeout(300)
@@ -530,67 +552,75 @@ const TOMAS: Toma[] = [
     },
   },
   {
-    nombre: 'hoy-carril',
+    nombre: 'hoy-semana',
     ruta: '/#/ajustes',
     antes: async (page) => {
       await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.carril__cielo').first().waitFor()
+      await page.locator('.dia__cielo svg').first().waitFor()
     },
   },
-  // Dos plantas de la misma especie sembradas el mismo día: sus tareas dicen
-  // exactamente lo mismo, así que comparten un pie en vez de repetirlo. Es lo
-  // único que hay que mirar acá, y con el panel del día abierto.
+  // la semana entera, con la tira arriba y la nota de «Para sembrar ahora»
   {
-    nombre: 'hoy-carril-pie',
+    nombre: 'hoy-semana-entera',
     ruta: '/#/ajustes',
     fullPage: true,
     antes: async (page) => {
       await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
-      // se duplica la rúcula de la demo: misma fecha de siembra y misma
-      // germinación, o sea el mismo «según la ficha» hasta la última coma
-      await duplicarPlanta(page, 'rucula', { apodo: 'La segunda tanda' })
       await page.goto('/#/hoy')
-      // recarga de verdad: ir a otro hash no vuelve a leer la base
-      await page.reload()
-      await page.locator('.carril__cielo').first().waitFor()
-      await page.getByRole('button', { name: /de dónde sal/ }).first().click()
-      await page.locator('.carril__porque-grupo').first().waitFor()
+      await page.locator('.dia__cielo svg').first().waitFor()
+    },
+  },
+  // Una tarea abierta: el porqué, la fuente con su confianza y los botones.
+  // Van en múltiplos del renglón: si algo corre la trama, se ve acá.
+  {
+    nombre: 'hoy-semana-abierta',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await page.goto('/#/hoy')
+      await page.locator('.dia__cielo svg').first().waitFor()
+      await page.locator('section[data-dia] .tarea:not(.es-aviso) .tarea__abrir').first().click()
+      await page.locator('.tarea__porque:not([hidden])').first().waitFor()
     },
   },
   // Dos zanahorias sin apodo sembradas el mismo día, una por bancal: el caso
-  // común. Mismo título y mismo pie; cada fila dice su lugar, con «atrasada» en
-  // esa misma línea, y el pie los junta.
+  // común. Mismo título; cada una dice su lugar en la línea de abajo, con
+  // «atrasada» en esa misma línea.
   {
-    nombre: 'hoy-carril-lugar',
+    nombre: 'hoy-semana-lugar',
     ruta: '/#/ajustes',
-    fullPage: true,
     antes: async (page) => {
       await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera' })
       await page.goto('/#/hoy')
+      // recarga de verdad: ir a otro hash no vuelve a leer la base
       await page.reload()
-      await page.locator('.carril__lugar').first().waitFor()
-      await page.getByRole('button', { name: /de dónde sal/ }).first().click()
-      await page.locator('.carril__porque-lugar').first().waitFor()
+      const zanahoria = page.locator('.tarea', { hasText: 'Bancal de la medianera' }).first()
+      await zanahoria.waitFor()
+      await zanahoria.scrollIntoViewIfNeeded()
     },
   },
   {
-    nombre: 'hoy-carril-helada',
+    nombre: 'hoy-semana-helada',
     ruta: '/#/ajustes',
     antes: async (page) => {
       await conDemo(page)
-      // helada mañana + la lluvia que el fixture trae de fábrica: dos alertas
+      // helada mañana, calor pasado y la lluvia que el fixture trae de fábrica:
+      // dos post-its y tres avisos
       await page.route('https://api.open-meteo.com/**', (r) =>
         r.fulfill({
           json: fixtureDesdeHoy((f) => {
             f.daily.temperature_2m_min[1] = 2.0
+            f.daily.temperature_2m_max[3] = 34.0
             f.daily.precipitation_probability_max[2] = 85
             f.daily.precipitation_sum[2] = 14.0
           }),
@@ -599,30 +629,44 @@ const TOMAS: Toma[] = [
       await page.getByRole('button', { name: /Cargar huerta de ejemplo/ }).click()
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.carril__aviso').first().waitFor()
+      await page.locator('.postit').first().waitFor()
+    },
+  },
+  // tocar el post-it lleva a su día: la tira queda arriba, con el círculo ahí
+  {
+    nombre: 'hoy-semana-postit',
+    ruta: '/#/ajustes',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: conHelada() }))
+      await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
+      await page.goto('/#/hoy')
+      await page.locator('.postit').first().click()
+      await page.locator('button.dia[aria-current="true"]').nth(0).waitFor()
+      await page.waitForTimeout(400)
     },
   },
   {
-    nombre: 'hoy-carril-hoja',
+    nombre: 'hoy-semana-hoja',
     ruta: '/#/ajustes',
     antes: async (page) => {
       await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('button.carril__dia').first().click()
+      await page.locator('button.clima').click()
       await page.locator('dialog.hoja[open]').waitFor()
     },
   },
   {
-    nombre: 'hoy-carril-viejo',
+    nombre: 'hoy-semana-viejo',
     ruta: '/#/ajustes',
     antes: async (page) => {
       await conDemo(page)
       await page.route('https://api.open-meteo.com/**', (r) => r.fulfill({ json: fixtureDesdeHoy() }))
       await page.getByRole('button', { name: 'Usar mi zona, así nomás' }).click()
       await page.goto('/#/hoy')
-      await page.locator('.carril__cielo').first().waitFor()
+      await page.locator('.dia__cielo svg').first().waitFor()
       // se envejece el caché a mano y se corta la red: el estado "viejo" real
       await page.evaluate(async () => {
         const pedido = indexedDB.open('huerta-gba')
@@ -644,7 +688,7 @@ const TOMAS: Toma[] = [
       await page.unroute('https://api.open-meteo.com/**')
       await page.route('https://api.open-meteo.com/**', (r) => r.abort())
       await page.reload()
-      await page.getByText(/No pude actualizar/).waitFor()
+      await page.getByText(/No pude actualizar/).scrollIntoViewIfNeeded()
     },
   },
   {

@@ -19,7 +19,7 @@ async function activarPorZona(page: Page) {
   await expect(page.getByText(/Se pide para/)).toBeVisible()
 }
 
-/** El carril existe solo con plantas: sin huerta, la pantalla es el estado vacío. */
+/** Con la demo cargada: sin huerta ni pronóstico, Hoy es el estado vacío. */
 async function abrirHoy(page: Page) {
   await page.goto('/#/ajustes')
   await page.waitForLoadState('networkidle')
@@ -30,6 +30,11 @@ async function abrirHoy(page: Page) {
   await page.evaluate(() => document.fonts.ready)
 }
 
+const dias = (page: Page) => page.getByRole('navigation', { name: 'Los días de la semana' }).locator('button.dia')
+// el lugar del ícono está siempre; el ícono, sólo con pronóstico
+const cielos = (page: Page) => page.locator('.dia__cielo svg')
+const pagina = (page: Page, i: number) => page.locator('section[data-dia]').nth(i)
+
 test('sin activar, la app no le pide nada a nadie', async ({ page }) => {
   let pedidos = 0
   await page.route(API, (r) => {
@@ -38,8 +43,10 @@ test('sin activar, la app no le pide nada a nadie', async ({ page }) => {
   })
   await abrirHoy(page)
   await expect(page.getByRole('heading', { name: 'Para sembrar ahora' })).toBeVisible()
-  await expect(page.locator('.carril__cielo')).toHaveCount(0)
-  await expect(page.locator('.carril__pie')).toHaveCount(0)
+  await expect(dias(page)).toHaveCount(7)
+  await expect(cielos(page)).toHaveCount(0)
+  await expect(page.locator('button.clima, .dia-pagina__cielo')).toHaveCount(0)
+  await expect(page.locator('.hoy__pie')).toHaveCount(0)
   expect(pedidos, 'cero requests externos sin opt-in: es la promesa de privacidad').toBe(0)
 })
 
@@ -48,12 +55,16 @@ test('activar por zona muestra la semana, con su fuente a la vista', async ({ pa
   await activarPorZona(page)
   await abrirHoy(page)
 
-  // el carril siempre tiene siete filas; con pronóstico, siete cielos
-  await expect(page.locator('.carril__fila')).toHaveCount(7)
-  await expect(page.locator('.carril__cielo')).toHaveCount(7)
-  await expect(page.locator('.carril__pie')).toContainText('Open-Meteo')
-  // sin nada raro en el fixture, no hay alertas
-  await expect(page.locator('.carril__aviso')).toHaveCount(0)
+  // la tira siempre tiene siete días; con pronóstico, siete cielos
+  await expect(dias(page)).toHaveCount(7)
+  await expect(cielos(page)).toHaveCount(7)
+  // el de hoy en el encabezado y los otros seis en su página
+  await expect(page.locator('button.clima')).toHaveCount(1)
+  await expect(page.locator('.dia-pagina__cielo')).toHaveCount(6)
+  await expect(page.locator('.hoy__pie')).toContainText('Open-Meteo')
+  // sin nada raro en el fixture, no hay avisos ni post-its
+  await expect(page.locator('.tarea.es-aviso')).toHaveCount(0)
+  await expect(page.locator('.postit')).toHaveCount(0)
 })
 
 test('una helada pronosticada se anuncia con día y mínima', async ({ page }) => {
@@ -61,12 +72,18 @@ test('una helada pronosticada se anuncia con día y mínima', async ({ page }) =
   await activarPorZona(page)
   await abrirHoy(page)
 
-  // en su fila del carril, y además destacado arriba
-  const aviso = page.locator('.carril__aviso.es-helada')
-  await expect(aviso).toContainText('Puede helar')
-  await expect(page.locator('.hoy__destacado')).toContainText('Puede helar')
-  await expect(aviso).toContainText('2 °C')
-  await expect(aviso).toContainText('FAUBA')
+  // en la página de mañana, y además en un post-it arriba
+  const aviso = pagina(page, 1).locator('.tarea.es-aviso', { hasText: 'Puede helar' })
+  await expect(aviso).toBeVisible()
+  await expect(page.locator('.postit')).toContainText('Puede helar')
+  // la mínima y qué tapar, sin abrir nada y sin decir dos veces la mínima
+  await expect(aviso.locator('.tarea__linea')).toHaveText('dan 2 °C de mínima')
+  await expect(aviso.locator('.tarea__detalle')).toHaveText(/^Tapá de noche/)
+  // la fuente, plegada
+  await aviso.locator('.tarea__abrir').click()
+  await expect(aviso.locator('.tarea__porque')).toContainText('FAUBA')
+  // y en la tira, el día lo dice también con la voz
+  await expect(dias(page).nth(1)).toHaveAttribute('aria-label', /Puede helar/)
 })
 
 test('el detalle del día trae los datos finos y la atribución', async ({ page }) => {
@@ -74,11 +91,15 @@ test('el detalle del día trae los datos finos y la atribución', async ({ page 
   await activarPorZona(page)
   await abrirHoy(page)
 
-  await page.locator('button.carril__dia').first().click()
-  const hoja = page.locator('dialog.hoja[open]')
-  await expect(hoja.getByText('Humedad')).toBeVisible()
-  await expect(hoja.getByText('Presión')).toBeVisible()
-  await expect(hoja.getByRole('link', { name: /Open-Meteo\.com \(CC BY 4\.0\)/ })).toBeVisible()
+  for (const abrir of [page.locator('button.clima'), page.locator('.dia-pagina__cielo').first()]) {
+    await abrir.click()
+    const hoja = page.locator('dialog.hoja[open]')
+    await expect(hoja.getByText('Humedad')).toBeVisible()
+    await expect(hoja.getByText('Presión')).toBeVisible()
+    await expect(hoja.getByRole('link', { name: /Open-Meteo\.com \(CC BY 4\.0\)/ })).toBeVisible()
+    await page.keyboard.press('Escape')
+    await expect(hoja).toHaveCount(0)
+  }
 })
 
 test('sin red y sin nada guardado, se dice y no se rompe', async ({ page }) => {
@@ -87,9 +108,9 @@ test('sin red y sin nada guardado, se dice y no se rompe', async ({ page }) => {
   await abrirHoy(page)
 
   await expect(page.getByText(/Sin internet no llega el pronóstico/)).toBeVisible()
-  // el carril sigue, sin cielos
-  await expect(page.locator('.carril__fila')).toHaveCount(7)
-  await expect(page.locator('.carril__cielo')).toHaveCount(0)
+  // la semana sigue, sin cielos
+  await expect(dias(page)).toHaveCount(7)
+  await expect(cielos(page)).toHaveCount(0)
 })
 
 test('sacar la ubicación apaga el pronóstico del todo', async ({ page }) => {
@@ -101,7 +122,8 @@ test('sacar la ubicación apaga el pronóstico del todo', async ({ page }) => {
 
   await abrirHoy(page)
   await expect(page.getByRole('heading', { name: 'Para sembrar ahora' })).toBeVisible()
-  await expect(page.locator('.carril__pie')).toHaveCount(0)
+  await expect(page.locator('.hoy__pie')).toHaveCount(0)
+  await expect(cielos(page)).toHaveCount(0)
 })
 
 /**
@@ -115,18 +137,19 @@ test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ 
 
   // el tomate que la demo pasó al balcón ya no está en almácigo: expuesto.
   // Hoy y no toda la semana: al cambiar de década vuelve a salir.
-  const helada = page.locator('.carril__fila.es-hoy .carril__item', { hasText: 'Puede helar' })
+  const hoy = page.locator('#dia-2026-08-15')
+  const helada = hoy.locator('.tarea', { hasText: 'Puede helar' })
   await expect(helada.getByText(/Cubrí de noche/)).toBeVisible()
-  // sin tocar nada, y el pie no la repite
-  await expect(page.getByRole('button', { name: /de dónde sal/, expanded: true })).toHaveCount(0)
-  await expect(page.locator('.carril__porque-dia').getByText(/Cubrí de noche/)).toHaveCount(0)
-  // con lector, «Hecho» dice de qué tarea es: seguidos, eran todos iguales.
-  // El espacio antes de «:» lo pone Chrome al cruzar al span sr-solo.
-  await expect(helada.getByRole('button', { name: /^Hecho ?: Puede helar, hoy$/ })).toBeVisible()
-  // plegado no es borrado: abierto, el pie dice de dónde sale
-  const hoy = page.locator('.carril__fila.es-hoy')
-  await hoy.getByRole('button', { name: /de dónde sal/ }).click()
-  await expect(hoy.locator('.carril__porque-dia')).toContainText('FAUBA')
+  // P1: sin pronóstico que la reemplace, la helada va primera en «Para hoy»
+  await expect(hoy.locator('.tarea').first()).toContainText('Puede helar')
+  // sin tocar nada, y el plegado no la repite
+  await expect(page.locator('.tarea__abrir[aria-expanded="true"]')).toHaveCount(0)
+  await expect(helada.locator('.tarea__porque').getByText(/Cubrí de noche/)).toHaveCount(0)
+  // con lector, «Hecho» dice de qué tarea es: seguidas, eran todas iguales
+  await expect(helada.getByRole('checkbox', { name: /^Hecho ?: Puede helar, hoy$/ })).toBeVisible()
+  // plegado no es borrado: abierto, dice de dónde sale
+  await helada.locator('.tarea__abrir').click()
+  await expect(helada.locator('.tarea__porque')).toContainText('FAUBA')
 })
 
 /** La helada no tiene planta ni lugar: lo único que separa una de otra es el día. */
@@ -135,23 +158,26 @@ test('dos «Puede helar» en la semana: cada uno dice su día', async ({ page })
   await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
   await abrirHoy(page)
 
-  const hechos = page.getByRole('button', { name: /^Hecho ?: Puede helar/ })
+  const hechos = page.getByRole('checkbox', { name: /^Hecho ?: Puede helar/ })
   await expect(hechos).toHaveCount(2)
   const nombres = await Promise.all((await hechos.all()).map((b) => b.ariaSnapshot()))
   expect(new Set(nombres).size, `con lector, los dos se oían igual: ${nombres.join(' / ')}`).toBe(2)
-  // a la vista no se repite: el día ya está a la izquierda de la fila
-  await expect(page.locator('.carril__item', { hasText: 'Puede helar' }).locator('.carril__lugar')).toHaveCount(0)
+  // la línea no repite el día, que ya es el título de la página
+  const lineas = page.locator('.tarea', { hasText: 'Puede helar' }).locator('.tarea__linea')
+  await expect(lineas).toHaveCount(2)
+  for (const linea of await lineas.all()) await expect(linea).toHaveText(/^\d+ % de probabilidad de helada$/)
 
-  // y la hoja de «Más opciones» dice de cuál es
-  await page.getByRole('button', { name: 'Más opciones: Puede helar, viernes, 21 de agosto' }).click()
-  await expect(page.locator('dialog.hoja[open]').getByRole('heading')).toHaveText(
-    'Puede helar, viernes, 21 de agosto',
-  )
+  // y «Más tarde» dice de cuál es
+  const viernes = page.locator('#dia-2026-08-21 .tarea', { hasText: 'Puede helar' })
+  await viernes.locator('.tarea__abrir').click()
+  await expect(
+    viernes.getByRole('button', { name: /^Más tarde ?: Puede helar, viernes, 21 de agosto$/ }),
+  ).toBeVisible()
 })
 
 /**
- * Dos tandas iguales con el trasplante riesgoso comparten pie, pero la
- * instrucción va en cada fila: donde falte, se lee como un trasplante sin riesgo.
+ * Dos tandas iguales con el trasplante riesgoso: la instrucción va en cada
+ * una. Donde falte, se lee como un trasplante sin riesgo.
  */
 test('el trasplante riesgoso dice que conviene esperar en cada planta', async ({ page }) => {
   await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
@@ -168,7 +194,7 @@ test('el trasplante riesgoso dice que conviene esperar en cada planta', async ({
   }
   await page.reload()
 
-  const filas = page.locator('.carril__fila.es-hoy .carril__item', { hasText: 'hora de trasplantar' })
+  const filas = page.locator('#dia-2026-08-15 .tarea', { hasText: 'hora de trasplantar' })
   await expect(filas).toHaveCount(2)
   for (const fila of await filas.all()) await expect(fila.getByText(/esperá o cubrila/)).toBeVisible()
 })
@@ -182,46 +208,34 @@ test('dos zanahorias iguales en bancales distintos: cada «Asomó» dice cuál e
   await duplicarPlanta(page, 'zanahoria', { lugar: 'Bancal de la medianera' })
   await page.reload()
 
-  const hoy = page.locator('.carril__fila.es-hoy')
+  const hoy = pagina(page, 0)
   for (const lugar of ['Bancal del fondo', 'Bancal de la medianera']) {
     await expect(
-      hoy.getByRole('button', { name: new RegExp(`^Asomó ?: Zanahoria: fijate si asomó, ${lugar}$`) }),
+      hoy.getByRole('checkbox', { name: new RegExp(`^Asomó ?: Zanahoria: fijate si asomó, ${lugar}$`) }),
+    ).toHaveCount(1)
+    // a la vista, en la línea de abajo del título
+    await expect(
+      hoy.locator('.tarea', { hasText: 'Zanahoria: fijate' }).locator('.tarea__linea', { hasText: lugar }),
     ).toHaveCount(1)
   }
-  // y la hoja de «Más opciones» se titula igual que el botón que la abre
-  await hoy.getByRole('button', { name: 'Más opciones: Zanahoria: fijate si asomó, Bancal del fondo' }).click()
-  await expect(page.locator('dialog.hoja[open]').getByRole('heading')).toHaveText(
-    'Zanahoria: fijate si asomó, Bancal del fondo',
-  )
-  await page.keyboard.press('Escape')
-  await hoy.getByRole('button', { name: /de dónde sal/ }).click()
-  await expect(hoy.locator('.carril__porque-dia')).toContainText('según la ficha: germina en 10-20 días')
+  const fondo = hoy.locator('.tarea', { hasText: 'Bancal del fondo' }).filter({ hasText: 'Zanahoria' })
+  await fondo.locator('.tarea__abrir').click()
+  await expect(fondo.locator('.tarea__porque')).toContainText('según la ficha: germina en 10-20 días')
+  await expect(
+    fondo.getByRole('button', { name: /^Todavía no asomó ?: Zanahoria: fijate si asomó, Bancal del fondo$/ }),
+  ).toBeVisible()
 })
-
-function botonesAbajo(page: Page) {
-  return page.locator('.carril__item').evaluateAll((items) =>
-    items.flatMap((item) => {
-      const cuerpo = item.querySelector('.carril__cuerpo')
-      const acciones = item.querySelector('.carril__acciones')
-      if (!cuerpo || !acciones) return []
-      const a = acciones.getBoundingClientRect()
-      if (a.top < cuerpo.getBoundingClientRect().bottom - 1) return []
-      return [{ titulo: item.querySelector('.carril__titulo')!.textContent!, alto: a.height }]
-    }),
-  )
-}
 
 // 37 letras sin un espacio: no entra ni en la fila entera
 const APODO_LARGO = 'TomatesDeLaAbuelaQueTrajoDeCorrientes'
 
 /**
- * Con los botones al lado, al texto le queda poco: a 320 px se metía abajo de
- * «Asomó» o cortaba «Albahac/a:», y de 341 a 360 px, «indeterminad/o:». 344 es
- * la pantalla de afuera del Z Fold. «Tomate indeterminado» es el nombre del
- * catálogo con la palabra más larga, y va con los dos botones: «Asomó» y «Hecho».
+ * La casilla va a la izquierda y el galón a la derecha: al título le queda lo
+ * del medio. 344 es la pantalla de afuera del Z Fold. «Tomate indeterminado»
+ * es el nombre del catálogo con la palabra más larga.
  */
 for (const ancho of [300, 320, 344, 360, 375]) {
-  test(`en ${ancho} px, ningún título se pisa con sus botones ni se corta al medio`, async ({ page }) => {
+  test(`en ${ancho} px, ningún título se pisa ni se corta al medio`, async ({ page }) => {
     await page.clock.setFixedTime(new Date('2026-10-15T10:00:00'))
     await page.setViewportSize({ width: ancho, height: 844 })
     await abrirHoy(page)
@@ -237,28 +251,27 @@ for (const ancho of [300, 320, 344, 360, 375]) {
     })
     await page.reload()
     // evaluateAll no espera, y sin los tomates pasaría sin mirar lo que importa
-    await expect(page.getByRole('button', { name: /^Asomó ?: Tomate indeterminado/ })).toBeVisible()
-    await expect(page.getByRole('button', { name: /^Hecho ?: Tomate indeterminado/ })).toBeVisible()
+    await expect(page.getByRole('checkbox', { name: /^Asomó ?: Tomate indeterminado/ })).toBeVisible()
+    await expect(page.getByRole('checkbox', { name: /^Hecho ?: Tomate indeterminado/ })).toBeVisible()
 
-    const pisados = await page.locator('.carril__item').evaluateAll((items) =>
+    const pisados = await page.locator('.tarea').evaluateAll((items) =>
       items.flatMap((item) => {
-        const titulo = item.querySelector('.carril__titulo')
-        const acciones = item.querySelector('.carril__acciones')
-        if (!titulo || !acciones) return []
+        const titulo = item.querySelector('.tarea__titulo')!
         // el rango mide el texto, que desborda su caja; la caja sola no lo ve
         const rango = document.createRange()
         rango.selectNodeContents(titulo)
         const t = rango.getBoundingClientRect()
-        const a = acciones.getBoundingClientRect()
-        // en alto también: los botones pueden bajar abajo del texto
-        const seTocan = t.right > a.left && t.left < a.right && t.bottom > a.top && t.top < a.bottom
-        return seTocan ? [titulo.textContent] : []
+        return [...item.querySelectorAll('.casilla, .tarea__icono, .tarea__galon')].flatMap((otro) => {
+          const o = otro.getBoundingClientRect()
+          const seTocan = t.right > o.left && t.left < o.right && t.bottom > o.top && t.top < o.bottom
+          return seTocan ? [`${titulo.textContent} / ${otro.getAttribute('class')}`] : []
+        })
       }),
     )
     expect(pisados).toEqual([])
 
     // una palabra partida en dos renglones da dos rectángulos
-    const cortadas = await page.locator('.carril__titulo, .carril__lugar').evaluateAll((cajas) =>
+    const cortadas = await page.locator('.tarea__titulo, .tarea__linea').evaluateAll((cajas) =>
       cajas.flatMap((caja) => {
         const partidas: string[] = []
         const textos = document.createTreeWalker(caja, NodeFilter.SHOW_TEXT)
@@ -275,14 +288,18 @@ for (const ancho of [300, 320, 344, 360, 375]) {
     )
     expect(cortadas).toEqual([])
 
-    // Los botones al lado del texto son la densidad que se busca. «Tomate
-    // indeterminado» no entra a 300 px, ni de 341 a 360: ahí está sin decidir.
-    const conTomate = ancho !== 320 && ancho !== 375
-    const bajaron = await botonesAbajo(page)
-    expect(bajaron.filter((b) => !(conTomate && b.titulo.startsWith('Tomate indeterminado')))).toEqual([])
+    // las marcas de la tira no se salen de su día
+    const salidas = await dias(page).evaluateAll((botones) =>
+      botones.flatMap((b) => {
+        const d = b.getBoundingClientRect()
+        const m = b.querySelector('.dia__marcas')!.getBoundingClientRect()
+        return m.left < d.left - 0.5 || m.right > d.right + 0.5 ? [b.getAttribute('aria-label')] : []
+      }),
+    )
+    expect(salidas).toEqual([])
 
-    // un apodo sin espacios más ancho que la fila se parte, pero ni la fila ni
-    // el pie que lo repite se salen de la pantalla
+    // un apodo sin espacios más ancho que la fila se parte, pero no saca la
+    // página de la pantalla, ni abierto con sus botones
     await duplicarPlanta(page, 'tomate', {
       sufijo: '-largo',
       apodo: APODO_LARGO,
@@ -291,31 +308,29 @@ for (const ancho of [300, 320, 344, 360, 375]) {
       germino: '',
     })
     await page.reload()
-    const hoy = page.locator('.carril__fila.es-hoy')
-    await hoy.getByRole('button', { name: /de dónde sal/ }).click()
-    await expect(hoy.locator('.carril__porque-de', { hasText: APODO_LARGO })).toBeVisible()
+    const largo = page.locator('.tarea', { hasText: APODO_LARGO })
+    await largo.locator('.tarea__abrir').click()
+    await expect(largo.locator('.tarea__botones')).toBeVisible()
     // contra el viewport y no innerWidth: en emulación móvil crece con el desborde y lo esconde
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(ancho)
-
-    // cuando bajan, en fila: apiladas medían 88 px con el renglón entero libre
-    const abajo = await botonesAbajo(page)
-    // el apodo no entra al lado de nada: sin él, esto podría no medir nada
-    expect(abajo.map((b) => b.titulo)).toContainEqual(expect.stringContaining(APODO_LARGO))
-    for (const { titulo, alto } of abajo) expect(alto, titulo).toBeLessThanOrEqual(45)
+    // los botones del plegado, en fila o de a uno, nunca apretados en dos renglones
+    for (const b of await largo.locator('.tarea__botones > *').all()) {
+      expect((await b.boundingBox())!.height).toBeLessThanOrEqual(45)
+    }
   })
 }
 
-/** Sin botones, al aviso nada le hace bajar el texto abajo del ícono. */
+/** Sin casilla, al aviso nada le hace bajar el texto abajo del ícono. */
 test('en 320 px, el texto del aviso va al lado de su ícono', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 })
   await page.route(API, (r) => r.fulfill({ json: conHelada() }))
   await activarPorZona(page)
   await abrirHoy(page)
 
-  const aviso = page.locator('.carril__aviso.es-helada')
-  await expect(aviso).toContainText('Puede helar')
-  const icono = await aviso.locator('.carril__icono').boundingBox()
-  const textos = await aviso.locator('.carril__textos').boundingBox()
+  const aviso = page.locator('.tarea.es-aviso', { hasText: 'Puede helar' })
+  await expect(aviso).toBeVisible()
+  const icono = await aviso.locator('.tarea__icono').boundingBox()
+  const textos = await aviso.locator('.tarea__cuerpo').boundingBox()
   expect(textos!.x).toBeGreaterThanOrEqual(icono!.x + icono!.width)
   expect(textos!.y).toBeLessThan(icono!.y + icono!.height)
 })

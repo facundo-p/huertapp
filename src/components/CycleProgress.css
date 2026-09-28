@@ -30,9 +30,6 @@
 .ciclo__paso:first-child::before {
   display: none;
 }
-.ciclo--compacto .ciclo__paso::before {
-  top: 10px;
-}
 
 .ciclo__punto {
   position: relative;
@@ -44,12 +41,6 @@
   background: var(--papel-alto);
   border: 2px solid var(--linea);
   color: var(--tinta-suave);
-}
-
-.ciclo--compacto .ciclo__punto {
-  width: 21px;
-  height: 21px;
-  border-width: 1.5px;
 }
 
 .ciclo__paso.es-hecha .ciclo__punto {
@@ -70,16 +61,6 @@
 }
 .ciclo__paso.es-actual::before {
   background: var(--salvia);
-}
-
-/* la etapa que esta planta nunca va a atravesar (sembrada directa) */
-.ciclo__paso.es-omitida .ciclo__punto {
-  border-style: dashed;
-  opacity: 0.55;
-}
-.ciclo__paso.es-omitida .ciclo__etiqueta {
-  text-decoration: line-through;
-  opacity: 0.7;
 }
 
 .ciclo__etiqueta {

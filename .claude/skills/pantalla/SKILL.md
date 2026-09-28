@@ -30,7 +30,7 @@ especificación está en `docs/diseno/cuaderno/README.md` y el render en
 
 ## Las tres reglas de layout
 
-1. **Reglado antes que tarjeta.** Una lista homogénea (tareas del carril,
+1. **Reglado antes que tarjeta.** Una lista homogénea (tareas de un día,
    plantas de Mi huerta, filas del calendario, íconos del glosario) se separa
    con una hairline `--linea` de **borde a borde** y respeta el padding lateral
    por dentro (`margin-inline` negativo + `padding-inline`). La tarjeta
@@ -51,13 +51,17 @@ especificación está en `docs/diseno/cuaderno/README.md` y el render en
 
 - **Mirá si el componente ya existe:** `BottomSheet`, `EmptyState`, `Header`,
   `ChipHoja` (chip que abre hoja de radios), `FilaConfianza`, `DatoSection`,
-  `AnilloAnual`, `GanttPlanta`, `CarrilSemana`, `CycleProgress`, `AltaPlanta`,
-  `FuentesCompost`. El patrón de radios es `.opciones` en
-  `components/opciones.css`. Reusar mantiene la coherencia mejor que cualquier
-  guía.
-- **Botón de 44 con píldora de 32 adentro.** Cuando el diseño pide un chip o
-  un botón chico, el target sigue siendo 44: el `<button>` mide 44 y un `<span>`
-  interno dibuja la píldora (`.carril__hecho`, `.chip-hoja`, `.fuente`).
+  `AnilloAnual`, `GanttPlanta`, `TiraSemana` y `PaginaDia` (en `Semana.tsx`),
+  `AltaPlanta`, `FuentesCompost`. El patrón de radios es `.opciones` en
+  `components/opciones.css`; el botón a lápiz, `.lapiz` en `screens.css`.
+  Reusar mantiene la coherencia mejor que cualquier guía.
+- **Botón de 44 con lo chico dibujado adentro.** Cuando el diseño pide un chip
+  o un botón chico, el target sigue siendo 44: el `<button>` mide 44 y adentro
+  se dibuja la píldora de 32 (`.chip-hoja`, `.fuente`) o la casilla de 26
+  (`.casilla`).
+- **Una barra fija abajo** (la de Acomodar, en `Croquis.tsx`) va fuera de
+  todo `container-type`, que la ancla a él, y avisa su alto a
+  `scroll-padding-bottom`: si no, el foco queda debajo de ella.
 - **Sin librerías de UI.** Es un requisito explícito del brief.
 
 ## Invariantes de accesibilidad

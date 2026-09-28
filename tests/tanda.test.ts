@@ -7,6 +7,7 @@ import {
   partesDe,
   raizDe,
   resumenHuerta,
+  sacarDelLugar,
   textoCantidad,
   textoConteo,
   textosTrasplanteParcial,
@@ -108,6 +109,29 @@ describe('moverTanda', () => {
     expect(m.etapa).toBe('creciendo')
     expect(m.etapaDesde).toBe('2026-08-10')
     expect(m.ubicacionId).toBe('bancal')
+  })
+})
+
+describe('lo acomodado en el croquis, al mover', () => {
+  const celdas = { ubicacionId: 'semillero', en: [{ col: 4, fila: 1 }] }
+
+  it('trasplantar o mudar la tarjeta entera la deja sin celdas, aunque vuelva al mismo lugar', () => {
+    for (const destino of ['bancal', 'semillero'])
+      expect(moverTanda(planta({ ubicacionId: 'semillero', celdas }), { fecha: HOY, ubicacionId: destino }).celdas).toBeUndefined()
+  })
+
+  it('al dividir, la madre conserva las suyas y la hija arranca sin', () => {
+    const { madre, hija } = dividir(planta({ ubicacionId: 'semillero', cantidad: 10, celdas }), {
+      ubicacionId: 'semillero',
+      cuantas: 4,
+    })
+    expect(madre.celdas).toEqual(celdas)
+    expect(hija.celdas).toBeUndefined()
+  })
+
+  it('al borrar su lugar, la planta queda sin lugar y sin celdas; lo demás, igual', () => {
+    const p = planta({ ubicacionId: 'semillero', celdas, apodo: 'Los del cajón' })
+    expect(sacarDelLugar(p)).toEqual({ ...p, ubicacionId: undefined, celdas: undefined })
   })
 })
 

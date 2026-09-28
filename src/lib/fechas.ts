@@ -1,37 +1,21 @@
 // Helpers de fecha para GBA (hemisferio sur), locale es-AR.
 import type { Decada, Mes } from './data/types'
 
-export type Estacion = 'verano' | 'otoño' | 'invierno' | 'primavera'
-
 export function mesDe(fecha: Date): Mes {
   return (fecha.getMonth() + 1) as Mes
 }
 
-export function estacionDe(mes: Mes): Estacion {
-  if (mes === 12 || mes <= 2) return 'verano'
-  if (mes <= 5) return 'otoño'
-  if (mes <= 8) return 'invierno'
-  return 'primavera'
-}
-
-const SALUDOS: Record<Estacion, string> = {
-  verano: 'Riego temprano y a la sombra al mediodía',
-  otoño: 'Tiempo de hojas y de preparar el suelo',
-  invierno: 'La huerta descansa, pero no del todo',
-  primavera: 'Se viene lo mejor: todo quiere brotar',
-}
-
-export function saludoEstacional(fecha: Date): string {
-  return SALUDOS[estacionDe(mesDe(fecha))]
-}
+/** «viernes» → «Viernes» */
+export const mayus = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1)
 
 export function fechaLarga(fecha: Date): string {
-  const texto = new Intl.DateTimeFormat('es-AR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  }).format(fecha)
-  return texto.charAt(0).toUpperCase() + texto.slice(1)
+  return mayus(
+    new Intl.DateTimeFormat('es-AR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    }).format(fecha),
+  )
 }
 
 export const NOMBRES_MES = [
@@ -105,6 +89,9 @@ export function diasHastaFinDeDecada(fecha: Date): number {
 export const siguienteDecada = (d: Decada): Decada => (d % 36) + 1
 export const anteriorDecada = (d: Decada): Decada => ((d + 34) % 36) + 1
 
+/** «1 día», «12 días» */
+export const dias = (n: number): string => `${n} ${n === 1 ? 'día' : 'días'}`
+
 /* ---- días de la semana, desde una fecha ISO corta ---- */
 
 /** T12:00: el mediodía evita que el huso corra el día (patrón del repo). */
@@ -114,7 +101,7 @@ export const aFechaLocal = (iso: string): Date => new Date(`${iso}T12:00:00`)
 export const nombreDia = (iso: string): string =>
   aFechaLocal(iso).toLocaleDateString('es-AR', { weekday: 'long' })
 
-/** «vie»: la sigla del carril, sin el punto que agrega el locale */
+/** «vie»: la sigla de la tira, sin el punto que agrega el locale */
 export const siglaDia = (iso: string): string =>
   aFechaLocal(iso).toLocaleDateString('es-AR', { weekday: 'short' }).replace('.', '').slice(0, 3)
 

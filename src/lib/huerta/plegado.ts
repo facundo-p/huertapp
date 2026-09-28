@@ -74,3 +74,23 @@ export function podarPlegado(p: Plegado, ubicaciones: Set<string>, plantas: Set<
     plantasAbiertas: p.plantasAbiertas.filter((id) => plantas.has(id)),
   }
 }
+
+// aparte: el croquis no es un lugar, y un id inventado se lo llevaría podarPlegado
+const CLAVE_CROQUIS = 'huerta-croquis-plegado'
+
+export function leerCroquisPlegado(): boolean {
+  try {
+    return localStorage.getItem(CLAVE_CROQUIS) === '1'
+  } catch {
+    return false
+  }
+}
+
+export function guardarCroquisPlegado(plegado: boolean): void {
+  try {
+    if (plegado) localStorage.setItem(CLAVE_CROQUIS, '1')
+    else localStorage.removeItem(CLAVE_CROQUIS)
+  } catch {
+    // sin persistencia se sigue funcionando
+  }
+}

@@ -196,6 +196,21 @@
   gap: var(--esp-4);
 }
 
+/* del ancho de .celda con sus márgenes: los nombres quedan alineados */
+.glosario__marca {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 46px;
+}
+.glosario__marca :is(.banderita, .copo, .croquis-ancla) {
+  position: static;
+}
+.glosario__marca .acomodar-flecha {
+  width: 44px;
+  height: 44px;
+}
+
 .celda {
   flex: none;
   width: 30px;

@@ -57,6 +57,12 @@ describe('la tarea de girar', () => {
     const t = girar(compostera({ girada: sumarDias(HOY, -9) }))!
     expect(t.atrasada).toBe(true)
     expect(t.detalle).toMatch(/Hace 9 días/)
+    expect(t.linea).toBe('el último giro fue hace 9 días')
+  })
+
+  it('sin giro anotado, la línea lo dice', () => {
+    const t = girar(compostera({ estadoDesde: sumarDias(HOY, -8) }))!
+    expect(t.linea).toBe('sin girar desde hace 8 días')
   })
 
   it('el id no cambia de un día al otro: completarla la apaga hasta el próximo giro', () => {
@@ -136,6 +142,7 @@ describe('¿ya está?', () => {
     expect(t.fuente).toMatch(/según la guía: A los 4 meses/)
     expect(t.fuente).toMatch(/confianza 8\/10/)
     expect(t.detalle).toMatch(/no reconocés lo que entró/)
+    expect(t.linea).toBe('dejó de recibir restos hace 130 días')
   })
 
   it('mientras se llena no hay plazo que contar', () => {

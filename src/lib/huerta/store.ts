@@ -12,10 +12,12 @@ import {
   type Ubicacion,
 } from './tipos'
 import { avanzar } from './compostera'
+import { acomodoSobre, ordenSobre } from './acomodar'
 import {
   dividirTanda,
   moverTanda,
   type OpcionesLugar,
+  sacarDelLugar,
   textoConteo,
   textosTrasplanteParcial,
   textoTrasplanteEntero,
@@ -295,9 +297,25 @@ export async function borrarUbicacion(id: string) {
   await escribiendo(async () => {
     const plantas = await db.listarPlantas()
     for (const p of plantas) {
-      if (p.ubicacionId === id) await db.guardarPlanta({ ...p, ubicacionId: undefined })
+      if (p.ubicacionId === id) await db.guardarPlanta(sacarDelLugar(p))
     }
     await db.borrarUbicacion(id)
+    await refrescar()
+  })
+}
+
+/** Lo acomodado de un lugar: su `plano` y las celdas de sus plantas, todo junto o nada. */
+export async function guardarAcomodo(ubicacion: Ubicacion, plantas: Planta[]) {
+  await escribiendo(async () => {
+    await db.cambiarLugares((guardado) => acomodoSobre(guardado, { ubicacion, plantas }))
+    await refrescar()
+  })
+}
+
+/** El orden de los lugares en la hoja, escrito en todos para que no quede a medias. */
+export async function ordenarUbicaciones(orden: Ubicacion[]) {
+  await escribiendo(async () => {
+    await db.cambiarLugares(({ ubicaciones }) => ({ ubicaciones: ordenSobre(ubicaciones, orden), plantas: [] }))
     await refrescar()
   })
 }
