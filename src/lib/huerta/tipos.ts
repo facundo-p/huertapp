@@ -1,6 +1,20 @@
 // Lo que el usuario carga: su huerta. Todo vive en IndexedDB, en el aparato,
 // sin cuenta ni servidor. Por eso el backup es parte del producto, no un extra.
-import type { Metodo } from '../data/types'
+import type { Metodo, Zona } from '../data/types'
+import type { UbicacionClima } from '../pronostico/tipos'
+
+/**
+ * Una huerta con su lugar en el mapa: la zona decide el calendario y
+ * `ubicacionClima` dónde se pide el pronóstico. Vive en `ajustes`, no en un
+ * store propio: sumar un store obliga a subir la versión de la base.
+ */
+export interface Huerta {
+  id: string
+  nombre: string
+  zona: Zona
+  ubicacionClima?: UbicacionClima
+  creada: string
+}
 
 /** Etapas del ciclo, en orden. La barrita de progreso las recorre. */
 export const ETAPAS = ['almacigo', 'trasplantada', 'creciendo', 'cosechando', 'terminada'] as const
@@ -45,6 +59,8 @@ export interface Ubicacion {
   notas?: string
   /** cómo quedó en el croquis al acomodarlo. Sin él, el croquis sale sólo de lo cargado */
   plano?: PlanoUbicacion
+  /** sin él, es de la huerta principal: así quedan los datos de antes de las huertas */
+  huertaId?: string
 }
 
 /** Las filas de la tabla del croquis (`croquis.ts`), no las clases de `lugarDe`. */
@@ -104,6 +120,8 @@ export interface Planta {
   notas?: string
   creada: string
   archivada?: boolean
+  /** propio y no por el lugar: una planta sin lugar también es de una huerta */
+  huertaId?: string
 }
 
 // ── Compostera ───────────────────────────────────────────────────────────────
@@ -141,6 +159,7 @@ export interface Compostera {
   conLombrices?: boolean
   notas?: string
   creada: string
+  huertaId?: string
 }
 
 export type TipoEntrada = 'nota' | 'riego' | 'plaga' | 'cosecha' | 'trasplante' | 'floracion'

@@ -1,10 +1,11 @@
 import { useSyncExternalStore } from 'react'
 import type { Zona } from './data/types'
 
-// Dónde está la huerta. Cambia el calendario entero, porque entre el
+// Dónde está la huerta activa. Cambia el calendario entero, porque entre el
 // Observatorio y La Plata hay 35 días de diferencia en la última helada.
-// Vive en localStorage por ahora; en la Fase 4 pasa al store de ajustes de
-// IndexedDB junto con el resto, y entra al backup.
+// La zona es de cada huerta y vive con ella en IndexedDB; acá queda un espejo
+// en localStorage para leerla sin esperar a la base: si no, Explorar y el
+// Calendario arrancarían con otra zona y saltarían al cargar.
 
 const CLAVE = 'huerta-gba:zona'
 export const ZONA_DEFAULT: Zona = 'conurbano'
@@ -47,7 +48,8 @@ export function zonaActual(): Zona {
   return actual
 }
 
-export function elegirZona(z: Zona) {
+/** Solo la llama el store de la huerta: para cambiar la zona, `cambiarZona`. */
+export function fijarZonaActiva(z: Zona) {
   if (z === actual) return
   actual = z
   try {

@@ -1,10 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
 import { Header } from '../components/Header'
 import { BottomSheet } from '../components/BottomSheet'
-import { elegirZona, useZona, ZONAS_INFO } from '../lib/zona'
+import { useZona, ZONAS_INFO } from '../lib/zona'
 import { elegirTema, usePreferenciaTema, TEMAS_INFO, type Preferencia } from '../lib/tema'
 import { ZONAS, type Zona } from '../lib/data/types'
-import { useHuerta, recargar } from '../lib/huerta/store'
+import {
+  cambiarZona,
+  elegirUbicacionClima,
+  recargar,
+  sacarUbicacionClima,
+  sinRomper,
+  useHuerta,
+} from '../lib/huerta/store'
 import { espacioUsado, pedirPersistencia } from '../lib/huerta/db'
 import { comoTexto, leer as leerBitacora, nombreError } from '../lib/huerta/bitacora'
 import { pesoLegible } from '../lib/huerta/fotos'
@@ -20,7 +27,7 @@ import {
   type ResumenBackup,
 } from '../lib/huerta/backup'
 import { instalar, useComoInstalar } from '../lib/instalar'
-import { elegirUbicacion, sacarUbicacion, usePronostico } from '../lib/pronostico/store'
+import { usePronostico } from '../lib/pronostico/store'
 import { proveedor } from '../lib/pronostico/proveedor'
 import { ubicarPorGPS } from '../lib/pronostico/geo'
 import { COORDS_ZONA, type Localidad, type UbicacionClima } from '../lib/pronostico/tipos'
@@ -131,7 +138,7 @@ function SeccionZona({ zona }: { zona: Zona }) {
             <button
               key={z}
               className={`opcion ${zona === z ? 'es-elegida' : ''}`}
-              onClick={() => elegirZona(z)}
+              onClick={() => sinRomper(cambiarZona(z))}
               role="radio"
               aria-checked={zona === z}
             >
@@ -174,7 +181,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
 
   async function elegir(u: UbicacionClima) {
     setError(null)
-    await elegirUbicacion(u)
+    await elegirUbicacionClima(u)
     setEligiendo(false)
     setBusqueda('')
     setResultados(null)
@@ -231,7 +238,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
           <button className="boton-secundario" onClick={() => setEligiendo(true)}>
             Cambiar la ubicación
           </button>
-          <button className="boton-peligro-suave" onClick={() => void sacarUbicacion()}>
+          <button className="boton-peligro-suave" onClick={() => sinRomper(sacarUbicacionClima())}>
             Sacarla y apagar el pronóstico
           </button>
         </div>

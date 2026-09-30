@@ -1,14 +1,19 @@
-// Estado del pronóstico: la ubicación elegida y el último pronóstico pedido,
-// persistidos en los ajustes de IndexedDB (patrón de tareas/estado.ts). El
-// proveedor entra solo por proveedor.ts — acá no se nombra a Open-Meteo.
+// Estado del pronóstico de la huerta activa. La ubicación es de la huerta y la
+// trae el store de la huerta con `seguirHuerta`; acá vive el último pronóstico
+// pedido. El proveedor entra solo por proveedor.ts: acá no se nombra a Open-Meteo.
 import { useSyncExternalStore } from 'react'
 import * as db from '../huerta/db'
 import { frescura } from './derivar'
 import { proveedor } from './proveedor'
 import type { Pronostico, UbicacionClima } from './tipos'
+import { HUERTA_PRINCIPAL } from '../huerta/huertas'
 
+/** Legada: de acá sale la ubicación de la huerta principal la primera vez. */
 export const CLAVE_UBICACION = 'pronostico-ubicacion'
-export const CLAVE_CACHE = 'pronostico-cache'
+
+/** Un caché por huerta; la principal sigue usando la clave de siempre. */
+export const claveCache = (huertaId: string) =>
+  huertaId === HUERTA_PRINCIPAL ? 'pronostico-cache' : `pronostico-cache:${huertaId}`
 
 export interface EstadoPronostico {
   ubicacion?: UbicacionClima
@@ -42,17 +47,22 @@ export function hayQueActualizar(
 }
 
 let enVuelo: Promise<void> | null = null
+/** de qué huerta es lo que hay en `estado`; null hasta que el store la diga */
+let huertaId: string | null = null
 
 /** Pide el pronóstico si hace falta. Un fallo deja el caché y no hace ruido. */
 function actualizar() {
   const u = estado.ubicacion
-  if (!u || !hayQueActualizar(estado.pronostico, u, new Date().toISOString())) return
+  const id = huertaId
+  if (id === null || !u || !hayQueActualizar(estado.pronostico, u, new Date().toISOString())) return
   enVuelo ??= (async () => {
     emitir({ actualizando: true, fallo: false })
     try {
       const p = await proveedor.pedirPronostico(u)
-      await db.guardarAjuste(CLAVE_CACHE, p)
-      emitir({ pronostico: p, actualizando: false })
+      await db.guardarAjuste(claveCache(id), p)
+      // si en el medio se cambió de huerta, este pronóstico es de la otra
+      if (huertaId === id) emitir({ pronostico: p, actualizando: false })
+      else emitir({ actualizando: false })
     } catch {
       emitir({ actualizando: false, fallo: true })
     } finally {
@@ -61,23 +71,34 @@ function actualizar() {
   })()
 }
 
-async function cargar() {
-  const [ubicacion, pronostico] = await Promise.all([
-    db.leerAjuste<UbicacionClima>(CLAVE_UBICACION),
-    db.leerAjuste<Pronostico>(CLAVE_CACHE),
-  ])
-  emitir({ ubicacion, pronostico, cargado: true })
+/**
+ * El store de la huerta avisa cuál es la activa y dónde está, cada vez que
+ * relee. Si cambió la huerta se lee su caché; si cambió el lugar, el caché del
+ * lugar anterior no dice nada de este y se borra.
+ */
+export async function seguirHuerta(id: string, ubicacion: UbicacionClima | undefined) {
+  const misma = id === huertaId
+  if (misma && estado.cargado && mismaUbicacion(estado.ubicacion, ubicacion)) return
+  huertaId = id
+  if (misma && estado.cargado) {
+    if (!ubicacion) await db.borrarAjuste(claveCache(id)).catch(() => {})
+    emitir({ ubicacion, pronostico: undefined, fallo: false })
+  } else {
+    emitir({ ubicacion, pronostico: undefined, fallo: false, cargado: false })
+    const pronostico = await db.leerAjuste<Pronostico>(claveCache(id)).catch(() => undefined)
+    if (huertaId !== id) return // otro cambio de huerta llegó antes
+    emitir({ pronostico, cargado: true })
+  }
   actualizar()
 }
 
-let arranque: Promise<void> | null = null
+const mismaUbicacion = (a?: UbicacionClima, b?: UbicacionClima) =>
+  a?.lat === b?.lat && a?.lon === b?.lon && a?.modo === b?.modo && a?.etiqueta === b?.etiqueta
+
 let mirandoVisibilidad = false
 
 function suscribir(f: () => void) {
   oyentes.add(f)
-  arranque ??= cargar().catch(() => {
-    arranque = null // que el próximo vuelva a intentar leer la base
-  })
   if (!mirandoVisibilidad && typeof document !== 'undefined') {
     mirandoVisibilidad = true
     document.addEventListener('visibilitychange', () => {
@@ -93,19 +114,4 @@ export function usePronostico(): EstadoPronostico {
     () => estado,
     () => INICIAL,
   )
-}
-
-export async function elegirUbicacion(u: UbicacionClima) {
-  await db.guardarAjuste(CLAVE_UBICACION, u)
-  // el caché del lugar anterior no dice nada de este: afuera
-  await db.borrarAjuste(CLAVE_CACHE)
-  emitir({ ubicacion: u, pronostico: undefined, fallo: false })
-  actualizar()
-}
-
-/** Vuelve todo a como estaba antes de activar el pronóstico. */
-export async function sacarUbicacion() {
-  await db.borrarAjuste(CLAVE_UBICACION)
-  await db.borrarAjuste(CLAVE_CACHE)
-  emitir({ ubicacion: undefined, pronostico: undefined, fallo: false })
 }

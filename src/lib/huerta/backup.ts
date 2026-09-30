@@ -2,8 +2,9 @@ import * as db from './db'
 import { hoyISO, type Compostera, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
 import { resumenHuerta } from './tanda'
 import { celdasSanas, planoSano } from './croquis'
-import { zonaActual, elegirZona } from '../zona'
-import { CLAVE_UBICACION, elegirUbicacion, sacarUbicacion } from '../pronostico/store'
+import { ZONA_DEFAULT } from '../zona'
+import { huertaActiva } from './store'
+import { HUERTA_PRINCIPAL, huertaPrincipalDesde } from './huertas'
 import type { UbicacionClima } from '../pronostico/tipos'
 import type { Zona } from '../data/types'
 
@@ -48,19 +49,20 @@ const aDataURL = (blob: Blob): Promise<string> =>
 const desdeDataURL = async (datos: string): Promise<Blob> => (await fetch(datos)).blob()
 
 export async function armarBackup(): Promise<Backup> {
-  const [plantas, diario, ubicaciones, fotos, composteras, ubicacionClima] = await Promise.all([
+  const [plantas, diario, ubicaciones, fotos, composteras] = await Promise.all([
     db.listarPlantas(),
     db.listarTodoElDiario(),
     db.listarUbicaciones(),
     db.listarFotos(),
     db.listarComposteras(),
-    db.leerAjuste<UbicacionClima>(CLAVE_UBICACION),
   ])
+  // todavía hay una sola huerta: la v1 alcanza para contarla
+  const { zona, ubicacionClima } = huertaActiva()
   return {
     app: 'huerta-gba',
     version: VERSION_BACKUP,
     exportado: new Date().toISOString(),
-    zona: zonaActual(),
+    zona,
     ...(ubicacionClima ? { ubicacionClima } : {}),
     plantas,
     diario,
@@ -201,9 +203,8 @@ export async function importar(b: Backup): Promise<void> {
     ubicaciones: b.ubicaciones,
     fotos,
     composteras: b.composteras ?? [],
+    // el import reemplaza todo: también la zona y la ubicación del pronóstico
+    huertas: [huertaPrincipalDesde(b.zona ?? ZONA_DEFAULT, b.ubicacionClima, hoyISO())],
+    activa: HUERTA_PRINCIPAL,
   })
-  if (b.zona) elegirZona(b.zona)
-  // el import reemplaza todo: también la ubicación del pronóstico
-  if (b.ubicacionClima) await elegirUbicacion(b.ubicacionClima)
-  else await sacarUbicacion()
 }

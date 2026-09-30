@@ -1,5 +1,6 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
-import type { Compostera, EntradaDiario, Foto, Planta, Ubicacion } from './tipos'
+import type { Compostera, EntradaDiario, Foto, Huerta, Planta, Ubicacion } from './tipos'
+import { huertaDe } from './huertas'
 import { anotar, nombreError } from './bitacora'
 import { unaVez } from './reintento'
 
@@ -241,6 +242,69 @@ export const borrarAjuste = async (clave: string) => {
   await (await abrir()).delete('ajustes', clave)
 }
 
+// ── Huertas ──────────────────────────────────────────────────────────────────
+export const CLAVE_HUERTAS = 'huertas'
+export const CLAVE_ACTIVA = 'huerta-activa'
+
+/** La lista y la activa juntas, en la transacción que se les pase. */
+function escribirHuertas(
+  tx: { objectStore(s: 'ajustes'): { put(v: unknown, k: string): unknown } },
+  huertas: Huerta[],
+  activa: string,
+) {
+  tx.objectStore('ajustes').put(huertas, CLAVE_HUERTAS)
+  tx.objectStore('ajustes').put(activa, CLAVE_ACTIVA)
+}
+
+export async function guardarHuertas(huertas: Huerta[], activa: string) {
+  const d = await abrir()
+  const tx = d.transaction('ajustes', 'readwrite')
+  escribirHuertas(tx, huertas, activa)
+  await tx.done
+}
+
+/**
+ * Borra una huerta con todo lo suyo, en una sola transacción: una huerta a
+ * medio borrar deja plantas sin zona ni lugar que no se ven en ningún lado.
+ * Lo que hay que leer se lee antes; adentro, solo escrituras (auto-commit).
+ */
+export async function borrarHuerta(id: string, quedan: Huerta[], activa: string) {
+  const d = await abrir()
+  const [plantas, ubicaciones, composteras] = await Promise.all([
+    d.getAll('plantas'),
+    d.getAll('ubicaciones'),
+    d.getAll('composteras'),
+  ])
+  const suyas = plantas.filter((p) => huertaDe(p) === id)
+  const entradas = (await Promise.all(suyas.map((p) => d.getAllFromIndex('diario', 'plantaId', p.id)))).flat()
+
+  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras', 'ajustes'], 'readwrite')
+  try {
+    for (const p of suyas) tx.objectStore('plantas').delete(p.id)
+    for (const e of entradas) {
+      tx.objectStore('diario').delete(e.id)
+      for (const f of e.fotoIds) tx.objectStore('fotos').delete(f)
+    }
+    for (const u of ubicaciones) if (huertaDe(u) === id) tx.objectStore('ubicaciones').delete(u.id)
+    for (const c of composteras) if (huertaDe(c) === id) tx.objectStore('composteras').delete(c.id)
+    escribirHuertas(tx, quedan, activa)
+    await tx.done
+  } catch (e) {
+    await abortar(tx)
+    throw e
+  }
+}
+
+/** El abort es explícito: ver `reemplazarTodo`. */
+async function abortar(tx: { abort(): void; done: Promise<void> }) {
+  try {
+    tx.abort()
+  } catch {
+    // ya estaba abortada: el error real es el de afuera
+  }
+  await tx.done.catch(() => {})
+}
+
 /**
  * Reemplaza toda la huerta **en una sola transacción**: si algo falla, no se
  * borró nada.
@@ -264,9 +328,11 @@ export async function reemplazarTodo(datos: {
   ubicaciones: Ubicacion[]
   fotos: Foto[]
   composteras: Compostera[]
+  huertas: Huerta[]
+  activa: string
 }) {
   const d = await abrir()
-  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'], 'readwrite')
+  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras', 'ajustes'], 'readwrite')
   try {
     for (const s of ['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'] as const) {
       tx.objectStore(s).clear()
@@ -276,31 +342,23 @@ export async function reemplazarTodo(datos: {
     for (const p of datos.plantas) tx.objectStore('plantas').put(p)
     for (const e of datos.diario) tx.objectStore('diario').put(e)
     for (const f of datos.fotos) tx.objectStore('fotos').put(f)
+    // `ajustes` no se vacía: ahí vive también lo que no es de la huerta
+    escribirHuertas(tx, datos.huertas, datos.activa)
     await tx.done
     anotar('import', { plantas: datos.plantas.length })
   } catch (e) {
-    try {
-      tx.abort()
-    } catch {
-      // ya estaba abortada: el error real es el de afuera
-    }
-    await tx.done.catch(() => {})
+    await abortar(tx)
     anotar('error-escritura', { error: nombreError(e), detalle: 'import' })
     throw e
   }
 }
 
-/** Vacía todo. Lo usa el botón de borrar todo. */
-export async function vaciarTodo() {
+/** Vacía todo y deja una sola huerta, `queda`, con su zona y su pronóstico. Lo usa el botón de borrar todo. */
+export async function vaciarTodo(queda: Huerta) {
   const d = await abrir()
   anotar('vaciado', { plantas: (await d.getAll('plantas')).length })
-  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'], 'readwrite')
-  await Promise.all([
-    tx.objectStore('plantas').clear(),
-    tx.objectStore('diario').clear(),
-    tx.objectStore('fotos').clear(),
-    tx.objectStore('ubicaciones').clear(),
-    tx.objectStore('composteras').clear(),
-  ])
+  const tx = d.transaction(['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras', 'ajustes'], 'readwrite')
+  for (const s of ['plantas', 'diario', 'fotos', 'ubicaciones', 'composteras'] as const) tx.objectStore(s).clear()
+  escribirHuertas(tx, [queda], queda.id)
   await tx.done
 }

@@ -8,9 +8,15 @@ import {
   type Compostera,
   type Etapa,
   type EntradaDiario,
+  type Huerta,
   type Planta,
   type Ubicacion,
 } from './tipos'
+import { deLaHuerta, huertaPrincipalDesde, puedeBorrar, resolverActiva } from './huertas'
+import { fijarZonaActiva, zonaActual } from '../zona'
+import { CLAVE_UBICACION, claveCache, seguirHuerta } from '../pronostico/store'
+import type { UbicacionClima } from '../pronostico/tipos'
+import type { Zona } from '../data/types'
 import { avanzar } from './compostera'
 import { acomodoSobre, ordenSobre } from './acomodar'
 import {
@@ -28,11 +34,20 @@ import type { Metodo } from '../data/types'
 // useSyncExternalStore y se refresca entero después de cada escritura — con
 // decenas de plantas el costo es irrelevante y evita toda una clase de bugs
 // de sincronización.
+//
+// `plantas`, `ubicaciones` y `composteras` son las de la huerta activa: así
+// cada pantalla queda acotada sin saber que hay otras. Lo de todas, en `todas`.
 
-interface Estado {
+interface Registros {
   plantas: Planta[]
   ubicaciones: Ubicacion[]
   composteras: Compostera[]
+}
+
+interface Estado extends Registros {
+  huertas: Huerta[]
+  activa: Huerta
+  todas: Registros
   cargado: boolean
   /**
    * No se pudo LEER. Distinto de una huerta vacía, y la diferencia importa: a
@@ -43,7 +58,10 @@ interface Estado {
   errorEscritura?: string
 }
 
-let estado: Estado = { plantas: [], ubicaciones: [], composteras: [], cargado: false }
+const vacio: Registros = { plantas: [], ubicaciones: [], composteras: [] }
+const principal = huertaPrincipalDesde(zonaActual())
+
+let estado: Estado = { ...vacio, huertas: [principal], activa: principal, todas: vacio, cargado: false }
 const oyentes = new Set<() => void>()
 
 function emitir(nuevo: Estado) {
@@ -51,15 +69,57 @@ function emitir(nuevo: Estado) {
   for (const f of oyentes) f()
 }
 
-async function refrescar() {
-  const [plantas, ubicaciones, composteras] = await Promise.all([
-    db.listarPlantas(),
-    db.listarUbicaciones(),
-    db.listarComposteras(),
+/**
+ * Quien usaba la app antes de que hubiera varias huertas no tiene ninguna
+ * guardada: la suya se arma con la zona y el pronóstico que ya tenía, y sus
+ * registros sin `huertaId` quedan en ella. Si guardarla falla, se sigue con la
+ * de memoria: la próxima lectura la vuelve a armar igual.
+ */
+async function leerHuertas(): Promise<{ huertas: Huerta[]; activa: Huerta }> {
+  let [huertas, idActiva] = await Promise.all([
+    db.leerAjuste<Huerta[]>(db.CLAVE_HUERTAS),
+    db.leerAjuste<string>(db.CLAVE_ACTIVA),
   ])
+  if (!huertas?.length) {
+    const clima = await db.leerAjuste<UbicacionClima>(CLAVE_UBICACION)
+    huertas = [huertaPrincipalDesde(zonaActual(), clima, hoyISO())]
+    idActiva = huertas[0].id
+    await db.guardarHuertas(huertas, idActiva).catch(() => {})
+  }
+  return { huertas, activa: resolverActiva(huertas, idActiva) }
+}
+
+async function refrescar() {
+  // las huertas primero y por separado: el pronóstico sale de ellas y no de
+  // las plantas, así una lectura rota de plantas no apaga el aviso de helada
+  const { huertas, activa } = await leerHuertas()
+  fijarZonaActiva(activa.zona)
+  void seguirHuerta(activa.id, activa.ubicacionClima)
+  let registros: Registros
+  try {
+    const [plantas, ubicaciones, composteras] = await Promise.all([
+      db.listarPlantas(),
+      db.listarUbicaciones(),
+      db.listarComposteras(),
+    ])
+    registros = { plantas, ubicaciones, composteras }
+  } catch (e) {
+    emitir({ ...estado, huertas, activa })
+    throw e
+  }
   // por id salen en cualquier orden; por alta, siempre igual
-  composteras.sort((a, b) => a.creada.localeCompare(b.creada))
-  emitir({ ...estado, plantas, ubicaciones, composteras, cargado: true, errorCarga: undefined })
+  registros.composteras.sort((a, b) => a.creada.localeCompare(b.creada))
+  emitir({
+    ...estado,
+    huertas,
+    activa,
+    todas: registros,
+    plantas: deLaHuerta(registros.plantas, activa.id),
+    ubicaciones: deLaHuerta(registros.ubicaciones, activa.id),
+    composteras: deLaHuerta(registros.composteras, activa.id),
+    cargado: true,
+    errorCarga: undefined,
+  })
 }
 
 // `unaVez` y no `arranque ??=`: guardar la promesa rechazada dejaba la sesión
@@ -155,6 +215,7 @@ export async function agregarPlanta(alta: AltaPlanta): Promise<Planta> {
     apodo: alta.apodo?.trim() || undefined,
     variedad: alta.variedad?.trim() || undefined,
     ubicacionId: alta.ubicacionId,
+    huertaId: estado.activa.id,
     sembrada,
     metodo: alta.metodo,
     etapa: etapaInicial(alta.metodo),
@@ -277,7 +338,13 @@ export async function borrarPlanta(id: string) {
 export type DatosUbicacion = Omit<Ubicacion, 'id' | 'creada'>
 
 export async function agregarUbicacion(datos: DatosUbicacion): Promise<Ubicacion> {
-  const u: Ubicacion = { ...datos, nombre: datos.nombre.trim(), id: nuevoId(), creada: new Date().toISOString() }
+  const u: Ubicacion = {
+    ...datos,
+    nombre: datos.nombre.trim(),
+    id: nuevoId(),
+    creada: new Date().toISOString(),
+    huertaId: estado.activa.id,
+  }
   await escribiendo(async () => {
     await db.guardarUbicacion(u)
     await refrescar()
@@ -325,7 +392,13 @@ export async function ordenarUbicaciones(orden: Ubicacion[]) {
 export type DatosCompostera = Omit<Compostera, 'id' | 'creada'>
 
 export async function agregarCompostera(datos: DatosCompostera): Promise<Compostera> {
-  const c: Compostera = { ...datos, nombre: datos.nombre.trim(), id: nuevoId(), creada: new Date().toISOString() }
+  const c: Compostera = {
+    ...datos,
+    nombre: datos.nombre.trim(),
+    id: nuevoId(),
+    creada: new Date().toISOString(),
+    huertaId: estado.activa.id,
+  }
   await escribiendo(async () => {
     await db.guardarCompostera(c)
     await refrescar()
@@ -366,6 +439,84 @@ export async function agregarEntrada(
   await escribiendo(() => db.guardarEntrada(e))
   return e
 }
+
+// ── Huertas ──────────────────────────────────────────────────────────────────
+
+/** Las huertas como están en la base: una acción no puede partir de las de antes de cargar. */
+async function huertasCargadas(): Promise<Huerta[]> {
+  await cargaInicial()
+  return estado.huertas
+}
+
+async function guardarHuertas(huertas: Huerta[], activa: string) {
+  await escribiendo(async () => {
+    await db.guardarHuertas(huertas, activa)
+    await refrescar()
+  })
+}
+
+export async function elegirHuertaActiva(id: string) {
+  const huertas = await huertasCargadas()
+  if (id === estado.activa.id || !huertas.some((h) => h.id === id)) return
+  await guardarHuertas(huertas, id)
+}
+
+export interface AltaHuerta {
+  nombre: string
+  zona: Zona
+}
+
+/** La nueva queda activa: si la creaste, es para cargarle cosas. */
+export async function agregarHuerta(alta: AltaHuerta): Promise<Huerta> {
+  const huertas = await huertasCargadas()
+  const h: Huerta = { id: nuevoId(), nombre: alta.nombre.trim(), zona: alta.zona, creada: new Date().toISOString() }
+  await guardarHuertas([...huertas, h], h.id)
+  return h
+}
+
+export async function actualizarHuerta(h: Huerta) {
+  const huertas = await huertasCargadas()
+  await guardarHuertas(
+    huertas.map((x) => (x.id === h.id ? { ...h, nombre: h.nombre.trim() } : x)),
+    estado.activa.id,
+  )
+}
+
+/** Con todo lo suyo. Si era la activa, pasa a serlo la primera que queda. */
+export async function borrarHuerta(id: string) {
+  const huertas = await huertasCargadas()
+  if (!puedeBorrar(huertas) || !huertas.some((h) => h.id === id)) return
+  const quedan = huertas.filter((h) => h.id !== id)
+  const activa = estado.activa.id === id ? quedan[0].id : estado.activa.id
+  await escribiendo(async () => {
+    await db.borrarHuerta(id, quedan, activa)
+    await refrescar()
+  })
+  await db.borrarAjuste(claveCache(id)).catch(() => {})
+}
+
+export async function cambiarZona(zona: Zona) {
+  // el espejo antes que la base: el calendario cambia al toque
+  fijarZonaActiva(zona)
+  await huertasCargadas()
+  if (estado.activa.zona !== zona) await actualizarHuerta({ ...estado.activa, zona })
+}
+
+/** Dónde pedir el pronóstico de la huerta activa. */
+export async function elegirUbicacionClima(u: UbicacionClima) {
+  await huertasCargadas()
+  await actualizarHuerta({ ...estado.activa, ubicacionClima: u })
+}
+
+/** Vuelve la huerta activa a como estaba antes de activar el pronóstico. */
+export async function sacarUbicacionClima() {
+  await huertasCargadas()
+  const { ubicacionClima: _, ...sin } = estado.activa
+  await actualizarHuerta(sin)
+}
+
+/** Para quien tiene que actuar sobre la huerta activa fuera de React. */
+export const huertaActiva = (): Huerta => estado.activa
 
 /** Después de importar un backup hay que releer todo. */
 export async function recargar() {

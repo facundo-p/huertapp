@@ -13,6 +13,7 @@ import { diasEnEstado, proximoGiro } from '../lib/huerta/compostera'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
+import { ambitoDe } from '../lib/huerta/huertas'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, expuestasAHelada, tareasVisibles } from '../lib/tareas/engine'
 import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
@@ -40,7 +41,7 @@ const SIN_ESPECIES = new Map<string, EspecieEnriquecida>()
 export function MiHuerta() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, composteras, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, activa, cargado, errorCarga } = useHuerta()
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const [abrirAlta, setAbrirAlta] = useState(false)
@@ -89,12 +90,13 @@ export function MiHuerta() {
         clima: indice.db.meta.enriquecido.clima[zona],
         composteras,
         guia,
+        ambito: ambitoDe(activa),
         hoy,
       }),
       estadoTareas,
       hoy,
     )
-  }, [indice, plantas, composteras, guia, zona, estadoTareas, hoy])
+  }, [indice, plantas, composteras, guia, zona, estadoTareas, hoy, activa])
 
   const pendientes = useMemo(() => {
     const cuenta = new Map<string, number>()
