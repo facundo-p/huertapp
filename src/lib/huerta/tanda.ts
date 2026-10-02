@@ -48,6 +48,8 @@ export function dividirTanda(madre: Planta, o: OpcionesDividir): { madre: Planta
     comoEsta: o.comoEsta?.trim() || undefined,
     origenId: raizDe(madre),
     creada: o.creadaHija ?? new Date().toISOString(),
+    // un trasplante no cruza de huerta: los lugares que ofrece son los de la activa
+    ...(madre.huertaId ? { huertaId: madre.huertaId } : {}),
   }
   const descontar = madre.cantidad != null && o.cuantas != null
   return {

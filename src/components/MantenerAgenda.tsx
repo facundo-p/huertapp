@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useEspecies } from '../lib/useEspecies'
-import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
+import { ambitoDe, deLaHuerta } from '../lib/huerta/huertas'
 import { useEstadoTareas, podar } from '../lib/tareas/estado'
-import { construirAgenda } from '../lib/tareas/agenda'
+import { construirAgenda, unirAgendas } from '../lib/tareas/agenda'
 import { guardarAgenda } from '../lib/avisos'
 import { hoyISO } from '../lib/huerta/tipos'
 import { useCompostaje } from '../lib/compostaje'
@@ -18,21 +18,33 @@ import { useCompostaje } from '../lib/compostaje'
  */
 export function MantenerAgenda() {
   const { indice } = useEspecies()
-  const zona = useZona()
-  const { plantas, composteras, cargado } = useHuerta()
+  const { huertas, todas, cargado } = useHuerta()
   const guia = useCompostaje()
   const estado = useEstadoTareas()
 
   useEffect(() => {
     if (!indice || !cargado) return
-    const clima = indice.db.meta.enriquecido.clima[zona]
-    const agenda = construirAgenda(
-      { plantas, porSlug: indice.porSlug, clima, composteras, guia },
-      estado,
-      hoyISO(),
+    // todas y no solo la activa: el aviso de la otra huerta también llega
+    const hoy = hoyISO()
+    const agenda = unirAgendas(
+      huertas.map((h) => ({
+        nombre: h.nombre,
+        avisos: construirAgenda(
+          {
+            plantas: deLaHuerta(todas.plantas, h.id),
+            composteras: deLaHuerta(todas.composteras, h.id),
+            porSlug: indice.porSlug,
+            clima: indice.db.meta.enriquecido.clima[h.zona],
+            guia,
+            ambito: ambitoDe(h),
+          },
+          estado,
+          hoy,
+        ),
+      })),
     )
     void guardarAgenda(agenda)
-  }, [indice, cargado, plantas, composteras, guia, zona, estado])
+  }, [indice, cargado, huertas, todas, guia, estado])
 
   useEffect(() => {
     void podar()

@@ -25,6 +25,11 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Podés tener más de una huerta.** Tocá el nombre arriba en Mi huerta para
+  elegir otra o sumar una nueva: la de casa, la del balcón, la comunitaria.
+  Cada una tiene su zona, su pronóstico, sus lugares y su compost, y los
+  avisos te llegan de todas diciendo de cuál son.
+
 - **Mi huerta tiene un croquis arriba de todo.** Tus lugares dibujados sobre
   una hoja cuadriculada, cada planta en sus celdas. Cada plantita muestra en
   qué anda —todavía no asomó, brote, creciendo o dando cosecha— y, si te pide
@@ -44,6 +49,16 @@ Qué significa cada parte en este proyecto:
   vuelve a armarse solo.
 
 ### Cambiado
+
+- **En Mi huerta, el ＋ de arriba suma un lugar.** Las plantas se suman desde
+  adentro de cada lugar, con «Sumar planta acá»; desde Esta semana y desde la
+  ficha de cada especie se siguen sumando como siempre. Con la huerta vacía,
+  el primer paso es armar un lugar.
+
+- **El backup guarda tus huertas, cada una con su zona y su pronóstico.** Los
+  backups de antes se siguen pudiendo restaurar. Uno nuevo, en cambio, no abre
+  en una versión anterior de la app: si lo vas a restaurar en otro teléfono,
+  actualizalo primero.
 
 - **La app se parece más a un cuaderno de huerta.** El título de cada pantalla
   y los de sus secciones grandes van en letra manuscrita. Lo que se lee de

@@ -8,16 +8,19 @@ import { Croquis } from '../components/Croquis'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { FichaUbicacion } from '../components/FichaUbicacion'
 import { FichaCompostera } from '../components/FichaCompostera'
+import { SelectorHuerta } from '../components/SelectorHuerta'
+import { FichaHuerta } from '../components/FichaHuerta'
 import { useCompostaje } from '../lib/compostaje'
 import { diasEnEstado, proximoGiro } from '../lib/huerta/compostera'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta } from '../lib/huerta/store'
+import { ambitoDe } from '../lib/huerta/huertas'
 import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, expuestasAHelada, tareasVisibles } from '../lib/tareas/engine'
 import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
 import { atencionPorPlanta, copoDeLaSemana, empaquetar, grillaDe, ordenarLugares } from '../lib/huerta/croquis'
-import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Ubicacion } from '../lib/huerta/tipos'
+import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Huerta, type Ubicacion } from '../lib/huerta/tipos'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import { resumenHuerta } from '../lib/huerta/tanda'
 import { agruparPorLugar, pieDelLugar } from '../lib/huerta/lugar'
@@ -30,7 +33,7 @@ import {
   podarPlegado,
   type Plegado,
 } from '../lib/huerta/plegado'
-import { IconoAlerta, IconoCompost, IconoHuerta, IconoTacho } from '../icons'
+import { IconoAlerta, IconoCompost, IconoDesplegar, IconoHuerta, IconoTacho } from '../icons'
 import './MiHuerta.css'
 import { DibujoMaceta } from '../dibujos'
 
@@ -40,13 +43,19 @@ const SIN_ESPECIES = new Map<string, EspecieEnriquecida>()
 export function MiHuerta() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, composteras, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, activa, cargado, errorCarga } = useHuerta()
+  const [eligiendoHuerta, setEligiendoHuerta] = useState(false)
+  // la ficha de la huerta: `null` cerrada, `'nueva'` alta, o la que se edita
+  const [fichaHuerta, setFichaHuerta] = useState<Huerta | 'nueva' | null>(null)
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const [abrirAlta, setAbrirAlta] = useState(false)
   const [ubicacionDelAlta, setUbicacionDelAlta] = useState<string | undefined>()
   const [abrirCompostera, setAbrirCompostera] = useState(false)
-  const [editando, setEditando] = useState<Ubicacion | null>(null)
+  // una sola ficha de lugar para alta y edición: dos montadas repiten `#ubi-nombre` (#181)
+  const [fichaLugar, setFichaLugar] = useState<Ubicacion | 'nuevo' | null>(null)
+  // el recién creado: cuando su tarjeta aparece, se va a ella
+  const [lugarNuevo, setLugarNuevo] = useState<string | null>(null)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
   const [croquisPlegado, setCroquisPlegado] = useState(leerCroquisPlegado)
   // sin guardar: al volver a la pantalla se mira, no se acomoda
@@ -89,12 +98,13 @@ export function MiHuerta() {
         clima: indice.db.meta.enriquecido.clima[zona],
         composteras,
         guia,
+        ambito: ambitoDe(activa),
         hoy,
       }),
       estadoTareas,
       hoy,
     )
-  }, [indice, plantas, composteras, guia, zona, estadoTareas, hoy])
+  }, [indice, plantas, composteras, guia, zona, estadoTareas, hoy, activa])
 
   const pendientes = useMemo(() => {
     const cuenta = new Map<string, number>()
@@ -160,6 +170,13 @@ export function MiHuerta() {
     })
   }
 
+  useEffect(() => {
+    if (!lugarNuevo || !lugares.some((g) => g.ubicacion?.id === lugarNuevo)) return
+    irALugar(lugarNuevo)
+    setLugarNuevo(null)
+    // sin irALugar en las dependencias: cambia en cada render, y lo que importa es que llegó la tarjeta
+  }, [lugares, lugarNuevo])
+
   function sumarPlantaEn(id?: string) {
     setUbicacionDelAlta(id)
     setAbrirAlta(true)
@@ -173,7 +190,19 @@ export function MiHuerta() {
   return (
     <div className={acomoda ? 'pantalla pantalla--acomodando' : 'pantalla'}>
       <Header
-        titulo="Mi huerta"
+        titulo={
+          // siempre botón, aunque haya una sola: es la puerta para sumar otra
+          <button
+            className="huerta__elegir"
+            aria-haspopup="dialog"
+            aria-label={`${activa.nombre}: cambiar de huerta o sumar otra`}
+            disabled={acomoda}
+            onClick={() => setEligiendoHuerta(true)}
+          >
+            {activa.nombre}
+            <IconoDesplegar size={24} className="huerta__elegir-icono" />
+          </button>
+        }
         sobretitulo={
           acomoda ? 'Acomodando el croquis' : listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'
         }
@@ -181,12 +210,10 @@ export function MiHuerta() {
         {/* La acción primaria, en ocre, donde la pone el diseño. Va con el
             glifo solo: con la palabra "Sumar", el título y los dos accesos no
             entran en 390 px y "Mi huerta" se parte en dos líneas. */}
-        {hayLista && !acomoda && (
-          <button
-            className="huerta__sumar"
-            aria-label="Sumar una planta"
-            onClick={() => sumarPlantaEn(undefined)}
-          >
+        {/* también con la huerta vacía: el primer paso es armar un lugar.
+            Las plantas se suman desde adentro de cada uno. */}
+        {listo && !acomoda && (
+          <button className="huerta__sumar" aria-label="Sumar un lugar" onClick={() => setFichaLugar('nuevo')}>
             ＋
           </button>
         )}
@@ -198,11 +225,11 @@ export function MiHuerta() {
         {listo && lugares.length === 0 && (
           <EmptyState
             Dibujo={DibujoMaceta}
-            titulo="Todavía no plantaste nada"
-            texto="O sí, pero no me contaste. Sumá lo que tengas y te voy siguiendo el ciclo."
+            titulo="Todavía no armaste ningún lugar"
+            texto="Empezá por dónde plantás: un bancal, unas macetas, la almaciguera. Después le sumás lo que tenga adentro."
             accion={
-              <button className="huerta__cta" onClick={() => sumarPlantaEn(undefined)}>
-                Sumar la primera
+              <button className="huerta__cta" onClick={() => setFichaLugar('nuevo')}>
+                Armá tu primer lugar
               </button>
             }
           />
@@ -260,7 +287,7 @@ export function MiHuerta() {
                   pie={pieDelLugar(tareas, lista, indice?.porSlug ?? SIN_ESPECIES)}
                   abierta={!plegado.ubicacionesCerradas.includes(id)}
                   onAlternar={() => guardar(alternarUbicacion(plegado, id))}
-                  onEditar={() => ubicacion && setEditando(ubicacion)}
+                  onEditar={() => ubicacion && setFichaLugar(ubicacion)}
                   onSumarPlanta={() => sumarPlantaEn(ubicacion?.id)}
                 />
               )
@@ -320,10 +347,28 @@ export function MiHuerta() {
         onCerrar={() => setAbrirAlta(false)}
       />
       <FichaCompostera abierto={abrirCompostera} onCerrar={() => setAbrirCompostera(false)} />
+      <SelectorHuerta
+        abierto={eligiendoHuerta}
+        onCerrar={() => setEligiendoHuerta(false)}
+        onEditar={(h) => {
+          setEligiendoHuerta(false)
+          setFichaHuerta(h)
+        }}
+        onNueva={() => {
+          setEligiendoHuerta(false)
+          setFichaHuerta('nueva')
+        }}
+      />
+      <FichaHuerta
+        abierto={!!fichaHuerta}
+        huerta={fichaHuerta && fichaHuerta !== 'nueva' ? fichaHuerta : undefined}
+        onCerrar={() => setFichaHuerta(null)}
+      />
       <FichaUbicacion
-        abierto={!!editando}
-        ubicacion={editando ?? undefined}
-        onCerrar={() => setEditando(null)}
+        abierto={!!fichaLugar}
+        ubicacion={fichaLugar && fichaLugar !== 'nuevo' ? fichaLugar : undefined}
+        onCerrar={() => setFichaLugar(null)}
+        onListo={(u) => fichaLugar === 'nuevo' && setLugarNuevo(u.id)}
       />
     </div>
   )

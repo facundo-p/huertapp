@@ -91,6 +91,12 @@ describe('dividirTanda', () => {
     expect(hija.origenId).toBe('madre')
     expect(nieta.origenId).toBe('madre')
   })
+
+  it('la hija queda en la huerta de la madre', () => {
+    expect(dividir(planta({ huertaId: 'balcon' })).hija.huertaId).toBe('balcon')
+    // la principal no lleva id: la hija tampoco, así sigue siendo de ella
+    expect(dividir(planta()).hija).not.toHaveProperty('huertaId')
+  })
 })
 
 describe('moverTanda', () => {

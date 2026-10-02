@@ -9,7 +9,15 @@ import { Trasplantar } from '../components/Trasplantar'
 import { CambiarCantidad } from '../components/CambiarCantidad'
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
-import { useHuerta, agregarEntrada, borrarPlanta, cambiarEtapa, sinRomper } from '../lib/huerta/store'
+import {
+  useHuerta,
+  agregarEntrada,
+  borrarPlanta,
+  cambiarEtapa,
+  elegirHuertaActiva,
+  sinRomper,
+} from '../lib/huerta/store'
+import { huertaDe } from '../lib/huerta/huertas'
 import { partesDe, textoCantidad } from '../lib/huerta/tanda'
 import * as db from '../lib/huerta/db'
 import { prepararFoto, FotoInvalida } from '../lib/huerta/fotos'
@@ -58,7 +66,7 @@ export function DetallePlanta() {
   const navegar = useNavigate()
   const { indice } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, cargado } = useHuerta()
+  const { plantas, ubicaciones, todas, cargado } = useHuerta()
 
   const [entradas, setEntradas] = useState<EntradaDiario[] | null>(null)
   const [abrirDiario, setAbrirDiario] = useState(false)
@@ -66,6 +74,12 @@ export function DetallePlanta() {
   const [abrirCantidad, setAbrirCantidad] = useState(false)
 
   const planta = plantas.find((p) => p.id === id)
+  // de otra huerta (se llega por el historial): se pasa a esa, que si no la
+  // zona, los lugares y el trasplante serían los de la que estaba abierta
+  const ajena = planta ? undefined : todas.plantas.find((p) => p.id === id)
+  useEffect(() => {
+    if (ajena) sinRomper(elegirHuertaActiva(huertaDe(ajena)))
+  }, [ajena])
 
   const recargarDiario = useCallback(async () => {
     if (!id) return
@@ -77,7 +91,7 @@ export function DetallePlanta() {
     void recargarDiario()
   }, [recargarDiario])
 
-  if (!cargado) {
+  if (!cargado || ajena) {
     return (
       <div className="pantalla pantalla--detalle">
         <Header titulo="Cargando…" volver />

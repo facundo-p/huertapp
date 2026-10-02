@@ -21,6 +21,32 @@
   transform: scale(0.92);
 }
 
+/* El título es la huerta abierta y se toca para cambiarla. Sigue siendo
+   título: misma letra, sin caja; el chevron dice que se despliega. */
+.huerta__elegir {
+  /* en línea y no flex: con un nombre largo, el chevron sigue a la última
+     palabra en vez de quedar suelto a la derecha del renglón */
+  display: inline;
+  min-height: var(--tap-min);
+  text-align: left;
+  line-height: inherit;
+}
+
+.huerta__elegir-icono {
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: -0.05em;
+  color: var(--tinta-media);
+}
+
+.huerta__elegir:disabled {
+  cursor: default;
+}
+
+.huerta__elegir:disabled .huerta__elegir-icono {
+  visibility: hidden;
+}
+
 /* ── Referencia de la línea del año ──
    Panel hundido y no reglado: es una nota de lectura, no un ítem de la lista.
    Cada muestra con su palabra: si el wrap las separa, la leyenda deja de decir
@@ -130,6 +156,8 @@
   align-items: center;
   justify-content: center;
   min-height: 48px;
+  /* sin esto, el texto del vacío toca el borde de la píldora */
+  padding-inline: var(--esp-5);
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
   color: var(--papel);

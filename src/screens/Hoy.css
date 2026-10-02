@@ -22,6 +22,13 @@
   color: var(--tinta-suave);
 }
 
+.hoy-cab__huerta {
+  margin-top: var(--esp-1);
+  font-size: var(--texto-s);
+  font-weight: 700;
+  color: var(--tinta-media);
+}
+
 .clima {
   display: flex;
   align-items: center;

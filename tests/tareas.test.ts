@@ -169,6 +169,17 @@ describe('motor de tareas', () => {
     expect(motor([tomate], 'conurbano', '2026-01-15').some((t) => t.tipo === 'helada')).toBe(false)
   })
 
+  it('la helada de una huerta no es la de otra, pero la principal conserva su id', () => {
+    const tomate = planta({ slug: 'tomate', etapa: 'creciendo', germino: HOY })
+    const helada = (ambito?: string) =>
+      derivarTareas({ plantas: [tomate], porSlug, clima: clima.conurbano, hoy: HOY, ambito } as EntradaMotor).find(
+        (t) => t.tipo === 'helada',
+      )!.id
+    // sin ámbito, el id de siempre: lo ya marcado como hecho sigue valiendo
+    expect(helada()).toMatch(/^helada:[^:]+$/)
+    expect(helada('balcon')).toBe(helada().replace('helada:', 'helada:balcon:'))
+  })
+
   it('la zona cambia el aviso de helada', () => {
     const tomate = planta({ slug: 'tomate', etapa: 'creciendo', germino: HOY })
     // a principios de octubre CABA ya está tranquila (4 % la década que viene)

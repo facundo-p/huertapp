@@ -62,3 +62,14 @@
   color: var(--tinta-media);
 }
 
+/* la última helada de cada zona: la usa `ElegirZona` */
+.opcion__helada {
+  margin-top: 2px;
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  color: var(--terracota);
+}
+
+.opcion.es-elegida .opcion__helada {
+  color: var(--terracota-texto);
+}
