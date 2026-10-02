@@ -156,6 +156,8 @@
   align-items: center;
   justify-content: center;
   min-height: 48px;
+  /* sin esto, el texto del vacío toca el borde de la píldora */
+  padding-inline: var(--esp-5);
   border-radius: var(--radio-chip);
   background: var(--verde-hoja);
   color: var(--papel);

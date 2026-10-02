@@ -52,7 +52,10 @@ export function MiHuerta() {
   const [abrirAlta, setAbrirAlta] = useState(false)
   const [ubicacionDelAlta, setUbicacionDelAlta] = useState<string | undefined>()
   const [abrirCompostera, setAbrirCompostera] = useState(false)
-  const [editando, setEditando] = useState<Ubicacion | null>(null)
+  // una sola ficha de lugar para alta y edición: dos montadas repiten `#ubi-nombre` (#181)
+  const [fichaLugar, setFichaLugar] = useState<Ubicacion | 'nuevo' | null>(null)
+  // el recién creado: cuando su tarjeta aparece, se va a ella
+  const [lugarNuevo, setLugarNuevo] = useState<string | null>(null)
   const [plegado, setPlegado] = useState<Plegado>(leerPlegado)
   const [croquisPlegado, setCroquisPlegado] = useState(leerCroquisPlegado)
   // sin guardar: al volver a la pantalla se mira, no se acomoda
@@ -167,6 +170,13 @@ export function MiHuerta() {
     })
   }
 
+  useEffect(() => {
+    if (!lugarNuevo || !lugares.some((g) => g.ubicacion?.id === lugarNuevo)) return
+    irALugar(lugarNuevo)
+    setLugarNuevo(null)
+    // sin irALugar en las dependencias: cambia en cada render, y lo que importa es que llegó la tarjeta
+  }, [lugares, lugarNuevo])
+
   function sumarPlantaEn(id?: string) {
     setUbicacionDelAlta(id)
     setAbrirAlta(true)
@@ -200,12 +210,10 @@ export function MiHuerta() {
         {/* La acción primaria, en ocre, donde la pone el diseño. Va con el
             glifo solo: con la palabra "Sumar", el título y los dos accesos no
             entran en 390 px y "Mi huerta" se parte en dos líneas. */}
-        {hayLista && !acomoda && (
-          <button
-            className="huerta__sumar"
-            aria-label="Sumar una planta"
-            onClick={() => sumarPlantaEn(undefined)}
-          >
+        {/* también con la huerta vacía: el primer paso es armar un lugar.
+            Las plantas se suman desde adentro de cada uno. */}
+        {listo && !acomoda && (
+          <button className="huerta__sumar" aria-label="Sumar un lugar" onClick={() => setFichaLugar('nuevo')}>
             ＋
           </button>
         )}
@@ -217,11 +225,11 @@ export function MiHuerta() {
         {listo && lugares.length === 0 && (
           <EmptyState
             Dibujo={DibujoMaceta}
-            titulo="Todavía no plantaste nada"
-            texto="O sí, pero no me contaste. Sumá lo que tengas y te voy siguiendo el ciclo."
+            titulo="Todavía no armaste ningún lugar"
+            texto="Empezá por dónde plantás: un bancal, unas macetas, la almaciguera. Después le sumás lo que tenga adentro."
             accion={
-              <button className="huerta__cta" onClick={() => sumarPlantaEn(undefined)}>
-                Sumar la primera
+              <button className="huerta__cta" onClick={() => setFichaLugar('nuevo')}>
+                Armá tu primer lugar
               </button>
             }
           />
@@ -279,7 +287,7 @@ export function MiHuerta() {
                   pie={pieDelLugar(tareas, lista, indice?.porSlug ?? SIN_ESPECIES)}
                   abierta={!plegado.ubicacionesCerradas.includes(id)}
                   onAlternar={() => guardar(alternarUbicacion(plegado, id))}
-                  onEditar={() => ubicacion && setEditando(ubicacion)}
+                  onEditar={() => ubicacion && setFichaLugar(ubicacion)}
                   onSumarPlanta={() => sumarPlantaEn(ubicacion?.id)}
                 />
               )
@@ -357,9 +365,10 @@ export function MiHuerta() {
         onCerrar={() => setFichaHuerta(null)}
       />
       <FichaUbicacion
-        abierto={!!editando}
-        ubicacion={editando ?? undefined}
-        onCerrar={() => setEditando(null)}
+        abierto={!!fichaLugar}
+        ubicacion={fichaLugar && fichaLugar !== 'nuevo' ? fichaLugar : undefined}
+        onCerrar={() => setFichaLugar(null)}
+        onListo={(u) => fichaLugar === 'nuevo' && setLugarNuevo(u.id)}
       />
     </div>
   )

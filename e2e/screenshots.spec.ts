@@ -227,6 +227,17 @@ const TOMAS: Toma[] = [
   },
   { nombre: 'huerta-vacia', ruta: '/#/huerta' },
   {
+    // el ＋ de arriba suma un lugar: la ficha en alta, con la demo detrás
+    nombre: 'lugar-nuevo',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.getByRole('button', { name: 'Sumar un lugar' }).click()
+      await page.locator('dialog.hoja[open]').getByLabel('¿Cómo le decís?').fill('Maceta de la ventana')
+    },
+  },
+  {
     // la lista de huertas con la demo y una segunda, vacía, en otra zona
     nombre: 'huertas-selector',
     ruta: '/#/huerta',

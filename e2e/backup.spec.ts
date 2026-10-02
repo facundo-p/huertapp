@@ -47,7 +47,7 @@ test('el backup da la vuelta completa: exportar, borrar y restaurar', async ({ p
   page.once('dialog', (d) => d.accept())
   await page.getByRole('button', { name: /Borrar todas mis plantas/ }).click()
   await page.goto('/#/huerta')
-  await expect(page.getByText(/Todavía no plantaste nada/)).toBeVisible()
+  await expect(page.getByText(/Todavía no armaste ningún lugar/)).toBeVisible()
 
   // 4 · restaurar desde el archivo
   await page.goto('/#/ajustes')

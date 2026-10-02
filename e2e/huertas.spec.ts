@@ -33,7 +33,7 @@ test('sumar una huerta, pasar de una a otra y borrarla', async ({ page }) => {
   await hoja(page).getByRole('radio', { name: /Núcleo urbano/ }).click()
   await hoja(page).getByRole('button', { name: 'Sumar esta huerta' }).click()
   await expect(titulo(page)).toHaveText('El balcón')
-  await expect(page.getByText(/Todavía no plantaste nada/)).toBeVisible()
+  await expect(page.getByText(/Todavía no armaste ningún lugar/)).toBeVisible()
   await expect(page.getByRole('link', { name: /Los del cajón/ })).toHaveCount(0)
 
   // 2 · la zona sigue a la huerta abierta, en Ajustes y en el calendario
@@ -82,16 +82,38 @@ test('lo que se suma va a la huerta abierta, y renombrarla no lo mueve', async (
   await hoja(page).getByRole('button', { name: 'Sumar esta huerta' }).click()
   await expect(titulo(page)).toHaveText('La terraza')
 
-  await page.getByRole('button', { name: 'Sumar la primera' }).click()
+  // vacía: primero un lugar, y la planta desde adentro de él
+  await page.getByRole('button', { name: 'Armá tu primer lugar' }).click()
+  await hoja(page).getByLabel('¿Cómo le decís?').fill('Cajón de la baranda')
+  await hoja(page).getByRole('button', { name: 'Sumar este lugar' }).click()
+  const lista = page.getByRole('region', { name: 'Por lugar, con sus fechas' })
+  await lista.getByRole('button', { name: /Sumar planta acá/ }).click()
   await hoja(page).getByRole('searchbox', { name: '¿Qué plantaste?' }).fill('rúcula')
   await hoja(page).getByRole('button', { name: /^Rúcula$/ }).click()
   await hoja(page).getByRole('button', { name: 'Listo, la planté' }).click()
-  await expect(page.getByRole('link', { name: /Rúcula/ }).first()).toBeVisible()
+  await expect(lista.getByRole('link', { name: /Rúcula/ })).toBeVisible()
+  await expect(lista.getByText('Cajón de la baranda')).toBeVisible()
 
   await titulo(page).click()
   await hoja(page).getByRole('button', { name: 'Editar La terraza' }).click()
   await hoja(page).getByLabel('¿Cómo le decís?').fill('La terraza de arriba')
   await hoja(page).getByRole('button', { name: 'Guardar los cambios' }).click()
   await expect(titulo(page)).toHaveText('La terraza de arriba')
-  await expect(page.getByRole('link', { name: /Rúcula/ }).first()).toBeVisible()
+  await expect(lista.getByRole('link', { name: /Rúcula/ })).toBeVisible()
+})
+
+test('el ＋ de Mi huerta suma un lugar y lleva a su tarjeta, lista para sumarle plantas', async ({ page }) => {
+  await conDemo(page)
+  await page.goto('/#/huerta')
+  await page.getByRole('button', { name: 'Sumar un lugar' }).click()
+  await expect(hoja(page).getByRole('heading', { name: 'Un lugar nuevo' })).toBeVisible()
+  await hoja(page).getByLabel('¿Cómo le decís?').fill('Maceta de la ventana')
+  await hoja(page).getByRole('button', { name: 'Sumar este lugar' }).click()
+  await expect(hoja(page)).toHaveCount(0)
+
+  // aparece vacío, con su puerta para sumarle plantas, y el foco va a él
+  const tarjeta = page.locator('[id^="tarjeta-lugar-"]', { hasText: 'Maceta de la ventana' })
+  await expect(tarjeta).toBeVisible()
+  await expect(tarjeta.getByRole('button', { name: /Sumar planta acá/ })).toBeVisible()
+  await expect(tarjeta.locator('.lugar__plegar')).toBeFocused()
 })

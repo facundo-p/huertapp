@@ -200,7 +200,7 @@ test('un import que falla a la mitad deja intacto lo que ya había', async ({ pa
  * "No pude leer" y "no tenés nada" no son lo mismo, y la app los mostraba igual.
  *
  * `listo = cargado && !cargando` dejaba la pantalla en blanco si la carga
- * fallaba, y si devolvía vacío salía "Todavía no plantaste nada" — el mismo
+ * fallaba, y si devolvía vacío salía "Todavía no armaste ningún lugar" — el mismo
  * cartel que ve alguien que recién empieza. Quien perdió el acceso a su huerta
  * leía que nunca había plantado nada, y de ahí a "se me borró todo" hay un paso.
  *
@@ -220,7 +220,7 @@ test('cuando no puede leer la base, lo dice en vez de mostrar la huerta vacía',
   // el nombre del error es lo que la persona puede copiar y mandar
   await expect(page.getByText(/UnknownError/)).toBeVisible()
   // y sobre todo: NO le decimos que nunca plantó nada
-  await expect(page.getByText(/Todavía no plantaste nada/)).toHaveCount(0)
+  await expect(page.getByText(/Todavía no armaste ningún lugar/)).toHaveCount(0)
 })
 
 /**
