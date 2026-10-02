@@ -45,6 +45,11 @@ Qué significa cada parte en este proyecto:
 
 ### Cambiado
 
+- **El backup guarda tus huertas, cada una con su zona y su pronóstico.** Los
+  backups de antes se siguen pudiendo restaurar. Uno nuevo, en cambio, no abre
+  en una versión anterior de la app: si lo vas a restaurar en otro teléfono,
+  actualizalo primero.
+
 - **La app se parece más a un cuaderno de huerta.** El título de cada pantalla
   y los de sus secciones grandes van en letra manuscrita. Lo que se lee de
   corrido, y los títulos chicos como los de la ficha, van en una letra redonda.

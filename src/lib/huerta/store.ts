@@ -515,8 +515,9 @@ export async function sacarUbicacionClima() {
   await actualizarHuerta(sin)
 }
 
-/** Para quien tiene que actuar sobre la huerta activa fuera de React. */
+/** Para quien tiene que actuar sobre las huertas fuera de React. */
 export const huertaActiva = (): Huerta => estado.activa
+export const listaDeHuertas = (): Huerta[] => estado.huertas
 
 /** Después de importar un backup hay que releer todo. */
 export async function recargar() {

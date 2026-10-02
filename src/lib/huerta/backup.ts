@@ -1,12 +1,20 @@
 import * as db from './db'
-import { hoyISO, type Compostera, type EntradaDiario, type Foto, type Planta, type Ubicacion } from './tipos'
+import {
+  hoyISO,
+  type Compostera,
+  type EntradaDiario,
+  type Foto,
+  type Huerta,
+  type Planta,
+  type Ubicacion,
+} from './tipos'
 import { resumenHuerta } from './tanda'
 import { celdasSanas, planoSano } from './croquis'
 import { ZONA_DEFAULT } from '../zona'
-import { huertaActiva } from './store'
-import { HUERTA_PRINCIPAL, huertaPrincipalDesde } from './huertas'
+import { huertaActiva, listaDeHuertas } from './store'
+import { HUERTA_PRINCIPAL, huertaDe, huertaPrincipalDesde, resolverActiva } from './huertas'
 import type { UbicacionClima } from '../pronostico/tipos'
-import type { Zona } from '../data/types'
+import { ZONAS, type Zona } from '../data/types'
 
 /**
  * Backup en un solo archivo JSON, fotos incluidas.
@@ -17,7 +25,8 @@ import type { Zona } from '../data/types'
  * seguridad más simple que funciona sin cuenta ni servidor.
  */
 
-export const VERSION_BACKUP = 1
+// 2 sumó las huertas: cada una con su zona y su pronóstico
+export const VERSION_BACKUP = 2
 
 const CLAVE_ULTIMO = 'ultimo-backup'
 
@@ -27,8 +36,11 @@ export interface Backup {
   app: 'huerta-gba'
   version: number
   exportado: string
-  zona: Zona
-  /** dónde pedir el pronóstico; opcional: solo si el usuario lo activó */
+  /** siempre al menos una; un v1 llega con la principal armada por `aV2` */
+  huertas: Huerta[]
+  huertaActiva?: string
+  /** solo en v1: desde la v2 viven en cada huerta */
+  zona?: Zona
   ubicacionClima?: UbicacionClima
   plantas: Planta[]
   diario: EntradaDiario[]
@@ -56,17 +68,17 @@ export async function armarBackup(): Promise<Backup> {
     db.listarFotos(),
     db.listarComposteras(),
   ])
-  // todavía hay una sola huerta: la v1 alcanza para contarla
-  const { zona, ubicacionClima } = huertaActiva()
+  // el id explícito: en el archivo no hay «sin huerta», así se lee solo
+  const conHuerta = <T extends { huertaId?: string }>(x: T): T => ({ ...x, huertaId: huertaDe(x) })
   return {
     app: 'huerta-gba',
     version: VERSION_BACKUP,
     exportado: new Date().toISOString(),
-    zona,
-    ...(ubicacionClima ? { ubicacionClima } : {}),
-    plantas,
+    huertas: listaDeHuertas(),
+    huertaActiva: huertaActiva().id,
+    plantas: plantas.map(conHuerta),
     diario,
-    ubicaciones,
+    ubicaciones: ubicaciones.map(conHuerta),
     fotos: await Promise.all(
       fotos.map(async (f: Foto) => ({
         id: f.id,
@@ -77,7 +89,7 @@ export async function armarBackup(): Promise<Backup> {
         datos: await aDataURL(f.blob),
       })),
     ),
-    composteras,
+    composteras: composteras.map(conHuerta),
   }
 }
 
@@ -133,12 +145,42 @@ export function validar(dato: unknown): Backup {
   if (b.composteras !== undefined && !Array.isArray(b.composteras)) {
     throw new BackupInvalido('Al backup se le rompió "composteras".')
   }
+  const v2 = aV2(b as Backup)
+  validarHuertas(v2)
   // lo del croquis no frena el import: lo roto se descarta y se dibuja el nivel 0
   return {
-    ...b,
-    plantas: b.plantas!.map((p) => sinRoto(p, 'celdas', celdasSanas)),
-    ubicaciones: b.ubicaciones!.map((u) => sinRoto(u, 'plano', planoSano)),
-  } as Backup
+    ...v2,
+    plantas: v2.plantas.map((p) => sinRoto(p, 'celdas', celdasSanas)),
+    ubicaciones: v2.ubicaciones.map((u) => sinRoto(u, 'plano', planoSano)),
+  }
+}
+
+/**
+ * Un v1 trae una sola huerta implícita: se arma la principal con su zona y su
+ * pronóstico. Sus registros no tienen `huertaId` y así ya son de ella.
+ */
+export function aV2(b: Backup): Backup {
+  if (b.version >= 2) return b
+  const { zona, ubicacionClima, ...resto } = b
+  return {
+    ...resto,
+    huertas: [huertaPrincipalDesde(zona ?? ZONA_DEFAULT, ubicacionClima, b.exportado?.slice(0, 10) || hoyISO())],
+    huertaActiva: HUERTA_PRINCIPAL,
+  }
+}
+
+/** Una planta de una huerta que no vino quedaría en ninguna: mejor no importar. */
+function validarHuertas(b: Backup) {
+  const sanas =
+    Array.isArray(b.huertas) &&
+    b.huertas.length > 0 &&
+    b.huertas.every((h) => h && typeof h.id === 'string' && typeof h.nombre === 'string' && ZONAS.includes(h.zona))
+  if (!sanas) throw new BackupInvalido('Al backup se le rompió "huertas".')
+  const ids = new Set(b.huertas.map((h) => h.id))
+  const registros = [...b.plantas, ...b.ubicaciones, ...(b.composteras ?? [])]
+  if (registros.some((x) => !ids.has(huertaDe(x)))) {
+    throw new BackupInvalido('El backup tiene cosas de una huerta que no viene en el archivo.')
+  }
 }
 
 function sinRoto<T>(x: T, campo: string, sanar: (v: unknown) => unknown): T {
@@ -156,7 +198,7 @@ export interface ResumenBackup {
   fotos: number
   composteras: number
   exportado: string
-  zona: Zona
+  huertas: { nombre: string; zona: Zona }[]
 }
 
 export const resumir = (b: Backup): ResumenBackup => ({
@@ -166,7 +208,7 @@ export const resumir = (b: Backup): ResumenBackup => ({
   fotos: b.fotos.length,
   composteras: b.composteras?.length ?? 0,
   exportado: b.exportado,
-  zona: b.zona,
+  huertas: b.huertas.map(({ nombre, zona }) => ({ nombre, zona })),
 })
 
 export async function leerArchivo(archivo: File): Promise<Backup> {
@@ -203,8 +245,8 @@ export async function importar(b: Backup): Promise<void> {
     ubicaciones: b.ubicaciones,
     fotos,
     composteras: b.composteras ?? [],
-    // el import reemplaza todo: también la zona y la ubicación del pronóstico
-    huertas: [huertaPrincipalDesde(b.zona ?? ZONA_DEFAULT, b.ubicacionClima, hoyISO())],
-    activa: HUERTA_PRINCIPAL,
+    // el import reemplaza todo: también las huertas, con su zona y su pronóstico
+    huertas: b.huertas,
+    activa: resolverActiva(b.huertas, b.huertaActiva).id,
   })
 }

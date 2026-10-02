@@ -573,6 +573,16 @@ function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; re
                   <dd>{pendiente.resumen.composteras}</dd>
                 </div>
               )}
+              {pendiente.resumen.huertas.length > 1 && (
+                <div>
+                  <dt>Huertas</dt>
+                  <dd>
+                    {pendiente.resumen.huertas
+                      .map((h) => `${h.nombre} (${ZONAS_INFO[h.zona].etiqueta.toLowerCase()})`)
+                      .join(' · ')}
+                  </dd>
+                </div>
+              )}
             </dl>
             <p className="ajustes__bajada">
               Exportado el{' '}
@@ -580,7 +590,9 @@ function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; re
                 dateStyle: 'long',
                 timeStyle: 'short',
               }).format(new Date(pendiente.resumen.exportado))}
-              , zona {ZONAS_INFO[pendiente.resumen.zona]?.etiqueta.toLowerCase() ?? '—'}.
+              {pendiente.resumen.huertas.length === 1 &&
+                `, zona ${ZONAS_INFO[pendiente.resumen.huertas[0].zona].etiqueta.toLowerCase()}`}
+              .
             </p>
           </>
         )}
