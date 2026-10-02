@@ -25,6 +25,11 @@ Qué significa cada parte en este proyecto:
 
 ### Agregado
 
+- **Podés tener más de una huerta.** Tocá el nombre arriba en Mi huerta para
+  elegir otra o sumar una nueva: la de casa, la del balcón, la comunitaria.
+  Cada una tiene su zona, su pronóstico, sus lugares y su compost, y los
+  avisos te llegan de todas diciendo de cuál son.
+
 - **Mi huerta tiene un croquis arriba de todo.** Tus lugares dibujados sobre
   una hoja cuadriculada, cada planta en sus celdas. Cada plantita muestra en
   qué anda —todavía no asomó, brote, creciendo o dando cosecha— y, si te pide

@@ -7,6 +7,7 @@ import {
   huertaPrincipalDesde,
   puedeBorrar,
   resolverActiva,
+  textoBorrarHuerta,
 } from '../src/lib/huerta/huertas'
 import type { Huerta } from '../src/lib/huerta/tipos'
 
@@ -49,5 +50,17 @@ describe('varias huertas', () => {
   it('la principal no lleva ámbito, así sus tareas conservan el id', () => {
     expect(ambitoDe(huerta(HUERTA_PRINCIPAL))).toBeUndefined()
     expect(ambitoDe(huerta('balcon'))).toBe('balcon')
+  })
+
+  it('antes de borrar una huerta dice cuánto se pierde', () => {
+    expect(textoBorrarHuerta('El balcón', { plantas: 7, lugares: 2, composteras: 1 })).toBe(
+      '¿Borrar «El balcón»? Se borran 7 plantas con su diario, 2 lugares y 1 compostera. No se puede deshacer.',
+    )
+    expect(textoBorrarHuerta('El balcón', { plantas: 1, lugares: 0, composteras: 0 })).toBe(
+      '¿Borrar «El balcón»? Se borra 1 planta con su diario. No se puede deshacer.',
+    )
+    expect(textoBorrarHuerta('La terraza', { plantas: 0, lugares: 0, composteras: 0 })).toBe(
+      '¿Borrar «La terraza»? No tiene nada cargado. No se puede deshacer.',
+    )
   })
 })

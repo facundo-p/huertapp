@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Header } from '../components/Header'
 import { BottomSheet } from '../components/BottomSheet'
+import { ElegirZona } from '../components/ElegirZona'
 import { useZona, ZONAS_INFO } from '../lib/zona'
 import { elegirTema, usePreferenciaTema, TEMAS_INFO, type Preferencia } from '../lib/tema'
-import { ZONAS, type Zona } from '../lib/data/types'
+import type { Zona } from '../lib/data/types'
 import {
   cambiarZona,
   elegirUbicacionClima,
@@ -86,15 +87,17 @@ function SeccionTema({ preferencia }: { preferencia: Preferencia }) {
 export function Ajustes() {
   const zona = useZona()
   const preferencia = usePreferenciaTema()
-  const { plantas } = useHuerta()
+  const { plantas, huertas, activa } = useHuerta()
+  // con una sola, «tu huerta» alcanza; con varias hay que decir de cuál se habla
+  const cual = huertas.length > 1 ? activa.nombre : undefined
 
   return (
     <div className="pantalla pantalla--detalle">
       <Header titulo="Ajustes" volver />
       <div className="pantalla__cuerpo">
         <SeccionTema preferencia={preferencia} />
-        <SeccionZona zona={zona} />
-        <SeccionPronostico zona={zona} />
+        <SeccionZona zona={zona} huerta={cual} />
+        <SeccionPronostico zona={zona} huerta={cual} />
         <SeccionInstalar />
         <SeccionBackup cuantasPlantas={plantas.length} resumen={resumenHuerta(plantas)} />
         <SeccionAvisos />
@@ -121,37 +124,22 @@ function PieVersion() {
 
 /* ---------- zona ---------- */
 
-function SeccionZona({ zona }: { zona: Zona }) {
+function SeccionZona({ zona, huerta }: { zona: Zona; huerta?: string }) {
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo mano">¿Dónde está tu huerta?</h2>
+      <h2 className="ajustes__titulo mano">{huerta ? `¿Dónde está ${huerta}?` : '¿Dónde está tu huerta?'}</h2>
+      {huerta && (
+        <p className="ajustes__bajada">
+          Es la huerta que tenés abierta. Las otras se eligen tocando el nombre arriba en Mi huerta.
+        </p>
+      )}
       <p className="ajustes__bajada">
         Dentro del GBA la última helada cambia más de un mes según dónde estés, y de eso depende
         todo el calendario. En el centro porteño casi no hiela; en La Plata o Cañuelas, hasta bien
         entrada la primavera.
       </p>
 
-      <div className="opciones" role="radiogroup" aria-label="Zona de la huerta">
-        {ZONAS.map((z) => {
-          const info = ZONAS_INFO[z]
-          return (
-            <button
-              key={z}
-              className={`opcion ${zona === z ? 'es-elegida' : ''}`}
-              onClick={() => sinRomper(cambiarZona(z))}
-              role="radio"
-              aria-checked={zona === z}
-            >
-              <span className="opcion__marca" aria-hidden />
-              <span className="opcion__textos">
-                <span className="opcion__nombre">{info.etiqueta}</span>
-                <span className="opcion__detalle">{info.detalle}</span>
-                <span className="opcion__helada">{info.helada}</span>
-              </span>
-            </button>
-          )
-        })}
-      </div>
+      <ElegirZona zona={zona} onElegir={(z) => sinRomper(cambiarZona(z))} />
 
       <p className="ajustes__nota">
         <IconoAlerta size={15} />
@@ -171,7 +159,8 @@ function SeccionZona({ zona }: { zona: Zona }) {
  * esto la app no toca la red. Tres caminos, del más reservado al más fino:
  * la estación de la zona, una localidad buscada, o el GPS.
  */
-function SeccionPronostico({ zona }: { zona: Zona }) {
+function SeccionPronostico({ zona, huerta }: { zona: Zona; huerta?: string }) {
+  const titulo = huerta ? `El pronóstico de ${huerta}` : 'El pronóstico'
   const { ubicacion } = usePronostico()
   const [eligiendo, setEligiendo] = useState(false)
   const [busqueda, setBusqueda] = useState('')
@@ -229,7 +218,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
   if (ubicacion && !eligiendo) {
     return (
       <section className="ajustes__seccion">
-        <h2 className="ajustes__titulo mano">El pronóstico</h2>
+        <h2 className="ajustes__titulo mano">{titulo}</h2>
         <p className="ajustes__bajada">
           Se pide para <strong>{ubicacion.etiqueta}</strong>, directo de tu teléfono a{' '}
           {proveedor.nombre}. Lo ves en Esta semana: el cielo de cada día y sus avisos.
@@ -248,7 +237,7 @@ function SeccionPronostico({ zona }: { zona: Zona }) {
 
   return (
     <section className="ajustes__seccion">
-      <h2 className="ajustes__titulo mano">El pronóstico</h2>
+      <h2 className="ajustes__titulo mano">{titulo}</h2>
       <p className="ajustes__bajada">
         Si querés, Hoy te muestra el pronóstico de la semana y te avisa cuando vienen heladas,
         lluvia o mucho calor. Para eso la app necesita saber más o menos dónde estás — y es lo único

@@ -134,6 +134,27 @@ const PANTALLAS = [
       await page.getByRole('button', { name: /Hoy la giré/ }).waitFor()
     },
   },
+  // las huertas: el título de Mi huerta abre la lista, y de ahí la ficha
+  {
+    ruta: '/#/huerta',
+    nombre: 'Elegir huerta',
+    entrar: async (page: Page) => {
+      await page.getByRole('button', { name: /cambiar de huerta o sumar otra/ }).click()
+      await page.getByRole('radiogroup', { name: 'Huerta abierta' }).waitFor()
+    },
+  },
+  {
+    ruta: '/#/huerta',
+    nombre: 'Huerta nueva',
+    entrar: async (page: Page) => {
+      // la de arriba la deja abierta: ir al mismo hash no remonta la pantalla
+      if (!(await page.getByRole('radiogroup', { name: 'Huerta abierta' }).isVisible())) {
+        await page.getByRole('button', { name: /cambiar de huerta o sumar otra/ }).click()
+      }
+      await page.getByRole('button', { name: '＋ Nueva huerta' }).click()
+      await page.getByRole('radiogroup', { name: 'Zona de esta huerta' }).waitFor()
+    },
+  },
   { ruta: '/#/glosario', nombre: 'Glosario' },
   // y moviendo un lugar: «Antes» no se puede, porque la almaciguera es la primera
   {

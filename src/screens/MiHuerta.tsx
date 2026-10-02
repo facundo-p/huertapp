@@ -8,6 +8,8 @@ import { Croquis } from '../components/Croquis'
 import { AltaPlanta } from '../components/AltaPlanta'
 import { FichaUbicacion } from '../components/FichaUbicacion'
 import { FichaCompostera } from '../components/FichaCompostera'
+import { SelectorHuerta } from '../components/SelectorHuerta'
+import { FichaHuerta } from '../components/FichaHuerta'
 import { useCompostaje } from '../lib/compostaje'
 import { diasEnEstado, proximoGiro } from '../lib/huerta/compostera'
 import { useEspecies } from '../lib/useEspecies'
@@ -18,7 +20,7 @@ import { useEstadoTareas } from '../lib/tareas/estado'
 import { derivarTareas, expuestasAHelada, tareasVisibles } from '../lib/tareas/engine'
 import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
 import { atencionPorPlanta, copoDeLaSemana, empaquetar, grillaDe, ordenarLugares } from '../lib/huerta/croquis'
-import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Ubicacion } from '../lib/huerta/tipos'
+import { ESTADO_COMPOST_INFO, desdeISO, hoyISO, type Huerta, type Ubicacion } from '../lib/huerta/tipos'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import { resumenHuerta } from '../lib/huerta/tanda'
 import { agruparPorLugar, pieDelLugar } from '../lib/huerta/lugar'
@@ -31,7 +33,7 @@ import {
   podarPlegado,
   type Plegado,
 } from '../lib/huerta/plegado'
-import { IconoAlerta, IconoCompost, IconoHuerta, IconoTacho } from '../icons'
+import { IconoAlerta, IconoCompost, IconoDesplegar, IconoHuerta, IconoTacho } from '../icons'
 import './MiHuerta.css'
 import { DibujoMaceta } from '../dibujos'
 
@@ -42,6 +44,9 @@ export function MiHuerta() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
   const { plantas, ubicaciones, composteras, activa, cargado, errorCarga } = useHuerta()
+  const [eligiendoHuerta, setEligiendoHuerta] = useState(false)
+  // la ficha de la huerta: `null` cerrada, `'nueva'` alta, o la que se edita
+  const [fichaHuerta, setFichaHuerta] = useState<Huerta | 'nueva' | null>(null)
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const [abrirAlta, setAbrirAlta] = useState(false)
@@ -175,7 +180,19 @@ export function MiHuerta() {
   return (
     <div className={acomoda ? 'pantalla pantalla--acomodando' : 'pantalla'}>
       <Header
-        titulo="Mi huerta"
+        titulo={
+          // siempre botón, aunque haya una sola: es la puerta para sumar otra
+          <button
+            className="huerta__elegir"
+            aria-haspopup="dialog"
+            aria-label={`${activa.nombre}: cambiar de huerta o sumar otra`}
+            disabled={acomoda}
+            onClick={() => setEligiendoHuerta(true)}
+          >
+            {activa.nombre}
+            <IconoDesplegar size={24} className="huerta__elegir-icono" />
+          </button>
+        }
         sobretitulo={
           acomoda ? 'Acomodando el croquis' : listo && activas.length ? resumenHuerta(activas) : 'Lo que tenés plantado'
         }
@@ -322,6 +339,23 @@ export function MiHuerta() {
         onCerrar={() => setAbrirAlta(false)}
       />
       <FichaCompostera abierto={abrirCompostera} onCerrar={() => setAbrirCompostera(false)} />
+      <SelectorHuerta
+        abierto={eligiendoHuerta}
+        onCerrar={() => setEligiendoHuerta(false)}
+        onEditar={(h) => {
+          setEligiendoHuerta(false)
+          setFichaHuerta(h)
+        }}
+        onNueva={() => {
+          setEligiendoHuerta(false)
+          setFichaHuerta('nueva')
+        }}
+      />
+      <FichaHuerta
+        abierto={!!fichaHuerta}
+        huerta={fichaHuerta && fichaHuerta !== 'nueva' ? fichaHuerta : undefined}
+        onCerrar={() => setFichaHuerta(null)}
+      />
       <FichaUbicacion
         abierto={!!editando}
         ubicacion={editando ?? undefined}

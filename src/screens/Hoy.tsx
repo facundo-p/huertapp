@@ -40,7 +40,7 @@ function correrFoco(li: Element) {
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, composteras, activa, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, activa, huertas, cargado, errorCarga } = useHuerta()
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
@@ -275,6 +275,8 @@ export function Hoy() {
             </span>{' '}
             <span className="hoy-cab__mes">de {NOMBRES_MES[mesDe(hoy) - 1]}</span>
           </h1>
+          {/* con varias, de cuál es esta semana; se cambia en Mi huerta */}
+          {huertas.length > 1 && <p className="hoy-cab__huerta">En {activa.nombre}</p>}
           {hoyPron && cieloHoy ? (
             <button type="button" className="clima" onClick={() => setDiaAbierto(hoyPron)}>
               <span style={{ color: cieloHoy.color }} aria-hidden>
