@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import { Accesos } from '../components/Header'
 import { EmptyState } from '../components/EmptyState'
@@ -20,7 +20,7 @@ import { distinguir, dondeCreceDe, lineaDe } from '../lib/tareas/agrupar'
 import { hoyISO } from '../lib/huerta/tipos'
 import { sumarDias } from '../lib/huerta/estimar'
 import { NOMBRES_MES, mayus, mesDe, nombreDia, numeroDia } from '../lib/fechas'
-import { CIELOS, IconoMas } from '../icons'
+import { CIELOS, IconoDesplegar, IconoMas } from '../icons'
 import { DibujoCantero } from '../dibujos'
 import './Hoy.css'
 
@@ -34,6 +34,29 @@ function correrFoco(li: Element) {
   const destino =
     de(li.nextElementSibling) ?? de(li.previousElementSibling) ?? li.closest('section')?.querySelector<HTMLElement>('h2')
   destino?.focus()
+}
+
+/** Sin día ni mínima, el título alcanza para avisar: el resto, si se pide. */
+function HeladaEstadistica({ tarea }: { tarea: Tarea }) {
+  const [abierta, setAbierta] = useState(false)
+  const panel = useId()
+  return (
+    <div className="postit postit--plegado">
+      <button
+        type="button"
+        className="postit__abrir"
+        aria-expanded={abierta}
+        aria-controls={panel}
+        onClick={() => setAbierta((v) => !v)}
+      >
+        <span className="postit__titulo mano">{tarea.titulo}</span>
+        <IconoDesplegar size={18} className={`galon ${abierta ? 'es-abierto' : ''}`} />
+      </button>
+      <p id={panel} className="postit__texto" hidden={!abierta}>
+        {tarea.detalle} Sale de la {tarea.fuente}.
+      </p>
+    </div>
+  )
 }
 
 export function Hoy() {
@@ -76,8 +99,8 @@ export function Hoy() {
   const ahoraISO = hoy.toISOString()
   const { estado: estadoPron, pron, fresc, dias, avisos } = useAvisosClima(plantas, indice?.porSlug, iso, ahoraISO)
 
-  // con alerta de helada del pronóstico, la tarea estadística se corre sola
-  const tareasMostradas = useMemo(() => suprimirHeladaEstadistica(tareas, avisos), [tareas, avisos])
+  // la helada de la estadística no es algo para tildar: va al post-it plegado
+  const tareasMostradas = useMemo(() => tareas.filter((t) => t.tipo !== 'helada'), [tareas])
 
   const semana = useMemo<DiaSemana[]>(
     () =>
@@ -151,6 +174,10 @@ export function Hoy() {
   // del pronóstico y no de la semana: sin poder leer la huerta, la helada se avisa igual.
   // Pero recién cuando se sabe: antes salía como nota muda y al rato pasaba a botón
   const notas = listo || errorCarga ? postits(avisos, iso) : []
+  // espera a saber si el pronóstico avisa helada: si no, salía y al rato se iba
+  const pronSabido = estadoPron.cargado && !(estadoPron.actualizando && !pron)
+  const heladaEst =
+    listo && pronSabido ? suprimirHeladaEstadistica(tareas, avisos).find((t) => t.tipo === 'helada') : undefined
   const hoyPron = dias[0]?.fecha === iso ? dias[0] : undefined
   const cieloHoy = hoyPron && CIELOS[hoyPron.cielo]
 
@@ -293,8 +320,9 @@ export function Hoy() {
         </div>
         <div className="hoy-cab__lado">
           <Accesos />
-          {notas.length > 0 && (
+          {(notas.length > 0 || heladaEst) && (
             <div className="pila">
+              {heladaEst && <HeladaEstadistica tarea={heladaEst} />}
               {/* lleva a su día y se queda: es el resumen, el aviso entero está abajo */}
               {notas.map((n) => {
                 const nota = (

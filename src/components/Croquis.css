@@ -293,46 +293,6 @@
   display: block;
   color: var(--verde-hoja);
 }
-.plantita .h {
-  fill: color-mix(in srgb, currentColor 18%, transparent);
-}
-.plantita .suelo {
-  stroke: var(--tinta-tenue);
-}
-.plantita .semilla {
-  fill: var(--tinta-suave);
-  stroke: none;
-}
-.plantita .espera {
-  stroke: var(--tinta-tenue);
-  stroke-dasharray: 1.6 2.6;
-}
-.plantita .fruto {
-  fill: var(--terracota-suave);
-  stroke: var(--terracota);
-}
-.plantita .raiz {
-  fill: var(--sol);
-  stroke: var(--sol-texto);
-}
-.plantita .vaina {
-  fill: color-mix(in srgb, currentColor 40%, transparent);
-}
-.plantita .capullo {
-  fill: var(--sol-suave);
-}
-.plantita .petalo {
-  fill: var(--sol);
-  stroke: var(--sol-texto);
-}
-.plantita .centro {
-  fill: var(--sol-texto);
-  stroke: none;
-}
-.plantita .florcita {
-  fill: var(--frambuesa);
-  stroke: none;
-}
 
 .maceta {
   position: absolute;
@@ -532,58 +492,4 @@
   position: static;
   width: 36px;
   height: 36px;
-}
-
-.acomodar-barra {
-  position: fixed;
-  z-index: 15;
-  left: 0;
-  right: 0;
-  bottom: var(--tab-ocupa);
-  max-width: var(--max-ancho);
-  margin: 0 auto;
-  display: grid;
-  gap: 8px;
-  padding: 10px 14px 12px 22px;
-  background: var(--papel-opaco);
-  border-top: 1.5px solid var(--linea-fuerte);
-  box-shadow: var(--sombra-barra);
-}
-.acomodar-barra__que {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.3;
-}
-.acomodar-barra__como {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.35;
-  color: var(--tinta-suave);
-}
-.acomodar-barra__fila {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-.acomodar-flechas {
-  display: flex;
-  gap: 6px;
-}
-.acomodar-flecha {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border: 1.75px solid var(--tinta-media);
-  border-radius: 14px 17px 12px 16px / 16px 12px 17px 14px;
-  background: var(--papel-opaco);
-  color: var(--tinta);
-}
-/* la que no se puede usar va punteada: la forma dice lo mismo que el tono */
-.acomodar-flecha[aria-disabled='true'],
-.acomodar-barra__boton[aria-disabled='true'] {
-  border-style: dashed;
-  color: var(--tinta-tenue);
 }

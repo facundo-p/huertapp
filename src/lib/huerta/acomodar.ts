@@ -3,11 +3,11 @@ import type { Planta, PlanoUbicacion, Ubicacion } from './tipos'
 
 /**
  * «Acomodar» el croquis: se eligen celdas tocándolas y se llevan a una marca
- * «+» o se corren con las flechas. Nunca arrastrando: así no pelea con el
- * scroll y anda con teclado y lector. Lógica pura sobre `GrillaLugar.celdas`.
+ * «+». Nunca arrastrando: así no pelea con el scroll y anda con teclado y
+ * lector. Lógica pura sobre `GrillaLugar.celdas`.
  */
 
-/** La barra habla en la unidad del lugar: «2 macetas», «1 surco». */
+/** Los avisos hablan en la unidad del lugar: «2 macetas», «1 surco». */
 const UNIDAD: Record<ClaseCroquis, { una: string; varias: string; femenina: boolean }> = {
   almaciguera: { una: 'celda', varias: 'celdas', femenina: true },
   macetas: { una: 'maceta', varias: 'macetas', femenina: true },
@@ -19,7 +19,6 @@ const UNIDAD: Record<ClaseCroquis, { una: string; varias: string; femenina: bool
 // El artículo va con la unidad y no con la planta: el catálogo no dice el
 // género de cada nombre, y «Zapallo / Calabaza» tiene los dos.
 const una = (c: ClaseCroquis) => `${UNIDAD[c].femenina ? 'una' : 'un'} ${UNIDAD[c].una}`
-const la = (c: ClaseCroquis) => `${UNIDAD[c].femenina ? 'la' : 'el'} ${UNIDAD[c].una}`
 
 const enLista = (xs: string[]) => (xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} y ${xs.at(-1)}`)
 
@@ -59,7 +58,7 @@ export function destinoDe(g: GrillaLugar, sel: number[], t: number, nombreDe: (i
 /**
  * Las libres donde entra lo elegido: ahí va la marca «+». La primera cae
  * siempre en una libre, así que un bloque se corre sobre sí mismo hacia atrás
- * pero no hacia adelante; para eso están las flechas.
+ * pero no hacia adelante: para eso se mueve de a una celda.
  */
 export function dondeEntra(g: GrillaLugar, sel: number[], nombreDe: (id: string) => string): Set<number> {
   const r = new Set<number>()
@@ -79,16 +78,6 @@ export function llevar(celdas: (string | null)[], sel: number[], dest: number[])
   return r
 }
 
-export function intercambiar(celdas: (string | null)[], a: number, b: number): (string | null)[] {
-  const r = [...celdas]
-  ;[r[a], r[b]] = [r[b], r[a]]
-  return r
-}
-
-/** Sólo con dos celdas de plantas distintas: sirve sobre todo cuando no queda lugar libre. */
-export const intercambiables = (g: GrillaLugar, sel: number[]) =>
-  sel.length === 2 && g.celdas[sel[0]] !== g.celdas[sel[1]]
-
 /** «1 celda de rúcula, de 4», «Las 4 celdas de rúcula», «2 macetas: tomate y albahaca». */
 export function describir(g: GrillaLugar, sel: number[], nombreDe: (id: string) => string): string {
   const u = UNIDAD[g.clase]
@@ -102,13 +91,6 @@ export function describir(g: GrillaLugar, sel: number[], nombreDe: (id: string) 
   return n === 1 ? `1 ${u.una} de ${nombre}, de ${total}` : `${n} de ${todas.toLowerCase()} ${total} ${u.varias} de ${nombre}`
 }
 
-/** El botón que elige una planta entera: «Todas las celdas de rúcula». */
-export const textoToda = (c: ClaseCroquis, nombre: string) =>
-  `${UNIDAD[c].femenina ? 'Todas las' : 'Todos los'} ${UNIDAD[c].varias} de ${nombre}`
-
-export const textoIntercambio = (c: ClaseCroquis, a: string, b: string) =>
-  `Listo: cambiaste de lugar ${la(c)} de ${a} y ${UNIDAD[c].femenina ? 'la' : 'el'} de ${b}.`
-
 /** «Esa celda está libre.», «Ese surco está libre.» */
 export const textoLibre = (c: ClaseCroquis) => `${UNIDAD[c].femenina ? 'Esa' : 'Ese'} ${UNIDAD[c].una} está libre.`
 
@@ -118,31 +100,16 @@ export function dondeEsta(g: GrillaLugar, i: number): string {
   return g.clase === 'surcos' ? `surco ${fila}` : `fila ${fila}, columna ${(i % g.cols) + 1}`
 }
 
-/** Después de una flecha: dónde quedó la «1», que es la que se sigue con la vista. */
-export function textoQuedo(g: GrillaLugar, i: number, varias: boolean): string {
-  const donde = `${g.clase === 'surcos' ? 'en el' : 'en'} ${dondeEsta(g, i)}`
-  return varias ? `La «1» quedó ${donde}.` : `Quedó ${donde}.`
-}
-
-export const FLECHAS = [
-  { hacia: 'arriba', dc: 0, df: -1, texto: 'arriba' },
-  { hacia: 'abajo', dc: 0, df: 1, texto: 'abajo' },
-  { hacia: 'izquierda', dc: -1, df: 0, texto: 'a la izquierda' },
-  { hacia: 'derecha', dc: 1, df: 0, texto: 'a la derecha' },
-] as const
-
 /** Qué se puede hacer con lo elegido. Nunca promete una marca que no hay. */
-export function comoSeguir(g: GrillaLugar, sel: number[], hayMarcas: boolean, hayFlecha: boolean): string {
+export function comoSeguir(g: GrillaLugar, sel: number[], hayMarcas: boolean): string {
   if (hayMarcas) {
     if (sel.length === 1) return 'Tocá una marca + para llevarla ahí.'
     const siguen = sel.length === 2 ? 'la otra la sigue' : 'las demás la siguen'
     return `Tocá una marca +: ahí va la «1», y ${siguen} con la misma forma.`
   }
-  if (hayFlecha) return 'No hay otro lugar libre con esa forma: usá las flechas.'
-  if (intercambiables(g, sel)) return 'No hay lugar libre con esa forma: soltá alguna, o intercambiá.'
   if (sel.length > 1) return 'No hay lugar libre con esa forma: soltá alguna.'
   const u = UNIDAD[g.clase]
-  return `No hay lugar libre: tocá también ${u.femenina ? 'una' : 'un'} ${u.una} de otra planta para intercambiarlas.`
+  return `No hay ${u.femenina ? 'otra' : 'otro'} ${u.una} libre en este lugar.`
 }
 
 /**
@@ -179,38 +146,27 @@ export interface LugarEnHoja {
 }
 
 /**
- * Un lugar un puesto antes o después en la hoja. Como los chicos van de a dos,
- * empaquetar puede dejarlo donde estaba: se prueba desde el vecino hacia
- * afuera y vale el primero que de verdad lo corre. Devuelve el orden nuevo de
- * los lugares, sin «Sin lugar asignado», que no se ordena y va al final, y el
- * puesto en que quedó a la vista. null si no se puede.
+ * El lugar `id` pasa al puesto de `a`, y `a` y los que siguen se corren uno.
+ * Devuelve el orden nuevo sin «Sin lugar asignado», que no se ordena y va al
+ * final, y el puesto en que quedó a la vista. null si la hoja queda igual:
+ * los chicos van de a dos, y empaquetar puede volver a juntarlos como estaban.
  */
-export function moverLugar<T extends LugarEnHoja>(
+export function llevarLugar<T extends LugarEnHoja>(
   vista: T[],
   id: string,
-  paso: -1 | 1,
+  a: string,
 ): { orden: Ubicacion[]; puesto: number } | null {
   const reales = vista.filter((l) => l.ubicacion)
   const sin = vista.filter((l) => !l.ubicacion)
   const movido = reales.find((l) => l.ubicacion!.id === id)
-  if (!movido) return null
-  const antes = vista.indexOf(movido)
+  const destino = reales.find((l) => l.ubicacion!.id === a)
+  if (!movido || !destino || movido === destino) return null
   const resto = reales.filter((l) => l !== movido)
-  for (let j = reales.indexOf(movido) + paso; j >= 0 && j <= resto.length; j += paso) {
-    const orden = [...resto.slice(0, j), movido, ...resto.slice(j)]
-    const puesto = empaquetar([...orden, ...sin]).indexOf(movido)
-    if (paso < 0 ? puesto < antes : puesto > antes) return { orden: orden.map((l) => l.ubicacion!), puesto }
-  }
-  return null
-}
-
-/** Por qué `moverLugar` dio null: lo dice el botón que no se puede usar. */
-export function porQueNoSeMueve(vista: LugarEnHoja[], id: string, paso: -1 | 1): string {
-  const reales = vista.filter((l) => l.ubicacion)
-  const k = reales.findIndex((l) => l.ubicacion!.id === id)
-  if (paso < 0 && k === 0) return 'ya es el primero'
-  if (paso > 0 && k === reales.length - 1) return 'ya es el último'
-  return 'los lugares chicos van de a dos'
+  const j = reales.indexOf(destino)
+  const orden = [...resto.slice(0, j), movido, ...resto.slice(j)]
+  const hoja = empaquetar([...orden, ...sin])
+  if (hoja.every((l, k) => l === vista[k])) return null
+  return { orden: orden.map((l) => l.ubicacion!), puesto: hoja.indexOf(movido) }
 }
 
 /** La hoja con los lugares en el orden de `ids`, mientras se guarda: lo mismo que va a dibujar el store. */

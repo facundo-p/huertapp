@@ -127,52 +127,26 @@ test('sacar la ubicación apaga el pronóstico del todo', async ({ page }) => {
 })
 
 /**
- * Sin pronóstico, la helada sale de la estadística de la zona y su instrucción
- * es lo único que dice qué tapar: no puede quedar plegada con el porqué.
+ * Sin pronóstico, la helada de la estadística no es algo para tildar: va en un
+ * post-it plegado. El título avisa; abierto, dice qué tapar y de dónde sale.
  */
-test('sin pronóstico, qué tapar por la helada se ve sin abrir nada', async ({ page }) => {
-  // mediados de agosto: la estadística del conurbano todavía da helada
+test('sin pronóstico, la helada es un post-it que se abre', async ({ page }) => {
+  // mediados de agosto: la estadística del conurbano todavía da helada, y el
+  // viernes 21 arranca fines, que también. Dos décadas, un solo post-it.
   await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
   await abrirHoy(page)
 
-  // el tomate que la demo pasó al balcón ya no está en almácigo: expuesto.
-  // Hoy y no toda la semana: al cambiar de década vuelve a salir.
-  const hoy = page.locator('#dia-2026-08-15')
-  const helada = hoy.locator('.tarea', { hasText: 'Puede helar' })
-  await expect(helada.getByText(/Cubrí de noche/)).toBeVisible()
-  // P1: sin pronóstico que la reemplace, la helada va primera en «Para hoy»
-  await expect(hoy.locator('.tarea').first()).toContainText('Puede helar')
-  // sin tocar nada, y el plegado no la repite
-  await expect(page.locator('.tarea__abrir[aria-expanded="true"]')).toHaveCount(0)
-  await expect(helada.locator('.tarea__porque').getByText(/Cubrí de noche/)).toHaveCount(0)
-  // con lector, «Hecho» dice de qué tarea es: seguidas, eran todas iguales
-  await expect(helada.getByRole('checkbox', { name: /^Hecho ?: Puede helar, hoy$/ })).toBeVisible()
-  // plegado no es borrado: abierto, dice de dónde sale
-  await helada.locator('.tarea__abrir').click()
-  await expect(helada.locator('.tarea__porque')).toContainText('FAUBA')
-})
+  await expect(page.locator('.postit')).toHaveCount(1)
+  await expect(page.locator('.tarea', { hasText: 'Puede helar' })).toHaveCount(0)
+  const abrir = page.locator('.pila').getByRole('button', { name: 'Puede helar', expanded: false })
+  const nota = page.locator('.postit', { has: abrir })
+  await expect(nota.getByText(/Cubrí de noche/)).toBeHidden()
 
-/** La helada no tiene planta ni lugar: lo único que separa una de otra es el día. */
-test('dos «Puede helar» en la semana: cada uno dice su día', async ({ page }) => {
-  // hoy cierra mediados de agosto y el viernes 21 arranca fines: una helada por década
-  await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
-  await abrirHoy(page)
-
-  const hechos = page.getByRole('checkbox', { name: /^Hecho ?: Puede helar/ })
-  await expect(hechos).toHaveCount(2)
-  const nombres = await Promise.all((await hechos.all()).map((b) => b.ariaSnapshot()))
-  expect(new Set(nombres).size, `con lector, los dos se oían igual: ${nombres.join(' / ')}`).toBe(2)
-  // la línea no repite el día, que ya es el título de la página
-  const lineas = page.locator('.tarea', { hasText: 'Puede helar' }).locator('.tarea__linea')
-  await expect(lineas).toHaveCount(2)
-  for (const linea of await lineas.all()) await expect(linea).toHaveText(/^\d+ % de probabilidad de helada$/)
-
-  // y «Más tarde» dice de cuál es
-  const viernes = page.locator('#dia-2026-08-21 .tarea', { hasText: 'Puede helar' })
-  await viernes.locator('.tarea__abrir').click()
-  await expect(
-    viernes.getByRole('button', { name: /^Más tarde ?: Puede helar, viernes, 21 de agosto$/ }),
-  ).toBeVisible()
+  await abrir.click()
+  await expect(abrir).toHaveAttribute('aria-expanded', 'true')
+  // el tomate que la demo pasó al balcón ya no está en almácigo: expuesto
+  await expect(nota.getByText(/Cubrí de noche/)).toBeVisible()
+  await expect(nota).toContainText('FAUBA')
 })
 
 /**

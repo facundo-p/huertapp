@@ -41,7 +41,6 @@ import {
   IconoTermo,
   IconoCheck,
   IconoCruz,
-  IconoFlecha,
   IconoMas,
   IconoConfianza,
   IconoCosechar,
@@ -59,6 +58,10 @@ import {
   IconoTrasplantar,
   IconoUbicacion,
   IconoViento,
+  IconoNoAsomo,
+  IconoBrote,
+  IconoCreciendo,
+  IconoDandoCosecha,
   type IconProps,
 } from '../icons'
 import './Glosario.css'
@@ -97,6 +100,14 @@ const ACCIONES: Item[] = [
   { Icono: IconoMas, nombre: 'Sumar', desc: 'Llevar algo que se puede sembrar ahora a tu huerta.' },
   { Icono: IconoCheck, nombre: 'Se cumple', desc: 'Una señal que está.' },
   { Icono: IconoCruz, nombre: 'No va', desc: 'Lo que no se composta.' },
+]
+
+// las mismas para todas las especies: el croquis dice cuál es con el nombre
+const ETAPAS_CROQUIS: Item[] = [
+  { Icono: IconoNoAsomo, nombre: 'Todavía no asomó', desc: 'Sembrada, y todavía bajo tierra.' },
+  { Icono: IconoBrote, nombre: 'Brote', desc: 'En el almácigo, esperando el trasplante.' },
+  { Icono: IconoCreciendo, nombre: 'Creciendo', desc: 'Ya en su lugar, haciendo hojas.' },
+  { Icono: IconoDandoCosecha, nombre: 'Dando cosecha', desc: 'Ya estás cosechando de esa planta.' },
 ]
 
 const CONFIANZAS = [
@@ -506,6 +517,17 @@ export function Glosario() {
 
         <Seccion id="croquis" titulo="Las marcas del croquis" retraso={0.24}>
           <div className="tarjeta glosario__calendario">
+            {ETAPAS_CROQUIS.map(({ Icono, nombre, desc }) => (
+              <div className="glosario__celda-demo" key={nombre}>
+                <span className="glosario__marca" aria-hidden>
+                  <Icono className="plantita" size={32} />
+                </span>
+                <div>
+                  <p className="glosario__nombre">{nombre}</p>
+                  <p className="glosario__desc">{desc}</p>
+                </div>
+              </div>
+            ))}
             <div className="glosario__celda-demo">
               <span className="glosario__marca" aria-hidden>
                 <Banderita cuantas={1} atrasada={false} />
@@ -555,20 +577,6 @@ export function Glosario() {
                 <p className="glosario__desc">
                   Si elegiste varias, la «1» va a la marca que toques y las demás la siguen con la misma
                   forma.
-                </p>
-              </div>
-            </div>
-            <div className="glosario__celda-demo">
-              <span className="glosario__marca" aria-hidden>
-                <span className="acomodar-flecha">
-                  <IconoFlecha hacia="derecha" size={24} />
-                </span>
-              </span>
-              <div>
-                <p className="glosario__nombre">Correr lo elegido</p>
-                <p className="glosario__desc">
-                  Una celda para ese lado, con la misma forma. Punteada no se puede: si la tocás, te dice
-                  por qué.
                 </p>
               </div>
             </div>
