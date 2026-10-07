@@ -159,6 +159,24 @@ test('acomodar anda con el teclado: elegir, llevar a una marca, mover un lugar; 
   await expect(alm.getByRole('button', { name: 'Libre, fila 1, columna 6' })).toBeVisible()
 })
 
+test('acomodando, el lugar que se movió no queda detrás de las pestañas', async ({ page }) => {
+  // un teléfono chico: el último puesto queda abajo de lo que se ve
+  await page.setViewportSize({ width: 375, height: 667 })
+  await abrirHuerta(page)
+  await page.getByRole('button', { name: 'Acomodar' }).click()
+  const alm = croquis(page).getByRole('button', { name: 'Almaciguera del balcón, mover en la hoja' })
+  await alm.focus()
+  await page.keyboard.press('Enter')
+  await croquis(page).getByRole('button', { name: 'Bancal del fondo, mover en la hoja' }).focus()
+  await page.keyboard.press('Enter')
+  await expect(alm).toBeFocused()
+  const { abajo, barra } = await page.evaluate(() => ({
+    abajo: document.activeElement!.getBoundingClientRect().bottom,
+    barra: document.querySelector('.tabbar')!.getBoundingClientRect().top,
+  }))
+  expect(abajo).toBeLessThanOrEqual(barra)
+})
+
 test('en otro lugar, una libre no recibe lo elegido: para eso está Trasplantar', async ({ page }) => {
   await abrirHuerta(page)
   await page.getByRole('button', { name: 'Acomodar' }).click()

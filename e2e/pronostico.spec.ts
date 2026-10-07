@@ -132,8 +132,7 @@ test('sacar la ubicación apaga el pronóstico del todo', async ({ page }) => {
  * post-it plegado. El título avisa; abierto, dice qué tapar y de dónde sale.
  */
 test('sin pronóstico, la helada es un post-it que se abre', async ({ page }) => {
-  // mediados de agosto: la estadística del conurbano todavía da helada, y el
-  // viernes 21 arranca fines, que también. Dos décadas, un solo post-it.
+  // mediados de agosto: la estadística del conurbano todavía da helada para la década que sigue
   await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
   await abrirHoy(page)
 
@@ -149,6 +148,18 @@ test('sin pronóstico, la helada es un post-it que se abre', async ({ page }) =>
   // el tomate que la demo pasó al balcón ya no está en almácigo: expuesto
   await expect(nota.getByText(/Cubrí de noche/)).toBeVisible()
   await expect(nota).toContainText('FAUBA')
+})
+
+test('el post-it de la estadística es la helada de hoy, no la de otro día de la semana', async ({ page }) => {
+  // el 6 de abril la década que sigue no llega al umbral; desde el 11, sí
+  await page.clock.setFixedTime(new Date('2026-04-06T10:00:00'))
+  await abrirHoy(page)
+  await expect(page.getByRole('heading', { name: 'Para sembrar ahora' })).toBeVisible()
+  await expect(page.locator('.postit--plegado')).toHaveCount(0)
+
+  await page.clock.setFixedTime(new Date('2026-04-11T10:00:00'))
+  await page.reload()
+  await expect(page.locator('.postit--plegado')).toHaveCount(1)
 })
 
 /**

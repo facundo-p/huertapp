@@ -174,10 +174,13 @@ export function Hoy() {
   // del pronóstico y no de la semana: sin poder leer la huerta, la helada se avisa igual.
   // Pero recién cuando se sabe: antes salía como nota muda y al rato pasaba a botón
   const notas = listo || errorCarga ? postits(avisos, iso) : []
-  // espera a saber si el pronóstico avisa helada: si no, salía y al rato se iba
-  const pronSabido = estadoPron.cargado && !(estadoPron.actualizando && !pron)
+  // espera a saber si el pronóstico avisa helada, también con el vencido: si no, salía y al rato se iba
+  const pronSabido = estadoPron.cargado && !(estadoPron.actualizando && dias.length === 0)
+  // la de hoy: la de otro día de la semana mira otra década, y el post-it no tiene fecha
   const heladaEst =
-    listo && pronSabido ? suprimirHeladaEstadistica(tareas, avisos).find((t) => t.tipo === 'helada') : undefined
+    listo && pronSabido
+      ? suprimirHeladaEstadistica(tareas, avisos).find((t) => t.tipo === 'helada' && t.fecha === iso)
+      : undefined
   const hoyPron = dias[0]?.fecha === iso ? dias[0] : undefined
   const cieloHoy = hoyPron && CIELOS[hoyPron.cielo]
 
@@ -322,7 +325,6 @@ export function Hoy() {
           <Accesos />
           {(notas.length > 0 || heladaEst) && (
             <div className="pila">
-              {heladaEst && <HeladaEstadistica tarea={heladaEst} />}
               {/* lleva a su día y se queda: es el resumen, el aviso entero está abajo */}
               {notas.map((n) => {
                 const nota = (
@@ -343,6 +345,8 @@ export function Hoy() {
                   </div>
                 )
               })}
+              {/* abajo: lo concreto del pronóstico va arriba */}
+              {heladaEst && <HeladaEstadistica tarea={heladaEst} />}
             </div>
           )}
         </div>

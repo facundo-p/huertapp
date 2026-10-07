@@ -146,7 +146,8 @@ export interface LugarEnHoja {
 }
 
 /**
- * El lugar `id` pasa al puesto de `a`, y `a` y los que siguen se corren uno.
+ * El lugar `id` pasa al puesto de `a`, y los que había entre los dos, `a`
+ * incluido, se corren uno hacia donde estaba `id`.
  * Devuelve el orden nuevo sin «Sin lugar asignado», que no se ordena y va al
  * final, y el puesto en que quedó a la vista. null si la hoja queda igual:
  * los chicos van de a dos, y empaquetar puede volver a juntarlos como estaban.
@@ -185,7 +186,7 @@ export function enOrden<T extends LugarEnHoja>(vista: T[], ids: string[]): T[] {
 
 /**
  * El acomodo sobre lo guardado: de lo dibujado van sólo la grilla y las celdas.
- * Con dos toques seguidos, un «Antes» o un trasplante que todavía no llegó a la
+ * Con dos toques seguidos, un orden o un trasplante que todavía no llegó a la
  * pantalla se pisaba.
  */
 export function acomodoSobre(

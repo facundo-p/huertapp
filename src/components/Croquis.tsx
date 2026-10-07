@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router'
 import type { EspecieEnriquecida } from '../lib/data/types'
 import type { Planta, Ubicacion } from '../lib/huerta/tipos'
@@ -148,6 +148,16 @@ export function Croquis({
   const entra = g && sel.length ? dondeEntra(g, sel, nombreDe) : new Set<number>()
   const movido = acomodando && lugarElegido ? lugares.find((l) => l.ubicacion?.id === lugarElegido) : undefined
 
+  // acomodando, el foco salta por la hoja: que no quede detrás de las pestañas (WCAG 2.4.11)
+  useLayoutEffect(() => {
+    if (!acomodando) return
+    const raiz = document.documentElement
+    raiz.style.scrollPaddingBottom = 'calc(var(--tab-ocupa) + 8px)'
+    return () => {
+      raiz.style.scrollPaddingBottom = ''
+    }
+  }, [acomodando])
+
   // React mueve los nodos al reordenar y el foco se cae: vuelve al nombre del que se movió
   useEffect(() => {
     if (!enfocar.current) return
@@ -270,7 +280,7 @@ export function Croquis({
       )}
       {acomodando && (
         <p className="croquis-ayuda">
-          Tocá las plantas que querés mover y después una marca +. Para mover un lugar, tocá su nombre y después el de
+          Tocá las plantas que querés mover y después una marca +. Para mover un lugar, tocá su nombre y después el de
           otro.
         </p>
       )}
@@ -329,7 +339,7 @@ export function Croquis({
         </div>
       </section>
       {acomodando && (
-        // sin barra: lo que antes decía queda para el lector, la vista ya lo muestra
+        // sólo para el lector: quien ve ya ve qué se movió y qué no (#189)
         <div className="sr-solo" aria-live="polite">
           <p>
             {lugarSel && sel.length

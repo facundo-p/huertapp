@@ -96,7 +96,7 @@ borde de nubes y fibras, y no le mueve ningún contraste a la tabla.
 | Pestañas de separador | La barra de navegación, con la misma altura mínima que hoy (59 + zona segura); con la letra agrandada crece. La activa se une a la página. |
 | Sello | Un hito cumplido («3 al balcón», «cosechada»). |
 | Cinta | Pega las fotos del diario. |
-| Plantitas | 19 dibujos: 6 grupos × 3 etapas (brote, creciendo, dando), más la semilla que no asomó. La especie y la etapa van siempre en el nombre accesible. Si la etapa es ícono o dibujo está por decidir: ver «Marcas». |
+| Íconos de etapa | 4 íconos, iguales para toda especie: todavía no asomó, brote, creciendo y dando cosecha. La especie y la etapa van siempre en el nombre accesible. Ver «Marcas». |
 
 **Color.** La paleta no cambia: está calibrada AA en los dos temas y está bien.
 Cambia el uso: menos tinte a sangre, más papel, y el ocre vuelve a ser, sobre
@@ -133,9 +133,9 @@ están abajo.
 - Al scrollear, la tira **no se rearma**: se mueven `aria-current` y el
   círculo sobre los botones que ya están. Rearmarla con `innerHTML` le saca el
   foco a quien la usa con teclado.
-- La tira y la barra de «Acomodar» son pegajosas: la hoja lleva
-  `scroll-padding-top` y `scroll-padding-bottom` con su alto, para que el foco
-  nunca quede tapado (WCAG 2.4.11).
+- La tira es pegajosa: la hoja lleva `scroll-padding-top` con su alto, y
+  `scroll-padding-bottom` con el de las pestañas, para que el foco nunca quede
+  tapado (WCAG 2.4.11). Mi huerta, acomodando, lleva el de las pestañas.
 - **La lista del día**: casilla, título y una línea corta. La línea dice dónde
   (el lugar), cuánto tiempo (el atraso o los días desde lo último que pasó) o,
   en un aviso, qué da el pronóstico. El detalle y la fuente, con su confianza,
@@ -166,6 +166,10 @@ están abajo.
 - Si coinciden helada y calor, se apilan en el orden de gravedad de
   `derivarAvisos` (la helada arriba). El de abajo asoma con su título, y cada
   uno lleva a su día. Como son dos tipos, nunca hay más de dos.
+- Sin helada en el pronóstico, la de la estadística de la zona (la tarea
+  `helada` del motor, si es de hoy) va abajo de todo como post-it plegado: dice
+  «Puede helar», y al tocarlo se abre con qué tapar y la fuente. No es una
+  tarea para tildar (#189).
 
 ## Mi huerta como croquis
 
@@ -297,35 +301,27 @@ cierran, se ordena de izquierda a derecha y de arriba abajo:
   siguen con la misma forma. Con más de una elegida, ésa lleva un «1» montado
   sobre su esquina de arriba a la izquierda, debajo del copo si lo hay:
   adentro ya no queda lugar.
-- Si no entra, la barra dice por qué («se sale del lugar», «pisa la
-  lechuga»).
+- Si no entra, a la vista no pasa nada; el lector de pantalla dice por qué
+  («se sale del lugar», «pisa la lechuga»). No hay barra ni avisos abajo
+  (#189): quien ve, ve qué se movió.
 - La primera cae siempre en una libre. Así, un bloque se corre sobre sí mismo
   hacia atrás (a la izquierda o arriba), pero no hacia adelante, donde la
   primera caería sobre otra elegida: ahí se lleva la punta de atrás al otro
   lado, que con una sola planta da lo mismo; con plantas intercaladas, cambia
-  el orden. Si no queda ninguna libre donde entre, no hay marcas, y la barra
-  dice «soltá alguna»; con una sola, que toques otra para intercambiarlas.
-- Una barra abajo dice qué elegiste y ofrece «Toda la rúcula» (elige todas
-  las de esa planta), «Intercambiar» (con dos celdas de plantas distintas;
-  sirve sobre todo cuando no queda lugar libre) y «Soltar».
-- Para mover un lugar en la hoja, tocás su nombre y después el del lugar que
-  va a quedar después, o «Al final de la hoja», que aparece en la barra. Tocar
-  otra vez el nombre lo suelta. Como los lugares chicos van de a dos, el
-  empaquetado puede dejarlo más arriba o más abajo de lo pedido, o correr a
-  otros. La barra dice en qué puesto quedó («está ahora en el puesto 3 de 4,
-  más abajo de lo que pediste») y nombra sólo a los que el empaquetado subió
-  para llenar el hueco, si de verdad cambiaron de fila o de lado. Si el
-  empaquetado lo devuelve a su lugar dice «Quedó donde estaba» y por qué; si
-  ya estaba ahí, «Ya estaba ahí». Nunca anuncia un cambio que no pasó, y las
-  frases no concuerdan con el nombre, que lo pone la persona. El foco queda en
-  el lugar movido.
-- La barra habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
+  el orden. Si no queda ninguna libre donde entre, no hay marcas.
+- Para mover un lugar en la hoja, tocás su nombre y después el de otro: el
+  primero pasa al puesto del segundo. Tocar otra vez el nombre lo suelta. Como
+  los lugares chicos van de a dos, el empaquetado puede dejarlo más arriba o
+  más abajo de lo pedido; el lector dice en qué puesto quedó, o que ahí queda
+  igual. El foco queda en el lugar movido.
+- El lector habla en la unidad del lugar: «1 maceta de tomate», «2 surcos»,
   «3 celdas».
 
 Elegir una sola celda es mover por celda; elegir toda la planta es mover el
 grupo. Así no pelea con el scroll, y anda con teclado y lector de pantalla:
 cada celda es un botón, con `aria-pressed` si tiene planta (una libre no se
-elige: dice si entra lo elegido), y la barra es `aria-live`. Pasar
+elige: dice si entra lo elegido), y una región `aria-live` oculta dice qué
+elegiste y cómo seguir. Pasar
 plantas a otro lugar sigue siendo «Trasplantar»: cambia `ubicacionId`, no es
 acomodar el dibujo.
 
@@ -348,22 +344,17 @@ acomodar el dibujo.
   noche no lleva: el relleno solo da 4,91, y 4,12 el de la atrasada.
 - **Copo** en las plantas de `expuestasAHelada` mientras haya helada en la
   semana (tarea o aviso): adentro de la primera celda, arriba a la izquierda,
-  sin asomar, y la plantita se corre a la derecha. Con copo y banderita queda
+  sin asomar, y el ícono se corre a la derecha. Con copo y banderita queda
   al medio, una marca en cada esquina. En la maceta nunca se corre, porque
   saldría de la tierra: las marcas quedan sobre el borde.
-- El tipo de tarea y la etapa van en el nombre accesible: la plantita es
+- El tipo de tarea y la etapa van en el nombre accesible: el ícono es
   `aria-hidden`.
 - La banderita, la atrasada y el copo van al Glosario, como todo ícono con
   significado.
-- **Por decidir: la etapa y la maceta vacía, ¿ícono o dibujo?** Hoy la
-  plantita porta un dato (la etapa), y `src/dibujos/base.tsx` dice que un
-  dibujo que porta un dato se vuelve ícono. Dos salidas:
-  - **(a)** la etapa, la semilla y la maceta vacía como íconos: viewBox 24, en
-    `src/icons`, con su entrada en el Glosario. El dibujo de cada grupo queda
-    decorativo, e `IconoGrupo` sigue igual en la app y en el Glosario;
-  - **(b)** todo como dibujo, con la gramática de `base.tsx` (viewBox 96,
-    `aria-hidden`), sin Glosario. La etapa se dice sólo en el nombre accesible
-    y en la lista.
+- **La etapa es un ícono** (decidido en #189, opción a): porta un dato, y
+  `src/dibujos/base.tsx` dice que un dibujo que porta un dato se vuelve ícono.
+  Los cuatro van en `src/icons/etapas.tsx`, viewBox 24, con su entrada en el
+  Glosario; son los mismos para toda especie.
 - La maceta vacía se distingue por el trazo punteado, sin bajarle la opacidad.
   El `pulso-bandera` de lo atrasado anima sólo `transform`: con opacidad, el
   número bajaba a 3,7:1 en el valle.
@@ -434,9 +425,9 @@ Lo que no está en esta tabla sale de `src/theme.css`.
 | `--bandera` / `--bandera-atrasada` | `--sol` / `--terracota` | igual | banderita de atención |
 | `--sobre-bandera` / `--sobre-bandera-atrasada` | `--sobre-sol` / `#fffdf5` | `--sobre-sol` / `#2a2110` | el número de la banderita |
 | `--bandera-borde` | `--tinta-media` | `transparent` | contorno de la banderita: de día el relleno no llega a 3:1 |
-| `--papel-opaco` | `#fffdf5` | `#222e1f` | lo que no puede transparentar: la barra de Acomodar, la almaciguera, el copo, los botones a lápiz, la nota al margen |
+| `--papel-opaco` | `#fffdf5` | `#222e1f` | lo que no puede transparentar: la almaciguera, el copo, los botones a lápiz, la nota al margen |
 | `--foto-borde` | `#fbfaf4` | `#e7e2d2` | el borde blanco de las fotos del diario |
-| `--sombra-postit` / `-croquis` / `-barra` / `-foto` | `rgba()` propias | igual | sombras con forma, que `--sombra-1` y `-2` no tienen: el post-it levanta la punta, la barra sombrea para arriba |
+| `--sombra-postit` / `-croquis` / `-foto` | `rgba()` propias | igual | sombras con forma, que `--sombra-1` y `-2` no tienen: el post-it levanta la punta |
 | pestañas | `color-mix(<token> 20 %, --papel)` | igual | una pestaña por sección: sol, verde, agua, terracota, oliva |
 | papel reciclado | `papel-reciclado-dia.svg`, nada más oscuro que `--papel` | `papel-reciclado-noche.svg`, nada más claro | fondo, en lugar del grano |
 
