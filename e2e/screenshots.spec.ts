@@ -320,8 +320,7 @@ const TOMAS: Toma[] = [
     },
   },
   {
-    // acomodando: dos celdas de plantas distintas elegidas, sus marcas + y la
-    // barra con todos sus botones. La barra no puede tapar lo elegido
+    // acomodando: dos celdas de plantas distintas elegidas, el «1» y sus marcas +
     nombre: 'huerta-acomodar',
     ruta: '/#/ajustes',
     antes: async (page) => {
@@ -646,6 +645,20 @@ const TOMAS: Toma[] = [
       await page.waitForTimeout(400)
     },
   },
+  // sin pronóstico, la helada de la estadística: plegada y abierta
+  ...[false, true].map((abierta) => ({
+    nombre: abierta ? 'hoy-helada-estadistica-abierta' : 'hoy-helada-estadistica',
+    ruta: '/#/ajustes',
+    antes: async (page: import('@playwright/test').Page) => {
+      // mediados de agosto: la estadística del conurbano todavía da helada
+      await page.clock.setFixedTime(new Date('2026-08-15T10:00:00'))
+      await conDemo(page)
+      await page.goto('/#/hoy')
+      const abrir = page.locator('.pila').getByRole('button', { name: 'Puede helar' })
+      if (abierta) await abrir.click()
+      await page.waitForTimeout(400)
+    },
+  })),
   {
     nombre: 'hoy-semana-hoja',
     ruta: '/#/ajustes',

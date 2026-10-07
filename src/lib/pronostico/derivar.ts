@@ -143,11 +143,9 @@ export function recortarPasados(pronostico: Pronostico, hoy: string): DiaPronost
 }
 
 /**
- * Si el pronóstico ya avisa helada con día y mínima concretos, la tarea
- * estadística sale de la lista — mismo riesgo, no dos veces. No se marca
- * completada: si el pronóstico afloja, la estadística vuelve sola. Sin aviso
- * de helada la estadística se queda: habla de la década siguiente, una
- * ventana que el pronóstico de 7 días no cubre.
+ * Si el pronóstico ya avisa helada con día y mínima, la estadística no se
+ * muestra: mismo riesgo, no dos veces. Si el pronóstico afloja, vuelve sola.
+ * Sin aviso se queda: habla de la década siguiente, que 7 días no cubren.
  */
 export function suprimirHeladaEstadistica(tareas: Tarea[], avisos: AvisoClima[]): Tarea[] {
   if (!avisos.some((a) => a.tipo === 'helada')) return tareas

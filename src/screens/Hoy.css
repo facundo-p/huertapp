@@ -97,6 +97,27 @@ button.clima {
   color: var(--sobre-postit-suave);
 }
 
+/* El de la estadística: plegado, el título es el botón y ocupa la nota entera */
+.postit--plegado {
+  gap: 0;
+  padding: 8px 6px 6px;
+}
+
+.postit__abrir {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  min-height: var(--tap-min);
+  padding: 4px 2px 0 8px;
+  color: inherit;
+  text-align: left;
+}
+
+.postit--plegado .postit__texto {
+  padding: 2px 6px 8px 8px;
+}
+
 /* el de abajo asoma con su título: sigue siendo un botón de 44 px o más */
 .pila .postit + .postit {
   z-index: -1;

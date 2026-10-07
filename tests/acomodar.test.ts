@@ -9,16 +9,10 @@ import {
   dondeEntra,
   dondeEsta,
   enOrden,
-  intercambiables,
-  intercambiar,
   llevar,
-  moverLugar,
+  llevarLugar,
   ordenSobre,
-  porQueNoSeMueve,
-  textoIntercambio,
   textoLibre,
-  textoQuedo,
-  textoToda,
   trasladar,
 } from '../src/lib/huerta/acomodar'
 import { empaquetar, grillaDe, ordenarLugares, type ClaseCroquis, type GrillaLugar } from '../src/lib/huerta/croquis'
@@ -40,7 +34,7 @@ function grilla(filas: string[], clase: ClaseCroquis = 'almaciguera', cap?: numb
   }
 }
 
-describe('trasladar: las flechas', () => {
+describe('trasladar: lo elegido corrido con la misma forma', () => {
   const g = grilla(['t t ·', 'a · ·'])
 
   it('corre lo elegido con la misma forma, aunque pase sobre sí mismo', () => {
@@ -80,10 +74,10 @@ describe('destinoDe y dondeEntra: las marcas +', () => {
     expect([...dondeEntra(g, [0, 1], nombreDe)]).toEqual([2, 4, 5, 6])
   })
 
-  it('un bloque se corre sobre sí mismo hacia atrás con una marca; hacia adelante, con la flecha', () => {
+  // un paso adelante pondría la «1» sobre otra elegida: eso se hace de a una celda
+  it('un bloque se corre sobre sí mismo hacia atrás; hacia adelante, sólo saltándose entero', () => {
     const g = grilla(['· t t · ·'])
     expect([...dondeEntra(g, [1, 2], nombreDe)]).toEqual([0, 3])
-    expect(trasladar(g, [1, 2], 1, 0, nombreDe)).toEqual({ dest: [2, 3] })
   })
 
   it('sin nada elegido no hay marcas', () => {
@@ -91,22 +85,14 @@ describe('destinoDe y dondeEntra: las marcas +', () => {
   })
 })
 
-describe('llevar e intercambiar', () => {
+describe('llevar', () => {
   it('lleva cada elegida a su destino, en el mismo orden, y deja libre lo que no se pisa', () => {
     expect(llevar(['t', 'a', null, null], [0, 1], [2, 3])).toEqual([null, null, 't', 'a'])
     expect(llevar(['t', 't', null], [0, 1], [1, 2])).toEqual([null, 't', 't'])
   })
-
-  it('intercambia dos celdas, y sólo se ofrece con dos de plantas distintas', () => {
-    expect(intercambiar(['t', null, 'a'], 0, 2)).toEqual(['a', null, 't'])
-    const g = grilla(['t t a'])
-    expect(intercambiables(g, [0, 2])).toBe(true)
-    expect(intercambiables(g, [0, 1])).toBe(false)
-    expect(intercambiables(g, [0, 1, 2])).toBe(false)
-  })
 })
 
-describe('lo que dice la barra', () => {
+describe('lo que se le dice al lector', () => {
   const g = grilla(['t t t', 'a · ·'])
 
   it('describe lo elegido contra lo que hay de esa planta', () => {
@@ -127,43 +113,26 @@ describe('lo que dice la barra', () => {
     expect(describir(surcos, [0, 1], nombreDe)).toBe('Los 2 surcos de tomate')
     expect(describir(surcos, [2], nombreDe)).toBe('El único surco de albahaca')
     expect(describir(grilla(['t a ·'], 'macetas'), [0, 1], nombreDe)).toBe('2 macetas: tomate y albahaca')
-    expect(textoToda('almaciguera', 'rúcula')).toBe('Todas las celdas de rúcula')
-    expect(textoToda('surcos', 'tomate')).toBe('Todos los surcos de tomate')
-    expect(textoIntercambio('macetas', 'tomate', 'albahaca')).toBe(
-      'Listo: cambiaste de lugar la maceta de tomate y la de albahaca.',
-    )
-    expect(textoIntercambio('surcos', 'tomate', 'albahaca')).toBe(
-      'Listo: cambiaste de lugar el surco de tomate y el de albahaca.',
-    )
     expect(textoLibre('almaciguera')).toBe('Esa celda está libre.')
     expect(textoLibre('surcos')).toBe('Ese surco está libre.')
   })
 
-  it('dónde está una celda y dónde quedó lo corrido', () => {
+  it('dónde está una celda', () => {
     expect(dondeEsta(g, 4)).toBe('fila 2, columna 2')
     expect(dondeEsta(grilla(['t', 'a'], 'surcos'), 1)).toBe('surco 2')
-    expect(textoQuedo(g, 4, false)).toBe('Quedó en fila 2, columna 2.')
-    expect(textoQuedo(g, 1, true)).toBe('La «1» quedó en fila 1, columna 2.')
-    expect(textoQuedo(grilla(['t', 'a'], 'surcos'), 1, false)).toBe('Quedó en el surco 2.')
   })
 
   it('cómo seguir: nunca promete una marca que no hay', () => {
-    expect(comoSeguir(g, [0], true, true)).toBe('Tocá una marca + para llevarla ahí.')
-    expect(comoSeguir(g, [0, 1], true, true)).toBe(
-      'Tocá una marca +: ahí va la «1», y la otra la sigue con la misma forma.',
-    )
-    expect(comoSeguir(g, [0, 1, 2], true, true)).toMatch(/las demás la siguen/)
-    expect(comoSeguir(g, [0], false, true)).toBe('No hay otro lugar libre con esa forma: usá las flechas.')
-    expect(comoSeguir(g, [0, 3], false, false)).toBe('No hay lugar libre con esa forma: soltá alguna, o intercambiá.')
-    expect(comoSeguir(g, [0, 1], false, false)).toBe('No hay lugar libre con esa forma: soltá alguna.')
-    expect(comoSeguir(g, [0], false, false)).toBe(
-      'No hay lugar libre: tocá también una celda de otra planta para intercambiarlas.',
-    )
+    expect(comoSeguir(g, [0], true)).toBe('Tocá una marca + para llevarla ahí.')
+    expect(comoSeguir(g, [0, 1], true)).toBe('Tocá una marca +: ahí va la «1», y la otra la sigue con la misma forma.')
+    expect(comoSeguir(g, [0, 1, 2], true)).toMatch(/las demás la siguen/)
+    expect(comoSeguir(g, [0, 1], false)).toBe('No hay lugar libre con esa forma: soltá alguna.')
+    expect(comoSeguir(g, [0], false)).toBe('No hay otra celda libre en este lugar.')
   })
 
   it('sin lugar libre, habla en la unidad del lugar', () => {
-    expect(comoSeguir(grilla(['t a'], 'macetas'), [0], false, false)).toMatch(/tocá también una maceta de otra planta/)
-    expect(comoSeguir(grilla(['t a'], 'surcos'), [0], false, false)).toMatch(/tocá también un surco de otra planta/)
+    expect(comoSeguir(grilla(['t a'], 'macetas'), [0], false)).toBe('No hay otra maceta libre en este lugar.')
+    expect(comoSeguir(grilla(['t a'], 'surcos'), [0], false)).toBe('No hay otro surco libre en este lugar.')
   })
 })
 
@@ -275,20 +244,23 @@ describe('mover un lugar en la hoja', () => {
     lugar('med', 'media'),
   ])
 
-  it('un puesto antes o después, a la vista', () => {
+  const orden = (r: { orden: Ubicacion[] }) => ids(r.orden.map((ubicacion) => ({ ubicacion })))
+
+  it('el primero que tocás queda en el puesto del segundo, para atrás o para adelante', () => {
     expect(ids(demo)).toBe('alm mac med fon')
-    const antes = moverLugar(demo, 'fon', -1)!
-    expect(ids(antes.orden.map((ubicacion) => ({ ubicacion })))).toBe('alm fon mac med')
-    expect(antes.puesto).toBe(1)
-    const despues = moverLugar(demo, 'mac', 1)!
-    expect(ids(despues.orden.map((ubicacion) => ({ ubicacion })))).toBe('alm med mac fon')
-    expect(despues.puesto).toBe(2)
+    const atras = llevarLugar(demo, 'fon', 'mac')!
+    expect(orden(atras)).toBe('alm fon mac med')
+    expect(atras.puesto).toBe(1)
+    const adelante = llevarLugar(demo, 'mac', 'med')!
+    expect(orden(adelante)).toBe('alm med mac fon')
+    expect(adelante.puesto).toBe(2)
+    expect(orden(llevarLugar(demo, 'alm', 'fon')!)).toBe('mac med fon alm')
   })
 
   it('el puesto es el que va a dibujar la hoja con el orden guardado', () => {
     for (const l of demo)
-      for (const paso of [-1, 1] as const) {
-        const r = moverLugar(demo, l.ubicacion!.id, paso)
+      for (const a of demo) {
+        const r = llevarLugar(demo, l.ubicacion!.id, a.ubicacion!.id)
         if (!r) continue
         const guardados = conOrden(r.orden)
         const hoja = empaquetar(ordenarLugares(demo.map((x) => ({ ...x, ubicacion: guardados.find((u) => u.id === x.ubicacion!.id) }))))
@@ -297,24 +269,21 @@ describe('mover un lugar en la hoja', () => {
       }
   })
 
-  it('el primero no va antes ni el último después, y el botón dice por qué', () => {
-    expect(moverLugar(demo, 'alm', -1)).toBeNull()
-    expect(porQueNoSeMueve(demo, 'alm', -1)).toBe('ya es el primero')
-    expect(moverLugar(demo, 'fon', 1)).toBeNull()
-    expect(porQueNoSeMueve(demo, 'fon', 1)).toBe('ya es el último')
+  it('consigo mismo no se mueve', () => {
+    expect(llevarLugar(demo, 'mac', 'mac')).toBeNull()
   })
 
-  it('uno chico no puede quedar solo antes de uno entero si hay otro chico que lo acompañe', () => {
+  it('si la hoja queda igual no se mueve: los chicos van de a dos', () => {
     const vista = empaquetar([lugar('a', 'media'), lugar('b', 'media'), lugar('e', 'entera')])
-    expect(moverLugar(vista, 'b', 1)).toBeNull()
-    expect(porQueNoSeMueve(vista, 'b', 1)).toBe('los lugares chicos van de a dos')
+    expect(llevarLugar(vista, 'b', 'e')).toBeNull()
+    // dos chicos que cambian de lado sí cambian la hoja
+    expect(orden(llevarLugar(vista, 'b', 'a')!)).toBe('b a e')
   })
 
-  it('«Sin lugar asignado» no se mueve ni cuenta: va siempre al final', () => {
+  it('«Sin lugar asignado» no se mueve ni recibe: va siempre al final', () => {
     const vista = [lugar('a', 'entera'), lugar('b', 'entera'), { ubicacion: undefined, ancho: 'media' as const }]
-    expect(moverLugar(vista, 'b', 1)).toBeNull()
-    expect(porQueNoSeMueve(vista, 'b', 1)).toBe('ya es el último')
-    expect(ids(moverLugar(vista, 'a', 1)!.orden.map((ubicacion) => ({ ubicacion })))).toBe('b a')
+    expect(llevarLugar(vista, 'b', 'sin')).toBeNull()
+    expect(orden(llevarLugar(vista, 'a', 'b')!)).toBe('b a')
     expect(ids(enOrden(vista, ['b', 'a']))).toBe('b a sin')
   })
 

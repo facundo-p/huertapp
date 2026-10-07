@@ -224,9 +224,3 @@
 .huerta__pagina > .pagina__titulo {
   margin: 0 calc(-1 * var(--esp-4)) calc(-1 * var(--esp-3));
 }
-
-/* La barra de Acomodar es fija: sin su alto, el final del croquis queda
-   abajo de ella. Con .pantalla adelante porque screens.css entra después. */
-.pantalla.pantalla--acomodando {
-  padding-bottom: calc(var(--tab-ocupa) + var(--barra-acomodar, 0px) + var(--esp-4));
-}

@@ -59,9 +59,10 @@ especificación está en `docs/diseno/cuaderno/README.md` y el render en
   o un botón chico, el target sigue siendo 44: el `<button>` mide 44 y adentro
   se dibuja la píldora de 32 (`.chip-hoja`, `.fuente`) o la casilla de 26
   (`.casilla`).
-- **Una barra fija abajo** (la de Acomodar, en `Croquis.tsx`) va fuera de
-  todo `container-type`, que la ancla a él, y avisa su alto a
-  `scroll-padding-bottom`: si no, el foco queda debajo de ella.
+- **Una barra fija abajo** va fuera de todo `container-type`, que la ancla a
+  él, y avisa su alto a `scroll-padding-bottom`: si no, el foco queda debajo de
+  ella. Las pestañas ya lo son: una pantalla que lleva el foco con
+  `scrollIntoView` pone `var(--tab-ocupa)` (como `Hoy` y `Croquis`).
 - **Sin librerías de UI.** Es un requisito explícito del brief.
 
 ## Invariantes de accesibilidad

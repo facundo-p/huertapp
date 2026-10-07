@@ -206,10 +206,6 @@
 .glosario__marca :is(.banderita, .copo, .croquis-ancla) {
   position: static;
 }
-.glosario__marca .acomodar-flecha {
-  width: 44px;
-  height: 44px;
-}
 
 .celda {
   flex: none;

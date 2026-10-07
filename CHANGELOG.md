@@ -26,22 +26,21 @@ Qué significa cada parte en este proyecto:
 ### Agregado
 
 - **Mi huerta tiene un croquis arriba de todo.** Tus lugares dibujados sobre
-  una hoja cuadriculada, cada planta en sus celdas. Cada plantita muestra en
-  qué anda —todavía no asomó, brote, creciendo o dando cosecha— y, si te pide
-  algo, lleva una banderita con cuántas cosas; terracota y con «!» si algo está
-  atrasado. Si esta semana puede helar, las que no lo aguantan
+  una hoja cuadriculada, cada planta en sus celdas y con su nombre. Un ícono
+  dice en qué anda —todavía no asomó, brote, creciendo o dando cosecha— y, si
+  te pide algo, lleva una banderita con cuántas cosas; terracota y con «!» si
+  algo está atrasado. Si esta semana puede helar, las que no lo aguantan
   llevan un copo. Tocá una planta y vas a su página; tocá el nombre de un lugar
   y bajás a sus fechas. Se pliega como un lugar, y queda como lo dejaste.
 - **Las marcas del croquis están en el Glosario.**
 - **Podés acomodar el croquis como está en tu huerta, si querés.** Tocá
-  «Acomodar», elegí una o varias celdas y tocá dónde van: las marcas «+» te
-  muestran dónde entran. También podés correrlas una celda con las flechas,
-  intercambiar dos plantas o mover juntas todas las celdas de una misma planta.
-  Y con «Antes» y «Después» cambiás el orden de los lugares en la hoja, que es
-  también el de la lista. Si no acomodás nada, el croquis se sigue armando solo,
-  como hasta ahora. En un lugar acomodado, lo que trasplantás o mudás ahí llega a
-  la primera celda libre; y si le cambiás el tipo o la disposición, el lugar
-  vuelve a armarse solo.
+  «Acomodar», tocá las plantas que querés mover y después una marca «+»: van
+  ahí con la misma forma. Para cambiar el orden de los lugares en la hoja, que
+  es también el de la lista, tocá el nombre de uno y después el de otro: el
+  primero pasa al puesto del segundo. Si no acomodás nada, el croquis se sigue
+  armando solo, como hasta ahora. En un lugar acomodado, lo que trasplantás o
+  mudás ahí llega a la primera celda libre; y si le cambiás el tipo o la
+  disposición, el lugar vuelve a armarse solo.
 
 ### Cambiado
 
@@ -64,9 +63,12 @@ Qué significa cada parte en este proyecto:
   vista y la tarea se va. El porqué, la fuente y «Más tarde» están plegados:
   tocá el título para verlos. Junto a «Más tarde» dice por cuántos días la
   esconde, antes de que lo toques. Lo que es instrucción queda siempre a la
-  vista, como qué tapar si hiela.
+  vista, como qué tapar si el pronóstico trae helada.
 - **Si el pronóstico trae helada o mucho calor, aparece un post-it arriba.**
   Tocalo y te lleva a ese día. El post-it se queda hasta que pase.
+- **La helada que sale de la estadística de tu zona también es un post-it**, y
+  ya no una tarea para tildar. Dice sólo «Puede helar»: tocalo y te cuenta qué
+  tapar y de dónde sale el dato. Si el pronóstico avisa helada, queda el suyo.
 - **El tiempo de hoy va al lado de la fecha**, y el de los otros días, en el
   título de su página. Tocalo para ver el detalle.
 - **La lista de Mi huerta es una página con renglones**, debajo del croquis, y

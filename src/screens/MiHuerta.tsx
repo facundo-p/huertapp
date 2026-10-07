@@ -171,7 +171,7 @@ export function MiHuerta() {
   const acomoda = hayLista && acomodando
 
   return (
-    <div className={acomoda ? 'pantalla pantalla--acomodando' : 'pantalla'}>
+    <div className="pantalla">
       <Header
         titulo="Mi huerta"
         sobretitulo={

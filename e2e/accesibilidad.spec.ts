@@ -80,8 +80,7 @@ const PANTALLAS = [
   },
   { ruta: '/#/calendario', nombre: 'Calendario' },
   { ruta: '/#/huerta', nombre: 'Mi huerta' },
-  // Acomodando, con dos celdas de plantas distintas: aparecen las marcas +, el
-  // «1», la barra entera y las flechas punteadas, que son las de texto tenue.
+  // Acomodando, con dos celdas de plantas distintas: aparecen las marcas + y el «1».
   // Las dos de acomodar van antes de otra ruta: con la misma, goto no remonta
   // la pantalla y la siguiente la encontraría acomodando
   {
@@ -91,7 +90,7 @@ const PANTALLAS = [
       await page.getByRole('button', { name: 'Acomodar' }).click()
       await page.getByRole('button', { name: 'Tomate, Los del cajón, fila 1, columna 4' }).click()
       await page.getByRole('button', { name: 'Albahaca, fila 1, columna 5' }).click()
-      await page.getByRole('button', { name: 'Intercambiar' }).waitFor()
+      await page.locator('.croquis-ancla').waitFor()
     },
   },
   { ruta: '/#/compost', nombre: 'Compost' },
@@ -135,14 +134,14 @@ const PANTALLAS = [
     },
   },
   { ruta: '/#/glosario', nombre: 'Glosario' },
-  // y moviendo un lugar: «Antes» no se puede, porque la almaciguera es la primera
+  // y moviendo un lugar: el nombre elegido
   {
     ruta: '/#/huerta',
     nombre: 'Mi huerta moviendo un lugar',
     entrar: async (page: Page) => {
       await page.getByRole('button', { name: 'Acomodar' }).click()
       await page.getByRole('button', { name: 'Almaciguera del balcón, mover en la hoja' }).click()
-      await page.getByRole('button', { name: 'Antes: ya es el primero' }).waitFor()
+      await page.getByRole('button', { name: 'Almaciguera del balcón, mover en la hoja', pressed: true }).waitFor()
     },
   },
   { ruta: '/#/ajustes', nombre: 'Ajustes' },

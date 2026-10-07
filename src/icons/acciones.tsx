@@ -317,20 +317,6 @@ export function IconoMas(p: IconProps) {
   )
 }
 
-const GIRO = { arriba: 0, derecha: 90, abajo: 180, izquierda: 270 } as const
-
-/** Flecha: correr lo elegido una celda para ese lado. Una sola, girada, para que las cuatro sean iguales. */
-export function IconoFlecha({ hacia, ...p }: IconProps & { hacia: keyof typeof GIRO }) {
-  return (
-    <Svg {...p}>
-      <g transform={`rotate(${GIRO[hacia]} 12 12)`}>
-        <path d="M12 19 V 5.5" />
-        <path d="M6.5 11 L 12 5.5 L 17.5 11" />
-      </g>
-    </Svg>
-  )
-}
-
 /** Cruz: lo que no va. */
 export function IconoCruz(p: IconProps) {
   return (
