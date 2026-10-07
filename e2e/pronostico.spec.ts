@@ -62,9 +62,10 @@ test('activar por zona muestra la semana, con su fuente a la vista', async ({ pa
   await expect(page.locator('button.clima')).toHaveCount(1)
   await expect(page.locator('.dia-pagina__cielo')).toHaveCount(6)
   await expect(page.locator('.hoy__pie')).toContainText('Open-Meteo')
-  // sin nada raro en el fixture, no hay avisos ni post-its
+  // sin nada raro en el fixture, no hay avisos ni post-its del pronóstico. El
+  // plegado es la estadística, que según el día del año está o no
   await expect(page.locator('.tarea.es-aviso')).toHaveCount(0)
-  await expect(page.locator('.postit')).toHaveCount(0)
+  await expect(page.locator('.postit:not(.postit--plegado)')).toHaveCount(0)
 })
 
 test('una helada pronosticada se anuncia con día y mínima', async ({ page }) => {
@@ -138,8 +139,9 @@ test('sin pronóstico, la helada es un post-it que se abre', async ({ page }) =>
 
   await expect(page.locator('.postit')).toHaveCount(1)
   await expect(page.locator('.tarea', { hasText: 'Puede helar' })).toHaveCount(0)
-  const abrir = page.locator('.pila').getByRole('button', { name: 'Puede helar', expanded: false })
-  const nota = page.locator('.postit', { has: abrir })
+  const nota = page.locator('.pila .postit')
+  const abrir = nota.getByRole('button', { name: 'Puede helar' })
+  await expect(abrir).toHaveAttribute('aria-expanded', 'false')
   await expect(nota.getByText(/Cubrí de noche/)).toBeHidden()
 
   await abrir.click()
