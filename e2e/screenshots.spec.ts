@@ -34,6 +34,19 @@ async function conDemo(page: import('@playwright/test').Page) {
   await page.waitForTimeout(800)
 }
 
+/** Crea una huerta desde Mi huerta, en el núcleo urbano, y la deja abierta. */
+async function sumarHuerta(page: import('@playwright/test').Page, nombre: string) {
+  await page.goto('/#/huerta')
+  await page.waitForLoadState('networkidle')
+  await page.getByRole('button', { name: /cambiar de huerta o sumar otra/ }).click()
+  await page.getByRole('button', { name: '＋ Nueva huerta' }).click()
+  const hoja = page.locator('dialog.hoja[open]')
+  await hoja.getByLabel('¿Cómo le decís?').fill(nombre)
+  await hoja.getByRole('radio', { name: /Núcleo urbano/ }).click()
+  await hoja.getByRole('button', { name: 'Sumar esta huerta' }).click()
+  await page.getByRole('button', { name: new RegExp(`^${nombre}:`) }).waitFor()
+}
+
 /**
  * La tanda dividida de la demo repite el apodo en dos lugares: el link a una
  * planta hay que buscarlo dentro de su sección, no en la pantalla entera.
@@ -213,6 +226,58 @@ const TOMAS: Toma[] = [
     },
   },
   { nombre: 'huerta-vacia', ruta: '/#/huerta' },
+  {
+    // el ＋ de arriba suma un lugar: la ficha en alta, con la demo detrás
+    nombre: 'lugar-nuevo',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.getByRole('button', { name: 'Sumar un lugar' }).click()
+      await page.locator('dialog.hoja[open]').getByLabel('¿Cómo le decís?').fill('Maceta de la ventana')
+    },
+  },
+  {
+    // la lista de huertas con la demo y una segunda, vacía, en otra zona
+    nombre: 'huertas-selector',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await sumarHuerta(page, 'El balcón del frente')
+      await page.getByRole('button', { name: /cambiar de huerta o sumar otra/ }).click()
+      await page.getByRole('radiogroup', { name: 'Huerta abierta' }).waitFor()
+    },
+  },
+  {
+    nombre: 'huerta-nueva',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await page.goto('/#/huerta')
+      await page.getByRole('button', { name: /cambiar de huerta o sumar otra/ }).click()
+      await page.getByRole('button', { name: '＋ Nueva huerta' }).click()
+      await page.locator('dialog.hoja[open]').getByLabel('¿Cómo le decís?').fill('La comunitaria')
+    },
+  },
+  {
+    // recién creada: el título largo, vacía, y Esta semana diciendo cuál es
+    nombre: 'huerta-otra-vacia',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await sumarHuerta(page, 'El balcón del frente')
+    },
+  },
+  {
+    nombre: 'hoy-otra-huerta',
+    ruta: '/#/huerta',
+    antes: async (page) => {
+      await conDemo(page)
+      await sumarHuerta(page, 'El balcón del frente')
+      await page.goto('/#/hoy')
+      await page.waitForLoadState('networkidle')
+    },
+  },
   { nombre: 'ajustes-backup', ruta: '/#/ajustes' },
   {
     nombre: 'huerta-llena',

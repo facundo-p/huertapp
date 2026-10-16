@@ -200,7 +200,7 @@ test('un import que falla a la mitad deja intacto lo que ya había', async ({ pa
  * "No pude leer" y "no tenés nada" no son lo mismo, y la app los mostraba igual.
  *
  * `listo = cargado && !cargando` dejaba la pantalla en blanco si la carga
- * fallaba, y si devolvía vacío salía "Todavía no plantaste nada" — el mismo
+ * fallaba, y si devolvía vacío salía "Todavía no armaste ningún lugar" — el mismo
  * cartel que ve alguien que recién empieza. Quien perdió el acceso a su huerta
  * leía que nunca había plantado nada, y de ahí a "se me borró todo" hay un paso.
  *
@@ -220,7 +220,7 @@ test('cuando no puede leer la base, lo dice en vez de mostrar la huerta vacía',
   // el nombre del error es lo que la persona puede copiar y mandar
   await expect(page.getByText(/UnknownError/)).toBeVisible()
   // y sobre todo: NO le decimos que nunca plantó nada
-  await expect(page.getByText(/Todavía no plantaste nada/)).toHaveCount(0)
+  await expect(page.getByText(/Todavía no armaste ningún lugar/)).toHaveCount(0)
 })
 
 /**
@@ -282,4 +282,72 @@ test('la bitácora sobrevive a que se borre IndexedDB y anota la huerta vacía',
   expect(arranques.at(-1)!.plantas, 'el arranque nuevo tiene que delatar la huerta vacía').toBe(0)
   // y tiene que quedar registro de que ANTES había plantas
   expect(arranques.some((a) => (a.plantas as number) > 0)).toBe(true)
+})
+
+/**
+ * Quien usaba la app antes de que hubiera varias huertas: sus registros no
+ * tienen `huertaId`, la zona vive en localStorage y el pronóstico en su clave
+ * suelta. Tiene que abrir con todo eso como «Mi huerta», sin perder nada.
+ */
+test('una base de antes de las huertas abre como «Mi huerta», con su zona y su pronóstico', async ({ page }) => {
+  const clima = { modo: 'zona', lat: -34.97, lon: -57.89, etiqueta: 'cerca de La Plata, aproximado' }
+  await page.goto('/sw.js')
+  await page.evaluate(async (clima) => {
+    localStorage.setItem('huerta-gba:zona', 'periurbano')
+    const r = indexedDB.open('huerta-gba', 2)
+    r.onupgradeneeded = () => {
+      const d = r.result
+      d.createObjectStore('plantas', { keyPath: 'id' }).createIndex('slug', 'slug')
+      d.createObjectStore('diario', { keyPath: 'id' }).createIndex('plantaId', 'plantaId')
+      for (const s of ['fotos', 'ubicaciones', 'composteras']) d.createObjectStore(s, { keyPath: 'id' })
+      d.createObjectStore('ajustes')
+    }
+    const d = await new Promise<IDBDatabase>((res) => (r.onsuccess = () => res(r.result)))
+    const tx = d.transaction(['plantas', 'ubicaciones', 'ajustes'], 'readwrite')
+    tx.objectStore('ubicaciones').put({ id: 'u1', nombre: 'El cantero del fondo', tipo: 'bancal_tierra', creada: '2026-01-01' })
+    tx.objectStore('plantas').put({
+      id: 'p1',
+      slug: 'tomate',
+      apodo: 'Tomates de la abuela',
+      ubicacionId: 'u1',
+      sembrada: '2026-09-01',
+      metodo: 'almacigo',
+      etapa: 'almacigo',
+      etapaDesde: '2026-09-01',
+      creada: '2026-09-01T10:00:00.000Z',
+    })
+    tx.objectStore('ajustes').put(clima, 'pronostico-ubicacion')
+    await new Promise((res) => (tx.oncomplete = res))
+    d.close()
+  }, clima)
+
+  const huertas = () =>
+    page.evaluate(
+      () =>
+        new Promise<unknown>((res) => {
+          const r = indexedDB.open('huerta-gba')
+          r.onsuccess = () => {
+            const g = r.result.transaction('ajustes').objectStore('ajustes').get('huertas')
+            g.onsuccess = () => {
+              r.result.close()
+              res(g.result)
+            }
+          }
+        }),
+    )
+
+  await page.goto('/#/huerta')
+  await expect(page.getByText('Tomates de la abuela').first()).toBeVisible()
+  await expect(page.getByText('El cantero del fondo').first()).toBeVisible()
+  await expect
+    .poll(huertas)
+    .toEqual([expect.objectContaining({ id: 'principal', nombre: 'Mi huerta', zona: 'periurbano', ubicacionClima: clima })])
+
+  // la zona ahora es de la huerta: se guarda ahí y el espejo la sigue
+  await page.goto('/#/ajustes')
+  await page.getByRole('radio', { name: /Núcleo urbano/ }).click()
+  await expect(page.getByRole('radio', { name: /Núcleo urbano/ })).toHaveAttribute('aria-checked', 'true')
+  await expect.poll(huertas).toEqual([expect.objectContaining({ zona: 'urbano' })])
+  expect(await page.evaluate(() => localStorage.getItem('huerta-gba:zona'))).toBe('urbano')
+  await expect(page.getByText(/Se pide para/)).toContainText('cerca de La Plata')
 })

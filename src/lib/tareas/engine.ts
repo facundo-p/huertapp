@@ -97,6 +97,8 @@ export interface EntradaMotor {
   hoy?: string
   /** último día de la ventana (inclusive); sin él, solo hoy */
   hasta?: string
+  /** la huerta, en los ids que no llevan planta ni compostera: la helada de una no es la de otra */
+  ambito?: string
 }
 
 /**
@@ -118,7 +120,7 @@ export function derivarTareas({ hasta, ...entrada }: EntradaMotor): Tarea[] {
   )
 }
 
-function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMotor, hoy: string): Tarea[] {
+function tareasDelDia({ plantas, porSlug, clima, composteras, guia, ambito }: EntradaMotor, hoy: string): Tarea[] {
   const tareas: Tarea[] = tareasDeCompost(composteras ?? [], guia, hoy)
   const decada = decadaDe(new Date(`${hoy}T12:00:00`))
   const activas = plantas.filter((p) => !p.archivada && p.etapa !== 'terminada')
@@ -210,7 +212,7 @@ function tareasDelDia({ plantas, porSlug, clima, composteras, guia }: EntradaMot
       const pct = Math.round(riesgo * 100)
       const instruccion = `Cubrí de noche ${nombres.join(', ')}${expuestas.length > 3 ? ' y las demás' : ''}: la helada las mata.`
       tareas.push({
-        id: `helada:${nombreDecada(siguienteDecada(decada))}`,
+        id: `helada:${ambito ? `${ambito}:` : ''}${nombreDecada(siguienteDecada(decada))}`,
         fecha: hoy,
         tipo: 'helada',
         titulo: 'Puede helar',

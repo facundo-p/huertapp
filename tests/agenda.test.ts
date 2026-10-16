@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { construirAgenda } from '../src/lib/tareas/agenda'
+import { construirAgenda, unirAgendas, type Aviso } from '../src/lib/tareas/agenda'
 import { ESTADO_VACIO, derivarTareas, tareasVisibles } from '../src/lib/tareas/engine'
 import { sumarDias } from '../src/lib/huerta/estimar'
 import type { Planta } from '../src/lib/huerta/tipos'
@@ -130,5 +130,36 @@ describe('agenda de avisos', () => {
     ]
     const fechas = agenda(plantas).map((x) => x.fecha)
     expect(fechas).toEqual([...fechas].sort())
+  })
+})
+
+describe('agenda de varias huertas', () => {
+  const aviso = (fecha: string, titulo: string): Aviso => ({ fecha, titulo, cuerpo: `detalle de ${titulo}` })
+
+  it('con una sola huerta queda como estaba', () => {
+    const avisos = [aviso('2026-08-16', 'Regá'), aviso('2026-08-18', 'Cosechá')]
+    expect(unirAgendas([{ nombre: 'Mi huerta', avisos }])).toBe(avisos)
+  })
+
+  it('dice de qué huerta es cada aviso y junta los del mismo día', () => {
+    const unida = unirAgendas([
+      { nombre: 'Mi huerta', avisos: [aviso('2026-08-16', 'Regá'), aviso('2026-08-18', 'Cosechá')] },
+      { nombre: 'El balcón', avisos: [aviso('2026-08-16', 'Puede helar')] },
+    ])
+    expect(unida.map((a) => a.fecha)).toEqual(['2026-08-16', '2026-08-18'])
+    expect(unida[0].titulo).toBe('Hay cosas para hacer en 2 huertas')
+    expect(unida[0].cuerpo).toBe('Mi huerta: Regá · El balcón: Puede helar')
+    expect(unida[1]).toEqual({ fecha: '2026-08-18', titulo: 'En Mi huerta: Cosechá', cuerpo: 'detalle de Cosechá' })
+  })
+
+  it('no pasa del tope de avisos', () => {
+    const dias = (n: number, desde: number) =>
+      Array.from({ length: n }, (_, i) => aviso(sumarDias(HOY, desde + i), `día ${desde + i}`))
+    const unida = unirAgendas([
+      { nombre: 'A', avisos: dias(8, 0) },
+      { nombre: 'B', avisos: dias(8, 8) },
+    ])
+    expect(unida).toHaveLength(10)
+    expect(unida.at(-1)!.fecha).toBe(sumarDias(HOY, 9))
   })
 })

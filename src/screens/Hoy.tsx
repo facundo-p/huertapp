@@ -9,6 +9,7 @@ import { PaginaDia, TiraSemana, type AccionesTarea, type DiaSemana } from '../co
 import { useEspecies } from '../lib/useEspecies'
 import { useZona } from '../lib/zona'
 import { useHuerta, marcarGerminada, marcarGirada, sinRomper } from '../lib/huerta/store'
+import { ambitoDe } from '../lib/huerta/huertas'
 import { useCompostaje } from '../lib/compostaje'
 import { useAvisosClima } from '../lib/pronostico/useAvisosClima'
 import { proveedor } from '../lib/pronostico/proveedor'
@@ -39,7 +40,7 @@ function correrFoco(li: Element) {
 export function Hoy() {
   const { indice, cargando } = useEspecies()
   const zona = useZona()
-  const { plantas, ubicaciones, composteras, cargado, errorCarga } = useHuerta()
+  const { plantas, ubicaciones, composteras, activa, huertas, cargado, errorCarga } = useHuerta()
   const guia = useCompostaje()
   const estadoTareas = useEstadoTareas()
   const hoy = new Date()
@@ -60,13 +61,14 @@ export function Hoy() {
         clima,
         composteras,
         guia,
+        ambito: ambitoDe(activa),
         hoy: iso,
         hasta: sumarDias(iso, 6),
       }),
       estadoTareas,
       iso,
     )
-  }, [indice, plantas, composteras, guia, zona, iso, estadoTareas])
+  }, [indice, plantas, composteras, guia, zona, iso, estadoTareas, activa])
 
   const sugerencias = useMemo(
     () => (indice ? paraSembrarAhora(indice.todas, zona, iso) : []),
@@ -273,6 +275,8 @@ export function Hoy() {
             </span>{' '}
             <span className="hoy-cab__mes">de {NOMBRES_MES[mesDe(hoy) - 1]}</span>
           </h1>
+          {/* con varias, de cuál es esta semana; se cambia en Mi huerta */}
+          {huertas.length > 1 && <p className="hoy-cab__huerta">En {activa.nombre}</p>}
           {hoyPron && cieloHoy ? (
             <button type="button" className="clima" onClick={() => setDiaAbierto(hoyPron)}>
               <span style={{ color: cieloHoy.color }} aria-hidden>

@@ -1,0 +1,42 @@
+.selector-huerta__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+}
+
+.selector-huerta__opcion {
+  flex: 1;
+  min-width: 0;
+}
+
+/* la misma caja que el lápiz de los lugares: sin ella no parece tocable */
+.selector-huerta__editar {
+  position: relative;
+  flex: none;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  display: grid;
+  place-items: center;
+  color: var(--tinta-suave);
+}
+
+.selector-huerta__editar::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--linea-fuerte);
+  border-radius: 12px;
+}
+
+.ficha-huerta__borrar {
+  min-height: var(--tap-min);
+  margin: var(--esp-2) auto 0;
+  display: block;
+  padding: 0 var(--esp-4);
+  font-size: var(--texto-s);
+  font-weight: 600;
+  color: var(--peligro);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

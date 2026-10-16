@@ -5,6 +5,7 @@ import {
   agregarPlanta,
   agregarUbicacion,
   cambiarCantidad,
+  huertaActiva,
   marcarGerminada,
   recargar,
   trasplantarParte,
@@ -224,6 +225,6 @@ export async function sembrarDemo(): Promise<void> {
 }
 
 export async function borrarTodo(): Promise<void> {
-  await db.vaciarTodo()
+  await db.vaciarTodo(huertaActiva())
   await recargar()
 }

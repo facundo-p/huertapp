@@ -16,17 +16,6 @@
   color: var(--tinta-media);
 }
 
-.opcion__helada {
-  margin-top: 2px;
-  font-size: var(--texto-xs);
-  font-weight: 700;
-  color: var(--terracota);
-}
-
-.opcion.es-elegida .opcion__helada {
-  color: var(--terracota-texto);
-}
-
 .ajustes__nota {
   display: flex;
   align-items: flex-start;

@@ -60,3 +60,31 @@ export function construirAgenda(
 
   return avisos
 }
+
+/**
+ * Las agendas de todas las huertas en una: el service worker lee una sola.
+ * Con una huerta queda tal cual; con varias, cada aviso dice de cuál es y los
+ * del mismo día se juntan, que dos notificaciones juntas son una de más.
+ */
+export function unirAgendas(porHuerta: { nombre: string; avisos: Aviso[] }[]): Aviso[] {
+  if (porHuerta.length === 1) return porHuerta[0].avisos
+  const porFecha = new Map<string, { nombre: string; aviso: Aviso }[]>()
+  for (const { nombre, avisos } of porHuerta) {
+    for (const aviso of avisos) porFecha.set(aviso.fecha, [...(porFecha.get(aviso.fecha) ?? []), { nombre, aviso }])
+  }
+  return [...porFecha.keys()]
+    .sort()
+    .slice(0, MAX_AVISOS)
+    .map((fecha) => {
+      const del = porFecha.get(fecha)!
+      if (del.length === 1) {
+        const [{ nombre, aviso }] = del
+        return { ...aviso, titulo: `En ${nombre}: ${aviso.titulo}` }
+      }
+      return {
+        fecha,
+        titulo: `Hay cosas para hacer en ${del.length} huertas`,
+        cuerpo: del.map(({ nombre, aviso }) => `${nombre}: ${aviso.titulo}`).join(' · '),
+      }
+    })
+}

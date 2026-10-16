@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { compatibilidad, textoAviso } from '../src/lib/huerta/compat'
-import { validar, BackupInvalido, VERSION_BACKUP } from '../src/lib/huerta/backup'
+import { validar, resumir, BackupInvalido, VERSION_BACKUP } from '../src/lib/huerta/backup'
 import { desdeISO, diasEntre, hoyISO } from '../src/lib/huerta/tipos'
 import { etapaInicial } from '../src/lib/huerta/store'
 import db from '../data/huerta_gba_enriquecido.json'
@@ -126,7 +126,8 @@ describe('validación del backup', () => {
     app: 'huerta-gba',
     version: VERSION_BACKUP,
     exportado: '2026-08-15T12:00:00.000Z',
-    zona: 'conurbano',
+    huertas: [{ id: 'principal', nombre: 'Mi huerta', zona: 'conurbano', creada: '2026-08-01' }],
+    huertaActiva: 'principal',
     plantas: [],
     diario: [],
     ubicaciones: [],
@@ -200,9 +201,10 @@ describe('validación del backup', () => {
     const lugar = { id: 'u1', nombre: 'Almaciguera', tipo: 'almacigo', capacidad: 12, creada: '2026-08-01' }
     const con = (p: object, u: object) => ({ ...valido, plantas: [{ ...planta, ...p }], ubicaciones: [{ ...lugar, ...u }] })
 
-    it('viaja en la versión 1: plano y celdas van y vuelven intactos', () => {
-      // aditivo como cantidad: una app vieja los ignora y dibuja el nivel 0
-      expect(VERSION_BACKUP).toBe(1)
+    it('viaja sin subir la versión: plano y celdas van y vuelven intactos', () => {
+      // aditivo como cantidad: una app vieja los ignora y dibuja el nivel 0.
+      // La 2 la subieron las huertas, no esto.
+      expect(VERSION_BACKUP).toBe(2)
       const b = con(
         { celdas: { ubicacionId: 'u1', en: [{ col: 4, fila: 1 }, { col: 5, fila: 1 }] } },
         { plano: { orden: 2, grilla: 'almaciguera', cols: 6 } },
@@ -239,21 +241,106 @@ describe('validación del backup', () => {
   })
 })
 
-describe('backup y ubicación del pronóstico', () => {
-  const base = {
+describe('backup de antes de las huertas (v1)', () => {
+  const v1 = {
     app: 'huerta-gba',
-    version: VERSION_BACKUP,
+    version: 1,
     exportado: '2026-08-15T12:00:00.000Z',
-    zona: 'conurbano',
-    plantas: [],
+    zona: 'periurbano',
+    plantas: [
+      {
+        id: 'p1',
+        slug: 'tomate',
+        sembrada: '2026-08-01',
+        metodo: 'almacigo',
+        etapa: 'almacigo',
+        etapaDesde: '2026-08-01',
+        creada: '2026-08-01T10:00:00.000Z',
+      },
+    ],
     diario: [],
     ubicaciones: [],
     fotos: [],
   }
+  const ubicacionClima = { modo: 'zona', lat: -34.97, lon: -57.89, etiqueta: 'cerca de La Plata' }
 
-  it('la ubicación del clima viaja en el backup si existe, y no molesta si falta', () => {
-    const ubicacionClima = { modo: 'zona', lat: -34.82, lon: -58.54, etiqueta: 'cerca de Ezeiza' }
-    expect(validar({ ...base, ubicacionClima }).ubicacionClima).toEqual(ubicacionClima)
-    expect(validar(base).ubicacionClima).toBeUndefined()
+  it('se restaura como una sola huerta, con la zona y el pronóstico del archivo', () => {
+    const b = validar({ ...v1, ubicacionClima })
+    expect(b.huertas).toEqual([
+      { id: 'principal', nombre: 'Mi huerta', zona: 'periurbano', ubicacionClima, creada: '2026-08-15' },
+    ])
+    expect(b.huertaActiva).toBe('principal')
+    // ya no se leen de arriba: viven en la huerta
+    expect(b).not.toHaveProperty('zona')
+    expect(b).not.toHaveProperty('ubicacionClima')
+    // sin huertaId: así ya son de la principal, no hace falta tocarlas
+    expect(b.plantas).toEqual(v1.plantas)
+  })
+
+  it('sin pronóstico activado, la huerta tampoco lo trae; sin zona, la de siempre', () => {
+    expect(validar(v1).huertas[0]).not.toHaveProperty('ubicacionClima')
+    const { zona: _, ...sinZona } = v1
+    expect(validar(sinZona).huertas[0].zona).toBe('conurbano')
+  })
+})
+
+describe('backup con varias huertas', () => {
+  const huerta = (id: string, zona: string) => ({ id, nombre: `Huerta ${id}`, zona, creada: '2026-09-01' })
+  const planta = (id: string, huertaId: string) => ({
+    id,
+    slug: 'tomate',
+    sembrada: '2026-08-01',
+    metodo: 'almacigo',
+    etapa: 'almacigo',
+    etapaDesde: '2026-08-01',
+    creada: '2026-08-01T10:00:00.000Z',
+    huertaId,
+  })
+  const dos = {
+    app: 'huerta-gba',
+    version: 2,
+    exportado: '2026-09-30T12:00:00.000Z',
+    huertas: [huerta('principal', 'conurbano'), huerta('balcon', 'urbano')],
+    huertaActiva: 'balcon',
+    plantas: [planta('p1', 'principal'), planta('p2', 'balcon')],
+    diario: [],
+    ubicaciones: [{ id: 'u1', nombre: 'Macetas', tipo: 'maceta', creada: '2026-09-01', huertaId: 'balcon' }],
+    fotos: [],
+    composteras: [],
+  }
+
+  it('van y vuelven intactas, cada cosa en su huerta', () => {
+    expect(validar(JSON.parse(JSON.stringify(dos)))).toEqual(dos)
+  })
+
+  it('algo de una huerta que no vino frena el import', () => {
+    for (const roto of [
+      { ...dos, plantas: [planta('p3', 'otra')] },
+      { ...dos, ubicaciones: [{ ...dos.ubicaciones[0], huertaId: 'otra' }] },
+      { ...dos, composteras: [{ id: 'c1', huertaId: 'otra' }] },
+      // sin huertaId es de la principal, y en este archivo no hay principal
+      { ...dos, huertas: [huerta('balcon', 'urbano')], plantas: [], ubicaciones: [], composteras: [{ id: 'c1' }] },
+    ]) {
+      expect(() => validar(roto)).toThrow(BackupInvalido)
+    }
+  })
+
+  it('sin huertas, o con una rota, no se importa', () => {
+    expect(() => validar({ ...dos, huertas: [] })).toThrow(BackupInvalido)
+    expect(() => validar({ ...dos, huertas: undefined })).toThrow(BackupInvalido)
+    expect(() => validar({ ...dos, huertas: [{ ...huerta('principal', 'marte') }], plantas: [], ubicaciones: [] })).toThrow(
+      BackupInvalido,
+    )
+  })
+
+  it('uno de una versión que todavía no existe dice que actualices', () => {
+    expect(() => validar({ ...dos, version: 3 })).toThrow(/más nueva/)
+  })
+
+  it('el resumen nombra cada huerta con su zona', () => {
+    expect(resumir(validar(dos)).huertas).toEqual([
+      { nombre: 'Huerta principal', zona: 'conurbano' },
+      { nombre: 'Huerta balcon', zona: 'urbano' },
+    ])
   })
 })
