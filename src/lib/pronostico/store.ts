@@ -55,18 +55,22 @@ function actualizar() {
   const u = estado.ubicacion
   const id = huertaId
   if (id === null || !u || !hayQueActualizar(estado.pronostico, u, new Date().toISOString())) return
+  // si en el medio cambió la huerta o el lugar, lo que llegó es de otro
+  const sigue = () => huertaId === id && estado.ubicacion?.lat === u.lat && estado.ubicacion?.lon === u.lon
   enVuelo ??= (async () => {
     emitir({ actualizando: true, fallo: false })
     try {
       const p = await proveedor.pedirPronostico(u)
-      await db.guardarAjuste(claveCache(id), p)
-      // si en el medio se cambió de huerta, este pronóstico es de la otra
-      if (huertaId === id) emitir({ pronostico: p, actualizando: false })
-      else emitir({ actualizando: false })
+      if (sigue()) {
+        await db.guardarAjuste(claveCache(id), p)
+        emitir({ pronostico: p, actualizando: false })
+      } else emitir({ actualizando: false })
     } catch {
       emitir({ actualizando: false, fallo: true })
     } finally {
       enVuelo = null
+      // el cambio llegó con este pedido en vuelo y no pudo arrancar el suyo
+      if (!sigue()) actualizar()
     }
   })()
 }
@@ -81,7 +85,7 @@ export async function seguirHuerta(id: string, ubicacion: UbicacionClima | undef
   if (misma && estado.cargado && mismaUbicacion(estado.ubicacion, ubicacion)) return
   huertaId = id
   if (misma && estado.cargado) {
-    if (!ubicacion) await db.borrarAjuste(claveCache(id)).catch(() => {})
+    await db.borrarAjuste(claveCache(id)).catch(() => {})
     emitir({ ubicacion, pronostico: undefined, fallo: false })
   } else {
     emitir({ ubicacion, pronostico: undefined, fallo: false, cargado: false })

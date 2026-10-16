@@ -87,7 +87,9 @@ function SeccionTema({ preferencia }: { preferencia: Preferencia }) {
 export function Ajustes() {
   const zona = useZona()
   const preferencia = usePreferenciaTema()
-  const { plantas, huertas, activa } = useHuerta()
+  const { todas, huertas, activa } = useHuerta()
+  // el backup y el borrado son de todas las huertas: los números, también
+  const plantas = todas.plantas
   // con una sola, «tu huerta» alcanza; con varias hay que decir de cuál se habla
   const cual = huertas.length > 1 ? activa.nombre : undefined
 
@@ -99,9 +101,9 @@ export function Ajustes() {
         <SeccionZona zona={zona} huerta={cual} />
         <SeccionPronostico zona={zona} huerta={cual} />
         <SeccionInstalar />
-        <SeccionBackup cuantasPlantas={plantas.length} resumen={resumenHuerta(plantas)} />
+        <SeccionBackup cuantasPlantas={plantas.length} resumen={resumenHuerta(plantas)} huertas={huertas.length} />
         <SeccionAvisos />
-        <SeccionDemo cuantasPlantas={plantas.length} />
+        <SeccionDemo cuantasPlantas={plantas.length} huertas={huertas.length} queda={activa.nombre} />
         <SeccionBitacora />
         <PieVersion />
       </div>
@@ -398,7 +400,15 @@ function SeccionInstalar() {
 
 /* ---------- backup ---------- */
 
-function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; resumen: string }) {
+function SeccionBackup({
+  cuantasPlantas,
+  resumen,
+  huertas,
+}: {
+  cuantasPlantas: number
+  resumen: string
+  huertas: number
+}) {
   const archivo = useRef<HTMLInputElement>(null)
   const [espacio, setEspacio] = useState<{
     usado: number
@@ -539,8 +549,17 @@ function SeccionBackup({ cuantasPlantas, resumen }: { cuantasPlantas: number; re
             <p className="alta__aviso es-mala">
               <IconoAlerta size={17} />
               <span>
-                Esto <strong>borra</strong> lo que tenés ahora ({resumen}) y lo reemplaza por lo del
-                archivo. No se puede deshacer.
+                {huertas > 1 ? (
+                  <>
+                    Esto <strong>borra tus {huertas} huertas</strong>, con todo lo que tienen ({resumen}),
+                    y las reemplaza por lo del archivo. No se puede deshacer.
+                  </>
+                ) : (
+                  <>
+                    Esto <strong>borra</strong> lo que tenés ahora ({resumen}) y lo reemplaza por lo del
+                    archivo. No se puede deshacer.
+                  </>
+                )}
               </span>
             </p>
             <dl className="ajustes__estado">
@@ -827,7 +846,7 @@ function SeccionBitacora() {
   )
 }
 
-function SeccionDemo({ cuantasPlantas }: { cuantasPlantas: number }) {
+function SeccionDemo({ cuantasPlantas, huertas, queda }: { cuantasPlantas: number; huertas: number; queda: string }) {
   const [ocupado, setOcupado] = useState(false)
 
   async function demo() {
@@ -845,7 +864,11 @@ function SeccionDemo({ cuantasPlantas }: { cuantasPlantas: number }) {
   }
 
   async function limpiar() {
-    if (!confirm('Esto borra TODAS tus plantas, su diario y sus fotos. ¿Seguro?')) return
+    const aviso =
+      huertas > 1
+        ? `Esto borra tus ${huertas} huertas, con sus plantas, lugares, composteras, diario y fotos. Queda solo «${queda}», vacía. ¿Seguro?`
+        : 'Esto borra TODAS tus plantas, su diario y sus fotos. ¿Seguro?'
+    if (!confirm(aviso)) return
     setOcupado(true)
     try {
       await borrarTodo()

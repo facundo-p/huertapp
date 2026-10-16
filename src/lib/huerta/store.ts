@@ -207,7 +207,11 @@ export function etapaInicial(metodo: Metodo | null): Etapa {
   return metodo === 'almacigo' || metodo === 'almacigo_protegido' ? 'almacigo' : 'creciendo'
 }
 
+/** Antes de cargar, la activa es la principal por defecto: un alta ahí caería en otra huerta. */
+const conActivaCargada = () => cargaInicial().catch(() => {})
+
 export async function agregarPlanta(alta: AltaPlanta): Promise<Planta> {
+  await conActivaCargada()
   const sembrada = alta.sembrada ?? hoyISO()
   const planta: Planta = {
     id: nuevoId(),
@@ -338,6 +342,7 @@ export async function borrarPlanta(id: string) {
 export type DatosUbicacion = Omit<Ubicacion, 'id' | 'creada'>
 
 export async function agregarUbicacion(datos: DatosUbicacion): Promise<Ubicacion> {
+  await conActivaCargada()
   const u: Ubicacion = {
     ...datos,
     nombre: datos.nombre.trim(),
@@ -392,6 +397,7 @@ export async function ordenarUbicaciones(orden: Ubicacion[]) {
 export type DatosCompostera = Omit<Compostera, 'id' | 'creada'>
 
 export async function agregarCompostera(datos: DatosCompostera): Promise<Compostera> {
+  await conActivaCargada()
   const c: Compostera = {
     ...datos,
     nombre: datos.nombre.trim(),

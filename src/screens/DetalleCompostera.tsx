@@ -5,6 +5,7 @@ import { EmptyState } from '../components/EmptyState'
 import { FichaCompostera } from '../components/FichaCompostera'
 import { FuentesCompost } from '../components/FuentesCompost'
 import { useHuerta, avanzarCompostera, borrarCompostera, marcarGirada, sinRomper } from '../lib/huerta/store'
+import { useEnSuHuerta } from '../lib/huerta/useEnSuHuerta'
 import {
   MATERIAL_COMPOST_INFO,
   SISTEMA_COMPOST_INFO,
@@ -39,14 +40,15 @@ const fechaCorta = (iso: string) => new Intl.DateTimeFormat('es-AR', { day: 'num
 export function DetalleCompostera() {
   const { id } = useParams()
   const navegar = useNavigate()
-  const { composteras, cargado } = useHuerta()
+  const { composteras, todas, cargado } = useHuerta()
   const guia = useCompostaje()
   const [editando, setEditando] = useState(false)
   const hoy = hoyISO()
 
   const c = composteras.find((x) => x.id === id)
+  const cambiandoDeHuerta = useEnSuHuerta(c ? undefined : todas.composteras.find((x) => x.id === id))
 
-  if (!cargado) {
+  if (!cargado || cambiandoDeHuerta) {
     return (
       <div className="pantalla pantalla--detalle">
         <Header titulo="Cargando…" volver />

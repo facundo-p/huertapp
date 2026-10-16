@@ -40,6 +40,16 @@ test('sumar una huerta, pasar de una a otra y borrarla', async ({ page }) => {
   await page.goto('/#/ajustes')
   await expect(page.getByRole('heading', { name: '¿Dónde está El balcón?' })).toBeVisible()
   await expect(page.getByRole('radio', { name: /Núcleo urbano/ })).toHaveAttribute('aria-checked', 'true')
+  // restaurar o borrar alcanza a todas: lo que dice que tenés no puede ser solo la abierta
+  await expect(page.getByText(/^5 siembras · ~25 plantas$/)).toBeVisible()
+  const borrarTodo = new Promise<string>((res) =>
+    page.once('dialog', (d) => {
+      res(d.message())
+      void d.dismiss()
+    }),
+  )
+  await page.getByRole('button', { name: /Borrar todas mis plantas/ }).click()
+  expect(await borrarTodo).toMatch(/^Esto borra tus 2 huertas, .* Queda solo «El balcón», vacía\./)
   await page.goto('/#/calendario')
   await expect(page.getByText(/· Núcleo urbano$/)).toBeVisible()
   await page.goto('/#/hoy')

@@ -68,14 +68,26 @@ export async function armarBackup(): Promise<Backup> {
     db.listarFotos(),
     db.listarComposteras(),
   ])
-  // el id explícito: en el archivo no hay «sin huerta», así se lee solo
-  const conHuerta = <T extends { huertaId?: string }>(x: T): T => ({ ...x, huertaId: huertaDe(x) })
+  // las huertas de la base, como los registros: la memoria puede no haber cargado todavía
+  const [guardadas, idActiva] = await Promise.all([
+    db.leerAjuste<Huerta[]>(db.CLAVE_HUERTAS),
+    db.leerAjuste<string>(db.CLAVE_ACTIVA),
+  ])
+  const huertas = guardadas?.length ? guardadas : listaDeHuertas()
+  const activa = guardadas?.length ? resolverActiva(huertas, idActiva) : huertaActiva()
+  const ids = new Set(huertas.map((h) => h.id))
+  // el id explícito: en el archivo no hay «sin huerta». Uno de una huerta que ya
+  // no existe va a la activa: si no, el propio archivo no pasaría `validar`.
+  const conHuerta = <T extends { huertaId?: string }>(x: T): T => ({
+    ...x,
+    huertaId: ids.has(huertaDe(x)) ? huertaDe(x) : activa.id,
+  })
   return {
     app: 'huerta-gba',
     version: VERSION_BACKUP,
     exportado: new Date().toISOString(),
-    huertas: listaDeHuertas(),
-    huertaActiva: huertaActiva().id,
+    huertas,
+    huertaActiva: activa.id,
     plantas: plantas.map(conHuerta),
     diario,
     ubicaciones: ubicaciones.map(conHuerta),
