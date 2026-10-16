@@ -85,8 +85,9 @@ export async function seguirHuerta(id: string, ubicacion: UbicacionClima | undef
   if (misma && estado.cargado && mismaUbicacion(estado.ubicacion, ubicacion)) return
   huertaId = id
   if (misma && estado.cargado) {
-    await db.borrarAjuste(claveCache(id)).catch(() => {})
+    // la ubicación nueva antes del borrado: un pedido viejo que vuelva en el medio ya no se guarda
     emitir({ ubicacion, pronostico: undefined, fallo: false })
+    await db.borrarAjuste(claveCache(id)).catch(() => {})
   } else {
     emitir({ ubicacion, pronostico: undefined, fallo: false, cargado: false })
     const pronostico = await db.leerAjuste<Pronostico>(claveCache(id)).catch(() => undefined)
